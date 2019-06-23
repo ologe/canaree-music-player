@@ -1,8 +1,10 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.Song
-import dev.olog.msc.domain.entity.*
+import dev.olog.core.entity.favorite.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteStateEntity
+import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

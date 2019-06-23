@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.track.Playlist
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

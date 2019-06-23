@@ -3,7 +3,6 @@ package dev.olog.msc.music.service
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -18,7 +17,7 @@ import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject

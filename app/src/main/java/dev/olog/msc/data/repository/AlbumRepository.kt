@@ -3,14 +3,14 @@ package dev.olog.msc.data.repository
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
-import dev.olog.core.entity.Album
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.db.AppDatabase
+import dev.olog.data.db.dao.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.shared.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -21,10 +21,10 @@ import javax.inject.Inject
 private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 
 class AlbumRepository @Inject constructor(
-        private val rxContentResolver: BriteContentResolver,
-        private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
-        private val collator: Collator
+    private val rxContentResolver: BriteContentResolver,
+    private val songGateway: SongGateway,
+    appDatabase: AppDatabase,
+    private val collator: Collator
 
 ) : AlbumGateway {
 
@@ -68,26 +68,5 @@ class AlbumRepository @Inject constructor(
 
     override fun observeByArtist(artistId: Long): Observable<List<Album>> {
         return getAll().map { it.filter { it.artistId == artistId } }
-    }
-
-    override fun getLastPlayed(): Observable<List<Album>> {
-        return Observables.combineLatest(
-                getAll(),
-                lastPlayedDao.getAll().toObservable()
-        ) { all, lastPlayed ->
-
-            if (all.size < 5) {
-                listOf() // too few album to show recents
-            } else {
-                lastPlayed.asSequence()
-                        .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
-                        .take(5)
-                        .toList()
-            }
-        }
-    }
-
-    override fun addLastPlayed(id: Long): Completable {
-        return lastPlayedDao.insertOne(id)
     }
 }

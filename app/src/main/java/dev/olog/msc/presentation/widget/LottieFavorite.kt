@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
-import dev.olog.msc.domain.entity.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.shared.isDarkMode
 

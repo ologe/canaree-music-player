@@ -5,13 +5,13 @@ import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
 import com.crashlytics.android.Crashlytics
 import dev.olog.core.PlaylistConstants.MINI_QUEUE_SIZE
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCase
-import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.music.service.model.toMediaEntity
@@ -19,7 +19,7 @@ import dev.olog.core.MediaId
 import dev.olog.shared.assertMainThread
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -32,13 +32,13 @@ import kotlin.properties.Delegates
 private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 class QueueImpl @Inject constructor(
-        private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
-        private val repeatMode: RepeatMode,
-        private val musicPreferencesUseCase: MusicPreferencesGateway,
-        private val queueMediaSession: MediaSessionQueue,
-        private val getSongUseCase: GetSongUseCase,
-        private val getPodcastUseCase: GetPodcastUseCase,
-        private val enhancedShuffle: EnhancedShuffle
+    private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
+    private val repeatMode: RepeatMode,
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val queueMediaSession: MediaSessionQueue,
+    private val getSongUseCase: GetSongUseCase,
+    private val getPodcastUseCase: GetPodcastUseCase,
+    private val enhancedShuffle: EnhancedShuffle
 ) {
 
     private var savePlayingQueueDisposable: Disposable? = null

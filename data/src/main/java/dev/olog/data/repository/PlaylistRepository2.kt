@@ -4,8 +4,8 @@ import android.content.Context
 import android.provider.MediaStore
 import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Playlist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
 import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.core.prefs.BlacklistPreferences
@@ -15,6 +15,8 @@ import dev.olog.data.mapper.toPlaylist
 import dev.olog.data.queries.PlaylistQueries
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
@@ -35,6 +37,7 @@ internal class PlaylistRepository2 @Inject constructor(
     }
 
     override fun queryAll(): List<Playlist> {
+        assertBackgroundThread()
         val cursor = queries.getAll()
         val playlists = contentResolver.queryAll(cursor) { it.toPlaylist() }
         return playlists.map { playlist ->
@@ -46,11 +49,13 @@ internal class PlaylistRepository2 @Inject constructor(
     }
 
     override fun getByParam(param: Id): Playlist? {
+        assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Playlist?> {
         return channel.asFlow().map { it.find { it.id == param } }
+            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
@@ -62,6 +67,7 @@ internal class PlaylistRepository2 @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
+        assertBackgroundThread()
         return listOf(
             createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0], 0),
             createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], 0),

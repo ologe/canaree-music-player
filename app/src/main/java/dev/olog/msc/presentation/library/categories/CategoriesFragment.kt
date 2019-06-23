@@ -12,7 +12,7 @@ import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.getArgument
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import dev.olog.msc.utils.k.extension.withArguments
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.main.BottomNavigationPage
@@ -24,7 +24,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_library_categories.*
-import kotlinx.android.synthetic.main.fragment_library_categories.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -62,6 +61,7 @@ class CategoriesFragment : BaseFragment() {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+        viewPager.offscreenPageLimit = 2
 
         pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 

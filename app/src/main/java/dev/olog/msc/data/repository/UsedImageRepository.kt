@@ -1,12 +1,12 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.UsedAlbumImageEntity
-import dev.olog.msc.data.entity.UsedArtistImageEntity
-import dev.olog.msc.data.entity.UsedTrackImageEntity
-import dev.olog.msc.domain.entity.UsedAlbumImage
-import dev.olog.msc.domain.entity.UsedArtistImage
-import dev.olog.msc.domain.entity.UsedTrackImage
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.UsedAlbumImageEntity
+import dev.olog.data.db.entities.UsedArtistImageEntity
+import dev.olog.data.db.entities.UsedTrackImageEntity
+import dev.olog.core.entity.UsedAlbumImage
+import dev.olog.core.entity.UsedArtistImage
+import dev.olog.core.entity.UsedTrackImage
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import javax.inject.Inject
 

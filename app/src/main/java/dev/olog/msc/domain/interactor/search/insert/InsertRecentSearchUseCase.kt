@@ -1,16 +1,16 @@
 package dev.olog.msc.domain.interactor.search.insert
 
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.RecentSearchesGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 
 
 class InsertRecentSearchUseCase @Inject constructor(
-        scheduler: IoScheduler,
-        private val recentSearchesGateway: RecentSearchesGateway
+    scheduler: IoScheduler,
+    private val recentSearchesGateway: RecentSearchesGateway
 
 ) : CompletableUseCaseWithParam<MediaId>(scheduler) {
 

@@ -1,26 +1,26 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.db.RecentSearchesDao
-import dev.olog.msc.domain.entity.SearchResult
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.RecentSearchesDao
+import dev.olog.core.entity.SearchResult
 import dev.olog.msc.domain.gateway.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
-        appDatabase: AppDatabase,
-        private val songGateway: SongGateway,
-        private val albumGateway: AlbumGateway,
-        private val artistGateway: ArtistGateway,
-        private val playlistGateway: PlaylistGateway,
-        private val genreGateway: GenreGateway,
-        private val folderGateway: FolderGateway,
+    appDatabase: AppDatabase,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val genreGateway: GenreGateway,
+    private val folderGateway: FolderGateway,
 
-        private val podcastGateway: PodcastGateway,
-        private val podcastPlaylistGateway: PodcastPlaylistGateway,
-        private val podcastArtistGateway: PodcastArtistGateway,
-        private val podcastAlbumGateway: PodcastAlbumGateway
+    private val podcastGateway: PodcastGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway
 
 ) : RecentSearchesGateway {
 

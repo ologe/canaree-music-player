@@ -1,9 +1,9 @@
 package dev.olog.msc.domain.interactor.all.sorted
 
-import dev.olog.core.entity.Song
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortArrangingUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
@@ -17,11 +17,11 @@ import java.text.Collator
 import javax.inject.Inject
 
 class GetSortedSongListByParamUseCase @Inject constructor(
-        schedulers: IoScheduler,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getSortOrderUseCase: GetSortOrderUseCase,
-        private val getSortArrangingUseCase: GetSortArrangingUseCase,
-        private val collator: Collator
+    schedulers: IoScheduler,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase,
+    private val getSortOrderUseCase: GetSortOrderUseCase,
+    private val getSortArrangingUseCase: GetSortArrangingUseCase,
+    private val collator: Collator
 
 ) : ObservableUseCaseWithParam<List<Song>, MediaId>(schedulers){
 

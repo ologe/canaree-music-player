@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.base
 
-import dev.olog.msc.domain.executors.ComputationScheduler
+import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.gateway.BaseGateway
 import io.reactivex.Observable
 

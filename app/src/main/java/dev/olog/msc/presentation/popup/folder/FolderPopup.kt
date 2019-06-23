@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.popup.folder
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 

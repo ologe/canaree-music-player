@@ -1,15 +1,15 @@
 package dev.olog.msc.domain.interactor.playing.queue
 
-import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.PlayingQueueGateway
+import dev.olog.core.entity.PlayingQueueSong
+import dev.olog.core.executor.IoScheduler
+import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class ObservePlayingQueueUseCase @Inject constructor(
-        scheduler: IoScheduler,
-        private val gateway: PlayingQueueGateway
+    scheduler: IoScheduler,
+    private val gateway: PlayingQueueGateway
 
 ) : ObservableUseCase<List<PlayingQueueSong>>(scheduler) {
 

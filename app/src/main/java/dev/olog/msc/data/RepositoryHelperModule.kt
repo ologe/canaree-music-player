@@ -6,9 +6,9 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.BuildConfig
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.BuildConfig
+import dev.olog.data.db.dao.AppDatabase
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton
 
@@ -21,8 +21,10 @@ class RepositoryHelperModule {
 
     @Provides
     @Singleton
-    fun provideBriteContentResolver(@ApplicationContext context: Context,
-                                    sqlBrite: SqlBrite) : BriteContentResolver {
+    fun provideBriteContentResolver(
+        @ApplicationContext context: Context,
+        sqlBrite: SqlBrite
+    ): BriteContentResolver {
 
         val contentProvider = sqlBrite.wrapContentProvider(context.contentResolver, Schedulers.io())
         contentProvider.setLoggingEnabled(BuildConfig.DEBUG)
@@ -32,10 +34,7 @@ class RepositoryHelperModule {
     @Provides
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration() // 1 to 2
-                .build()
+        return Room.databaseBuilder(context, AppDatabase::class.java, "db").build()
     }
 
 }

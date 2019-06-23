@@ -11,7 +11,7 @@ import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.utils.k.extension.dispatchEvent
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

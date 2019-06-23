@@ -6,8 +6,8 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.core.PlaylistConstants
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider

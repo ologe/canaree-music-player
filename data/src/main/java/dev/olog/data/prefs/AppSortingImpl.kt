@@ -3,9 +3,9 @@ package dev.olog.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import dev.olog.core.entity.LibrarySortType
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import io.reactivex.Completable
 import io.reactivex.Observable

@@ -1,15 +1,15 @@
 package dev.olog.msc.domain.interactor.favorite
 
-import dev.olog.msc.domain.entity.FavoriteStateEntity
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.favorite.FavoriteStateEntity
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.FavoriteGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class UpdateFavoriteStateUseCase @Inject constructor(
-        schedulers: IoScheduler,
-        private val favoriteGateway: FavoriteGateway
+    schedulers: IoScheduler,
+    private val favoriteGateway: FavoriteGateway
 
 ) : CompletableUseCaseWithParam<FavoriteStateEntity>(schedulers) {
 

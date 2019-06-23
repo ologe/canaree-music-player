@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.podcast.PodcastArtist
 
 
 interface PodcastArtistGateway :

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.shared.swap
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

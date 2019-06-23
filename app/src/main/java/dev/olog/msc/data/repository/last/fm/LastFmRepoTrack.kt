@@ -4,13 +4,13 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.LastFmTrackEntity
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.LastFmTrackEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.shared.TextUtils
 import dev.olog.shared.assertBackgroundThread
@@ -19,9 +19,9 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LastFmRepoTrack @Inject constructor(
-        appDatabase: AppDatabase,
-        @Proxy private val lastFmService: LastFmService,
-        private val songGateway: SongGateway
+    appDatabase: AppDatabase,
+    @Proxy private val lastFmService: LastFmService,
+    private val songGateway: SongGateway
 
 ) {
 
@@ -82,13 +82,13 @@ class LastFmRepoTrack @Inject constructor(
                 }
     }
 
-    private fun cache(model: LastFmTrack): LastFmTrackEntity{
+    private fun cache(model: LastFmTrack): LastFmTrackEntity {
         val entity = model.toModel()
         dao.insertTrack(entity)
         return entity
     }
 
-    private fun cacheEmpty(trackId: Long): LastFmTrackEntity{
+    private fun cacheEmpty(trackId: Long): LastFmTrackEntity {
         val entity = LastFmNulls.createNullTrack(trackId)
         dao.insertTrack(entity)
         return entity

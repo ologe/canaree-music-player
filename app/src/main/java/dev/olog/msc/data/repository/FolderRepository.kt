@@ -3,10 +3,10 @@ package dev.olog.msc.data.repository
 import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.FolderMostPlayedEntity
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.msc.data.mapper.toFolder
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
@@ -62,7 +62,13 @@ class FolderRepository @Inject constructor(
         return songGateway.getByParam(songId)
                 .firstOrError()
                 .flatMapCompletable { song ->
-                    CompletableSource { mostPlayedDao.insertOne(FolderMostPlayedEntity(0, song.id, song.folderPath)) }
+                    CompletableSource { mostPlayedDao.insertOne(
+                        FolderMostPlayedEntity(
+                            0,
+                            song.id,
+                            song.folderPath
+                        )
+                    ) }
                 }
     }
 

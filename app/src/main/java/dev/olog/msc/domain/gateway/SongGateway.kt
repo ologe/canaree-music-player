@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.gateway
 
 import android.net.Uri
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

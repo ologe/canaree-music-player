@@ -2,16 +2,16 @@ package dev.olog.msc.domain.interactor.all.sorted.util
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.SortType
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.sort.SortType
+import dev.olog.core.executor.IoScheduler
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class SetSortOrderUseCase @Inject constructor(
-        schedulers: IoScheduler,
-        private val gateway: SortPreferences
+    schedulers: IoScheduler,
+    private val gateway: SortPreferences
 
 ) : CompletableUseCaseWithParam<SetSortOrderRequestModel>(schedulers){
 

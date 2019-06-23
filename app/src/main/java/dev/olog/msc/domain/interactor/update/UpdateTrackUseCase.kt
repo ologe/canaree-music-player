@@ -6,7 +6,7 @@ import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.catchNothing
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.msc.notifyItemChanged
 import io.reactivex.Completable
 import org.jaudiotagger.audio.AudioFileIO

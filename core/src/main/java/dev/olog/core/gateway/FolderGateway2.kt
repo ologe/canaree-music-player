@@ -1,8 +1,8 @@
 package dev.olog.core.gateway
 
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 
 interface FolderGateway2 :
-    BaseGateway<Folder, Path>,
+    BaseGateway2<Folder, Path>,
     ChildHasTracks2<Song, Path>

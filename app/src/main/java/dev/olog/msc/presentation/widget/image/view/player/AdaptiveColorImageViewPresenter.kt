@@ -8,11 +8,7 @@ import androidx.palette.graphics.Palette
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.utils.images.ImageProcessor
-import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.colorAccent
-import dev.olog.shared.textColorPrimary
-import dev.olog.shared.textColorSecondary
-import dev.olog.shared.windowBackground
+import dev.olog.shared.*
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

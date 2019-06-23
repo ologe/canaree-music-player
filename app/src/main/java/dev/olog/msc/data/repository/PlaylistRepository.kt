@@ -6,12 +6,12 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Playlist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.core.PlaylistConstants
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toPlaylist
 import dev.olog.msc.data.mapper.toPlaylistSong
@@ -19,7 +19,7 @@ import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.shared.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -174,7 +174,13 @@ class PlaylistRepository @Inject constructor(
         return songGateway.getByParam(songId)
                 .firstOrError()
                 .flatMapCompletable { song ->
-                    CompletableSource { mostPlayedDao.insertOne(PlaylistMostPlayedEntity(0, song.id, playlistId)) }
+                    CompletableSource { mostPlayedDao.insertOne(
+                        PlaylistMostPlayedEntity(
+                            0,
+                            song.id,
+                            playlistId
+                        )
+                    ) }
                 }
     }
 

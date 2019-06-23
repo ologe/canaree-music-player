@@ -1,9 +1,9 @@
 package dev.olog.msc.domain.interactor.all.sorted
 
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
+import dev.olog.core.executor.IoScheduler
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase

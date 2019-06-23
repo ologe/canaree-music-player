@@ -10,9 +10,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.core.entity.LibrarySortType
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.pro.IBilling

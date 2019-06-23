@@ -3,10 +3,10 @@ package dev.olog.msc.presentation.library.tab.mapper
 import android.content.Context
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.core.entity.PodcastArtist
-import dev.olog.core.entity.PodcastPlaylist
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastArtist
+import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.TextUtils

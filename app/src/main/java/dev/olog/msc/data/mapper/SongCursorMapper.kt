@@ -4,12 +4,11 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.core.database.getStringOrNull
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.utils.getInt
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
 import dev.olog.msc.utils.getStringOrNull
-import java.io.File
 
 
 fun Cursor.toSong(): Song {

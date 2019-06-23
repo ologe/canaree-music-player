@@ -24,6 +24,7 @@ import dev.olog.presentation.widgets.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.toggleSelected
 import dev.olog.shared.toggleVisibility
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

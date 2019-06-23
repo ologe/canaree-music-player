@@ -1,16 +1,16 @@
 package dev.olog.msc.domain.interactor.last.fm.scrobble
 
-import dev.olog.msc.domain.entity.UserCredentials
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.UserCredentials
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class UpdateLastFmUserCredentials @Inject constructor(
-        schedulers: IoScheduler,
-        private val gateway: AppPreferencesGateway,
-        private val lastFmEncrypter: LastFmEncrypter
+    schedulers: IoScheduler,
+    private val gateway: AppPreferencesGateway,
+    private val lastFmEncrypter: LastFmEncrypter
 
 ) : CompletableUseCaseWithParam<UserCredentials>(schedulers) {
 
@@ -25,8 +25,8 @@ class UpdateLastFmUserCredentials @Inject constructor(
 
     private fun encryptUser(user: UserCredentials): UserCredentials {
         return UserCredentials(
-                lastFmEncrypter.encrypt(user.username),
-                lastFmEncrypter.encrypt(user.password)
+            lastFmEncrypter.encrypt(user.username),
+            lastFmEncrypter.encrypt(user.password)
         )
     }
 

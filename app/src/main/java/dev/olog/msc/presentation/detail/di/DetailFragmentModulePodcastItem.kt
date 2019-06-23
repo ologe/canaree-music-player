@@ -6,9 +6,9 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.core.entity.PodcastArtist
-import dev.olog.core.entity.PodcastPlaylist
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastArtist
+import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastPlaylistUseCase
@@ -16,7 +16,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.TextUtils
-import dev.olog.msc.utils.k.extension.asFlowable
+import dev.olog.shared.asFlowable
 import io.reactivex.Flowable
 
 @Module

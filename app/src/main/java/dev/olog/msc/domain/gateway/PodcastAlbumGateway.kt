@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.core.entity.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastAlbum
 import io.reactivex.Observable
 
 interface PodcastAlbumGateway :

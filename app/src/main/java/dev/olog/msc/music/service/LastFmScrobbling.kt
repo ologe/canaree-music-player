@@ -11,11 +11,11 @@ import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.msc.api.last.fm.LAST_FM_API_KEY
 import dev.olog.msc.api.last.fm.LAST_FM_API_SECRET
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.core.entity.UserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.ObserveLastFmUserCredentials
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable

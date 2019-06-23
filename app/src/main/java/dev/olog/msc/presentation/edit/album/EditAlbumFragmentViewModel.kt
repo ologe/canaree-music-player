@@ -3,9 +3,8 @@ package dev.olog.msc.presentation.edit.album
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.Song
-import dev.olog.image.provider.creator.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.core.entity.track.Song
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject

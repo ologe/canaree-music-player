@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all
 
-import dev.olog.core.entity.Podcast
-import dev.olog.msc.domain.executors.ComputationScheduler
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.interactor.base.GetGroupUseCase
 import javax.inject.Inject

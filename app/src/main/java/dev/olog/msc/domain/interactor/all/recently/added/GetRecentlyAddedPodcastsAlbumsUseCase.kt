@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all.recently.added
 
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.all.GetAllPodcastAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
@@ -11,10 +11,10 @@ import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
 class GetRecentlyAddedPodcastsAlbumsUseCase @Inject constructor(
-        scheduler: IoScheduler,
-        private val getAllAlbumsUseCase: GetAllPodcastAlbumsUseCase,
-        private val getAllPodcastsUseCase: GetAllPodcastUseCase,
-        private val appPreferencesUseCase: PresentationPreferences
+    scheduler: IoScheduler,
+    private val getAllAlbumsUseCase: GetAllPodcastAlbumsUseCase,
+    private val getAllPodcastsUseCase: GetAllPodcastUseCase,
+    private val appPreferencesUseCase: PresentationPreferences
 
 ) : ObservableUseCase<List<PodcastAlbum>>(scheduler) {
 

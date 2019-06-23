@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.offline.lyrics
 
-import dev.olog.core.entity.Song
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.track.Song
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.OfflineLyricsGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
@@ -13,9 +13,9 @@ import java.io.File
 import javax.inject.Inject
 
 class ObserveOfflineLyricsUseCase @Inject constructor(
-        executors: IoScheduler,
-        private val getSongUseCase: GetSongUseCase,
-        private val gateway: OfflineLyricsGateway
+    executors: IoScheduler,
+    private val getSongUseCase: GetSongUseCase,
+    private val gateway: OfflineLyricsGateway
 
 ) : ObservableUseCaseWithParam<String, Long>(executors) {
 

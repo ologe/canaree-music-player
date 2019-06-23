@@ -7,8 +7,8 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.domain.entity.FavoriteType
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.utils.getLong
 import io.reactivex.Completable

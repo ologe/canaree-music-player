@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all.sibling
 
-import dev.olog.core.entity.PodcastPlaylist
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.entity.podcast.PodcastPlaylist
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
@@ -9,8 +9,8 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetPodcastPlaylistsSiblingsUseCase @Inject internal constructor(
-        schedulers: IoScheduler,
-        private val gateway: PodcastPlaylistGateway
+    schedulers: IoScheduler,
+    private val gateway: PodcastPlaylistGateway
 
 ) : ObservableUseCaseWithParam<List<PodcastPlaylist>, MediaId>(schedulers) {
 

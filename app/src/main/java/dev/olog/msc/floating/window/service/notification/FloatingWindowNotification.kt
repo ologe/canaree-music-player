@@ -15,7 +15,7 @@ import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowService
 import dev.olog.shared.isOreo
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

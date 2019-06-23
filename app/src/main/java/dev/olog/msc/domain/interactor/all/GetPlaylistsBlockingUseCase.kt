@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all
 
-import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.track.Playlist
 import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway

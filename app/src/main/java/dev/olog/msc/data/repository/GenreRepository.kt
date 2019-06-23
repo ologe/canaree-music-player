@@ -7,16 +7,16 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Genre
-import dev.olog.core.entity.Song
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.GenreMostPlayedEntity
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toGenre
 import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.shared.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -121,7 +121,13 @@ class GenreRepository @Inject constructor(
         return songGateway.getByParam(songId)
                 .firstOrError()
                 .flatMapCompletable { song ->
-                    CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }
+                    CompletableSource { mostPlayedDao.insertOne(
+                        GenreMostPlayedEntity(
+                            0,
+                            song.id,
+                            genreId
+                        )
+                    ) }
                 }
     }
 

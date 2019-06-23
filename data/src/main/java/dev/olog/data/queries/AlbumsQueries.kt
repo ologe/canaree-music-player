@@ -4,8 +4,8 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -51,7 +51,23 @@ internal class AlbumsQueries(
         return contentResolver.querySql(query, arrayOf("$id"))
     }
 
+    fun getRecentlyAdded(): Cursor {
 
+        val query = """
+            SELECT 
+                $ALBUM_ID,
+                $ARTIST_ID,
+                $ARTIST,
+                $ALBUM,
+                ${Columns.ALBUM_ARTIST},
+                $DATA
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
+
+            ORDER BY $DATE_ADDED DESC
+        """
+        return contentResolver.querySql(query)
+    }
 
     private fun defaultSelection(): String {
         return "${isPodcast()} AND ${notBlacklisted()}"

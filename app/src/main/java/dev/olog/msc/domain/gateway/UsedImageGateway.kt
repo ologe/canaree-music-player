@@ -1,8 +1,8 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.UsedAlbumImage
-import dev.olog.msc.domain.entity.UsedArtistImage
-import dev.olog.msc.domain.entity.UsedTrackImage
+import dev.olog.core.entity.UsedAlbumImage
+import dev.olog.core.entity.UsedArtistImage
+import dev.olog.core.entity.UsedTrackImage
 
 interface UsedImageGateway {
 

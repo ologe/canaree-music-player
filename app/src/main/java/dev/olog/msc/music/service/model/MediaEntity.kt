@@ -1,9 +1,9 @@
 package dev.olog.msc.music.service.model
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.Song
-import dev.olog.msc.domain.entity.PlayingQueueSong
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.PlayingQueueSong
 
 data class MediaEntity(
     val id: Long,

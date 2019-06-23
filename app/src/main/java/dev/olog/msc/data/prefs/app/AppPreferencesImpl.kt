@@ -7,7 +7,7 @@ import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.core.entity.UserCredentials
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
@@ -168,8 +168,8 @@ class AppPreferencesImpl @Inject constructor(
          */
     override fun getLastFmCredentials(): UserCredentials {
         return UserCredentials(
-                preferences.getString(LAST_FM_USERNAME, "")!!,
-                preferences.getString(LAST_FM_PASSWORD, "")!!
+            preferences.getString(LAST_FM_USERNAME, "")!!,
+            preferences.getString(LAST_FM_PASSWORD, "")!!
         )
     }
 
@@ -179,10 +179,12 @@ class AppPreferencesImpl @Inject constructor(
     override fun observeLastFmCredentials(): Observable<UserCredentials> {
         return rxPreferences.getString(LAST_FM_USERNAME, "")
                 .asObservable()
-                .map { UserCredentials(
+                .map {
+                    UserCredentials(
                         it,
                         preferences.getString(LAST_FM_PASSWORD, "")!!
-                ) }
+                    )
+                }
     }
 
     /*

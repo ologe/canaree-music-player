@@ -1,6 +1,10 @@
 package dev.olog.msc.presentation.popup
 
-import dev.olog.core.entity.*
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastArtist
+import dev.olog.core.entity.podcast.PodcastPlaylist
+import dev.olog.core.entity.track.*
 import dev.olog.msc.presentation.popup.album.AlbumPopupListener
 import dev.olog.msc.presentation.popup.artist.ArtistPopupListener
 import dev.olog.msc.presentation.popup.folder.FolderPopupListener

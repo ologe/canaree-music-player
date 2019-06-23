@@ -3,12 +3,12 @@ package dev.olog.msc.data.repository.last.fm
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.LastFmAlbumEntity
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.LastFmAlbumEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
-import dev.olog.core.entity.Album
+import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.msc.domain.gateway.AlbumGateway
 import io.reactivex.Single
@@ -16,9 +16,9 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LastFmRepoAlbum @Inject constructor(
-        appDatabase: AppDatabase,
-        @Proxy private val lastFmService: LastFmService,
-        private val albumGateway: AlbumGateway
+    appDatabase: AppDatabase,
+    @Proxy private val lastFmService: LastFmService,
+    private val albumGateway: AlbumGateway
 
 ) {
 
@@ -84,7 +84,7 @@ class LastFmRepoAlbum @Inject constructor(
         return entity
     }
 
-    private fun cacheEmpty(albumId: Long): LastFmAlbumEntity{
+    private fun cacheEmpty(albumId: Long): LastFmAlbumEntity {
         val entity = LastFmNulls.createNullAlbum(albumId)
         dao.insertAlbum(entity)
         return entity

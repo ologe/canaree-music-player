@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway

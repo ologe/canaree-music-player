@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.popup.artist
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 

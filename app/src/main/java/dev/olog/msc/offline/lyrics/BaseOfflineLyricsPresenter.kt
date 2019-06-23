@@ -15,7 +15,7 @@ import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
 import dev.olog.shared.clamp
 import dev.olog.msc.utils.k.extension.dpToPx
 import dev.olog.shared.indexOfClosest
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables

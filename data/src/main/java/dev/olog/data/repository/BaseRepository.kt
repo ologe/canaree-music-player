@@ -3,7 +3,7 @@ package dev.olog.data.repository
 import android.content.Context
 import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.BaseGateway
+import dev.olog.core.gateway.BaseGateway2
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
 import dev.olog.shared.assertBackgroundThread
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
     @ApplicationContext protected val context: Context
-) : BaseGateway<T, Param>, CoroutineScope by CustomScope() {
+) : BaseGateway2<T, Param>, CoroutineScope by CustomScope() {
 
     protected val contentResolver = context.contentResolver
 
@@ -56,10 +56,10 @@ internal abstract class BaseRepository<T, Param>(
         return channel.asFlow()
     }
 
-    protected fun observeByParamInternal(
+    protected fun <R> observeByParamInternal(
         contentUri: ContentUri,
-        action: () -> T?
-    ): Flow<T?> {
+        action: () -> R
+    ): Flow<R> {
         assertBackgroundThread()
 
         return channelFlow {

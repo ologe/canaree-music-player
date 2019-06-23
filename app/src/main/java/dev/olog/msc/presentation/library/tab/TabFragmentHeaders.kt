@@ -43,7 +43,7 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
-    val recentAlbumHeaders = listOf(
+    val lastPlayedAlbumHeaders = listOf(
         DisplayableItem(
             R.layout.item_tab_header,
             MediaId.headerId("recent albums"),
@@ -56,7 +56,7 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
-    val recentArtistHeaders = listOf(
+    val lastPlayedArtistHeaders = listOf(
         DisplayableItem(
             R.layout.item_tab_header,
             MediaId.headerId("recent artists"),
@@ -69,7 +69,7 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
-    val newAlbumsHeaders = listOf(
+    val recentlyAddedAlbumsHeaders = listOf(
         DisplayableItem(
             R.layout.item_tab_header, MediaId.headerId("new albums"),
             resources.getStringArray(R.array.tab_new_items)[0]
@@ -81,7 +81,7 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
-    val newArtistsHeaders = listOf(
+    val recentlyAddedArtistsHeaders = listOf(
         DisplayableItem(
             R.layout.item_tab_header, MediaId.headerId("new artists"),
             resources.getStringArray(R.array.tab_new_items)[1]

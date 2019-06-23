@@ -4,8 +4,8 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FolderGateway2
 import dev.olog.core.gateway.Path
 import dev.olog.core.prefs.BlacklistPreferences
@@ -13,6 +13,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -34,6 +35,7 @@ internal class FolderRepository2 @Inject constructor(
     }
 
     private fun extractFolders(cursor: Cursor): List<Folder> {
+        assertBackgroundThread()
         val pathList = context.contentResolver.queryAll(cursor) {
             val data = it.getString(MediaStore.Audio.AudioColumns.DATA)
             data.substring(1, data.lastIndexOf(File.separator)) // path
@@ -58,11 +60,13 @@ internal class FolderRepository2 @Inject constructor(
     }
 
     override fun getByParam(param: Path): Folder? {
+        assertBackgroundThread()
         return channel.valueOrNull?.find { it.path == param }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
         return channel.asFlow().map { list -> list.find { it.path == param } }
+            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {

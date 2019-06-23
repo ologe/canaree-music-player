@@ -2,8 +2,8 @@ package dev.olog.msc.app
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.msc.domain.executors.ComputationScheduler
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.executor.ComputationScheduler
+import dev.olog.core.executor.IoScheduler
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

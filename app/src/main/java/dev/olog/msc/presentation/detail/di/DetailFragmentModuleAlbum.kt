@@ -6,15 +6,15 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
-import dev.olog.core.entity.Album
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Genre
-import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Playlist
 import dev.olog.msc.domain.interactor.all.sibling.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import io.reactivex.Observable
 
 @Module

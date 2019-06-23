@@ -1,12 +1,12 @@
 package dev.olog.msc.data.mapper
 
 import dev.olog.core.entity.*
+import dev.olog.data.db.entities.*
 import dev.olog.msc.api.last.fm.album.info.AlbumInfo
 import dev.olog.msc.api.last.fm.album.search.AlbumSearch
 import dev.olog.msc.api.last.fm.artist.info.ArtistInfo
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
-import dev.olog.msc.data.entity.*
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -90,23 +90,23 @@ fun TrackInfo.toDomainPodcast(id: Long): LastFmPodcast {
 
 fun LastFmTrack.toModel(): LastFmTrackEntity {
     return LastFmTrackEntity(
-            this.id,
-            this.title,
-            this.artist,
-            this.album,
-            this.image,
-            millisToFormattedDate(System.currentTimeMillis())
+        this.id,
+        this.title,
+        this.artist,
+        this.album,
+        this.image,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
 fun LastFmPodcast.toModel(): LastFmPodcastEntity {
     return LastFmPodcastEntity(
-            this.id,
-            this.title,
-            this.artist,
-            this.album,
-            this.image,
-            millisToFormattedDate(System.currentTimeMillis())
+        this.id,
+        this.title,
+        this.artist,
+        this.album,
+        this.image,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
@@ -158,21 +158,21 @@ fun AlbumInfo.toPodcastDomain(id: Long): LastFmPodcastAlbum {
 
 fun LastFmAlbum.toModel(): LastFmAlbumEntity {
     return LastFmAlbumEntity(
-            this.id,
-            this.title,
-            this.artist,
-            this.image,
-            millisToFormattedDate(System.currentTimeMillis())
+        this.id,
+        this.title,
+        this.artist,
+        this.image,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
 fun LastFmPodcastAlbum.toModel(): LastFmPodcastAlbumEntity {
     return LastFmPodcastAlbumEntity(
-            this.id,
-            this.title,
-            this.artist,
-            this.image,
-            millisToFormattedDate(System.currentTimeMillis())
+        this.id,
+        this.title,
+        this.artist,
+        this.image,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
@@ -223,18 +223,18 @@ fun ArtistInfo.toPodcastDomain(id: Long): LastFmPodcastArtist {
 fun ArtistInfo.toModel(id: Long): LastFmArtistEntity {
     val artist = this.artist
     return LastFmArtistEntity(
-            id,
-            artist.image.reversed().first { it.text.isNotBlank() }.text,
-            millisToFormattedDate(System.currentTimeMillis())
+        id,
+        artist.image.reversed().first { it.text.isNotBlank() }.text,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
 fun ArtistInfo.toPodcastModel(id: Long): LastFmPodcastArtistEntity {
     val artist = this.artist
     return LastFmPodcastArtistEntity(
-            id,
-            artist.image.reversed().first { it.text.isNotBlank() }.text,
-            millisToFormattedDate(System.currentTimeMillis())
+        id,
+        artist.image.reversed().first { it.text.isNotBlank() }.text,
+        millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
@@ -256,59 +256,59 @@ object LastFmNulls {
 
     fun createNullTrack(trackId: Long): LastFmTrackEntity {
         return LastFmTrackEntity(
-                trackId,
-                "",
-                "",
-                "",
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            trackId,
+            "",
+            "",
+            "",
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 
     fun createNullArtist(artistId: Long): LastFmArtistEntity {
         return LastFmArtistEntity(
-                artistId,
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            artistId,
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 
     fun createNullAlbum(albumId: Long): LastFmAlbumEntity {
         return LastFmAlbumEntity(
-                albumId,
-                "",
-                "",
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            albumId,
+            "",
+            "",
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 
     fun createNullPodcast(trackId: Long): LastFmPodcastEntity {
         return LastFmPodcastEntity(
-                trackId,
-                "",
-                "",
-                "",
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            trackId,
+            "",
+            "",
+            "",
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 
     fun createNullPodcastArtist(artistId: Long): LastFmPodcastArtistEntity {
         return LastFmPodcastArtistEntity(
-                artistId,
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            artistId,
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 
     fun createNullPodcastAlbum(albumId: Long): LastFmPodcastAlbumEntity {
         return LastFmPodcastAlbumEntity(
-                albumId,
-                "",
-                "",
-                "",
-                millisToFormattedDate(System.currentTimeMillis())
+            albumId,
+            "",
+            "",
+            "",
+            millisToFormattedDate(System.currentTimeMillis())
         )
     }
 

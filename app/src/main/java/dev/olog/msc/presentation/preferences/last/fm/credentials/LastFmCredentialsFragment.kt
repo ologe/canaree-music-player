@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.core.entity.UserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.GetLastFmUserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.UpdateLastFmUserCredentials
 import dev.olog.msc.presentation.base.BaseDialogFragment
@@ -51,8 +51,8 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val user = UserCredentials(
-                    userName.text.toString(),
-                    password.text.toString()
+                userName.text.toString(),
+                password.text.toString()
             )
             val disp = updateLastFmUserCredentials.execute(user)
                     .subscribe({ dismiss() }, Throwable::printStackTrace)

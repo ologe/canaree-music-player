@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.crashlytics.android.Crashlytics
 import dev.olog.shared.NetworkUtils
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject

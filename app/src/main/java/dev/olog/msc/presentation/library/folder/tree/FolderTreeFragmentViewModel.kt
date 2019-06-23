@@ -18,6 +18,7 @@ import dev.olog.core.MediaId
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
+import dev.olog.shared.mapToList
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable

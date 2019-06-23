@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.popup.folder
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase

@@ -6,14 +6,14 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.core.entity.PodcastPlaylist
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbumUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Observable
 

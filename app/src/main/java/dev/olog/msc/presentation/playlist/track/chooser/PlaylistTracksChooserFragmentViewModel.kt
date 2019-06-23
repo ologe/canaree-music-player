@@ -18,7 +18,7 @@ import dev.olog.msc.presentation.playlist.track.chooser.model.toDisplayableItem
 import dev.olog.msc.presentation.playlist.track.chooser.model.toPlaylistTrack
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import dev.olog.msc.utils.k.extension.toList
 import dev.olog.msc.utils.k.extension.toggle
 import io.reactivex.Completable

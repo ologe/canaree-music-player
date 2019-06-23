@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.R
-import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.track.Playlist
 
 abstract class AbsPopup(
         view: View

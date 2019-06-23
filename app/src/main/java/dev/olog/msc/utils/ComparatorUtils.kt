@@ -1,6 +1,6 @@
 package dev.olog.msc.utils
 
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.music.service.model.MediaEntity
 
 object ComparatorUtils {

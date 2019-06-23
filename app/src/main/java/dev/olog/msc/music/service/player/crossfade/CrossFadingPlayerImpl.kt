@@ -19,7 +19,7 @@ import dev.olog.msc.music.service.player.DefaultPlayer
 import dev.olog.msc.music.service.player.media.source.ClippedSourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.dispatchEvent
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

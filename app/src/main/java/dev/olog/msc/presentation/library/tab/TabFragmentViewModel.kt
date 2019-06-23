@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.library.tab
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.LibrarySortType
+import dev.olog.core.entity.sort.LibrarySortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.asLiveData
@@ -25,7 +25,6 @@ internal class TabFragmentViewModel @Inject constructor(
                 liveData = tabDataProvider.get(category).asLiveData()
             }
             liveData!!
-
         }
     }
 

@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.update
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import io.reactivex.Observable

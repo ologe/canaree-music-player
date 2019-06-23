@@ -1,12 +1,12 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.core.entity.Song
-import dev.olog.msc.domain.gateway.PlayingQueueGateway
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.entity.PlayingQueueSong
+import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -14,9 +14,9 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
-        database: AppDatabase,
-        private val songGateway: SongGateway,
-        private val podcastGateway: PodcastGateway
+    database: AppDatabase,
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 
 ) : PlayingQueueGateway {
 
@@ -58,22 +58,22 @@ class PlayingQueueRepository @Inject constructor(
 
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
-                this.id,
-                progressive,
-                MediaId.songId(this.id),
-                this.artistId,
-                this.albumId,
-                this.title,
-                this.artist,
-                this.albumArtist,
-                this.album,
-                this.duration,
-                this.dateAdded,
-                this.path,
-                this.folder,
-                this.discNumber,
-                this.trackNumber,
-                false
+            this.id,
+            progressive,
+            MediaId.songId(this.id),
+            this.artistId,
+            this.albumId,
+            this.title,
+            this.artist,
+            this.albumArtist,
+            this.album,
+            this.duration,
+            this.dateAdded,
+            this.path,
+            this.folder,
+            this.discNumber,
+            this.trackNumber,
+            false
         )
     }
 

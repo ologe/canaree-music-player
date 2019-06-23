@@ -14,6 +14,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.toggleVisibility
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

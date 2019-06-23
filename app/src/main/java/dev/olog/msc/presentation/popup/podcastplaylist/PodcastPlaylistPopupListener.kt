@@ -3,9 +3,9 @@ package dev.olog.msc.presentation.popup.podcastplaylist
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastPlaylist
-import dev.olog.core.entity.toSong
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastPlaylist
+import dev.olog.core.entity.podcast.toSong
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase

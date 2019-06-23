@@ -1,7 +1,7 @@
 package dev.olog.msc.data.repository.lyrics
 
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.OfflineLyricsEntity
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.OfflineLyricsEntity
 import dev.olog.msc.domain.entity.OfflineLyrics
 import dev.olog.msc.domain.gateway.OfflineLyricsGateway
 import io.reactivex.Completable

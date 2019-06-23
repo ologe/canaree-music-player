@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.library.tab.mapper
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.core.entity.*
+import dev.olog.core.entity.track.*
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.TextUtils

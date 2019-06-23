@@ -1,12 +1,10 @@
 package dev.olog.msc.data.mapper
 
 import android.database.Cursor
-import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.core.database.getStringOrNull
-import dev.olog.core.entity.Podcast
-import dev.olog.msc.constants.AppConstants
+import dev.olog.core.entity.podcast.Podcast
 import dev.olog.msc.utils.getInt
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString

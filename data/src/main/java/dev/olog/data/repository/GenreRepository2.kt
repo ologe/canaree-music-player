@@ -3,8 +3,8 @@ package dev.olog.data.repository
 import android.content.Context
 import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Genre
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
@@ -13,6 +13,8 @@ import dev.olog.data.mapper.toGenre
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.shared.assertBackground
+import dev.olog.shared.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
@@ -32,6 +34,7 @@ internal class GenreRepository2 @Inject constructor(
     }
 
     override fun queryAll(): List<Genre> {
+        assertBackgroundThread()
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
         return genres.map { genre ->
@@ -43,11 +46,13 @@ internal class GenreRepository2 @Inject constructor(
     }
 
     override fun getByParam(param: Id): Genre? {
+        assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
         return channel.asFlow().map { it.find { it.id == param } }
+            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {

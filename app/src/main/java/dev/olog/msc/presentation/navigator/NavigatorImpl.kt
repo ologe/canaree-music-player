@@ -38,7 +38,7 @@ import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.splash.SplashActivity
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import io.reactivex.disposables.Disposable

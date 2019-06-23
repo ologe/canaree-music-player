@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.popup.podcastartist
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 

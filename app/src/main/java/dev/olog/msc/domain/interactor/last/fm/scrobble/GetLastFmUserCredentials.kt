@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.last.fm.scrobble
 
-import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.core.entity.UserCredentials
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import javax.inject.Inject
 
@@ -16,8 +16,8 @@ class GetLastFmUserCredentials @Inject constructor(
 
     private fun decryptUser(user: UserCredentials): UserCredentials {
         return UserCredentials(
-                lastFmEncrypter.decrypt(user.username),
-                lastFmEncrypter.decrypt(user.password)
+            lastFmEncrypter.decrypt(user.username),
+            lastFmEncrypter.decrypt(user.password)
         )
     }
 

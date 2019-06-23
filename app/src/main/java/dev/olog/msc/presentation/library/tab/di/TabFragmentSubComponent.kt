@@ -7,7 +7,6 @@ import dev.olog.msc.presentation.library.tab.TabFragment
 
 @Subcomponent(modules = arrayOf(
         TabFragmentModule::class,
-        TabFragmentViewModelModule::class,
         TabFragmentPodcastModule::class
 ))
 @PerFragment

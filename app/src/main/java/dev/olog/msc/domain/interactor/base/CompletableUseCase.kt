@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.base
 
-import dev.olog.msc.domain.executors.Schedulers
+import dev.olog.core.executor.Schedulers
 import io.reactivex.Completable
 
 abstract class CompletableUseCase(

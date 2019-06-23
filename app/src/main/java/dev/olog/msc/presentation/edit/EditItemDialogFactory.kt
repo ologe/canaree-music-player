@@ -8,14 +8,14 @@ import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.toast
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

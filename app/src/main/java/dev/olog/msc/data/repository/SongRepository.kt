@@ -13,14 +13,14 @@ import android.provider.MediaStore.Audio.Media.DURATION
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
-import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.shared.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable

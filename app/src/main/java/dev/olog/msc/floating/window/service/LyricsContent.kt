@@ -13,7 +13,7 @@ import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
 import dev.olog.msc.utils.k.extension.isPlaying
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -11,8 +11,6 @@ import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
@@ -20,6 +18,7 @@ import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.setGone
 import dev.olog.shared.toggleVisibility
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*

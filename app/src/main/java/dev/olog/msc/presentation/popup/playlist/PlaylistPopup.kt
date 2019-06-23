@@ -4,8 +4,8 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.core.PlaylistConstants
-import dev.olog.core.entity.Playlist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 

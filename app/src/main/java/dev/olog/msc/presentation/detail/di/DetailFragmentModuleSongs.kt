@@ -9,10 +9,10 @@ import dagger.multibindings.StringKey
 import dev.olog.msc.R
 import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.PodcastArtist
-import dev.olog.core.entity.Song
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.podcast.PodcastArtist
+import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
@@ -25,7 +25,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.TimeUtils
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import io.reactivex.Observable
 
 @Module

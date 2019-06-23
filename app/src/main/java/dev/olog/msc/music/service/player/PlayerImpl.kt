@@ -16,7 +16,7 @@ import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.shared.clamp
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.shared.unsubscribe
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

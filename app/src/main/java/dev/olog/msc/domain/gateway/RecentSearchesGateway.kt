@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.SearchResult
+import dev.olog.core.entity.SearchResult
 import io.reactivex.Completable
 import io.reactivex.Observable
 

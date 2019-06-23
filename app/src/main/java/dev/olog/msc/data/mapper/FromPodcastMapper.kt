@@ -1,8 +1,8 @@
 package dev.olog.msc.data.mapper
 
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.entity.podcast.PodcastArtist
 
 fun Podcast.toAlbum(songCount: Int) : PodcastAlbum {
     return PodcastAlbum(

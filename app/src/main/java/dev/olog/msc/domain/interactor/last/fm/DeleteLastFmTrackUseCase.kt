@@ -2,7 +2,7 @@ package dev.olog.msc.domain.interactor.last.fm
 
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 

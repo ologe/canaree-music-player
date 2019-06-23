@@ -17,8 +17,8 @@ import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.library.tab.mapper.toAutoPlaylist
 import dev.olog.msc.presentation.library.tab.mapper.toTabDisplayableItem
 import dev.olog.msc.presentation.library.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.msc.utils.k.extension.defer
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.defer
+import dev.olog.shared.mapToList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.doIf
 import dev.olog.shared.startWith
@@ -87,8 +87,8 @@ class TabFragmentPodcastModule {
                 newArtistsUseCase.execute().distinctUntilChanged()
         ) { last, new ->
             val result = mutableListOf<DisplayableItem>()
-            result.doIf(new.count() > 0) { addAll(headers.newArtistsHeaders) }
-                    .doIf(last.count() > 0) { addAll(headers.recentArtistHeaders) }
+            result.doIf(new.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
+                    .doIf(last.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
         }.distinctUntilChanged()
                 .defer()
@@ -116,8 +116,8 @@ class TabFragmentPodcastModule {
                 newAlbumsUseCase.execute().distinctUntilChanged()
         ) { last, new ->
             val result = mutableListOf<DisplayableItem>()
-            result.doIf(new.count() > 0) { addAll(headers.newAlbumsHeaders) }
-                    .doIf(last.count() > 0) { addAll(headers.recentAlbumHeaders) }
+            result.doIf(new.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
+                    .doIf(last.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
         }.distinctUntilChanged()
                 .defer()

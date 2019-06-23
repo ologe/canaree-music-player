@@ -2,19 +2,19 @@ package dev.olog.msc.data.repository.podcast
 
 import android.content.res.Resources
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastPlaylist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastPlaylist
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.core.PlaylistConstants
-import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.data.entity.PodcastPlaylistEntity
-import dev.olog.msc.data.entity.PodcastPlaylistTrackEntity
-import dev.olog.msc.domain.entity.FavoriteType
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.PodcastPlaylistEntity
+import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -23,10 +23,10 @@ import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
 class PlaylistPodcastRepository @Inject constructor(
-        resources: Resources,
-        appDatabase: AppDatabase,
-        private val podcastGateway: PodcastGateway,
-        private val favoriteGateway: FavoriteGateway
+    resources: Resources,
+    appDatabase: AppDatabase,
+    private val podcastGateway: PodcastGateway,
+    private val favoriteGateway: FavoriteGateway
 
 ) : PodcastPlaylistGateway {
 
@@ -114,8 +114,10 @@ class PlaylistPodcastRepository @Inject constructor(
         return Completable.fromCallable {
             var maxIdInPlaylist = podcastPlaylistDao.getPlaylistMaxId(playlistId).toLong()
             val tracks = songIds.map {
-                PodcastPlaylistTrackEntity(playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
-                        podcastId = it)
+                PodcastPlaylistTrackEntity(
+                    playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
+                    podcastId = it
+                )
             }
             podcastPlaylistDao.insertTracks(tracks)
         }
@@ -123,7 +125,7 @@ class PlaylistPodcastRepository @Inject constructor(
 
     override fun createPlaylist(playlistName: String): Single<Long> {
         return Single.fromCallable { podcastPlaylistDao.createPlaylist(
-                PodcastPlaylistEntity(name = playlistName, size = 0)
+            PodcastPlaylistEntity(name = playlistName, size = 0)
         ) }
     }
 

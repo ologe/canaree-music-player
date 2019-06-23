@@ -1,10 +1,10 @@
 package dev.olog.msc.data.mapper
 
 import android.content.Context
-import dev.olog.core.entity.Album
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.Folder
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
     return Folder(

@@ -26,6 +26,8 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.isMarshmallow
+import dev.olog.shared.mapToList
+import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -5,8 +5,8 @@ import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -64,13 +64,12 @@ internal class ArtistQueries(
     fun getRecentlyAdded(): Cursor {
         val query = """
              SELECT
-                distinct $ARTIST_ID,
+                $ARTIST_ID,
                 $ARTIST,
                 ${Columns.ALBUM_ARTIST},
                 $DATA
             FROM ${EXTERNAL_CONTENT_URI}
             WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
-            GROUP BY $ARTIST_ID
             ORDER BY ${sortOrder()}
         """
 

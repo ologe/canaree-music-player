@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.dialog.add.favorite
 
-import dev.olog.msc.domain.entity.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.msc.domain.interactor.dialog.AddToFavoriteUseCase
 import dev.olog.core.MediaId
 import io.reactivex.Completable

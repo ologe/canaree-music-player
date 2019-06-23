@@ -1,29 +1,29 @@
 package dev.olog.msc.domain.interactor.all
 
-import dev.olog.core.entity.Song
-import dev.olog.core.entity.toSong
-import dev.olog.msc.domain.executors.ComputationScheduler
+import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.podcast.toSong
+import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import io.reactivex.Observable
 import javax.inject.Inject
 
 
 class GetSongListByParamUseCase @Inject constructor(
-        schedulers: ComputationScheduler,
-        private val genreDataStore: GenreGateway,
-        private val playlistDataStore: PlaylistGateway,
-        private val albumDataStore: AlbumGateway,
-        private val artistDataStore: ArtistGateway,
-        private val folderDataStore: FolderGateway,
-        private val songDataStore: SongGateway,
-        private val podcastDataStore: PodcastGateway,
-        private val podcastPlaylistDataStore: PodcastPlaylistGateway,
-        private val podcastAlbumDataStore: PodcastAlbumGateway,
-        private val podcastArtistDataStore: PodcastArtistGateway
+    schedulers: ComputationScheduler,
+    private val genreDataStore: GenreGateway,
+    private val playlistDataStore: PlaylistGateway,
+    private val albumDataStore: AlbumGateway,
+    private val artistDataStore: ArtistGateway,
+    private val folderDataStore: FolderGateway,
+    private val songDataStore: SongGateway,
+    private val podcastDataStore: PodcastGateway,
+    private val podcastPlaylistDataStore: PodcastPlaylistGateway,
+    private val podcastAlbumDataStore: PodcastAlbumGateway,
+    private val podcastArtistDataStore: PodcastArtistGateway
 
 ) : ObservableUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 

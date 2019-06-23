@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.preferences.blacklist
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.Folder
+import dev.olog.core.entity.track.Folder
 import dev.olog.msc.R
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUnfiltered
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.shared.mapToList
 import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Observable
 import javax.inject.Inject

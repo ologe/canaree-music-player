@@ -3,14 +3,14 @@ package dev.olog.msc.data.repository.podcast
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.db.AppDatabase
+import dev.olog.data.db.dao.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.domain.gateway.PodcastArtistGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.shared.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -21,10 +21,10 @@ import javax.inject.Inject
 private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
 class PodcastArtistRepository @Inject constructor(
-        appDatabase: AppDatabase,
-        private val rxContentResolver: BriteContentResolver,
-        private val podcastGateway: PodcastGateway,
-        private val collator: Collator
+    appDatabase: AppDatabase,
+    private val rxContentResolver: BriteContentResolver,
+    private val podcastGateway: PodcastGateway,
+    private val collator: Collator
 
 ) : PodcastArtistGateway {
 

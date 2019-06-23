@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.R
 import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.presentation.base.BaseFragment
@@ -110,33 +110,36 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     }
         }
 
-//        when (category){
-//            TabCategory.ALBUMS -> {
-//                viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-//                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter!!.updateDataSet(it) }
-//                viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-//                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter!!.updateDataSet(it) }
-//            }
-//            TabCategory.ARTISTS -> {
-//                viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-//                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter!!.updateDataSet(it) }
-//                viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-//                        .subscribe(viewLifecycleOwner) { newArtistsAdapter!!.updateDataSet(it) }
-//            }
-//            TabCategory.PODCASTS_ALBUMS -> {
-//                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-//                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter!!.updateDataSet(it) }
-//                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-//                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter!!.updateDataSet(it) }
-//            }
-//            TabCategory.PODCASTS_ARTISTS -> {
-//                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-//                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter!!.updateDataSet(it) }
-//                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-//                        .subscribe(viewLifecycleOwner) { newArtistsAdapter!!.updateDataSet(it) }
-//            }
-//            else -> {/*making lint happy*/}
-//        }
+        launch {
+            when (category){
+                TabCategory.ALBUMS -> {
+                    viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
+                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
+                }
+                TabCategory.ARTISTS -> {
+                    viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
+                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
+                }
+                TabCategory.PODCASTS_ALBUMS -> {
+                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
+                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
+                }
+                TabCategory.PODCASTS_ARTISTS -> {
+                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
+                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
+                }
+                else -> {/*making lint happy*/}
+            }
+        }
+
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

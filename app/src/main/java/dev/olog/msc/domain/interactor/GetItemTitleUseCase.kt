@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor
 
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.core.MediaId
@@ -9,17 +9,17 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetItemTitleUseCase @Inject constructor(
-        schedulers: IoScheduler,
-        private val getFolderUseCase: GetFolderUseCase,
-        private val getPlaylistUseCase: GetPlaylistUseCase,
-        private val getSongUseCase: GetSongUseCase,
-        private val getAlbumUseCase: GetAlbumUseCase,
-        private val getArtistUseCase: GetArtistUseCase,
-        private val getGenreUseCase: GetGenreUseCase,
-        private val getPodcastUseCase: GetPodcastUseCase,
-        private val getPodcastPlaylistUseCase: GetPodcastPlaylistUseCase,
-        private val getPodcastAlbumUseCase: GetPodcastAlbumUseCase,
-        private val getPodcastArtistUseCase: GetPodcastArtistUseCase
+    schedulers: IoScheduler,
+    private val getFolderUseCase: GetFolderUseCase,
+    private val getPlaylistUseCase: GetPlaylistUseCase,
+    private val getSongUseCase: GetSongUseCase,
+    private val getAlbumUseCase: GetAlbumUseCase,
+    private val getArtistUseCase: GetArtistUseCase,
+    private val getGenreUseCase: GetGenreUseCase,
+    private val getPodcastUseCase: GetPodcastUseCase,
+    private val getPodcastPlaylistUseCase: GetPodcastPlaylistUseCase,
+    private val getPodcastAlbumUseCase: GetPodcastAlbumUseCase,
+    private val getPodcastArtistUseCase: GetPodcastArtistUseCase
 
 ) : ObservableUseCaseWithParam<String, MediaId>(schedulers) {
 

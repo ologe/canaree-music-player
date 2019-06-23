@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all.last.played
 
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.msc.domain.executors.ComputationScheduler
+import dev.olog.core.entity.podcast.PodcastAlbum
+import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
@@ -10,9 +10,9 @@ import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
 class GetLastPlayedPodcastAlbumsUseCase @Inject constructor(
-        schedulers: ComputationScheduler,
-        private val albumGateway: PodcastAlbumGateway,
-        private val appPreferencesUseCase: PresentationPreferences
+    schedulers: ComputationScheduler,
+    private val albumGateway: PodcastAlbumGateway,
+    private val appPreferencesUseCase: PresentationPreferences
 
 ): ObservableUseCase<List<PodcastAlbum>>(schedulers) {
 

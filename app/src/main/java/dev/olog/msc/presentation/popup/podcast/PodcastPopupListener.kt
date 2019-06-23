@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.popup.podcast
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.toSong
+import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.podcast.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.presentation.navigator.Navigator

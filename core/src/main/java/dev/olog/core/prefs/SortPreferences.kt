@@ -1,8 +1,8 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.entity.LibrarySortType
-import dev.olog.core.entity.SortArranging
-import dev.olog.core.entity.SortType
+import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortType
 import io.reactivex.Completable
 import io.reactivex.Observable
 
