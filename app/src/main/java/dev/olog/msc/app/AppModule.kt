@@ -6,12 +6,10 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ProcessLifecycleOwner
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.app.widget.defaul.WidgetColored
 import dev.olog.msc.presentation.app.widget.queue.WidgetColoredWithQueue
@@ -19,52 +17,51 @@ import java.text.Collator
 import java.util.*
 
 @Module
-class AppModule(private val app: App) {
+abstract class AppModule {
 
-    @Provides
+    @Binds
     @ApplicationContext
-    internal fun provideContext() : Context = app
+    internal abstract fun provideContext(instance: Application): Context
 
-    @Provides
-    internal fun provideResources(): Resources = app.resources
+    @Module
+    companion object {
 
-    @Provides
-    internal fun provideApplication(): Application = app
+        @Provides
+        @JvmStatic
+        internal fun provideResources(instance: Application): Resources = instance.resources
 
-    @Provides
-    @ProcessLifecycle
-    internal fun provideAppLifecycle(): Lifecycle {
-        return ProcessLifecycleOwner.get().lifecycle
-    }
-
-    @Provides
-    internal fun provideWidgetsClasses() : WidgetClasses {
-        return object : WidgetClasses {
-            override fun get(): List<Class<out AppWidgetProvider>> {
-                return listOf(
-                        WidgetColored::class.java,
-                        WidgetColoredWithQueue::class.java
-                )
+        @Provides
+        @JvmStatic
+        internal fun provideWidgetsClasses(): WidgetClasses {
+            return object : WidgetClasses {
+                override fun get(): List<Class<out AppWidgetProvider>> {
+                    return listOf(
+                            WidgetColored::class.java,
+                            WidgetColoredWithQueue::class.java
+                    )
+                }
             }
         }
-    }
 
-    @Provides
-    fun provideConnectivityManager(): ConnectivityManager {
-        return app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
+        @Provides
+        @JvmStatic
+        fun provideConnectivityManager(instance: Application): ConnectivityManager {
+            return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        }
 
-    @Provides
-    fun provideAlarmManager(): AlarmManager {
-        return app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
+        @Provides
+        @JvmStatic
+        fun provideAlarmManager(instance: Application): AlarmManager {
+            return instance.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        }
 
-    @Provides
-    fun provideCollator(): Collator {
-        val instance = Collator.getInstance(Locale.UK)
-        instance.strength = Collator.SECONDARY
-//        instance.decomposition = Collator.CANONICAL_DECOMPOSITION
-        return instance
+        @Provides
+        @JvmStatic
+        fun provideCollator(): Collator {
+            val instance = Collator.getInstance(Locale.UK)
+            instance.strength = Collator.SECONDARY
+            return instance
+        }
     }
 
 }

@@ -6,14 +6,13 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.k.extension.getCachedBitmap
+import dev.olog.presentation.AppConstants
 import dev.olog.shared.toast
 import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
@@ -22,15 +21,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseAppShortcuts(
-        protected val context: Context,
-        @ProcessLifecycle lifecycle: Lifecycle
-
+        protected val context: Context
 ) : AppShortcuts, DefaultLifecycleObserver {
 
     private var disposable : Disposable? = null
 
     init {
-        lifecycle.addObserver(this)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     override fun addDetailShortcut(mediaId: MediaId, title: String) {

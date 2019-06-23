@@ -1,5 +1,7 @@
 package dev.olog.msc.app
 
+import android.app.Application
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -53,15 +55,20 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent : AndroidInjector<App> {
 
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<App>() {
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance instance: Application): AppComponent
+    }
 
-        internal abstract fun module(module: AppModule): Builder
+    companion object {
+        private var component: AppComponent? = null
 
-        override fun seedInstance(instance: App) {
-            module(AppModule(instance))
+        fun coreComponent(application: Application): AppComponent {
+            if (component == null){
+                component = DaggerAppComponent.factory().create(application)
+            }
+            return component!!
         }
-
     }
 
 }

@@ -1,14 +1,11 @@
 package dev.olog.msc.app.shortcuts
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
-import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 
 class AppShortcutsStub(
-        context: Context,
-        @ProcessLifecycle lifecycle: Lifecycle
+        context: Context
 
-) : BaseAppShortcuts(context, lifecycle) {
+) : BaseAppShortcuts(context) {
 
     override fun disablePlay() {
     }

@@ -76,7 +76,7 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().create(this)
+        return AppComponent.coreComponent(this)
     }
 
     override fun onActivityPaused(p0: Activity) {
