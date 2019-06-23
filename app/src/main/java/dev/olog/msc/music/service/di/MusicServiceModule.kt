@@ -9,6 +9,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.Lifecycle
 import androidx.media.session.MediaButtonReceiver
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext
@@ -27,84 +28,90 @@ import dev.olog.msc.music.service.player.PlayerVolume
 import dev.olog.msc.music.service.player.crossfade.CrossFadePlayer
 import dev.olog.msc.music.service.volume.IPlayerVolume
 
-@Module(includes = arrayOf(MusicServiceModule.Binds::class))
-class MusicServiceModule(
-        private val service: MusicService
-) {
+@Module
+abstract class MusicServiceModule {
 
-    @Provides
+    @Binds
     @ServiceContext
-    internal fun provideContext(): Context = service
+    internal abstract fun provideContext(instance: MusicService): Context
 
-    @Provides
-    internal fun provideService(): Service = service
+    @Binds
+    internal abstract fun provideService(instance: MusicService): Service
 
-    @Provides
+    @Binds
     @PerService
-    internal fun provideServiceLifecycle(): ServiceLifecycleController = service
+    internal abstract fun provideServiceLifecycle(instance: MusicService): ServiceLifecycleController
 
-
-    @Provides
-    @ServiceLifecycle
-    internal fun provideLifecycle(): Lifecycle = service.lifecycle
-
-    @Provides
+    @Binds
     @PerService
-    internal fun provideMediaSession(): MediaSessionCompat {
-        return MediaSessionCompat(service, MusicService.TAG,
-                ComponentName(service, MediaButtonReceiver::class.java),
-                null)
-    }
+    internal abstract fun provideQueue(queue: QueueManager): Queue
 
-    @Provides
+    @Binds
     @PerService
-    internal fun provideAudioManager(): AudioManager {
-        return service.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
+    internal abstract fun providePlayer(player: PlayerImpl): Player
 
-    @Provides
+    @Binds
     @PerService
-    internal fun provideNotificationManager(): NotificationManager {
-        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    internal abstract fun providePlayerLifecycle(player: Player): PlayerLifecycle
 
-    @Provides
-    internal fun provideToken(mediaSession: MediaSessionCompat): MediaSessionCompat.Token {
-        return mediaSession.sessionToken
-    }
-
-    @Provides
-    internal fun provideMediaController(mediaSession: MediaSessionCompat): MediaControllerCompat {
-        return mediaSession.controller
-    }
-
-    @Provides
+    @Binds
     @PerService
-    internal fun providePlayer(
-//            simplePlayer: Lazy<SimplePlayer>,
-            crossfadePlayer: CrossFadePlayer): CustomExoPlayer<PlayerMediaEntity> {
-        return crossfadePlayer
-    }
+    internal abstract fun providePlayerVolume(volume: PlayerVolume): IPlayerVolume
 
     @Module
-    abstract class Binds {
+    companion object {
+        @Provides
+        @JvmStatic
+        @ServiceLifecycle
+        internal fun provideLifecycle(instance: MusicService): Lifecycle = instance.lifecycle
 
-        @dagger.Binds
+        @Provides
+        @JvmStatic
         @PerService
-        abstract fun provideQueue(queue: QueueManager): Queue
+        internal fun provideMediaSession(instance: MusicService): MediaSessionCompat {
+            return MediaSessionCompat(
+                    instance,
+                    MusicService.TAG,
+                    ComponentName(instance, MediaButtonReceiver::class.java),
+                    null
+            )
+        }
 
-        @dagger.Binds
+
+        @Provides
+        @JvmStatic
         @PerService
-        abstract fun providePlayer(player: PlayerImpl): Player
+        internal fun provideAudioManager(instance: MusicService): AudioManager {
+            return instance.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        }
 
-        @dagger.Binds
+        @Provides
+        @JvmStatic
         @PerService
-        abstract fun providePlayerLifecycle(player: Player): PlayerLifecycle
+        internal fun provideNotificationManager(instance: MusicService): NotificationManager {
+            return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        }
 
-        @dagger.Binds
+        @Provides
+        @JvmStatic
+        internal fun provideToken(mediaSession: MediaSessionCompat): MediaSessionCompat.Token {
+            return mediaSession.sessionToken
+        }
+
+        @Provides
+        @JvmStatic
+        internal fun provideMediaController(mediaSession: MediaSessionCompat): MediaControllerCompat {
+            return mediaSession.controller
+        }
+
+        @Provides
         @PerService
-        abstract fun providePlayerVolume(volume: PlayerVolume): IPlayerVolume
-
+        @JvmStatic
+        internal fun providePlayerImpl(
+//            simplePlayer: Lazy<SimplePlayer>,
+                crossfadePlayer: CrossFadePlayer): CustomExoPlayer<PlayerMediaEntity> {
+            return crossfadePlayer
+        }
     }
 
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
-import dagger.android.AndroidInjection
 import dev.olog.media.MusicConstants
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
@@ -30,12 +29,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     @Inject lateinit var player: Player
 
     private var serviceStarted = false
-
-    @CallSuper
-    override fun onCreate() {
-        AndroidInjection.inject(this)
-        super.onCreate()
-    }
 
     @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

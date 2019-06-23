@@ -16,6 +16,7 @@ import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.traceur.Traceur
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.presentation.AppConstants
 import dev.olog.presentation.theme.DarkMode
@@ -57,7 +58,7 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
     private fun initializeComponents() {
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
-//            Traceur.enableLogging()
+            Traceur.enableLogging()
 //            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
 //            StrictMode.initialize()

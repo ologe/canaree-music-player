@@ -25,6 +25,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.image.provider.creator.ImagesFolderUtils
+import dev.olog.msc.music.service.di.inject
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.shared.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,6 +53,7 @@ class MusicService : BaseMusicService() {
     private val subsriptions = CompositeDisposable()
 
     override fun onCreate() {
+        inject()
         super.onCreate()
 
         sessionToken = mediaSession.sessionToken
