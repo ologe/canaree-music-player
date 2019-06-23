@@ -1,5 +1,6 @@
 package dev.olog.data.repository
 
+import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
@@ -7,6 +8,7 @@ import dev.olog.core.gateway.BaseGateway2
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
 import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.safeSend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
@@ -19,7 +21,7 @@ internal abstract class BaseRepository<T, Param>(
     @ApplicationContext protected val context: Context
 ) : BaseGateway2<T, Param>, CoroutineScope by CustomScope() {
 
-    protected val contentResolver = context.contentResolver
+    protected val contentResolver: ContentResolver = context.contentResolver
 
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 
@@ -36,12 +38,11 @@ internal abstract class BaseRepository<T, Param>(
                 DataObserver {
                     launch {
                         assertBackgroundThread()
-                        channel.send(queryAll())
+                        channel.safeSend(queryAll())
                     }
                 }
             )
-
-            channel.send(queryAll())
+            channel.safeSend(queryAll())
         }
     }
 
@@ -65,9 +66,17 @@ internal abstract class BaseRepository<T, Param>(
         return channelFlow {
 
             assertBackgroundThread()
-            send(action())
+            if (!isClosedForSend) {
+                safeSend(action())
+            }
 
-            val observer = DataObserver { launch { send(action()) } }
+            val observer = DataObserver {
+                launch {
+                    if (!isClosedForSend) {
+                        safeSend(action())
+                    }
+                }
+            }
 
             contentResolver.registerContentObserver(
                 contentUri.uri,
