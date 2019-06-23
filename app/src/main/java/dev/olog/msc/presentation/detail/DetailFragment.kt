@@ -20,11 +20,10 @@ import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollLi
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
-import dev.olog.msc.presentation.widget.image.view.ShapeImageView
+import dev.olog.shared.widgets.ShapeImageView
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.deepCopy
 import dev.olog.shared.isDarkMode
-import dev.olog.shared.setVisible
 import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*

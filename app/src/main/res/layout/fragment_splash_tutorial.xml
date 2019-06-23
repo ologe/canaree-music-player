@@ -129,7 +129,7 @@
                     android:focusable="false"
                     android:layout_marginTop="16dp">
 
-                    <dev.olog.msc.presentation.widget.image.view.ForegroundImageView
+                    <dev.olog.shared.widgets.ForegroundImageView
                         android:id="@+id/cover"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

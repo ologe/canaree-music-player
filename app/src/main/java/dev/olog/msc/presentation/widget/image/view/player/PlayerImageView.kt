@@ -11,7 +11,7 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
+import dev.olog.shared.widgets.ForegroundImageView
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.image.provider.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap

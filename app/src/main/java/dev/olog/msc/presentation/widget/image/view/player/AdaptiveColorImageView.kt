@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.util.AttributeSet
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
+import dev.olog.shared.widgets.ForegroundImageView
 import dev.olog.msc.utils.k.extension.layers
 
 open class AdaptiveColorImageView @JvmOverloads constructor(
