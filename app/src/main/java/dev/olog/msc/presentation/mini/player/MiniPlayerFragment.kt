@@ -48,6 +48,7 @@ class MiniPlayerFragment : BaseFragment(){
         val media = activity as MediaProvider
 
         view.coverWrapper.toggleVisibility(AppTheme.isMiniTheme(), true)
+        view.title.isSelected = true
 
         media.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -205,7 +206,7 @@ class MiniPlayerFragment : BaseFragment(){
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-
+            title.isSelected = newState == BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
