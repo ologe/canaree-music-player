@@ -6,14 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.lazyFast
-import dev.olog.shared.isPortrait
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
+import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.isMarshmallow
+import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
@@ -65,15 +64,13 @@ class StatusBarColorBehavior @Inject constructor(
     }
 
     private fun searchForDetailFragmentOnPortraitMode(): CanChangeStatusBarColor? {
-        if (activity.isPortrait){
-            val fm = activity.supportFragmentManager
-            val backStackEntryCount = fm.backStackEntryCount - 1
-            if (backStackEntryCount > -1) {
-                val entry = fm.getBackStackEntryAt(backStackEntryCount)
-                val fragment = fm.findFragmentByTag(entry.name)
-                if (fragment is CanChangeStatusBarColor) {
-                    return fragment
-                }
+        val fm = activity.supportFragmentManager
+        val backStackEntryCount = fm.backStackEntryCount - 1
+        if (backStackEntryCount > -1) {
+            val entry = fm.getBackStackEntryAt(backStackEntryCount)
+            val fragment = fm.findFragmentByTag(entry.name)
+            if (fragment is CanChangeStatusBarColor) {
+                return fragment
             }
         }
         return null

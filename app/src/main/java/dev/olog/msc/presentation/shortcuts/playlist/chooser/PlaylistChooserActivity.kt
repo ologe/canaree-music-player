@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.isPortrait
 import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class PlaylistChooserActivity : BaseActivity() {
                 .subscribe(this, adapter::updateDataSet)
 
         list.adapter = adapter
-        list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, if (isPortrait) 2 else 3)
+        list.layoutManager = GridLayoutManager(this, 2)
     }
 
     override fun onResume() {

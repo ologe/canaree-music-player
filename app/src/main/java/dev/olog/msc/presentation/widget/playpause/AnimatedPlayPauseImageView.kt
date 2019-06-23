@@ -6,9 +6,8 @@ import android.util.AttributeSet
 import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.lazyFast
-import dev.olog.shared.isPortrait
 import dev.olog.shared.isDarkMode
+import dev.olog.shared.lazyFast
 import dev.olog.shared.textColorTertiary
 
 @Keep
@@ -21,12 +20,6 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     private val behavior = PlayPauseBehaviorImpl(this)
 
     private val isDarkMode by lazyFast { context.isDarkMode() }
-
-    init {
-//        if (AppTheme.isDarkTheme()){ TODO check
-//            setColorFilter(0xFF_FFFFFF.toInt())
-//        }
-    }
 
     fun setDefaultColor(){
         setColorFilter(getDefaultColor())
@@ -46,7 +39,7 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int{
         return when {
-            context.isPortrait && AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
             AppTheme.isFullscreenTheme() || isDarkMode -> Color.WHITE
             else -> context.textColorTertiary()
         }

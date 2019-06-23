@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.core.MediaId
+import dev.olog.media.MediaProvider
 import dev.olog.msc.R
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
+import dev.olog.msc.utils.k.extension.removeLightStatusBar
+import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.media.MediaProvider
-import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.viewModelProvider
-import dev.olog.shared.widgets.ShapeImageView
-import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.*
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.widgets.ShapeImageView
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
@@ -122,10 +122,6 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
                     if (copy.isEmpty()){
                         act.onBackPressed()
                     } else {
-                        if (ctx.isLandscape){
-                            // header in list is not used in landscape
-                            copy[DetailFragmentDataType.HEADER]!!.clear()
-                        }
                         adapter.updateDataSet(copy)
                     }
                 }
@@ -134,7 +130,7 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
             if (item.isNotEmpty()){
                 headerText.text = item[0].title
                 val cover = view.findViewById<View>(R.id.cover)
-                if (!isPortrait() && cover is ShapeImageView){
+                if (cover is ShapeImageView){
                     BindingsAdapter.loadBigAlbumImage(cover, item[0])
                 }
             }
@@ -152,9 +148,7 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
     override fun onResume() {
         super.onResume()
-        if (ctx.isPortrait){
-            list.addOnScrollListener(recyclerOnScrollListener)
-        }
+        list.addOnScrollListener(recyclerOnScrollListener)
         back.setOnClickListener { act.onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
         filter.setOnClickListener {
@@ -165,10 +159,7 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
     override fun onPause() {
         super.onPause()
-        if (ctx.isPortrait){
-            list.removeOnScrollListener(recyclerOnScrollListener)
-//            list.removeItemDecoration(detailListMargin)
-        }
+        list.removeOnScrollListener(recyclerOnScrollListener)
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)

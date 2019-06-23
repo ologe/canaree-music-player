@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.related.artists
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.shared.lazyFast
@@ -39,7 +40,7 @@ class RelatedArtistFragment: BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context!!, if (isPortrait()) 2 else 3)
+        view.list.layoutManager = GridLayoutManager(context!!, 2)
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
 

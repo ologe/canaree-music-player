@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.Window
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.shared.colorSurface
 import dev.olog.shared.isDarkMode
 import dev.olog.shared.isMarshmallow
 import dev.olog.shared.isOreo
@@ -24,7 +25,7 @@ fun Window.setLightStatusBar(){
 
         if (isOreo()){
             flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            navigationBarColor = Color.WHITE
+            navigationBarColor = context.colorSurface()
         }
     }
     decorView.systemUiVisibility = flags

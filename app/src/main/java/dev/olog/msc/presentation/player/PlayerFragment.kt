@@ -16,22 +16,22 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.extractBookmark
 import dev.olog.media.isPlaying
 import dev.olog.msc.R
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.msc.utils.k.extension.isCollapsed
-import dev.olog.shared.extensions.map
-import dev.olog.shared.extensions.subscribe
 import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.shared.extensions.distinctUntilChanged
+import dev.olog.shared.extensions.map
+import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.unsubscribe
+import dev.olog.shared.viewModelProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -81,7 +81,7 @@ class PlayerFragment : BaseFragment() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPortrait() && AppTheme.isBigImageTheme()) {
+        if (AppTheme.isBigImageTheme()) {
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)

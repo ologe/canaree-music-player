@@ -12,7 +12,6 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.shared.lazyFast
 import dev.olog.shared.getAnimatedVectorDrawable
-import dev.olog.shared.isPortrait
 import dev.olog.shared.colorAccent
 import dev.olog.shared.isDarkMode
 import dev.olog.shared.textColorSecondary
@@ -79,7 +78,7 @@ class ShuffleButton @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int {
         return when {
-            context.isPortrait && AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
             AppTheme.isFullscreenTheme() -> Color.WHITE
             isDarkMode -> {
                 alpha = .7f

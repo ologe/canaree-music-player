@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import dagger.android.support.DaggerFragment
-import dev.olog.shared.isPortrait
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import kotlinx.coroutines.CoroutineScope
@@ -29,10 +28,6 @@ abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
 
     fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
         return (activity as HasSlidingPanel).getSlidingPanel()
-    }
-
-    protected fun isPortrait() : Boolean {
-        return context != null && context!!.isPortrait
     }
 
 }

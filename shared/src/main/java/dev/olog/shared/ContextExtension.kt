@@ -4,7 +4,6 @@ package dev.olog.shared
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.TypedValue
@@ -12,12 +11,6 @@ import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-
-val Context.isPortrait: Boolean
-    get() = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-
-val Context.isLandscape: Boolean
-    get() = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!
@@ -62,8 +55,4 @@ fun Context.vibrate(time: Long){
     } else {
         vibrator.vibrate(time)
     }
-}
-
-fun Context.isOneHanded(): Boolean {
-    return isPortrait && configuration.smallestScreenWidthDp < 600
 }

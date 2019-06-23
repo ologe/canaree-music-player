@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dev.olog.msc.R
-import dev.olog.shared.dip
-import dev.olog.shared.isLandscape
 import dev.olog.shared.colorScrim
 
 class DimBottomSheetDialog(context: Context, theme: Int)
@@ -16,10 +14,6 @@ class DimBottomSheetDialog(context: Context, theme: Int)
         val scrimColor = context.colorScrim()
         window?.findViewById<View>(R.id.container)?.setBackgroundColor(scrimColor)
         window?.findViewById<View>(R.id.design_bottom_sheet)?.background = null
-
-        if (context.isLandscape){
-            behavior.peekHeight = context.dip(300)
-        }
     }
 
 }

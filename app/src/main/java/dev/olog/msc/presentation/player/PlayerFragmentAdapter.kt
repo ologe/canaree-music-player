@@ -34,7 +34,6 @@ import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.map
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.isPortrait
 import dev.olog.shared.toggleVisibility
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
