@@ -17,8 +17,6 @@
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
         <item name="colorScrim">@color/colorScrim</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
 
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
 
@@ -46,7 +44,8 @@
         <item name="cleanSeekBarBackgroundColor">#dbdee5</item>
     </style>
 
-    <style name="AppTheme" parent="BaseTheme"/>
+    <style name="AppTheme" parent="BaseTheme">
+    </style>
 
 <!--    tab layout-->
     <style name="MaterialTabLayout" parent="Widget.MaterialComponents.TabLayout">

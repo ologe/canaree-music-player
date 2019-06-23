@@ -338,7 +338,7 @@ class PlayerFragmentAdapter (
                     openPlaybackSpeedPopup(playbackSpeed)
                 }, Throwable::printStackTrace)
 
-        if (view.context.isPortrait || AppTheme.isFullscreenTheme() || AppTheme.isMiniTheme()){
+        if (AppTheme.isFullscreenTheme() || AppTheme.isMiniTheme()){
 
             mediaProvider.observePlaybackState()
                     .map { it.state }

@@ -1,13 +1,9 @@
 package dev.olog.msc.utils.k.extension
 
-import android.graphics.Color
 import android.view.View
 import android.view.Window
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.colorSurface
-import dev.olog.shared.isDarkMode
-import dev.olog.shared.isMarshmallow
-import dev.olog.shared.isOreo
+import dev.olog.shared.*
 
 fun Window.setLightStatusBar(){
     decorView.systemUiVisibility = 0
@@ -24,15 +20,16 @@ fun Window.setLightStatusBar(){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         if (isOreo()){
-            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             navigationBarColor = context.colorSurface()
+            if (!context.isDarkMode()){
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            }
         }
     }
     decorView.systemUiVisibility = flags
 }
 
 fun Window.removeLightStatusBar(){
-
     decorView.systemUiVisibility = 0
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
@@ -43,9 +40,13 @@ fun Window.removeLightStatusBar(){
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 
-    if (isOreo() && !context.isDarkMode()){
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        navigationBarColor = Color.WHITE
+    if (isMarshmallow() && !context.isDarkMode()){
+        if (isOreo()){
+            navigationBarColor = context.colorSurface()
+            if (!context.isDarkMode()){
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            }
+        }
     }
     decorView.systemUiVisibility = flags
 }

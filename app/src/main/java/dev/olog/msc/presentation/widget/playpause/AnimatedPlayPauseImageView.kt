@@ -3,29 +3,27 @@ package dev.olog.msc.presentation.widget.playpause
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.shared.isDarkMode
 import dev.olog.shared.lazyFast
 import dev.olog.shared.textColorTertiary
 
-@Keep
-class AnimatedPlayPauseImageView @JvmOverloads constructor(
+class AnimatedPlayPauseImageView(
         context: Context,
-        attrs: AttributeSet? = null
+        attrs: AttributeSet
 
-) : AppCompatImageButton(context, attrs, 0), IPlayPauseBehavior {
+) : AppCompatImageButton(context, attrs), IPlayPauseBehavior {
 
     private val behavior = PlayPauseBehaviorImpl(this)
 
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
-    fun setDefaultColor(){
+    fun setDefaultColor() {
         setColorFilter(getDefaultColor())
     }
 
-    fun useLightImage(){
+    fun useLightImage() {
         setColorFilter(0xFF_F5F5F5.toInt())
     }
 
@@ -37,7 +35,7 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
         behavior.animationPause(animate)
     }
 
-    private fun getDefaultColor(): Int{
+    private fun getDefaultColor(): Int {
         return when {
             AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
             AppTheme.isFullscreenTheme() || isDarkMode -> Color.WHITE
