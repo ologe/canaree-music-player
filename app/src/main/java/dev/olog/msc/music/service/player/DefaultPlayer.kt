@@ -19,7 +19,7 @@ import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.shared.clamp
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 
 abstract class DefaultPlayer<T>(
         private val context: Context,

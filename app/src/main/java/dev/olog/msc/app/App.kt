@@ -9,7 +9,7 @@ import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway

@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.main.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.scope.PerActivity
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
 import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
@@ -17,7 +17,7 @@ import dev.olog.msc.presentation.edit.album.di.EditAlbumFragmentInjector
 import dev.olog.msc.presentation.edit.artist.di.EditArtistFragmentInjector
 import dev.olog.msc.presentation.edit.track.di.EditTrackFragmentInjector
 import dev.olog.msc.presentation.library.folder.tree.di.FolderTreeFragmentModule
-import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
+import dev.olog.presentation.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.player.di.PlayerFragmentModule
 import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector

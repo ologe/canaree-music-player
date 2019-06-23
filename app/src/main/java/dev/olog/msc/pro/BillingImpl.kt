@@ -7,7 +7,7 @@ import com.android.billingclient.api.*
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.gateway.prefs.*
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

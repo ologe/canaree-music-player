@@ -8,22 +8,24 @@ import android.widget.TextView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.media.getArtist
+import dev.olog.media.getTitle
+import dev.olog.media.isPlaying
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
-import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
+import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
+import dev.olog.msc.floating.window.service.music.service.MusicGlueService
 import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
-import dev.olog.msc.utils.k.extension.isPlaying
+import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.addTo
 import java.util.concurrent.TimeUnit
 
 class LyricsContent (
         lifecycle: Lifecycle,
         context: Context,
-        private val musicServiceBinder: MusicServiceBinder
+        private val musicServiceBinder: MusicGlueService
 
 ) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player), DefaultLifecycleObserver {
 
@@ -40,36 +42,31 @@ class LyricsContent (
         lifecycle.addObserver(this)
         playPause.setOnClickListener { musicServiceBinder.playPause() }
 
-        musicServiceBinder.onStateChanged()
-                .subscribe({
+        musicServiceBinder.observePlaybackState()
+                .subscribe(this) {
                     handleSeekBarState(it.isPlaying(), it.playbackSpeed)
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+                }
 
         musicServiceBinder.animatePlayPauseLiveData
-                .subscribe({
+                .subscribe(this) {
                     if (it == PlaybackStateCompat.STATE_PLAYING) {
                         playPauseBehavior.animationPlay(true)
                     } else if (it == PlaybackStateCompat.STATE_PAUSED) {
                         playPauseBehavior.animationPause(true)
                     }
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+                }
 
-        musicServiceBinder.onMetadataChanged
-                .subscribe({
-                    title.text = it.title
-                    artist.text = it.artist
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+        musicServiceBinder.observeMetadata()
+                .subscribe(this) {
+                    title.text = it.getTitle()
+                    artist.text = it.getArtist()
+                }
 
         musicServiceBinder.onBookmarkChangedLiveData
-                .subscribe(this::updateProgressBarProgress, Throwable::printStackTrace)
-                .addTo(subscriptions)
+                .subscribe(this, this::updateProgressBarProgress)
 
         musicServiceBinder.onMaxChangedLiveData
-                .subscribe(this::updateProgressBarMax, Throwable::printStackTrace)
-                .addTo(subscriptions)
+                .subscribe(this, this::updateProgressBarMax)
 
         setupSeekBar()
     }

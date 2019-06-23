@@ -12,9 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.analytics.FirebaseAnalytics
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
@@ -24,8 +24,6 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
-import dev.olog.msc.presentation.library.categories.CategoriesFragment
-import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
@@ -34,6 +32,9 @@ import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
+import dev.olog.shared.dimen
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

@@ -7,7 +7,7 @@ import dev.olog.msc.api.last.fm.artist.info.ArtistInfo
 import dev.olog.msc.api.last.fm.artist.search.ArtistSearch
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import io.reactivex.Single
 import java.net.URLEncoder
 import javax.inject.Inject

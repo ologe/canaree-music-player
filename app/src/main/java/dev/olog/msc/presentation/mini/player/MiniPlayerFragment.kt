@@ -7,21 +7,20 @@ import android.view.View
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding2.view.RxView
+import dev.olog.media.*
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.extensions.*
 import dev.olog.shared.toggleVisibility
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.android.synthetic.main.fragment_mini_player.view.*
-import kotlinx.android.synthetic.main.item_tab_shuffle.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -50,9 +49,7 @@ class MiniPlayerFragment : BaseFragment(){
         view.coverWrapper.toggleVisibility(AppTheme.isMiniTheme(), true)
         view.title.isSelected = true
 
-        media.onMetadataChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .asLiveData()
+        media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.getTitle()
                     presenter.startShowingLeftTime(it.isPodcast(), it.getDuration())
@@ -63,29 +60,27 @@ class MiniPlayerFragment : BaseFragment(){
                     updateImage(it)
                 }
 
-        presenter.observeProgress
-                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { view.artist.text != text }
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) {
-                    artist.text = it
-                }
+//        presenter.observeProgress
+//                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+//                .filter { view.artist.text != text } TODO what is 'text'?
+//                .asLiveData()
+//                .subscribe(viewLifecycleOwner) {
+//                    artist.text = it
+//                }
 
-        media.onStateChanged()
+        media.observePlaybackState()
                 .filter { it.isPlaying()|| it.isPaused() }
                 .distinctUntilChanged()
-                .asLiveData()
                 .subscribe(viewLifecycleOwner) {
                     updateProgressBarProgress(it.position)
                     handleProgressBar(it.isPlaying(), it.playbackSpeed)
                 }
 
-        media.onStateChanged()
+        media.observePlaybackState()
                 .map { it.state }
                 .filter { it == PlaybackStateCompat.STATE_PLAYING ||
                         it == PlaybackStateCompat.STATE_PAUSED
                 }.distinctUntilChanged()
-                .asLiveData()
                 .subscribe(viewLifecycleOwner) { state ->
 
                     if (state == PlaybackStateCompat.STATE_PLAYING){
@@ -95,12 +90,11 @@ class MiniPlayerFragment : BaseFragment(){
                     }
                 }
 
-        media.onStateChanged()
+        media.observePlaybackState()
                 .map { it.state }
                 .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
                         state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
                 .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-                .asLiveData()
                 .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
         RxView.clicks(view.next)

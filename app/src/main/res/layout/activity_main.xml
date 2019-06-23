@@ -55,7 +55,7 @@
         android:orientation="vertical"
         android:elevation="8dp">
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="16dp"

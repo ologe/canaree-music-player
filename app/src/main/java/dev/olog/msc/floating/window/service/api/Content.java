@@ -16,13 +16,23 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.view.View;
-
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
+
 
 /**
  * Content to be displayed in a {@link HoverView}.
  */
-public interface Content {
+public abstract class Content implements LifecycleOwner {
+
+    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+
+    public Content() {
+        lifecycleRegistry.setCurrentState(Lifecycle.State.INITIALIZED);
+    }
 
     /**
      * Returns the visual display of this content.
@@ -30,24 +40,36 @@ public interface Content {
      * @return the visual representation of this content
      */
     @NonNull
-    View getView();
+    public abstract View getView();
 
     /**
      * @return true to fill all available space, false to wrap content height
      */
-    boolean isFullscreen();
+    public abstract boolean isFullscreen();
 
     /**
      * Called when this content is displayed to the user.
      */
-    void onShown();
+    @CallSuper
+    public void onShown() {
+        lifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+    }
 
     /**
      * Called when this content is no longer displayed to the user.
-     *
+     * <p>
      * Implementation Note: {@code Content} can be brought back due to user navigation so
      * this call must not release resources that are required to show this content again.
      */
-    void onHidden();
+    @CallSuper
+    public void onHidden() {
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+    }
 
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return lifecycleRegistry;
+    }
 }

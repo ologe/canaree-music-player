@@ -13,7 +13,7 @@ import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
 import dev.olog.shared.clamp
-import dev.olog.msc.utils.k.extension.dpToPx
+import dev.olog.shared.dpToPx
 import dev.olog.shared.indexOfClosest
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observable

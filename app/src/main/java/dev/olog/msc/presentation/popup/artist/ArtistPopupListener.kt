@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.media.MediaProvider
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener

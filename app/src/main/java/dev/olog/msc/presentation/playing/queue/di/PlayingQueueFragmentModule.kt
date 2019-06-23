@@ -6,8 +6,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.ViewModelKey
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModel
 

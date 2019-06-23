@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+apply from: '../base_module.gradle'
+
+dependencies {
+    implementation project(':core')
+    implementation project(':shared')
+
+    implementation lib_core.coroutines
+    implementation lib_x.media
+    implementation lib_x.lifecycle_livedata
+}

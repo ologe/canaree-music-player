@@ -24,47 +24,44 @@ class CustomBottomNavigator(
         super.onAttachedToWindow()
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
+            val libraryPage = presentationPrefs.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigate(navigationPage)
+            navigator.navigate(context as FragmentActivity, navigationPage, libraryPage)
             true
         }
-        setOnNavigationItemReselectedListener {  }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnNavigationItemSelectedListener(null)
-        setOnNavigationItemReselectedListener(null)
     }
 
     fun navigate(page: BottomNavigationPage) {
         selectedItemId = page.toMenuId()
-        navigator.navigate(context as FragmentActivity, page)
     }
 
     fun navigateToLastPage(){
-        val bottomNavigationPage = presentationPrefs.getLastBottomViewPage()
-        val navigateTo = bottomNavigationPage.toMenuId()
-        selectedItemId = navigateTo
-        navigate(navigateTo.toBottomNavigationPage())
+        val navigationPage = presentationPrefs.getLastBottomViewPage()
+        val libraryPage = presentationPrefs.getLastLibraryPage()
+        navigator.navigate(context as FragmentActivity, navigationPage, libraryPage)
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
+
         launch(Dispatchers.Default) { presentationPrefs.setLastBottomViewPage(page) }
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this){
-        R.id.navigation_songs -> BottomNavigationPage.SONGS
+        R.id.navigation_library -> BottomNavigationPage.LIBRARY
         R.id.navigation_search -> BottomNavigationPage.SEARCH
         R.id.navigation_queue -> BottomNavigationPage.QUEUE
         else -> throw IllegalArgumentException("invalid menu id")
     }
 
     private fun BottomNavigationPage.toMenuId(): Int = when (this){
-        BottomNavigationPage.SONGS -> R.id.navigation_songs
+        BottomNavigationPage.LIBRARY -> R.id.navigation_library
         BottomNavigationPage.SEARCH -> R.id.navigation_search
         BottomNavigationPage.QUEUE -> R.id.navigation_queue
-        BottomNavigationPage.PODCASTS -> throw IllegalArgumentException("podcast has not a id")
     }
 
 }

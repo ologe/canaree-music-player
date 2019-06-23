@@ -11,7 +11,7 @@ import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilde
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(

@@ -8,7 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.openPlayStore
 import dev.olog.shared.unsubscribe

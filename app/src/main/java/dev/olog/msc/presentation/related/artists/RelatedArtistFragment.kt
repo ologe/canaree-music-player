@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.viewModelProvider
+import dev.olog.presentation.base.BaseFragment
+import dev.olog.shared.lazyFast
+import dev.olog.shared.viewModelProvider
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.shared.act
+import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.withArguments
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
@@ -32,7 +32,11 @@ class RelatedArtistFragment: BaseFragment() {
     @Inject lateinit var adapter: RelatedArtistFragmentAdapter
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast { viewModelProvider<RelatedArtistFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<RelatedArtistFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context!!, if (isPortrait()) 2 else 3)

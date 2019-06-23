@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.related.artists
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
@@ -11,8 +11,6 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
 import javax.inject.Inject
 
 class RelatedArtistFragmentAdapter @Inject constructor(

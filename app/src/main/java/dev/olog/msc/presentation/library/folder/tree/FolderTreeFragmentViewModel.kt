@@ -18,6 +18,8 @@ import dev.olog.core.MediaId
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
+import dev.olog.presentation.model.DisplayableFile
+import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.mapToList
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
@@ -174,25 +176,41 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     private val backDisplableItem: List<DisplayableFile> = listOf(
-            DisplayableFile(R.layout.item_folder_tree_directory, BACK_HEADER_ID, "...", null, null)
+        DisplayableFile(
+            R.layout.item_folder_tree_directory,
+            BACK_HEADER_ID,
+            "...",
+            null,
+            null
+        )
     )
 
     private val foldersHeader = DisplayableFile(
-            R.layout.item_folder_tree_header, MediaId.headerId("folder header"), context.getString(R.string.common_folders), null, null)
+        R.layout.item_folder_tree_header,
+        MediaId.headerId("folder header"),
+        context.getString(R.string.common_folders),
+        null,
+        null
+    )
 
     private val tracksHeader = DisplayableFile(
-            R.layout.item_folder_tree_header, MediaId.headerId("track header"), context.getString(R.string.common_tracks), null, null)
+        R.layout.item_folder_tree_header,
+        MediaId.headerId("track header"),
+        context.getString(R.string.common_tracks),
+        null,
+        null
+    )
 
     private fun File.toDisplayableItem(): DisplayableFile {
         val isDirectory = this.isDirectory
         val id = if (isDirectory) R.layout.item_folder_tree_directory else R.layout.item_folder_tree_track
 
         return DisplayableFile(
-                type = id,
-                mediaId = MediaId.folderId(this.path),
-                title = this.name,
-                subtitle = null,
-                path =  this.path
+            type = id,
+            mediaId = MediaId.folderId(this.path),
+            title = this.name,
+            subtitle = null,
+            path = this.path
         )
     }
 }

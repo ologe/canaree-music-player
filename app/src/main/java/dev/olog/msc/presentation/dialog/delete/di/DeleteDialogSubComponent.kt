@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.dialog.delete.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.scope.PerFragment
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
 
 @Subcomponent(modules = arrayOf(

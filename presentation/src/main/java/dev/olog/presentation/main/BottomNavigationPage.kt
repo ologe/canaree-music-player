@@ -1,8 +1,12 @@
 package dev.olog.presentation.main
 
 enum class BottomNavigationPage {
-    SONGS,
-    PODCASTS,
+    LIBRARY,
     SEARCH,
     QUEUE
+}
+
+enum class LibraryPage {
+    TRACKS,
+    PODCASTS
 }

@@ -3,7 +3,7 @@ package dev.olog.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
@@ -103,84 +103,84 @@ class AppSortingImpl @Inject constructor(
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARRANGING, newArranging.ordinal) } }
     }
 
-    override fun getAllTracksSortOrder(): LibrarySortType {
+    override fun getAllTracksSortOrder(): SortEntity {
         val sort = preferences.getInt(ALL_SONGS_SORT_ORDER, SortType.TITLE.ordinal)
         val arranging = preferences.getInt(ALL_SONGS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return LibrarySortType(
+        return SortEntity(
             SortType.values()[sort],
             SortArranging.values()[arranging]
         )
     }
 
-    override fun getAllAlbumsSortOrder(): LibrarySortType {
+    override fun getAllAlbumsSortOrder(): SortEntity {
         val sort = preferences.getInt(ALL_ALBUMS_SORT_ORDER, SortType.TITLE.ordinal)
         val arranging = preferences.getInt(ALL_ALBUMS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return LibrarySortType(
+        return SortEntity(
             SortType.values()[sort],
             SortArranging.values()[arranging]
         )
     }
 
-    override fun getAllArtistsSortOrder(): LibrarySortType {
+    override fun getAllArtistsSortOrder(): SortEntity {
         val sort = preferences.getInt(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal)
         val arranging = preferences.getInt(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
-        return LibrarySortType(
+        return SortEntity(
             SortType.values()[sort],
             SortArranging.values()[arranging]
         )
     }
 
-    override fun observeAllTracksSortOrder(): Observable<LibrarySortType> {
+    override fun observeAllTracksSortOrder(): Observable<SortEntity> {
         return Observables.combineLatest(
                 rxPreferences.getInteger(ALL_SONGS_SORT_ORDER, SortType.TITLE.ordinal).asObservable(),
                 rxPreferences.getInteger(ALL_SONGS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal).asObservable() //ascending default
         ) { sort, arranging ->
-            LibrarySortType(
+            SortEntity(
                 SortType.values()[sort],
                 SortArranging.values()[arranging]
             )
         }
     }
 
-    override fun observeAllAlbumsSortOrder(): Observable<LibrarySortType> {
+    override fun observeAllAlbumsSortOrder(): Observable<SortEntity> {
         return Observables.combineLatest(
                 rxPreferences.getInteger(ALL_ALBUMS_SORT_ORDER, SortType.TITLE.ordinal).asObservable(),
                 rxPreferences.getInteger(ALL_ALBUMS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal).asObservable() //ascending default
         ) { sort, arranging ->
-            LibrarySortType(
+            SortEntity(
                 SortType.values()[sort],
                 SortArranging.values()[arranging]
             )
         }
     }
 
-    override fun observeAllArtistsSortOrder(): Observable<LibrarySortType> {
+    override fun observeAllArtistsSortOrder(): Observable<SortEntity> {
         return Observables.combineLatest(
                 rxPreferences.getInteger(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal).asObservable(),
                 rxPreferences.getInteger(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal).asObservable() //ascending default
         ) { sort, arranging ->
-            LibrarySortType(
+            SortEntity(
                 SortType.values()[sort],
                 SortArranging.values()[arranging]
             )
         }
     }
 
-    override fun setAllTracksSortOrder(sortType: LibrarySortType) {
+    override fun setAllTracksSortOrder(sortType: SortEntity) {
         preferences.edit {
             putInt(ALL_SONGS_SORT_ORDER, sortType.type.ordinal)
             putInt(ALL_SONGS_SORT_ARRANGING, sortType.arranging.ordinal)
         }
     }
 
-    override fun setAllAlbumsSortOrder(sortType: LibrarySortType) {
+    override fun setAllAlbumsSortOrder(sortType: SortEntity) {
         preferences.edit {
             putInt(ALL_ALBUMS_SORT_ORDER, sortType.type.ordinal)
             putInt(ALL_ALBUMS_SORT_ARRANGING, sortType.arranging.ordinal)
         }
     }
 
-    override fun setAllArtistsSortOrder(sortType: LibrarySortType) {
+    override fun setAllArtistsSortOrder(sortType: SortEntity) {
         preferences.edit {
             putInt(ALL_ARTISTS_SORT_ORDER, sortType.type.ordinal)
             putInt(ALL_ARTISTS_SORT_ARRANGING, sortType.arranging.ordinal)

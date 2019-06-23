@@ -214,7 +214,7 @@
             android:focusable="true"
             tools:visibility="invisible" />
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

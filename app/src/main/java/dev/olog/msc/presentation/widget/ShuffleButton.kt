@@ -10,9 +10,9 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
-import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.shared.lazyFast
+import dev.olog.shared.getAnimatedVectorDrawable
+import dev.olog.shared.isPortrait
 import dev.olog.shared.colorAccent
 import dev.olog.shared.isDarkMode
 import dev.olog.shared.textColorSecondary

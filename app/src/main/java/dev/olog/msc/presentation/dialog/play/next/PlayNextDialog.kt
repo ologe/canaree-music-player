@@ -7,7 +7,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialog
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.shared.withArguments
 import io.reactivex.Completable
 import javax.inject.Inject
 

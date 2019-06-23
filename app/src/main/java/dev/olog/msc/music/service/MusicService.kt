@@ -13,7 +13,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
 import dev.olog.msc.FileProvider
 import dev.olog.msc.catchNothing
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
 import dev.olog.msc.music.service.helper.MediaIdHelper
@@ -26,7 +26,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo

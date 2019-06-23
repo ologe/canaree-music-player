@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.offline.lyrics
 
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase

@@ -11,22 +11,26 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
-import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.core.PlaylistConstants
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.media.MediaProvider
+import dev.olog.media.extractBookmark
+import dev.olog.media.isPlaying
+import dev.olog.msc.R
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.viewModelProvider
+import dev.olog.shared.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.extensions.distinctUntilChanged
+import dev.olog.msc.utils.k.extension.isCollapsed
+import dev.olog.shared.extensions.map
+import dev.olog.shared.extensions.subscribe
+import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.isMarshmallow
-import dev.olog.shared.mapToList
+import dev.olog.shared.lazyFast
 import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -43,22 +47,27 @@ import kotlin.math.abs
 
 class PlayerFragment : BaseFragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast { viewModelProvider<PlayerFragmentViewModel>(viewModelFactory) }
-    @Inject lateinit var presenter: PlayerFragmentPresenter
-    @Inject lateinit var navigator: Navigator
+    @Inject
+    lateinit var presenter: PlayerFragmentPresenter
+    @Inject
+    lateinit var navigator: Navigator
 
-    private lateinit var layoutManager : LinearLayoutManager
+    private lateinit var layoutManager: LinearLayoutManager
 
-    private lateinit var mediaProvider : MediaProvider
+    private lateinit var mediaProvider: MediaProvider
 
-    private var seekBarDisposable : Disposable? = null
+    private var seekBarDisposable: Disposable? = null
 
     private var lyricsDisposable: Disposable? = null
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        val adapter = PlayerFragmentAdapter(lifecycle, activity as MediaProvider,
-                navigator, viewModel, presenter)
+        val adapter = PlayerFragmentAdapter(
+            lifecycle, activity as MediaProvider,
+            navigator, viewModel, presenter
+        )
 
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -72,7 +81,7 @@ class PlayerFragment : BaseFragment() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPortrait() && AppTheme.isBigImageTheme()){
+        if (isPortrait() && AppTheme.isBigImageTheme()) {
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -81,34 +90,31 @@ class PlayerFragment : BaseFragment() {
 
         mediaProvider = (activity as MediaProvider)
 
-        mediaProvider.onQueueChanged()
-                .distinctUntilChanged()
-                .mapToList { it.toDisplayableItem() }
-                .map { queue ->
-                    if (!AppTheme.isMiniTheme()){
-                        val copy = queue.toMutableList()
-                        if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                            copy.add(viewModel.footerLoadMore)
-                        }
-                        copy.add(0, viewModel.playerControls())
-                        copy
-                    } else {
-                        listOf(viewModel.playerControls())
+        mediaProvider.observeQueue()
+            .distinctUntilChanged()
+            .map { it.map { it.toDisplayableItem() } }
+            .map { queue ->
+                if (!AppTheme.isMiniTheme()) {
+                    val copy = queue.toMutableList()
+                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1) {
+                        copy.add(viewModel.footerLoadMore)
                     }
+                    copy.add(0, viewModel.playerControls())
+                    copy
+                } else {
+                    listOf(viewModel.playerControls())
                 }
-                .asLiveData()
-                .subscribe(viewLifecycleOwner, viewModel::updateQueue)
+            }.subscribe(viewLifecycleOwner, viewModel::updateQueue)
 
         viewModel.observeMiniQueue()
-                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
-        mediaProvider.onStateChanged()
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) {
-                    val bookmark = it.extractBookmark()
-                    viewModel.updateProgress(bookmark)
-                    handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
-                }
+        mediaProvider.observePlaybackState()
+            .subscribe(viewLifecycleOwner) {
+                val bookmark = it.extractBookmark()
+                viewModel.updateProgress(bookmark)
+                handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
+            }
 
     }
 
@@ -122,11 +128,12 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
-    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float){
+    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float) {
         seekBarDisposable.unsubscribe()
 
-        if (isPlaying){
-            seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
+        if (isPlaying) {
+            seekBarDisposable =
+                Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
                     .map { (it + 1) * PROGRESS_BAR_INTERVAL * speed + bookmark }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
@@ -208,7 +215,7 @@ class PlayerFragment : BaseFragment() {
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if (newState == BottomSheetBehavior.STATE_EXPANDED){
+            if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                 lyricsDisposable.unsubscribe()
                 lyricsDisposable = Completable.timer(50, TimeUnit.MILLISECONDS, Schedulers.io())
                     .andThen(viewModel.showLyricsTutorialIfNeverShown())

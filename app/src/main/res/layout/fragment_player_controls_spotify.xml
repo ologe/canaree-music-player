@@ -179,7 +179,7 @@
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
             app:layout_constraintTop_toBottomOf="@+id/playerControls"
             app:layout_constraintStart_toStartOf="parent"

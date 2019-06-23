@@ -5,16 +5,14 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.shared.debounceFirst
 import dev.olog.msc.utils.safeCompare
-import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import javax.inject.Inject
 

@@ -10,7 +10,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
@@ -83,7 +83,7 @@ class MainPopupDialog @Inject constructor(
         popup.show()
     }
 
-    private fun initializeTracksSort(menu: Menu): LibrarySortType {
+    private fun initializeTracksSort(menu: Menu): SortEntity {
         val sort = gateway.getAllTracksSortOrder()
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
@@ -100,7 +100,7 @@ class MainPopupDialog @Inject constructor(
         return sort
     }
 
-    private fun initializeAlbumSort(menu: Menu): LibrarySortType {
+    private fun initializeAlbumSort(menu: Menu): SortEntity {
         val sort = gateway.getAllAlbumsSortOrder()
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
@@ -114,7 +114,7 @@ class MainPopupDialog @Inject constructor(
         return sort
     }
 
-    private fun initializeArtistSort(menu: Menu): LibrarySortType {
+    private fun initializeArtistSort(menu: Menu): SortEntity {
         val sort = gateway.getAllArtistsSortOrder()
         val item = when (sort.type){
             SortType.ARTIST -> R.id.by_artist
@@ -128,7 +128,7 @@ class MainPopupDialog @Inject constructor(
         return sort
     }
 
-    private fun handleAllSongsSorting(menuItem: MenuItem, sort: LibrarySortType){
+    private fun handleAllSongsSorting(menuItem: MenuItem, sort: SortEntity){
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging){
@@ -150,7 +150,7 @@ class MainPopupDialog @Inject constructor(
         gateway.setAllTracksSortOrder(model)
     }
 
-    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: LibrarySortType){
+    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity){
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging){
@@ -169,7 +169,7 @@ class MainPopupDialog @Inject constructor(
         gateway.setAllAlbumsSortOrder(model)
     }
 
-    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: LibrarySortType){
+    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity){
         var model = sort
 
         model = if (menuItem.itemId == R.id.arranging){

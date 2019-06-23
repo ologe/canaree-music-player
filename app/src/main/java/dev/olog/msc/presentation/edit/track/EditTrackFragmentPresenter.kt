@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.edit.track
 
 import com.github.dmstocking.optional.java.util.Optional
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.track.Song

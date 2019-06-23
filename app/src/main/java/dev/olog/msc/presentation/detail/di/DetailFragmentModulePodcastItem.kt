@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
+import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.core.entity.podcast.PodcastAlbum
 import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.entity.podcast.PodcastPlaylist

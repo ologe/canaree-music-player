@@ -1,6 +1,6 @@
 package dev.olog.msc.utils
 
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import java.text.Collator
 
 fun Collator.safeCompare(source: String, target: String): Int {

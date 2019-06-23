@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.ViewModelKey
+import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.msc.presentation.player.PlayerFragment
 import dev.olog.msc.presentation.player.PlayerFragmentViewModel
 

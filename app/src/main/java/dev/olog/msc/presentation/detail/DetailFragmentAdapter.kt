@@ -10,7 +10,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.media.MediaProvider
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.presentation.model.DisplayableItem

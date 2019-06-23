@@ -7,15 +7,16 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.getArgument
+import dev.olog.shared.lazyFast
+import dev.olog.shared.act
+import dev.olog.shared.getArgument
 import dev.olog.shared.unsubscribe
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.shared.withArguments
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.main.BottomNavigationPage
+import dev.olog.presentation.main.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.textColorPrimary
 import dev.olog.shared.textColorSecondary
@@ -51,7 +52,7 @@ class CategoriesFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         CategoriesAdapter(
-                act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
         )
     }
 
@@ -82,8 +83,8 @@ class CategoriesFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ TutorialTapTarget.floatingWindow(floatingWindow) }, {})
 
-        tracks.setOnClickListener { navigate(BottomNavigationPage.SONGS) }
-        podcasts.setOnClickListener { navigate(BottomNavigationPage.PODCASTS) }
+        tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
+        podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
     }
 
     override fun onPause() {
@@ -94,6 +95,11 @@ class CategoriesFragment : BaseFragment() {
         floatingWindowTutorialDisposable.unsubscribe()
         tracks.setOnClickListener(null)
         podcasts.setOnClickListener(null)
+    }
+
+    private fun changeLibraryPage(page: LibraryPage){
+        presenter.setLibraryPage(page)
+        (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
     private fun createMediaId(): MediaIdCategory? {
@@ -111,10 +117,6 @@ class CategoriesFragment : BaseFragment() {
         override fun onPageSelected(position: Int) {
             presenter.setViewPagerLastPage(position, isPodcast)
         }
-    }
-
-    private fun navigate(page: BottomNavigationPage) {
-        (requireActivity() as HasBottomNavigation).navigate(page)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_library_categories

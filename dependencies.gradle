@@ -15,7 +15,7 @@ ext {
     android_x_annotations = '1.1.0'
     android_x_paging = '2.1.0'
 
-//    lifecycle = '2.1.0-beta01'
+    lifecycle = '2.1.0-beta01'
 //    glide = '4.9.0'ù
 //    constraint_layout = '1.1.3'
 //

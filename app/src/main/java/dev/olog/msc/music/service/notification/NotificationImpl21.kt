@@ -16,8 +16,8 @@ import androidx.core.content.ContextCompat
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.presentation.AppConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.k.extension.asActivityPendingIntent

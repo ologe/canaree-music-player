@@ -2,7 +2,7 @@ package dev.olog.msc.music.service
 
 import android.net.Uri
 import android.os.Bundle
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.media.MusicConstants
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.domain.gateway.GenreGateway

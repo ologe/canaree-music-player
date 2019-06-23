@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.presentation.AppConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity

@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.debug
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.configuration
+import dev.olog.shared.configuration
 import kotlinx.android.synthetic.main.activity_debug_configuration.*
 
 class DebugConfigurationActivity: AppCompatActivity() {

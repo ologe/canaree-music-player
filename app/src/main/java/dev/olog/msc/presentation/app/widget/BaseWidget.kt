@@ -9,8 +9,8 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.presentation.AppConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.MusicService

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="dev.olog.msc.presentation.library.folder.tree.DisplayableFile"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableFile"/>
     </data>
 
     <FrameLayout
@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <dev.olog.msc.presentation.widget.DottedSeparator
+            <dev.olog.shared.widgets.DottedSeparator
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

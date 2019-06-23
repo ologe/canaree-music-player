@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.scope.PerActivity
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.navigator.NavigatorAbout
 import dev.olog.msc.presentation.navigator.NavigatorAboutImpl

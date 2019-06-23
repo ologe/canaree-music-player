@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="dev.olog.msc.presentation.library.folder.tree.DisplayableFile"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableFile"/>
     </data>
 
     <FrameLayout

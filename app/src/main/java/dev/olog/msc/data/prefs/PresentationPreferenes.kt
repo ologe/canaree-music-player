@@ -10,6 +10,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.presentation.main.BottomNavigationPage
+import dev.olog.presentation.main.LibraryPage
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -28,6 +29,7 @@ internal class PresentationPreferenes @Inject constructor(
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
         private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
         private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_2"
+        private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
 
         private const val CATEGORY_FOLDER_ORDER = "$TAG.CATEGORY_FOLDER_ORDER"
         private const val CATEGORY_PLAYLIST_ORDER = "$TAG.CATEGORY_PLAYLIST_ORDER"
@@ -81,12 +83,23 @@ internal class PresentationPreferenes @Inject constructor(
     }
 
     override fun getLastBottomViewPage(): BottomNavigationPage {
-        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.SONGS.toString())!!
+        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
         return BottomNavigationPage.valueOf(page)
     }
 
     override fun setLastBottomViewPage(page: BottomNavigationPage) {
         preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
+    }
+
+    override fun getLastLibraryPage(): LibraryPage {
+        val page = preferences.getString(LIBRARY_LAST_PAGE, LibraryPage.TRACKS.toString())!!
+        return LibraryPage.valueOf(page)
+    }
+
+    override fun setLibraryPage(page: LibraryPage) {
+        preferences.edit {
+            putString(LIBRARY_LAST_PAGE, page.toString())
+        }
     }
 
     override fun observeVisibleTabs(): Observable<BooleanArray> {

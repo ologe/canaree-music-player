@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.ViewModelKey
+import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragmentViewModel
 import dev.olog.core.MediaId

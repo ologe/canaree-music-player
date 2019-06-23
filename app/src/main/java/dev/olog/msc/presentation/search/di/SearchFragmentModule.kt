@@ -2,14 +2,13 @@ package dev.olog.msc.presentation.search.di
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.RecyclerView
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.ViewModelKey
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.dagger.scope.PerFragment
+import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.search.SearchFragmentViewModel
 

@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.dialog.remove.duplicates.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.scope.PerFragment
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
 
 @Subcomponent(modules = arrayOf(

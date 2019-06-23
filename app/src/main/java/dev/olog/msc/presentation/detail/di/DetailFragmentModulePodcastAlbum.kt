@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.podcast.PodcastAlbum
 import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
+import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbumUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase

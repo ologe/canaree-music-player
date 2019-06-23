@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.entity
 
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 
 data class LastMetadata(
         val title: String,

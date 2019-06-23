@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.shared.withArguments
 import kotlinx.android.synthetic.main.fragment_preset.*
 import kotlinx.android.synthetic.main.fragment_preset.view.*
 

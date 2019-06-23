@@ -6,13 +6,12 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
-import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.presentation.base.setOnClickListener
 import javax.inject.Inject
 
 class PlaylistChooserActivityAdapter @Inject constructor(

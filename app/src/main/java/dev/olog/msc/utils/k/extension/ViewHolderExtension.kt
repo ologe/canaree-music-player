@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.presentation.model.BaseModel
 import dev.olog.msc.presentation.base.adapter.AdapterDataController
-import dev.olog.msc.presentation.utils.animation.ScaleInOnTouch
-import dev.olog.msc.presentation.utils.animation.ScaleMoreInOnTouch
+import dev.olog.presentation.base.anim.ScaleInOnTouch
+import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnMoveListener(
         controller: AdapterDataController<T>,

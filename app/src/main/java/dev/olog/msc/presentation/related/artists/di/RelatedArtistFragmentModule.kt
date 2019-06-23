@@ -6,8 +6,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.ViewModelKey
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragmentViewModel
 import dev.olog.core.MediaId

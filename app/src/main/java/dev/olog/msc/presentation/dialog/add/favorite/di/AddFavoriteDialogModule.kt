@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.add.favorite.di
 import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.core.MediaId
 

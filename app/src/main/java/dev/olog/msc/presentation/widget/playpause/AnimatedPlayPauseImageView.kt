@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.shared.lazyFast
+import dev.olog.shared.isPortrait
 import dev.olog.shared.isDarkMode
 import dev.olog.shared.textColorTertiary
 

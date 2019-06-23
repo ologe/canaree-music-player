@@ -3,7 +3,7 @@ package dev.olog.msc.data.repository.last.fm
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.LastFmTrackEntity
 import dev.olog.msc.data.mapper.LastFmNulls

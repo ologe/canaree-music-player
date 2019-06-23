@@ -20,4 +20,10 @@ dependencies {
     implementation lib_x.media
 
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+
+    // google architecture components
+    implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycle"
 }

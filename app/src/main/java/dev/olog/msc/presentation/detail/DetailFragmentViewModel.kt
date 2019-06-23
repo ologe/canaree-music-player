@@ -6,11 +6,11 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.*
-import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.core.entity.sort.SortEntity
+import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -121,7 +121,7 @@ class DetailFragmentViewModel @Inject constructor(
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
-    fun detailSortDataUseCase(mediaId: MediaId, action: (DetailSort) -> Unit){
+    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit){
         getDetailSortDataUseCase.execute(mediaId)
                 .subscribe(action, Throwable::printStackTrace)
                 .addTo(subscriptions)

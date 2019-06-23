@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.dip
-import dev.olog.msc.utils.k.extension.isLandscape
+import dev.olog.shared.dip
+import dev.olog.shared.isLandscape
 import dev.olog.shared.colorScrim
 
 class DimBottomSheetDialog(context: Context, theme: Int)

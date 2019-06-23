@@ -44,6 +44,7 @@ dependencies {
     implementation project(':image-provider')
     implementation project(':injection')
     implementation project(':jaudiotagger')
+    implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
     implementation project(':shared')

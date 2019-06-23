@@ -9,8 +9,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.shared.lazyFast
+import dev.olog.shared.isPortrait
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.shared.isMarshmallow

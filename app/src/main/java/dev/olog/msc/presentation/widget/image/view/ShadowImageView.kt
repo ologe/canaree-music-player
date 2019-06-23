@@ -9,7 +9,7 @@ import android.view.ViewTreeObserver
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.dpToPx
+import dev.olog.shared.dpToPx
 import kotlin.properties.Delegates
 
 class ShadowImageView @JvmOverloads constructor(

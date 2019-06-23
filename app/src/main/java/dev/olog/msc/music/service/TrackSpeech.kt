@@ -9,7 +9,7 @@
 //import android.support.v4.media.MediaMetadataCompat
 //import android.support.v4.media.session.MediaControllerCompat
 //import android.support.v4.media.session.MediaSessionCompat
-//import dev.olog.msc.constants.AppConstants
+//import dev.olog.presentation.AppConstants
 //import dev.olog.core.dagger.ApplicationContext
 //import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 //import dev.olog.msc.dagger.scope.PerService

@@ -3,17 +3,18 @@ package dev.olog.msc.presentation.library.categories
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
+import dev.olog.presentation.main.LibraryPage
 import dev.olog.shared.clamp
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class CategoriesFragmentPresenter @Inject constructor(
-        private val appPrefsUseCase: PresentationPreferences,
-        private val tutorialPreferenceUseCase: TutorialPreferenceGateway
+    private val appPrefsUseCase: PresentationPreferences,
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {
 
     fun getViewPagerLastPage(totalPages: Int, isPodcast: Boolean): Int {
-        val lastPage = if (isPodcast){
+        val lastPage = if (isPodcast) {
             appPrefsUseCase.getViewPagerPodcastLastPage()
         } else {
             appPrefsUseCase.getViewPagerLibraryLastPage()
@@ -36,10 +37,14 @@ class CategoriesFragmentPresenter @Inject constructor(
     fun getCategories(isPodcast: Boolean): List<LibraryCategoryBehavior> {
         if (isPodcast) {
             return appPrefsUseCase.getPodcastLibraryCategories()
-                    .filter { it.visible }
+                .filter { it.visible }
         }
         return appPrefsUseCase.getLibraryCategories()
-                .filter { it.visible }
+            .filter { it.visible }
+    }
+
+    fun setLibraryPage(page: LibraryPage) {
+        appPrefsUseCase.setLibraryPage(page)
     }
 
 }

@@ -4,7 +4,7 @@ import android.app.Activity
 import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
 
 @Module

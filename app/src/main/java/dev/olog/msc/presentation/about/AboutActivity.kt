@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.navigator.NavigatorAbout
-import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.msc.pro.IBilling
-import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 

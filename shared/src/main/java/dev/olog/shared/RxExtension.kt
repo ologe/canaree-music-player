@@ -45,7 +45,3 @@ fun <T> Flowable<T>.debounceFirst(timeout: Long = 200L, unit: TimeUnit = TimeUni
 fun <T> Observable<T>.defer(): Observable<T> {
     return Observable.defer { this }
 }
-
-fun <T> Single<T>.defer(): Single<T> {
-    return Single.defer { this }
-}

@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.*
+import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
@@ -35,7 +33,11 @@ class PlayingQueueFragment : BaseFragment() {
     @Inject lateinit var navigator: Navigator
     private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
 
-    private val viewModel by lazyFast { act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        act.viewModelProvider<PlayingQueueFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

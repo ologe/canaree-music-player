@@ -11,9 +11,9 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.TimeUtils
-import dev.olog.msc.utils.k.extension.act
+import dev.olog.shared.act
 import dev.olog.msc.utils.k.extension.logStackStace
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

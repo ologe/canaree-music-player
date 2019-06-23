@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.model.SpecialThanksModel
 
 class SpecialThanksFragmentAdapter(lifecycle: Lifecycle)
     : AbsAdapter<SpecialThanksModel>(lifecycle) {

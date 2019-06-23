@@ -17,7 +17,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.widget.StoppingViewPager
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.image.provider.CoverUtils
-import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.shared.ctx
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 

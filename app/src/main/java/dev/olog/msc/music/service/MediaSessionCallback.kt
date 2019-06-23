@@ -13,7 +13,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.media.MusicConstants
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
@@ -22,7 +22,7 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import dev.olog.shared.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

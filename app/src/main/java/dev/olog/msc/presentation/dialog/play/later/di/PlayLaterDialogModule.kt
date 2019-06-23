@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.play.later.di
 import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.msc.presentation.dialog.play.later.PlayLaterDialog
 import dev.olog.core.MediaId
 

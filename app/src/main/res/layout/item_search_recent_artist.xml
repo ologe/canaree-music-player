@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <dev.olog.msc.presentation.widget.image.view.CircularImageView
+            <dev.olog.shared.widgets.CircularImageView
                 android:id="@+id/cover"
                 android:layout_width="@dimen/item_song_cover_size"
                 android:layout_height="@dimen/item_song_cover_size"

@@ -14,14 +14,14 @@ import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.core.entity.track.*
 import dev.olog.msc.R
-import dev.olog.msc.dagger.scope.PerFragment
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.core.entity.SearchResult
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.core.RecentSearchesTypes
-import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.mapToList
 import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Observable

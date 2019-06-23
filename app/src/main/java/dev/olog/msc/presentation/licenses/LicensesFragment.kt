@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.shared.act
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.subscribe
 import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_licenses.view.*

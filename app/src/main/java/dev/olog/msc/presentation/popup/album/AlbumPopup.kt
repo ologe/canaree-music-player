@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.popup.album
 
 import android.view.View
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.presentation.popup.AbsPopup

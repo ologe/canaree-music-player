@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.shortcuts.playlist.chooser.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.scope.PerActivity
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
 
 @Subcomponent(modules = arrayOf(

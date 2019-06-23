@@ -19,7 +19,7 @@ abstract class WebViewContent(
         context: Context,
         @LayoutRes layoutRes: Int
 
-) : Content, DefaultLifecycleObserver {
+) : Content(), DefaultLifecycleObserver {
 
     var item by Delegates.observable("", { _, _, new ->
         webView.clearHistory()
@@ -60,6 +60,7 @@ abstract class WebViewContent(
     override fun isFullscreen(): Boolean = true
 
     override fun onShown() {
+        super.onShown()
         back.setOnClickListener {
             if (webView.canGoBack()) { webView.goBack() }
         }
@@ -70,6 +71,7 @@ abstract class WebViewContent(
     }
 
     override fun onHidden() {
+        super.onHidden()
         back.setOnClickListener(null)
         next.setOnClickListener(null)
         refresh.setOnClickListener(null)

@@ -10,19 +10,16 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
-import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.shared.Permissions
 import dev.olog.msc.R
 import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.creator.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.shared.act
+import dev.olog.shared.ctx
 
 private const val PICK_IMAGE_CODE = 456
 

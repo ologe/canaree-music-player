@@ -9,7 +9,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 

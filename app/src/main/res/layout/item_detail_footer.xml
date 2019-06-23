@@ -15,7 +15,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="2dp" />

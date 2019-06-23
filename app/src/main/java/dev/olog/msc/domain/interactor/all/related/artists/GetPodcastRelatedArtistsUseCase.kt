@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.related.artists
 
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase

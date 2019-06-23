@@ -184,7 +184,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
             app:layout_constraintTop_toBottomOf="@+id/artist"
             app:layout_constraintStart_toStartOf="parent"

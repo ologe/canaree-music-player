@@ -43,7 +43,7 @@
             android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"
             tools:visibility="visible"/>
 
-        <dev.olog.msc.presentation.widget.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:layout_width="0dp"
             android:layout_height="2dp"

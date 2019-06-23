@@ -9,6 +9,7 @@ import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.R
 import dev.olog.presentation.main.BottomNavigationPage
+import dev.olog.presentation.main.LibraryPage
 
 internal class BottomNavigator {
 
@@ -19,8 +20,8 @@ internal class BottomNavigator {
             PlayingQueueFragment.TAG
     )
 
-    fun navigate(activity: FragmentActivity, page: BottomNavigationPage){
-        val fragmentTag = page.toFragmentTag()
+    fun navigate(activity: FragmentActivity, page: BottomNavigationPage, libraryPage: LibraryPage){
+        val fragmentTag = page.toFragmentTag(libraryPage)
 
         if (!tags.contains(fragmentTag)) {
             throw IllegalArgumentException("invalid fragment tag $fragmentTag")
@@ -55,11 +56,17 @@ internal class BottomNavigator {
                 .forEach { hide(it) }
     }
 
-    private fun BottomNavigationPage.toFragmentTag(): String = when(this){
-        BottomNavigationPage.SONGS -> CategoriesFragment.TAG_TRACK
-        BottomNavigationPage.PODCASTS -> CategoriesFragment.TAG_PODCAST
-        BottomNavigationPage.SEARCH -> SearchFragment.TAG
-        BottomNavigationPage.QUEUE -> PlayingQueueFragment.TAG
+    private fun BottomNavigationPage.toFragmentTag(libraryPage: LibraryPage): String {
+        return when (this){
+            BottomNavigationPage.LIBRARY -> {
+                when(libraryPage){
+                    LibraryPage.TRACKS -> CategoriesFragment.TAG_TRACK
+                    LibraryPage.PODCASTS -> CategoriesFragment.TAG_PODCAST
+                }
+            }
+            BottomNavigationPage.SEARCH -> SearchFragment.TAG
+            BottomNavigationPage.QUEUE -> PlayingQueueFragment.TAG
+        }
     }
 
     private fun tagToInstance(tag: String): Fragment = when (tag) {

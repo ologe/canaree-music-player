@@ -30,7 +30,7 @@
         style="@style/ExtendedFloatingActionButton"
         android:visibility="visible"/>
 
-    <dev.olog.msc.presentation.widget.DottedSeparator
+    <dev.olog.shared.widgets.DottedSeparator
         android:layout_width="0dp"
         android:layout_height="2dp"
         app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"

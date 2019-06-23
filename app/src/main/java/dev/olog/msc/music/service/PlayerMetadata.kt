@@ -7,8 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.presentation.AppConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle

@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.about.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.scope.PerActivity
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.about.AboutActivity
 
 @Subcomponent(modules = arrayOf(

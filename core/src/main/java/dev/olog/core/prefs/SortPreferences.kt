@@ -1,6 +1,6 @@
 package dev.olog.core.prefs
 
-import dev.olog.core.entity.sort.LibrarySortType
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import io.reactivex.Completable
@@ -8,17 +8,17 @@ import io.reactivex.Observable
 
 interface SortPreferences {
 
-    fun getAllTracksSortOrder(): LibrarySortType
-    fun getAllAlbumsSortOrder(): LibrarySortType
-    fun getAllArtistsSortOrder(): LibrarySortType
+    fun getAllTracksSortOrder(): SortEntity
+    fun getAllAlbumsSortOrder(): SortEntity
+    fun getAllArtistsSortOrder(): SortEntity
 
-    fun observeAllTracksSortOrder(): Observable<LibrarySortType>
-    fun observeAllAlbumsSortOrder(): Observable<LibrarySortType>
-    fun observeAllArtistsSortOrder(): Observable<LibrarySortType>
+    fun observeAllTracksSortOrder(): Observable<SortEntity>
+    fun observeAllAlbumsSortOrder(): Observable<SortEntity>
+    fun observeAllArtistsSortOrder(): Observable<SortEntity>
 
-    fun setAllTracksSortOrder(sortType: LibrarySortType)
-    fun setAllAlbumsSortOrder(sortType: LibrarySortType)
-    fun setAllArtistsSortOrder(sortType: LibrarySortType)
+    fun setAllTracksSortOrder(sortType: SortEntity)
+    fun setAllAlbumsSortOrder(sortType: SortEntity)
+    fun setAllArtistsSortOrder(sortType: SortEntity)
 
     fun observeDetailFolderSortOrder() : Observable<SortType>
     fun observeDetailPlaylistSortOrder() : Observable<SortType>

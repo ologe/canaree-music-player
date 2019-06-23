@@ -13,18 +13,15 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.DrawsOnTop
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.viewModelProvider
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.viewModelProvider
 import dev.olog.presentation.model.PlaylistType
 import dev.olog.presentation.widgets.WaveSideBarView
-import dev.olog.shared.TextUtils
-import dev.olog.shared.toggleSelected
-import dev.olog.shared.toggleVisibility
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.*
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.subscribe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,7 +46,11 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
     }
 
     @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<PlaylistTracksChooserFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<PlaylistTracksChooserFragmentViewModel>(
+            viewModelFactory
+        )
+    }
     private val adapter by lazyFast { PlaylistTracksChooserFragmentAdapter(lifecycle, viewModel) }
 
     private var toast: Toast? = null

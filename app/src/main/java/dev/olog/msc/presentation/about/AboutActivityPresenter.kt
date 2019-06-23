@@ -9,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.pro.BillingState
 import dev.olog.msc.pro.IBilling
-import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.shared.extensions.asLiveData
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 

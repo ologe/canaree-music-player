@@ -10,11 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.k.extension.getCachedBitmap
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.shared.toast
 import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers

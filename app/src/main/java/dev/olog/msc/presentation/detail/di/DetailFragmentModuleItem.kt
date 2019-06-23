@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
+import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.shared.asFlowable
 import dev.olog.presentation.model.DisplayableItem

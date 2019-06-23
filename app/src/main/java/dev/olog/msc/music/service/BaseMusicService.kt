@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
-import dev.olog.msc.constants.MusicConstants
+import dev.olog.media.MusicConstants
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.utils.PendingIntents

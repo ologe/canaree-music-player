@@ -6,16 +6,16 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateArtistInfo
 import dev.olog.msc.presentation.edit.UpdateResult
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.*
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.view.*
 import javax.inject.Inject
@@ -35,7 +35,11 @@ class EditArtistFragment : BaseEditItemFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast { viewModelProvider<EditArtistFragmentViewModel>(viewModelFactory) }
-    private val editItemViewModel by lazyFast { activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast {
+        activity!!.viewModelProvider<EditItemViewModel>(
+            viewModelFactory
+        )
+    }
 
     @Inject lateinit var mediaId: MediaId
 

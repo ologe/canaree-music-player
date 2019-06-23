@@ -8,20 +8,22 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import dev.olog.media.*
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.presentation.AppConstants
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.msc.presentation.DrawsOnTop
-import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.toggleVisibility
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.*
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.filter
+import dev.olog.shared.extensions.subscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -57,9 +59,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
                 .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) }, {})
 
-        mediaProvider.onMetadataChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .asLiveData()
+        mediaProvider.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     presenter.updateCurrentTrackId(it.getId())
                     presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
@@ -79,9 +79,8 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                     text.text = it
                 }
 
-        mediaProvider.onStateChanged()
+        mediaProvider.observePlaybackState()
                 .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
-                .asLiveData()
                 .subscribe(viewLifecycleOwner) {
                     val isPlaying = it.state == PlaybackState.STATE_PLAYING
                     seekBar.progress = it.position.toInt()

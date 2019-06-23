@@ -3,6 +3,9 @@ package dev.olog.presentation.base
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.presentation.R
+import dev.olog.presentation.base.anim.ScaleInOnTouch
+import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 import dev.olog.presentation.model.BaseModel
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnClickListener(
@@ -39,4 +42,13 @@ fun <T: BaseModel> RecyclerView.ViewHolder.setOnLongClickListener(
         }
         false
     }
+}
+
+fun RecyclerView.ViewHolder.elevateAlbumOnTouch(){
+    itemView.setOnTouchListener(ScaleMoreInOnTouch(itemView))
+}
+
+fun RecyclerView.ViewHolder.elevateSongOnTouch(){
+    val viewToAnimate = itemView.findViewById<View>(R.id.root)?.let { it } ?: itemView
+    itemView.setOnTouchListener(ScaleInOnTouch(viewToAnimate))
 }

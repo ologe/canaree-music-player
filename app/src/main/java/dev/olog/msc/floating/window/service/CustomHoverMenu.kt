@@ -11,7 +11,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
-import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
+import dev.olog.msc.floating.window.service.music.service.MusicGlueService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -20,11 +20,11 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
-        @ServiceContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        musicServiceBinder: MusicServiceBinder,
-        private val musicPreferencesUseCase: MusicPreferencesGateway,
-        offlineLyricsContentPresenter: OfflineLyricsContentPresenter
+    @ServiceContext private val context: Context,
+    @ServiceLifecycle lifecycle: Lifecycle,
+    musicServiceBinder: MusicGlueService,
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
@@ -34,7 +34,7 @@ class CustomHoverMenu @Inject constructor(
 
     private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder)
     private val videoContent = VideoContent(lifecycle, context)
-    private val offlineLyricsContent = OfflineLyricsContent(lifecycle, context, musicServiceBinder, offlineLyricsContentPresenter)
+    private val offlineLyricsContent = OfflineLyricsContent(context, musicServiceBinder, offlineLyricsContentPresenter)
 
     private val subscriptions = CompositeDisposable()
 
