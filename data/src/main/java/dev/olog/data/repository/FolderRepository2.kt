@@ -93,7 +93,7 @@ internal class FolderRepository2 @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryValue
-        return mostPlayedDao.getAll2(folderPath, songGateway2)
+        return mostPlayedDao.getAll(folderPath, songGateway2)
                 .assertBackground()
     }
 

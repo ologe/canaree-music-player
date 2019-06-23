@@ -15,7 +15,7 @@ import dev.olog.core.entity.podcast.PodcastAlbum
 import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.FolderGateway2
+import dev.olog.core.gateway.*
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
@@ -43,17 +43,17 @@ class SearchFragmentViewModelModule {
     internal fun provideSearchData(
         @ApplicationContext context: Context,
             // tracks
-        getAllArtistsUseCase: GetAllArtistsUseCase,
-        getAllAlbumsUseCase: GetAllAlbumsUseCase,
-        getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
-        getAllGenresUseCase: GetAllGenresUseCase,
+        getAllArtistsUseCase: ArtistGateway2,
+        getAllAlbumsUseCase: AlbumGateway2,
+        getAllPlaylistsUseCase: PlaylistGateway2,
+        getAllGenresUseCase: GenreGateway2,
         getAllFoldersUseCase: FolderGateway2,
-        getAllSongsUseCase: GetAllSongsUseCase,
+        getAllSongsUseCase: SongGateway2,
             // podcasts
-        getAllPodcastUseCase: GetAllPodcastUseCase,
-        getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
-        getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
-        getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
+        getAllPodcastUseCase: PodcastGateway2,
+        getAllPodcastAlbumsUseCase: PodcastAlbumGateway2,
+        getAllPodcastArtistUseCase: PodcastArtistGateway2,
+        getAllPodcastPlaylistUseCase: PodcastPlaylistGateway2,
             //recent
         getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
         searchHeaders: SearchFragmentHeaders,
@@ -79,7 +79,7 @@ class SearchFragmentViewModelModule {
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
-                getAllSongsUseCase.execute()
+                getAllSongsUseCase.observeAll().asObservable()
                         .flatMap {
                             Observables.combineLatest(
                                     provideSearchByArtist(getAllArtistsUseCase, getAllPodcastArtistUseCase, input),
@@ -109,12 +109,12 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchBySong(
-            getAllSongsUseCase: GetAllSongsUseCase,
-            getAllPodcastUseCase: GetAllPodcastUseCase,
+            getAllSongsUseCase: SongGateway2,
+            getAllPodcastUseCase: PodcastGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return Observables.combineLatest(
-                getAllSongsUseCase.execute()
+                getAllSongsUseCase.observeAll().asObservable()
                         .flatMapSingle { songs -> songs.toFlowable()
                                 .filter { it.title.contains(query, true)  ||
                                         it.artist.contains(query, true) ||
@@ -122,7 +122,7 @@ class SearchFragmentViewModelModule {
                                 }.map { it.toSearchDisplayableItem() }
                                 .toList()
                         },
-                getAllPodcastUseCase.execute()
+                getAllPodcastUseCase.observeAll().asObservable()
                         .flatMapSingle { songs -> songs.toFlowable()
                                 .filter { it.title.contains(query, true)  ||
                                         it.artist.contains(query, true) ||
@@ -136,19 +136,19 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchByAlbum(
-            getAllAlbumsUseCase: GetAllAlbumsUseCase,
-            getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
+            getAllAlbumsUseCase: AlbumGateway2,
+            getAllPodcastAlbumsUseCase: PodcastAlbumGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return Observables.combineLatest(
-                getAllAlbumsUseCase.execute()
+                getAllAlbumsUseCase.observeAll().asObservable()
                         .flatMapSingle { albums -> albums.toFlowable()
                                 .filter { it.title.contains(query, true)  ||
                                         it.artist.contains(query, true)
                                 }.map { it.toSearchDisplayableItem() }
                                 .toList()
                         },
-                getAllPodcastAlbumsUseCase.execute()
+                getAllPodcastAlbumsUseCase.observeAll().asObservable()
                         .flatMapSingle { albums -> albums.toFlowable()
                                 .filter { it.title.contains(query, true)  ||
                                         it.artist.contains(query, true)
@@ -161,18 +161,18 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchByArtist(
-            getAllArtistsUseCase: GetAllArtistsUseCase,
-            getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
+            getAllArtistsUseCase: ArtistGateway2,
+            getAllPodcastArtistUseCase: PodcastArtistGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return Observables.combineLatest(
-                getAllArtistsUseCase.execute()
+                getAllArtistsUseCase.observeAll().asObservable()
                         .flatMapSingle { artists -> artists.toFlowable()
                                 .filter { it.name.contains(query, true) }
                                 .map { it.toSearchDisplayableItem() }
                                 .toList()
                         },
-                getAllPodcastArtistUseCase.execute()
+                getAllPodcastArtistUseCase.observeAll().asObservable()
                         .flatMapSingle { artists -> artists.toFlowable()
                                 .filter { it.name.contains(query, true) }
                                 .map { it.toSearchDisplayableItem() }
@@ -184,18 +184,18 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchByPlaylist(
-            getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
-            getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
+            playlistGateway2: PlaylistGateway2,
+            getAllPodcastPlaylistUseCase: PodcastPlaylistGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return Observables.combineLatest(
-                getAllPlaylistsUseCase.execute()
+                playlistGateway2.observeAll().asObservable()
                         .flatMapSingle { artists -> artists.toFlowable()
                                 .filter { it.title.contains(query, true) }
                                 .map { it.toSearchDisplayableItem() }
                                 .toList()
                         },
-                getAllPodcastPlaylistUseCase.execute()
+                getAllPodcastPlaylistUseCase.observeAll().asObservable()
                         .flatMapSingle { artists -> artists.toFlowable()
                                 .filter { it.title.contains(query, true) }
                                 .map { it.toSearchDisplayableItem() }
@@ -207,10 +207,10 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchByGenre(
-            getAllGenresUseCase: GetAllGenresUseCase,
+            getAllGenresUseCase: GenreGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
-        return getAllGenresUseCase.execute()
+        return getAllGenresUseCase.observeAll().asObservable()
                 .flatMapSingle { artists -> artists.toFlowable()
                         .filter { it.name.contains(query, true) }
                         .map { it.toSearchDisplayableItem() }

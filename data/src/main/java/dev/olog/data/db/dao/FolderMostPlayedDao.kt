@@ -28,23 +28,9 @@ abstract class FolderMostPlayedDao {
     abstract fun query(folderPath: String): Flowable<List<SongMostTimesPlayedEntity>>
 
     @Insert
-    abstract fun insertOne(item: FolderMostPlayedEntity)
+    abstract suspend fun insertOne(item: FolderMostPlayedEntity)
 
-    fun getAll(folderPath: String, songList: Observable<List<Song>>): Observable<List<Song>> {
-        return this.query(folderPath)
-                .toObservable()
-                .switchMap { mostPlayedSongs ->
-                    songList.map { songList ->
-                        mostPlayedSongs.mapNotNull { mostPlayed ->
-                            val song = songList.firstOrNull { it.id == mostPlayed.songId }
-                            if (song != null) song to mostPlayed.timesPlayed
-                            else null
-                        }.sortedWith(compareByDescending { it.second })
-                    }.mapToList { it.first }
-                }
-    }
-
-    fun getAll2(folderPath: String, songGateway2: SongGateway2): Flow<List<Song>> {
+    fun getAll(folderPath: String, songGateway2: SongGateway2): Flow<List<Song>> {
         return this.query(folderPath)
                 .map { mostPlayed ->
                     val songList = songGateway2.getAll()

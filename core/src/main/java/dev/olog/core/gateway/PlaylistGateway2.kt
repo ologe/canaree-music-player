@@ -4,9 +4,10 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 
 interface PlaylistGateway2 :
-    BaseGateway2<Playlist, Id>,
-    ChildHasTracks2<Song, Id> {
+        BaseGateway2<Playlist, Id>,
+        ChildHasTracks2<Song, Id>,
+        HasMostPlayed2 {
 
-    fun getAllAutoPlaylists() : List<Playlist>
+    fun getAllAutoPlaylists(): List<Playlist>
 
 }

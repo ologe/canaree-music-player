@@ -11,15 +11,17 @@ import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.LastFmArtist
-import dev.olog.msc.domain.gateway.ArtistGateway
+import dev.olog.core.gateway.ArtistGateway2
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class LastFmRepoArtist @Inject constructor(
     appDatabase: AppDatabase,
     @Proxy private val lastFmService: LastFmService,
-    private val artistGateway: ArtistGateway
+    private val artistGateway: ArtistGateway2
 
 ) {
 
@@ -33,7 +35,7 @@ class LastFmRepoArtist @Inject constructor(
     fun get(artistId: Long): Single<Optional<LastFmArtist?>> {
         val cachedValue = getFromCache(artistId)
 
-        val fetch = artistGateway.getByParam(artistId)
+        val fetch = artistGateway.observeByParam(artistId).map { it!! }.asObservable()
                 .firstOrError()
                 .flatMap { fetch(it) }
                 .map { Optional.of(it) }

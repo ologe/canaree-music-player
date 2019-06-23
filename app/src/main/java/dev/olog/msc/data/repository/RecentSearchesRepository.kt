@@ -3,7 +3,7 @@ package dev.olog.msc.data.repository
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.core.entity.SearchResult
-import dev.olog.core.gateway.FolderGateway2
+import dev.olog.core.gateway.*
 import dev.olog.msc.domain.gateway.*
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -13,11 +13,11 @@ import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
     appDatabase: AppDatabase,
-    private val songGateway: SongGateway,
-    private val albumGateway: AlbumGateway,
-    private val artistGateway: ArtistGateway,
-    private val playlistGateway: PlaylistGateway,
-    private val genreGateway: GenreGateway,
+    private val songGateway: SongGateway2,
+    private val albumGateway: AlbumGateway2,
+    private val artistGateway: ArtistGateway2,
+    private val playlistGateway: PlaylistGateway2,
+    private val genreGateway: GenreGateway2,
     private val folderGateway: FolderGateway2,
 
     private val podcastGateway: PodcastGateway,
@@ -30,11 +30,11 @@ class RecentSearchesRepository @Inject constructor(
     private val dao : RecentSearchesDao = appDatabase.recentSearchesDao()
 
     override fun getAll(): Observable<List<SearchResult>> {
-        return dao.getAll(songGateway.getAll().firstOrError(),
-                albumGateway.getAll().firstOrError(),
-                artistGateway.getAll().firstOrError(),
-                playlistGateway.getAll().firstOrError(),
-                genreGateway.getAll().firstOrError(),
+        return dao.getAll(songGateway.observeAll().asFlowable().firstOrError(),
+                albumGateway.observeAll().asFlowable().firstOrError(),
+                artistGateway.observeAll().asFlowable().firstOrError(),
+                playlistGateway.observeAll().asFlowable().firstOrError(),
+                genreGateway.observeAll().asFlowable().firstOrError(),
                 folderGateway.observeAll().asFlowable().firstOrError(),
                 podcastGateway.getAll().firstOrError(),
                 podcastPlaylistGateway.getAll().firstOrError(),

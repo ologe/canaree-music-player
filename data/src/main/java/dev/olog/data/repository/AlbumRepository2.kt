@@ -98,4 +98,12 @@ internal class AlbumRepository2 @Inject constructor(
         }.distinctUntilChanged()
             .assertBackground()
     }
+
+    override fun observeSiblings(id: Id): Flow<List<Album>> {
+        return observeAll().map { it.filter { it.id != id } }
+    }
+
+    override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
+        return observeAll().map { it.filter { it.artistId != artistId } }
+    }
 }

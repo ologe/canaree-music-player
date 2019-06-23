@@ -3,18 +3,19 @@ package dev.olog.msc.presentation.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
 import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase
 import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchUseCase
 import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.AlbumGateway2
+import dev.olog.core.gateway.ArtistGateway2
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.addTo
+import kotlinx.coroutines.rx2.asObservable
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import me.xdrop.fuzzywuzzy.model.ExtractedResult
 import javax.inject.Inject
@@ -26,8 +27,8 @@ class SearchFragmentViewModel @Inject constructor(
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
-    private val getAllArtistsUseCase: GetAllArtistsUseCase,
-    private val getAllAlbumsUseCase: GetAllAlbumsUseCase
+    private val getAllArtistsUseCase: ArtistGateway2,
+    private val getAllAlbumsUseCase: AlbumGateway2
 
 ) : ViewModel() {
 
@@ -39,8 +40,8 @@ class SearchFragmentViewModel @Inject constructor(
 
     fun getBestMatch(query: String): Single<String> {
         return Singles.zip(
-                getAllArtistsUseCase.execute().firstOrError(),
-                getAllAlbumsUseCase.execute().firstOrError()
+                getAllArtistsUseCase.observeAll().asObservable().firstOrError(),
+                getAllAlbumsUseCase.observeAll().asObservable().firstOrError()
         ) { artists, albums -> listOf(
                 artists.map { it.name },
                 albums.map { it.title }

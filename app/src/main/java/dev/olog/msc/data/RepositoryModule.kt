@@ -26,14 +26,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun provideAlbumRepository(repository: AlbumRepository): AlbumGateway
-
-    @Binds
-    @Singleton
-    abstract fun provideArtistRepository(repository: ArtistRepository): ArtistGateway
-
-    @Binds
-    @Singleton
     abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
 
     @Binds

@@ -2,9 +2,15 @@ package dev.olog.core.gateway
 
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
+import kotlinx.coroutines.flow.Flow
 
 interface AlbumGateway2 :
-    BaseGateway2<Album, Id>,
-    ChildHasTracks2<Song, Id>,
-    HasLastPlayed<Album>,
-    HasRecentlyAdded<Album>
+        BaseGateway2<Album, Id>,
+        ChildHasTracks2<Song, Id>,
+        HasLastPlayed<Album>,
+        HasRecentlyAdded<Album> {
+
+    fun observeSiblings(id: Id): Flow<List<Album>>
+    fun observeArtistsAlbums(artistId: Id): Flow<List<Album>>
+
+}

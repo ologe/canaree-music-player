@@ -11,9 +11,6 @@ import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
-import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.traceur.Traceur
@@ -30,13 +27,6 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
     lateinit var appShortcuts: AppShortcuts
     @Inject
     lateinit var darkMode: DarkMode
-
-    @Inject
-    lateinit var lastFmGateway: LastFmGateway
-    @Inject
-    lateinit var songGateway: SongGateway
-    @Inject
-    lateinit var podcastGateway: PodcastGateway
     @Inject
     lateinit var alarmManager: AlarmManager
     @Inject

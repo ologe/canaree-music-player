@@ -5,8 +5,13 @@ import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
+import dev.olog.core.gateway.AlbumGateway2
+import dev.olog.core.gateway.ArtistGateway2
 import dev.olog.core.gateway.FolderGateway2
-import dev.olog.msc.domain.interactor.all.*
+import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
+import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.shared.mapToList
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asFlowable
@@ -14,10 +19,10 @@ import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(
         private val folderGateway: FolderGateway2,
-        private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
+        private val getAllPlaylistsUseCase: PlaylistGateway2,
         private val getAllSongsUseCase: GetAllSongsUseCase,
-        private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
-        private val getAllArtistsUseCase: GetAllArtistsUseCase,
+        private val getAllAlbumsUseCase: AlbumGateway2,
+        private val getAllArtistsUseCase: ArtistGateway2,
         private val getAllGenresUseCase: GetAllGenresUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {
@@ -27,13 +32,13 @@ class MediaItemGenerator @Inject constructor(
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeAll().asFlowable().firstOrError()
                     .mapToList { it.toMediaItem() }
-            MediaIdCategory.PLAYLISTS -> getAllPlaylistsUseCase.execute().firstOrError()
+            MediaIdCategory.PLAYLISTS -> getAllPlaylistsUseCase.observeAll().asFlowable().firstOrError()
                     .mapToList { it.toMediaItem() }
             MediaIdCategory.SONGS -> getAllSongsUseCase.execute().firstOrError()
                     .mapToList { it.toMediaItem() }
-            MediaIdCategory.ALBUMS -> getAllAlbumsUseCase.execute().firstOrError()
+            MediaIdCategory.ALBUMS -> getAllAlbumsUseCase.observeAll().asFlowable().firstOrError()
                     .mapToList { it.toMediaItem() }
-            MediaIdCategory.ARTISTS -> getAllArtistsUseCase.execute().firstOrError()
+            MediaIdCategory.ARTISTS -> getAllArtistsUseCase.observeAll().asFlowable().firstOrError()
                     .mapToList { it.toMediaItem() }
             MediaIdCategory.GENRES -> getAllGenresUseCase.execute().firstOrError()
                     .mapToList { it.toMediaItem() }
