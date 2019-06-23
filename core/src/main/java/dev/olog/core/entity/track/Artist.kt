@@ -5,5 +5,6 @@ data class Artist (
         val name: String,
         val albumArtist: String,
         val songs: Int,
-        val albums: Int
+        val albums: Int,
+        val isPodcast: Boolean
 )

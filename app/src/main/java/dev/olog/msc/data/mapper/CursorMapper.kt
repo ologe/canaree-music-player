@@ -28,7 +28,8 @@ fun Cursor.toPlaylist(context: Context, playlistSize: Int) : Playlist {
     return Playlist(
         id,
         name,
-        playlistSize
+        playlistSize,
+        false
     )
 }
 

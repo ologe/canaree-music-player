@@ -16,7 +16,7 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylists(): Flowable<List<PodcastPlaylistEntity>>
+    abstract fun getAllPlaylists(): List<PodcastPlaylistEntity>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -24,7 +24,7 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylistsBlocking(): List<PodcastPlaylistEntity>
+    abstract fun observeAllPlaylists(): Flowable<List<PodcastPlaylistEntity>>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -33,7 +33,16 @@ abstract class PodcastPlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun getPlaylist(id: Long): Flowable<PodcastPlaylistEntity>
+    abstract fun getPlaylistById(id: Long): PodcastPlaylistEntity?
+
+    @Query("""
+        SELECT playlist.*, count(*) as size
+        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+            ON playlist.id = tracks.playlistId
+        where playlist.id = :id
+        GROUP BY playlistId
+    """)
+    abstract fun observePlaylistById(id: Long): Flowable<PodcastPlaylistEntity?>
 
     @Query("""
         SELECT tracks.*

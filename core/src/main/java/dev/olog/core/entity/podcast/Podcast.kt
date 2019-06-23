@@ -56,6 +56,7 @@ fun Podcast.toSong(): Song {
         this.path,
         this.folder,
         this.discNumber, // TODO match song
-        this.idInPlaylist
+        this.idInPlaylist,
+        true
     )
 }

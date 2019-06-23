@@ -1,79 +1,77 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.podcast
 
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.AlbumGateway2
 import dev.olog.core.gateway.HasLastPlayed
 import dev.olog.core.gateway.Id
+import dev.olog.core.gateway.PodcastArtistGateway2
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
-import dev.olog.data.mapper.toAlbum
-import dev.olog.data.queries.AlbumsQueries
+import dev.olog.data.mapper.toArtist
+import dev.olog.data.queries.ArtistQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-internal class AlbumRepository2 @Inject constructor(
+internal class PodcastArtistRepository2 @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     appDatabase: AppDatabase
-) : BaseRepository<Album, Id>(context), AlbumGateway2 {
+) : BaseRepository<Artist, Id>(context), PodcastArtistGateway2 {
 
-    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
-    private val lastPlayedDao = appDatabase.lastPlayedAlbumDao()
+    private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
+    private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
 
-    private fun extractAlbums(cursor: Cursor): List<Album> {
+    private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toAlbum() }
+        return context.contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
-                val album = list[0]
-                album.copy(songs = list.size)
+                val artist = list[0]
+                artist.copy(songs = list.size)
             }
     }
 
-    override fun queryAll(): List<Album> {
+    override fun queryAll(): List<Artist> {
         assertBackgroundThread()
         val cursor = queries.getAll()
-        return extractAlbums(cursor)
+        return extractArtists(cursor)
     }
 
-    override fun getByParam(param: Id): Album? {
+    override fun getByParam(param: Id): Artist? {
         assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
-    override fun observeByParam(param: Id): Flow<Album?> {
+    override fun observeByParam(param: Id): Flow<Artist?> {
         return channel.asFlow().map { list -> list.find { it.id == param } }
-            .distinctUntilChanged()
             .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        assertBackgroundThread()
         return listOf()
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        assertBackgroundThread()
         return flow { }
     }
 
-    override fun observeLastPlayed(): Flow<List<Album>> {
+    override fun observeLastPlayed(): Flow<List<Artist>> {
         return observeAll().combineLatest(lastPlayedDao.getAll().asFlow()) { all, lastPlayed ->
             if (all.size < HasLastPlayed.MIN_ITEMS) {
                 listOf() // too few album to show recents
@@ -91,10 +89,10 @@ internal class AlbumRepository2 @Inject constructor(
         lastPlayedDao.insertOne(id)
     }
 
-    override fun observeRecentlyAdded(): Flow<List<Album>> {
+    override fun observeRecentlyAdded(): Flow<List<Artist>> {
         val cursor = queries.getRecentlyAdded()
         return observeByParamInternal(ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)) {
-            extractAlbums(cursor)
+            extractArtists(cursor)
         }.distinctUntilChanged()
             .assertBackground()
     }

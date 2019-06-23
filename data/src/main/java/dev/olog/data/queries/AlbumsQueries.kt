@@ -25,7 +25,8 @@ internal class AlbumsQueries(
                 $ARTIST,
                 $ALBUM,
                 ${Columns.ALBUM_ARTIST},
-                $DATA
+                $DATA,
+                $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection()}
             ORDER BY ${sortOrder()}
@@ -42,7 +43,8 @@ internal class AlbumsQueries(
                 $ARTIST,
                 $ALBUM,
                 ${Columns.ALBUM_ARTIST},
-                $DATA
+                $DATA,
+                $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE $ALBUM_ID = ? AND ${defaultSelection()}
             ORDER BY ${sortOrder()}
@@ -60,7 +62,8 @@ internal class AlbumsQueries(
                 $ARTIST,
                 $ALBUM,
                 ${Columns.ALBUM_ARTIST},
-                $DATA
+                $DATA,
+                $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
 

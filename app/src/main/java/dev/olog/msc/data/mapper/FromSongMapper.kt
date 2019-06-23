@@ -22,7 +22,8 @@ fun Song.toAlbum(songCount: Int) : Album {
         this.artist,
         this.albumArtist,
         songCount,
-        this.hasAlbumNameAsFolder
+        this.hasAlbumNameAsFolder,
+        false
     )
 }
 
@@ -32,6 +33,7 @@ fun Song.toArtist(songCount: Int, albumsCount: Int) : Artist {
         this.artist,
         this.albumArtist,
         songCount,
-        albumsCount
+        albumsCount,
+        false
     )
 }

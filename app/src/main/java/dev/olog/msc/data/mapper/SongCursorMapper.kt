@@ -40,7 +40,8 @@ fun Cursor.toSong(): Song {
         id, artistId, albumId, title, artist, albumArtist, album,
         duration, dateAdded, path,
         "", trackNumber,
-        -1
+        -1,
+        false
     )
 }
 
@@ -74,6 +75,7 @@ fun Cursor.toUneditedSong(): Song {
         duration, dateAdded, path,
         "",
         trackNumber,
-        -1
+        -1,
+        false
     )
 }

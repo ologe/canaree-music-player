@@ -15,7 +15,8 @@ data class Song(
     val path: String,
     val folder: String,
     val trackColumn: Int,
-    val idInPlaylist: Int
+    val idInPlaylist: Int,
+    val isPodcast: Boolean
 
 ) {
 

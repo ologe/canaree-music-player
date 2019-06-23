@@ -76,6 +76,6 @@ internal class PlaylistRepository2 @Inject constructor(
     }
 
     private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
-        return Playlist(id, title, listSize)
+        return Playlist(id, title, listSize, false)
     }
 }

@@ -1,5 +1,5 @@
 package dev.olog.core.gateway
 
-import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.track.Song
 
-interface PodcastGateway2 : BaseGateway2<Podcast, Id>
+interface PodcastGateway2 : BaseGateway2<Song, Id>

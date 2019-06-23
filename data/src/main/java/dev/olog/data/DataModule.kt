@@ -2,12 +2,20 @@ package dev.olog.data
 
 import dagger.Binds
 import dagger.Module
+import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.gateway.*
 import dev.olog.data.repository.*
+import dev.olog.data.repository.podcast.PodcastAlbumRepository2
+import dev.olog.data.repository.podcast.PodcastArtistRepository2
+import dev.olog.data.repository.podcast.PodcastPlaylistRepository2
+import dev.olog.data.repository.podcast.PodcastRepository2
 import javax.inject.Singleton
 
 @Module
 abstract class DataModule {
+
+
+    // tracks
 
     @Binds
     @Singleton
@@ -32,5 +40,20 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideGenreRepository(repository: GenreRepository2): GenreGateway2
+
+    // podcasts
+    @Binds
+    @Singleton
+    internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository2): PodcastPlaylistGateway2
+
+    @Binds
+    @Singleton
+    internal abstract fun providePodcsatRepository(repository: PodcastRepository2): PodcastGateway2
+    @Binds
+    @Singleton
+    internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository2): PodcastAlbumGateway2
+    @Binds
+    @Singleton
+    internal abstract fun providePodcastArtistRepository(repository: PodcastArtistRepository2): PodcastArtistGateway2
 
 }

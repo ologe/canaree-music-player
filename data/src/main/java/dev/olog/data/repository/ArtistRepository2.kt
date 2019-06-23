@@ -7,6 +7,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ArtistGateway2
+import dev.olog.core.gateway.HasLastPlayed
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -70,12 +71,12 @@ internal class ArtistRepository2 @Inject constructor(
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
         return observeAll().combineLatest(lastPlayedDao.getAll().asFlow()) { all, lastPlayed ->
-            if (all.size < 5) {
+            if (all.size < HasLastPlayed.MIN_ITEMS) {
                 listOf() // too few album to show recents
             } else {
                 lastPlayed.asSequence()
                     .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
-                    .take(5)
+                    .take(HasLastPlayed.MAX_ITEM_TO_SHOW)
                     .toList()
             }
         }.assertBackground()

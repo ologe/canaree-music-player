@@ -29,6 +29,7 @@ fun Cursor.toSong(): Song {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
+    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Song(
         id = id,
@@ -43,7 +44,8 @@ fun Cursor.toSong(): Song {
         path = path,
         folder = "", // TODO remove folder
         trackColumn = track,
-        idInPlaylist = -1
+        idInPlaylist = -1,
+        isPodcast = isPodcast
     )
 }
 
@@ -55,6 +57,8 @@ fun Cursor.toAlbum(): Album {
     val data = getString(MediaStore.Audio.AudioColumns.DATA)
     val path = data.substring(1, data.lastIndexOf(File.separator))
     val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
+    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
+
     return Album(
         id = getLong(MediaStore.Audio.Media.ALBUM_ID),
         artistId = getLong(MediaStore.Audio.Media.ARTIST_ID),
@@ -62,20 +66,23 @@ fun Cursor.toAlbum(): Album {
         artist = artist,
         albumArtist = albumArtist,
         songs = 0,
-        hasSameNameAsFolder = dirName == title
+        hasSameNameAsFolder = dirName == title,
+        isPodcast = isPodcast
     )
 }
 
 fun Cursor.toArtist(): Artist {
     val artist = getString(MediaStore.Audio.Media.ARTIST)
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
+    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Artist(
         id = getLong(MediaStore.Audio.Media.ARTIST_ID),
         name = artist,
         albumArtist = albumArtist,
         songs = 0,
-        albums = 0
+        albums = 0,
+        isPodcast = isPodcast
     )
 }
 
@@ -86,7 +93,8 @@ internal fun Cursor.toPlaylist(): Playlist {
     return Playlist(
         id = id,
         title = name,
-        size = 0 // wil be updated later
+        size = 0, // wil be updated later
+        isPodcast = false
     )
 }
 

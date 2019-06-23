@@ -65,7 +65,6 @@
 
     <style name="MaterialTabLayout.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 

@@ -23,7 +23,8 @@ internal class ArtistQueries(
              SELECT
                 $ARTIST_ID,
                 $ARTIST,
-                ${Columns.ALBUM_ARTIST}
+                ${Columns.ALBUM_ARTIST},
+                $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection()}
 
@@ -39,7 +40,8 @@ internal class ArtistQueries(
                 $ARTIST_ID,
                 $ARTIST,
                 ${Columns.ALBUM_ARTIST},
-                $DATA
+                $DATA,
+                $IS_PODCAST
             FROM ${EXTERNAL_CONTENT_URI}
             WHERE $ARTIST_ID = ? AND ${defaultSelection()}
             ORDER BY ${sortOrder()}
@@ -67,7 +69,8 @@ internal class ArtistQueries(
                 $ARTIST_ID,
                 $ARTIST,
                 ${Columns.ALBUM_ARTIST},
-                $DATA
+                $DATA,
+                $IS_PODCAST
             FROM ${EXTERNAL_CONTENT_URI}
             WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
             ORDER BY ${sortOrder()}
@@ -77,7 +80,7 @@ internal class ArtistQueries(
     }
 
     private fun defaultSelection(): String {
-        return "${isPodcast()} AND $ARTIST <> '<unknown>' AND ${notBlacklisted()}"
+        return "${isPodcast()} AND ${notBlacklisted()}"
     }
 
     private fun defaultSongSelection(): String {

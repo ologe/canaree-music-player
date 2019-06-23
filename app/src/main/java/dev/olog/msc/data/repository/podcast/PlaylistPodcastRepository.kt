@@ -42,7 +42,7 @@ class PlaylistPodcastRepository @Inject constructor(
     }
 
     override fun getAll(): Observable<List<PodcastPlaylist>> {
-        return podcastPlaylistDao.getAllPlaylists()
+        return podcastPlaylistDao.observeAllPlaylists()
                 .mapToList { it.toDomain() }
                 .toObservable()
     }
@@ -69,7 +69,7 @@ class PlaylistPodcastRepository @Inject constructor(
         if (PlaylistConstants.isPodcastAutoPlaylist(param)){
             return getAllAutoPlaylists().map { it.first { it.id == param } }
         }
-        return podcastPlaylistDao.getPlaylist(param)
+        return podcastPlaylistDao.observePlaylistById(param)
                 .map { it.toDomain() }
                 .toObservable()
     }
@@ -102,7 +102,7 @@ class PlaylistPodcastRepository @Inject constructor(
 
 
     override fun getPlaylistsBlocking(): List<PodcastPlaylist> {
-        return podcastPlaylistDao.getAllPlaylistsBlocking()
+        return podcastPlaylistDao.getAllPlaylists()
                 .map { it.toDomain() }
     }
 

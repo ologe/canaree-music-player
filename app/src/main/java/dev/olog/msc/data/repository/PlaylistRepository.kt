@@ -63,7 +63,7 @@ class PlaylistRepository @Inject constructor(
     private val autoPlaylistTitles = resources.getStringArray(R.array.common_auto_playlists)
 
     private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
-        return Playlist(id, title, listSize)
+        return Playlist(id, title, listSize, false)
     }
 
     private fun queryAllData(): Observable<List<Playlist>> {

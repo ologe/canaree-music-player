@@ -7,5 +7,6 @@ data class Album (
         val artist: String,
         val albumArtist: String,
         val songs: Int,
-        val hasSameNameAsFolder: Boolean
+        val hasSameNameAsFolder: Boolean,
+        val isPodcast: Boolean
 )
