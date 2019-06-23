@@ -7,28 +7,30 @@ import androidx.lifecycle.Transformations
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.MediaId
+import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.podcast.PodcastAlbum
 import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.core.entity.track.*
+import dev.olog.core.gateway.FolderGateway2
 import dev.olog.msc.R
-import dev.olog.presentation.dagger.PerFragment
-import dev.olog.core.entity.SearchResult
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
-import dev.olog.core.RecentSearchesTypes
+import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.mapToList
-import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.rx2.asObservable
 
 @Module
 class SearchFragmentViewModelModule {
@@ -45,7 +47,7 @@ class SearchFragmentViewModelModule {
         getAllAlbumsUseCase: GetAllAlbumsUseCase,
         getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
         getAllGenresUseCase: GetAllGenresUseCase,
-        getAllFoldersUseCase: GetAllFoldersUseCase,
+        getAllFoldersUseCase: FolderGateway2,
         getAllSongsUseCase: GetAllSongsUseCase,
             // podcasts
         getAllPodcastUseCase: GetAllPodcastUseCase,
@@ -217,10 +219,10 @@ class SearchFragmentViewModelModule {
     }
 
     private fun provideSearchByFolder(
-            getAllFoldersUseCase: GetAllFoldersUseCase,
+            folderGateway: FolderGateway2,
             query: String): Observable<MutableList<DisplayableItem>> {
 
-        return getAllFoldersUseCase.execute()
+        return folderGateway.observeAll().asObservable()
                 .flatMapSingle { artists -> artists.toFlowable()
                         .filter { it.title.contains(query, true) }
                         .map { it.toSearchDisplayableItem() }

@@ -8,12 +8,14 @@ import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.gateway.FolderGateway2
 import io.reactivex.Observable
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class GetMostPlayedSongsUseCase @Inject constructor(
     scheduler: IoScheduler,
-    private val folderGateway: FolderGateway,
+    private val folderGateway: FolderGateway2,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway
 
@@ -27,7 +29,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
                     .distinctUntilChanged()
             MediaIdCategory.PLAYLISTS -> return playlistGateway.getMostPlayed(mediaId)
                     .distinctUntilChanged()
-            MediaIdCategory.FOLDERS -> folderGateway.getMostPlayed(mediaId)
+            MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId).asObservable()
                     .distinctUntilChanged()
             else -> Observable.just(listOf())
         }

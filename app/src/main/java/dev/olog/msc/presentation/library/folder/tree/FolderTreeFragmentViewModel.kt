@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.FolderGateway2
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
@@ -28,15 +28,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.rx2.asObservable
 import java.io.File
 import java.text.Collator
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val appPreferencesUseCase: AppPreferencesGateway,
-    private val getAllFoldersUseCase: GetAllFoldersUseCase,
-    private val collator: Collator
+        @ApplicationContext private val context: Context,
+        private val appPreferencesUseCase: AppPreferencesGateway,
+        private val folderGateway: FolderGateway2,
+        private val collator: Collator
 
 ) : ViewModel() {
 
@@ -69,7 +70,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .flatMap { file ->
-                getAllFoldersUseCase.execute().mapToList { it.path }.map {  folderList ->
+                folderGateway.observeAll().asObservable().mapToList { it.path }.map { folderList ->
                     val children = file.listFiles()
                             ?.filter { current -> folderList.firstOrNull { it.contains( current.path ) } != null || !current.isDirectory }
                             ?: listOf()

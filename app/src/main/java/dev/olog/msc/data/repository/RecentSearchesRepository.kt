@@ -3,9 +3,12 @@ package dev.olog.msc.data.repository
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.core.entity.SearchResult
+import dev.olog.core.gateway.FolderGateway2
 import dev.olog.msc.domain.gateway.*
 import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
@@ -15,7 +18,7 @@ class RecentSearchesRepository @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
-    private val folderGateway: FolderGateway,
+    private val folderGateway: FolderGateway2,
 
     private val podcastGateway: PodcastGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
@@ -32,7 +35,7 @@ class RecentSearchesRepository @Inject constructor(
                 artistGateway.getAll().firstOrError(),
                 playlistGateway.getAll().firstOrError(),
                 genreGateway.getAll().firstOrError(),
-                folderGateway.getAll().firstOrError(),
+                folderGateway.observeAll().asFlowable().firstOrError(),
                 podcastGateway.getAll().firstOrError(),
                 podcastPlaylistGateway.getAll().firstOrError(),
                 podcastAlbumGateway.getAll().firstOrError(),

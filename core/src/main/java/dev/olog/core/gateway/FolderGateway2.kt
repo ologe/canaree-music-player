@@ -4,5 +4,10 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
 
 interface FolderGateway2 :
-    BaseGateway2<Folder, Path>,
-    ChildHasTracks2<Song, Path>
+        BaseGateway2<Folder, Path>,
+        ChildHasTracks2<Song, Path>,
+        HasMostPlayed2 {
+
+    fun getAllBlacklistedIncluded(): List<Folder>
+
+}

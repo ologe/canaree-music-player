@@ -18,10 +18,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun provideFolderRepository(repository: FolderRepository): FolderGateway
-
-    @Binds
-    @Singleton
     abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
 
     @Binds

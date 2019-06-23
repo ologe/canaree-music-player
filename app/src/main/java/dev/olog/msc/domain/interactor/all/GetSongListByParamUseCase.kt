@@ -7,8 +7,11 @@ import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.gateway.FolderGateway2
 import dev.olog.shared.mapToList
 import io.reactivex.Observable
+import kotlinx.coroutines.rx2.asFlowable
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 
@@ -18,7 +21,7 @@ class GetSongListByParamUseCase @Inject constructor(
     private val playlistDataStore: PlaylistGateway,
     private val albumDataStore: AlbumGateway,
     private val artistDataStore: ArtistGateway,
-    private val folderDataStore: FolderGateway,
+    private val folderDataStore: FolderGateway2,
     private val songDataStore: SongGateway,
     private val podcastDataStore: PodcastGateway,
     private val podcastPlaylistDataStore: PodcastPlaylistGateway,
@@ -34,7 +37,7 @@ class GetSongListByParamUseCase @Inject constructor(
         }
 
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderDataStore.observeSongListByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderDataStore.observeTrackListByParam(mediaId.categoryValue).asObservable()
             MediaIdCategory.PLAYLISTS -> playlistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.SONGS -> songDataStore.getAll()
             MediaIdCategory.ALBUMS -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
