@@ -1,4 +1,4 @@
-package dev.olog.msc.constants
+package dev.olog.core
 
 object PlaylistConstants {
 
@@ -13,11 +13,15 @@ object PlaylistConstants {
     const val MINI_QUEUE_SIZE = 50
 
     private val autoPlaylists = listOf(
-            LAST_ADDED_ID, FAVORITE_LIST_ID, HISTORY_LIST_ID
+        LAST_ADDED_ID,
+        FAVORITE_LIST_ID,
+        HISTORY_LIST_ID
     )
 
     private val podcastAutoPlaylists = listOf(
-            PODCAST_LAST_ADDED_ID, PODCAST_FAVORITE_LIST_ID, PODCAST_HISTORY_LIST_ID
+        PODCAST_LAST_ADDED_ID,
+        PODCAST_FAVORITE_LIST_ID,
+        PODCAST_HISTORY_LIST_ID
     )
 
     fun isAutoPlaylist(id: Long) = autoPlaylists.contains(id)

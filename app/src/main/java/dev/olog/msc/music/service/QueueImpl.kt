@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
 import com.crashlytics.android.Crashlytics
-import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
+import dev.olog.core.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.core.entity.Podcast
 import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway

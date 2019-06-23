@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.core.entity.SortArranging
 import dev.olog.core.entity.SortType
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
@@ -20,8 +20,6 @@ import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
 import dev.olog.msc.utils.k.extension.setOnMoveListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*

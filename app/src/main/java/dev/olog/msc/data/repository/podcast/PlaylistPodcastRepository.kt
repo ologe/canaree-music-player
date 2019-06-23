@@ -6,7 +6,7 @@ import dev.olog.core.entity.Podcast
 import dev.olog.core.entity.PodcastPlaylist
 import dev.olog.core.entity.Song
 import dev.olog.msc.R
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PodcastPlaylistEntity
 import dev.olog.msc.data.entity.PodcastPlaylistTrackEntity

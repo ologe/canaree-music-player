@@ -30,3 +30,10 @@ internal inline fun <T> ContentResolver.queryOne(
 
     return item
 }
+
+@Suppress("unused")
+internal fun ContentResolver.queryCountRow(cursor: Cursor): Int {
+    val count = cursor.count
+    cursor.close()
+    return count
+}

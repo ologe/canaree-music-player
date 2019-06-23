@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.player
 
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -11,12 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -29,7 +26,6 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.isMarshmallow
-import dev.olog.shared.toggleVisibility
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.msc.R
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.Artist
 import dev.olog.core.entity.PodcastArtist

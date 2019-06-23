@@ -7,7 +7,6 @@ import dagger.multibindings.IntoMap
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.all.GetAllAutoPlaylistUseCase
-import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
 import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedAlbumsUseCase
@@ -33,17 +32,6 @@ import io.reactivex.rxkotlin.Observables
 @Suppress("unused")
 @Module
 class TabFragmentViewModelModule {
-
-    @Provides
-    @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
-    internal fun provideFolderData(
-            resources: Resources,
-            useCase: GetAllFoldersUseCase): Observable<List<DisplayableItem>> {
-
-        return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
-                .defer()
-    }
 
     @Provides
     @IntoMap

@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.popup.playlist
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.core.entity.Playlist
 import dev.olog.core.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup

@@ -9,7 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.Playlist
 import dev.olog.core.entity.Song
 import dev.olog.msc.R
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId

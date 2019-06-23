@@ -206,7 +206,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
     }
 
     private fun tryPopFolderBack(): Boolean {
-        TODO()
+        return false
 //        val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
 //        categories?.view?.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)?.let { pager ->
 //            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as androidx.fragment.app.Fragment

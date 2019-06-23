@@ -5,7 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.FavoriteType

@@ -27,7 +27,7 @@ internal class FolderRepository2 @Inject constructor(
     blacklistPrefs: BlacklistPreferences
 )  : BaseRepository<Folder, Path>(context), FolderGateway2 {
 
-    private val queries = FolderQueries(context.contentResolver, blacklistPrefs, sortPrefs)
+    private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)

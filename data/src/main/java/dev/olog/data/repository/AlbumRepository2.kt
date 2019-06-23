@@ -25,7 +25,7 @@ internal class AlbumRepository2 @Inject constructor(
     blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Album, Id>(context), AlbumGateway2 {
 
-    private val queries = AlbumsQueries(context.contentResolver, blacklistPrefs, sortPrefs, false)
+    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)

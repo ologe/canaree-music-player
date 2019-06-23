@@ -3,9 +3,7 @@ package dev.olog.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.core.entity.Album
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.Song
+import dev.olog.core.entity.*
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
@@ -78,5 +76,26 @@ fun Cursor.toArtist(): Artist {
         albumArtist = albumArtist,
         songs = 0,
         albums = 0
+    )
+}
+
+internal fun Cursor.toPlaylist(): Playlist {
+    val id = getLong(BaseColumns._ID)
+    val name = getString(MediaStore.Audio.PlaylistsColumns.NAME).capitalize()
+
+    return Playlist(
+        id = id,
+        title = name,
+        size = 0 // wil be updated later
+    )
+}
+
+internal fun Cursor.toGenre(): Genre {
+    val id = this.getLong(BaseColumns._ID)
+    val name = this.getString(MediaStore.Audio.GenresColumns.NAME).capitalize()
+    return Genre(
+        id = id,
+        name = name,
+        size = 0 // wil be updated later
     )
 }
