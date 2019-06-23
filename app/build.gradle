@@ -28,10 +28,10 @@ android {
 
     dataBinding.enabled = true
 
-//    lintOptions {
-//        checkReleaseBuilds false
-//        disable 'MissingTranslation'
-//    }
+    lintOptions {
+        checkReleaseBuilds false
+        disable 'MissingTranslation'
+    }
 
 }
 

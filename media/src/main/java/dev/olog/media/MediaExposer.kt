@@ -18,6 +18,8 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.shared.Permissions
+import dev.olog.shared.extensions.distinctUntilChanged
+import dev.olog.shared.extensions.filter
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -33,11 +35,14 @@ class MediaExposer(
     IMediaControllerCallback,
     IMediaConnectionCallback {
 
+    companion object {
+        const val MUSIC_SERVICE = "dev.olog.msc.music.service.MusicService"
+    }
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, "dev.olog.msc.musicservice.MusicService"),
+            ComponentName(context, MUSIC_SERVICE),
             MusicServiceConnection(this), null
         )
     }
@@ -64,6 +69,7 @@ class MediaExposer(
         job?.cancel()
         job = launch {
             for (state in connectionPublisher.openSubscription()) {
+                Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> {
                         onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
@@ -84,7 +90,7 @@ class MediaExposer(
     /**
      * Populate publishers with current data
      */
-    fun initialize(mediaController: MediaControllerCompat){
+    fun initialize(mediaController: MediaControllerCompat) {
         callback.onMetadataChanged(mediaController.metadata)
         callback.onPlaybackStateChanged(mediaController.playbackState)
         callback.onRepeatModeChanged(mediaController.repeatMode)
@@ -125,17 +131,29 @@ class MediaExposer(
     }
 
     fun observeMetadata(): LiveData<MediaMetadataCompat> = metadataPublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
     fun observePlaybackState(): LiveData<PlaybackStateCompat> = statePublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
     fun observeRepeat(): LiveData<Int> = repeatModePublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
     fun observeShuffle(): LiveData<Int> = shuffleModePublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
     fun observeQueueTitle(): LiveData<String> = queueTitlePublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
-    fun observeExtras(): LiveData<Bundle> = extrasPublisher
+    fun observeExtras(): LiveData<Bundle> = extrasPublisher.filter { it != null }
 
     fun observeQueue(): LiveData<List<MediaSessionCompat.QueueItem>> = queuePublisher
+        .filter { it != null }
+        .distinctUntilChanged()
 
 }

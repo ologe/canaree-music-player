@@ -54,7 +54,7 @@ class App : DaggerApplication() {
     private fun initializeComponents() {
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
-            Traceur.enableLogging()
+//            Traceur.enableLogging()
 //            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
 //            StrictMode.initialize()
