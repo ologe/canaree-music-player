@@ -20,14 +20,4 @@ class MainActivityPresenter @Inject constructor(
         return !canReadStorage || isFirstAccess
     }
 
-    fun getLastBottomViewPage(): BottomNavigationPage = presentationPrefs.getLastBottomViewPage()
-
-    fun setLastBottomViewPage(page: BottomNavigationPage) {
-        presentationPrefs.setLastBottomViewPage(page)
-    }
-
-    fun canShowPodcastCategory(): Boolean {
-        return presentationPrefs.canShowPodcastCategory()
-    }
-
 }

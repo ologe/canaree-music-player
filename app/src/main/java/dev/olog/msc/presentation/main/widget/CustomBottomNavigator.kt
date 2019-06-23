@@ -38,6 +38,7 @@ class CustomBottomNavigator(
     }
 
     fun navigate(page: BottomNavigationPage) {
+        selectedItemId = page.toMenuId()
         navigator.navigate(context as FragmentActivity, page)
     }
 

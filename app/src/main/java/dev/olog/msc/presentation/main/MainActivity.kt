@@ -86,13 +86,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
             }
         }
 
-//        if (AppTheme.isMiniTheme()){ TODO
-//            slidingPanel.setParallaxOffset(0)
-//            playerLayout.layoutParams = SlidingUpPanelLayout.LayoutParams(
-//                    SlidingUpPanelLayout.LayoutParams.MATCH_PARENT, SlidingUpPanelLayout.LayoutParams.WRAP_CONTENT
-//            )
-//        }
-
         intent?.let { handleIntent(it) }
     }
 
@@ -121,10 +114,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            AppConstants.SHORTCUT_SEARCH -> {
-                bottomNavigation.selectedItemId = R.id.navigation_search
-                bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            }
+            AppConstants.SHORTCUT_SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, MusicService::class.java)
