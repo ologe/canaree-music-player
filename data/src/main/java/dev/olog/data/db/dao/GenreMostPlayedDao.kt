@@ -3,12 +3,13 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
-import dev.olog.core.entity.track.Song
-import dev.olog.shared.mapToList
 import io.reactivex.Flowable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 abstract class GenreMostPlayedDao {
@@ -27,17 +28,13 @@ abstract class GenreMostPlayedDao {
     @Insert
     abstract fun insertOne(item: GenreMostPlayedEntity)
 
-    fun getAll(genreId: Long, songList: Observable<List<Song>>): Observable<List<Song>> {
-        return this.query(genreId)
-                .toObservable()
-                .switchMap { mostPlayedSongs -> songList.map { songList ->
-                    mostPlayedSongs.mapNotNull { mostPlayed ->
-                        val song = songList.firstOrNull { it.id == mostPlayed.songId }
-                        if (song != null) song to mostPlayed.timesPlayed
-                        else null
-                    }.sortedWith(compareByDescending { it.second })
-                }.mapToList { it.first }
-                }
+    fun getAll(playlistId: Long, songGateway2: SongGateway2): Flow<List<Song>> {
+        return this.query(playlistId)
+                .map { mostPlayed ->
+                    val songList = songGateway2.getAll()
+                    mostPlayed.sortedByDescending { it.timesPlayed }
+                            .mapNotNull { item -> songList.find { it.id == item.songId } }
+                }.asFlow()
     }
 
 }

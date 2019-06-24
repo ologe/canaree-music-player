@@ -2,13 +2,18 @@ package dev.olog.data.repository
 
 import android.content.Context
 import android.provider.MediaStore
+import android.util.Log
+import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.Id
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.utils.queryAll
@@ -22,12 +27,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class GenreRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences,
+        private val songGateway2: SongGateway2
 ) : BaseRepository<Genre, Id>(context), GenreGateway2 {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
+    private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, true)
@@ -61,5 +69,25 @@ internal class GenreRepository2 @Inject constructor(
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         return flow { }
+    }
+
+    override fun observeSiblings(id: Id): Flow<List<Genre>> {
+        return observeAll().map { it.filter { it.id != id } }
+    }
+
+    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+        return mostPlayedDao.getAll(mediaId.categoryId, songGateway2)
+                .assertBackground()
+    }
+
+    override suspend fun insertMostPlayed(mediaId: MediaId) {
+        assertBackgroundThread()
+        songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
+            mostPlayedDao.insertOne(GenreMostPlayedEntity(
+                    0,
+                    item.id,
+                    mediaId.categoryId
+            ))
+        } ?: Log.w("FolderRepo", "song not found=$mediaId")
     }
 }

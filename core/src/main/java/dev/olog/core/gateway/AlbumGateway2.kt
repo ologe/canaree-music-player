@@ -8,9 +8,9 @@ interface AlbumGateway2 :
         BaseGateway2<Album, Id>,
         ChildHasTracks2<Song, Id>,
         HasLastPlayed<Album>,
-        HasRecentlyAdded<Album> {
+        HasRecentlyAdded<Album>,
+        HasSiblings<Album, Id> {
 
-    fun observeSiblings(id: Id): Flow<List<Album>>
     fun observeArtistsAlbums(artistId: Id): Flow<List<Album>>
 
 }

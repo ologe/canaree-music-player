@@ -7,23 +7,25 @@ import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
-import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.msc.utils.k.extension.get
 import io.reactivex.Single
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
-    private val getSongUseCase: GetUneditedSongUseCase,
-    private val getPodcastUseCase: GetPodcastUseCase,
-    private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
-    private val usedImageGateway: UsedImageGateway
+        private val mediaId: MediaId,
+        private val songGateway2: SongGateway2,
+        private val getPodcastUseCase: GetPodcastUseCase,
+        private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+        private val usedImageGateway: UsedImageGateway
 
 ) {
 
@@ -37,7 +39,7 @@ class EditTrackFragmentPresenter @Inject constructor(
     }
 
     private fun observeSongInternal(): Single<DisplayableSong> {
-        return getSongUseCase.execute(mediaId)
+        return songGateway2.observeByParam(mediaId.leaf!!).map { it!! }.asObservable()
                 .firstOrError()
                 .map { it.copy(
                         artist = if (it.artist == AppConstants.UNKNOWN) "" else it.artist,

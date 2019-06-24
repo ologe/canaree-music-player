@@ -4,5 +4,7 @@ import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 
 interface GenreGateway2 :
-    BaseGateway2<Genre, Id>,
-    ChildHasTracks2<Song, Id>
+        BaseGateway2<Genre, Id>,
+        ChildHasTracks2<Song, Id>,
+        HasMostPlayed2,
+        HasSiblings<Genre, Id>

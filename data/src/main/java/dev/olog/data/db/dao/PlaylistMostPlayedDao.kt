@@ -30,21 +30,7 @@ abstract class PlaylistMostPlayedDao {
     @Insert
     abstract fun insertOne(item: PlaylistMostPlayedEntity)
 
-    fun getAll(playlistId: Long, songList: Observable<List<Song>>): Observable<List<Song>> {
-        return this.query(playlistId)
-                .toObservable()
-                .switchMap { mostPlayedSongs ->
-                    songList.map { songList ->
-                        mostPlayedSongs.mapNotNull { mostPlayed ->
-                            val song = songList.firstOrNull { it.id == mostPlayed.songId }
-                            if (song != null) song to mostPlayed.timesPlayed
-                            else null
-                        }.sortedWith(compareByDescending { it.second })
-                    }.mapToList { it.first }
-                }
-    }
-
-    fun getAll2(playlistId: Long, songGateway2: SongGateway2): Flow<List<Song>> {
+    fun getAll(playlistId: Long, songGateway2: SongGateway2): Flow<List<Song>> {
         return this.query(playlistId)
                 .map { mostPlayed ->
                     val songList = songGateway2.getAll()

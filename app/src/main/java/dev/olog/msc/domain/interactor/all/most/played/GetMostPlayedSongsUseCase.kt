@@ -2,12 +2,11 @@ package dev.olog.msc.domain.interactor.all.most.played
 
 import dev.olog.core.entity.track.Song
 import dev.olog.core.executor.IoScheduler
-import dev.olog.msc.domain.gateway.GenreGateway
-import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.FolderGateway2
+import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.PlaylistGateway2
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.asObservable
@@ -17,7 +16,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val folderGateway: FolderGateway2,
         private val playlistGateway: PlaylistGateway2,
-        private val genreGateway: GenreGateway
+        private val genreGateway: GenreGateway2
 
 ) : ObservableUseCaseWithParam<List<Song>, MediaId>(scheduler) {
 
@@ -25,7 +24,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {
 
         return when (mediaId.category) {
-            MediaIdCategory.GENRES -> return genreGateway.getMostPlayed(mediaId)
+            MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId).asObservable()
                     .distinctUntilChanged()
             MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId).asObservable()
                     .distinctUntilChanged()

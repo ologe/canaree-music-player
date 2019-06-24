@@ -11,7 +11,7 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
 import dev.olog.shared.mapToList

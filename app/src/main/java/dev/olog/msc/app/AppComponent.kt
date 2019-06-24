@@ -81,9 +81,6 @@ interface AppComponent : AndroidInjector<App> {
     fun tutorialPrefs(): TutorialPreferenceGateway
     fun equalizerPrefs(): EqualizerPreferencesGateway
 
-    fun songGatwway(): SongGateway
-    fun playlistGateway(): PlaylistGateway
-    fun genreGateway(): GenreGateway
     fun podcastPlaylistGateway(): PodcastPlaylistGateway
     fun podcastGateway(): PodcastGateway
     fun podcastAlbumGateway(): PodcastAlbumGateway

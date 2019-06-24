@@ -2,8 +2,12 @@ package dev.olog.msc.data
 
 import dagger.Binds
 import dagger.Module
+import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.msc.data.repository.*
+import dev.olog.msc.data.repository.FavoriteRepository
+import dev.olog.msc.data.repository.PlayingQueueRepository
+import dev.olog.msc.data.repository.RecentSearchesRepository
+import dev.olog.msc.data.repository.UsedImageRepository
 import dev.olog.msc.data.repository.last.fm.LastFmRepository
 import dev.olog.msc.data.repository.lyrics.OfflineLyricsRepository
 import dev.olog.msc.data.repository.podcast.PlaylistPodcastRepository
@@ -16,17 +20,6 @@ import javax.inject.Singleton
 @Module
 abstract class RepositoryModule {
 
-    @Binds
-    @Singleton
-    abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
-
-    @Binds
-    @Singleton
-    abstract fun provideSongRepository(repository: SongRepository): SongGateway
-
-    @Binds
-    @Singleton
-    abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
 
     @Binds
     @Singleton

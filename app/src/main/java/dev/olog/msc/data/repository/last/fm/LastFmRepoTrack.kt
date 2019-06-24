@@ -11,17 +11,19 @@ import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.shared.TextUtils
 import dev.olog.shared.assertBackgroundThread
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class LastFmRepoTrack @Inject constructor(
     appDatabase: AppDatabase,
     @Proxy private val lastFmService: LastFmService,
-    private val songGateway: SongGateway
+    private val songGateway: SongGateway2
 
 ) {
 
@@ -32,7 +34,7 @@ class LastFmRepoTrack @Inject constructor(
     }
 
     fun getOriginalItem(trackId: Long): Single<Song> {
-        return songGateway.getByParam(trackId).firstOrError()
+        return songGateway.observeByParam(trackId).map { it!! }.asObservable().firstOrError()
     }
 
     fun get(trackId: Long): Single<Optional<LastFmTrack?>> {

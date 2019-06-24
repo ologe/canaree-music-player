@@ -1,12 +1,13 @@
 package dev.olog.msc.music.service.voice
 
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.GenreGateway2
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.rx2.asObservable
 
 object VoiceSearch {
 
@@ -52,22 +53,25 @@ object VoiceSearch {
     fun search(flowable: Observable<List<Song>>, param: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError().map {
-            it.filter { it.title.toLowerCase() == param ||
-                    it.artist.toLowerCase() == param ||
-                    it.album.toLowerCase() == param }
+            it.filter {
+                it.title.toLowerCase() == param ||
+                        it.artist.toLowerCase() == param ||
+                        it.album.toLowerCase() == param
+            }
                     .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
         }
     }
 
-    fun filterByGenre(genreGateway: GenreGateway, genre: String): Single<List<MediaEntity>> {
+    fun filterByGenre(genreGateway: GenreGateway2, genre: String): Single<List<MediaEntity>> {
 
-        return genreGateway.getAll().map { it.first { it.name.equals(genre, true) } }
+        return genreGateway.observeAll().asObservable()
+                .map { it.first { it.name.equals(genre, true) } }
                 .firstOrError()
                 .flatMap {
                     val mediaId = MediaId.genreId(it.id)
-                    genreGateway.observeSongListByParam(it.id)
-                        .firstOrError()
-                        .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
+                    genreGateway.observeTrackListByParam(it.id).asObservable()
+                            .firstOrError()
+                            .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
                 }
     }
 

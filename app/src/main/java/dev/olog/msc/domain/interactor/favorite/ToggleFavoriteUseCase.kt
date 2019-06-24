@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.favorite
 
-import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.core.gateway.FavoriteGateway
 import javax.inject.Inject
 
 class ToggleFavoriteUseCase @Inject constructor(

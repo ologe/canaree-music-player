@@ -2,7 +2,9 @@ package dev.olog.data.repository.podcast
 
 import android.content.ContentUris
 import android.content.Context
+import android.provider.BaseColumns
 import android.provider.MediaStore
+import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
@@ -17,7 +19,9 @@ import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
+import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 import javax.inject.Inject
 
 internal class PodcastRepository2 @Inject constructor(
@@ -54,4 +58,21 @@ internal class PodcastRepository2 @Inject constructor(
             .assertBackground()
     }
 
+    override fun deleteSingle(id: Id): Completable {
+        return Completable.fromCallable { deleteInternal(id) }
+    }
+
+    private fun deleteInternal(id: Id) {
+        assertBackgroundThread()
+        val deleted = context.contentResolver.delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$id"))
+        if (deleted < 1) {
+            Log.w("SongRepo", "song not found $id")
+            return
+        }
+        val path = getByParam(id)!!.path
+        val file = File(path)
+        if (file.exists()) {
+            file.delete()
+        }
+    }
 }

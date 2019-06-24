@@ -7,21 +7,22 @@ import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.track.Song
 import dev.olog.data.db.dao.AppDatabase
-import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.core.gateway.FavoriteGateway
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.rx2.asObservable
 import java.text.Collator
 import javax.inject.Inject
 
 class FavoriteRepository @Inject constructor(
     appDatabase: AppDatabase,
-    private val songGateway: SongGateway,
+    private val songGateway: SongGateway2,
     private val podcastGateway: PodcastGateway,
     private val collator: Collator
 
@@ -57,7 +58,7 @@ class FavoriteRepository @Inject constructor(
     override fun getAll(): Observable<List<Song>> {
         return favoriteDao.getAllImpl()
                 .toObservable()
-                .switchMap { favorites -> songGateway.getAll().map { songList ->
+                .switchMap { favorites -> songGateway.observeAll().asObservable().map { songList ->
                     favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
                             .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                 } }

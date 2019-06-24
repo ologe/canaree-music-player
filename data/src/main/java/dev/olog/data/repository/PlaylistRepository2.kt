@@ -10,6 +10,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
 import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PlaylistOperations
 import dev.olog.core.gateway.SongGateway2
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -33,8 +34,9 @@ internal class PlaylistRepository2 @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     appDatabase: AppDatabase,
-    private val songGateway2: SongGateway2
-) : BaseRepository<Playlist, Id>(context), PlaylistGateway2 {
+    private val songGateway2: SongGateway2,
+    private val helper: PlaylistRepositoryHelper
+) : BaseRepository<Playlist, Id>(context), PlaylistGateway2, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val queries = PlaylistQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -89,7 +91,7 @@ internal class PlaylistRepository2 @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
-        return mostPlayedDao.getAll2(folderPath, songGateway2)
+        return mostPlayedDao.getAll(folderPath, songGateway2)
                 .assertBackground()
     }
 
@@ -102,5 +104,9 @@ internal class PlaylistRepository2 @Inject constructor(
                     mediaId.categoryId
             ))
         } ?: Log.w("PlaylistRepo", "song not found=$mediaId")
+    }
+
+    override fun observeSiblings(id: Id): Flow<List<Playlist>> {
+        return observeAll().map { it.filter { it.id != id } }
     }
 }

@@ -18,11 +18,11 @@ import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetPodcastRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
-import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
+import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.shared.mapToList
@@ -59,7 +59,7 @@ class DetailFragmentModuleSongs {
     internal fun provideSongList(
         @ApplicationContext context: Context,
         mediaId: MediaId,
-        useCase: GetSortedSongListByParamUseCase,
+        useCase: GetSongListByParamUseCase,
         sortOrderUseCase: GetSortOrderUseCase,
         songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
 

@@ -107,4 +107,8 @@ internal class FolderRepository2 @Inject constructor(
             ))
         } ?: Log.w("FolderRepo", "song not found=$mediaId")
     }
+
+    override fun observeSiblings(path: Path): Flow<List<Folder>> {
+        return observeAll().map { it.filter { it.path != path } }
+    }
 }

@@ -11,10 +11,10 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.AlbumGateway2
+import dev.olog.core.gateway.FolderGateway2
+import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.all.sibling.GetFolderSiblingsUseCase
-import dev.olog.msc.domain.interactor.all.sibling.GetGenreSiblingsUseCase
-import dev.olog.msc.domain.interactor.all.sibling.GetPlaylistSiblingsUseCase
 import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapToList
@@ -30,9 +30,9 @@ class DetailFragmentModuleAlbum {
     internal fun provideFolderData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
+            useCase: FolderGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeSiblings(mediaId.categoryValue).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
@@ -42,9 +42,9 @@ class DetailFragmentModuleAlbum {
     internal fun providePlaylistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
+            useCase: PlaylistGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
@@ -80,9 +80,9 @@ class DetailFragmentModuleAlbum {
     internal fun provideGenreData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
+            useCase: GenreGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 

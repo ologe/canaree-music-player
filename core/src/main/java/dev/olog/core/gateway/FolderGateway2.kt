@@ -6,7 +6,8 @@ import dev.olog.core.entity.track.Song
 interface FolderGateway2 :
         BaseGateway2<Folder, Path>,
         ChildHasTracks2<Song, Path>,
-        HasMostPlayed2 {
+        HasMostPlayed2,
+        HasSiblings<Folder, Path> {
 
     fun getAllBlacklistedIncluded(): List<Folder>
 

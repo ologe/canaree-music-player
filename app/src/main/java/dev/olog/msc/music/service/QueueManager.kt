@@ -5,13 +5,11 @@ import android.os.Bundle
 import dev.olog.media.MusicConstants
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
-import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
-import dev.olog.msc.domain.interactor.item.GetSongByFileUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
@@ -19,6 +17,8 @@ import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
 import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
 import dev.olog.msc.utils.safeCompare
@@ -38,8 +38,8 @@ class QueueManager @Inject constructor(
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
         private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
-        private val getSongByFileUseCase: GetSongByFileUseCase,
-        private val genreGateway: GenreGateway,
+        private val songGateway: SongGateway2,
+        private val genreGateway: GenreGateway2,
         private val collator: Collator,
         private val enhancedShuffle: EnhancedShuffle,
         private val podcastPosition: PodcastPositionUseCase
@@ -188,7 +188,7 @@ class QueueManager @Inject constructor(
     }
 
     override fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity> {
-        return getSongByFileUseCase.execute(uri)
+        return Single.fromCallable { songGateway.getByUri(uri) }
                 .delay(500, TimeUnit.MILLISECONDS)
                 .map { it.toMediaEntity(0, MediaId.songId(it.id)) }
                 .map { listOf(it) }
