@@ -6,16 +6,13 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.podcast.PodcastAlbum
-import dev.olog.core.entity.podcast.PodcastPlaylist
-import dev.olog.msc.R
+import dev.olog.core.gateway.PodcastAlbumGateway2
+import dev.olog.core.gateway.PodcastPlaylistGateway2
 import dev.olog.presentation.dagger.MediaIdCategoryKey
-import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbumUseCase
-import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
-import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase
-import dev.olog.shared.mapToList
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.mapToList
 import io.reactivex.Observable
+import kotlinx.coroutines.rx2.asObservable
 
 @Module
 class DetailFragmentModulePodcastAlbum {
@@ -24,11 +21,11 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_PLAYLIST)
     internal fun providePodcastPlaylist(
-        resources: Resources,
-        mediaId: MediaId,
-        useCase: GetPodcastPlaylistsSiblingsUseCase): Observable<List<DisplayableItem>> {
+            resources: Resources,
+            mediaId: MediaId,
+            useCase: PodcastPlaylistGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeSiblings(mediaId.resolveId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
@@ -36,11 +33,11 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ALBUMS)
     internal fun providePodcastAlbum(
-        resources: Resources,
-        mediaId: MediaId,
-        useCase: GetPodcastAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
+            resources: Resources,
+            mediaId: MediaId,
+            useCase: PodcastAlbumGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
@@ -48,30 +45,12 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ARTISTS)
     internal fun providePodcastArtist(
-        resources: Resources,
-        mediaId: MediaId,
-        useCase: GetPodcastAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
+            resources: Resources,
+            mediaId: MediaId,
+            useCase: PodcastAlbumGateway2): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
+        return useCase.observeArtistsAlbums(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
-}
-
-private fun PodcastPlaylist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        MediaId.podcastPlaylistId(id),
-        title,
-        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
-    )
-}
-
-private fun PodcastAlbum.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        MediaId.podcastAlbumId(id),
-        title,
-        resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
-    )
 }

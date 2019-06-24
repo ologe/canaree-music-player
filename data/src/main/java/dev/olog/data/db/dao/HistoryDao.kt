@@ -4,10 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import dev.olog.core.entity.track.Song
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -62,10 +61,10 @@ abstract class HistoryDao {
                 } }
     }
 
-    fun getAllPodcasts(podcastList: Single<List<Podcast>>): Observable<List<Podcast>> {
+    fun getAllPodcasts(podcastList: Single<List<Song>>): Observable<List<Song>> {
         return getAllPodcastsImpl().toObservable()
                 .flatMapSingle { ids -> podcastList.flatMap { songs ->
-                    val result : List<Podcast> = ids
+                    val result : List<Song> = ids
                             .asSequence()
                             .mapNotNull { historyEntity ->
                                 val song = songs.firstOrNull { it.id == historyEntity.podcastId }

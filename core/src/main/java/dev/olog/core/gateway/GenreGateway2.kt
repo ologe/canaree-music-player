@@ -7,4 +7,5 @@ interface GenreGateway2 :
         BaseGateway2<Genre, Id>,
         ChildHasTracks2<Song, Id>,
         HasMostPlayed2,
-        HasSiblings<Genre, Id>
+        HasSiblings<Genre, Id>,
+        HasRelatedArtists<Id>

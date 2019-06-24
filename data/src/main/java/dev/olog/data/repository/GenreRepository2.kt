@@ -1,10 +1,12 @@
 package dev.olog.data.repository
 
 import android.content.Context
+import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.GenreGateway2
@@ -14,6 +16,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.GenreMostPlayedEntity
+import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.utils.queryAll
@@ -89,5 +92,23 @@ internal class GenreRepository2 @Inject constructor(
                     mediaId.categoryId
             ))
         } ?: Log.w("FolderRepo", "song not found=$mediaId")
+    }
+
+    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
+        assertBackgroundThread()
+        val cursor = queries.getRelatedArtists(params)
+        return observeByParamInternal(ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)) {
+            extractArtists(cursor)
+        }
+    }
+
+    private fun extractArtists(cursor: Cursor): List<Artist> {
+        assertBackgroundThread()
+        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+                .groupBy { it.id }
+                .map { (_, list) ->
+                    val artist = list[0]
+                    artist.copy(songs = list.size)
+                }
     }
 }

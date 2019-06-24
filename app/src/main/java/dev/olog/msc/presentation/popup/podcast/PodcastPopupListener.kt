@@ -2,28 +2,27 @@ package dev.olog.msc.presentation.popup.podcast
 
 import android.app.Activity
 import android.view.MenuItem
+import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.core.MediaId
+import dev.olog.presentation.navigator.Navigator
 import javax.inject.Inject
 
 class PodcastPopupListener @Inject constructor(
-    private val activity: Activity,
-    private val navigator: Navigator,
-    getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
+        private val activity: Activity,
+        private val navigator: Navigator,
+        getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
+        addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
-    private lateinit var podcast: Podcast
+    private lateinit var podcast: Song
 
-    fun setData(podcast: Podcast): PodcastPopupListener{
+    fun setData(podcast: Song): PodcastPopupListener {
         this.podcast = podcast
         return this
     }
@@ -37,7 +36,7 @@ class PodcastPopupListener @Inject constructor(
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, podcast.title)
 
-        when (itemId){
+        when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
             R.id.addToFavorite -> addToFavorite()
             R.id.playLater -> playLater()
@@ -46,30 +45,30 @@ class PodcastPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast.artistId))
-            R.id.share -> share(activity, podcast.toSong())
+            R.id.share -> share(activity, podcast)
         }
 
 
         return true
     }
 
-    private fun toCreatePlaylist(){
+    private fun toCreatePlaylist() {
         navigator.toCreatePlaylistDialog(getMediaId(), -1, podcast.title)
     }
 
-    private fun playLater(){
+    private fun playLater() {
         navigator.toPlayLater(getMediaId(), -1, podcast.title)
     }
 
-    private fun playNext(){
+    private fun playNext() {
         navigator.toPlayNext(getMediaId(), -1, podcast.title)
     }
 
-    private fun addToFavorite(){
+    private fun addToFavorite() {
         navigator.toAddToFavoriteDialog(getMediaId(), -1, podcast.title)
     }
 
-    private fun delete(){
+    private fun delete() {
         navigator.toDeleteDialog(getMediaId(), -1, podcast.title)
     }
 

@@ -4,9 +4,6 @@ import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastArtist
-import dev.olog.core.entity.podcast.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.media.MediaProvider
@@ -14,6 +11,8 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Song
 import javax.inject.Inject
 
 class PodcastArtistPopupListener @Inject constructor(
@@ -26,10 +25,10 @@ class PodcastArtistPopupListener @Inject constructor(
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
-    private lateinit var artist: PodcastArtist
-    private var podcast: Podcast? = null
+    private lateinit var artist: Artist
+    private var podcast: Song? = null
 
-    fun setData(artist: PodcastArtist, podcast: Podcast?): PodcastArtistPopupListener{
+    fun setData(artist: Artist, podcast: Song?): PodcastArtistPopupListener{
         this.artist = artist
         this.podcast = podcast
         return this
@@ -59,7 +58,7 @@ class PodcastArtistPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast!!.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast!!.artistId))
-            R.id.share -> share(activity, podcast!!.toSong())
+            R.id.share -> share(activity, podcast!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name)
         }
 

@@ -1,13 +1,13 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.MediaId
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.core.MediaId
+import dev.olog.core.gateway.PodcastGateway2
 import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.data.db.dao.AppDatabase
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class PlayingQueueRepository @Inject constructor(
     database: AppDatabase,
     private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastGateway2
 
 ) : PlayingQueueGateway {
 
@@ -27,7 +27,7 @@ class PlayingQueueRepository @Inject constructor(
         return Single.concat(
                 playingQueueDao.getAllAsSongs(
                         songGateway.observeAll().asObservable().firstOrError(),
-                        podcastGateway.getAll().firstOrError()
+                        podcastGateway.observeAll().asObservable().firstOrError()
                 ).firstOrError(),
 
                 songGateway.observeAll().asObservable().firstOrError()
@@ -38,7 +38,7 @@ class PlayingQueueRepository @Inject constructor(
     override fun observeAll(): Observable<List<PlayingQueueSong>> {
         return playingQueueDao.getAllAsSongs(
                 songGateway.observeAll().asObservable().firstOrError(),
-                podcastGateway.getAll().firstOrError()
+                podcastGateway.observeAll().asObservable().firstOrError()
         )
     }
 
@@ -49,7 +49,7 @@ class PlayingQueueRepository @Inject constructor(
     override fun observeMiniQueue(): Observable<List<PlayingQueueSong>> {
         return playingQueueDao.observeMiniQueue(
                 songGateway.observeAll().asObservable().firstOrError(),
-                podcastGateway.getAll().firstOrError()
+                podcastGateway.observeAll().asObservable().firstOrError()
         )
     }
 

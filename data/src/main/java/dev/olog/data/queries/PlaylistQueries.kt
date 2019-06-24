@@ -47,6 +47,22 @@ internal class PlaylistQueries(
         return contentResolver.querySql(query)
     }
 
+    fun getRelatedArtists(playlistId: Id): Cursor {
+        val query = """
+             SELECT
+                ${Members.ARTIST_ID},
+                ${Members.ARTIST},
+                ${Columns.ALBUM_ARTIST},
+                ${Members.IS_PODCAST}
+            FROM ${Members.getContentUri("external", playlistId)}
+            WHERE ${defaultSelection()}
+
+            ORDER BY lower(${Members.ARTIST}) COLLATED UNICODE ASC
+        """
+
+        return contentResolver.querySql(query, arrayOf(playlistId.toString()))
+    }
+
     private fun defaultSelection(): String {
         return "${isPodcast()} AND ${notBlacklisted()}"
     }

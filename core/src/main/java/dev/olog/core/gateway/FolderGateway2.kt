@@ -7,7 +7,8 @@ interface FolderGateway2 :
         BaseGateway2<Folder, Path>,
         ChildHasTracks2<Song, Path>,
         HasMostPlayed2,
-        HasSiblings<Folder, Path> {
+        HasSiblings<Folder, Path>,
+        HasRelatedArtists<Path> {
 
     fun getAllBlacklistedIncluded(): List<Folder>
 

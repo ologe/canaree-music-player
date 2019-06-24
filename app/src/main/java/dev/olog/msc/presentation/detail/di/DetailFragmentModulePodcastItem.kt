@@ -4,18 +4,13 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.msc.R
-import dev.olog.presentation.dagger.MediaIdCategoryKey
-import dev.olog.core.entity.podcast.PodcastAlbum
-import dev.olog.core.entity.podcast.PodcastArtist
-import dev.olog.core.entity.podcast.PodcastPlaylist
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastPlaylistUseCase
+import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.shared.TextUtils
 import dev.olog.shared.asFlowable
 import io.reactivex.Flowable
 
@@ -60,48 +55,4 @@ class DetailFragmentModulePodcastItem {
                 .asFlowable()
     }
 
-}
-
-private fun PodcastPlaylist.toHeaderItem(resources: Resources): List<DisplayableItem> {
-    val listSize = if (this.size == -1){ "" } else {
-        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
-    }
-
-    return listOf(
-        DisplayableItem(
-            R.layout.item_detail_item_image,
-            MediaId.podcastPlaylistId(this.id),
-            title,
-            listSize
-        )
-    )
-
-}
-
-private fun PodcastAlbum.toHeaderItem(): List<DisplayableItem> {
-
-    return listOf(
-        DisplayableItem(
-            R.layout.item_detail_item_image,
-            MediaId.podcastAlbumId(this.id),
-            title,
-            DisplayableItem.adjustArtist(this.artist)
-        )
-    )
-}
-
-private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableItem> {
-    val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
-    val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
-    }
-
-    return listOf(
-        DisplayableItem(
-            R.layout.item_detail_item_image,
-            MediaId.podcastArtistId(this.id),
-            name,
-            "$albums$songs".toLowerCase()
-        )
-    )
 }

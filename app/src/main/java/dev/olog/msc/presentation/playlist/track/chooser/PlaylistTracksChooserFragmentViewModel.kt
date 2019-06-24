@@ -7,20 +7,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import dev.olog.presentation.model.PlaylistType
-import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
+import dev.olog.core.MediaId
+import dev.olog.core.gateway.PodcastGateway2
+import dev.olog.core.gateway.SongGateway2
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.playlist.track.chooser.model.PlaylistTrack
 import dev.olog.msc.presentation.playlist.track.chooser.model.toDisplayableItem
 import dev.olog.msc.presentation.playlist.track.chooser.model.toPlaylistTrack
-import dev.olog.core.MediaId
-import dev.olog.core.gateway.SongGateway2
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.mapToList
 import dev.olog.msc.utils.k.extension.toList
 import dev.olog.msc.utils.k.extension.toggle
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.PlaylistType
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.mapToList
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class PlaylistTracksChooserFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
     private val getAllSongsUseCase: SongGateway2,
-    private val getAllPodcastsUseCase: GetAllPodcastUseCase,
+    private val getAllPodcastsUseCase: PodcastGateway2,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
@@ -62,7 +62,7 @@ class PlaylistTracksChooserFragmentViewModel @Inject constructor(
     }
 
     private fun getPlaylistTypeTracks(): Observable<List<PlaylistTrack>> = when (playlistType) {
-        PlaylistType.PODCAST -> getAllPodcastsUseCase.execute().mapToList { it.toPlaylistTrack() }
+        PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll().asObservable().mapToList { it.toPlaylistTrack() }
         PlaylistType.TRACK -> getAllSongsUseCase.observeAll().asObservable().mapToList { it.toPlaylistTrack() }
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
     }.map { list -> list.sortedBy { it.title.toLowerCase() } }

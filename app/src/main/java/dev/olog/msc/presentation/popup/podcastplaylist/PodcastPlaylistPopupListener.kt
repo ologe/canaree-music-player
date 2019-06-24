@@ -3,17 +3,16 @@ package dev.olog.msc.presentation.popup.podcastplaylist
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.core.MediaId
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastPlaylist
-import dev.olog.core.entity.podcast.toSong
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
+import dev.olog.media.MediaProvider
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.media.MediaProvider
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.toast
 import javax.inject.Inject
 
@@ -27,10 +26,10 @@ class PodcastPlaylistPopupListener @Inject constructor(
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
-    private lateinit var playlist: PodcastPlaylist
-    private var podcast: Podcast? = null
+    private lateinit var playlist: Playlist
+    private var podcast: Song? = null
 
-    fun setData(playlist: PodcastPlaylist, podcast: Podcast?): PodcastPlaylistPopupListener {
+    fun setData(playlist: Playlist, podcast: Song?): PodcastPlaylistPopupListener {
         this.playlist = playlist
         this.podcast = podcast
         return this
@@ -62,7 +61,7 @@ class PodcastPlaylistPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast!!.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast!!.artistId))
-            R.id.share -> share(activity, podcast!!.toSong())
+            R.id.share -> share(activity, podcast!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title)
             R.id.removeDuplicates -> removeDuplicates()
         }

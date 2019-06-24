@@ -11,6 +11,8 @@ import dev.olog.core.gateway.Id
 import dev.olog.core.gateway.PodcastGateway2
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.PodcastPositionEntity
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
@@ -25,14 +27,17 @@ import java.io.File
 import javax.inject.Inject
 
 internal class PodcastRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), PodcastGateway2 {
 
+    private val podcastPositionDao = appDatabase.podcastPositionDao()
+
     private val queries = TrackQueries(
-        context.contentResolver, blacklistPrefs,
-        sortPrefs, true
+            context.contentResolver, blacklistPrefs,
+            sortPrefs, true
     )
 
     override fun registerMainContentUri(): ContentUri {
@@ -55,11 +60,19 @@ internal class PodcastRepository2 @Inject constructor(
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
-            .assertBackground()
+                .assertBackground()
     }
 
     override fun deleteSingle(id: Id): Completable {
         return Completable.fromCallable { deleteInternal(id) }
+    }
+
+    override fun deleteGroup(ids: List<Song>): Completable {
+        return Completable.fromCallable {
+            for (id in ids) {
+                deleteInternal(id.id)
+            }
+        }
     }
 
     private fun deleteInternal(id: Id) {
@@ -74,5 +87,18 @@ internal class PodcastRepository2 @Inject constructor(
         if (file.exists()) {
             file.delete()
         }
+    }
+
+    override fun getCurrentPosition(podcastId: Long, duration: Long): Long {
+        val position = podcastPositionDao.getPosition(podcastId) ?: 0L
+        if (position > duration - 1000 * 5) {
+            // if last 5 sec, restart
+            return 0L
+        }
+        return position
+    }
+
+    override fun saveCurrentPosition(podcastId: Long, position: Long) {
+        podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
     }
 }

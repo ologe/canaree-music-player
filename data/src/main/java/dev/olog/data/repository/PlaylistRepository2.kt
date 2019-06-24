@@ -1,11 +1,13 @@
 package dev.olog.data.repository
 
 import android.content.Context
+import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
@@ -17,6 +19,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
+import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toPlaylist
 import dev.olog.data.queries.PlaylistQueries
 import dev.olog.data.utils.queryAll
@@ -108,5 +111,23 @@ internal class PlaylistRepository2 @Inject constructor(
 
     override fun observeSiblings(id: Id): Flow<List<Playlist>> {
         return observeAll().map { it.filter { it.id != id } }
+    }
+
+    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
+        assertBackgroundThread()
+        val cursor = queries.getRelatedArtists(params)
+        return observeByParamInternal(ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)) {
+            extractArtists(cursor)
+        }
+    }
+
+    private fun extractArtists(cursor: Cursor): List<Artist> {
+        assertBackgroundThread()
+        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+                .groupBy { it.id }
+                .map { (_, list) ->
+                    val artist = list[0]
+                    artist.copy(songs = list.size)
+                }
     }
 }

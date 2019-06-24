@@ -10,7 +10,8 @@ interface PlaylistGateway2 :
         ChildHasTracks2<Song, Id>,
         HasMostPlayed2,
         HasSiblings<Playlist, Id>,
-        PlaylistOperations {
+        PlaylistOperations,
+        HasRelatedArtists<Id> {
 
     fun getAllAutoPlaylists(): List<Playlist>
 

@@ -47,6 +47,22 @@ internal class FolderQueries(
         return contentResolver.querySql(query, arrayOf(folderPath))
     }
 
+    fun getRelatedArtists(path: Path): Cursor {
+        val query = """
+             SELECT
+                $ARTIST_ID,
+                $ARTIST,
+                ${Columns.ALBUM_ARTIST},
+                $IS_PODCAST
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE ${defaultSelection(false)} AND $folderProjection = ?
+
+            ORDER BY lower($ARTIST) COLLATED UNICODE ASC
+        """
+
+        return contentResolver.querySql(query, arrayOf(path))
+    }
+
     private fun defaultSelection(includeBlackListed: Boolean): String {
         if (includeBlackListed) {
             return isPodcast()

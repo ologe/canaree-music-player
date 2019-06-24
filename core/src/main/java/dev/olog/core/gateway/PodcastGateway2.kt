@@ -6,5 +6,9 @@ import io.reactivex.Completable
 interface PodcastGateway2 : BaseGateway2<Song, Id> {
 
     fun deleteSingle(id: Id): Completable
+    fun deleteGroup(podcastList: List<Song>): Completable
+
+    fun getCurrentPosition(podcastId: Long, duration: Long): Long
+    fun saveCurrentPosition(podcastId: Long, position: Long)
 
 }

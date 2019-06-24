@@ -2,13 +2,10 @@ package dev.olog.msc.domain.interactor.all
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.podcast.toSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.gateway.*
-import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
-import dev.olog.shared.mapToList
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject

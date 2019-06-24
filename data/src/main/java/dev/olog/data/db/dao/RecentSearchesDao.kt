@@ -1,14 +1,7 @@
 package dev.olog.data.db.dao
 
 import androidx.room.*
-import dev.olog.data.db.entities.RecentSearchesEntity
 import dev.olog.core.MediaId
-import dev.olog.core.entity.SearchResult
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastAlbum
-import dev.olog.core.entity.podcast.PodcastArtist
-import dev.olog.core.entity.podcast.PodcastPlaylist
-import dev.olog.core.entity.track.*
 import dev.olog.core.RecentSearchesTypes.ALBUM
 import dev.olog.core.RecentSearchesTypes.ARTIST
 import dev.olog.core.RecentSearchesTypes.FOLDER
@@ -19,6 +12,9 @@ import dev.olog.core.RecentSearchesTypes.PODCAST_ALBUM
 import dev.olog.core.RecentSearchesTypes.PODCAST_ARTIST
 import dev.olog.core.RecentSearchesTypes.PODCAST_PLAYLIST
 import dev.olog.core.RecentSearchesTypes.SONG
+import dev.olog.core.entity.SearchResult
+import dev.olog.core.entity.track.*
+import dev.olog.data.db.entities.RecentSearchesEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -41,10 +37,10 @@ abstract class RecentSearchesDao {
                playlistList: Single<List<Playlist>>,
                genreList: Single<List<Genre>>,
                folderList: Single<List<Folder>>,
-               podcastList: Single<List<Podcast>>,
-               podcastPlaylistList: Single<List<PodcastPlaylist>>,
-               podcastAlbumList: Single<List<PodcastAlbum>>,
-               podcastArtistList: Single<List<PodcastArtist>>) : Observable<List<SearchResult>> {
+               podcastList: Single<List<Song>>,
+               podcastPlaylistList: Single<List<Playlist>>,
+               podcastAlbumList: Single<List<Album>>,
+               podcastArtistList: Single<List<Artist>>) : Observable<List<SearchResult>> {
 
         return getAllImpl()
                 .toObservable()
@@ -283,25 +279,25 @@ abstract class RecentSearchesDao {
         )
     }
 
-    private fun searchPodcastMapper(recentSearch: RecentSearchesEntity, podcast: Podcast) : SearchResult {
+    private fun searchPodcastMapper(recentSearch: RecentSearchesEntity, podcast: Song) : SearchResult {
         return SearchResult(
             MediaId.podcastId(podcast.id), recentSearch.dataType, podcast.title
         )
     }
 
-    private fun searchPodcastPlaylistMapper(recentSearch: RecentSearchesEntity, playlist: PodcastPlaylist) : SearchResult {
+    private fun searchPodcastPlaylistMapper(recentSearch: RecentSearchesEntity, playlist: Playlist) : SearchResult {
         return SearchResult(
             MediaId.podcastPlaylistId(playlist.id), recentSearch.dataType, playlist.title
         )
     }
 
-    private fun searchPodcastAlbumMapper(recentSearch: RecentSearchesEntity, album: PodcastAlbum) : SearchResult {
+    private fun searchPodcastAlbumMapper(recentSearch: RecentSearchesEntity, album: Album) : SearchResult {
         return SearchResult(
             MediaId.podcastAlbumId(album.id), recentSearch.dataType, album.title
         )
     }
 
-    private fun searchPodcastArtistMapper(recentSearch: RecentSearchesEntity, artist: PodcastArtist) : SearchResult {
+    private fun searchPodcastArtistMapper(recentSearch: RecentSearchesEntity, artist: Artist) : SearchResult {
         return SearchResult(
             MediaId.podcastArtistId(artist.id), recentSearch.dataType, artist.name
         )

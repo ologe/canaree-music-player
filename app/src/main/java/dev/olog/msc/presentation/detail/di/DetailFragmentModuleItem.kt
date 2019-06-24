@@ -85,7 +85,7 @@ class DetailFragmentModuleItem {
 }
 
 
-private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
+internal fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
     return listOf(
         DisplayableItem(
@@ -97,7 +97,7 @@ private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
     )
 }
 
-private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
+internal fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     val listSize = if (this.size == -1){ "" } else {
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
@@ -113,7 +113,7 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
 }
 
-private fun Album.toHeaderItem(): List<DisplayableItem> {
+internal fun Album.toHeaderItem(): List<DisplayableItem> {
 
     return listOf(
         DisplayableItem(
@@ -125,7 +125,7 @@ private fun Album.toHeaderItem(): List<DisplayableItem> {
     )
 }
 
-private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
+internal fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
         "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
@@ -141,7 +141,7 @@ private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     )
 }
 
-private fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
+internal fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
     return listOf(
         DisplayableItem(

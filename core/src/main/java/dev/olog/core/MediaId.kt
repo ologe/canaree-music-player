@@ -29,6 +29,7 @@ class MediaId private constructor(
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
 
+        // TODO check media construction
         fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
         }

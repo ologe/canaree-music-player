@@ -5,8 +5,6 @@ import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
 import com.crashlytics.android.Crashlytics
 import dev.olog.core.PlaylistConstants.MINI_QUEUE_SIZE
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
@@ -351,11 +349,8 @@ class QueueImpl @Inject constructor(
                 .subscribe({ items ->
                     var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
                     val listToAdd = items.map { item ->
-                        when (item){
-                            is Song -> item.toMediaEntity(currentProgressive++, MediaId.songId(item.id))
-                            is Podcast -> item.toMediaEntity(currentProgressive++, MediaId.podcastId(item.id))
-                            else -> throw IllegalArgumentException("nor song nor podcast")
-                        }
+                        val mediaId = if (item.isPodcast) MediaId.podcastId(item.id) else MediaId.songId(item.id)
+                        item.toMediaEntity(currentProgressive++, mediaId)
                     }
                     val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
 

@@ -10,32 +10,14 @@ import dev.olog.msc.data.repository.RecentSearchesRepository
 import dev.olog.msc.data.repository.UsedImageRepository
 import dev.olog.msc.data.repository.last.fm.LastFmRepository
 import dev.olog.msc.data.repository.lyrics.OfflineLyricsRepository
-import dev.olog.msc.data.repository.podcast.PlaylistPodcastRepository
-import dev.olog.msc.data.repository.podcast.PodcastAlbumRepository
-import dev.olog.msc.data.repository.podcast.PodcastArtistRepository
-import dev.olog.msc.data.repository.podcast.PodcastRepository
-import dev.olog.msc.domain.gateway.*
+import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.msc.domain.gateway.OfflineLyricsGateway
+import dev.olog.msc.domain.gateway.RecentSearchesGateway
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import javax.inject.Singleton
 
 @Module
 abstract class RepositoryModule {
-
-
-    @Binds
-    @Singleton
-    abstract fun providePodcastRepository(repository: PodcastRepository): PodcastGateway
-
-    @Binds
-    @Singleton
-    abstract fun providePodcastPlaylistRepository(repository: PlaylistPodcastRepository): PodcastPlaylistGateway
-
-    @Binds
-    @Singleton
-    abstract fun providePodcastAlbumsRepository(repository: PodcastAlbumRepository): PodcastAlbumGateway
-
-    @Binds
-    @Singleton
-    abstract fun providePodcastArtistsRepository(repository: PodcastArtistRepository): PodcastArtistGateway
 
     @Binds
     @Singleton

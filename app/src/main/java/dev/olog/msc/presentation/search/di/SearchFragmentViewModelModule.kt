@@ -10,14 +10,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.SearchResult
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastAlbum
-import dev.olog.core.entity.podcast.PodcastArtist
-import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
@@ -265,29 +260,10 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem {
     )
 }
 
-private fun Podcast.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_song,
-        MediaId.podcastId(this.id),
-        title,
-        DisplayableItem.adjustArtist(artist),
-        true
-    )
-}
-
 private fun Album.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
         MediaId.albumId(id),
-        title,
-        DisplayableItem.adjustArtist(artist)
-    )
-}
-
-private fun PodcastAlbum.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        MediaId.podcastAlbumId(id),
         title,
         DisplayableItem.adjustArtist(artist)
     )
@@ -302,28 +278,10 @@ private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     )
 }
 
-private fun PodcastArtist.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_artist,
-        MediaId.podcastArtistId(id),
-        name,
-        null
-    )
-}
-
 private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
         MediaId.playlistId(id),
-        title,
-        null
-    )
-}
-
-private fun PodcastPlaylist.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        MediaId.podcastPlaylistId(id),
         title,
         null
     )

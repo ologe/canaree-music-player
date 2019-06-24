@@ -20,10 +20,10 @@ class RecentSearchesRepository @Inject constructor(
     private val genreGateway: GenreGateway2,
     private val folderGateway: FolderGateway2,
 
-    private val podcastGateway: PodcastGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway
+    private val podcastGateway: PodcastGateway2,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway2,
+    private val podcastArtistGateway: PodcastArtistGateway2,
+    private val podcastAlbumGateway: PodcastAlbumGateway2
 
 ) : RecentSearchesGateway {
 
@@ -36,10 +36,10 @@ class RecentSearchesRepository @Inject constructor(
                 playlistGateway.observeAll().asFlowable().firstOrError(),
                 genreGateway.observeAll().asFlowable().firstOrError(),
                 folderGateway.observeAll().asFlowable().firstOrError(),
-                podcastGateway.getAll().firstOrError(),
-                podcastPlaylistGateway.getAll().firstOrError(),
-                podcastAlbumGateway.getAll().firstOrError(),
-                podcastArtistGateway.getAll().firstOrError()
+                podcastGateway.observeAll().asFlowable().firstOrError(),
+                podcastPlaylistGateway.observeAll().asFlowable().firstOrError(),
+                podcastAlbumGateway.observeAll().asFlowable().firstOrError(),
+                podcastArtistGateway.observeAll().asFlowable().firstOrError()
         )
     }
 

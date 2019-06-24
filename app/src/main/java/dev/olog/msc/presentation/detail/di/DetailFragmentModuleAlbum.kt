@@ -89,7 +89,7 @@ class DetailFragmentModuleAlbum {
 
 }
 
-private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaId.folderId(path),
@@ -98,7 +98,7 @@ private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIte
     )
 }
 
-private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaId.playlistId(id),
@@ -107,7 +107,7 @@ private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableI
     )
 }
 
-private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaId.albumId(id),
@@ -116,7 +116,7 @@ private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem
     )
 }
 
-private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaId.genreId(id),

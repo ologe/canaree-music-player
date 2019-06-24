@@ -37,14 +37,30 @@ internal class GenreQueries(
         return contentResolver.querySql(query)
     }
 
-    fun countGenreSize(playlistId: Id): Cursor {
+    fun countGenreSize(genreId: Id): Cursor {
         // TODO remove playlist with 0 tracks if possibile
         val query = """
             SELECT ${Members._ID}, ${Members.AUDIO_ID}
-            FROM ${Members.getContentUri("external", playlistId)}
+            FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection()}
         """
         return contentResolver.querySql(query)
+    }
+
+    fun getRelatedArtists(genreId: Id): Cursor {
+        val query = """
+             SELECT
+                ${Members.ARTIST_ID},
+                ${Members.ARTIST},
+                ${Columns.ALBUM_ARTIST},
+                ${Members.IS_PODCAST}
+            FROM ${Members.getContentUri("external", genreId)}
+            WHERE ${defaultSelection()}
+
+            ORDER BY lower(${Members.ARTIST}) COLLATED UNICODE ASC
+        """
+
+        return contentResolver.querySql(query, arrayOf(genreId.toString()))
     }
 
     private fun defaultSelection(): String {

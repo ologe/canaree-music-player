@@ -1,12 +1,11 @@
 package dev.olog.msc.presentation.edit.album
 
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.podcast.PodcastAlbum
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.get
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
@@ -61,21 +60,6 @@ class EditAlbumFragmentPresenter @Inject constructor(
     fun getAlbum(): DisplayableAlbum = originalAlbum
 
     private fun Album.toDisplayableAlbum(path: String): DisplayableAlbum {
-        val file = File(path)
-        val audioFile = AudioFileIO.read(file)
-        val tag = audioFile.tagOrCreateAndSetDefault
-
-        return DisplayableAlbum(
-                this.id,
-                this.title,
-                tag.get(FieldKey.ARTIST),
-                tag.get(FieldKey.ALBUM_ARTIST),
-                tag.get(FieldKey.GENRE),
-                tag.get(FieldKey.YEAR)
-        )
-    }
-
-    private fun PodcastAlbum.toDisplayableAlbum(path: String): DisplayableAlbum {
         val file = File(path)
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault

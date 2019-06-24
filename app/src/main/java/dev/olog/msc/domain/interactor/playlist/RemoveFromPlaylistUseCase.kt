@@ -2,8 +2,8 @@ package dev.olog.msc.domain.interactor.playlist
 
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PodcastPlaylistGateway2
 import dev.olog.core.interactor.CompletableUseCaseWithParam
-import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
 import dev.olog.presentation.model.PlaylistType
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class RemoveFromPlaylistUseCase @Inject constructor(
     scheduler: IoScheduler,
     private val playlistGateway: PlaylistGateway2,
-    private val podcastGateway: PodcastPlaylistGateway
+    private val podcastGateway: PodcastPlaylistGateway2
 
 ): CompletableUseCaseWithParam<RemoveFromPlaylistUseCase.Input>(scheduler) {
 

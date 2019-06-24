@@ -19,7 +19,10 @@ import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
 import dev.olog.msc.data.prefs.PreferenceModule
-import dev.olog.msc.domain.gateway.*
+import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.msc.domain.gateway.OfflineLyricsGateway
+import dev.olog.msc.domain.gateway.RecentSearchesGateway
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
@@ -80,11 +83,6 @@ interface AppComponent : AndroidInjector<App> {
     fun musicPrefs(): MusicPreferencesGateway
     fun tutorialPrefs(): TutorialPreferenceGateway
     fun equalizerPrefs(): EqualizerPreferencesGateway
-
-    fun podcastPlaylistGateway(): PodcastPlaylistGateway
-    fun podcastGateway(): PodcastGateway
-    fun podcastAlbumGateway(): PodcastAlbumGateway
-    fun podcastArtistGateway(): PodcastArtistGateway
 
     fun lastFmGateway(): LastFmGateway
     fun usedImageGateway(): UsedImageGateway

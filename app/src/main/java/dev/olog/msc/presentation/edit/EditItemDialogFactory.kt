@@ -8,7 +8,6 @@ import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
@@ -51,12 +50,12 @@ class EditItemDialogFactory @Inject constructor(
             getPodcastUseCase.execute(mediaId)
                     .observeOn(Schedulers.computation())
                     .firstOrError()
-                    .map { checkPodcast(it) }
+                    .map { checkItem(it) }
         } else {
             getSongUseCase.execute(mediaId)
                     .observeOn(Schedulers.computation())
                     .firstOrError()
-                    .map { checkSong(it) }
+                    .map { checkItem(it) }
         }.observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ action() }, { showError(it) })
     }
@@ -67,7 +66,7 @@ class EditItemDialogFactory @Inject constructor(
                 .observeOn(Schedulers.computation())
                 .firstOrError()
                 .flattenAsObservable { it }
-                .map { checkSong(it) }
+                .map { checkItem(it) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ action() }, { showError(it) })
@@ -79,20 +78,14 @@ class EditItemDialogFactory @Inject constructor(
                 .observeOn(Schedulers.computation())
                 .firstOrError()
                 .flattenAsObservable { it }
-                .map { checkSong(it) }
+                .map { checkItem(it) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ action() }, { showError(it) })
     }
 
-    private fun checkSong(song: Song){
+    private fun checkItem(song: Song){
         val file = File(song.path)
-        val audioFile = AudioFileIO.read(file)
-        audioFile.tagOrCreateAndSetDefault
-    }
-
-    private fun checkPodcast(podcast: Podcast){
-        val file = File(podcast.path)
         val audioFile = AudioFileIO.read(file)
         audioFile.tagOrCreateAndSetDefault
     }

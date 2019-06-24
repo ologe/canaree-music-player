@@ -1,20 +1,22 @@
 package dev.olog.msc.domain.interactor.item
 
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.executor.IoScheduler
-import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
+import dev.olog.core.executor.IoScheduler
+import dev.olog.core.gateway.PodcastGateway2
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class GetPodcastUseCase @Inject internal constructor(
-    schedulers: IoScheduler,
-    private val gateway: PodcastGateway
+        schedulers: IoScheduler,
+        private val gateway: PodcastGateway2
 
-) : ObservableUseCaseWithParam<Podcast, MediaId>(schedulers) {
+) : ObservableUseCaseWithParam<Song, MediaId>(schedulers) {
 
-    override fun buildUseCaseObservable(param: MediaId): Observable<Podcast> {
-        return gateway.getByParam(param.resolveId)
+    override fun buildUseCaseObservable(param: MediaId): Observable<Song> {
+        return gateway.observeByParam(param.resolveId).map { it!! }.asObservable()
     }
 }

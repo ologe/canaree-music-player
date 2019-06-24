@@ -2,7 +2,6 @@ package dev.olog.data
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.core.gateway.*
 import dev.olog.data.repository.*
 import dev.olog.data.repository.podcast.PodcastAlbumRepository2

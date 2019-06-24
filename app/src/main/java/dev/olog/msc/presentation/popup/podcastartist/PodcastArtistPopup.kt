@@ -1,17 +1,17 @@
 package dev.olog.msc.presentation.popup.podcastartist
 
 import android.view.View
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastArtist
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.AppConstants
 
 class PodcastArtistPopup (
     view: View,
-    artist: PodcastArtist,
-    song: Podcast?,
+    artist: Artist,
+    song: Song?,
     listener: AbsPopupListener
 
 ) : AbsPopup(view) {

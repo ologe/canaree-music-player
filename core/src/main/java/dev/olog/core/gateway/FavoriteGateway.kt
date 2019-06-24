@@ -3,7 +3,6 @@ package dev.olog.core.gateway
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.entity.podcast.Podcast
 import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -12,7 +11,7 @@ import io.reactivex.Single
 interface FavoriteGateway {
 
     fun getAll(): Observable<List<Song>>
-    fun getAllPodcasts(): Observable<List<Podcast>>
+    fun getAllPodcasts(): Observable<List<Song>>
 
     fun addSingle(type: FavoriteType, songId: Long): Completable
     fun addGroup(type: FavoriteType, songListId: List<Long>): Completable

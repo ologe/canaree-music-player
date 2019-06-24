@@ -6,12 +6,11 @@ import androidx.room.Query
 import androidx.room.Transaction
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.podcast.Podcast
+import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.MiniQueueEntity
 import dev.olog.data.db.entities.PlayingQueueEntity
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import io.reactivex.*
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
@@ -35,7 +34,7 @@ abstract class PlayingQueueDao {
     """)
      abstract fun getMiniQueueImpl(): Flowable<List<MiniQueueEntity>>
 
-    fun observeMiniQueue(songList: Single<List<Song>>, podcastList: Single<List<Podcast>>)
+    fun observeMiniQueue(songList: Single<List<Song>>, podcastList: Single<List<Song>>)
             : Observable<List<PlayingQueueSong>> {
 
 
@@ -45,7 +44,7 @@ abstract class PlayingQueueDao {
                 .flatMapSingle { ids ->  Singles.zip(songList, podcastList) { songList, podcastList ->
                     val result = mutableListOf<PlayingQueueSong>()
                     for (item in ids){
-                        var song : Any? = songList.firstOrNull { it.id == item.id }
+                        var song : Song? = songList.firstOrNull { it.id == item.id }
                         if (song == null){
                             song = podcastList.firstOrNull { it.id == item.id }
                         }
@@ -53,13 +52,7 @@ abstract class PlayingQueueDao {
                             continue
                         }
 
-                        val itemToAdd = if (song is Song){
-                            song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
-                        } else if (song is Podcast){
-                            song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
-                        } else {
-                            throw IllegalArgumentException("must be song or podcast, passed $song")
-                        }
+                        val itemToAdd = song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
                         result.add(itemToAdd)
 
                     }
@@ -89,7 +82,7 @@ abstract class PlayingQueueDao {
     @Insert
      abstract fun insertMiniQueueImpl(list: List<MiniQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>, podcastList: Single<List<Podcast>>)
+    fun getAllAsSongs(songList: Single<List<Song>>, podcastList: Single<List<Song>>)
             : Observable<List<PlayingQueueSong>> {
 
         return this.getAllImpl()
@@ -98,7 +91,7 @@ abstract class PlayingQueueDao {
 
                     val result = mutableListOf<PlayingQueueSong>()
                     for (item in ids){
-                        var song : Any? = songList.firstOrNull { it.id == item.songId }
+                        var song : Song? = songList.firstOrNull { it.id == item.songId }
                         if (song == null){
                             song = podcastList.firstOrNull { it.id == item.songId }
                         }
@@ -106,13 +99,7 @@ abstract class PlayingQueueDao {
                             continue
                         }
 
-                        val itemToAdd = if (song is Song){
-                            song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
-                        } else if (song is Podcast){
-                            song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
-                        } else {
-                            throw IllegalArgumentException("must be song or podcast, passed $song")
-                        }
+                        val itemToAdd = song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
                         result.add(itemToAdd)
 
                     }
@@ -155,30 +142,7 @@ abstract class PlayingQueueDao {
             this.folder,
             this.discNumber,
             this.trackNumber,
-            false
-        )
-    }
-
-    private fun Podcast.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
-            : PlayingQueueSong {
-
-        return PlayingQueueSong(
-            this.id,
-            idInPlaylist,
-            MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
-            this.artistId,
-            this.albumId,
-            this.title,
-            this.artist,
-            this.albumArtist,
-            this.album,
-            this.duration,
-            this.dateAdded,
-            this.path,
-            this.folder,
-            this.discNumber,
-            this.trackNumber,
-            true
+            this.isPodcast
         )
     }
 

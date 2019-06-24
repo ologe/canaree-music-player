@@ -1,9 +1,5 @@
 package dev.olog.msc.presentation.popup
 
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.podcast.PodcastAlbum
-import dev.olog.core.entity.podcast.PodcastArtist
-import dev.olog.core.entity.podcast.PodcastPlaylist
 import dev.olog.core.entity.track.*
 import dev.olog.msc.presentation.popup.album.AlbumPopupListener
 import dev.olog.msc.presentation.popup.artist.ArtistPopupListener
@@ -37,9 +33,9 @@ class MenuListenerFactory @Inject constructor(
     fun album(album: Album, song: Song?) = albumPopupListener.get().setData(album, song)
     fun artist(artist: Artist, song: Song?) = artistPopupListener.get().setData(artist, song)
     fun genre(genre: Genre, song: Song?) = genrePopupListener.get().setData(genre, song)
-    fun podcast(podcast: Podcast) = podcastPopupListener.get().setData(podcast)
-    fun podcastPlaylist(podcastPlaylist: PodcastPlaylist, song: Podcast?) = podcastPlaylistPopupListener.get().setData(podcastPlaylist, song)
-    fun podcastAlbum(podcastAlbum: PodcastAlbum, song: Podcast?) = podcastAlbumPopupListener.get().setData(podcastAlbum, song)
-    fun podcastArtist(podcastArtist: PodcastArtist, song: Podcast?) = podcastArtistPopupListener.get().setData(podcastArtist, song)
+    fun podcast(podcast: Song) = podcastPopupListener.get().setData(podcast)
+    fun podcastPlaylist(podcastPlaylist: Playlist, song: Song?) = podcastPlaylistPopupListener.get().setData(podcastPlaylist, song)
+    fun podcastAlbum(podcastAlbum: Album, song: Song?) = podcastAlbumPopupListener.get().setData(podcastAlbum, song)
+    fun podcastArtist(podcastArtist: Artist, song: Song?) = podcastArtistPopupListener.get().setData(podcastArtist, song)
 
 }

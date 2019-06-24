@@ -1,10 +1,9 @@
 package dev.olog.msc.presentation.playlist.track.chooser.model
 
-import dev.olog.msc.R
-import dev.olog.core.entity.podcast.Podcast
-import dev.olog.core.entity.track.Song
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
+import dev.olog.msc.R
+import dev.olog.presentation.model.DisplayableItem
 import java.io.File
 
 data class PlaylistTrack (
@@ -35,25 +34,6 @@ internal fun PlaylistTrack.toDisplayableItem(): DisplayableItem {
         this.title,
         DisplayableItem.adjustArtist(this.artist),
         true
-    )
-}
-
-internal fun Podcast.toPlaylistTrack(): PlaylistTrack {
-    return PlaylistTrack(
-            this.id,
-            this.artistId,
-            this.albumId,
-            this.title,
-            this.artist,
-            this.albumArtist,
-            this.album,
-            this.duration,
-            this.dateAdded,
-            this.path,
-            this.folder,
-            this.discNumber,
-            this.trackNumber,
-            true
     )
 }
 
