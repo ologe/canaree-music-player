@@ -93,9 +93,8 @@ internal class PodcastArtistRepository2 @Inject constructor(
     }
 
     override fun observeRecentlyAdded(): Flow<List<Artist>> {
-        val cursor = queries.getRecentlyAdded()
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractArtists(cursor) }
+        return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
             .assertBackground()
     }

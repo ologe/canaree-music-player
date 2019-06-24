@@ -68,7 +68,6 @@ internal class AlbumRepository2 @Inject constructor(
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        assertBackgroundThread()
         return flow { }
     }
 
@@ -92,9 +91,8 @@ internal class AlbumRepository2 @Inject constructor(
     }
 
     override fun observeRecentlyAdded(): Flow<List<Album>> {
-        val cursor = queries.getRecentlyAdded()
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractAlbums(cursor) }
+        return observeByParamInternal(contentUri) { extractAlbums(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
             .assertBackground()
     }

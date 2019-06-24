@@ -120,10 +120,8 @@ internal class FolderRepository2 @Inject constructor(
     }
 
     override fun observeRelatedArtists(params: Path): Flow<List<Artist>> {
-        assertBackgroundThread()
-        val cursor = queries.getRelatedArtists(params)
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractArtists(cursor) }
+        return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
             .distinctUntilChanged()
             .assertBackground()
     }
