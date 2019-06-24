@@ -5,55 +5,33 @@ import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ProcessLifecycleOwner
 import dev.olog.core.MediaId
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.R
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.k.extension.getCachedBitmap
-import dev.olog.presentation.AppConstants
 import dev.olog.shared.toast
-import dev.olog.shared.unsubscribe
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 abstract class BaseAppShortcuts(
         protected val context: Context
-) : AppShortcuts, DefaultLifecycleObserver {
-
-    private var disposable : Disposable? = null
-
-    init {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-    }
+) : AppShortcuts {
 
     override fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-            disposable.unsubscribe()
-            disposable = Completable.create {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.action = Shortcuts.DETAIL
+            intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 
-                val intent = Intent(context, MainActivity::class.java)
-                intent.action = AppConstants.SHORTCUT_DETAIL
-                intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
+            val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() })
+            val shortcut = ShortcutInfoCompat.Builder(context, title)
+                .setShortLabel(title)
+                .setIcon(IconCompat.createWithBitmap(bitmap))
+                .setIntent(intent)
+                .build()
 
-                val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() })
-                val shortcut = ShortcutInfoCompat.Builder(context, title)
-                        .setShortLabel(title)
-                        .setIcon(IconCompat.createWithBitmap(bitmap))
-                        .setIntent(intent)
-                        .build()
-
-                ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
-
-                it.onComplete()
-
-            }.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ onAddedSuccess(context) }, Throwable::printStackTrace)
+            ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+            onAddedSuccess(context)
 
         } else {
             onAddedNotSupported(context)
@@ -66,10 +44,6 @@ abstract class BaseAppShortcuts(
 
     private fun onAddedNotSupported(context: Context){
         context.toast(R.string.app_shortcut_add_to_home_screen_not_supported)
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        disposable.unsubscribe()
     }
 
 }

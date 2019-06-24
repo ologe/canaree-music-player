@@ -22,7 +22,7 @@ open class AppShortcutsImpl25(
 
 ) : BaseAppShortcuts(context) {
 
-    protected val shortcutManager : ShortcutManager = context.getSystemService<ShortcutManager>()!!
+    protected val shortcutManager : ShortcutManager = context.getSystemService()!!
 
     init {
         shortcutManager.removeAllDynamicShortcuts()
@@ -33,7 +33,7 @@ open class AppShortcutsImpl25(
 
     override fun disablePlay(){
         if (isNougat_MR1()){
-            shortcutManager.removeDynamicShortcuts(listOf(MusicConstants.ACTION_PLAY))
+            shortcutManager.removeDynamicShortcuts(listOf(Shortcuts.PLAY))
         }
     }
 
@@ -44,7 +44,7 @@ open class AppShortcutsImpl25(
     }
 
     private fun search(): ShortcutInfo {
-        return ShortcutInfo.Builder(context, AppConstants.SHORTCUT_SEARCH)
+        return ShortcutInfo.Builder(context, Shortcuts.SEARCH)
                 .setShortLabel(context.getString(R.string.shortcut_search))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_search))
                 .setIntent(createSearchIntent())
@@ -52,7 +52,7 @@ open class AppShortcutsImpl25(
     }
 
     private fun play(): ShortcutInfo {
-        return ShortcutInfo.Builder(context, MusicConstants.ACTION_PLAY)
+        return ShortcutInfo.Builder(context, Shortcuts.PLAY)
                 .setShortLabel(context.getString(R.string.shortcut_play))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_play))
                 .setIntent(createPlayIntent())
@@ -60,7 +60,7 @@ open class AppShortcutsImpl25(
     }
 
     private fun shuffle(): ShortcutInfo {
-        return ShortcutInfo.Builder(context, MusicConstants.ACTION_SHUFFLE)
+        return ShortcutInfo.Builder(context, Shortcuts.SHUFFLE)
                 .setShortLabel(context.getString(R.string.shortcut_shuffle))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_shuffle))
                 .setIntent(createShuffleIntent())
@@ -68,7 +68,7 @@ open class AppShortcutsImpl25(
     }
 
     private fun playlistChooser(): ShortcutInfo {
-        return ShortcutInfo.Builder(context, AppConstants.SHORTCUT_PLAYLIST_CHOOSER)
+        return ShortcutInfo.Builder(context, Shortcuts.PLAYLIST_CHOOSER)
                 .setShortLabel(context.getString(R.string.shortcut_playlist_chooser))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_playlist_add))
                 .setIntent(createPlaylistChooserIntent())
@@ -77,7 +77,7 @@ open class AppShortcutsImpl25(
 
     private fun createSearchIntent(): Intent {
         val intent = Intent(context, MainActivity::class.java)
-        intent.action = AppConstants.SHORTCUT_SEARCH
+        intent.action = Shortcuts.SEARCH
         return intent
     }
 
@@ -95,7 +95,7 @@ open class AppShortcutsImpl25(
 
     private fun createPlaylistChooserIntent(): Intent {
         val intent = Intent(context, PlaylistChooserActivity::class.java)
-        intent.action = AppConstants.SHORTCUT_PLAYLIST_CHOOSER
+        intent.action = Shortcuts.PLAYLIST_CHOOSER
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         return intent
     }

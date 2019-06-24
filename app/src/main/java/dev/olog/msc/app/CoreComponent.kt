@@ -7,8 +7,6 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.AndroidInjector
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.executor.IoScheduler
@@ -20,7 +18,7 @@ import dev.olog.injection.CoreModule
 import dev.olog.injection.SchedulersModule
 import dev.olog.injection.WidgetClasses
 import dev.olog.msc.api.last.fm.LastFmModule
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
@@ -38,7 +36,6 @@ import javax.inject.Singleton
         CoreModule::class,
         SchedulersModule::class,
         LastFmModule::class,
-        AndroidInjectionModule::class,
 
 //        // data
         RepositoryModule::class,
@@ -58,7 +55,7 @@ import javax.inject.Singleton
     )
 )
 @Singleton
-interface CoreComponent : AndroidInjector<App> {
+interface CoreComponent {
 
     fun provideAlarmManager(): AlarmManager
 

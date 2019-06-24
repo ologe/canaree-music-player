@@ -6,7 +6,7 @@ import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.msc.R
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.scope.PerService

@@ -6,21 +6,18 @@ import android.app.Application
 import android.os.Bundle
 import androidx.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.traceur.Traceur
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.presentation.AppConstants
 import dev.olog.presentation.theme.DarkMode
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
-class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
+class App : Application(), Application.ActivityLifecycleCallbacks {
 
     @Suppress("unused")
     @Inject
@@ -37,6 +34,7 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
+        inject()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
@@ -66,10 +64,6 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return CoreComponent.coreComponent(this)
-    }
-
     override fun onActivityPaused(p0: Activity) {
 
     }
@@ -91,5 +85,11 @@ class App : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
     override fun onActivityResumed(activity: Activity) {
         darkMode.updateCurrentActivity(activity)
+    }
+
+    private fun inject(){
+        DaggerAppComponent.factory()
+            .create(CoreComponent.coreComponent(this))
+            .inject(this)
     }
 }

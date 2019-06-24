@@ -5,7 +5,7 @@ import android.view.MenuItem
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
 import dev.olog.msc.R
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.media.MediaProvider

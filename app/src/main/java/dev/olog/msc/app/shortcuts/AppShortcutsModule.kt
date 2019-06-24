@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.shared.isNougat_MR1
 import javax.inject.Singleton
 

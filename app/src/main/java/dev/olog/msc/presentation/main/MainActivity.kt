@@ -15,6 +15,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.media.MusicConstants
+import dev.olog.msc.app.shortcuts.Shortcuts
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
@@ -118,15 +119,15 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            AppConstants.SHORTCUT_SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
+            Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, MusicService::class.java)
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
-            AppConstants.SHORTCUT_DETAIL -> {
-                val string = intent.getStringExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID)
+            Shortcuts.DETAIL -> {
+                val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)
                 val mediaId = MediaId.fromString(string)
                 navigator.toDetailFragment(mediaId)
             }

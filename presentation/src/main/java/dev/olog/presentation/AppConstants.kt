@@ -1,6 +1,7 @@
 package dev.olog.presentation
 
 import android.content.Context
+import android.provider.MediaStore
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.widgets.QuickActionView
 
@@ -13,11 +14,6 @@ object AppConstants {
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
-    const val SHORTCUT_SEARCH = "$TAG.shortcut.search"
-    const val SHORTCUT_DETAIL = "$TAG.shortcut.detail"
-    const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
-    const val SHORTCUT_PLAYLIST_CHOOSER = "$TAG.shortcut.playlist.chooser"
-
     const val NO_IMAGE = "NO_IMAGE"
 
     var QUICK_ACTION = QuickActionView.Type.NONE
@@ -26,7 +22,7 @@ object AppConstants {
 
     const val PROGRESS_BAR_INTERVAL = 250
 
-    const val UNKNOWN = "<unknown>"
+    const val UNKNOWN = MediaStore.UNKNOWN_STRING
     lateinit var UNKNOWN_ALBUM: String
     lateinit var UNKNOWN_ARTIST: String
 
