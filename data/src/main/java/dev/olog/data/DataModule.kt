@@ -55,4 +55,10 @@ abstract class DataModule {
     @Singleton
     internal abstract fun providePodcastArtistRepository(repository: PodcastArtistRepository2): PodcastArtistGateway2
 
+    // other
+
+    @Binds
+    @Singleton
+    internal abstract fun provideLastFmRepository(repository: LastFmRepository2): LastFmGateway2
+
 }

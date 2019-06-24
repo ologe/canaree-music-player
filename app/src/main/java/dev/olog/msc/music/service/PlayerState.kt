@@ -11,7 +11,7 @@ import dev.olog.media.isPlaying
 import dev.olog.msc.R
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.shared.Classes

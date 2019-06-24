@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.music.service.volume.IVolume
 import dev.olog.shared.extensions.unsubscribe

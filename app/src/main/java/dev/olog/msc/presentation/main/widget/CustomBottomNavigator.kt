@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.olog.msc.R
-import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.main.BottomNavigationPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ class CustomBottomNavigator(
         context: Context, attrs: AttributeSet
 ) : BottomNavigationView(context, attrs), CoroutineScope by MainScope() {
 
-    internal lateinit var presentationPrefs: PresentationPreferences
+    internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
     private val navigator = BottomNavigator()
 

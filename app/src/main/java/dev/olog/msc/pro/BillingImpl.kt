@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.domain.gateway.prefs.*
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
@@ -23,7 +26,7 @@ class BillingImpl @Inject constructor(
     private val appPrefsUseCase: AppPreferencesGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
-    private val presentationPreferences: PresentationPreferences,
+    private val presentationPreferences: PresentationPreferencesGateway,
     private val blacklistPreferences: BlacklistPreferences
 
 ) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {

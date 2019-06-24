@@ -1,15 +1,15 @@
 package dev.olog.msc.presentation.library.categories
 
-import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
-import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
+import dev.olog.presentation.model.LibraryCategoryBehavior
+import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.main.LibraryPage
 import dev.olog.shared.utils.clamp
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class CategoriesFragmentPresenter @Inject constructor(
-    private val appPrefsUseCase: PresentationPreferences,
+    private val appPrefsUseCase: PresentationPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {
 

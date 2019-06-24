@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,9 +1,17 @@
 package dev.olog.msc.app
 
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dev.olog.injection.CoreComponent
+import dev.olog.msc.presentation.app.widget.WidgetBindingModule
 import javax.inject.Scope
 
-@Component(dependencies = [CoreComponent::class])
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        WidgetBindingModule::class
+    ], dependencies = [CoreComponent::class]
+)
 @PerApp
 interface AppComponent {
 

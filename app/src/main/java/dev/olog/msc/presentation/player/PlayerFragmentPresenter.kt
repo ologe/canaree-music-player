@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.player
 
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.msc.pro.IBilling
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables

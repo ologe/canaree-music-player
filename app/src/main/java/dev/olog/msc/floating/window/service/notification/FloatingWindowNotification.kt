@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowService
 import dev.olog.shared.utils.isOreo
 import dev.olog.msc.utils.k.extension.asServicePendingIntent

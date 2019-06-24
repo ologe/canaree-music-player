@@ -56,7 +56,7 @@ abstract class BaseDataFetcher(
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         launch {
             try {
-                if (shouldFetch()) {
+                if (mustFetch()) {
                     delayRequest()
                     yield()
                 }
@@ -105,7 +105,7 @@ abstract class BaseDataFetcher(
 
     protected abstract suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String
 
-    protected abstract suspend fun shouldFetch(): Boolean
+    protected abstract suspend fun mustFetch(): Boolean
 
     protected abstract val threshold: Long
 

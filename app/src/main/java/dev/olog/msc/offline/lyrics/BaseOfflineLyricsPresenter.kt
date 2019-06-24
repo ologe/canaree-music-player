@@ -9,7 +9,7 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import dev.olog.core.entity.OfflineLyrics
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
 import dev.olog.shared.utils.clamp
@@ -24,9 +24,9 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 abstract class BaseOfflineLyricsPresenter constructor(
-        private val appPreferencesUseCase: AppPreferencesGateway,
-        private val observeUseCase: ObserveOfflineLyricsUseCase,
-        private val insertUseCase: InsertOfflineLyricsUseCase
+    private val appPreferencesUseCase: AppPreferencesGateway,
+    private val observeUseCase: ObserveOfflineLyricsUseCase,
+    private val insertUseCase: InsertOfflineLyricsUseCase
 
 ) {
 

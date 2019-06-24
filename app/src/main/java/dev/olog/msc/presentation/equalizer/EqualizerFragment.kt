@@ -5,7 +5,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
-import dev.olog.msc.music.service.equalizer.IEqualizer
+import dev.olog.injection.equalizer.IEqualizer
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.equalizer.widget.RadialKnob
 import dev.olog.shared.extensions.asLiveData

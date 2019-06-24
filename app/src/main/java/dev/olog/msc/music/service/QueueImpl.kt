@@ -5,7 +5,7 @@ import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
 import com.crashlytics.android.Crashlytics
 import dev.olog.core.PlaylistConstants.MINI_QUEUE_SIZE
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase

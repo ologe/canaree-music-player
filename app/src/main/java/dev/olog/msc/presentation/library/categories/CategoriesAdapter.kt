@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.LibraryCategoryBehavior
+import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.presentation.tab.TabFragment
 

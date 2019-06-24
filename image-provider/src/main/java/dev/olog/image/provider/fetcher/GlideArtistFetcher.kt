@@ -28,8 +28,8 @@ class GlideArtistFetcher(
         return image
     }
 
-    override suspend fun shouldFetch(): Boolean {
-        return lastFmGateway.shouldFetchArtist(id)
+    override suspend fun mustFetch(): Boolean {
+        return lastFmGateway.mustFetchArtist(id)
     }
 
     override val threshold: Long = 250

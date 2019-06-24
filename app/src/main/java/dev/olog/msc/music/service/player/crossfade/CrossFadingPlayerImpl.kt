@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.Player
 import dagger.Lazy
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.model.PlayerMediaEntity

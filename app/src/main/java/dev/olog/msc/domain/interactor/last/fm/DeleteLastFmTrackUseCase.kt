@@ -1,21 +1,21 @@
 package dev.olog.msc.domain.interactor.last.fm
 
-import dev.olog.injection.IoSchedulers
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.LastFmGateway2
 import dev.olog.core.interactor.CompletableUseCaseWithParam
+import dev.olog.injection.IoSchedulers
 import io.reactivex.Completable
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class DeleteLastFmTrackUseCase @Inject constructor(
     schedulers: IoSchedulers,
-    private val gateway: LastFmGateway
+    private val gateway: LastFmGateway2
 
-): CompletableUseCaseWithParam<Pair<Long, Boolean>>(schedulers) {
+): CompletableUseCaseWithParam<Long>(schedulers) {
 
-    override fun buildUseCaseObservable(param: Pair<Long, Boolean>): Completable {
-        val (artistId, isPodcast) = param
+    override fun buildUseCaseObservable(artistId: Long): Completable {
         return Completable.fromCallable {
-            gateway.deleteTrack(artistId)
+            runBlocking { gateway.deleteTrack(artistId) }
 
         }
     }

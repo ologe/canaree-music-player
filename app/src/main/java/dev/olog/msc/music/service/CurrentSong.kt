@@ -9,8 +9,8 @@ import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.entity.LastMetadata
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.entity.LastMetadata
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.domain.interactor.all.most.played.InsertMostPlayedUseCase

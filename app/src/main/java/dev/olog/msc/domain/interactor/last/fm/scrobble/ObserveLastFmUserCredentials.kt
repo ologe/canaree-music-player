@@ -2,7 +2,8 @@ package dev.olog.msc.domain.interactor.last.fm.scrobble
 
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.executor.IoScheduler
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.injection.LastFmEncrypter
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import io.reactivex.Observable
 import javax.inject.Inject

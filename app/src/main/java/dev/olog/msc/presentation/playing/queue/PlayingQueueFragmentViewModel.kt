@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.playing.queue
 import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableQueueSong
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 
 class PlayingQueueFragmentViewModel @Inject constructor(
-        private val musicPreferencesUseCase: MusicPreferencesGateway,
-        observePlayingQueueUseCase: ObservePlayingQueueUseCase
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    observePlayingQueueUseCase: ObservePlayingQueueUseCase
 
 ) : ViewModel() {
 

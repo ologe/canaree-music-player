@@ -3,12 +3,18 @@ package dev.olog.msc.app
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.Application
+import android.content.BroadcastReceiver
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasBroadcastReceiverInjector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.injection.CoreComponent
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
@@ -17,7 +23,10 @@ import dev.olog.presentation.theme.DarkMode
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
-class App : Application(), Application.ActivityLifecycleCallbacks {
+class App : Application(), Application.ActivityLifecycleCallbacks, HasBroadcastReceiverInjector {
+
+    @Inject
+    internal lateinit var broadcastInjector: DispatchingAndroidInjector<BroadcastReceiver>
 
     private lateinit var appShortcuts: AppShortcuts
 
@@ -93,4 +102,6 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
             .create(CoreComponent.coreComponent(this))
             .inject(this)
     }
+
+    override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> = broadcastInjector
 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
 import dev.olog.msc.floating.window.service.music.service.MusicGlueService

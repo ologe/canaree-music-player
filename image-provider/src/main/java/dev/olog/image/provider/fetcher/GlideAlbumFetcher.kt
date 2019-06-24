@@ -21,8 +21,8 @@ class GlideAlbumFetcher(
     }
 
 
-    override suspend fun shouldFetch(): Boolean {
-        return lastFmGateway.shouldFetchAlbum(id)
+    override suspend fun mustFetch(): Boolean {
+        return lastFmGateway.mustFetchAlbum(id)
     }
 
     override val threshold: Long = 600

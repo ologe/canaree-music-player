@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.mini.player
 
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.shared.extensions.asLiveData
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

@@ -16,7 +16,7 @@ import dev.olog.presentation.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.shared.MusicConstants
 import dev.olog.appshortcuts.Shortcuts
-import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.DrawsOnTop
@@ -52,7 +52,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
     // handles lifecycle itself
     @Inject override lateinit var billing: IBilling
 
-    @Inject lateinit var presentationPrefs: PresentationPreferences
+    @Inject lateinit var presentationPrefs: PresentationPreferencesGateway
 
     @Suppress("unused") @Inject
     lateinit var statusBarColorBehavior: StatusBarColorBehavior

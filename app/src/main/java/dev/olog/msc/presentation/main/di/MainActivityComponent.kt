@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.main.di
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import dev.olog.msc.app.CoreComponent
+import dev.olog.injection.CoreComponent
 import dev.olog.msc.presentation.ViewModelModule
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
@@ -27,6 +27,7 @@ import dev.olog.msc.presentation.recently.added.di.RecentlyAddedFragmentInjector
 import dev.olog.msc.presentation.related.artists.di.RelatedArtistFragmentInjector
 import dev.olog.msc.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.model.PresentationModelModule
 import dev.olog.presentation.tab.di.TabFragmentInjector
 
 fun MainActivity.inject() {
@@ -37,6 +38,8 @@ fun MainActivity.inject() {
 
 @Component(
     modules = arrayOf(
+        PresentationModelModule::class,
+
         AndroidInjectionModule::class,
         ViewModelModule::class,
         MainActivityModule::class,

@@ -6,6 +6,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.Format
 import com.google.android.exoplayer2.audio.AudioRendererEventListener
 import com.google.android.exoplayer2.decoder.DecoderCounters
+import dev.olog.injection.equalizer.IBassBoost
+import dev.olog.injection.equalizer.IEqualizer
+import dev.olog.injection.equalizer.IVirtualizer
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.shared.extensions.unsubscribe
@@ -17,10 +20,10 @@ import javax.inject.Inject
 
 @PerService
 class OnAudioSessionIdChangeListener @Inject constructor(
-        @ServiceLifecycle lifecycle: Lifecycle,
-        private val equalizer: IEqualizer,
-        private val virtualizer: IVirtualizer,
-        private val bassBoost: IBassBoost
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val equalizer: IEqualizer,
+    private val virtualizer: IVirtualizer,
+    private val bassBoost: IBassBoost
 
 ) : AudioRendererEventListener, DefaultLifecycleObserver {
 

@@ -19,7 +19,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.R
 import dev.olog.presentation.AppConstants
-import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
+import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment

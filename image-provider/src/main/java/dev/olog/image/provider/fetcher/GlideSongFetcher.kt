@@ -17,11 +17,11 @@ class GlideSongFetcher(
     private val id = mediaId.resolveId
 
     override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
-        return lastFmGateway.getTrackImage(id)!!
+        return lastFmGateway.getTrack(id)!!.image
     }
 
-    override suspend fun shouldFetch(): Boolean {
-        return lastFmGateway.shouldFetchTrackImage(id)
+    override suspend fun mustFetch(): Boolean {
+        return lastFmGateway.mustFetchTrack(id)
     }
 
     override val threshold: Long = 600L

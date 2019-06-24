@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableSt
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import dev.olog.core.MediaId
+import dev.olog.image.provider.di.inject
 import dev.olog.image.provider.loader.GlideLastFmImageLoader
 import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
@@ -26,21 +27,21 @@ import javax.inject.Inject
 @Keep
 class GlideModule : AppGlideModule() {
 
-//    @Inject
-//    internal lateinit var lastFmFactory: GlideLastFmImageLoader.Factory
-//    @Inject
-//    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-//    @Inject
-//    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-//    @Inject
-//    internal lateinit var overrideFactory: GlideOverridenImageLoader.Factory
+    @Inject
+    internal lateinit var lastFmFactory: GlideLastFmImageLoader.Factory
+    @Inject
+    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
+    @Inject
+    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
+    @Inject
+    internal lateinit var overrideFactory: GlideOverridenImageLoader.Factory
 
     private var injected = false
 
     private fun injectIfNeeded(context: Context) {
         if (!injected) {
             injected = true
-//            inject(context) TODO
+            inject(context)
         }
     }
 
@@ -67,11 +68,11 @@ class GlideModule : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         injectIfNeeded(context)
 
-//        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory) TODO after moving app compoennt to injection module
-//        registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
-//        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
-//        registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
-
+        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
+//
         // TODO check if has to be prepend or append
 //        registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory()) TODO
     }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="dev.olog.msc.domain.entity.LibraryCategoryBehavior"/>
+            type="dev.olog.presentation.model.LibraryCategoryBehavior"/>
     </data>
 
     <FrameLayout

@@ -9,8 +9,8 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.LastMetadata
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.core.entity.LastMetadata
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
@@ -143,9 +143,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         val subtitle = if (this.subtitle.isBlank()) context.getString(R.string.common_placeholder_artist) else this.subtitle
 
         return LastMetadata(
-                title,
-                subtitle,
-                this.id
+            title,
+            subtitle,
+            this.id
         )
     }
 
