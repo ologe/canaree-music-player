@@ -72,25 +72,25 @@ open class AppShortcutsImpl25(
     }
 
     private fun createSearchIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.MAIN_ACTIIVTY))
+        val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
         intent.action = Shortcuts.SEARCH
         return intent
     }
 
     private fun createPlayIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.SHORTCUTS_ACTIVITY))
+        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
         intent.action = MusicConstants.ACTION_PLAY
         return intent
     }
 
     private fun createShuffleIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.SHORTCUTS_ACTIVITY))
+        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
         intent.action = MusicConstants.ACTION_SHUFFLE
         return intent
     }
 
     private fun createPlaylistChooserIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.PLAYLIST_CHOOSER_ACTIVITY))
+        val intent = Intent(context, Class.forName(Classes.ACTIVITY_PLAYLIST_CHOOSER))
         intent.action = Shortcuts.PLAYLIST_CHOOSER
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         return intent

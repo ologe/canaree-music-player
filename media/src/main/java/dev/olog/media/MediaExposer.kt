@@ -39,7 +39,7 @@ class MediaExposer(
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, Classes.MUSIC_SERVICE),
+            ComponentName(context, Classes.SERVICE_MUSIC),
             MusicServiceConnection(this), null
         )
     }

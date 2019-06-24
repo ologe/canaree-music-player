@@ -16,7 +16,6 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.DataModule
 import dev.olog.injection.CoreModule
 import dev.olog.injection.SchedulersModule
-import dev.olog.injection.WidgetClasses
 import dev.olog.msc.api.last.fm.LastFmModule
 import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
@@ -85,7 +84,6 @@ interface CoreComponent {
     fun ioDispatcher(): IoScheduler
     fun encrypter(): LastFmEncrypter
 
-    fun widgetClasses(): WidgetClasses
     fun collator(): Collator
 
     fun folderGateway2(): FolderGateway2

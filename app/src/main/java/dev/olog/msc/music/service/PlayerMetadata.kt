@@ -7,24 +7,23 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.presentation.AppConstants
-import dev.olog.shared.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.injection.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.msc.utils.k.extension.getBitmapAsync
+import dev.olog.presentation.AppConstants
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.Classes
+import dev.olog.shared.MusicConstants
 import javax.inject.Inject
 
 @PerService
 class PlayerMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    playerLifecycle: PlayerLifecycle,
-    private val widgetClasses: WidgetClasses
+    playerLifecycle: PlayerLifecycle
 
 ) : PlayerLifecycle.Listener {
 
@@ -70,7 +69,7 @@ class PlayerMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity){
-        for (clazz in widgetClasses.get()) {
+        for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

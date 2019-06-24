@@ -23,7 +23,7 @@ abstract class BaseAppShortcuts(
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
             launch {
-                val intent = Intent(context, Class.forName(Classes.MAIN_ACTIIVTY))
+                val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 

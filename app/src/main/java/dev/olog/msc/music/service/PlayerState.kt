@@ -5,25 +5,23 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.R
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.msc.constants.WidgetConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.media.isPlaying
+import dev.olog.msc.R
+import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.model.PositionInQueue
-import dev.olog.injection.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.media.isPlaying
+import dev.olog.shared.Classes
 import javax.inject.Inject
 
 @PerService
 class PlayerState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway,
-
-    private val widgetClasses: WidgetClasses
+    private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ){
 
@@ -161,7 +159,7 @@ class PlayerState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long){
-        for (clazz in widgetClasses.get()) {
+        for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
@@ -176,7 +174,7 @@ class PlayerState @Inject constructor(
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean){
-        for (clazz in widgetClasses.get()) {
+        for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

@@ -8,14 +8,14 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.msc.constants.WidgetConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.playing.queue.UpdateMiniQueueUseCase
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.injection.WidgetClasses
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.Classes
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -28,8 +28,7 @@ class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSession: MediaSessionCompat,
     private val playerState: PlayerState,
-    private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
-    private val widgetClasses: WidgetClasses
+    private val updateMiniQueueUseCase: UpdateMiniQueueUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -87,7 +86,7 @@ class MediaSessionQueue @Inject constructor(
     }
 
     private fun notifyWidgets(){
-        for (clazz in widgetClasses.get()) {
+        for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
             val intent = Intent(context, clazz).apply {
                 action = WidgetConstants.QUEUE_CHANGED

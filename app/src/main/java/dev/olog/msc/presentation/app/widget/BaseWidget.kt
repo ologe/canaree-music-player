@@ -8,10 +8,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.injection.WidgetClasses
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.shared.MusicConstants
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.MusicService
@@ -19,6 +16,9 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
+import dev.olog.presentation.AppConstants
+import dev.olog.shared.Classes
+import dev.olog.shared.MusicConstants
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -28,13 +28,12 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
-    @Inject lateinit var widgetClasses: WidgetClasses
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
             val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
-            for (clazz in widgetClasses.get()) {
+            for (clazz in Classes.widgets) {
                 val ids = context.getAppWidgetsIdsFor(clazz)
                 onUpdate(context, appWidgetManager, ids)
             }

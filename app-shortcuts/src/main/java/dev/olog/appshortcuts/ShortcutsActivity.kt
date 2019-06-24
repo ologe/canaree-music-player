@@ -24,12 +24,12 @@ class ShortcutsActivity : AppCompatActivity(){
         val action = intent.action
         when (action){
             MusicConstants.ACTION_PLAY -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.MUSIC_SERVICE))
+                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
                 serviceIntent.action = MusicConstants.ACTION_PLAY
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             MusicConstants.ACTION_SHUFFLE -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.MUSIC_SERVICE))
+                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
                 serviceIntent.action = MusicConstants.ACTION_SHUFFLE
                 ContextCompat.startForegroundService(this, serviceIntent)
             }

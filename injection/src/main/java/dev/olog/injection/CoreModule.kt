@@ -2,7 +2,6 @@ package dev.olog.injection
 
 import android.app.AlarmManager
 import android.app.Application
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
@@ -26,19 +25,6 @@ abstract class CoreModule {
         @Provides
         @JvmStatic
         internal fun provideResources(instance: Application): Resources = instance.resources
-
-        @Provides
-        @JvmStatic
-        internal fun provideWidgetsClasses(): WidgetClasses {
-            return object : WidgetClasses {
-                override fun get(): List<Class<out AppWidgetProvider>> {
-                    return listOf(
-//                            WidgetColored::class.java, TODO
-//                            WidgetColoredWithQueue::class.java
-                    )
-                }
-            }
-        }
 
         @Provides
         @JvmStatic
