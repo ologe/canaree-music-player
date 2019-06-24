@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import androidx.lifecycle.Lifecycle
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext
@@ -11,24 +12,29 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 @Module
-class FloatingWindowServiceModule(
-        private val service: FloatingWindowService
-) {
+abstract class FloatingWindowServiceModule {
 
-    @Provides
-    @ServiceLifecycle
-    fun provideLifecycle(): Lifecycle = service.lifecycle
-
-    @Provides
+    @Binds
     @ServiceContext
-    fun provideContext(): Context = service
+    abstract fun provideContext(instance: FloatingWindowService): Context
 
-    @Provides
-    fun provideService() : Service = service
+    @Binds
+    abstract fun provideService(instance: FloatingWindowService): Service
 
-    @Provides
-    internal fun provideNotificationManager(): NotificationManager {
-        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    @Module
+    companion object {
+
+        @Provides
+        @JvmStatic
+        @ServiceLifecycle
+        fun provideLifecycle(instance: FloatingWindowService): Lifecycle = instance.lifecycle
+
+        @Provides
+        @JvmStatic
+        internal fun provideNotificationManager(instance: FloatingWindowService): NotificationManager {
+            return instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        }
     }
+
 
 }

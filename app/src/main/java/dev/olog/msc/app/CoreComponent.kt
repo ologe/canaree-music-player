@@ -28,7 +28,6 @@ import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.last.fm.scrobble.LastFmEncrypter
-import dev.olog.msc.floating.window.service.di.FloatingWindowServiceInjector
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.music.service.equalizer.IEqualizer
 import dev.olog.msc.music.service.equalizer.IVirtualizer
@@ -44,7 +43,7 @@ import javax.inject.Singleton
 
 @Component(
     modules = arrayOf(
-        AppModule::class,
+        CoreModule::class,
         SchedulersModule::class,
         AppShortcutsModule::class,
         LastFmModule::class,
@@ -57,7 +56,7 @@ import javax.inject.Singleton
         DataModule::class,
 //
 //        // presentation
-                ActivityBindingsModule ::class,
+        ActivityBindingsModule ::class,
         WidgetBindingModule::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
@@ -65,14 +64,11 @@ import javax.inject.Singleton
         PlaylistChooserActivityInjector::class,
         ViewModelModule::class,
 
-        EqualizerModule::class,
-
-//        // floating info service
-        FloatingWindowServiceInjector::class
+        EqualizerModule::class
     )
 )
 @Singleton
-interface AppComponent : AndroidInjector<App> {
+interface CoreComponent : AndroidInjector<App> {
 
     fun provideAlarmManager(): AlarmManager
 
@@ -118,15 +114,15 @@ interface AppComponent : AndroidInjector<App> {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance instance: Application): AppComponent
+        fun create(@BindsInstance instance: Application): CoreComponent
     }
 
     companion object {
-        private var component: AppComponent? = null
+        private var component: CoreComponent? = null
 
-        fun coreComponent(application: Application): AppComponent {
+        fun coreComponent(application: Application): CoreComponent {
             if (component == null){
-                component = DaggerAppComponent.factory().create(application)
+                component = DaggerCoreComponent.factory().create(application)
             }
             return component!!
         }

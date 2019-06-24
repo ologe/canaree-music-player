@@ -17,7 +17,7 @@ import java.text.Collator
 import java.util.*
 
 @Module
-abstract class AppModule {
+abstract class CoreModule {
 
     @Binds
     @ApplicationContext

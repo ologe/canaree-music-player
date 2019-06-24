@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Intent
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.HoverView
+import dev.olog.msc.floating.window.service.di.inject
 import dev.olog.msc.floating.window.service.notification.FloatingWindowNotification
 import javax.inject.Inject
 
@@ -16,6 +17,11 @@ class FloatingWindowService : BaseFloatingService() {
     companion object {
         const val TAG = "FloatingWindowService"
         const val ACTION_STOP = "$TAG.ACTION_STOP"
+    }
+
+    override fun onCreate() {
+        inject()
+        super.onCreate()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
