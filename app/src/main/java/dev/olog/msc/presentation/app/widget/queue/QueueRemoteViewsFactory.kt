@@ -76,11 +76,7 @@ class QueueRemoteViewsFactory @Inject constructor(
     )
 
     private fun PlayingQueueSong.toWidgetItem(): WidgetItem {
-        val mediaId = if (this.isPodcast){
-            MediaId.podcastId(this.id)
-        } else {
-            MediaId.songId(this.id)
-        }
+        val mediaId = MediaId.playableItem(parentMediaId, this.id)
 
         return WidgetItem(
                 this.id,

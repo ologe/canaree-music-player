@@ -5,14 +5,16 @@ import android.view.MenuItem
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.getArtistMediaId
+import dev.olog.core.entity.track.getMediaId
+import dev.olog.media.MediaProvider
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.media.MediaProvider
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.navigator.Navigator
 import javax.inject.Inject
 
 class AlbumPopupListener @Inject constructor(
@@ -36,9 +38,9 @@ class AlbumPopupListener @Inject constructor(
 
     private fun getMediaId(): MediaId {
         if (song != null){
-            return MediaId.playableItem(MediaId.albumId(album.id), song!!.id)
+            return MediaId.playableItem(album.getMediaId(), song!!.id)
         } else {
-            return MediaId.albumId(album.id)
+            return album.getMediaId()
         }
     }
 
@@ -56,7 +58,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewArtist -> viewArtist()
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
+            R.id.viewAlbum -> viewAlbum(navigator, album.getMediaId())
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
@@ -116,7 +118,7 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist(){
-        navigator.toDetailFragment(MediaId.artistId(album.artistId))
+        navigator.toDetailFragment(album.getArtistMediaId())
     }
 
 

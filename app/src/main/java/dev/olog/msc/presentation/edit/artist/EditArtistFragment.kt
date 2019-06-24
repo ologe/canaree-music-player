@@ -64,12 +64,12 @@ class EditArtistFragment : BaseEditItemFragment() {
                     albumsUpdated.text =  text
                 }
 
-        viewModel.observeData()
-                .subscribe(viewLifecycleOwner) {
-                    artist.setText(it.title)
-                    albumArtist.setText(it.albumArtist)
-                    setImage(MediaId.artistId(it.id))
-                }
+//        viewModel.observeData()
+//                .subscribe(viewLifecycleOwner) {
+//                    artist.setText(it.title)
+//                    albumArtist.setText(it.albumArtist)
+//                    setImage(MediaId.artistId(it.id)) TODO
+//                }
     }
 
     override fun onResume() {

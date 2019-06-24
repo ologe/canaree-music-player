@@ -9,6 +9,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.model.DisplayableFile
@@ -42,7 +43,7 @@ object BindingsAdapter {
     fun loadDirImage(view: ImageView, item: DisplayableFile){
         val path = item.path ?: ""
         val displayableItem = DisplayableItem(
-            0, MediaId.folderId(path),
+            0, MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path),
             "", ""
         )
         loadImageImpl(

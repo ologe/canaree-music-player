@@ -4,6 +4,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.GenreGateway2
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -68,7 +69,7 @@ object VoiceSearch {
                 .map { it.first { it.name.equals(genre, true) } }
                 .firstOrError()
                 .flatMap {
-                    val mediaId = MediaId.genreId(it.id)
+                    val mediaId = it.getMediaId()
                     genreGateway.observeTrackListByParam(it.id).asObservable()
                             .firstOrError()
                             .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }

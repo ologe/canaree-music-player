@@ -253,7 +253,7 @@ class SearchFragmentViewModelModule {
 private fun Song.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_song,
-        MediaId.songId(this.id),
+        getMediaId(),
         title,
         DisplayableItem.adjustArtist(artist),
         true
@@ -263,7 +263,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem {
 private fun Album.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
-        MediaId.albumId(id),
+        getMediaId(),
         title,
         DisplayableItem.adjustArtist(artist)
     )
@@ -272,7 +272,7 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
 private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_artist,
-        MediaId.artistId(id),
+        getMediaId(),
         name,
         null
     )
@@ -281,7 +281,7 @@ private fun Artist.toSearchDisplayableItem(): DisplayableItem {
 private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
-        MediaId.playlistId(id),
+        getMediaId(),
         title,
         null
     )
@@ -290,7 +290,7 @@ private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
 private fun Genre.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
-        MediaId.genreId(id),
+        getMediaId(),
         name,
         null
     )
@@ -299,7 +299,7 @@ private fun Genre.toSearchDisplayableItem(): DisplayableItem {
 private fun Folder.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_search_album,
-        MediaId.folderId(path),
+        getMediaId(),
         title,
         null
     )

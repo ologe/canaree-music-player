@@ -10,7 +10,7 @@ import dev.olog.shared.TextUtils
 internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
         R.layout.item_tab_album,
-        MediaId.folderId(path),
+        getMediaId(),
         title,
         DisplayableItem.handleSongListSize(resources, size)
     )
@@ -20,7 +20,7 @@ internal fun Playlist.toAutoPlaylist(): DisplayableItem {
 
     return DisplayableItem(
         R.layout.item_tab_auto_playlist,
-        MediaId.playlistId(id),
+        getMediaId(),
         title,
         ""
     )
@@ -32,7 +32,7 @@ internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableIte
 
     return DisplayableItem(
         R.layout.item_tab_album,
-        MediaId.playlistId(id),
+        getMediaId(),
         title,
         size
     )
@@ -44,7 +44,7 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
 
     return DisplayableItem(
         R.layout.item_tab_song,
-        MediaId.songId(this.id),
+        getMediaId(),
         title,
         "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
         true
@@ -56,7 +56,7 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
 internal fun Album.toTabDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_tab_album,
-        MediaId.albumId(id),
+        getMediaId(),
         title,
         DisplayableItem.adjustArtist(artist)
     )
@@ -69,7 +69,7 @@ internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem 
 
     return DisplayableItem(
         R.layout.item_tab_artist,
-        MediaId.artistId(id),
+        getMediaId(),
         name,
         albums + songs
     )
@@ -79,7 +79,7 @@ internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem 
 internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
         R.layout.item_tab_album,
-        MediaId.genreId(id),
+        getMediaId(),
         name,
         DisplayableItem.handleSongListSize(resources, size)
     )
@@ -88,7 +88,7 @@ internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
 internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_tab_album_last_played,
-        MediaId.albumId(id),
+        getMediaId(),
         title,
         DisplayableItem.adjustArtist(artist)
     )
@@ -101,7 +101,7 @@ internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): Displa
 
     return DisplayableItem(
         R.layout.item_tab_artist_last_played,
-        MediaId.artistId(id),
+        getMediaId(),
         name,
         albums + songs
     )

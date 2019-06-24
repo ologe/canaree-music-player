@@ -1,5 +1,8 @@
 package dev.olog.core.entity.track
 
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+
 data class Album (
         val id: Long,
         val artistId: Long,
@@ -10,3 +13,13 @@ data class Album (
         val hasSameNameAsFolder: Boolean,
         val isPodcast: Boolean
 )
+
+fun Album.getMediaId(): MediaId {
+    val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
+    return MediaId.createCategoryValue(category, this.id.toString())
+}
+
+fun Album.getArtistMediaId(): MediaId {
+    val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
+    return MediaId.createCategoryValue(category, this.artistId.toString())
+}

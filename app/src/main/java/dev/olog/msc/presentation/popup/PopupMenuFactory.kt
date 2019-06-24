@@ -2,19 +2,15 @@ package dev.olog.msc.presentation.popup
 
 import android.view.View
 import android.widget.PopupMenu
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.presentation.popup.album.AlbumPopup
 import dev.olog.msc.presentation.popup.artist.ArtistPopup
 import dev.olog.msc.presentation.popup.folder.FolderPopup
 import dev.olog.msc.presentation.popup.genre.GenrePopup
 import dev.olog.msc.presentation.popup.playlist.PlaylistPopup
-import dev.olog.msc.presentation.popup.podcast.PodcastPopup
-import dev.olog.msc.presentation.popup.podcastalbum.PodcastAlbumPopup
-import dev.olog.msc.presentation.popup.podcastartist.PodcastArtistPopup
-import dev.olog.msc.presentation.popup.podcastplaylist.PodcastPlaylistPopup
 import dev.olog.msc.presentation.popup.song.SongPopup
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -132,7 +128,7 @@ class PopupMenuFactory @Inject constructor(
         return getPodcastUseCase.execute(mediaId)
                 .firstOrError()
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { PodcastPopup(view, it, listenerFactory.podcast(it)) }
+                .map { SongPopup(view, it, listenerFactory.song(it)) }
     }
 
     private fun getPodcastPlaylistPopup(view: View, mediaId: MediaId): Single<PopupMenu> {
@@ -141,9 +137,9 @@ class PopupMenuFactory @Inject constructor(
                     if (mediaId.isLeaf){
                         getPodcastUseCase.execute(mediaId).firstOrError()
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .map { PodcastPlaylistPopup(view, playlist, it, listenerFactory.podcastPlaylist(playlist, it)) }
+                                .map { PlaylistPopup(view, playlist, it, listenerFactory.playlist(playlist, it)) }
                     } else {
-                        Single.just(PodcastPlaylistPopup(view, playlist, null, listenerFactory.podcastPlaylist(playlist, null)))
+                        Single.just(PlaylistPopup(view, playlist, null, listenerFactory.playlist(playlist, null)))
                                 .subscribeOn(AndroidSchedulers.mainThread())
                     }
                 }
@@ -155,9 +151,9 @@ class PopupMenuFactory @Inject constructor(
                     if (mediaId.isLeaf){
                         getPodcastUseCase.execute(mediaId).firstOrError()
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .map { PodcastAlbumPopup(view, album, it, listenerFactory.podcastAlbum(album, it)) }
+                                .map { AlbumPopup(view, album, it, listenerFactory.album(album, it)) }
                     } else {
-                        Single.just(PodcastAlbumPopup(view, album, null, listenerFactory.podcastAlbum(album, null)))
+                        Single.just(AlbumPopup(view, album, null, listenerFactory.album(album, null)))
                                 .subscribeOn(AndroidSchedulers.mainThread())
                     }
                 }
@@ -169,9 +165,9 @@ class PopupMenuFactory @Inject constructor(
                     if (mediaId.isLeaf){
                         getPodcastUseCase.execute(mediaId).firstOrError()
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .map { PodcastArtistPopup(view, artist, it, listenerFactory.podcastArtist(artist, it)) }
+                                .map { ArtistPopup(view, artist, it, listenerFactory.artist(artist, it)) }
                     } else {
-                        Single.just(PodcastArtistPopup(view, artist, null, listenerFactory.podcastArtist(artist, null)))
+                        Single.just(ArtistPopup(view, artist, null, listenerFactory.artist(artist, null)))
                                 .subscribeOn(AndroidSchedulers.mainThread())
                     }
                 }

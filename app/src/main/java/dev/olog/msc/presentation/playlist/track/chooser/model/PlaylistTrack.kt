@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.playlist.track.chooser.model
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
@@ -27,10 +28,16 @@ data class PlaylistTrack (
 
 }
 
+fun PlaylistTrack.getMediaId(): MediaId{
+    val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+    val mediaId = MediaId.createCategoryValue(category, "")
+    return MediaId.playableItem(mediaId, id)
+}
+
 internal fun PlaylistTrack.toDisplayableItem(): DisplayableItem {
     return DisplayableItem(
         R.layout.item_choose_track,
-        if (this.isPodcast) MediaId.podcastId(this.id) else MediaId.songId(this.id),
+        getMediaId(),
         this.title,
         DisplayableItem.adjustArtist(this.artist),
         true

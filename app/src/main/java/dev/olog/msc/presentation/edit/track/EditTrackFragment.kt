@@ -46,25 +46,25 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.observeData().observe(this, Observer {
-            if (it == null){
-                ctx.toast(R.string.edit_song_info_not_found)
-            } else {
-                title.setText(it.title)
-                artist.setText(it.artist)
-                albumArtist.setText(it.albumArtist)
-                album.setText(it.album)
-                year.setText(it.year)
-                genre.setText(it.genre)
-                disc.setText(it.disc)
-                trackNumber.setText(it.track)
-                bitrate.text = it.bitrate
-                format.text = it.format
-                sampling.text = it.sampling
-                setImage(MediaId.songId(it.id))
-            }
-            hideLoader()
-        })
+//        viewModel.observeData().observe(this, Observer {
+//            if (it == null){
+//                ctx.toast(R.string.edit_song_info_not_found)
+//            } else {
+//                title.setText(it.title)
+//                artist.setText(it.artist)
+//                albumArtist.setText(it.albumArtist)
+//                album.setText(it.album)
+//                year.setText(it.year)
+//                genre.setText(it.genre)
+//                disc.setText(it.disc)
+//                trackNumber.setText(it.track)
+//                bitrate.text = it.bitrate
+//                format.text = it.format
+//                sampling.text = it.sampling
+//                setImage(MediaId.songId(it.id)) TODO
+//            }
+//            hideLoader()
+//        })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

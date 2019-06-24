@@ -14,6 +14,7 @@ import dev.olog.msc.R
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.FolderGateway2
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
@@ -42,7 +43,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        val BACK_HEADER_ID = MediaId.folderId("back header")
+        val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())){
@@ -157,8 +158,9 @@ class FolderTreeFragmentViewModel @Inject constructor(
     fun createMediaId(item: DisplayableFile): MediaId? {
         try {
             val file = item.asFile()
-            val path = file.path
-            val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
+            val songPath = file.path
+            val path = songPath.substring(0, songPath.lastIndexOf(File.separator))
+            val folderMediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path)
 
             context.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     arrayOf(BaseColumns._ID),
@@ -208,7 +210,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
         return DisplayableFile(
             type = id,
-            mediaId = MediaId.folderId(this.path),
+            mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
             title = this.name,
             subtitle = null,
             path = this.path

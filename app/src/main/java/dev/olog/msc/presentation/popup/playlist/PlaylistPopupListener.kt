@@ -3,16 +3,15 @@ package dev.olog.msc.presentation.popup.playlist
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.*
+import dev.olog.media.MediaProvider
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.media.MediaProvider
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.toast
 import javax.inject.Inject
 
@@ -37,9 +36,10 @@ class PlaylistPopupListener @Inject constructor(
 
     private fun getMediaId(): MediaId {
         if (song != null){
-            return MediaId.playableItem(MediaId.playlistId(playlist.id), song!!.id)
+            val playlistMediaId = playlist.getMediaId()
+            return MediaId.playableItem(playlistMediaId, song!!.id)
         } else {
-            return MediaId.playlistId(playlist.id)
+            return playlist.getMediaId()
         }
     }
 
@@ -59,8 +59,8 @@ class PlaylistPopupListener @Inject constructor(
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
+            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
+            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title)
@@ -72,7 +72,7 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun removeDuplicates(){
-        navigator.toRemoveDuplicatesDialog(MediaId.playlistId(playlist.id), playlist.title)
+        navigator.toRemoveDuplicatesDialog(playlist.getMediaId(), playlist.title)
     }
 
     private fun toCreatePlaylist(){

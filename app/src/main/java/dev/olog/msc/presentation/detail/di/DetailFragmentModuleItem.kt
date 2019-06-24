@@ -8,11 +8,11 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.msc.R
-import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.item.*
-import dev.olog.shared.asFlowable
+import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.TextUtils
+import dev.olog.shared.asFlowable
 import io.reactivex.Flowable
 
 @Module
@@ -90,7 +90,7 @@ internal fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
     return listOf(
         DisplayableItem(
             R.layout.item_detail_item_image,
-            MediaId.folderId(path),
+            getMediaId(),
             title,
             subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
         )
@@ -105,7 +105,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> 
     return listOf(
         DisplayableItem(
             R.layout.item_detail_item_image,
-            MediaId.playlistId(this.id),
+            getMediaId(),
             title,
             listSize
         )
@@ -118,7 +118,7 @@ internal fun Album.toHeaderItem(): List<DisplayableItem> {
     return listOf(
         DisplayableItem(
             R.layout.item_detail_item_image,
-            MediaId.albumId(this.id),
+            getMediaId(),
             title,
             DisplayableItem.adjustArtist(this.artist)
         )
@@ -134,7 +134,7 @@ internal fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     return listOf(
         DisplayableItem(
             R.layout.item_detail_item_image,
-            MediaId.artistId(this.id),
+            getMediaId(),
             name,
             "$albums$songs".toLowerCase()
         )
@@ -146,7 +146,7 @@ internal fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
     return listOf(
         DisplayableItem(
             R.layout.item_detail_item_image,
-            MediaId.genreId(this.id),
+            getMediaId(),
             name,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
         )

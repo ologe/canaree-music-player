@@ -14,6 +14,8 @@ import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.shared.assertMainThread
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
@@ -310,11 +312,13 @@ class QueueImpl @Inject constructor(
                 .flattenAsObservable { it }
                 .flatMapMaybe {
                     if (isPodcast){
-                        getPodcastUseCase.execute(MediaId.podcastId(it)).firstElement()
-                                .map { podcast -> podcast.toMediaEntity(maxProgressive++, MediaId.songId(podcast.id)) }
+                        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
+                        getPodcastUseCase.execute(mediaId).firstElement()
+                                .map { podcast -> podcast.toMediaEntity(maxProgressive++, mediaId) }
                     } else {
-                        getSongUseCase.execute(MediaId.songId(it)).firstElement()
-                                .map { song -> song.toMediaEntity(maxProgressive++, MediaId.songId(song.id)) }
+                        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
+                        getSongUseCase.execute(mediaId).firstElement()
+                                .map { song -> song.toMediaEntity(maxProgressive++, mediaId) }
                     }
 
                 }
@@ -338,9 +342,11 @@ class QueueImpl @Inject constructor(
                 .flattenAsObservable { it }
                 .flatMapMaybe {
                     if (isPodcast){
-                        getPodcastUseCase.execute(MediaId.podcastId(it)).firstElement()
+                        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
+                        getPodcastUseCase.execute(mediaId).firstElement()
                     } else {
-                        getSongUseCase.execute(MediaId.songId(it)).firstElement()
+                        val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
+                        getSongUseCase.execute(mediaId).firstElement()
                     }
 
                 }
@@ -349,8 +355,7 @@ class QueueImpl @Inject constructor(
                 .subscribe({ items ->
                     var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
                     val listToAdd = items.map { item ->
-                        val mediaId = if (item.isPodcast) MediaId.podcastId(item.id) else MediaId.songId(item.id)
-                        item.toMediaEntity(currentProgressive++, mediaId)
+                        item.toMediaEntity(currentProgressive++, item.getMediaId())
                     }
                     val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
 

@@ -58,20 +58,20 @@ class EditAlbumFragment : BaseEditItemFragment() {
                     albumsUpdated.text =  text
                 }
 
-        viewModel.observeData().observe(viewLifecycleOwner, Observer {
-            when (it){
-                null -> ctx.toast(R.string.edit_song_info_not_found)
-                else -> {
-                    album.setText(it.title)
-                    artist.setText(it.artist)
-                    albumArtist.setText(it.albumArtist)
-                    year.setText(it.year)
-                    genre.setText(it.genre)
-                    setImage(MediaId.albumId(it.id))
-                }
-            }
-            hideLoader()
-        })
+//        viewModel.observeData().observe(viewLifecycleOwner, Observer {
+//            when (it){
+//                null -> ctx.toast(R.string.edit_song_info_not_found)
+//                else -> {
+//                    album.setText(it.title)
+//                    artist.setText(it.artist)
+//                    albumArtist.setText(it.albumArtist)
+//                    year.setText(it.year)
+//                    genre.setText(it.genre)
+//                    setImage(MediaId.albumId(it.id)) TODO
+//                }
+//            }
+//            hideLoader()
+//        })
     }
 
     override fun onResume() {

@@ -1,8 +1,8 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.core.MediaId
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.PodcastGateway2
 import dev.olog.core.gateway.SongGateway2
@@ -61,7 +61,7 @@ class PlayingQueueRepository @Inject constructor(
         return PlayingQueueSong(
             this.id,
             progressive,
-            MediaId.songId(this.id),
+            getMediaId(),
             this.artistId,
             this.albumId,
             this.title,

@@ -10,6 +10,9 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.getAlbumMediaId
+import dev.olog.core.entity.track.getArtistMediaId
+import dev.olog.core.entity.track.getMediaId
 import javax.inject.Inject
 
 class SongPopupListener @Inject constructor(
@@ -28,7 +31,7 @@ class SongPopupListener @Inject constructor(
     }
 
     private fun getMediaId(): MediaId {
-        return MediaId.songId(song.id)
+        return song.getMediaId()
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
@@ -43,8 +46,8 @@ class SongPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song.artistId))
+            R.id.viewAlbum -> viewAlbum(navigator, song.getAlbumMediaId())
+            R.id.viewArtist -> viewArtist(navigator, song.getArtistMediaId())
             R.id.share -> share(activity, song)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song)
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
@@ -42,7 +43,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
         return DisplayableItem(
             R.layout.item_related_artist,
-            MediaId.artistId(id),
+            getMediaId(),
             this.name,
             "$albums$songs"
         )

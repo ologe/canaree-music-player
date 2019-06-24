@@ -12,6 +12,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
@@ -116,7 +117,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
         R.layout.item_detail_related_artist,
-        MediaId.artistId(this.id),
+        getMediaId(),
         this.name,
         albums + songs
     )

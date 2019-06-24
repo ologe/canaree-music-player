@@ -41,44 +41,8 @@ class MediaId private constructor(
             return MediaId(category, categoryValue)
         }
 
-        fun folderId(value: String): MediaId {
-            return MediaId(MediaIdCategory.FOLDERS, value)
-        }
-
-        fun playlistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PLAYLISTS, value.toString())
-        }
-
-        fun podcastId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PODCASTS, "", value)
-        }
-
-        fun podcastPlaylistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PODCASTS_PLAYLIST, value.toString())
-        }
-
         fun songId(id: Long): MediaId {
             return MediaId(MediaIdCategory.SONGS, "", id)
-        }
-
-        fun albumId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.ALBUMS, value.toString())
-        }
-
-        fun podcastAlbumId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PODCASTS_ALBUMS, value.toString())
-        }
-
-        fun artistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.ARTISTS, value.toString())
-        }
-
-        fun podcastArtistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PODCASTS_ARTISTS, value.toString())
-        }
-
-        fun genreId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.GENRES, value.toString())
         }
 
         fun playableItem(parentId: MediaId, songId: Long): MediaId {

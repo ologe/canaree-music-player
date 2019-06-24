@@ -8,6 +8,7 @@ import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.core.MediaId
+import dev.olog.core.entity.getMediaId
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.debounceFirst
 import io.reactivex.rxkotlin.Observables
@@ -40,7 +41,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         return DisplayableQueueSong(
             R.layout.item_playing_queue,
-            MediaId.songId(this.idInPlaylist.toLong()),
+            getMediaId(),
             title,
             DisplayableItem.adjustArtist(artist),
             positionInList,

@@ -1,6 +1,8 @@
 package dev.olog.core.entity
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.track.Song
 import java.io.File
 
 data class PlayingQueueSong (
@@ -24,4 +26,10 @@ data class PlayingQueueSong (
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
 
+}
+
+fun PlayingQueueSong.getMediaId(): MediaId {
+    val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+    val mediaId = MediaId.createCategoryValue(category, "")
+    return MediaId.playableItem(mediaId, id)
 }

@@ -51,7 +51,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.folderId(this.path).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.title)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
@@ -59,7 +59,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.playlistId(this.id).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.title)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
@@ -67,7 +67,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.songId(this.id).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.title)
                 .setSubtitle(this.artist)
                 .setDescription(this.album)
@@ -87,7 +87,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.albumId(this.id).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.title)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
@@ -95,7 +95,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.artistId(this.id).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.name)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
@@ -103,7 +103,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.genreId(this.id).toString())
+                .setMediaId(getMediaId().toString())
                 .setTitle(this.name)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)

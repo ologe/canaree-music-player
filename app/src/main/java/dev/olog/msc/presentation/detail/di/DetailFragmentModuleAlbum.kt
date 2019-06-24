@@ -6,10 +6,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.AlbumGateway2
 import dev.olog.core.gateway.FolderGateway2
 import dev.olog.core.gateway.GenreGateway2
@@ -92,7 +89,7 @@ class DetailFragmentModuleAlbum {
 internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
-            MediaId.folderId(path),
+            getMediaId(),
             title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     )
@@ -101,7 +98,7 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIt
 internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
-            MediaId.playlistId(id),
+            getMediaId(),
             title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     )
@@ -110,7 +107,7 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
 internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
-            MediaId.albumId(id),
+            getMediaId(),
             title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
     )
@@ -119,7 +116,7 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableIte
 internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
-            MediaId.genreId(id),
+            getMediaId(),
             name,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     )
