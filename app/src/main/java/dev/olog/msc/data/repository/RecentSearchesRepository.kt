@@ -4,10 +4,8 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.gateway.*
-import dev.olog.msc.domain.gateway.*
 import io.reactivex.Completable
 import io.reactivex.Observable
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 

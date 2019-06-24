@@ -12,7 +12,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.model.PositionInQueue
-import dev.olog.msc.presentation.app.widget.WidgetClasses
+import dev.olog.injection.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.media.isPlaying
 import javax.inject.Inject

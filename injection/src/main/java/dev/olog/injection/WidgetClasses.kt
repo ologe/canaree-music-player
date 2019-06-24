@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.app.widget
+package dev.olog.injection
 
 import android.appwidget.AppWidgetProvider
 

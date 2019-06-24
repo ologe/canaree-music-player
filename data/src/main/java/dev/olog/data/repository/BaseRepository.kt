@@ -7,6 +7,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.BaseGateway2
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
+import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.shared.safeSend
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,6 @@ internal abstract class BaseRepository<T, Param>(
                 contentUri.notifyForDescendants,
                 DataObserver {
                     launch {
-                        assertBackgroundThread()
                         channel.safeSend(queryAll())
                     }
                 }
@@ -53,19 +53,16 @@ internal abstract class BaseRepository<T, Param>(
     }
 
     override fun observeAll(): Flow<List<T>> {
-        assertBackgroundThread()
-        return channel.asFlow()
+        return channel.asFlow().assertBackground()
     }
 
     protected fun <R> observeByParamInternal(
         contentUri: ContentUri,
         action: () -> R
     ): Flow<R> {
-        assertBackgroundThread()
 
         return channelFlow {
 
-            assertBackgroundThread()
             if (!isClosedForSend) {
                 safeSend(action())
             }
@@ -84,7 +81,7 @@ internal abstract class BaseRepository<T, Param>(
                 observer
             )
             invokeOnClose { contentResolver.unregisterContentObserver(observer) }
-        }
+        }.assertBackground()
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import dev.olog.injection.WidgetClasses
 import dev.olog.msc.R
 import dev.olog.presentation.AppConstants
 import dev.olog.media.MusicConstants

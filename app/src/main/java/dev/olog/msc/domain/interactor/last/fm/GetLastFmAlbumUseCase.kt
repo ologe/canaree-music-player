@@ -1,16 +1,16 @@
 package dev.olog.msc.domain.interactor.last.fm
 
 import com.github.dmstocking.optional.java.util.Optional
-import dev.olog.msc.app.IoSchedulers
+import dev.olog.injection.IoSchedulers
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.core.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam
 import io.reactivex.Single
 import javax.inject.Inject
 
 class GetLastFmAlbumUseCase @Inject constructor(
-        schedulers: IoSchedulers,
-        private val gateway: LastFmGateway
+    schedulers: IoSchedulers,
+    private val gateway: LastFmGateway
 
 ): SingleUseCaseWithParam<Optional<LastFmAlbum?>, LastFmAlbumRequest>(schedulers) {
 

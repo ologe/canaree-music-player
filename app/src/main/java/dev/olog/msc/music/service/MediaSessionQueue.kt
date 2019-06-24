@@ -13,9 +13,8 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.playing.queue.UpdateMiniQueueUseCase
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.presentation.app.widget.WidgetClasses
+import dev.olog.injection.WidgetClasses
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable

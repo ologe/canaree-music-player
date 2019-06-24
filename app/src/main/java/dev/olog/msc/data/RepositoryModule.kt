@@ -10,10 +10,10 @@ import dev.olog.msc.data.repository.RecentSearchesRepository
 import dev.olog.msc.data.repository.UsedImageRepository
 import dev.olog.msc.data.repository.last.fm.LastFmRepository
 import dev.olog.msc.data.repository.lyrics.OfflineLyricsRepository
-import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.domain.gateway.OfflineLyricsGateway
-import dev.olog.msc.domain.gateway.RecentSearchesGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
+import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.core.gateway.RecentSearchesGateway
+import dev.olog.core.gateway.UsedImageGateway
 import javax.inject.Singleton
 
 @Module

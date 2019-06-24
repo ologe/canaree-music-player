@@ -1,4 +1,4 @@
-package dev.olog.msc.app
+package dev.olog.injection
 
 import android.app.AlarmManager
 import android.app.Application
@@ -10,9 +10,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.presentation.app.widget.WidgetClasses
-import dev.olog.msc.presentation.app.widget.defaul.WidgetColored
-import dev.olog.msc.presentation.app.widget.queue.WidgetColoredWithQueue
 import java.text.Collator
 import java.util.*
 
@@ -36,8 +33,8 @@ abstract class CoreModule {
             return object : WidgetClasses {
                 override fun get(): List<Class<out AppWidgetProvider>> {
                     return listOf(
-                            WidgetColored::class.java,
-                            WidgetColoredWithQueue::class.java
+//                            WidgetColored::class.java, TODO
+//                            WidgetColoredWithQueue::class.java
                     )
                 }
             }

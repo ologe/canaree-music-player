@@ -7,7 +7,7 @@ import dev.olog.data.db.entities.UsedTrackImageEntity
 import dev.olog.core.entity.UsedAlbumImage
 import dev.olog.core.entity.UsedArtistImage
 import dev.olog.core.entity.UsedTrackImage
-import dev.olog.msc.domain.gateway.UsedImageGateway
+import dev.olog.core.gateway.UsedImageGateway
 import javax.inject.Inject
 
 class UsedImageRepository @Inject constructor(

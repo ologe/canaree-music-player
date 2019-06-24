@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -12,32 +13,23 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.*
+import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.DataModule
+import dev.olog.injection.CoreModule
+import dev.olog.injection.SchedulersModule
+import dev.olog.injection.WidgetClasses
 import dev.olog.msc.api.last.fm.LastFmModule
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
 import dev.olog.msc.data.prefs.PreferenceModule
-import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.domain.gateway.OfflineLyricsGateway
-import dev.olog.msc.domain.gateway.RecentSearchesGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
+import dev.olog.msc.domain.gateway.prefs.*
 import dev.olog.msc.domain.interactor.last.fm.scrobble.LastFmEncrypter
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.music.service.equalizer.IEqualizer
 import dev.olog.msc.music.service.equalizer.IVirtualizer
-import dev.olog.msc.presentation.ViewModelModule
-import dev.olog.msc.presentation.about.di.AboutActivityInjector
-import dev.olog.msc.presentation.app.widget.WidgetBindingModule
-import dev.olog.msc.presentation.app.widget.WidgetClasses
-import dev.olog.msc.presentation.main.di.MainActivityInjector
-import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
-import dev.olog.msc.presentation.shortcuts.playlist.chooser.di.PlaylistChooserActivityInjector
 import java.text.Collator
 import javax.inject.Singleton
 
@@ -45,7 +37,6 @@ import javax.inject.Singleton
     modules = arrayOf(
         CoreModule::class,
         SchedulersModule::class,
-        AppShortcutsModule::class,
         LastFmModule::class,
         AndroidInjectionModule::class,
 
@@ -54,17 +45,16 @@ import javax.inject.Singleton
         RepositoryHelperModule::class,
         PreferenceModule::class,
         DataModule::class,
+        AppShortcutsModule::class,
+        EqualizerModule::class
 //
 //        // presentation
-        ActivityBindingsModule ::class,
-        WidgetBindingModule::class,
-        MainActivityInjector::class,
-        AboutActivityInjector::class,
-        PreferencesActivityInjector::class,
-        PlaylistChooserActivityInjector::class,
-        ViewModelModule::class,
+//        ActivityBindingsModule ::class,
+//        WidgetBindingModule::class,
+//        AboutActivityInjector::class,
+//        PreferencesActivityInjector::class,
+//        PlaylistChooserActivityInjector::class
 
-        EqualizerModule::class
     )
 )
 @Singleton
@@ -74,11 +64,15 @@ interface CoreComponent : AndroidInjector<App> {
 
     @ApplicationContext
     fun context(): Context
+    fun resources(): Resources
 
     fun prefs(): AppPreferencesGateway
     fun musicPrefs(): MusicPreferencesGateway
     fun tutorialPrefs(): TutorialPreferenceGateway
     fun equalizerPrefs(): EqualizerPreferencesGateway
+    fun presentationPrefs(): PresentationPreferences
+    fun sortPrefs(): SortPreferences
+    fun blacklistPrefs(): BlacklistPreferences
 
     fun lastFmGateway(): LastFmGateway
     fun usedImageGateway(): UsedImageGateway
@@ -121,7 +115,7 @@ interface CoreComponent : AndroidInjector<App> {
         private var component: CoreComponent? = null
 
         fun coreComponent(application: Application): CoreComponent {
-            if (component == null){
+            if (component == null) {
                 component = DaggerCoreComponent.factory().create(application)
             }
             return component!!

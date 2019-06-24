@@ -1,8 +1,10 @@
 package dev.olog.msc.presentation.main.di
 
-import dagger.Subcomponent
-import dagger.android.AndroidInjector
-import dev.olog.presentation.dagger.PerActivity
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dev.olog.msc.app.CoreComponent
+import dev.olog.msc.presentation.ViewModelModule
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
 import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
@@ -17,7 +19,6 @@ import dev.olog.msc.presentation.edit.album.di.EditAlbumFragmentInjector
 import dev.olog.msc.presentation.edit.artist.di.EditArtistFragmentInjector
 import dev.olog.msc.presentation.edit.track.di.EditTrackFragmentInjector
 import dev.olog.msc.presentation.library.folder.tree.di.FolderTreeFragmentModule
-import dev.olog.presentation.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.player.di.PlayerFragmentModule
 import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector
@@ -25,8 +26,19 @@ import dev.olog.msc.presentation.playlist.track.chooser.di.PlaylistTracksChooser
 import dev.olog.msc.presentation.recently.added.di.RecentlyAddedFragmentInjector
 import dev.olog.msc.presentation.related.artists.di.RelatedArtistFragmentInjector
 import dev.olog.msc.presentation.search.di.SearchFragmentInjector
+import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.tab.di.TabFragmentInjector
 
-@Subcomponent(modules = arrayOf(
+fun MainActivity.inject() {
+    DaggerMainActivityComponent.factory()
+        .create(this, CoreComponent.coreComponent(application))
+        .inject(this)
+}
+
+@Component(
+    modules = arrayOf(
+        AndroidInjectionModule::class,
+        ViewModelModule::class,
         MainActivityModule::class,
         MainActivityFragmentsModule::class,
 //
@@ -54,18 +66,17 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         DeleteDialogInjector::class,
         NewPlaylistDialogInjector::class,
         RemoveDuplicatesDialogInjector::class
-))
+    ), dependencies = [CoreComponent::class]
+)
 @PerActivity
-interface MainActivitySubComponent : AndroidInjector<MainActivity> {
+interface MainActivityComponent {
 
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MainActivity>() {
+    fun inject(instance: MainActivity)
 
-        abstract fun module(module: MainActivityModule): Builder
+    @Component.Factory
+    interface Factory {
 
-        override fun seedInstance(instance: MainActivity) {
-            module(MainActivityModule(instance))
-        }
+        fun create(@BindsInstance instance: MainActivity, component: CoreComponent): MainActivityComponent
     }
 
 }

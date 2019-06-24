@@ -4,7 +4,7 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.core.gateway.LastFmGateway
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers

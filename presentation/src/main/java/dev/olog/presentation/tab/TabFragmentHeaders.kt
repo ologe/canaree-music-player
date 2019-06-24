@@ -1,13 +1,13 @@
 package dev.olog.presentation.tab
 
 import android.content.res.Resources
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
+import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@PerFragment
 class TabFragmentHeaders @Inject constructor(
         resources: Resources
 ) {

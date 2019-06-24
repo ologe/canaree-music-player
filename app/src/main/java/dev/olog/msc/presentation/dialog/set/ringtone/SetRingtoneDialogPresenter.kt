@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.dialog.set.ringtone
 
 import android.annotation.TargetApi
-import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -14,21 +14,22 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.core.MediaId
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.isMarshmallow
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SetRingtoneDialogPresenter @Inject constructor(
-        private val application: Application,
-        private val activity: AppCompatActivity,
-        private val mediaId: MediaId
+    @ApplicationContext private val context: Context,
+    private val activity: AppCompatActivity,
+    private val mediaId: MediaId
 
 ) {
 
     @TargetApi(Build.VERSION_CODES.M)
     fun execute() : Completable {
-        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(application)){
+        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(context)){
             return setRingtone()
         } else {
             requestWritingSettingsPermission()
@@ -48,7 +49,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
-                    val packageName = application.packageName
+                    val packageName = context.packageName
                     val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))
                     activity.startActivity(intent)
                 }).show()
@@ -61,10 +62,10 @@ class SetRingtoneDialogPresenter @Inject constructor(
         val values = ContentValues(2)
         values.put(MediaStore.Audio.AudioColumns.IS_RINGTONE, "1")
 
-        application.contentResolver.update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        context.contentResolver.update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 values, "${BaseColumns._ID} = ?", arrayOf("$songId"))
 
-        return Settings.System.putString(application.contentResolver, Settings.System.RINGTONE, uri.toString())
+        return Settings.System.putString(context.contentResolver, Settings.System.RINGTONE, uri.toString())
     }
 
 }

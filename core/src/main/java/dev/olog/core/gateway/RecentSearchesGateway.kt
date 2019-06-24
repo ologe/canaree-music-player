@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.gateway
+package dev.olog.core.gateway
 
 import dev.olog.core.entity.SearchResult
 import io.reactivex.Completable

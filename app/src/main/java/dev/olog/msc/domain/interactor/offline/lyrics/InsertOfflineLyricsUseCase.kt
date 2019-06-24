@@ -1,9 +1,9 @@
 package dev.olog.msc.domain.interactor.offline.lyrics
 
-import dev.olog.msc.domain.entity.OfflineLyrics
+import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.entity.track.Song
 import dev.olog.core.executor.IoScheduler
-import dev.olog.msc.domain.gateway.OfflineLyricsGateway
+import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.MediaId

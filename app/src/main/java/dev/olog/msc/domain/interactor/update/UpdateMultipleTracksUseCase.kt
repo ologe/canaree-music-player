@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.update
 
-import dev.olog.msc.app.IoSchedulers
-import dev.olog.msc.domain.gateway.UsedImageGateway
+import dev.olog.injection.IoSchedulers
+import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
@@ -11,10 +11,10 @@ import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
-        schedulers: IoSchedulers,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val updateTrackUseCase: UpdateTrackUseCase,
-        private val gateway: UsedImageGateway
+    schedulers: IoSchedulers,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase,
+    private val updateTrackUseCase: UpdateTrackUseCase,
+    private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateMultipleTracksUseCase.Data>(schedulers){
 

@@ -24,6 +24,7 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
+import dev.olog.msc.presentation.main.di.inject
 import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
@@ -58,6 +59,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
     lateinit var rateAppDialog : RateAppDialog
 
     private lateinit var scrollHelper: SuperCerealScrollHelper
+
+    override fun injectComponent() = inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

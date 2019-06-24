@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.gateway
+package dev.olog.core.gateway
 
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.core.entity.LastFmAlbum

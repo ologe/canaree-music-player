@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.SongGateway2
-import dev.olog.msc.domain.gateway.UsedImageGateway
+import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest

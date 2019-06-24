@@ -13,7 +13,7 @@ import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.presentation.app.widget.WidgetClasses
+import dev.olog.injection.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.presentation.model.DisplayableItem
