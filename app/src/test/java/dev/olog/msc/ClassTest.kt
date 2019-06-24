@@ -2,7 +2,7 @@ package dev.olog.msc
 
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
+import dev.olog.appshortcuts.ShortcutsActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
 import dev.olog.shared.Classes
 import org.junit.Assert

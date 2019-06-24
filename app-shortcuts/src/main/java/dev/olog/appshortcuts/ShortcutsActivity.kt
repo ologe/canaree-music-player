@@ -1,12 +1,12 @@
-package dev.olog.msc.presentation.shortcuts
+package dev.olog.appshortcuts
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
-import dev.olog.msc.music.service.MusicService
 
 class ShortcutsActivity : AppCompatActivity(){
 
@@ -24,12 +24,12 @@ class ShortcutsActivity : AppCompatActivity(){
         val action = intent.action
         when (action){
             MusicConstants.ACTION_PLAY -> {
-                val serviceIntent = Intent(this, MusicService::class.java)
+                val serviceIntent = Intent(this, Class.forName(Classes.MUSIC_SERVICE))
                 serviceIntent.action = MusicConstants.ACTION_PLAY
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             MusicConstants.ACTION_SHUFFLE -> {
-                val serviceIntent = Intent(this, MusicService::class.java)
+                val serviceIntent = Intent(this, Class.forName(Classes.MUSIC_SERVICE))
                 serviceIntent.action = MusicConstants.ACTION_SHUFFLE
                 ContextCompat.startForegroundService(this, serviceIntent)
             }

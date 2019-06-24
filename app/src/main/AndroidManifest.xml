@@ -104,7 +104,7 @@
         <activity android:name=".presentation.preferences.PreferencesActivity" />
 
         <!--dummy shortcuts activity-->
-        <activity android:name=".presentation.shortcuts.ShortcutsActivity" />
+        <activity android:name="dev.olog.appshortcuts.ShortcutsActivity" />
 
         <!--app shortcust playlist chooser-->
         <activity android:name=".presentation.shortcuts.playlist.chooser.PlaylistChooserActivity" />
