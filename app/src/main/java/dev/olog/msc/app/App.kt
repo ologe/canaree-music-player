@@ -8,7 +8,7 @@ import androidx.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.injection.shortcuts.AppShortcuts
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
@@ -19,9 +19,8 @@ import javax.inject.Inject
 
 class App : Application(), Application.ActivityLifecycleCallbacks {
 
-    @Suppress("unused")
-    @Inject
-    lateinit var appShortcuts: AppShortcuts
+    private lateinit var appShortcuts: AppShortcuts
+
     @Inject
     lateinit var darkMode: DarkMode
     @Inject
@@ -44,6 +43,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     }
 
     private fun initializeComponents() {
+        appShortcuts = AppShortcuts.instance(this)
+
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
 //            Traceur.enableLogging()

@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.popup.album
 
 import android.app.Activity
 import android.view.MenuItem
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
@@ -9,7 +10,6 @@ import dev.olog.core.entity.track.getArtistMediaId
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.media.MediaProvider
 import dev.olog.msc.R
-import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.popup.AbsPopup
@@ -22,8 +22,7 @@ class AlbumPopupListener @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val appShortcuts: AppShortcuts
+    addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -62,7 +61,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title)
+            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), album.title)
         }
 
         return true

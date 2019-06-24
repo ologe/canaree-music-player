@@ -3,7 +3,7 @@
 
     <item android:drawable="@drawable/shortcut_background"/>
 
-    <item android:drawable="@drawable/vd_playlist_add"
+    <item android:drawable="@drawable/vd_colored_playlist_add"
         android:top="10dp"
         android:bottom="10dp"
         android:right="10dp"

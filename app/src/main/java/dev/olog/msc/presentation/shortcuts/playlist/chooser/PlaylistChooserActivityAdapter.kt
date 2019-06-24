@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.injection.shortcuts.AppShortcuts
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.presentation.base.DataBoundViewHolder
@@ -16,8 +16,7 @@ import javax.inject.Inject
 
 class PlaylistChooserActivityAdapter @Inject constructor(
         private val activity: Activity,
-        @ActivityLifecycle lifecycle: Lifecycle,
-        private var appShortcuts: AppShortcuts
+        @ActivityLifecycle lifecycle: Lifecycle
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -32,7 +31,7 @@ class PlaylistChooserActivityAdapter @Inject constructor(
                 .setTitle(R.string.playlist_chooser_dialog_title)
                 .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                    appShortcuts.addDetailShortcut(item.mediaId, item.title)
+                    AppShortcuts.instance(activity).addDetailShortcut(item.mediaId, item.title)
                     activity.finish()
                 }
             .setNegativeButton(R.string.popup_negative_no, null)

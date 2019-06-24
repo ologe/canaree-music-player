@@ -6,7 +6,7 @@ import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.msc.R
-import dev.olog.injection.shortcuts.AppShortcuts
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.scope.PerService
@@ -22,10 +22,12 @@ class PlayerState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val appShortcuts: AppShortcuts,
+
     private val widgetClasses: WidgetClasses
 
 ){
+
+    private val appShortcuts = AppShortcuts.instance(context)
 
     private val builder = PlaybackStateCompat.Builder()
     private var activeQueueId = MediaSessionCompat.QueueItem.UNKNOWN_ID.toLong()

@@ -15,7 +15,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.MediaExposer
 import dev.olog.media.MediaProvider
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.msc.presentation.base.BaseActivity

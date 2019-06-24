@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.olog.injection.WidgetClasses
 import dev.olog.msc.R
 import dev.olog.presentation.AppConstants
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.MusicService

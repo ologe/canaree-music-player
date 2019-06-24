@@ -7,7 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import dev.olog.msc.R
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.app.widget.WidgetSize
 import dev.olog.msc.presentation.app.widget.defaul.WidgetColored

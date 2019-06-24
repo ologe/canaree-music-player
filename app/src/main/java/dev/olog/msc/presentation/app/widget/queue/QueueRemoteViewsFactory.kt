@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.msc.domain.interactor.playing.queue.GetMiniQueueUseCase
 import dev.olog.msc.utils.k.extension.getCachedBitmap

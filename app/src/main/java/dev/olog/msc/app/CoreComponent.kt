@@ -18,8 +18,6 @@ import dev.olog.injection.CoreModule
 import dev.olog.injection.SchedulersModule
 import dev.olog.injection.WidgetClasses
 import dev.olog.msc.api.last.fm.LastFmModule
-import dev.olog.injection.shortcuts.AppShortcuts
-import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
 import dev.olog.msc.data.prefs.PreferenceModule
@@ -42,7 +40,6 @@ import javax.inject.Singleton
         RepositoryHelperModule::class,
         PreferenceModule::class,
         DataModule::class,
-        AppShortcutsModule::class,
         EqualizerModule::class
 //
 //        // presentation
@@ -88,7 +85,6 @@ interface CoreComponent {
     fun ioDispatcher(): IoScheduler
     fun encrypter(): LastFmEncrypter
 
-    fun appShortcuts(): AppShortcuts
     fun widgetClasses(): WidgetClasses
     fun collator(): Collator
 

@@ -17,6 +17,7 @@ import dev.olog.media.connection.MusicServiceConnectionState
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
+import dev.olog.shared.Classes
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
@@ -35,14 +36,10 @@ class MediaExposer(
     IMediaControllerCallback,
     IMediaConnectionCallback {
 
-    companion object {
-        const val MUSIC_SERVICE = "dev.olog.msc.music.service.MusicService"
-    }
-
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, MUSIC_SERVICE),
+            ComponentName(context, Classes.MUSIC_SERVICE),
             MusicServiceConnection(this), null
         )
     }

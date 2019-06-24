@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.play.next
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.core.MediaId
 import io.reactivex.Completable

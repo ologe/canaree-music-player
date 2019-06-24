@@ -15,6 +15,7 @@ android {
 apply from: '../kapt.gradle'
 
 dependencies {
+    implementation project(':app-shortcuts')
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')

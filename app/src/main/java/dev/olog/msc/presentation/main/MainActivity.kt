@@ -14,8 +14,8 @@ import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.presentation.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
-import dev.olog.media.MusicConstants
-import dev.olog.msc.app.shortcuts.Shortcuts
+import dev.olog.shared.MusicConstants
+import dev.olog.appshortcuts.Shortcuts
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService

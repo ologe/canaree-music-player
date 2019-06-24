@@ -2,11 +2,11 @@ package dev.olog.msc.presentation.popup.folder
 
 import android.app.Activity
 import android.view.MenuItem
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
 import dev.olog.media.MediaProvider
 import dev.olog.msc.R
-import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.popup.AbsPopup
@@ -19,8 +19,7 @@ class FolderPopupListener @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val appShortcuts: AppShortcuts
+    addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -60,7 +59,7 @@ class FolderPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), folder.title)
+            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), folder.title)
         }
 
 

@@ -1,4 +1,4 @@
-package dev.olog.media
+package dev.olog.shared
 
 object MusicConstants {
 
@@ -32,8 +32,6 @@ object MusicConstants {
 
     const val ARGUMENT_SORT_TYPE = "$TAG.argument.sort.type"
     const val ARGUMENT_SORT_ARRANGING = "$TAG.argument.sort.arranging"
-
-    const val EXTRA_QUEUE_CATEGORY = "$TAG.extra.queue_category"
 
     const val PATH = "$TAG.PATH"
     const val IS_PODCAST = "$TAG.extra.is_podcast"

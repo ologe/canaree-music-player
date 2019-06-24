@@ -13,7 +13,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
 import dev.olog.msc.FileProvider
 import dev.olog.msc.catchNothing
-import dev.olog.media.MusicConstants
+import dev.olog.shared.MusicConstants
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
 import dev.olog.msc.music.service.helper.MediaIdHelper

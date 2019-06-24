@@ -2,6 +2,7 @@ package dev.olog.media
 
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
+import dev.olog.shared.MusicConstants
 import dev.olog.shared.utils.TextUtils
 
 fun MediaMetadataCompat.getTitle(): CharSequence {
