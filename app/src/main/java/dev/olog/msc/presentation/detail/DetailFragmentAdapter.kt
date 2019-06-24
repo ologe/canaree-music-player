@@ -3,24 +3,25 @@ package dev.olog.msc.presentation.detail
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.RxView
-import dev.olog.msc.BR
-import dev.olog.msc.R
-import dev.olog.core.PlaylistConstants
+import dev.olog.core.MediaId
+import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.id
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.media.MediaProvider
+import dev.olog.msc.BR
+import dev.olog.msc.R
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import dev.olog.msc.utils.k.extension.setOnMoveListener
+import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigator.Navigator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 
@@ -204,12 +205,8 @@ class DetailFragmentAdapter (
         get() {
             if (mediaId.isPlaylist){
                 val playlistId = mediaId.resolveId
-                return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
+                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
             }
-//            if (mediaId.isPodcastPlaylist){
-//                val playlistId = mediaId.resolveId
-//                return playlistId != PlaylistConstants.PODCAST_LAST_ADDED_ID || !PlaylistConstants.isPodcastAutoPlaylist(playlistId)
-//            }
             return false
         }
 

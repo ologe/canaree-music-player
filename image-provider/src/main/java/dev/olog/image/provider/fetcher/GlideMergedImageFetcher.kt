@@ -5,6 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.gateway.FolderGateway2
 import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.PlaylistGateway2
@@ -72,9 +73,9 @@ class GlideMergedImageFetcher(
     }
 
     private suspend fun makePlaylistImage(playlistId: Long): InputStream? {
-//        if (PlaylistGateway.isAutoPlaylist(playlistId) || PodcastPlaylistGateway.isPodcastAutoPlaylist(playlistId)){ TODO
-//            return null
-//        }
+        if (AutoPlaylist.isAutoPlaylist(playlistId)){
+            return null
+        }
 
 //        ImagesFolderUtils.forPlaylist(context, id) --contains current image
         val albumsId = playlistGateway.getTrackListByParam(playlistId).map { it.albumId }

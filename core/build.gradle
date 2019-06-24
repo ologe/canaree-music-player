@@ -17,5 +17,4 @@ dependencies {
 
     // TODO rmeove
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-    implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
 }

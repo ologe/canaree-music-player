@@ -32,13 +32,6 @@ buildscript {
     }
 
 
-
-    
-    
-
-    
-
-
 }
 
 allprojects {
@@ -88,11 +81,10 @@ ext {
     lottie = '3.0.0'
     sql_brite = '3.2.0'
     billing = '1.2.2'
-    retrofit = '2.5.0'
+    retrofit = '2.6.0'
     fuzzywuzzy = '1.2.0'
     gson = '2.8.5'
-    ok_http = '3.14.0'
-    optional_lib = '1.2'
+    ok_http = '3.14.2'
     last_fm_binding = '0.1.2'
     aes_crypto = '1.1.0'
 

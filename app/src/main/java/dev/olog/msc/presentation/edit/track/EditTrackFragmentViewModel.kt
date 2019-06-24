@@ -65,21 +65,21 @@ class EditTrackFragmentViewModel @Inject constructor(
             return false
         }
 
-        fetchSongInfoDisposable.unsubscribe()
-        fetchSongInfoDisposable = presenter.fetchData()
-                .map { it.get()!! }
-                .subscribe({ newValue ->
-                    val oldValue = displayedSong.value!!
-                    displayedSong.postValue(oldValue.copy(
-                            title = newValue.title,
-                            artist = newValue.artist,
-                            album = newValue.album
-                    ))
-                }, { throwable ->
-                    throwable.printStackTrace()
-                    Crashlytics.logException(throwable)
-                    displayedSong.postValue(null)
-                })
+//        fetchSongInfoDisposable.unsubscribe()
+//        fetchSongInfoDisposable = presenter.fetchData()
+//                .map { it.get()!! }
+//                .subscribe({ newValue ->
+//                    val oldValue = displayedSong.value!!
+//                    displayedSong.postValue(oldValue.copy(
+//                            title = newValue.title,
+//                            artist = newValue.artist,
+//                            album = newValue.album
+//                    ))
+//                }, { throwable ->
+//                    throwable.printStackTrace()
+//                    Crashlytics.logException(throwable)
+//                    displayedSong.postValue(null)
+//                })
 
         return true
     }

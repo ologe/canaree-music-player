@@ -1,9 +1,10 @@
 package dev.olog.data.repository.podcast
 
 import android.content.Context
-import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -16,8 +17,8 @@ import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
 import dev.olog.shared.extensions.mapListItem
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
@@ -76,9 +77,9 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     override fun getAllAutoPlaylists(): List<Playlist> {
         assertBackgroundThread()
         return listOf(
-            createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0], 0),
-            createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], 0),
-            createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2], 0)
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0], 0),
+            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1], 0),
+            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2], 0)
         )
     }
 
@@ -110,10 +111,10 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun clearPlaylist(playlistId: Id): Completable {
-        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
+        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             when (playlistId) {
-                PlaylistConstants.PODCAST_FAVORITE_LIST_ID -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
-                PlaylistConstants.PODCAST_HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAllPodcasts() }
+                AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
+                AutoPlaylist.HISTORY.id -> return Completable.fromCallable { historyDao.deleteAllPodcasts() }
             }
         }
         return Completable.fromCallable { podcastPlaylistDao.clearPlaylist(playlistId) }
@@ -133,7 +134,7 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun removeSongFromPlaylist(playlistId: Id, idInPlaylist: Long): Completable {
-        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
+        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             return removeFromAutoPlaylist(playlistId, idInPlaylist)
         }
         return Completable.fromCallable { podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist) }
@@ -141,8 +142,8 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
         return when (playlistId) {
-            PlaylistConstants.PODCAST_FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
-            PlaylistConstants.PODCAST_HISTORY_LIST_ID -> Completable.fromCallable {
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
+            AutoPlaylist.HISTORY.id -> Completable.fromCallable {
                 historyDao.deleteSinglePodcast(
                     songId
                 )

@@ -11,6 +11,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.FolderGateway2
 import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.image.provider.fetcher.GlideMergedImageFetcher
 import java.io.InputStream
 import javax.inject.Inject
@@ -20,12 +21,12 @@ class GlideMergedImageLoader(
     private val uriLoader: ModelLoader<Uri, InputStream>,
     private val folderGateway: FolderGateway2,
     private val playlistGateway: PlaylistGateway2,
-    private val genreGateway: GenreGateway2
-//    private val prefsGateway: AppPreferencesGateway
+    private val genreGateway: GenreGateway2,
+    private val prefsGateway: AppPreferencesGateway
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf){
+        if (mediaId.isLeaf) {
             return false
         }
         return mediaId.isFolder || mediaId.isPlaylist || mediaId.isGenre || mediaId.isPodcastPlaylist
@@ -37,10 +38,10 @@ class GlideMergedImageLoader(
         height: Int,
         options: Options
     ): ModelLoader.LoadData<InputStream>? {
-//        if (!prefsGateway.canAutoCreateImages()) { TODO
+        if (!prefsGateway.canAutoCreateImages()) {
 //             skip
-//            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
-//        }
+            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
+        }
         return ModelLoader.LoadData(
             MediaIdKey(mediaId),
             GlideMergedImageFetcher(
@@ -57,14 +58,14 @@ class GlideMergedImageLoader(
         @ApplicationContext private val context: Context,
         private val folderGateway: FolderGateway2,
         private val playlistGateway: PlaylistGateway2,
-        private val genreGateway: GenreGateway2
-//        private val prefsGateway: AppPreferencesGateway TODO
+        private val genreGateway: GenreGateway2,
+        private val prefsGateway: AppPreferencesGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
             return GlideMergedImageLoader(
-                context, uriLoader, folderGateway, playlistGateway, genreGateway//, prefsGateway
+                context, uriLoader, folderGateway, playlistGateway, genreGateway, prefsGateway
             )
         }
 

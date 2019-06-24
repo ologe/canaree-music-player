@@ -1,18 +1,17 @@
 package dev.olog.data.api.lastfm
 
 import android.content.Context
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
 import dev.olog.data.api.lastfm.annotation.Impl
 import dev.olog.data.api.lastfm.annotation.Proxy
-import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -60,7 +59,7 @@ class LastFmModule {
         return Retrofit.Builder()
             .baseUrl("http://ws.audioscrobbler.com/2.0/")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
     }

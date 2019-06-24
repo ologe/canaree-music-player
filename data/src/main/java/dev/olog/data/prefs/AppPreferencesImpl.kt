@@ -9,6 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -59,8 +60,8 @@ class AppPreferencesImpl @Inject constructor(
     override fun observePlayerControlsVisibility(): Observable<Boolean> {
         val key = context.getString(R.string.prefs_player_controls_visibility_key)
         return rxPreferences.getBoolean(key, false)
-                .asObservable()
-                .subscribeOn(Schedulers.io())
+            .asObservable()
+            .subscribeOn(Schedulers.io())
     }
 
     override fun setDefault(): Completable {
@@ -83,79 +84,90 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    private fun setDefaultLockscreenArtwork(){
+    private fun setDefaultLockscreenArtwork() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
         }
     }
 
-    private fun setDefaultAdaptiveColors(){
+    private fun setDefaultAdaptiveColors() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
         }
     }
 
-    private fun setDefaultLibraryAlbumArtistVisibility(){
+    private fun setDefaultLibraryAlbumArtistVisibility() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
             putBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
         }
     }
 
-    private fun setDefaultPodcastVisibility(){
+    private fun setDefaultPodcastVisibility() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
         }
     }
 
-    private fun setDefaultAccentColor(){
+    private fun setDefaultAccentColor() {
         preferences.edit {
             putInt(context.getString(R.string.prefs_color_accent_key), R.color.accent)
         }
     }
 
-    override fun observeAutoCreateImages(): Observable<Boolean> {
-        return rxPreferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
-                .asObservable()
-                .subscribeOn(Schedulers.io())
+    override fun canAutoCreateImages(): Boolean {
+        assertBackgroundThread()
+        return preferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
     }
 
-    private fun setDefaultFolderView(){
+    private fun setDefaultFolderView() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
         }
     }
 
-    private fun setDefaultAutoDownloadImages(){
+    private fun setDefaultAutoDownloadImages() {
         preferences.edit {
-            putString(context.getString(R.string.prefs_auto_download_images_key), context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
+            putString(
+                context.getString(R.string.prefs_auto_download_images_key),
+                context.getString(R.string.prefs_auto_download_images_entry_value_wifi)
+            )
             putBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
         }
     }
 
-    private fun hideQuickAction(){
+    private fun hideQuickAction() {
         preferences.edit {
-            putString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
+            putString(
+                context.getString(R.string.prefs_quick_action_key),
+                context.getString(R.string.prefs_quick_action_entry_value_hide)
+            )
         }
     }
 
-    private fun setDefaultVisibleSections(){
+    private fun setDefaultVisibleSections() {
         preferences.edit {
             val default = context.resources.getStringArray(R.array.prefs_detail_sections_entry_values_default).toSet()
             putStringSet(context.getString(R.string.prefs_detail_sections_key), default)
         }
     }
 
-    private fun hideClassicPlayerControls(){
+    private fun hideClassicPlayerControls() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_player_controls_visibility_key), false)
         }
     }
 
-    private fun setDefaultTheme(){
+    private fun setDefaultTheme() {
         preferences.edit {
-            putString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
-            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system))
+            putString(
+                context.getString(R.string.prefs_appearance_key),
+                context.getString(R.string.prefs_appearance_entry_value_default)
+            )
+            putString(
+                context.getString(R.string.prefs_dark_mode_key),
+                context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system)
+            )
         }
     }
 
@@ -174,13 +186,13 @@ class AppPreferencesImpl @Inject constructor(
      */
     override fun observeLastFmCredentials(): Observable<UserCredentials> {
         return rxPreferences.getString(LAST_FM_USERNAME, "")
-                .asObservable()
-                .map {
-                    UserCredentials(
-                        it,
-                        preferences.getString(LAST_FM_PASSWORD, "")!!
-                    )
-                }
+            .asObservable()
+            .map {
+                UserCredentials(
+                    it,
+                    preferences.getString(LAST_FM_PASSWORD, "")!!
+                )
+            }
     }
 
     /*
@@ -204,11 +216,11 @@ class AppPreferencesImpl @Inject constructor(
     private fun defaultFolder(): String {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
         var startFolder = File(File.separator)
-        if (musicDir.exists() && musicDir.isDirectory){
+        if (musicDir.exists() && musicDir.isDirectory) {
             startFolder = musicDir
         } else {
             val externalStorage = Environment.getExternalStorageDirectory()
-            if (externalStorage.exists() && externalStorage.isDirectory){
+            if (externalStorage.exists() && externalStorage.isDirectory) {
                 startFolder = externalStorage
             }
         }
@@ -217,8 +229,8 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun observeDefaultMusicFolder(): Observable<File> {
         return rxPreferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())
-                .asObservable()
-                .map { File(it) }
+            .asObservable()
+            .map { File(it) }
     }
 
     override fun getDefaultMusicFolder(): File {
@@ -230,6 +242,7 @@ class AppPreferencesImpl @Inject constructor(
             putString(DEFAULT_MUSIC_FOLDER, file.path)
         }
     }
+
     override fun isAdaptiveColorEnabled(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }

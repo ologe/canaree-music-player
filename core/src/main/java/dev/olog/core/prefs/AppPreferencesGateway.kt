@@ -13,7 +13,7 @@ interface AppPreferencesGateway {
     fun getSleepFrom() : Long
 
     fun observePlayerControlsVisibility(): Observable<Boolean>
-    fun observeAutoCreateImages(): Observable<Boolean>
+    fun canAutoCreateImages(): Boolean
 
     fun getLastFmCredentials(): UserCredentials
     fun observeLastFmCredentials(): Observable<UserCredentials>

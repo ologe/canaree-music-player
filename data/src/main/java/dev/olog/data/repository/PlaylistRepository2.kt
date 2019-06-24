@@ -5,8 +5,9 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import dev.olog.core.MediaId
-import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -81,9 +82,9 @@ internal class PlaylistRepository2 @Inject constructor(
     override fun getAllAutoPlaylists(): List<Playlist> {
         assertBackgroundThread()
         return listOf(
-            createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0], 0),
-            createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], 0),
-            createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2], 0)
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0], 0),
+            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1], 0),
+            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2], 0)
         )
     }
 

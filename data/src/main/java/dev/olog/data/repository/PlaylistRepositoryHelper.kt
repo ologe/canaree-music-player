@@ -5,9 +5,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.id
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
@@ -79,10 +80,10 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override fun clearPlaylist(playlistId: Long): Completable {
-        if (PlaylistConstants.isAutoPlaylist(playlistId)) {
+        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             when (playlistId) {
-                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
-                PlaylistConstants.HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAll() }
+                AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
+                AutoPlaylist.HISTORY.id -> return Completable.fromCallable { historyDao.deleteAll() }
             }
         }
         return Completable.fromCallable {
@@ -92,7 +93,7 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable {
-        if (PlaylistConstants.isAutoPlaylist(playlistId)) {
+        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             return removeFromAutoPlaylist(playlistId, idInPlaylist)
         }
         return Completable.fromCallable {
@@ -103,8 +104,8 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
         return when (playlistId) {
-            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
-            PlaylistConstants.HISTORY_LIST_ID -> Completable.fromCallable { historyDao.deleteSingle(songId) }
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
+            AutoPlaylist.HISTORY.id -> Completable.fromCallable { historyDao.deleteSingle(songId) }
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }

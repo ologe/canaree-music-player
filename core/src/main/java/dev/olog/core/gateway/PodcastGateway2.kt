@@ -11,4 +11,5 @@ interface PodcastGateway2 : BaseGateway2<Song, Id> {
     fun getCurrentPosition(podcastId: Long, duration: Long): Long
     fun saveCurrentPosition(podcastId: Long, position: Long)
 
+    fun getByAlbumId(albumId: Id): Song?
 }

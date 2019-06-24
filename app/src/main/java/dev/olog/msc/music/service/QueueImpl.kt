@@ -4,22 +4,22 @@ import android.annotation.SuppressLint
 import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
 import com.crashlytics.android.Crashlytics
-import dev.olog.core.PlaylistConstants.MINI_QUEUE_SIZE
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
-import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.core.interactor.UpdatePlayingQueueUseCase
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.music.service.model.PositionInQueue
-import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.shared.utils.assertMainThread
-import dev.olog.shared.utils.clamp
+import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase
+import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
+import dev.olog.msc.domain.interactor.item.GetSongUseCase
+import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.model.PositionInQueue
+import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.utils.assertMainThread
+import dev.olog.shared.utils.clamp
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -80,7 +80,7 @@ class QueueImpl @Inject constructor(
 
         var miniQueue = copy.asSequence()
                 .drop(safePosition + 1)
-                .take(MINI_QUEUE_SIZE)
+                .take(PlayingQueueGateway.MINI_QUEUE_SIZE)
                 .toMutableList()
         miniQueue = handleQueueOnRepeatMode(miniQueue)
 
@@ -212,7 +212,7 @@ class QueueImpl @Inject constructor(
         assertMainThread()
 
         currentSongPosition = ensurePosition(playingQueue, currentSongPosition)
-        var list = playingQueue.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
+        var list = playingQueue.drop(currentSongPosition + 1).take(PlayingQueueGateway.MINI_QUEUE_SIZE).toMutableList()
         list = handleQueueOnRepeatMode(list)
 
         try {
@@ -229,12 +229,12 @@ class QueueImpl @Inject constructor(
 
         val copy = list.toMutableList()
 
-        if (copy.size < MINI_QUEUE_SIZE && repeatMode.isRepeatAll()){
-            while (copy.size <= MINI_QUEUE_SIZE){
+        if (copy.size < PlayingQueueGateway.MINI_QUEUE_SIZE && repeatMode.isRepeatAll()){
+            while (copy.size <= PlayingQueueGateway.MINI_QUEUE_SIZE){
                 // add all list for n times
-                copy.addAll(playingQueue.take(MINI_QUEUE_SIZE))
+                copy.addAll(playingQueue.take(PlayingQueueGateway.MINI_QUEUE_SIZE))
             }
-            return copy.asSequence().take(MINI_QUEUE_SIZE).toMutableList()
+            return copy.asSequence().take(PlayingQueueGateway.MINI_QUEUE_SIZE).toMutableList()
         }
         return copy
     }

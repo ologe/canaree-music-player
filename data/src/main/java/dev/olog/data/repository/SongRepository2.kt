@@ -152,4 +152,8 @@ internal class SongRepository2 @Inject constructor(
         }
         return path
     }
+
+    override fun getByAlbumId(albumId: Id): Song? {
+        return channel.valueOrNull?.find { it.albumId == albumId }
+    }
 }

@@ -7,8 +7,8 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.core.MediaId
-import dev.olog.core.PlaylistConstants
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
@@ -24,8 +24,8 @@ import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.extensions.mapToList
+import dev.olog.shared.utils.TextUtils
 import io.reactivex.Observable
 
 @Module
@@ -128,7 +128,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
         (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
-            if (PlaylistConstants.isAutoPlaylist(playlistId) || PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
+            if (AutoPlaylist.isAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }

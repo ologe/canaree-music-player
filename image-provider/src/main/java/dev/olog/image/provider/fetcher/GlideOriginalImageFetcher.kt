@@ -8,7 +8,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.gateway.PodcastGateway2
 import dev.olog.core.gateway.SongGateway2
 import dev.olog.image.provider.executor.GlideScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import org.jaudiotagger.audio.mp3.MP3File
@@ -40,8 +43,8 @@ class GlideOriginalImageFetcher(
             itemPath = when {
                 mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)?.path
                 mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)?.path
-//                mediaId.isAlbum -> songGateway.getByAlbumId(id).getItem()?.path TODO
-//                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)?.path TODO
+                mediaId.isAlbum -> songGateway.getByAlbumId(id)?.path
+                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)?.path
                 else -> {
                     callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                     return@launch

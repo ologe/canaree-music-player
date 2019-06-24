@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
-import dev.olog.core.PlaylistConstants
+import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.media.MediaProvider
 import dev.olog.media.extractBookmark
 import dev.olog.media.isPlaying
@@ -25,13 +25,8 @@ import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.map
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.isMarshmallow
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.unsubscribe
-import dev.olog.shared.extensions.viewModelProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -100,7 +95,7 @@ class PlayerFragment : BaseFragment() {
             .map { queue ->
                 if (!AppTheme.isMiniTheme()) {
                     val copy = queue.toMutableList()
-                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1) {
+                    if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
                         copy.add(viewModel.footerLoadMore)
                     }
                     copy.add(0, viewModel.playerControls())

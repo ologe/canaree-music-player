@@ -1,13 +1,14 @@
 package dev.olog.msc.presentation.popup.playlist
 
 import android.view.View
-import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.core.PlaylistConstants
+import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
+import dev.olog.msc.R
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.AppConstants
 
 class PlaylistPopup(
     view: View,
@@ -29,12 +30,12 @@ class PlaylistPopup(
         setOnMenuItemClickListener(listener)
 
         if (song == null){
-            if (PlaylistConstants.isAutoPlaylist(playlist.id)){
+            if (AutoPlaylist.isAutoPlaylist(playlist.id)){
                 menu.removeItem(R.id.rename)
                 menu.removeItem(R.id.delete)
                 menu.removeItem(R.id.removeDuplicates)
             }
-            if (playlist.id == PlaylistConstants.LAST_ADDED_ID){
+            if (playlist.id == AutoPlaylist.LAST_ADDED.id){
                 menu.removeItem(R.id.clear)
             }
             if (playlist.size < 1){
@@ -53,7 +54,7 @@ class PlaylistPopup(
             if (song.album == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewAlbum)
             }
-            if (playlist.id == PlaylistConstants.FAVORITE_LIST_ID){
+            if (playlist.id == AutoPlaylist.FAVORITE.id){
                 menu.removeItem(R.id.addToFavorite)
             }
         }

@@ -11,4 +11,6 @@ interface SongGateway2 : BaseGateway2<Song, Id> {
 
     fun getByUri(uri: Uri): Song?
 
+    fun getByAlbumId(albumId: Id): Song?
+
 }

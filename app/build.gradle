@@ -28,6 +28,7 @@ android {
 
     dataBinding.enabled = true
 
+
     lintOptions {
         checkReleaseBuilds false
         disable 'MissingTranslation'
@@ -116,11 +117,9 @@ dependencies {
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
     implementation "com.google.code.gson:gson:$rootProject.gson"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
-    implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
     implementation "com.github.tozny:java-aes-crypto:$rootProject.aes_crypto"
     implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
     implementation "saschpe.android:customtabs:$rootProject.custom_tabs"

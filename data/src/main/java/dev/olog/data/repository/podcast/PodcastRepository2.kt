@@ -109,4 +109,8 @@ internal class PodcastRepository2 @Inject constructor(
         assertBackgroundThread()
         podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
     }
+
+    override fun getByAlbumId(albumId: Id): Song? {
+        return channel.valueOrNull?.find { it.albumId == albumId }
+    }
 }

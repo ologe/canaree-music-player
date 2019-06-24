@@ -38,13 +38,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
-    implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
     // rename
     implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
     implementation "com.google.code.gson:gson:$rootProject.gson"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"

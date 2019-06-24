@@ -46,14 +46,14 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
     val title = track.name
     val artist = track.artist.name
     val album = track.album.title
-    val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
+    val image = track.album.image.reversed().find { it.text.isNotBlank() }?.text
 
     return LastFmTrack(
         id,
         title ?: "",
         artist ?: "",
         album ?: "",
-        image
+        image ?: ""
     )
 }
 
@@ -86,7 +86,7 @@ fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
         id,
         album.name,
         album.artist,
-        album.image.reversed().first { it.text.isNotBlank() }.text
+        album.image.reversed().find { it.text.isNotBlank() }?.text ?: ""
     )
 }
 
@@ -110,7 +110,7 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
         id,
         best.name,
         best.artist,
-        best.image.reversed().first { it.text.isNotBlank() }.text
+        best.image.reversed().find { it.text.isNotBlank() }?.text ?: ""
     )
 }
 
@@ -118,7 +118,7 @@ fun ArtistInfo.toDomain(id: Long): LastFmArtist {
     val artist = this.artist
     return LastFmArtist(
         id,
-        artist.image.reversed().first { it.text.isNotBlank() }.text
+        artist.image.reversed().find { it.text.isNotBlank() }?.text ?: ""
     )
 }
 

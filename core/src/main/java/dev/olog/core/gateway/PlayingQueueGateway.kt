@@ -8,6 +8,10 @@ import io.reactivex.Single
 
 interface PlayingQueueGateway {
 
+    companion object {
+        const val MINI_QUEUE_SIZE = 50
+    }
+
     fun observeAll(): Observable<List<PlayingQueueSong>>
 
     fun getAll(): Single<List<PlayingQueueSong>>

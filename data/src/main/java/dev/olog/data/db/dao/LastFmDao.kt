@@ -6,8 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.db.entities.*
 
-private const val ARTIST_CACHE_TIME = "1 months"
-private const val ALBUM_CACHE_TIME = "2 months"
+private const val CACHE_TIME = "7 days"
 
 @Dao
 abstract class LastFmDao {
@@ -17,7 +16,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_track
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getTrack(id: Long): LastFmTrackEntity?
 
@@ -32,7 +31,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_album
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getAlbum(id: Long): LastFmAlbumEntity?
 
@@ -47,7 +46,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_artist
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ARTIST_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getArtist(id: Long): LastFmArtistEntity?
 
@@ -62,7 +61,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_podcast
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getPodcast(id: Long): LastFmPodcastEntity?
 
@@ -77,7 +76,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_podcast_album
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getPodcastAlbum(id: Long): LastFmPodcastAlbumEntity?
 
@@ -93,7 +92,7 @@ abstract class LastFmDao {
     @Query("""
         SELECT * FROM last_fm_podcast_artist
         WHERE id = :id
-        AND added BETWEEN date('now', '-$ARTIST_CACHE_TIME') AND date('now')
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
     """)
      abstract fun getPodcastArtist(id: Long): LastFmPodcastArtistEntity?
 
