@@ -18,8 +18,8 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.image.provider.CoverUtils
-import dev.olog.shared.act
-import dev.olog.shared.ctx
+import dev.olog.shared.extensions.act
+import dev.olog.shared.extensions.ctx
 
 private const val PICK_IMAGE_CODE = 456
 

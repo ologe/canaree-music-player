@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dev.olog.msc.R
-import dev.olog.shared.colorScrim
+import dev.olog.shared.extensions.colorScrim
 
 class DimBottomSheetDialog(context: Context, theme: Int)
     : BottomSheetDialog(context, theme) {

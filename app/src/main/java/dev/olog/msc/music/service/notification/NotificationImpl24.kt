@@ -7,9 +7,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dagger.Lazy
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
-import dev.olog.shared.TextUtils
+import dev.olog.shared.utils.TextUtils
 import dev.olog.msc.utils.k.extension.getCachedBitmap
 import javax.inject.Inject
 

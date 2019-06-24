@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.injection.shortcuts.AppShortcuts
-import dev.olog.shared.isNougat_MR1
+import dev.olog.shared.utils.isNougat_MR1
 import javax.inject.Singleton
 
 @Module

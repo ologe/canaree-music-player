@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.isDarkMode
-import dev.olog.shared.lazyFast
-import dev.olog.shared.textColorTertiary
+import dev.olog.shared.extensions.isDarkMode
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.textColorTertiary
 
 class AnimatedPlayPauseImageView(
         context: Context,

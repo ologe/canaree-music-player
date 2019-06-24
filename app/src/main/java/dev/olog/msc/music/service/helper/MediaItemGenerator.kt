@@ -7,7 +7,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject

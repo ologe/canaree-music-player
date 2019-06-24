@@ -11,8 +11,8 @@ import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.isMarshmallow
-import dev.olog.shared.lazyFast
+import dev.olog.shared.utils.isMarshmallow
+import dev.olog.shared.extensions.lazyFast
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(

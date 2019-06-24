@@ -3,9 +3,8 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.WindowInsets
-import dev.olog.shared.colorSurface
-import dev.olog.shared.setHeight
+import dev.olog.shared.extensions.colorSurface
+import dev.olog.shared.extensions.setHeight
 
 /**
  * Custom status bar to handle device notch

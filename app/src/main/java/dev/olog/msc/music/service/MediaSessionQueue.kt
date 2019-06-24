@@ -16,7 +16,7 @@ import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.injection.WidgetClasses
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject

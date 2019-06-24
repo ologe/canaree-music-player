@@ -8,7 +8,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.core.MediaId
 import dev.olog.presentation.AppConstants
 import dev.olog.presentation.R
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.extensions.toggleVisibility
 import kotlin.properties.Delegates
 
 class QuickActionView @JvmOverloads constructor(

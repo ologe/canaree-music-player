@@ -4,7 +4,7 @@ import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.main.LibraryPage
-import dev.olog.shared.clamp
+import dev.olog.shared.utils.clamp
 import io.reactivex.Completable
 import javax.inject.Inject
 

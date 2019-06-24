@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.isQ
+import dev.olog.shared.utils.isQ
 import javax.inject.Inject
 
 class DarkMode @Inject constructor(

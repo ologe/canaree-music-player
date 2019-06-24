@@ -7,7 +7,7 @@ import dev.olog.msc.R
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.presentation.edit.track.DisplayableSong
 import dev.olog.core.MediaId
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo

@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
-import dev.olog.shared.debounceFirst
+import dev.olog.shared.extensions.debounceFirst
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

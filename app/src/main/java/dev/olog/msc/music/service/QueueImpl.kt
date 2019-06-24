@@ -16,10 +16,10 @@ import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.shared.assertMainThread
-import dev.olog.shared.clamp
-import dev.olog.shared.swap
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.utils.assertMainThread
+import dev.olog.shared.utils.clamp
+import dev.olog.shared.extensions.swap
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

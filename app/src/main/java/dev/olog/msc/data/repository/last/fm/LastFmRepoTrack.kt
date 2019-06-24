@@ -12,8 +12,8 @@ import dev.olog.msc.data.mapper.toModel
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.SongGateway2
-import dev.olog.shared.TextUtils
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.map

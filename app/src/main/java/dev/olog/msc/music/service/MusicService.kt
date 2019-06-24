@@ -27,7 +27,7 @@ import dev.olog.msc.utils.PendingIntents
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.music.service.di.inject
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo

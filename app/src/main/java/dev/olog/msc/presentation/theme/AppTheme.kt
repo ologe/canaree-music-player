@@ -2,10 +2,8 @@ package dev.olog.msc.presentation.theme
 
 import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import dev.olog.msc.R
-import dev.olog.shared.isP
 
 object AppTheme {
 

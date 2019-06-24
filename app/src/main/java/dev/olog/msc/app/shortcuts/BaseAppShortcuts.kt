@@ -10,7 +10,7 @@ import dev.olog.injection.shortcuts.AppShortcuts
 import dev.olog.msc.R
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.k.extension.getCachedBitmap
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 
 abstract class BaseAppShortcuts(
         protected val context: Context

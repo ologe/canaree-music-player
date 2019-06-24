@@ -16,7 +16,7 @@ import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicGlueService
 import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

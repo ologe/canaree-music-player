@@ -1,11 +1,10 @@
 package dev.olog.presentation.tab.mapper
 
 import android.content.res.Resources
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.TextUtils
+import dev.olog.shared.utils.TextUtils
 
 internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(

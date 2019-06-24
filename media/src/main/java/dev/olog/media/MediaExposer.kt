@@ -20,7 +20,7 @@ import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope

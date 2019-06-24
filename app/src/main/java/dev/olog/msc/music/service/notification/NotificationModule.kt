@@ -4,8 +4,8 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.shared.isNougat
-import dev.olog.shared.isOreo
+import dev.olog.shared.utils.isNougat
+import dev.olog.shared.utils.isOreo
 
 @Module
 class NotificationModule {

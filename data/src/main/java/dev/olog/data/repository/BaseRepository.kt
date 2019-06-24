@@ -7,9 +7,9 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.BaseGateway2
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
-import dev.olog.shared.assertBackground
-import dev.olog.shared.assertBackgroundThread
-import dev.olog.shared.safeSend
+import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.extensions.safeSend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay

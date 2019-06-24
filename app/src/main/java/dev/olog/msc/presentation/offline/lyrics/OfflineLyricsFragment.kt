@@ -20,10 +20,7 @@ import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.filter
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

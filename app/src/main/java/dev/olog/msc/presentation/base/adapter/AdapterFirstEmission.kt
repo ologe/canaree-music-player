@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.base.adapter
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.assertMainThread
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.utils.assertMainThread
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

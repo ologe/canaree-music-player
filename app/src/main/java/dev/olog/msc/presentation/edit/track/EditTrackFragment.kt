@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.edit.track
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -14,9 +13,7 @@ import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.UpdateSongInfo
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.android.synthetic.main.fragment_edit_track.view.*
 import javax.inject.Inject
@@ -36,7 +33,11 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<EditTrackFragmentViewModel>(
+            viewModelFactory
+        )
+    }
     private val editItemViewModel by lazyFast {
         activity!!.viewModelProvider<EditItemViewModel>(
             viewModelFactory

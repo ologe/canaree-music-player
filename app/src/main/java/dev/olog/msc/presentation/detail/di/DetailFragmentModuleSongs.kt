@@ -24,8 +24,8 @@ import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.TextUtils
-import dev.olog.shared.mapToList
+import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Observable
 
 @Module

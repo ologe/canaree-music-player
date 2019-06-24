@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.shared.extensions
 
 import kotlinx.coroutines.channels.SendChannel
 

@@ -13,9 +13,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -33,7 +31,11 @@ class SearchFragment : BaseFragment() {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<SearchFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<SearchFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     @Inject lateinit var adapter : SearchFragmentAdapter
     @Inject lateinit var albumAdapter: SearchFragmentAlbumAdapter

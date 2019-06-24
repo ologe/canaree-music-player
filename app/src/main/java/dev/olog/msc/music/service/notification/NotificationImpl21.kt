@@ -24,7 +24,7 @@ import dev.olog.msc.utils.k.extension.asActivityPendingIntent
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.getCachedBitmap
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(

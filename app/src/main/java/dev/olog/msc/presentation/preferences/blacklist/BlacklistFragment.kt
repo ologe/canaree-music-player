@@ -10,9 +10,9 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.ctx
+import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import javax.inject.Inject
 
 class BlacklistFragment : BaseDialogFragment() {

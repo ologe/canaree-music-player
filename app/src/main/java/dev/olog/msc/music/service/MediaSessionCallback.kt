@@ -22,8 +22,8 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.core.MediaId
-import dev.olog.shared.toast
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.toast
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

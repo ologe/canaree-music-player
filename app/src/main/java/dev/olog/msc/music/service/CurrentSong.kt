@@ -20,7 +20,7 @@ import dev.olog.msc.domain.interactor.playing.queue.InsertHistorySongUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.shared.CustomScope
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

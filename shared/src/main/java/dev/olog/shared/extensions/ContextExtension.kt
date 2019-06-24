@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared
+package dev.olog.shared.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import dev.olog.shared.utils.isOreo
 
 fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!

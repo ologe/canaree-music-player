@@ -24,8 +24,8 @@ import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.image.view.BlurImageView
 import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.flowInterval
-import dev.olog.shared.toggleVisibility
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.toggleVisibility
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*

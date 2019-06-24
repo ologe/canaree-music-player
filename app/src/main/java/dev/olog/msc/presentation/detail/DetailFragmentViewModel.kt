@@ -11,7 +11,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.debounceFirst
+import dev.olog.shared.extensions.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable

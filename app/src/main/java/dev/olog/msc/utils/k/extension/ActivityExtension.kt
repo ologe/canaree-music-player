@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.shared.isP
+import dev.olog.shared.utils.isP
 
 fun androidx.fragment.app.FragmentActivity.fragmentTransaction(func: androidx.fragment.app.FragmentTransaction.() -> androidx.fragment.app.FragmentTransaction) {
     supportFragmentManager

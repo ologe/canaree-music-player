@@ -21,9 +21,9 @@ import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.mapToList
-import dev.olog.shared.startWith
-import dev.olog.shared.startWithIfNotEmpty
+import dev.olog.shared.extensions.mapToList
+import dev.olog.shared.extensions.startWith
+import dev.olog.shared.extensions.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables

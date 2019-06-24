@@ -9,7 +9,7 @@ import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.presentation.utils.openPlayStore
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.isIntentSafe
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms

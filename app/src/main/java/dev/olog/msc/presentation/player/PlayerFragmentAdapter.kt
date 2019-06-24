@@ -28,13 +28,13 @@ import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
 import dev.olog.core.MediaId
 import dev.olog.media.*
-import dev.olog.shared.TextUtils
+import dev.olog.shared.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.map
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.extensions.toggleVisibility
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*

@@ -2,7 +2,7 @@ package dev.olog.msc.utils.k.extension
 
 import android.text.Html
 import android.text.Spanned
-import dev.olog.shared.isNougat
+import dev.olog.shared.utils.isNougat
 
 fun String.asHtml(): Spanned {
     return if (isNougat()){

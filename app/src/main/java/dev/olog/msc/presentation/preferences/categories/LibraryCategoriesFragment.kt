@@ -11,10 +11,10 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.ctx
-import dev.olog.shared.withArguments
+import dev.olog.shared.extensions.ctx
+import dev.olog.shared.extensions.withArguments
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {

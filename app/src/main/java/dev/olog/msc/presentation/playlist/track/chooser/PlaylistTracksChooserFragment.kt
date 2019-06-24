@@ -16,12 +16,10 @@ import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.shared.viewModelProvider
 import dev.olog.presentation.model.PlaylistType
 import dev.olog.presentation.widgets.WaveSideBarView
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
+import dev.olog.shared.utils.TextUtils
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -51,7 +49,12 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
             viewModelFactory
         )
     }
-    private val adapter by lazyFast { PlaylistTracksChooserFragmentAdapter(lifecycle, viewModel) }
+    private val adapter by lazyFast {
+        PlaylistTracksChooserFragmentAdapter(
+            lifecycle,
+            viewModel
+        )
+    }
 
     private var toast: Toast? = null
 

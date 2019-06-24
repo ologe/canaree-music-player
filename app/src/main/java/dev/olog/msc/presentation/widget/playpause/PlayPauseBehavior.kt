@@ -4,7 +4,7 @@ import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
-import dev.olog.shared.getAnimatedVectorDrawable
+import dev.olog.shared.extensions.getAnimatedVectorDrawable
 
 interface IPlayPauseBehavior {
 

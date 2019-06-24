@@ -11,7 +11,7 @@ import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastPlaylistUseCase
 import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.asFlowable
+import dev.olog.shared.extensions.asFlowable
 import io.reactivex.Flowable
 
 @Module

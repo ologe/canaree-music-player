@@ -19,8 +19,8 @@ import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.GenreGateway2
 import dev.olog.core.gateway.SongGateway2
-import dev.olog.shared.clamp
-import dev.olog.shared.swap
+import dev.olog.shared.utils.clamp
+import dev.olog.shared.extensions.swap
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Single
 import io.reactivex.functions.Function

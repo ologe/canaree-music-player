@@ -11,8 +11,8 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.textColorPrimary
-import dev.olog.shared.textColorSecondary
+import dev.olog.shared.extensions.textColorPrimary
+import dev.olog.shared.extensions.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 

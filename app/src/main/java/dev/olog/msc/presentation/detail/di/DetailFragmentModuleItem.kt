@@ -11,8 +11,8 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.TextUtils
-import dev.olog.shared.asFlowable
+import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.extensions.asFlowable
 import io.reactivex.Flowable
 
 @Module

@@ -10,7 +10,7 @@ import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
-import dev.olog.shared.findViewByIdNotRecursive
+import dev.olog.shared.extensions.findViewByIdNotRecursive
 
 class SuperCerealScrollHelper(
     activity: MainActivity,

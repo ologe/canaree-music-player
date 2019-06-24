@@ -12,8 +12,8 @@ import dev.olog.msc.R
 import dev.olog.presentation.model.BaseModel
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
-import dev.olog.shared.toast
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.toast
+import dev.olog.shared.extensions.unsubscribe
 import dev.olog.presentation.base.DataBoundViewHolder
 import io.reactivex.disposables.Disposable
 

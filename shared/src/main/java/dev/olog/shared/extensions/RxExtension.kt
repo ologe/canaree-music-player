@@ -1,5 +1,6 @@
-package dev.olog.shared
+package dev.olog.shared.extensions
 
+import dev.olog.shared.FlowableFirstThenDebounce
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable

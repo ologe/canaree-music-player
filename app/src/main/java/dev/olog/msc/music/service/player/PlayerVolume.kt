@@ -8,7 +8,7 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.music.service.volume.IVolume
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

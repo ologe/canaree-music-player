@@ -20,9 +20,7 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import dev.olog.shared.widgets.ShapeImageView
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -45,7 +43,11 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast { viewModelProvider<DetailFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<DetailFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
 
@@ -70,7 +72,12 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
             act as MediaProvider
         )
     }
-    private val relatedArtistAdapter by lazyFast { DetailRelatedArtistsAdapter(lifecycle, navigator) }
+    private val relatedArtistAdapter by lazyFast {
+        DetailRelatedArtistsAdapter(
+            lifecycle,
+            navigator
+        )
+    }
     private val albumsAdapter by lazyFast { DetailAlbumsAdapter(lifecycle, navigator) }
 
     private val adapter by lazyFast {

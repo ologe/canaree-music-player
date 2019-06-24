@@ -2,12 +2,10 @@ package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -30,11 +28,11 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ColorPalette
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.act
-import dev.olog.shared.ctx
+import dev.olog.shared.extensions.act
+import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

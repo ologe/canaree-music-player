@@ -4,7 +4,7 @@ import android.content.Context
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseEditTextDialog
 import dev.olog.core.MediaId
-import dev.olog.shared.withArguments
+import dev.olog.shared.extensions.withArguments
 import io.reactivex.Completable
 import javax.inject.Inject
 

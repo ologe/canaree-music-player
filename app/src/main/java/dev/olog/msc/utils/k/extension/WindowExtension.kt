@@ -3,7 +3,10 @@ package dev.olog.msc.utils.k.extension
 import android.view.View
 import android.view.Window
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.*
+import dev.olog.shared.extensions.colorSurface
+import dev.olog.shared.extensions.isDarkMode
+import dev.olog.shared.utils.isMarshmallow
+import dev.olog.shared.utils.isOreo
 
 fun Window.setLightStatusBar(){
     decorView.systemUiVisibility = 0

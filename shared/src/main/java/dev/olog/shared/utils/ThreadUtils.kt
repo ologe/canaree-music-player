@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.shared.utils
 
 import android.os.Handler
 import android.os.Looper

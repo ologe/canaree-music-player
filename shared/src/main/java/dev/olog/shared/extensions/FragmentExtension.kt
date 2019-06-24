@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared
+package dev.olog.shared.extensions
 
 import android.content.Context
 import androidx.core.os.bundleOf

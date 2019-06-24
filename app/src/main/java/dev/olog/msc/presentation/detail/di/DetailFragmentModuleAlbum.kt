@@ -14,7 +14,7 @@ import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.msc.R
 import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.asObservable
 

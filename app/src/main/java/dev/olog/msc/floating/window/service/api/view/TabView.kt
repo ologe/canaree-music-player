@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
-import dev.olog.shared.dip
+import dev.olog.shared.extensions.dip
 
 private const val DURATION = 250
 

@@ -19,7 +19,7 @@ import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.map
 import dev.olog.shared.CustomScope
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import javax.inject.Inject

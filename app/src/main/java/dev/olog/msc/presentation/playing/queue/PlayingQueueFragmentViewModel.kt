@@ -7,10 +7,9 @@ import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.core.MediaId
 import dev.olog.core.entity.getMediaId
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.debounceFirst
+import dev.olog.shared.extensions.debounceFirst
 import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 

@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.shared.lazyFast
-import dev.olog.shared.viewModelProvider
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.withArguments
+import dev.olog.shared.extensions.withArguments
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.android.synthetic.main.fragment_recently_added.view.*
 import javax.inject.Inject

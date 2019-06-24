@@ -14,8 +14,8 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.*
-import dev.olog.shared.toggleVisibility
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.toggleVisibility
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

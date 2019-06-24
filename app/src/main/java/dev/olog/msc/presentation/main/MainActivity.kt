@@ -34,7 +34,7 @@ import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.dimen
+import dev.olog.shared.extensions.dimen
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_main.*

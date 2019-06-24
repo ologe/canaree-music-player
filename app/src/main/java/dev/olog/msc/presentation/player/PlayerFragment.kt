@@ -28,10 +28,10 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.map
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.isMarshmallow
-import dev.olog.shared.lazyFast
-import dev.olog.shared.unsubscribe
-import dev.olog.shared.viewModelProvider
+import dev.olog.shared.utils.isMarshmallow
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.extensions.viewModelProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,7 +49,11 @@ class PlayerFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<PlayerFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<PlayerFragmentViewModel>(
+            viewModelFactory
+        )
+    }
     @Inject
     lateinit var presenter: PlayerFragmentPresenter
     @Inject

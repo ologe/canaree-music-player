@@ -11,8 +11,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.*
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject

@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.shared.act
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.act
+import dev.olog.shared.extensions.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

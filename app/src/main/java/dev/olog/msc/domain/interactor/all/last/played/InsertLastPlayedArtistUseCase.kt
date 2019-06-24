@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.all.last.played
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.ArtistGateway2
 import dev.olog.core.gateway.PodcastArtistGateway2
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class InsertLastPlayedArtistUseCase @Inject constructor(

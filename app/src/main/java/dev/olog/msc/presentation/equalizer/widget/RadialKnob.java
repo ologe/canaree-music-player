@@ -54,8 +54,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import dev.olog.msc.R;
-import dev.olog.msc.presentation.theme.AppTheme;
-import dev.olog.shared.ViewExtensionKt;
+import dev.olog.shared.extensions.ViewExtensionKt;
 
 public class RadialKnob extends View {
 

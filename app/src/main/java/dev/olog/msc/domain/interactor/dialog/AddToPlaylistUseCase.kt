@@ -9,7 +9,7 @@ import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
 import javax.inject.Inject
 

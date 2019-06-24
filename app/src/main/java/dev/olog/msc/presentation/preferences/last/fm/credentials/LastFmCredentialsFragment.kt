@@ -12,7 +12,7 @@ import dev.olog.msc.domain.interactor.last.fm.scrobble.GetLastFmUserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.UpdateLastFmUserCredentials
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.shared.ctx
+import dev.olog.shared.extensions.ctx
 import javax.inject.Inject
 
 class LastFmCredentialsFragment : BaseDialogFragment() {

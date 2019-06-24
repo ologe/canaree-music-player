@@ -8,10 +8,10 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.getAnimatedVectorDrawable
-import dev.olog.shared.isDarkMode
-import dev.olog.shared.lazyFast
-import dev.olog.shared.textColorTertiary
+import dev.olog.shared.extensions.getAnimatedVectorDrawable
+import dev.olog.shared.extensions.isDarkMode
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.textColorTertiary
 
 class AnimatedImageView(
     context: Context,

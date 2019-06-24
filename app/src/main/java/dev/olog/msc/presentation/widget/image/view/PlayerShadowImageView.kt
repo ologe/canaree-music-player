@@ -22,7 +22,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.image.view.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
 import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
-import dev.olog.shared.dpToPx
+import dev.olog.shared.extensions.dpToPx
 import dev.olog.presentation.ripple.RippleTarget
 import kotlin.properties.Delegates
 

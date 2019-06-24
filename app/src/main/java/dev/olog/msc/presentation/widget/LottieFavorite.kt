@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.isDarkMode
+import dev.olog.shared.extensions.isDarkMode
 
 class LottieFavorite @JvmOverloads constructor(
         context: Context,

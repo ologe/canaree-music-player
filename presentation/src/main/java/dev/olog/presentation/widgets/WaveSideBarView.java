@@ -20,8 +20,8 @@ import java.util.ListIterator;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import dev.olog.presentation.R;
-import dev.olog.shared.TextUtils;
-import dev.olog.shared.ViewExtensionKt;
+import dev.olog.shared.extensions.ViewExtensionKt;
+import dev.olog.shared.utils.TextUtils;
 
 public class WaveSideBarView extends View {
 

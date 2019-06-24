@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi
 import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.shared.isOreo
+import dev.olog.shared.utils.isOreo
 import javax.inject.Inject
 
 private enum class FocusState {

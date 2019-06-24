@@ -6,7 +6,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUnfiltered
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Observable
 import javax.inject.Inject
 

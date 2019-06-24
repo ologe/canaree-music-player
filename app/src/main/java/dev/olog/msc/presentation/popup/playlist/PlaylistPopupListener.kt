@@ -12,7 +12,7 @@ import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(

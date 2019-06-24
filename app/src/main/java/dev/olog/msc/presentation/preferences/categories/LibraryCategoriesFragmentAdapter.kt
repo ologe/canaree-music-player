@@ -12,7 +12,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
-import dev.olog.shared.swap
+import dev.olog.shared.extensions.swap
 import kotlinx.android.synthetic.main.dialog_tab_category_item.view.*
 
 class LibraryCategoriesFragmentAdapter (

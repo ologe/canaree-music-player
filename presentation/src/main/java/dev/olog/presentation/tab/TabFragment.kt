@@ -21,8 +21,8 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.WaveSideBarView
-import dev.olog.shared.*
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
+import dev.olog.shared.utils.TextUtils
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.fab
 import kotlinx.android.synthetic.main.fragment_tab.view.list
@@ -46,12 +46,36 @@ class TabFragment : BaseFragment(), SetupNestedList {
     @Inject lateinit var navigator : Navigator
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val lastAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val lastArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val newAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val newArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
+    private val lastAlbumsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val lastArtistsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val newAlbumsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val newArtistsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
 
-    private val viewModel by lazyFast { parentViewModelProvider<TabFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        parentViewModelProvider<TabFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     internal val category: TabCategory by lazyFast {
         val categoryString = getArgument<String>(ARGUMENTS_SOURCE)

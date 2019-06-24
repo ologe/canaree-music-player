@@ -9,8 +9,7 @@ import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.NavigatorAbout
 import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.shared.colorAccent
-import dev.olog.presentation.base.setOnClickListener
+import dev.olog.shared.extensions.colorAccent
 import kotlinx.android.synthetic.main.item_about.view.*
 
 

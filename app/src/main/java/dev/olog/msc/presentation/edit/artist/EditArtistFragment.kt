@@ -13,9 +13,7 @@ import dev.olog.msc.presentation.edit.UpdateArtistInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.*
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.view.*
 import javax.inject.Inject
@@ -34,7 +32,11 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<EditArtistFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<EditArtistFragmentViewModel>(
+            viewModelFactory
+        )
+    }
     private val editItemViewModel by lazyFast {
         activity!!.viewModelProvider<EditItemViewModel>(
             viewModelFactory

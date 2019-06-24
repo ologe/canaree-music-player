@@ -9,7 +9,7 @@ import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
 import dev.olog.image.provider.R
 import dev.olog.image.provider.executor.GlideScope
-import dev.olog.shared.NetworkUtils
+import dev.olog.shared.utils.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicLong

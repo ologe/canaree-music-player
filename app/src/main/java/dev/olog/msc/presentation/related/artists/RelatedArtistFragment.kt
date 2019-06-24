@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.shared.lazyFast
-import dev.olog.shared.viewModelProvider
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.core.MediaId
-import dev.olog.shared.act
+import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.withArguments
+import dev.olog.shared.extensions.withArguments
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject

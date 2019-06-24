@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import dev.olog.shared.dip
-import dev.olog.shared.findChild
+import dev.olog.shared.extensions.dip
+import dev.olog.shared.extensions.findChild
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 

@@ -3,8 +3,8 @@ package dev.olog.presentation.widgets
 import android.content.Context
 import android.util.AttributeSet
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.TextUtils
-import dev.olog.shared.runOnMainThread
+import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.utils.runOnMainThread
 
 class RxWaveSideBarView(
         context: Context,

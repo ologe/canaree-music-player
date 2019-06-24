@@ -7,8 +7,8 @@ import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.lazyFast
-import dev.olog.shared.dip
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.dip
 import dev.olog.msc.R
 
 class SlidingPanelFade(
@@ -16,7 +16,11 @@ class SlidingPanelFade(
         attrs: AttributeSet
 ) : View(context, attrs) {
 
-    private val fragmentContainer by lazyFast { (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer) }
+    private val fragmentContainer by lazyFast {
+        (context as FragmentActivity).findViewById<View>(
+            R.id.fragmentContainer
+        )
+    }
     private val maxTranslation by lazyFast { context.dip(20) }
 
     init {

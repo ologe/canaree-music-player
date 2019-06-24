@@ -2,9 +2,9 @@ package dev.olog.msc.presentation.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.assertBackgroundThread
-import dev.olog.shared.swap
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.extensions.swap
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

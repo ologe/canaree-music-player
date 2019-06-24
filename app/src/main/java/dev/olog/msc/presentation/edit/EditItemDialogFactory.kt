@@ -13,8 +13,8 @@ import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.MediaId
-import dev.olog.shared.toast
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.toast
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

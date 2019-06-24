@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import dev.olog.msc.R;
-import dev.olog.shared.ContextExtensionKt;
+import dev.olog.shared.extensions.ContextExtensionKt;
 
 public class MaxHeightLinearLayout extends LinearLayout {
 

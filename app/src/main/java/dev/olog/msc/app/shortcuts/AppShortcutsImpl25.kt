@@ -13,8 +13,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
-import dev.olog.presentation.AppConstants
-import dev.olog.shared.isNougat_MR1
+import dev.olog.shared.utils.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
 open class AppShortcutsImpl25(

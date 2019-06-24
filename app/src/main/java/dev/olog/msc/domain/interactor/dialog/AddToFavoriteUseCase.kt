@@ -6,7 +6,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
 import javax.inject.Inject
 

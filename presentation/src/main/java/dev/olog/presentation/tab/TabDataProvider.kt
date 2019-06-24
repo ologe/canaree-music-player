@@ -6,10 +6,10 @@ import dev.olog.core.gateway.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.doIf
-import dev.olog.shared.mapListItem
-import dev.olog.shared.startWith
-import dev.olog.shared.startWithIfNotEmpty
+import dev.olog.shared.extensions.doIf
+import dev.olog.shared.extensions.mapListItem
+import dev.olog.shared.extensions.startWith
+import dev.olog.shared.extensions.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

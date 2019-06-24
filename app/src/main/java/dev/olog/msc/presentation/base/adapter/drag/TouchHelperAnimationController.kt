@@ -7,9 +7,9 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import dev.olog.msc.R
-import dev.olog.shared.lazyFast
-import dev.olog.shared.setVisible
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.setVisible
+import dev.olog.shared.extensions.toggleVisibility
 import kotlin.math.hypot
 
 class TouchHelperAnimationController {

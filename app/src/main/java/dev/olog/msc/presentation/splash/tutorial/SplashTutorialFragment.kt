@@ -17,8 +17,8 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.widget.StoppingViewPager
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.image.provider.CoverUtils
-import dev.olog.shared.ctx
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.ctx
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 
 class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {

@@ -2,7 +2,7 @@ package dev.olog.media
 
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
-import dev.olog.shared.TextUtils
+import dev.olog.shared.utils.TextUtils
 
 fun MediaMetadataCompat.getTitle(): CharSequence {
     return getText(MediaMetadataCompat.METADATA_KEY_TITLE)

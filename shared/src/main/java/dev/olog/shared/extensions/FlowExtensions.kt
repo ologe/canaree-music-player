@@ -1,7 +1,8 @@
-package dev.olog.shared
+package dev.olog.shared.extensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow

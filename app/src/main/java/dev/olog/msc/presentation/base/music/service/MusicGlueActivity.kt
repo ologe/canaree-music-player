@@ -19,7 +19,7 @@ import dev.olog.media.MusicConstants
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.msc.presentation.base.BaseActivity
-import dev.olog.shared.lazyFast
+import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

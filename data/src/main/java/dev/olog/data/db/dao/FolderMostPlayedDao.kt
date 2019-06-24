@@ -7,9 +7,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.SongGateway2
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
-import dev.olog.shared.mapToList
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.flow.asFlow
 

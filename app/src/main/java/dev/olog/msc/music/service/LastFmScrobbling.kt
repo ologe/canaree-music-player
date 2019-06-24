@@ -15,7 +15,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.ObserveLastFmUserCredentials
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable

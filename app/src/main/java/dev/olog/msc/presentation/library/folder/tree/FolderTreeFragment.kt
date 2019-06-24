@@ -7,13 +7,13 @@ import dev.olog.msc.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.lazyFast
-import dev.olog.shared.viewModelProvider
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
@@ -30,7 +30,11 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var navigator: Navigator
-    private val viewModel by lazyFast { viewModelProvider<FolderTreeFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<FolderTreeFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(lifecycle, viewModel, activity as MediaProvider, navigator)

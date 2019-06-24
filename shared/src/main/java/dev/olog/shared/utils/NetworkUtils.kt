@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.shared.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

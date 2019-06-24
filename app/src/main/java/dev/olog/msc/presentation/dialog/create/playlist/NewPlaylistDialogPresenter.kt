@@ -9,7 +9,7 @@ import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.MediaId
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
 import javax.inject.Inject
 

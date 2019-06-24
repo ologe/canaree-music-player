@@ -15,8 +15,8 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.utils.queryAll
-import dev.olog.shared.assertBackground
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject

@@ -19,7 +19,7 @@ import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.mapToList
+import dev.olog.shared.extensions.mapToList
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables

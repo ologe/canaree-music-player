@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.detail.scroll.listener
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.shared.dimen
-import dev.olog.shared.toggleVisibility
+import dev.olog.shared.extensions.dimen
+import dev.olog.shared.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class HeaderVisibilityScrollListener(

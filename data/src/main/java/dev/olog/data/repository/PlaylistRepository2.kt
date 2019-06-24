@@ -24,8 +24,8 @@ import dev.olog.data.mapper.toPlaylist
 import dev.olog.data.queries.PlaylistQueries
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import dev.olog.shared.assertBackground
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 

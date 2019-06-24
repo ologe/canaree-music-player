@@ -11,9 +11,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideRequest
-import dev.olog.msc.utils.img.ImageUtils
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.assertBackgroundThread
+import dev.olog.shared.utils.assertBackgroundThread
 
 //TODO remove after migrating to coroutines
 fun Context.getCachedBitmap(

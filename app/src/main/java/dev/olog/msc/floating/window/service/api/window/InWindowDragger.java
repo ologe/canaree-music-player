@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.math.MathUtils;
 import dev.olog.msc.floating.window.service.api.Dragger;
-import dev.olog.shared.ContextExtensionKt;
+import dev.olog.shared.extensions.ContextExtensionKt;
 
 /**
  * {@link Dragger} implementation that works within a {@code Window}.

@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import dev.olog.shared.toast
+import dev.olog.shared.extensions.toast
 
 fun openPlayStore(activity: Activity){
     val uri = Uri.parse("market://details?id=${activity.packageName}")
