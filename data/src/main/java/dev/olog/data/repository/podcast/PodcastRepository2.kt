@@ -23,21 +23,22 @@ import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
 import javax.inject.Inject
 
 internal class PodcastRepository2 @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), PodcastGateway2 {
 
     private val podcastPositionDao = appDatabase.podcastPositionDao()
 
     private val queries = TrackQueries(
-            context.contentResolver, blacklistPrefs,
-            sortPrefs, true
+        context.contentResolver, blacklistPrefs,
+        sortPrefs, true
     )
 
     override fun registerMainContentUri(): ContentUri {
@@ -60,7 +61,8 @@ internal class PodcastRepository2 @Inject constructor(
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
-                .assertBackground()
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun deleteSingle(id: Id): Completable {
@@ -77,7 +79,11 @@ internal class PodcastRepository2 @Inject constructor(
 
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
-        val deleted = context.contentResolver.delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$id"))
+        val deleted = context.contentResolver.delete(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            "${BaseColumns._ID} = ?",
+            arrayOf("$id")
+        )
         if (deleted < 1) {
             Log.w("SongRepo", "song not found $id")
             return
@@ -90,6 +96,7 @@ internal class PodcastRepository2 @Inject constructor(
     }
 
     override fun getCurrentPosition(podcastId: Long, duration: Long): Long {
+        assertBackgroundThread()
         val position = podcastPositionDao.getPosition(podcastId) ?: 0L
         if (position > duration - 1000 * 5) {
             // if last 5 sec, restart
@@ -99,6 +106,7 @@ internal class PodcastRepository2 @Inject constructor(
     }
 
     override fun saveCurrentPosition(podcastId: Long, position: Long) {
+        assertBackgroundThread()
         podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
     }
 }

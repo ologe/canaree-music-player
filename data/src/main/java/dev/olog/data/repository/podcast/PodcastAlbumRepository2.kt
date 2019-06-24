@@ -84,7 +84,8 @@ internal class PodcastAlbumRepository2 @Inject constructor(
                     .take(HasLastPlayed.MAX_ITEM_TO_SHOW)
                     .toList()
             }
-        }.assertBackground()
+        }.distinctUntilChanged()
+            .assertBackground()
     }
 
     override suspend fun addLastPlayed(id: Id) {
@@ -94,17 +95,23 @@ internal class PodcastAlbumRepository2 @Inject constructor(
 
     override fun observeRecentlyAdded(): Flow<List<Album>> {
         val cursor = queries.getRecentlyAdded()
-        return observeByParamInternal(ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)) {
-            extractAlbums(cursor)
-        }.distinctUntilChanged()
+        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { extractAlbums(cursor) }
+            .distinctUntilChanged()
             .assertBackground()
     }
 
     override fun observeSiblings(id: Id): Flow<List<Album>> {
-        return observeAll().map { it.filter { it.id != id } }
+        return observeAll()
+            .map { it.filter { it.id != id } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
-        return observeAll().map { it.filter { it.artistId != artistId } }
+        return observeAll()
+            .map { it.filter { it.artistId != artistId } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 }

@@ -27,18 +27,19 @@ import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
 import javax.inject.Inject
 
 internal class SongRepository2 @Inject constructor(
-        @ApplicationContext context: Context,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences
+    @ApplicationContext context: Context,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), SongGateway2 {
 
     private val queries = TrackQueries(
-            context.contentResolver, blacklistPrefs,
-            sortPrefs, false
+        context.contentResolver, blacklistPrefs,
+        sortPrefs, false
     )
 
     override fun registerMainContentUri(): ContentUri {
@@ -61,7 +62,8 @@ internal class SongRepository2 @Inject constructor(
         val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
-                .assertBackground()
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun deleteSingle(id: Id): Completable {
@@ -78,7 +80,8 @@ internal class SongRepository2 @Inject constructor(
 
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
-        val deleted = context.contentResolver.delete(Audio.Media.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$id"))
+        val deleted =
+            context.contentResolver.delete(Audio.Media.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$id"))
         if (deleted < 1) {
             Log.w("SongRepo", "song not found $id")
             return
@@ -121,9 +124,9 @@ internal class SongRepository2 @Inject constructor(
 
         if (songFile != null) {
             context.contentResolver.query(
-                    Audio.Media.EXTERNAL_CONTENT_URI, arrayOf(BaseColumns._ID),
-                    "${MediaStore.Audio.AudioColumns.DATA} = ?",
-                    arrayOf(songFile!!.absolutePath), null
+                Audio.Media.EXTERNAL_CONTENT_URI, arrayOf(BaseColumns._ID),
+                "${MediaStore.Audio.AudioColumns.DATA} = ?",
+                arrayOf(songFile!!.absolutePath), null
             )?.let { cursor ->
                 cursor.moveToFirst()
                 songId = "${cursor.getLong(BaseColumns._ID)}"
@@ -139,8 +142,8 @@ internal class SongRepository2 @Inject constructor(
     private fun getFilePathFromUri(uri: Uri): String? {
         var path: String? = null
         context.contentResolver.query(
-                uri, arrayOf(Audio.Media.DATA),
-                null, null, null
+            uri, arrayOf(Audio.Media.DATA),
+            null, null, null
         )?.let { cursor ->
             cursor.moveToFirst()
 

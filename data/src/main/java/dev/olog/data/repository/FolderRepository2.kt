@@ -22,19 +22,16 @@ import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
 
 internal class FolderRepository2 @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        private val songGateway2: SongGateway2
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    private val songGateway2: SongGateway2
 ) : BaseRepository<Folder, Path>(context), FolderGateway2 {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -51,16 +48,16 @@ internal class FolderRepository2 @Inject constructor(
             data.substring(1, data.lastIndexOf(File.separator)) // path
         }
         return pathList.asSequence()
-                .groupBy { it }
-                .entries
-                .map { (path, list) ->
-                    val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
-                    Folder(
-                            dirName.capitalize(),
-                            path,
-                            list.size
-                    )
-                }.sortedBy { it.title }
+            .groupBy { it }
+            .entries
+            .map { (path, list) ->
+                val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
+                Folder(
+                    dirName.capitalize(),
+                    path,
+                    list.size
+                )
+            }.sortedBy { it.title }
     }
 
     override fun queryAll(): List<Folder> {
@@ -75,8 +72,10 @@ internal class FolderRepository2 @Inject constructor(
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow().map { list -> list.find { it.path == param } }
-                .assertBackground()
+        return channel.asFlow()
+            .map { list -> list.find { it.path == param } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {
@@ -96,39 +95,46 @@ internal class FolderRepository2 @Inject constructor(
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryValue
         return mostPlayedDao.getAll(folderPath, songGateway2)
-                .assertBackground()
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
         songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
-            mostPlayedDao.insertOne(FolderMostPlayedEntity(
+            mostPlayedDao.insertOne(
+                FolderMostPlayedEntity(
                     0,
                     item.id,
                     item.folderPath
-            ))
+                )
+            )
         } ?: Log.w("FolderRepo", "song not found=$mediaId")
     }
 
     override fun observeSiblings(path: Path): Flow<List<Folder>> {
-        return observeAll().map { it.filter { it.path != path } }
+        return observeAll()
+            .map { it.filter { it.path != path } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun observeRelatedArtists(params: Path): Flow<List<Artist>> {
         assertBackgroundThread()
         val cursor = queries.getRelatedArtists(params)
-        return observeByParamInternal(ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)) {
-            extractArtists(cursor)
-        }
+        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { extractArtists(cursor) }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
         return context.contentResolver.queryAll(cursor) { it.toArtist() }
-                .groupBy { it.id }
-                .map { (_, list) ->
-                    val artist = list[0]
-                    artist.copy(songs = list.size)
-                }
+            .groupBy { it.id }
+            .map { (_, list) ->
+                val artist = list[0]
+                artist.copy(songs = list.size)
+            }
     }
 }

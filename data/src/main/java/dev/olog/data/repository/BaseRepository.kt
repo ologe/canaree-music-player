@@ -61,7 +61,7 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        return channelFlow {
+        val flow : Flow<R> =  channelFlow {
 
             if (!isClosedForSend) {
                 safeSend(action())
@@ -81,7 +81,8 @@ internal abstract class BaseRepository<T, Param>(
                 observer
             )
             invokeOnClose { contentResolver.unregisterContentObserver(observer) }
-        }.assertBackground()
+        }
+        return flow.assertBackground()
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

@@ -23,18 +23,15 @@ import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import dev.olog.shared.assertBackground
 import dev.olog.shared.assertBackgroundThread
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository2 @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        private val songGateway2: SongGateway2
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    private val songGateway2: SongGateway2
 ) : BaseRepository<Genre, Id>(context), GenreGateway2 {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -63,6 +60,7 @@ internal class GenreRepository2 @Inject constructor(
 
     override fun observeByParam(param: Id): Flow<Genre?> {
         return channel.asFlow().map { it.find { it.id == param } }
+            .distinctUntilChanged()
             .assertBackground()
     }
 
@@ -75,40 +73,47 @@ internal class GenreRepository2 @Inject constructor(
     }
 
     override fun observeSiblings(id: Id): Flow<List<Genre>> {
-        return observeAll().map { it.filter { it.id != id } }
+        return observeAll()
+            .map { it.filter { it.id != id } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         return mostPlayedDao.getAll(mediaId.categoryId, songGateway2)
-                .assertBackground()
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
         songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
-            mostPlayedDao.insertOne(GenreMostPlayedEntity(
+            mostPlayedDao.insertOne(
+                GenreMostPlayedEntity(
                     0,
                     item.id,
                     mediaId.categoryId
-            ))
+                )
+            )
         } ?: Log.w("FolderRepo", "song not found=$mediaId")
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
         assertBackgroundThread()
         val cursor = queries.getRelatedArtists(params)
-        return observeByParamInternal(ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)) {
-            extractArtists(cursor)
-        }
+        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { extractArtists(cursor) }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
         return context.contentResolver.queryAll(cursor) { it.toArtist() }
-                .groupBy { it.id }
-                .map { (_, list) ->
-                    val artist = list[0]
-                    artist.copy(songs = list.size)
-                }
+            .groupBy { it.id }
+            .map { (_, list) ->
+                val artist = list[0]
+                artist.copy(songs = list.size)
+            }
     }
 }

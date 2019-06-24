@@ -59,7 +59,9 @@ internal class PodcastArtistRepository2 @Inject constructor(
     }
 
     override fun observeByParam(param: Id): Flow<Artist?> {
-        return channel.asFlow().map { list -> list.find { it.id == param } }
+        return channel.asFlow()
+            .map { list -> list.find { it.id == param } }
+            .distinctUntilChanged()
             .assertBackground()
     }
 
@@ -81,7 +83,8 @@ internal class PodcastArtistRepository2 @Inject constructor(
                     .take(HasLastPlayed.MAX_ITEM_TO_SHOW)
                     .toList()
             }
-        }.assertBackground()
+        }.distinctUntilChanged()
+            .assertBackground()
     }
 
     override suspend fun addLastPlayed(id: Id) {
@@ -91,13 +94,16 @@ internal class PodcastArtistRepository2 @Inject constructor(
 
     override fun observeRecentlyAdded(): Flow<List<Artist>> {
         val cursor = queries.getRecentlyAdded()
-        return observeByParamInternal(ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)) {
-            extractArtists(cursor)
-        }.distinctUntilChanged()
+        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { extractArtists(cursor) }
+            .distinctUntilChanged()
             .assertBackground()
     }
 
     override fun observeSiblings(id: Id): Flow<List<Artist>> {
-        return observeAll().map { it.filter { it.id != id } }
+        return observeAll()
+            .map { it.filter { it.id != id } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 }

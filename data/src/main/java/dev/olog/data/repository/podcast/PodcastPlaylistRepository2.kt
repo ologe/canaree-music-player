@@ -21,6 +21,8 @@ import dev.olog.shared.mapListItem
 import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
@@ -42,7 +44,6 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun observeAll(): Flow<List<Playlist>> {
-        assertBackgroundThread()
         return podcastPlaylistDao.observeAllPlaylists()
             .distinctUntilChanged()
             .asFlow()
@@ -65,11 +66,11 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listOf()
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return flow {  }
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
@@ -81,18 +82,23 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
         )
     }
 
-    private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
+    private fun createAutoPlaylist(id: Long, title: String, listSize: Int): Playlist {
         return Playlist(id, title, listSize, true)
     }
 
     override fun observeSiblings(id: Id): Flow<List<Playlist>> {
-        return observeAll().map { it.filter { it.id != id } }
+        return observeAll()
+            .map { it.filter { it.id != id } }
+            .distinctUntilChanged()
+            .assertBackground()
     }
 
     override fun createPlaylist(playlistName: String): Single<Long> {
-        return Single.fromCallable { podcastPlaylistDao.createPlaylist(
+        return Single.fromCallable {
+            podcastPlaylistDao.createPlaylist(
                 PodcastPlaylistEntity(name = playlistName, size = 0)
-        ) }
+            )
+        }
     }
 
     override fun renamePlaylist(playlistId: Id, newTitle: String): Completable {
@@ -104,7 +110,7 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun clearPlaylist(playlistId: Id): Completable {
-        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)){
+        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
             when (playlistId) {
                 PlaylistConstants.PODCAST_FAVORITE_LIST_ID -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
                 PlaylistConstants.PODCAST_HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAllPodcasts() }
@@ -118,8 +124,8 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
             var maxIdInPlaylist = podcastPlaylistDao.getPlaylistMaxId(playlistId).toLong()
             val tracks = songIds.map {
                 PodcastPlaylistTrackEntity(
-                        playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
-                        podcastId = it
+                    playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
+                    podcastId = it
                 )
             }
             podcastPlaylistDao.insertTracks(tracks)
@@ -127,16 +133,20 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
     }
 
     override fun removeSongFromPlaylist(playlistId: Id, idInPlaylist: Long): Completable {
-        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)){
+        if (PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
             return removeFromAutoPlaylist(playlistId, idInPlaylist)
         }
         return Completable.fromCallable { podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist) }
     }
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
-        return when(playlistId){
+        return when (playlistId) {
             PlaylistConstants.PODCAST_FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
-            PlaylistConstants.PODCAST_HISTORY_LIST_ID -> Completable.fromCallable { historyDao.deleteSinglePodcast(songId) }
+            PlaylistConstants.PODCAST_HISTORY_LIST_ID -> Completable.fromCallable {
+                historyDao.deleteSinglePodcast(
+                    songId
+                )
+            }
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }
