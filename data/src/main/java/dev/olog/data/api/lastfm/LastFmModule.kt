@@ -6,8 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
-import dev.olog.data.api.lastfm.annotation.Impl
-import dev.olog.data.api.lastfm.annotation.Proxy
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -65,14 +63,8 @@ class LastFmModule {
     }
 
     @Provides
-    @Impl
     internal fun provideLastFmRest(retrofit: Retrofit): LastFmService {
         return retrofit.create(LastFmService::class.java)
     }
-
-    @Provides
-    @Singleton
-    @Proxy
-    internal fun provideLastFmProxy(proxy: LastFmProxy): LastFmService = proxy
 
 }
