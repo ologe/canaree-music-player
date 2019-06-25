@@ -59,13 +59,13 @@ class MiniPlayerFragment : BaseFragment(){
                     updateImage(it)
                 }
 
-//        presenter.observeProgress
-//                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-//                .filter { view.artist.text != text } TODO what is 'text'?
-//                .asLiveData()
-//                .subscribe(viewLifecycleOwner) {
-//                    artist.text = it
-//                }
+        presenter.observeProgress
+                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+                .filter { text -> view.artist.text != text }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    artist.text = it
+                }
 
         media.observePlaybackState()
                 .filter { it.isPlaying()|| it.isPaused() }
