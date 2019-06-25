@@ -73,10 +73,10 @@ class PlayerFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.isNestedScrollingEnabled = false
-        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(view.list)
-        adapter.touchHelper = touchHelper
+//        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/) TODO
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(view.list)
+//        adapter.touchHelper = touchHelper
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
