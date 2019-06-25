@@ -6,7 +6,6 @@ import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.*
 import dev.olog.data.api.lastfm.LastFmService
-import dev.olog.data.api.lastfm.annotation.Impl
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.lastfm.LastFmLocalAlbum
@@ -18,7 +17,7 @@ import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class LastFmRepository2 @Inject constructor(
-    @Impl private val lastFmService: LastFmService,
+    private val lastFmService: LastFmService,
     private val lastFmRepoTrack: LastFmLocalTrack,
     private val lastFmRepoArtist: LastFmLocalArtist,
     private val lastFmRepoAlbum: LastFmLocalAlbum,
@@ -40,10 +39,15 @@ internal class LastFmRepository2 @Inject constructor(
         if (cached != null) {
             return cached
         }
+
         val song = songGateway.getByParam(trackId) ?: return null
         val trackTitle = TextUtils.addSpacesToDash(song.title)
         val trackArtist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist
-        var result = lastFmService.getTrackInfoAsync(trackTitle, trackArtist).awaitRepeat()?.toDomain(trackId)
+
+        var result: LastFmTrack? = null
+        if (song.artist != MediaStore.UNKNOWN_STRING) { // search only if has artist
+            result = lastFmService.getTrackInfoAsync(trackTitle, trackArtist).awaitRepeat()?.toDomain(trackId)
+        }
         if (result == null) {
             val searchTrack = lastFmService.searchTrackAsync(trackTitle, trackArtist).awaitRepeat()?.toDomain(trackId)
             if (searchTrack != null) {
@@ -72,7 +76,7 @@ internal class LastFmRepository2 @Inject constructor(
     override suspend fun getAlbum(albumId: Id): LastFmAlbum? {
         assertBackgroundThread()
         val album = albumGateway.getByParam(albumId) ?: return null
-        if (album.hasSameNameAsFolder){
+        if (album.hasSameNameAsFolder) {
             return null
         }
 
@@ -81,7 +85,11 @@ internal class LastFmRepository2 @Inject constructor(
             return cached
         }
 
-        var result = lastFmService.getAlbumInfoAsync(album.title, album.artist).awaitRepeat()?.toDomain(albumId)
+        var result : LastFmAlbum? = null
+        if (album.title != MediaStore.UNKNOWN_STRING){
+            result = lastFmService.getAlbumInfoAsync(album.title, album.artist).awaitRepeat()?.toDomain(albumId)
+        }
+
         if (result == null) {
             val searchAlbum = lastFmService.searchAlbumAsync(album.title).awaitRepeat()?.toDomain(albumId, album.artist)
             if (searchAlbum != null) {
@@ -115,7 +123,7 @@ internal class LastFmRepository2 @Inject constructor(
         }
         val artist = artistGateway.getByParam(artistId) ?: return null
         var result = lastFmService.getArtistInfoAsync(artist.name).awaitRepeat()?.toDomain(artistId)
-        if (result == null){
+        if (result == null) {
             result = LastFmNulls.createNullArtist(artistId).toDomain()
         }
         lastFmRepoArtist.cache(result)
