@@ -21,9 +21,9 @@ import javax.inject.Inject
 
 @PerService
 class PlayerMetadata @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val mediaSession: MediaSessionCompat,
-    playerLifecycle: PlayerLifecycle
+        @ApplicationContext private val context: Context,
+        private val mediaSession: MediaSessionCompat,
+        playerLifecycle: PlayerLifecycle
 
 ) : PlayerLifecycle.Listener {
 

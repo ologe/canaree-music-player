@@ -420,7 +420,7 @@ public class HoverView extends RelativeLayout {
                     + ", Selected section: " + savedSelectedSectionId);
 
             // If no menu is set on this HoverMenuView then we should hold onto this saved section
-            // selection in case we get a menu that has this section.  If we do have a menu set on
+            // selection in case we playerAppearance a menu that has this section.  If we do have a menu set on
             // this HoverMenuView, then we should only restore this selection if the given section
             // exists in our menu.
             if (null == hoverView.mMenu

@@ -19,16 +19,15 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.utils.k.extension.isCollapsed
+import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.theme.PlayerAppearance
-import dev.olog.presentation.theme.isPlayerBigImageTheme
-import dev.olog.presentation.theme.isPlayerMiniTheme
-import dev.olog.presentation.theme.playerAppearance
 import dev.olog.shared.extensions.*
+import dev.olog.shared.theme.HasPlayerAppearance
+import dev.olog.shared.theme.PlayerAppearance
+import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.isMarshmallow
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -83,7 +82,8 @@ class PlayerFragment : BaseFragment() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPlayerBigImageTheme()) {
+        val playerAppearance = requireContext().hasPlayerAppearance()
+        if (playerAppearance.isBigImage()) {
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -96,7 +96,7 @@ class PlayerFragment : BaseFragment() {
             .distinctUntilChanged()
             .map { it.map { it.toDisplayableItem() } }
             .map { queue ->
-                if (!isPlayerMiniTheme()) {
+                if (!playerAppearance.isMini()) {
                     val copy = queue.toMutableList()
                     if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
                         copy.add(viewModel.footerLoadMore)
@@ -198,7 +198,8 @@ class PlayerFragment : BaseFragment() {
     }
 
     override fun provideLayoutId(): Int {
-        return when (playerAppearance) {
+        val appearance = requireContext().hasPlayerAppearance()
+        return when (appearance.playerAppearance()) {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini

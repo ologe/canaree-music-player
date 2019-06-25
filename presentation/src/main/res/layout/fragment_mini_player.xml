@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/sliding_panel_peek"
+    android:background="?colorSurface">
+
+    <dev.olog.shared.widgets.AnimatedImageView
+        android:id="@+id/next"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/mini_player_margin_end"
+        android:background="@null"
+        android:padding="5dp"
+        app:avd="@drawable/avd_music_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/vd_music_next" />
+
+    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+        android:id="@+id/playPause"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:padding="5dp"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/next"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/vd_playpause_play" />
+
+    <dev.olog.shared.widgets.AnimatedImageView
+        android:id="@+id/previous"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:padding="5dp"
+        app:avd="@drawable/avd_music_previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playPause"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/vd_music_previous" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/MiniPlayerText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/mini_player_margin_start"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/artist"
+        app:layout_constraintEnd_toStartOf="@+id/previous"
+        app:layout_constraintStart_toEndOf="@+id/coverWrapper"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem"
+        app:fontFamily="sans-serif-black"/>
+
+    <TextView
+        android:id="@+id/artist"
+        style="@style/MiniPlayerSubText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/previous"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="@tools:sample/lorem" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/coverWrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <dev.olog.presentation.widgets.PlayerImageView
+            android:id="@+id/bigCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/placeholder_folder" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/SizedProgressBar"
+        android:layout_width="0dp"
+        android:max="@integer/common_high_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:max="100"
+        tools:progress="40" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

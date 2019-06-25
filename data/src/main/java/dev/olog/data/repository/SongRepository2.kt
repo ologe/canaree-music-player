@@ -32,9 +32,9 @@ import java.io.File
 import javax.inject.Inject
 
 internal class SongRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
+        @ApplicationContext context: Context,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), SongGateway2 {
 
     private val queries = TrackQueries(

@@ -24,10 +24,10 @@ import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastAlbumRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    appDatabase: AppDatabase
+        @ApplicationContext context: Context,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences,
+        appDatabase: AppDatabase
 ) : BaseRepository<Album, Id>(context), PodcastAlbumGateway2 {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)

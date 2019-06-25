@@ -56,7 +56,7 @@
 //        val metadata = controller.metadata
 //        val title = metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
 //        val artist = metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
-//        return SpeechMetadata(title, artist).get()
+//        return SpeechMetadata(title, artist).playerAppearance()
 //    }
 //
 //    override fun onDone(utteranceId: String?) {
@@ -83,7 +83,7 @@
 //        private val artist: String
 //) {
 //
-//    fun get(): String {
+//    fun playerAppearance(): String {
 //        if (artist == AppConstants.UNKNOWN_ARTIST){
 //            return title
 //        }

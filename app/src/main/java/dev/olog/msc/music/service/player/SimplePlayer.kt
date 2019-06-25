@@ -24,8 +24,8 @@ package dev.olog.msc.music.service.player
 //
 //    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
 //        if (playbackState == com.google.android.exoplayer2.Player.STATE_ENDED) {
-////            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
-//            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
+////            audioManager.playerAppearance().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
+//            audioManager.playerAppearance().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
 //        }
 //    }
 //

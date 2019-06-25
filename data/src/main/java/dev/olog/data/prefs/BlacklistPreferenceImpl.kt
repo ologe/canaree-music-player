@@ -9,8 +9,8 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class BlacklistPreferenceImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences
+        @ApplicationContext private val context: Context,
+        private val preferences: SharedPreferences
 ) : BlacklistPreferences {
 
     companion object {

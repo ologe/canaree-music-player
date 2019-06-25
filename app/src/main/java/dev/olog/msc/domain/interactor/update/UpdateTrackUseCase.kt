@@ -15,9 +15,9 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
-    @ApplicationContext private val context: Context,
-    schedulers: IoSchedulers,
-    private val gateway: UsedImageGateway
+        @ApplicationContext private val context: Context,
+        schedulers: IoSchedulers,
+        private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateTrackUseCase.Data>(schedulers){
 

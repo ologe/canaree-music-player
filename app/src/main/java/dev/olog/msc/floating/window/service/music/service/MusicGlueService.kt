@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 @PerService
 class MusicGlueService @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
+        @ApplicationContext private val context: Context,
+        @ServiceLifecycle lifecycle: Lifecycle
 
 ) : DefaultLifecycleObserver, OnConnectionChanged, CoroutineScope by CustomScope() {
 

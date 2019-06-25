@@ -27,11 +27,11 @@ import java.io.File
 import javax.inject.Inject
 
 internal class FolderRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway2
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences,
+        private val songGateway2: SongGateway2
 ) : BaseRepository<Folder, Path>(context), FolderGateway2 {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)

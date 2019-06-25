@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1">
 
-            <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
+            <dev.olog.presentation.widgets.PlayerImageView
                 android:id="@+id/bigCover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

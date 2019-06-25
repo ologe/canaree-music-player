@@ -14,7 +14,7 @@ import dev.olog.media.isPlaying
 import dev.olog.msc.R
 import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicGlueService
-import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
+import dev.olog.shared.widgets.playpause.IPlayPauseBehavior
 import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable

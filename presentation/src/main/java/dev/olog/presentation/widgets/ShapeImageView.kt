@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.presentation.theme.ImageShape
-import dev.olog.presentation.theme.ImageShapeListener.Companion.imageShape
-import dev.olog.presentation.theme.ImageShapeListener.Companion.imageShapePublisher
 import dev.olog.shared.R
 import dev.olog.shared.extensions.dipf
+import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.theme.HasImageShape
+import dev.olog.shared.theme.ImageShape
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -27,6 +27,8 @@ class ShapeImageView @JvmOverloads constructor(
     attrs: AttributeSet? = null
 
 ) : ForegroundImageView(context, attrs), CoroutineScope by MainScope() {
+
+    private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
 
     private var job: Job? = null
 
@@ -52,8 +54,9 @@ class ShapeImageView @JvmOverloads constructor(
         if (isInEditMode) {
             return
         }
+        val hasImageShape = context.applicationContext as HasImageShape
         job = launch {
-            for (imageShape in imageShapePublisher.openSubscription()) {
+            for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null
             }
         }
@@ -73,7 +76,7 @@ class ShapeImageView @JvmOverloads constructor(
 
     private fun getMask(): Bitmap? {
         if (mask == null) {
-            mask = when (imageShape()) {
+            mask = when (hasImageShape.getImageShape()) {
                 ImageShape.ROUND -> {
                     setLayerType(View.LAYER_TYPE_HARDWARE, null)
                     val drawable =

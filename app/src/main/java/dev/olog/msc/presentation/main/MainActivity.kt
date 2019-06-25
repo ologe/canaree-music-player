@@ -32,6 +32,9 @@ import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.interfaces.HasBottomNavigation
+import dev.olog.presentation.utils.collapse
+import dev.olog.presentation.utils.expand
+import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.extensions.dimen

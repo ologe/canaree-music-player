@@ -20,8 +20,8 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.getMediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.image.view.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
-import dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
-import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
+import dev.olog.presentation.widgets.PlayerImageView
+import dev.olog.presentation.widgets.toPlayerImage
 import dev.olog.shared.extensions.dpToPx
 import dev.olog.presentation.ripple.RippleTarget
 import kotlin.properties.Delegates

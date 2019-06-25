@@ -35,10 +35,10 @@ import java.text.Collator
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val appPreferencesUseCase: AppPreferencesGateway,
-    private val folderGateway: FolderGateway2,
-    private val collator: Collator
+        @ApplicationContext private val context: Context,
+        private val appPreferencesUseCase: AppPreferencesGateway,
+        private val folderGateway: FolderGateway2,
+        private val collator: Collator
 
 ) : ViewModel() {
 

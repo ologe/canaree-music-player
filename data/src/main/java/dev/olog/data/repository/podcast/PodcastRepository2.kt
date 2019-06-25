@@ -28,10 +28,10 @@ import java.io.File
 import javax.inject.Inject
 
 internal class PodcastRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), PodcastGateway2 {
 
     private val podcastPositionDao = appDatabase.podcastPositionDao()

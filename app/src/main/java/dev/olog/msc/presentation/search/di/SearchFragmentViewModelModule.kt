@@ -36,23 +36,23 @@ class SearchFragmentViewModelModule {
 
     @Provides
     internal fun provideSearchData(
-        @ApplicationContext context: Context,
+            @ApplicationContext context: Context,
             // tracks
-        getAllArtistsUseCase: ArtistGateway2,
-        getAllAlbumsUseCase: AlbumGateway2,
-        getAllPlaylistsUseCase: PlaylistGateway2,
-        getAllGenresUseCase: GenreGateway2,
-        getAllFoldersUseCase: FolderGateway2,
-        getAllSongsUseCase: SongGateway2,
+            getAllArtistsUseCase: ArtistGateway2,
+            getAllAlbumsUseCase: AlbumGateway2,
+            getAllPlaylistsUseCase: PlaylistGateway2,
+            getAllGenresUseCase: GenreGateway2,
+            getAllFoldersUseCase: FolderGateway2,
+            getAllSongsUseCase: SongGateway2,
             // podcasts
-        getAllPodcastUseCase: PodcastGateway2,
-        getAllPodcastAlbumsUseCase: PodcastAlbumGateway2,
-        getAllPodcastArtistUseCase: PodcastArtistGateway2,
-        getAllPodcastPlaylistUseCase: PodcastPlaylistGateway2,
+            getAllPodcastUseCase: PodcastGateway2,
+            getAllPodcastAlbumsUseCase: PodcastAlbumGateway2,
+            getAllPodcastArtistUseCase: PodcastArtistGateway2,
+            getAllPodcastPlaylistUseCase: PodcastPlaylistGateway2,
             //recent
-        getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
-        searchHeaders: SearchFragmentHeaders,
-        queryLiveData: MutableLiveData<String>)
+            getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
+            searchHeaders: SearchFragmentHeaders,
+            queryLiveData: MutableLiveData<String>)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>> {
 
         return Transformations.switchMap(queryLiveData) { input ->

@@ -68,8 +68,8 @@ internal class GlideLastFmImageLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val lastFmGateway: LastFmGateway2
+            @ApplicationContext private val context: Context,
+            private val lastFmGateway: LastFmGateway2
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 

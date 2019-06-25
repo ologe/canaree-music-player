@@ -29,9 +29,9 @@ import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
-    private val favoriteGateway: FavoriteGateway
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        private val favoriteGateway: FavoriteGateway
 ) : PodcastPlaylistGateway2 {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)

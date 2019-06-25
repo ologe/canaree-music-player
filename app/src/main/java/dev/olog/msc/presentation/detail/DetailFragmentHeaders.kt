@@ -9,8 +9,8 @@ import dev.olog.core.MediaId
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val mediaId: MediaId
+        @ApplicationContext private val context: Context,
+        private val mediaId: MediaId
 ) {
 
     companion object {

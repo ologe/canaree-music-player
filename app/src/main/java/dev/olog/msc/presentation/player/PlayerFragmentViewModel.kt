@@ -1,19 +1,21 @@
 package dev.olog.msc.presentation.player
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.R
+import dev.olog.core.MediaId
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.widget.image.view.player.*
-import dev.olog.core.MediaId
-import dev.olog.presentation.theme.PlayerAppearance
-import dev.olog.presentation.theme.playerAppearance
+import dev.olog.shared.theme.PlayerAppearance
+import dev.olog.shared.theme.hasPlayerAppearance
+import dev.olog.shared.widgets.adaptive.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,10 +23,11 @@ import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
-    observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-    private val appPreferencesUseCase: AppPreferencesGateway,
-    private val musicPrefsUseCase: MusicPreferencesGateway,
-    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
+        @ApplicationContext private val context: Context,
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+        private val appPreferencesUseCase: AppPreferencesGateway,
+        private val musicPrefsUseCase: MusicPreferencesGateway,
+        private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) : ViewModel() {
 
@@ -33,7 +36,7 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun observeProcessorColors(): Observable<ProcessorColors> = processorPublisher
             .map {
-                if (appPreferencesUseCase.isAdaptiveColorEnabled()){
+                if (appPreferencesUseCase.isAdaptiveColorEnabled()) {
                     it
                 } else {
                     InvalidProcessColors
@@ -44,7 +47,7 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun observePaletteColors(): Observable<PaletteColors> = palettePublisher
             .map {
-                if (appPreferencesUseCase.isAdaptiveColorEnabled()){
+                if (appPreferencesUseCase.isAdaptiveColorEnabled()) {
                     it
                 } else {
                     InvalidPaletteColors
@@ -53,11 +56,11 @@ class PlayerFragmentViewModel @Inject constructor(
             .filter { it is ValidPaletteColors }
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateProcessorColors(palette: ProcessorColors){
+    fun updateProcessorColors(palette: ProcessorColors) {
         processorPublisher.onNext(palette)
     }
 
-    fun updatePaletteColors(palette: PaletteColors){
+    fun updatePaletteColors(palette: PaletteColors) {
         palettePublisher.onNext(palette)
     }
 
@@ -67,32 +70,33 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun getCurrentTrackId() = currentTrackIdPublisher.value!!
 
-    fun updateCurrentTrackId(trackId: Long){
+    fun updateCurrentTrackId(trackId: Long) {
         currentTrackIdPublisher.onNext(trackId)
     }
 
-    fun observeMiniQueue() : LiveData<List<DisplayableItem>> = miniQueue
+    fun observeMiniQueue(): LiveData<List<DisplayableItem>> = miniQueue
 
-    fun updateQueue(list: List<DisplayableItem>){
+    fun updateQueue(list: List<DisplayableItem>) {
         miniQueue.postValue(list)
     }
 
     private val progressPublisher = BehaviorSubject.createDefault(0)
 
-    val observeProgress : Observable<Int> = progressPublisher
+    val observeProgress: Observable<Int> = progressPublisher
 
-    fun updateProgress(progress: Int){
+    fun updateProgress(progress: Int) {
         progressPublisher.onNext(progress)
     }
 
     val footerLoadMore = DisplayableItem(
-        R.layout.item_playing_queue_load_more,
-        MediaId.headerId("load more"),
-        ""
+            R.layout.item_playing_queue_load_more,
+            MediaId.headerId("load more"),
+            ""
     )
 
     fun playerControls(): DisplayableItem {
-        val id = when (playerAppearance) {
+        val hasPlayerAppearance = context.hasPlayerAppearance()
+        val id = when (hasPlayerAppearance.playerAppearance()) {
             PlayerAppearance.DEFAULT -> R.layout.fragment_player_controls
             PlayerAppearance.FLAT -> R.layout.fragment_player_controls_flat
             PlayerAppearance.SPOTIFY -> R.layout.fragment_player_controls_spotify
@@ -117,9 +121,9 @@ class PlayerFragmentViewModel @Inject constructor(
         return tutorialPreferenceUseCase.lyricsTutorial()
     }
 
-    fun getPlaybackSpeed(): Int{
+    fun getPlaybackSpeed(): Int {
         val speed = musicPrefsUseCase.getPlaybackSpeed()
-        return when (speed){
+        return when (speed) {
             .5f -> 0
             .8f -> 1
             1f -> 2
@@ -132,7 +136,7 @@ class PlayerFragmentViewModel @Inject constructor(
     }
 
     fun setPlaybackSpeed(itemId: Int) {
-        val speed = when (itemId){
+        val speed = when (itemId) {
             R.id.speed50 -> .5f
             R.id.speed80 -> .8f
             R.id.speed100 -> 1f

@@ -13,8 +13,8 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val presenter: EditTrackFragmentPresenter
+        @ApplicationContext private val context: Context,
+        private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModel() {
 
@@ -67,7 +67,7 @@ class EditTrackFragmentViewModel @Inject constructor(
 
 //        fetchSongInfoDisposable.unsubscribe()
 //        fetchSongInfoDisposable = presenter.fetchData()
-//                .map { it.get()!! }
+//                .map { it.playerAppearance()!! }
 //                .subscribe({ newValue ->
 //                    val oldValue = displayedSong.value!!
 //                    displayedSong.postValue(oldValue.copy(

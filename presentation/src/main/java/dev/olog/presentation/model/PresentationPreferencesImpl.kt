@@ -17,8 +17,8 @@ import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class PresentationPreferencesImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences
+        @ApplicationContext private val context: Context,
+        private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {
 
     companion object {

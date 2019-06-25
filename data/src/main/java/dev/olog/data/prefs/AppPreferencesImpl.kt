@@ -17,9 +17,9 @@ import java.io.File
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences,
-    private val rxPreferences: RxSharedPreferences
+        @ApplicationContext private val context: Context,
+        private val preferences: SharedPreferences,
+        private val rxPreferences: RxSharedPreferences
 
 ) : AppPreferencesGateway {
 

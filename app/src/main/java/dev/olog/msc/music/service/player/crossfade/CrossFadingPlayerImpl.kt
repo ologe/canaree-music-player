@@ -29,13 +29,13 @@ import javax.inject.Inject
 
 
 class CrossFadePlayerImpl @Inject internal constructor(
-    @ApplicationContext context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
-    mediaSourceFactory: ClippedSourceFactory,
-    musicPreferencesUseCase: MusicPreferencesGateway,
-    private val audioManager: Lazy<AudioManager>,
-    private val volume: IPlayerVolume,
-    private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
+        @ApplicationContext context: Context,
+        @ServiceLifecycle lifecycle: Lifecycle,
+        mediaSourceFactory: ClippedSourceFactory,
+        musicPreferencesUseCase: MusicPreferencesGateway,
+        private val audioManager: Lazy<AudioManager>,
+        private val volume: IPlayerVolume,
+        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
@@ -185,7 +185,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     private fun requestNextSong(){
-//      audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
+//      audioManager.playerAppearance().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
         audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
     }
 

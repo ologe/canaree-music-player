@@ -36,7 +36,7 @@ import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.msc.utils.k.extension.collapse
+import dev.olog.presentation.utils.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.shared.extensions.unsubscribe
 import dev.olog.presentation.model.DisplayableItem

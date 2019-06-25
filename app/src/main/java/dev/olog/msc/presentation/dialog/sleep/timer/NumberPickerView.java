@@ -360,7 +360,7 @@ class NumberPickerView extends View {
                                 postInvalidate();
                             } else {
                                 onScrollStateChange(OnScrollListener.SCROLL_STATE_IDLE);
-                                //get the index which will be selected
+                                //playerAppearance the index which will be selected
                                 willPickIndex = getWillPickIndexByGlobalY(mCurrDrawGlobalY);
                             }
                             Message changeMsg = getMsg(HANDLER_WHAT_LISTENER_VALUE_CHANGED, mPrevPickedIndex, willPickIndex, msg.obj);
@@ -543,8 +543,8 @@ class NumberPickerView extends View {
     }
 
     /**
-     * get the "fromValue" by using getValue(), if your picker's minValue is not 0,
-     * make sure you can get the accurate value by getValue(), or you can use
+     * playerAppearance the "fromValue" by using getValue(), if your picker's minValue is not 0,
+     * make sure you can playerAppearance the accurate value by getValue(), or you can use
      * smoothScrollToValue(int fromValue, int toValue, boolean needRespond)
      *
      * @param toValue the value you want picker to scroll to
@@ -554,8 +554,8 @@ class NumberPickerView extends View {
     }
 
     /**
-     * get the "fromValue" by using getValue(), if your picker's minValue is not 0,
-     * make sure you can get the accurate value by getValue(), or you can use
+     * playerAppearance the "fromValue" by using getValue(), if your picker's minValue is not 0,
+     * make sure you can playerAppearance the accurate value by getValue(), or you can use
      * smoothScrollToValue(int fromValue, int toValue, boolean needRespond)
      *
      * @param toValue     the value you want picker to scroll to
@@ -876,8 +876,8 @@ class NumberPickerView extends View {
     /**
      * set the friction of scroller, it will effect the scroller's acceleration when fling
      *
-     * @param friction default is ViewConfiguration.get(mContext).getScrollFriction()
-     *                 if setFriction(2 * ViewConfiguration.get(mContext).getScrollFriction()),
+     * @param friction default is ViewConfiguration.playerAppearance(mContext).getScrollFriction()
+     *                 if setFriction(2 * ViewConfiguration.playerAppearance(mContext).getScrollFriction()),
      *                 the friction will be twice as much as before
      */
     public void setFriction(float friction) {

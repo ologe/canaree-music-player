@@ -31,12 +31,12 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class PlaylistRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    appDatabase: AppDatabase,
-    private val songGateway2: SongGateway2,
-    private val helper: PlaylistRepositoryHelper
+        @ApplicationContext context: Context,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences,
+        appDatabase: AppDatabase,
+        private val songGateway2: SongGateway2,
+        private val helper: PlaylistRepositoryHelper
 ) : BaseRepository<Playlist, Id>(context), PlaylistGateway2, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
@@ -52,7 +52,7 @@ internal class PlaylistRepository2 @Inject constructor(
         val cursor = queries.getAll()
         val playlists = contentResolver.queryAll(cursor) { it.toPlaylist() }
         return playlists.map { playlist ->
-            // get the size for every playlist
+            // playerAppearance the size for every playlist
             val sizeQueryCursor = queries.countPlaylistSize(playlist.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
             playlist.copy(size = sizeQuery)

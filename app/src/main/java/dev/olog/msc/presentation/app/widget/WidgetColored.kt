@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.presentation.utils.images.ImageProcessor
+import dev.olog.shared.palette.ImageProcessor
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.presentation.model.DisplayableItem
 

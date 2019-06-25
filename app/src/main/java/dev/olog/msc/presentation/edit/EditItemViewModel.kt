@@ -17,8 +17,8 @@ import java.io.FileNotFoundException
 import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val presenter: EditItemPresenter
+        @ApplicationContext private val context: Context,
+        private val presenter: EditItemPresenter
 
 ) : ViewModel() {
 

@@ -11,7 +11,7 @@ import dev.olog.data.db.entities.UsedTrackImageEntity
 @Dao
 abstract class UsedImageDao {
 
-    // get all
+    // playerAppearance all
 
     @Query("""
         SELECT *
@@ -34,7 +34,7 @@ abstract class UsedImageDao {
         """)
      abstract fun getAllImagesForArtists(): List<UsedArtistImageEntity>
 
-    // get by param
+    // playerAppearance by param
 
     @Query("SELECT image FROM used_image_track WHERE id = :id")
      abstract fun getImageForTrack(id: Long): String?

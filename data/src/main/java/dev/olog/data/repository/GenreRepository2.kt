@@ -27,11 +27,11 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository2 @Inject constructor(
-    @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway2
+        @ApplicationContext context: Context,
+        appDatabase: AppDatabase,
+        sortPrefs: SortPreferences,
+        blacklistPrefs: BlacklistPreferences,
+        private val songGateway2: SongGateway2
 ) : BaseRepository<Genre, Id>(context), GenreGateway2 {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -46,7 +46,7 @@ internal class GenreRepository2 @Inject constructor(
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
         return genres.map { genre ->
-            // get the size for every playlist
+            // playerAppearance the size for every playlist
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
             genre.copy(size = sizeQuery)

@@ -33,9 +33,9 @@ private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 private const val LAST_POSITION = "$TAG.last_position"
 
 class MusicPreferencesImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences,
-    private val rxPreferences: RxSharedPreferences
+        @ApplicationContext private val context: Context,
+        private val preferences: SharedPreferences,
+        private val rxPreferences: RxSharedPreferences
 
 ): MusicPreferencesGateway {
 

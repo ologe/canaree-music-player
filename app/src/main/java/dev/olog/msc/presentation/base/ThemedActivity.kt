@@ -6,12 +6,12 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
-import dev.olog.presentation.theme.isImmersiveMode
+import dev.olog.shared.theme.isImmersiveMode
 
 interface ThemedActivity {
 
     fun themeAccentColor(context: Context, theme: Resources.Theme){
-        if (isImmersiveMode){
+        if (context.isImmersiveMode()){
             theme.applyStyle(R.style.ThemeImmersive, true)
         }
         theme.applyStyle(getAccentStyle(context.applicationContext), true)

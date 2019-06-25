@@ -10,9 +10,9 @@ import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.theme.isPlayerBigImageTheme
-import dev.olog.presentation.theme.isPlayerFullscreenTheme
 import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.theme.HasPlayerAppearance
+import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.isMarshmallow
 import javax.inject.Inject
 
@@ -86,7 +86,8 @@ class StatusBarColorBehavior @Inject constructor(
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
                     // TODO check if it needed
-                    if (isPlayerFullscreenTheme() || isPlayerBigImageTheme()) {
+                    val playerApperance = (activity.hasPlayerAppearance())
+                    if (playerApperance.isFullscreen() || playerApperance.isBigImage()) {
                         activity.window.removeLightStatusBar()
                     } else {
                         activity.window.setLightStatusBar()

@@ -23,7 +23,7 @@
         android:elevation="2dp"
         android:background="@null" />
 
-    <dev.olog.msc.presentation.widget.AnimatedImageView
+    <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
@@ -39,7 +39,7 @@
         android:focusable="true"
         android:layout_marginStart="16dp"/>
 
-    <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
+    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="@dimen/player_shuffle_size"
         android:layout_height="@dimen/player_shuffle_size"
@@ -57,7 +57,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
-    <dev.olog.msc.presentation.widget.AnimatedImageView
+    <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"

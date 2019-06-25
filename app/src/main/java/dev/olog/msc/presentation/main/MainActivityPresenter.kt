@@ -8,9 +8,9 @@ import dev.olog.shared.Permissions
 import javax.inject.Inject
 
 class MainActivityPresenter @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val presentationPrefs: PresentationPreferencesGateway,
-    val isRepositoryEmptyUseCase: IsRepositoryEmptyUseCase
+        @ApplicationContext private val context: Context,
+        private val presentationPrefs: PresentationPreferencesGateway,
+        val isRepositoryEmptyUseCase: IsRepositoryEmptyUseCase
 ) {
 
     fun isFirstAccess(): Boolean {

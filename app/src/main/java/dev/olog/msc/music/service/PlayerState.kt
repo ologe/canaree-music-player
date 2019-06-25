@@ -19,9 +19,9 @@ import javax.inject.Inject
 
 @PerService
 class PlayerState @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
+        @ApplicationContext private val context: Context,
+        private val mediaSession: MediaSessionCompat,
+        private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ){
 

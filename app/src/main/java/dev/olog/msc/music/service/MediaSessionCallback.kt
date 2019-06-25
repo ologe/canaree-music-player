@@ -33,15 +33,15 @@ import javax.inject.Inject
 
 @PerService
 class MediaSessionCallback @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
-    private val queue: Queue,
-    private val player: Player,
-    private val repeatMode: RepeatMode,
-    private val shuffleMode: ShuffleMode,
-    private val mediaButton: MediaButton,
-    private val playerState: PlayerState,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+        @ApplicationContext private val context: Context,
+        @ServiceLifecycle lifecycle: Lifecycle,
+        private val queue: Queue,
+        private val player: Player,
+        private val repeatMode: RepeatMode,
+        private val shuffleMode: ShuffleMode,
+        private val mediaButton: MediaButton,
+        private val playerState: PlayerState,
+        private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
 ): MediaSessionCompat.Callback(), DefaultLifecycleObserver {
 

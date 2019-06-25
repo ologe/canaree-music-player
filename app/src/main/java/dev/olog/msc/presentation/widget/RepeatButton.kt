@@ -10,9 +10,9 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
-import dev.olog.presentation.theme.isPlayerCleanTheme
-import dev.olog.presentation.theme.isPlayerFullscreenTheme
 import dev.olog.shared.extensions.*
+import dev.olog.shared.theme.HasPlayerAppearance
+import dev.olog.shared.theme.hasPlayerAppearance
 
 class RepeatButton @JvmOverloads constructor(
         context: Context,
@@ -80,9 +80,10 @@ class RepeatButton @JvmOverloads constructor(
     }
 
     private fun getDefaultColor(): Int {
+        val playerAppearance = context.hasPlayerAppearance()
         return when {
-            isPlayerCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            isPlayerFullscreenTheme() -> Color.WHITE
+            playerAppearance.isClean() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            playerAppearance.isFullscreen() -> Color.WHITE
             isDarkMode -> {
                 alpha = .7f
                 context.textColorSecondary()

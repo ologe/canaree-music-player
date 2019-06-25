@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
-import dev.olog.msc.presentation.widget.image.view.player.AdaptiveColorImageView
+import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
 import io.alterac.blurkit.BlurKit
 
 class BlurImageView @JvmOverloads constructor(

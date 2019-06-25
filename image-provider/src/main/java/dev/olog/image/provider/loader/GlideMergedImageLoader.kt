@@ -55,11 +55,11 @@ class GlideMergedImageLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val folderGateway: FolderGateway2,
-        private val playlistGateway: PlaylistGateway2,
-        private val genreGateway: GenreGateway2,
-        private val prefsGateway: AppPreferencesGateway
+            @ApplicationContext private val context: Context,
+            private val folderGateway: FolderGateway2,
+            private val playlistGateway: PlaylistGateway2,
+            private val genreGateway: GenreGateway2,
+            private val prefsGateway: AppPreferencesGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {

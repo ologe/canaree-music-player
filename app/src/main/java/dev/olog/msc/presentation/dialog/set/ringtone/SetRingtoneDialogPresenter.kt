@@ -21,9 +21,9 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SetRingtoneDialogPresenter @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val activity: AppCompatActivity,
-    private val mediaId: MediaId
+        @ApplicationContext private val context: Context,
+        private val activity: AppCompatActivity,
+        private val mediaId: MediaId
 
 ) {
 

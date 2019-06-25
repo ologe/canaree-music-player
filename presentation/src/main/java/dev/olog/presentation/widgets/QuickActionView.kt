@@ -7,27 +7,29 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.theme.QuickActionListener.Companion.quickAction
-import dev.olog.presentation.theme.QuickActionListener.Companion.quickActionPublisher
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.toggleVisibility
-import kotlinx.coroutines.*
+import dev.olog.shared.theme.HasQuickAction
+import dev.olog.shared.theme.QuickAction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 class QuickActionView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
+        context: Context,
+        attrs: AttributeSet? = null
 
 ) : AppCompatImageView(context, attrs),
-    View.OnClickListener,
-    CoroutineScope by MainScope() {
+        View.OnClickListener,
+        CoroutineScope by MainScope() {
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 
-    enum class Type {
-        NONE, PLAY, SHUFFLE
-    }
-
     private var job: Job? = null
+
+    private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
 
     init {
         setImage()
@@ -35,12 +37,13 @@ class QuickActionView @JvmOverloads constructor(
     }
 
     private fun setImage() {
-        toggleVisibility(quickAction() != Type.NONE, true)
+        val quickAction = hasQuickAction.getQuickAction()
+        toggleVisibility(quickAction != QuickAction.NONE, true)
 
-        when (quickAction()) {
-            Type.NONE -> setImageDrawable(null)
-            Type.PLAY -> setImageResource(R.drawable.vd_play)
-            Type.SHUFFLE -> setImageResource(R.drawable.vd_shuffle)
+        when (quickAction) {
+            QuickAction.NONE -> setImageDrawable(null)
+            QuickAction.PLAY -> setImageResource(R.drawable.vd_play)
+            QuickAction.SHUFFLE -> setImageResource(R.drawable.vd_shuffle)
         }
     }
 
@@ -48,7 +51,7 @@ class QuickActionView @JvmOverloads constructor(
         super.onAttachedToWindow()
         setOnClickListener(this)
         job = launch {
-            for (type in quickActionPublisher.openSubscription()) {
+            for (type in hasQuickAction.observeQuickAction()) {
                 setImage()
             }
         }
@@ -66,10 +69,10 @@ class QuickActionView @JvmOverloads constructor(
 
     override fun onClick(v: View?) {
         val mediaProvider = context as MediaProvider
-        when (quickAction()) {
-            Type.PLAY -> mediaProvider.playFromMediaId(currentMediaId)
-            Type.SHUFFLE -> mediaProvider.shuffle(currentMediaId)
-            else -> {
+        when (hasQuickAction.getQuickAction()) {
+            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId)
+            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId)
+            QuickAction.NONE -> {
             }
         }
     }

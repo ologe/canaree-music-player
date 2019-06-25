@@ -57,11 +57,11 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.SONGS)
     internal fun provideSongList(
-        @ApplicationContext context: Context,
-        mediaId: MediaId,
-        useCase: GetSongListByParamUseCase,
-        sortOrderUseCase: GetSortOrderUseCase,
-        songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
+            @ApplicationContext context: Context,
+            mediaId: MediaId,
+            useCase: GetSongListByParamUseCase,
+            sortOrderUseCase: GetSortOrderUseCase,
+            songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .flatMapSingle { songList ->
