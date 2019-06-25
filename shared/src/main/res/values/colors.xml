@@ -8,6 +8,9 @@
     <color name="colorPrimaryTransparent">@color/transparent_white</color>
     <color name="defaultColorAccent">@color/md_indigo_A400</color>
 
+    <color name="textColorPrimary">#2b2b2b</color>
+    <color name="textColorSecondary">#7f7f7f</color>
+
     <color name="light_grey">#AAA</color>
     <color name="dark_grey">#262626</color>
     <color name="grey400">#BDBDBD</color>
@@ -22,9 +25,6 @@
     <color name="background_accent">@color/dark_grey</color>
 
     <color name="toolbar">#FAFAFA</color>
-
-    <color name="text_color_primary">@color/dark_grey</color>
-    <color name="text_color_secondary">@color/grey600</color>
 
     <color name="button_primary_tint">@color/dark_grey</color>
     <color name="button_secondary_tint">@color/button_primary_tint</color>

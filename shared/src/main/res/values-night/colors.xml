@@ -2,10 +2,14 @@
 <resources>
     <color name="colorScrim">#AA232323</color>
 
-    <color name="colorBackground">#131313</color>
+    <color name="colorBackground">#121212</color>
 
-    <color name="colorSurface">#282828</color>
+    <color name="colorSurface">#222326</color>
     <color name="colorControlNormal">#F5F5F5</color>
 
     <color name="colorPrimaryTransparent">@color/transparent_black</color>
+
+    <color name="textColorPrimary">#fff</color>
+    <color name="textColorSecondary">#7f7f7f</color>
+
 </resources>

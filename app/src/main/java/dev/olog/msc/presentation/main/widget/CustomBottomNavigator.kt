@@ -13,7 +13,8 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class CustomBottomNavigator(
-        context: Context, attrs: AttributeSet
+        context: Context,
+        attrs: AttributeSet
 ) : BottomNavigationView(context, attrs), CoroutineScope by MainScope() {
 
     internal lateinit var presentationPrefs: PresentationPreferencesGateway

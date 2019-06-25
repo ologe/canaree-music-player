@@ -19,7 +19,7 @@
     <dimen name="side_view_radius">25dp</dimen>
     <dimen name="side_view_ball_radius">28dp</dimen>
     <color name="side_view_wave_color">#EE424242</color>
-    <color name="side_view_letter_paint">@color/text_color_primary</color>
+    <color name="side_view_letter_paint">@color/textColorPrimary</color>
 
 
 </resources>

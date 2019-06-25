@@ -9,7 +9,6 @@
     <TextView
         android:id="@+id/dpi"
         android:text="densityDpi : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -17,7 +16,6 @@
     <TextView
         android:id="@+id/fontScale"
         android:text="fontScale : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -25,7 +23,6 @@
     <TextView
         android:id="@+id/mcc"
         android:text="mcc(mobile country code) : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -33,7 +30,6 @@
     <TextView
         android:id="@+id/mnc"
         android:text="mnc(mobile network code) : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -41,7 +37,6 @@
     <TextView
         android:id="@+id/orientation"
         android:text="orientation : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -49,7 +44,6 @@
     <TextView
         android:id="@+id/screenHeight"
         android:text="screenHeightDp : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -57,7 +51,6 @@
     <TextView
         android:id="@+id/screenWidth"
         android:text="screenWidthDp : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -65,7 +58,6 @@
     <TextView
         android:id="@+id/smallestWidth"
         android:text="smallestScreenWidthDp : "
-        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -73,7 +65,6 @@
     <Switch
         android:id="@+id/activateFakeData"
         android:text="use fake data"
-        android:textColor="@color/text_color_primary"
         android:switchPadding="20dp"
         android:padding="4dp"
         android:layout_width="match_parent"

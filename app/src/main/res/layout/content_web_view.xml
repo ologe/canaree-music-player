@@ -24,7 +24,6 @@
         <TextView
             android:id="@+id/error"
             android:text="@string/floating_window_offline"
-            android:textColor="@color/text_color_primary"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_width="match_parent"

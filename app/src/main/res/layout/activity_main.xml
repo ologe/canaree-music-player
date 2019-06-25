@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:elevation="8dp"
-        android:background="?colorSurface"
+        android:background="?android:colorBackground"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/sliding_panel_peek"
         app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior">
