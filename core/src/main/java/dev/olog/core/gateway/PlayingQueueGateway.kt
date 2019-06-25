@@ -18,7 +18,4 @@ interface PlayingQueueGateway {
 
     fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable
 
-    fun observeMiniQueue(): Observable<List<PlayingQueueSong>>
-    fun updateMiniQueue(tracksId: List<Pair<Int, Long>>)
-
 }

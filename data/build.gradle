@@ -15,6 +15,17 @@ android {
 
     }
 
+    buildTypes {
+        release {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+        debug {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+    }
+
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }

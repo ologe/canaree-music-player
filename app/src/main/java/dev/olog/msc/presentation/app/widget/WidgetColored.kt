@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.app.widget.defaul
+package dev.olog.msc.presentation.app.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -6,8 +6,6 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.msc.presentation.app.widget.BaseWidget
-import dev.olog.msc.presentation.app.widget.WidgetMetadata
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.presentation.model.DisplayableItem

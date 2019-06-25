@@ -8,10 +8,9 @@ import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
-import dev.olog.data.api.lastfm.LAST_FM_API_KEY
-import dev.olog.data.api.lastfm.LAST_FM_API_SECRET
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.core.entity.UserCredentials
+import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.interactor.last.fm.scrobble.ObserveLastFmUserCredentials
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
@@ -45,8 +44,8 @@ class LastFmScrobbling @Inject constructor(
     private fun tryAutenticate(credentials: UserCredentials){
         try {
             session = Authenticator.getMobileSession(credentials.username, credentials.password,
-                LAST_FM_API_KEY,
-                LAST_FM_API_SECRET
+                BuildConfig.LAST_FM_KEY,
+                BuildConfig.LAST_FM_SECRET
             )
             userCredentials = credentials
         } catch (ex: Exception){

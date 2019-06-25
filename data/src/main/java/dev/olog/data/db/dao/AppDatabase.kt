@@ -2,13 +2,11 @@ package dev.olog.data.db.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.olog.data.db.dao.*
 import dev.olog.data.db.entities.*
 
 
 @Database(entities = arrayOf(
         PlayingQueueEntity::class,
-        MiniQueueEntity::class,
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
@@ -29,9 +27,6 @@ import dev.olog.data.db.entities.*
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
         LastFmArtistEntity::class,
-        LastFmPodcastEntity::class, // TODO remove
-        LastFmPodcastArtistEntity::class, // TODO remove
-        LastFmPodcastAlbumEntity::class,// TODO remove
 
         OfflineLyricsEntity::class,
 
@@ -44,7 +39,7 @@ import dev.olog.data.db.entities.*
 
         PodcastPositionEntity::class
 
-), version = 15, exportSchema = true)
+), version = 16, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao

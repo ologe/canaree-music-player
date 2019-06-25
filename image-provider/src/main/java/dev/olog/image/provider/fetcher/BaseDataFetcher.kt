@@ -55,25 +55,27 @@ abstract class BaseDataFetcher(
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         launch {
-            try {
-                if (mustFetch()) {
-                    delayRequest()
+            coroutineScope {
+                try {
+                    if (mustFetch()) {
+                        delayRequest()
+                        yield()
+                    }
+                    val image = execute(priority, callback)
                     yield()
-                }
-                val image = execute(priority, callback)
-                yield()
 
-                if (image.isNotBlank() && networkSafeAction()){
-                    val urlFetcher = HttpUrlFetcher(
-                        GlideUrl(image),
-                        TIMEOUT
-                    )
-                    urlFetcher.loadData(priority, callback)
-                    return@launch
+                    if (image.isNotBlank() && networkSafeAction()){
+                        val urlFetcher = HttpUrlFetcher(
+                            GlideUrl(image),
+                            TIMEOUT
+                        )
+                        urlFetcher.loadData(priority, callback)
+                        return@coroutineScope
+                    }
+                    callback.onLoadFailed(NoSuchElementException())
+                } catch (ex: NullPointerException){
+                    callback.onLoadFailed(ex)
                 }
-                callback.onLoadFailed(NoSuchElementException())
-            } catch (ex: NullPointerException){
-                callback.onLoadFailed(ex)
             }
         }
     }

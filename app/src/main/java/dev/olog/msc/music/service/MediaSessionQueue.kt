@@ -1,21 +1,13 @@
 package dev.olog.msc.music.service
 
-import android.appwidget.AppWidgetManager
-import android.content.Context
-import android.content.Intent
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.playing.queue.UpdateMiniQueueUseCase
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.Classes
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -24,11 +16,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MediaSessionQueue @Inject constructor(
-    @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSession: MediaSessionCompat,
-    private val playerState: PlayerState,
-    private val updateMiniQueueUseCase: UpdateMiniQueueUseCase
+    private val playerState: PlayerState
 
 ) : DefaultLifecycleObserver {
 
@@ -36,7 +26,6 @@ class MediaSessionQueue @Inject constructor(
     private val immediatePublisher : PublishSubject<MediaSessionQueueModel<MediaEntity>> = PublishSubject.create()
     private var miniQueueDisposable : Disposable? = null
     private var immediateMiniQueueDisposable : Disposable? = null
-    private var updateMiniQueueDisposable: Disposable? = null
 
     init {
         lifecycle.addObserver(this)
@@ -46,7 +35,6 @@ class MediaSessionQueue @Inject constructor(
                 .observeOn(Schedulers.computation())
                 .distinctUntilChanged()
                 .debounce(1, TimeUnit.SECONDS)
-                .doOnNext { persistMiniQueue(it.queue) }
                 .map { it.toQueueItem() }
                 .subscribe({ (id, queue) ->
                     mediaSession.setQueue(queue)
@@ -57,7 +45,6 @@ class MediaSessionQueue @Inject constructor(
                 .toSerialized()
                 .observeOn(Schedulers.computation())
                 .distinctUntilChanged()
-                .doOnNext { persistMiniQueue(it.queue) }
                 .map { it.toQueueItem() }
                 .subscribe({ (id, queue) ->
                     mediaSession.setQueue(queue)
@@ -73,27 +60,9 @@ class MediaSessionQueue @Inject constructor(
         immediatePublisher.onNext(list)
     }
 
-    private fun persistMiniQueue(tracks: List<MediaEntity>){
-        updateMiniQueueDisposable.unsubscribe()
-        updateMiniQueueDisposable = updateMiniQueueUseCase.execute(tracks)
-                .subscribe({ notifyWidgets() }, Throwable::printStackTrace)
-    }
-
     override fun onDestroy(owner: LifecycleOwner) {
         miniQueueDisposable.unsubscribe()
         immediateMiniQueueDisposable.unsubscribe()
-        updateMiniQueueDisposable.unsubscribe()
-    }
-
-    private fun notifyWidgets(){
-        for (clazz in Classes.widgets) {
-            val ids = context.getAppWidgetsIdsFor(clazz)
-            val intent = Intent(context, clazz).apply {
-                action = WidgetConstants.QUEUE_CHANGED
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            }
-            context.sendBroadcast(intent)
-        }
     }
 
     private fun MediaEntity.toQueueItem() : MediaSessionCompat.QueueItem {
