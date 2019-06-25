@@ -72,7 +72,7 @@ abstract class BaseDataFetcher(
                     return@launch
                 }
                 callback.onLoadFailed(NoSuchElementException())
-            } catch (ex: NullPointerException){
+            } catch (ex: Exception){
                 callback.onLoadFailed(ex)
             }
         }
