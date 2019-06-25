@@ -2,9 +2,6 @@
 
 package dev.olog.shared.extensions
 
-import android.content.Context
-import android.graphics.Color
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -13,10 +10,7 @@ import android.widget.RelativeLayout
 import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
-import com.google.android.material.R
-import dev.olog.shared.R as sharedR
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -53,67 +47,6 @@ inline fun View.setPaddingBottom(padding: Int) {
 
 inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
-}
-
-fun View.windowBackground(): Int {
-    return context.themeAttributeToColor(android.R.attr.windowBackground)
-}
-
-fun Context.colorSurface(): Int {
-    return themeAttributeToColor(R.attr.colorSurface)
-}
-
-// Used to tint buttons
-fun Context.textColorTertiary(): Int {
-    return this.themeAttributeToColor(android.R.attr.textColorTertiary)
-}
-
-fun Context.colorAccent(): Int {
-    return themeAttributeToColor(android.R.attr.colorAccent)
-}
-
-fun Context.colorScrim(): Int {
-    return themeAttributeToColor(sharedR.attr.colorScrim)
-}
-
-fun Context.colorAccentId(): Int {
-    return themeAttributeToResId(android.R.attr.colorAccent)
-}
-
-fun Context.textColorPrimary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorPrimary)
-}
-
-fun Context.textColorSecondary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorSecondary)
-}
-
-fun Context.windowBackground(): Int {
-    return themeAttributeToColor(android.R.attr.windowBackground)
-}
-
-fun Context.isDarkMode(): Boolean {
-    return resources.getBoolean(sharedR.bool.is_dark_mode)
-}
-
-private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
-    val outValue = TypedValue()
-    val theme = this.theme
-    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
-    if (resolved) {
-        return ContextCompat.getColor(this, outValue.resourceId)
-    }
-    return fallbackColor
-}
-
-private fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
-    val outValue = TypedValue()
-    val theme = this.theme
-    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
-    if (resolved) {
-        return outValue.resourceId
-    }
-    return -1
 }
 
 inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {

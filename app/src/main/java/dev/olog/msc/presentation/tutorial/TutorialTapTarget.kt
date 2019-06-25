@@ -8,8 +8,8 @@ import dev.olog.msc.R
 import dev.olog.msc.taptargetview.TapTarget
 import dev.olog.msc.taptargetview.TapTargetSequence
 import dev.olog.msc.taptargetview.TapTargetView
-import dev.olog.shared.extensions.colorAccent
-import dev.olog.shared.extensions.windowBackground
+import dev.olog.shared.extensions.colorBackground
+import dev.olog.shared.extensions.colorPrimary
 
 object TutorialTapTarget {
 
@@ -70,8 +70,8 @@ object TutorialTapTarget {
     }
 
     private fun TapTarget.tint(context: Context): TapTarget {
-        val accentColor = context.colorAccent()
-        val backgroundColor = context.windowBackground()
+        val accentColor = context.colorPrimary()
+        val backgroundColor = context.colorBackground()
 
         return this.tintTarget(true)
                 .outerCircleColorInt(accentColor)

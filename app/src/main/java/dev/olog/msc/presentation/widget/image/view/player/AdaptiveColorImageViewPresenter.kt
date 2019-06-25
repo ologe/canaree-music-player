@@ -20,9 +20,9 @@ internal class AdaptiveColorImageViewPresenter(
 ) {
 
     private val defaultProcessorColors = ValidProcessorColors(
-            context.windowBackground(), context.textColorPrimary(), context.textColorSecondary())
+            context.colorBackground(), context.textColorPrimary(), context.textColorSecondary())
 
-    private val defaultPaletteColors = ValidPaletteColors(context.colorAccent())
+    private val defaultPaletteColors = ValidPaletteColors(context.colorPrimary())
 
     private val processorPalettePublisher = BehaviorSubject.createDefault<ProcessorColors>(defaultProcessorColors)
     private val palettePublisher = BehaviorSubject.createDefault<PaletteColors>(defaultPaletteColors)

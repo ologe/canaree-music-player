@@ -5,7 +5,6 @@ import android.app.AlarmManager
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
@@ -16,10 +15,9 @@ import dev.olog.msc.R
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.presentation.AppConstants
-import dev.olog.presentation.theme.DarkMode
+import dev.olog.presentation.theme.*
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -31,9 +29,23 @@ class App : Application(), Application.ActivityLifecycleCallbacks, HasBroadcastR
     private lateinit var appShortcuts: AppShortcuts
 
     @Inject
-    lateinit var darkMode: DarkMode
+    lateinit var darkModeListener: DarkModeListener
+
+    @Inject
+    lateinit var playerAppearanceListener: PlayerAppearanceListener
+
+    @Inject
+    lateinit var immersiveModeListener: ImmersiveModeListener
+
+    @Inject
+    lateinit var imageShapeListener: ImageShapeListener
+
+    @Inject
+    lateinit var quickActionListener: QuickActionListener
+
     @Inject
     lateinit var alarmManager: AlarmManager
+
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
 
@@ -65,7 +77,6 @@ class App : Application(), Application.ActivityLifecycleCallbacks, HasBroadcastR
 
     private fun initializeConstants() {
         AppConstants.initialize(this)
-        AppTheme.initialize(this)
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
     }
 
@@ -94,10 +105,12 @@ class App : Application(), Application.ActivityLifecycleCallbacks, HasBroadcastR
     }
 
     override fun onActivityResumed(activity: Activity) {
-        darkMode.updateCurrentActivity(activity)
+        darkModeListener.setCurrentActivity(activity)
+        immersiveModeListener.setCurrentActivity(activity)
+
     }
 
-    private fun inject(){
+    private fun inject() {
         DaggerAppComponent.factory()
             .create(CoreComponent.coreComponent(this))
             .inject(this)

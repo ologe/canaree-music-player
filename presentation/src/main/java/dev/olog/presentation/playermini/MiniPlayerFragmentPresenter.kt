@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.mini.player
+package dev.olog.presentation.playermini
 
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.shared.extensions.asLiveData

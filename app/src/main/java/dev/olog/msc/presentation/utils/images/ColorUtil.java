@@ -3,12 +3,11 @@ package dev.olog.msc.presentation.utils.images;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
-import dev.olog.shared.extensions.ViewExtensionKt;
+import dev.olog.shared.extensions.ContextExtensionKt;
 
 public class ColorUtil {
 
@@ -25,7 +24,7 @@ public class ColorUtil {
 
     public static int getAccentColor(Context context, Palette palette) {
         int color = palette.getVibrantColor(palette.getMutedColor(
-                ViewExtensionKt.colorAccent(context)
+                ContextExtensionKt.colorPrimary(context)
         ));
         return shiftBackgroundColorForLightText(color);
     }

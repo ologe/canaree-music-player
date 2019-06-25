@@ -19,7 +19,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import dev.olog.msc.R
-import dev.olog.shared.extensions.colorAccent
+import dev.olog.shared.extensions.colorPrimary
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -74,7 +74,7 @@ class RxFastScroller @JvmOverloads constructor(
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FastScroller, 0, 0)
 
             try {
-                bubbleColor = context.colorAccent()
+                bubbleColor = context.colorPrimary()
                 handleColor = ContextCompat.getColor(context, R.color.dark_grey) // TODO check
                 textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
                 hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)

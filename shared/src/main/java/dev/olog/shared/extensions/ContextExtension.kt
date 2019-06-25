@@ -4,13 +4,16 @@ package dev.olog.shared.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import dev.olog.shared.R
 import dev.olog.shared.utils.isOreo
 
 fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
@@ -56,4 +59,60 @@ fun Context.vibrate(time: Long){
     } else {
         vibrator.vibrate(time)
     }
+}
+
+fun Context.colorScrim(): Int {
+    return themeAttributeToColor(R.attr.colorScrim)
+}
+
+fun Context.textColorPrimary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorPrimary)
+}
+
+fun Context.textColorSecondary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorSecondary)
+}
+
+fun Context.colorSurface(): Int {
+    return themeAttributeToColor(com.google.android.material.R.attr.colorSurface)
+}
+
+fun Context.colorBackground():Int {
+    return themeAttributeToColor(android.R.attr.colorBackground)
+}
+
+fun Context.colorPrimary(): Int {
+    return themeAttributeToColor(com.google.android.material.R.attr.colorPrimary)
+}
+
+fun Context.colorControlNormal(): Int {
+    return themeAttributeToColor(com.google.android.material.R.attr.colorControlNormal)
+}
+
+fun Context.colorPrimaryId(): Int {
+    return themeAttributeToResId(com.google.android.material.R.attr.colorPrimary)
+}
+
+fun Context.isDarkMode(): Boolean {
+    return resources.getBoolean(R.bool.is_dark_mode)
+}
+
+private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+    val outValue = TypedValue()
+    val theme = this.theme
+    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
+    if (resolved) {
+        return ContextCompat.getColor(this, outValue.resourceId)
+    }
+    return fallbackColor
+}
+
+private fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
+    val outValue = TypedValue()
+    val theme = this.theme
+    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
+    if (resolved) {
+        return outValue.resourceId
+    }
+    return -1
 }

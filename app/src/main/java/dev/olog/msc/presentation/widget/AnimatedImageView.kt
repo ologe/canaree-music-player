@@ -7,11 +7,12 @@ import android.view.ViewPropertyAnimator
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
-import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.presentation.theme.isPlayerCleanTheme
+import dev.olog.presentation.theme.isPlayerFullscreenTheme
+import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.extensions.isDarkMode
 import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.textColorTertiary
 
 class AnimatedImageView(
     context: Context,
@@ -61,9 +62,9 @@ class AnimatedImageView(
 
     private fun getDefaultColor(): Int {
         return when {
-            AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            AppTheme.isFullscreenTheme() || isDarkMode -> Color.WHITE
-            else -> context.textColorTertiary()
+            isPlayerCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            isPlayerFullscreenTheme() || isDarkMode -> Color.WHITE
+            else -> context.colorControlNormal()
         }
     }
 

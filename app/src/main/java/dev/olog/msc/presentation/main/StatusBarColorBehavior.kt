@@ -6,13 +6,14 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.utils.isMarshmallow
+import dev.olog.presentation.theme.isPlayerBigImageTheme
+import dev.olog.presentation.theme.isPlayerFullscreenTheme
 import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.utils.isMarshmallow
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
@@ -85,7 +86,7 @@ class StatusBarColorBehavior @Inject constructor(
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
                     // TODO check if it needed
-                    if (AppTheme.isFullscreenTheme() || AppTheme.isBigImageTheme()) {
+                    if (isPlayerFullscreenTheme() || isPlayerBigImageTheme()) {
                         activity.window.removeLightStatusBar()
                     } else {
                         activity.window.setLightStatusBar()

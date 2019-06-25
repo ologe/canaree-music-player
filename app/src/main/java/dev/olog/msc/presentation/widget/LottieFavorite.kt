@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.presentation.theme.isPlayerCleanTheme
+import dev.olog.presentation.theme.isPlayerFullscreenTheme
 import dev.olog.shared.extensions.isDarkMode
 
 class LottieFavorite @JvmOverloads constructor(
@@ -17,12 +18,12 @@ class LottieFavorite @JvmOverloads constructor(
 
     init {
         val isDarkMode = context.isDarkMode()
-        var useWhiteIcon = AppTheme.isFullscreenTheme()
+        var useWhiteIcon = isPlayerFullscreenTheme()
 
         useWhiteIcon = useWhiteIcon || isDarkMode
 
         val icon = when {
-            AppTheme.isCleanTheme() && !isDarkMode -> "favorite_gray"
+            isPlayerCleanTheme() && !isDarkMode -> "favorite_gray"
             useWhiteIcon -> "favorite_white"
             else -> "favorite"
         }

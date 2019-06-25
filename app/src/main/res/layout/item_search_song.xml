@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <dev.olog.shared.widgets.ShapeImageView
+                <dev.olog.presentation.widgets.ShapeImageView
                     android:id="@+id/cover"
                     android:layout_width="@dimen/item_song_cover_size"
                     android:layout_height="@dimen/item_song_cover_size"

@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
+import dev.olog.presentation.theme.isImmersiveMode
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFragmentInjector {
@@ -32,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFra
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus && AppTheme.isImmersiveMode()) {
+        if (hasFocus && isImmersiveMode) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or

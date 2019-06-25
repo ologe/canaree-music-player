@@ -20,7 +20,7 @@ import java.util.ListIterator;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import dev.olog.presentation.R;
-import dev.olog.shared.extensions.ViewExtensionKt;
+import dev.olog.shared.extensions.ContextExtensionKt;
 import dev.olog.shared.utils.TextUtils;
 
 public class WaveSideBarView extends View {
@@ -118,7 +118,7 @@ public class WaveSideBarView extends View {
         mLettersPaint.setAntiAlias(true);
         mLettersPaint.setTextSize(mTextSize);
         mLettersPaint.setTextAlign(Paint.Align.CENTER);
-        mLettersPaint.setColor(ViewExtensionKt.textColorPrimary(getContext()));
+        mLettersPaint.setColor(ContextExtensionKt.textColorPrimary(getContext()));
 
         mSelectedLetterPaint.setAntiAlias(true);
         mSelectedLetterPaint.setTextSize(mTextSize);

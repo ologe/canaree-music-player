@@ -34,13 +34,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PathMeasure;
-import android.graphics.RectF;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -48,13 +42,12 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import dev.olog.msc.R;
-import dev.olog.shared.extensions.ViewExtensionKt;
+import dev.olog.shared.extensions.ContextExtensionKt;
 
 public class RadialKnob extends View {
 
@@ -114,7 +107,7 @@ public class RadialKnob extends View {
         super(context, attrs, defStyle);
 
         Resources res = getResources();
-        mHighlightColor = ViewExtensionKt.colorAccent(getContext());
+        mHighlightColor = ContextExtensionKt.colorPrimary(getContext());
         mBackgroundArcColor = ColorUtils.setAlphaComponent(mHighlightColor, (int) (255 * 0.5));
         mBackgroundArcColorDisabled = res.getColor(R.color.radial_knob_arc_bg_disabled);
 //        dividerColor = AppTheme.INSTANCE.isDarkTheme() ? Color.WHITE : ContextCompat.getColor(getContext(),  R.color.dark_grey);
@@ -126,7 +119,7 @@ public class RadialKnob extends View {
         mTextPaint.setElegantTextHeight(true);
         mTextPaint.setFakeBoldText(true);
         mTextPaint.setTextSize(res.getDimension(R.dimen.radial_text_size));
-        mTextPaint.setColor(ViewExtensionKt.textColorPrimary(getContext()));
+        mTextPaint.setColor(ContextExtensionKt.textColorPrimary(getContext()));
 
         mTextOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2,
                 getResources().getDisplayMetrics());

@@ -10,32 +10,28 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.RxView
+import dev.olog.core.MediaId
+import dev.olog.media.*
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
-import dev.olog.core.MediaId
-import dev.olog.media.*
-import dev.olog.shared.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.theme.*
+import dev.olog.presentation.theme.ImageShapeListener.Companion.imageShape
 import dev.olog.shared.MusicConstants
-import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.filter
-import dev.olog.shared.extensions.map
-import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.extensions.toggleVisibility
+import dev.olog.shared.extensions.*
+import dev.olog.shared.utils.TextUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
@@ -106,7 +102,7 @@ class PlayerFragmentAdapter (
         }
 
         val view = holder.itemView
-        if (AppConstants.IMAGE_SHAPE == AppConstants.ImageShape.RECTANGLE){
+        if (imageShape() == ImageShape.RECTANGLE){
             view.coverWrapper?.radius = 0f
         }
 
@@ -339,7 +335,7 @@ class PlayerFragmentAdapter (
                     openPlaybackSpeedPopup(playbackSpeed)
                 }, Throwable::printStackTrace)
 
-        if (AppTheme.isFullscreenTheme() || AppTheme.isMiniTheme()){
+        if (isPlayerFullscreenTheme() || isPlayerMiniTheme()){
 
             mediaProvider.observePlaybackState()
                     .map { it.state }
@@ -378,7 +374,7 @@ class PlayerFragmentAdapter (
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             presenter.observePlayerControlsVisibility()
-                    .filter { !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme() }
+                    .filter { !isPlayerFullscreenTheme() && !isPlayerMiniTheme() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
@@ -437,8 +433,8 @@ class PlayerFragmentAdapter (
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
-            view.nowPlaying?.isActivated = isPlaying
-            if (AppTheme.isCleanTheme()){
+            view.nowPlaying.isActivated = isPlaying
+            if (isPlayerCleanTheme()){
                 view.bigCover?.isActivated = isPlaying
             } else {
                 view.coverWrapper?.isActivated = isPlaying

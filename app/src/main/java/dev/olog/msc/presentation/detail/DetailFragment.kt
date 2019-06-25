@@ -21,7 +21,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
-import dev.olog.shared.widgets.ShapeImageView
+import dev.olog.presentation.widgets.ShapeImageView
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject

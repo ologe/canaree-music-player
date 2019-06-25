@@ -10,9 +10,10 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.image.view.player.*
 import dev.olog.core.MediaId
+import dev.olog.presentation.theme.PlayerAppearance
+import dev.olog.presentation.theme.playerAppearance
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -91,14 +92,14 @@ class PlayerFragmentViewModel @Inject constructor(
     )
 
     fun playerControls(): DisplayableItem {
-        val id = when {
-            AppTheme.isDefaultTheme() -> R.layout.fragment_player_controls
-            AppTheme.isFlatTheme() -> R.layout.fragment_player_controls_flat
-            AppTheme.isSpotifyTheme() -> R.layout.fragment_player_controls_spotify
-            AppTheme.isFullscreenTheme() -> R.layout.fragment_player_controls_fullscreen
-            AppTheme.isBigImageTheme() -> R.layout.fragment_player_controls_big_image
-            AppTheme.isCleanTheme() -> R.layout.fragment_player_controls_clean
-            AppTheme.isMiniTheme() -> R.layout.fragment_player_controls_mini
+        val id = when (playerAppearance) {
+            PlayerAppearance.DEFAULT -> R.layout.fragment_player_controls
+            PlayerAppearance.FLAT -> R.layout.fragment_player_controls_flat
+            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_controls_spotify
+            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_controls_fullscreen
+            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_controls_big_image
+            PlayerAppearance.CLEAN -> R.layout.fragment_player_controls_clean
+            PlayerAppearance.MINI -> R.layout.fragment_player_controls_mini
             else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")

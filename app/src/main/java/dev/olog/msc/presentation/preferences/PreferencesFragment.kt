@@ -24,7 +24,6 @@ import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ColorPalette
 import dev.olog.msc.utils.k.extension.*
@@ -166,22 +165,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key){
-            getString(R.string.prefs_quick_action_key) -> {
-                AppConstants.updateQuickAction(act)
-                requestMainActivityToRecreate()
-            }
-            getString(R.string.prefs_icon_shape_key) -> {
-                AppConstants.updateIconShape(act)
-                requestMainActivityToRecreate()
-            }
-            getString(R.string.prefs_immersive_key) -> {
-                AppTheme.updateImmersive(act)
-                (act as PreferencesActivity).recreateActivity()
-            }
-            getString(R.string.prefs_appearance_key) -> {
-                AppTheme.updateTheme(act)
-                requestMainActivityToRecreate()
-            }
             getString(R.string.prefs_lockscreen_artwork_key) -> AppConstants.updateLockscreenArtworkEnabled(ctx)
             getString(R.string.prefs_folder_tree_view_key),
             getString(R.string.prefs_blacklist_key),

@@ -9,13 +9,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.media.*
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.expand
+import dev.olog.msc.utils.k.extension.isCollapsed
+import dev.olog.msc.utils.k.extension.isExpanded
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.playermini.MiniPlayerFragmentPresenter
+import dev.olog.presentation.theme.isPlayerMiniTheme
 import dev.olog.shared.extensions.*
-import dev.olog.shared.extensions.toggleVisibility
-import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -46,7 +47,7 @@ class MiniPlayerFragment : BaseFragment(){
 
         val media = activity as MediaProvider
 
-        view.coverWrapper.toggleVisibility(AppTheme.isMiniTheme(), true)
+        view.coverWrapper.toggleVisibility(isPlayerMiniTheme(), true)
         view.title.isSelected = true
 
         media.observeMetadata()
@@ -170,7 +171,7 @@ class MiniPlayerFragment : BaseFragment(){
     }
 
     private fun updateImage(metadata: MediaMetadataCompat){
-        if (!AppTheme.isMiniTheme()){
+        if (!isPlayerMiniTheme()){
             return
         }
         bigCover.loadImage(metadata)

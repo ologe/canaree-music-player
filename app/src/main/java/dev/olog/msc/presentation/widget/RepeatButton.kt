@@ -10,13 +10,9 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
-import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.extensions.colorAccent
-import dev.olog.shared.extensions.isDarkMode
-import dev.olog.shared.extensions.textColorSecondary
-import dev.olog.shared.extensions.textColorTertiary
+import dev.olog.presentation.theme.isPlayerCleanTheme
+import dev.olog.presentation.theme.isPlayerFullscreenTheme
+import dev.olog.shared.extensions.*
 
 class RepeatButton @JvmOverloads constructor(
         context: Context,
@@ -31,7 +27,7 @@ class RepeatButton @JvmOverloads constructor(
 
     init {
         setImageResource(R.drawable.vd_repeat)
-        enabledColor = context.colorAccent()
+        enabledColor = context.colorPrimary()
         setColorFilter(getDefaultColor())
     }
 
@@ -85,13 +81,13 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int {
         return when {
-            AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            AppTheme.isFullscreenTheme() -> Color.WHITE
+            isPlayerCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            isPlayerFullscreenTheme() -> Color.WHITE
             isDarkMode -> {
                 alpha = .7f
                 context.textColorSecondary()
             }
-            else -> context.textColorTertiary()
+            else -> context.colorControlNormal()
         }
     }
 
