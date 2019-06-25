@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:windowBackground">
 
-    <dev.olog.msc.presentation.widget.StatusBarView
+    <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

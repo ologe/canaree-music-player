@@ -13,7 +13,7 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.ThemedActivity
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.IBilling
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.shared.theme.isImmersiveMode
 import kotlinx.android.synthetic.main.activity_preferences.*

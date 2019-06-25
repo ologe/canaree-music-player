@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
-import dev.olog.msc.floating.window.service.FloatingWindowHelper
+import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.navigator.Navigator

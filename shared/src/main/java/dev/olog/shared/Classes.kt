@@ -6,6 +6,7 @@ object Classes {
     const val ACTIVITY_PLAYLIST_CHOOSER = "dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity"
 
     const val SERVICE_MUSIC = "dev.olog.msc.music.service.MusicService"
+    const val SERVICE_FLOATING = "dev.olog.msc.floating.window.service.FloatingWindowService"
 
     const val WIDGET_COLORED = "dev.olog.msc.presentation.app.widget.WidgetColored"
 

@@ -20,7 +20,7 @@
         tools:layout_marginTop="350dp"
         android:paddingBottom="16dp" />
 
-    <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
+    <dev.olog.presentation.widgets.RxFastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -34,7 +34,7 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <dev.olog.msc.presentation.widget.StatusBarView
+    <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -14,7 +14,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
-import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener

@@ -17,7 +17,7 @@ import dev.olog.media.extractBookmark
 import dev.olog.media.isPlaying
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
@@ -25,7 +25,6 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
-import dev.olog.shared.theme.HasPlayerAppearance
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.isMarshmallow

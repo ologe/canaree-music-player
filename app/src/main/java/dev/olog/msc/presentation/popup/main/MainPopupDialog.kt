@@ -15,7 +15,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.IBilling
 import javax.inject.Inject
 
 

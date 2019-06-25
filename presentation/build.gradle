@@ -22,6 +22,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
     implementation project(':media')
+    implementation project(':tap-target-view')
 
     kapt lib_ui.data_binding
 
@@ -48,6 +49,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$rootProject.dagger"
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions

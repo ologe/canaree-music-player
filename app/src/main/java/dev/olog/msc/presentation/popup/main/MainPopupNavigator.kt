@@ -10,7 +10,7 @@ import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.extensions.toast
 import javax.inject.Inject
 

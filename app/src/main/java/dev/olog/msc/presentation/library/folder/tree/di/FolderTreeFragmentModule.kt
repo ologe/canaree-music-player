@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
-import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
-import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragmentViewModel
+import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.presentation.folder.tree.FolderTreeFragmentViewModel
 
 @Module
 internal abstract class FolderTreeFragmentModule {

@@ -6,7 +6,7 @@ import dagger.Provides
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.BillingImpl
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.IBilling
 
 @Module
 class PreferencesActivityModule(private val activity: PreferencesActivity) {

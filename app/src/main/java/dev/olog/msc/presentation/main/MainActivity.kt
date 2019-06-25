@@ -17,10 +17,10 @@ import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.shared.MusicConstants
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.msc.floating.window.service.FloatingWindowHelper
+import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
-import dev.olog.msc.presentation.DrawsOnTop
-import dev.olog.msc.presentation.base.HasBilling
+import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
@@ -29,7 +29,7 @@ import dev.olog.msc.presentation.main.di.inject
 import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.IBilling
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.utils.collapse

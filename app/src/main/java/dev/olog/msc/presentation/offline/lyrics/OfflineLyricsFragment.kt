@@ -14,9 +14,9 @@ import dev.olog.presentation.AppConstants
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
-import dev.olog.msc.presentation.DrawsOnTop
+import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.k.extension.*

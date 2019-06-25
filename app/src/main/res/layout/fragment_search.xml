@@ -10,7 +10,7 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <dev.olog.msc.presentation.widget.StatusBarView
+    <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"

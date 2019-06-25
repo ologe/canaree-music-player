@@ -7,8 +7,8 @@ import dev.olog.core.MediaId
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.pro.BillingState
-import dev.olog.msc.pro.IBilling
+import dev.olog.presentation.pro.BillingState
+import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.extensions.asLiveData
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
