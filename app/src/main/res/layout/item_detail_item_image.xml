@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         tools:ignore="RtlSymmetry">
 
-        <dev.olog.msc.presentation.widget.parallax.ParallaxImageView
+        <ImageView
             android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,22 +23,11 @@
             android:layout_height="0dp"
             tools:src="@drawable/vd_album"
             tools:scaleType="center"
-            tools:background="@color/accent"
+            tools:background="?colorSecondary"
             android:clickable="true"
             android:focusable="true"
-            app:imageBigAlbum="@{item}"
             android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            app:imageViewCornerRadius="0"/>
-
-        <View
-            android:id="@+id/fade"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:background="@drawable/vd_fade"/>
+            android:adjustViewBounds="true" />
 
 
         <!--hides textWrapper translation background gap-->
@@ -49,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="?android:windowBackground"/>
+            android:background="@color/colorSurface"/>
 
         <LinearLayout
             android:id="@+id/textWrapper"
@@ -80,7 +69,7 @@
                 android:text="@{item.subtitle}"
                 tools:text="50 Cent"
                 android:textSize="@dimen/item_detail_main_header_subtitle_size"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

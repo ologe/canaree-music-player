@@ -14,6 +14,11 @@ import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.drop
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.drop
 
 abstract class ObservableAdapter<T : BaseModel>(
     lifecycle: Lifecycle
@@ -23,12 +28,19 @@ abstract class ObservableAdapter<T : BaseModel>(
     CoroutineScope by CustomScope() {
 
     protected val data = mutableListOf<T>()
-    private val channel = Channel<List<T>>(Channel.CONFLATED)
+    private val channel = ConflatedBroadcastChannel<List<T>>()
+
+    fun observeData(skipInitialValue: Boolean): Flow<List<T>> {
+        if (skipInitialValue){
+            return channel.asFlow().drop(1)
+        }
+        return channel.asFlow()
+    }
 
     init {
         lifecycle.addObserver(this)
         launch {
-            for (list in channel) {
+            for (list in channel.openSubscription()) {
                 val diffCallback = AdapterDiffUtil(data, list)
                 yield()
                 val diff = DiffUtil.calculateDiff(diffCallback)

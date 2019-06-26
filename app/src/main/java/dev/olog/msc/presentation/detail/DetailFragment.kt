@@ -2,32 +2,41 @@ package dev.olog.msc.presentation.detail
 
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.core.MediaId
+import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.GlideApp
 import dev.olog.media.MediaProvider
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.adapter.*
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
+class DetailFragment : BaseFragment(),
+        CanChangeStatusBarColor,
+        SetupNestedList {
 
     companion object {
         val TAG = DetailFragment::class.java.name
@@ -40,79 +49,54 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         }
     }
 
-    @Inject lateinit var navigator: Navigator
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var navigator: Navigator
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast {
-        viewModelProvider<DetailFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by lazyFast { viewModelProvider<DetailFragmentViewModel>(viewModelFactory) }
 
     private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
 
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     private val mediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
 
-    private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(
-            lifecycle,
-            navigator,
-            act as MediaProvider
-        )
-    }
-    private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(
-            lifecycle,
-            navigator,
-            act as MediaProvider
-        )
-    }
-    private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val albumsAdapter by lazyFast {
-        DetailAlbumsAdapter(
-            lifecycle,
-            navigator
-        )
-    }
+    private val mostPlayedAdapter by lazyFast { DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider) }
+    private val recentlyAddedAdapter by lazyFast { DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider) }
+    private val relatedArtistAdapter by lazyFast { DetailRelatedArtistsAdapter(lifecycle, navigator) }
+    private val albumsAdapter by lazyFast { DetailAlbumsAdapter(lifecycle, navigator) }
 
     private val adapter by lazyFast {
-        DetailFragmentAdapter(
-            lifecycle, mediaId, recentlyAddedAdapter, mostPlayedAdapter, relatedArtistAdapter,
-            albumsAdapter, navigator, act as MediaProvider, viewModel, recycledViewPool
-        )
+        DetailFragmentAdapter(lifecycle, mediaId, this, navigator, act as MediaProvider, viewModel)
     }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
         adjustStatusBarColor(new)
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(ctx)
-        view.list.adapter = adapter
-        view.list.setRecycledViewPool(recycledViewPool)
-        view.list.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadImage()
+
+        list.layoutManager = LinearLayoutManager(ctx)
+        list.adapter = adapter
+        list.setRecycledViewPool(recycledViewPool)
+        list.setHasFixedSize(true)
 
         var swipeDirections = ItemTouchHelper.LEFT
-        if (adapter.canSwipeRight){
+        if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        val callback = TouchHelperAdapterCallback(adapter, swipeDirections)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(view.list)
-        adapter.touchHelper = touchHelper
+//        val callback = TouchHelperAdapterCallback(adapter, swipeDirections)
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(view.list)
+//        adapter.touchHelper = touchHelper
 
-        view.fastScroller.attachRecyclerView(view.list)
-        view.fastScroller.showBubble(false)
+        fastScroller.attachRecyclerView(list)
+        fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
                 .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
@@ -130,7 +114,7 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
         viewModel.observeSongs()
                 .subscribe(viewLifecycleOwner) { list ->
-                    if (list.isEmpty()){
+                    if (list.isEmpty()) {
                         act.onBackPressed()
                     } else {
                         adapter.updateDataSet(list)
@@ -139,19 +123,90 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
         viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
             headerText.text = item.title
-//            val cover = view.findViewById<View>(R.id.cover) TODO
-//            if (cover is ShapeImageView){
-//                BindingsAdapter.loadBigAlbumImage(cover, item)
-//            }
         }
 
         RxTextView.afterTextChangeEvents(view.editText)
                 .map { it.view() }
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { edit ->
-                    val isEmpty = edit.text.isEmpty()
                     viewModel.updateFilter(edit.text.toString())
                 }
+    }
+
+    private fun loadImage() {
+        postponeEnterTransition()
+        GlideApp.with(requireContext())
+                .load(mediaId)
+                .priority(Priority.IMMEDIATE)
+                .onlyRetrieveFromCache(true)
+                .error(CoverUtils.getGradient(requireContext(), mediaId))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable>?,
+                            isFirstResource: Boolean
+                    ): Boolean {
+                        startPostponedEnterTransition()
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                    ): Boolean {
+                        startPostponedEnterTransition()
+                        return false
+                    }
+                })
+                .into(RippleTarget(cover))
+
+        // setup for parallax
+        list.setView(cover)
+    }
+
+    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
+        when (layoutId) {
+            R.layout.item_detail_most_played_list -> {
+                setupHorizontalListAsGrid(recyclerView, mostPlayedAdapter)
+            }
+            R.layout.item_detail_recently_added_list -> {
+                setupHorizontalListAsGrid(recyclerView, recentlyAddedAdapter)
+            }
+            R.layout.item_detail_related_artists_list -> {
+                setupHorizontalListAsList(recyclerView, relatedArtistAdapter)
+            }
+            R.layout.item_detail_albums_list -> {
+                setupHorizontalListAsList(recyclerView, albumsAdapter)
+            }
+        }
+    }
+
+    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: ObservableAdapter<*>) {
+        val layoutManager = GridLayoutManager(
+                list.context, DetailFragmentViewModel.NESTED_SPAN_COUNT,
+                GridLayoutManager.HORIZONTAL, false
+        )
+        layoutManager.isItemPrefetchEnabled = true
+        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.setRecycledViewPool(recycledViewPool)
+
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(list)
+    }
+
+    private fun setupHorizontalListAsList(list: RecyclerView, adapter: ObservableAdapter<*>) {
+        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager.isItemPrefetchEnabled = true
+        layoutManager.initialPrefetchItemCount = DetailFragmentViewModel.NESTED_SPAN_COUNT
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.setRecycledViewPool(recycledViewPool)
     }
 
     override fun onResume() {
@@ -184,7 +239,7 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         }
     }
 
-    private fun removeLightStatusBar(){
+    private fun removeLightStatusBar() {
         act.window.removeLightStatusBar()
         val color = Color.WHITE
         back.setColorFilter(color)
@@ -192,8 +247,8 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         filter.setColorFilter(color)
     }
 
-    private fun setLightStatusBar(){
-        if (requireContext().isDarkMode()){
+    private fun setLightStatusBar() {
+        if (requireContext().isDarkMode()) {
             return
         }
 
