@@ -3,9 +3,9 @@ package dev.olog.core.gateway
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 
-interface PodcastArtistGateway2 :
-        BaseGateway2<Artist, Id>,
+interface PodcastArtistGateway :
+        BaseGateway<Artist, Id>,
         HasLastPlayed<Artist>,
         HasRecentlyAdded<Artist>,
-        ChildHasTracks2<Song, Id>,
+        ChildHasTracks<Song, Id>,
         HasSiblings<Artist, Id>

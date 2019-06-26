@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.BaseGateway2
+import dev.olog.core.gateway.BaseGateway
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.assertBackground
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
     @ApplicationContext protected val context: Context
-) : BaseGateway2<T, Param>, CoroutineScope by CustomScope() {
+) : BaseGateway<T, Param>, CoroutineScope by CustomScope() {
 
     protected val contentResolver: ContentResolver = context.contentResolver
 

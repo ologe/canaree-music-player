@@ -21,11 +21,11 @@ internal class LastFmRepository2 @Inject constructor(
     private val lastFmRepoTrack: LastFmLocalTrack,
     private val lastFmRepoArtist: LastFmLocalArtist,
     private val lastFmRepoAlbum: LastFmLocalAlbum,
-    private val songGateway: SongGateway2,
-    private val albumGateway: AlbumGateway2,
-    private val artistGateway: ArtistGateway2
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway
 
-) : LastFmGateway2 {
+) : LastFmGateway {
 
     // track
     override suspend fun mustFetchTrack(trackId: Id): Boolean {

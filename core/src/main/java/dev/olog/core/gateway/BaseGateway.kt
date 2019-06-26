@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 typealias Id = Long
 typealias Path = String
 
-interface BaseGateway2<T, Param> {
+interface BaseGateway<T, Param> {
     fun getAll(): List<T>
     fun observeAll(): Flow<List<T>>
 

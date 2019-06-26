@@ -5,7 +5,7 @@ import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.GenreGateway
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asObservable
@@ -63,7 +63,7 @@ object VoiceSearch {
         }
     }
 
-    fun filterByGenre(genreGateway: GenreGateway2, genre: String): Single<List<MediaEntity>> {
+    fun filterByGenre(genreGateway: GenreGateway, genre: String): Single<List<MediaEntity>> {
 
         return genreGateway.observeAll().asObservable()
                 .map { it.first { it.name.equals(genre, true) } }

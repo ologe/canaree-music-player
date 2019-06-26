@@ -4,7 +4,7 @@ import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
 
-interface LastFmGateway2 {
+interface LastFmGateway {
     suspend fun mustFetchTrack(trackId: Id): Boolean
     suspend fun getTrack(trackId: Id): LastFmTrack?
     suspend fun deleteTrack(trackId: Id)

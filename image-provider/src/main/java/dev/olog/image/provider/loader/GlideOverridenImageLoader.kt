@@ -5,8 +5,8 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.image.provider.fetcher.GlideOverridenImageFetcher
 import java.io.InputStream
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 internal class GlideOverridenImageLoader(
     private val usedImageGateway: UsedImageGateway,
-    private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway2
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun buildLoadData(
@@ -42,8 +42,8 @@ internal class GlideOverridenImageLoader(
 
     class Factory @Inject constructor(
         private val usedImageGateway: UsedImageGateway,
-        private val songGateway: SongGateway2,
-        private val podcastGateway: PodcastGateway2
+        private val songGateway: SongGateway,
+        private val podcastGateway: PodcastGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {

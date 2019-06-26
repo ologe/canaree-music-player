@@ -5,8 +5,8 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -23,8 +23,8 @@ private val FALLBACKS = arrayOf("cover.jpg", "album.jpg", "folder.jpg", "cover.p
 
 class GlideOriginalImageFetcher(
     private val mediaId: MediaId,
-    private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway2
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 

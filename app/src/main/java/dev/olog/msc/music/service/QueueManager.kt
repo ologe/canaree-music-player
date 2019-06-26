@@ -17,8 +17,8 @@ import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
 import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.GenreGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.GenreGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.shared.utils.clamp
 import dev.olog.shared.extensions.swap
 import dev.olog.msc.utils.safeCompare
@@ -38,8 +38,8 @@ class QueueManager @Inject constructor(
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
-    private val songGateway: SongGateway2,
-    private val genreGateway: GenreGateway2,
+    private val songGateway: SongGateway,
+    private val genreGateway: GenreGateway,
     private val collator: Collator,
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase

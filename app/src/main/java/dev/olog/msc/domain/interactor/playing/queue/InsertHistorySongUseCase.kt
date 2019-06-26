@@ -1,13 +1,13 @@
 package dev.olog.msc.domain.interactor.playing.queue
 
 import dev.olog.core.gateway.PlaylistGateway2
-import dev.olog.core.gateway.PodcastPlaylistGateway2
+import dev.olog.core.gateway.PodcastPlaylistGateway
 import kotlinx.coroutines.rx2.await
 import javax.inject.Inject
 
 class InsertHistorySongUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway2,
-    private val podcastGateway: PodcastPlaylistGateway2
+    private val podcastGateway: PodcastPlaylistGateway
 
 ) {
 

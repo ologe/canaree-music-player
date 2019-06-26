@@ -5,18 +5,18 @@ import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.FolderGateway2
-import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.PlaylistGateway2
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class GetMostPlayedSongsUseCase @Inject constructor(
-        scheduler: IoScheduler,
-        private val folderGateway: FolderGateway2,
-        private val playlistGateway: PlaylistGateway2,
-        private val genreGateway: GenreGateway2
+    scheduler: IoScheduler,
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway2,
+    private val genreGateway: GenreGateway
 
 ) : ObservableUseCaseWithParam<List<Song>, MediaId>(scheduler) {
 

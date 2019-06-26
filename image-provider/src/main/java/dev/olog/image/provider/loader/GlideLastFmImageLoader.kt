@@ -7,7 +7,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.LastFmGateway2
+import dev.olog.core.gateway.LastFmGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 internal class GlideLastFmImageLoader(
     private val context: Context,
-    private val lastFmGateway: LastFmGateway2
+    private val lastFmGateway: LastFmGateway
 
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -69,7 +69,7 @@ internal class GlideLastFmImageLoader(
 
     class Factory @Inject constructor(
             @ApplicationContext private val context: Context,
-            private val lastFmGateway: LastFmGateway2
+            private val lastFmGateway: LastFmGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 

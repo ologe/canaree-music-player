@@ -6,16 +6,16 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
 internal class GlideOriginalImageLoader(
     private val uriLoader: ModelLoader<Uri, InputStream>,
-    private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway2
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -52,8 +52,8 @@ internal class GlideOriginalImageLoader(
     }
 
     class Factory @Inject constructor(
-        private val songGateway: SongGateway2,
-        private val podcastGateway: PodcastGateway2
+        private val songGateway: SongGateway,
+        private val podcastGateway: PodcastGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 

@@ -8,7 +8,7 @@ import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PodcastGateway2
+import dev.olog.core.gateway.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
@@ -32,7 +32,7 @@ internal class PodcastRepository2 @Inject constructor(
         appDatabase: AppDatabase,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences
-) : BaseRepository<Song, Id>(context), PodcastGateway2 {
+) : BaseRepository<Song, Id>(context), PodcastGateway {
 
     private val podcastPositionDao = appDatabase.podcastPositionDao()
 

@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.item
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PodcastAlbumGateway2
+import dev.olog.core.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.map
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class GetPodcastAlbumUseCase @Inject internal constructor(
         schedulers: IoScheduler,
-        private val gateway: PodcastAlbumGateway2
+        private val gateway: PodcastAlbumGateway
 
 ) : ObservableUseCaseWithParam<Album, MediaId>(schedulers) {
 

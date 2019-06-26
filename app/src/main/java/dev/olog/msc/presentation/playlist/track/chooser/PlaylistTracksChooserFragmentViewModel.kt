@@ -8,8 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.msc.presentation.playlist.track.chooser.model.PlaylistTrack
@@ -29,8 +29,8 @@ import javax.inject.Inject
 
 class PlaylistTracksChooserFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
-    private val getAllSongsUseCase: SongGateway2,
-    private val getAllPodcastsUseCase: PodcastGateway2,
+    private val getAllSongsUseCase: SongGateway,
+    private val getAllPodcastsUseCase: PodcastGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {

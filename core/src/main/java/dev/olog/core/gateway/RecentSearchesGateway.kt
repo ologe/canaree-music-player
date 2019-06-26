@@ -2,11 +2,11 @@ package dev.olog.core.gateway
 
 import dev.olog.core.entity.SearchResult
 import io.reactivex.Completable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface RecentSearchesGateway {
 
-    fun getAll() : Observable<List<SearchResult>>
+    fun getAll() : Flow<List<SearchResult>>
 
     fun insertSong(songId: Long): Completable
     fun insertAlbum(albumId: Long): Completable

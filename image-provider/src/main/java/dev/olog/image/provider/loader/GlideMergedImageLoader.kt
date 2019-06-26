@@ -8,8 +8,8 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.FolderGateway2
-import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.image.provider.fetcher.GlideMergedImageFetcher
@@ -19,9 +19,9 @@ import javax.inject.Inject
 class GlideMergedImageLoader(
     private val context: Context,
     private val uriLoader: ModelLoader<Uri, InputStream>,
-    private val folderGateway: FolderGateway2,
+    private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway2,
-    private val genreGateway: GenreGateway2,
+    private val genreGateway: GenreGateway,
     private val prefsGateway: AppPreferencesGateway
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -55,11 +55,11 @@ class GlideMergedImageLoader(
     }
 
     class Factory @Inject constructor(
-            @ApplicationContext private val context: Context,
-            private val folderGateway: FolderGateway2,
-            private val playlistGateway: PlaylistGateway2,
-            private val genreGateway: GenreGateway2,
-            private val prefsGateway: AppPreferencesGateway
+        @ApplicationContext private val context: Context,
+        private val folderGateway: FolderGateway,
+        private val playlistGateway: PlaylistGateway2,
+        private val genreGateway: GenreGateway,
+        private val prefsGateway: AppPreferencesGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {

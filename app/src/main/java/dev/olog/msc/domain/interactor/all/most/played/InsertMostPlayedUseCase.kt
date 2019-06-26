@@ -2,17 +2,17 @@ package dev.olog.msc.domain.interactor.all.most.played
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.FolderGateway2
-import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.PlaylistGateway2
 import io.reactivex.Completable
 import kotlinx.coroutines.rx2.await
 import javax.inject.Inject
 
 class InsertMostPlayedUseCase @Inject constructor(
-        private val folderGateway: FolderGateway2,
-        private val playlistGateway: PlaylistGateway2,
-        private val genreGateway: GenreGateway2
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway2,
+    private val genreGateway: GenreGateway
 
 ) {
 

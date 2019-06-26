@@ -1,10 +1,10 @@
 package dev.olog.msc.domain.interactor
 
-import dev.olog.core.gateway.PodcastGateway2
+import dev.olog.core.gateway.PodcastGateway
 import javax.inject.Inject
 
 class PodcastPositionUseCase @Inject constructor(
-        private val gateway: PodcastGateway2
+        private val gateway: PodcastGateway
 ) {
 
     fun get(podcastId: Long, duration: Long): Long{

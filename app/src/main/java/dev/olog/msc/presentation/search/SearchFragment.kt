@@ -4,22 +4,26 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dev.olog.media.MediaProvider
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
+import dev.olog.msc.presentation.search.adapter.SearchFragmentAdapter
+import dev.olog.msc.presentation.search.adapter.SearchFragmentNestedAdapter
+import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.presentation.base.ObservableAdapter
+import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.shared.extensions.*
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.view.*
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment() {
+class SearchFragment : BaseFragment(), SetupNestedList {
 
     companion object {
         val TAG = SearchFragment::class.java.name
@@ -30,72 +34,93 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<SearchFragmentViewModel>(
-            viewModelFactory
-        )
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<SearchFragmentViewModel>(viewModelFactory) }
+
+    private val adapter by lazyFast {
+        SearchFragmentAdapter(lifecycle, this, requireActivity() as MediaProvider, navigator, viewModel)
+    }
+    private val albumAdapter by lazyFast { SearchFragmentNestedAdapter(lifecycle, navigator, viewModel) }
+    private val artistAdapter by lazyFast { SearchFragmentNestedAdapter(lifecycle, navigator, viewModel) }
+    private val genreAdapter by lazyFast { SearchFragmentNestedAdapter(lifecycle, navigator, viewModel) }
+    private val playlistAdapter by lazyFast { SearchFragmentNestedAdapter(lifecycle, navigator, viewModel) }
+
+    private val folderAdapter by lazyFast { SearchFragmentNestedAdapter(lifecycle, navigator, viewModel) }
+    private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
+
+    @Inject
+    lateinit var navigator: Navigator
+    private lateinit var layoutManager: LinearLayoutManager
+
+    private var queryDisposable: Disposable? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        layoutManager = LinearLayoutManager(context!!)
+        list.adapter = adapter
+        list.layoutManager = layoutManager
+        list.setRecycledViewPool(recycledViewPool)
+        list.setHasFixedSize(true)
+
+//        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(list)
+//        adapter.touchHelper = touchHelper TODO
+
+        viewModel.observeData()
+            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.observeAlbumsData()
+            .subscribe(viewLifecycleOwner, albumAdapter::updateDataSet)
+
+        viewModel.observeArtistsData()
+            .subscribe(viewLifecycleOwner, artistAdapter::updateDataSet)
+
+        viewModel.observePlaylistsData()
+            .subscribe(viewLifecycleOwner, playlistAdapter::updateDataSet)
+
+        viewModel.observeFoldersData()
+            .subscribe(viewLifecycleOwner, folderAdapter::updateDataSet)
+
+        viewModel.observeGenresData()
+            .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
     }
 
-    @Inject lateinit var adapter : SearchFragmentAdapter
-    @Inject lateinit var albumAdapter: SearchFragmentAlbumAdapter
-    @Inject lateinit var artistAdapter: SearchFragmentArtistAdapter
-    @Inject lateinit var genreAdapter: SearchFragmentGenreAdapter
-    @Inject lateinit var playlistAdapter: SearchFragmentPlaylistAdapter
-    @Inject lateinit var folderAdapter: SearchFragmentFolderAdapter
-    @Inject lateinit var recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
-    @Inject lateinit var navigator: Navigator
-    private lateinit var layoutManager: androidx.recyclerview.widget.LinearLayoutManager
 
-    private var queryDisposable : Disposable? = null
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!)
-        view.list.adapter = adapter
-        view.list.layoutManager = layoutManager
-        view.list.setRecycledViewPool(recycledViewPool)
-        view.list.setHasFixedSize(true)
-
-        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(view.list)
-        adapter.touchHelper = touchHelper
-
-        viewModel.searchData.subscribe(viewLifecycleOwner) { (map, query) ->
-
-            if (query.isNotBlank()){
-                val isEmpty = map.map { it.value }
-                        .map { it.isEmpty() }
-                        .reduce { all, current -> all && current }
-            }
-
-            val albums = map[SearchFragmentType.ALBUMS]!!.toList()
-            val artists = map[SearchFragmentType.ARTISTS]!!.toList()
-            val playlists = map[SearchFragmentType.PLAYLISTS]!!.toList()
-            val genres = map[SearchFragmentType.GENRES]!!.toList()
-            val folders = map[SearchFragmentType.FOLDERS]!!.toList()
-            albumAdapter.updateDataSet(albums)
-            artistAdapter.updateDataSet(artists)
-            playlistAdapter.updateDataSet(playlists)
-            genreAdapter.updateDataSet(genres)
-            folderAdapter.updateDataSet(folders)
-            adapter.updateDataSet(viewModel.adjustDataMap(map))
+    override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
+        when (layoutId) {
+            R.layout.item_search_albums_horizontal_list -> setupHorizontalList(recyclerView, albumAdapter)
+            R.layout.item_search_artists_horizontal_list -> setupHorizontalList(recyclerView, artistAdapter)
+            R.layout.item_search_folder_horizontal_list -> setupHorizontalList(recyclerView, folderAdapter)
+            R.layout.item_search_playlists_horizontal_list -> setupHorizontalList(recyclerView, playlistAdapter)
+            R.layout.item_search_genre_horizontal_list -> setupHorizontalList(recyclerView, genreAdapter)
         }
+    }
+
+    private fun setupHorizontalList(list: RecyclerView, adapter: ObservableAdapter<*>) {
+        val layoutManager = LinearLayoutManager(
+            list.context,
+            LinearLayoutManager.HORIZONTAL, false
+        )
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.setRecycledViewPool(recycledViewPool)
+        list.setHasFixedSize(true)
+
+        val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
+        snapHelper.attachToRecyclerView(list)
     }
 
     override fun onResume() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        keyboard.setOnClickListener { ImeUtils.showIme(editText) }
+        fab.setOnClickListener { ImeUtils.showIme(editText) }
 
-        queryDisposable = RxTextView.afterTextChangeEvents(editText)
-                .map { it.editable()!!.toString() }
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .subscribe(viewModel::setNewQuery, Throwable::printStackTrace)
-
-        adapter.setAfterDataChanged({
-            updateLayoutVisibility(it)
-        }, false)
+        queryDisposable = RxTextView.afterTextChangeEvents(editText) // TODO
+            .map { it.editable()!!.toString() }
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounceFirst()
+            .subscribe(viewModel::updateQuery, Throwable::printStackTrace)
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
         more.setOnClickListener { catchNothing { navigator.toMainPopup(it, null) } }
@@ -104,28 +129,17 @@ class SearchFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
-        keyboard.setOnClickListener(null)
+        fab.setOnClickListener(null)
         queryDisposable.unsubscribe()
-        adapter.setAfterDataChanged(null)
+//        adapter.setAfterDataChanged(null)
         floatingWindow.setOnClickListener(null)
         more.setOnClickListener(null)
     }
 
-    private fun startServiceOrRequestOverlayPermission(){
+    private fun startServiceOrRequestOverlayPermission() {
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }
 
-
-    private fun updateLayoutVisibility(list: List<*>){
-        val itemCount = list.size
-        val isEmpty = itemCount == 0
-        val queryLength = editText.text.toString().length
-        this.searchImage.toggleVisibility(isEmpty && queryLength < 2, true)
-        this.list.toggleVisibility(!isEmpty, true)
-
-        val showEmptyState = isEmpty && queryLength >= 2
-        this.emptyStateText.toggleVisibility(showEmptyState, true)
-    }
 
     override fun onStop() {
         super.onStop()

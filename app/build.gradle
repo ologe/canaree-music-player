@@ -67,10 +67,11 @@ dependencies {
     implementation lib_ui.scroll_helper
 
     // google architecture components
-    implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycle"
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_extensions
+    implementation lib_x.lifecycle_java8
+    implementation lib_x.lifecycle_ktx
+    implementation lib_x.lifecycle_rx
 
     // support
     implementation "androidx.core:core:1.0.1"

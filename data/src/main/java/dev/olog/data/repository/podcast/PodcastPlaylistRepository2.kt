@@ -10,7 +10,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PodcastPlaylistGateway2
+import dev.olog.core.gateway.PodcastPlaylistGateway
 import dev.olog.data.R
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
@@ -32,7 +32,7 @@ internal class PodcastPlaylistRepository2 @Inject constructor(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         private val favoriteGateway: FavoriteGateway
-) : PodcastPlaylistGateway2 {
+) : PodcastPlaylistGateway {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val podcastPlaylistDao = appDatabase.podcastPlaylistDao()

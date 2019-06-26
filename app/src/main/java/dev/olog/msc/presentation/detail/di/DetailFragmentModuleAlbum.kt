@@ -7,9 +7,9 @@ import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.AlbumGateway2
-import dev.olog.core.gateway.FolderGateway2
-import dev.olog.core.gateway.GenreGateway2
+import dev.olog.core.gateway.AlbumGateway
+import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.msc.R
 import dev.olog.presentation.dagger.MediaIdCategoryKey
@@ -27,7 +27,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideFolderData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: FolderGateway2): Observable<List<DisplayableItem>> {
+            useCase: FolderGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeSiblings(mediaId.categoryValue).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -52,7 +52,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideAlbumData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: AlbumGateway2): Observable<List<DisplayableItem>> {
+            useCase: AlbumGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -65,7 +65,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideArtistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: AlbumGateway2): Observable<List<DisplayableItem>> {
+            useCase: AlbumGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeArtistsAlbums(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -77,7 +77,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideGenreData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GenreGateway2): Observable<List<DisplayableItem>> {
+            useCase: GenreGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }

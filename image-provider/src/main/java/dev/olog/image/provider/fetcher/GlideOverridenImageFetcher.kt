@@ -4,8 +4,8 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
 import java.io.File
 import java.io.InputStream
@@ -13,8 +13,8 @@ import java.io.InputStream
 internal class GlideOverridenImageFetcher(
     private val mediaId: MediaId,
     private val usedImageGateway: UsedImageGateway,
-    private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway2
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 ) : DataFetcher<InputStream> {
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java

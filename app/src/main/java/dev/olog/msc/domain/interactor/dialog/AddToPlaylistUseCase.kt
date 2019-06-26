@@ -4,7 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlaylistGateway2
-import dev.olog.core.gateway.PodcastPlaylistGateway2
+import dev.olog.core.gateway.PodcastPlaylistGateway
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
@@ -17,7 +17,7 @@ class AddToPlaylistUseCase @Inject constructor(
     scheduler: IoScheduler,
     private val playlistGateway: PlaylistGateway2,
     private val getSongUseCase: GetSongUseCase,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway2,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val getPodcastUseCase: GetPodcastUseCase,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 

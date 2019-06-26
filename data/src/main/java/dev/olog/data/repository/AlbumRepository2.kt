@@ -6,7 +6,7 @@ import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.AlbumGateway2
+import dev.olog.core.gateway.AlbumGateway
 import dev.olog.core.gateway.HasLastPlayed
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
@@ -26,7 +26,7 @@ internal class AlbumRepository2 @Inject constructor(
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,
         appDatabase: AppDatabase
-) : BaseRepository<Album, Id>(context), AlbumGateway2 {
+) : BaseRepository<Album, Id>(context), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
     private val lastPlayedDao = appDatabase.lastPlayedAlbumDao()

@@ -9,9 +9,9 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.FolderGateway2
+import dev.olog.core.gateway.FolderGateway
 import dev.olog.core.gateway.Path
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
@@ -31,8 +31,8 @@ internal class FolderRepository2 @Inject constructor(
         appDatabase: AppDatabase,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,
-        private val songGateway2: SongGateway2
-) : BaseRepository<Folder, Path>(context), FolderGateway2 {
+        private val songGateway2: SongGateway
+) : BaseRepository<Folder, Path>(context), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
@@ -69,6 +69,11 @@ internal class FolderRepository2 @Inject constructor(
     override fun getByParam(param: Path): Folder? {
         assertBackgroundThread()
         return channel.valueOrNull?.find { it.path == param }
+    }
+
+    override fun getByHashCode(hashCode: Int): Folder? {
+        assertBackgroundThread()
+        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {

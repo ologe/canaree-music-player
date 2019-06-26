@@ -12,17 +12,17 @@ import javax.inject.Inject
 
 
 class GetSongListByParamUseCase @Inject constructor(
-        schedulers: ComputationScheduler,
-        private val genreDataStore: GenreGateway2,
-        private val playlistDataStore: PlaylistGateway2,
-        private val albumDataStore: AlbumGateway2,
-        private val artistDataStore: ArtistGateway2,
-        private val folderDataStore: FolderGateway2,
-        private val songDataStore: SongGateway2,
-        private val podcastDataStore: PodcastGateway2,
-        private val podcastPlaylistDataStore: PodcastPlaylistGateway2,
-        private val podcastAlbumDataStore: PodcastAlbumGateway2,
-        private val podcastArtistDataStore: PodcastArtistGateway2
+    schedulers: ComputationScheduler,
+    private val genreDataStore: GenreGateway,
+    private val playlistDataStore: PlaylistGateway2,
+    private val albumDataStore: AlbumGateway,
+    private val artistDataStore: ArtistGateway,
+    private val folderDataStore: FolderGateway,
+    private val songDataStore: SongGateway,
+    private val podcastDataStore: PodcastGateway,
+    private val podcastPlaylistDataStore: PodcastPlaylistGateway,
+    private val podcastAlbumDataStore: PodcastAlbumGateway,
+    private val podcastArtistDataStore: PodcastArtistGateway
 
 ) : ObservableUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 

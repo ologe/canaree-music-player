@@ -3,10 +3,7 @@ package dev.olog.shared.extensions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import dev.olog.shared.utils.assertBackgroundThread
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.rx2.asFlowable
 
 fun <T : Any> Flow<T>.asLiveData(): LiveData<T> {
@@ -20,8 +17,8 @@ inline fun <T, R> Flow<List<T>>.mapListItem(crossinline mapper: (T) -> R): Flow<
 }
 
 fun <T> Flow<T>.assertBackground(): Flow<T> {
-    return flow {
+    return channelFlow {
         assertBackgroundThread()
-        collect { emit(it) }
+        collect { safeSend(it) }
     }
 }

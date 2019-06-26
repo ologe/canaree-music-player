@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.SongGateway
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
 import io.reactivex.Flowable
@@ -28,7 +28,7 @@ abstract class FolderMostPlayedDao {
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)
 
-    fun getAll(folderPath: String, songGateway2: SongGateway2): Flow<List<Song>> {
+    fun getAll(folderPath: String, songGateway2: SongGateway): Flow<List<Song>> {
         return this.query(folderPath)
                 .map { mostPlayed ->
                     val songList = songGateway2.getAll()

@@ -6,9 +6,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface PlaylistGateway2 :
-        BaseGateway2<Playlist, Id>,
-        ChildHasTracks2<Song, Id>,
-        HasMostPlayed2,
+        BaseGateway<Playlist, Id>,
+        ChildHasTracks<Song, Id>,
+        HasMostPlayed,
         HasSiblings<Playlist, Id>,
         PlaylistOperations,
         HasRelatedArtists<Id> {

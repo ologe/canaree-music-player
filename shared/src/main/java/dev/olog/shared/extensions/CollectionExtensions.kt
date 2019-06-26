@@ -34,6 +34,13 @@ inline fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     return this
 }
 
+inline fun <T> List<T>.startWithIfNotEmpty(item: List<T>): List<T> {
+    if (this.isNotEmpty()){
+        return startWith(item)
+    }
+    return this
+}
+
 inline fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
     val result = mutableMapOf<K, MutableList<V>>()
     for ((key, value) in this){

@@ -14,7 +14,7 @@ import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.mapper.toSong
@@ -35,7 +35,7 @@ internal class SongRepository2 @Inject constructor(
         @ApplicationContext context: Context,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences
-) : BaseRepository<Song, Id>(context), SongGateway2 {
+) : BaseRepository<Song, Id>(context), SongGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

@@ -4,13 +4,13 @@ import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.LastFmGateway2
+import dev.olog.core.gateway.LastFmGateway
 import java.io.InputStream
 
 class GlideSongFetcher(
     context: Context,
     mediaId: MediaId,
-    private val lastFmGateway: LastFmGateway2
+    private val lastFmGateway: LastFmGateway
 
 ) : BaseDataFetcher(context) {
 

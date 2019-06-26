@@ -5,9 +5,9 @@ import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface PodcastPlaylistGateway2 :
-        BaseGateway2<Playlist, Id>,
-        ChildHasTracks2<Song, Id>,
+interface PodcastPlaylistGateway :
+        BaseGateway<Playlist, Id>,
+        ChildHasTracks<Song, Id>,
         HasSiblings<Playlist, Id>,
         HasRelatedArtists<Id> {
 

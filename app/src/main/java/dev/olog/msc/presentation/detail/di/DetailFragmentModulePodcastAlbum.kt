@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.PodcastAlbumGateway2
-import dev.olog.core.gateway.PodcastPlaylistGateway2
+import dev.olog.core.gateway.PodcastAlbumGateway
+import dev.olog.core.gateway.PodcastPlaylistGateway
 import dev.olog.presentation.dagger.MediaIdCategoryKey
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.mapToList
@@ -23,7 +23,7 @@ class DetailFragmentModulePodcastAlbum {
     internal fun providePodcastPlaylist(
             resources: Resources,
             mediaId: MediaId,
-            useCase: PodcastPlaylistGateway2): Observable<List<DisplayableItem>> {
+            useCase: PodcastPlaylistGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeSiblings(mediaId.resolveId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -35,7 +35,7 @@ class DetailFragmentModulePodcastAlbum {
     internal fun providePodcastAlbum(
             resources: Resources,
             mediaId: MediaId,
-            useCase: PodcastAlbumGateway2): Observable<List<DisplayableItem>> {
+            useCase: PodcastAlbumGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeSiblings(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -47,7 +47,7 @@ class DetailFragmentModulePodcastAlbum {
     internal fun providePodcastArtist(
             resources: Resources,
             mediaId: MediaId,
-            useCase: PodcastAlbumGateway2): Observable<List<DisplayableItem>> {
+            useCase: PodcastAlbumGateway): Observable<List<DisplayableItem>> {
 
         return useCase.observeArtistsAlbums(mediaId.categoryId).asObservable()
                 .mapToList { it.toDetailDisplayableItem(resources) }

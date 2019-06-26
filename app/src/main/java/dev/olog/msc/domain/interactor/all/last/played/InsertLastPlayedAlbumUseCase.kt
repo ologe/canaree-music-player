@@ -1,14 +1,14 @@
 package dev.olog.msc.domain.interactor.all.last.played
 
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.AlbumGateway2
-import dev.olog.core.gateway.PodcastAlbumGateway2
+import dev.olog.core.gateway.AlbumGateway
+import dev.olog.core.gateway.PodcastAlbumGateway
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class InsertLastPlayedAlbumUseCase @Inject constructor(
-        private val albumGateway: AlbumGateway2,
-        private val podcastGateway: PodcastAlbumGateway2
+    private val albumGateway: AlbumGateway,
+    private val podcastGateway: PodcastAlbumGateway
 
 ) {
 

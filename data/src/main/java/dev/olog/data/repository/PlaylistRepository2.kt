@@ -14,7 +14,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
 import dev.olog.core.gateway.PlaylistGateway2
 import dev.olog.core.gateway.PlaylistOperations
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
@@ -31,12 +31,12 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class PlaylistRepository2 @Inject constructor(
-        @ApplicationContext context: Context,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        appDatabase: AppDatabase,
-        private val songGateway2: SongGateway2,
-        private val helper: PlaylistRepositoryHelper
+    @ApplicationContext context: Context,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    appDatabase: AppDatabase,
+    private val songGateway2: SongGateway,
+    private val helper: PlaylistRepositoryHelper
 ) : BaseRepository<Playlist, Id>(context), PlaylistGateway2, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)

@@ -18,7 +18,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideFolderRepository(repository: FolderRepository2): FolderGateway2
+    internal abstract fun provideFolderRepository(repository: FolderRepository2): FolderGateway
 
     @Binds
     @Singleton
@@ -26,39 +26,39 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideSongRepository(repository: SongRepository2): SongGateway2
+    internal abstract fun provideSongRepository(repository: SongRepository2): SongGateway
 
     @Binds
     @Singleton
-    internal abstract fun provideAlbumRepository(repository: AlbumRepository2): AlbumGateway2
+    internal abstract fun provideAlbumRepository(repository: AlbumRepository2): AlbumGateway
 
     @Binds
     @Singleton
-    internal abstract fun provideArtistRepository(repository: ArtistRepository2): ArtistGateway2
+    internal abstract fun provideArtistRepository(repository: ArtistRepository2): ArtistGateway
 
     @Binds
     @Singleton
-    internal abstract fun provideGenreRepository(repository: GenreRepository2): GenreGateway2
+    internal abstract fun provideGenreRepository(repository: GenreRepository2): GenreGateway
 
     // podcasts
     @Binds
     @Singleton
-    internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository2): PodcastPlaylistGateway2
+    internal abstract fun providePodcastPlaylistRepository(repository: PodcastPlaylistRepository2): PodcastPlaylistGateway
 
     @Binds
     @Singleton
-    internal abstract fun providePodcsatRepository(repository: PodcastRepository2): PodcastGateway2
+    internal abstract fun providePodcsatRepository(repository: PodcastRepository2): PodcastGateway
     @Binds
     @Singleton
-    internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository2): PodcastAlbumGateway2
+    internal abstract fun providePodcastAlbumRepository(repository: PodcastAlbumRepository2): PodcastAlbumGateway
     @Binds
     @Singleton
-    internal abstract fun providePodcastArtistRepository(repository: PodcastArtistRepository2): PodcastArtistGateway2
+    internal abstract fun providePodcastArtistRepository(repository: PodcastArtistRepository2): PodcastArtistGateway
 
     // other
 
     @Binds
     @Singleton
-    internal abstract fun provideLastFmRepository(repository: LastFmRepository2): LastFmGateway2
+    internal abstract fun provideLastFmRepository(repository: LastFmRepository2): LastFmGateway
 
 }

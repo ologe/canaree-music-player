@@ -1,43 +1,43 @@
 package dev.olog.data.repository
 
-import dev.olog.data.db.dao.AppDatabase
-import dev.olog.data.db.dao.RecentSearchesDao
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.gateway.*
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.RecentSearchesDao
 import io.reactivex.Completable
-import io.reactivex.Observable
-import kotlinx.coroutines.rx2.asFlowable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
     appDatabase: AppDatabase,
-    private val songGateway: SongGateway2,
-    private val albumGateway: AlbumGateway2,
-    private val artistGateway: ArtistGateway2,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
     private val playlistGateway: PlaylistGateway2,
-    private val genreGateway: GenreGateway2,
-    private val folderGateway: FolderGateway2,
+    private val genreGateway: GenreGateway,
+    private val folderGateway: FolderGateway,
 
-    private val podcastGateway: PodcastGateway2,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway2,
-    private val podcastArtistGateway: PodcastArtistGateway2,
-    private val podcastAlbumGateway: PodcastAlbumGateway2
+    private val podcastGateway: PodcastGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway
 
 ) : RecentSearchesGateway {
 
-    private val dao : RecentSearchesDao = appDatabase.recentSearchesDao()
+    private val dao: RecentSearchesDao = appDatabase.recentSearchesDao()
 
-    override fun getAll(): Observable<List<SearchResult>> {
-        return dao.getAll(songGateway.observeAll().asFlowable().firstOrError(),
-                albumGateway.observeAll().asFlowable().firstOrError(),
-                artistGateway.observeAll().asFlowable().firstOrError(),
-                playlistGateway.observeAll().asFlowable().firstOrError(),
-                genreGateway.observeAll().asFlowable().firstOrError(),
-                folderGateway.observeAll().asFlowable().firstOrError(),
-                podcastGateway.observeAll().asFlowable().firstOrError(),
-                podcastPlaylistGateway.observeAll().asFlowable().firstOrError(),
-                podcastAlbumGateway.observeAll().asFlowable().firstOrError(),
-                podcastArtistGateway.observeAll().asFlowable().firstOrError()
+    override fun getAll(): Flow<List<SearchResult>> {
+        return dao.getAll(
+            songGateway,
+            albumGateway,
+            artistGateway,
+            playlistGateway,
+            genreGateway,
+            folderGateway,
+            podcastGateway,
+            podcastPlaylistGateway,
+            podcastAlbumGateway,
+            podcastArtistGateway
         )
     }
 

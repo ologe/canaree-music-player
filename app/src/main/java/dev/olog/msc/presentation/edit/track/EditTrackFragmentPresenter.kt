@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.edit.track
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.utils.k.extension.get
@@ -17,10 +17,10 @@ import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
-        private val mediaId: MediaId,
-        private val songGateway2: SongGateway2,
-        private val getPodcastUseCase: GetPodcastUseCase,
-        private val usedImageGateway: UsedImageGateway
+    private val mediaId: MediaId,
+    private val songGateway2: SongGateway,
+    private val getPodcastUseCase: GetPodcastUseCase,
+    private val usedImageGateway: UsedImageGateway
 
 ) {
 

@@ -54,7 +54,7 @@ interface CoreComponent {
     fun context(): Context
     fun resources(): Resources
 
-    fun lastFmGateway(): LastFmGateway2
+    fun lastFmGateway(): LastFmGateway
 
     fun prefs(): AppPreferencesGateway
     fun musicPrefs(): MusicPreferencesGateway
@@ -81,16 +81,16 @@ interface CoreComponent {
 
     fun collator(): Collator
 
-    fun folderGateway2(): FolderGateway2
+    fun folderGateway2(): FolderGateway
     fun playlistGateway2(): PlaylistGateway2
-    fun songGateway2(): SongGateway2
-    fun albumGateway2(): AlbumGateway2
-    fun artistGateway2(): ArtistGateway2
-    fun genreGateway2(): GenreGateway2
-    fun podcastPlaylistGateway2(): PodcastPlaylistGateway2
-    fun podcastGateway2(): PodcastGateway2
-    fun podcastAlbumGateway2(): PodcastAlbumGateway2
-    fun podcastArtistGateway2(): PodcastArtistGateway2
+    fun songGateway2(): SongGateway
+    fun albumGateway2(): AlbumGateway
+    fun artistGateway2(): ArtistGateway
+    fun genreGateway2(): GenreGateway
+    fun podcastPlaylistGateway2(): PodcastPlaylistGateway
+    fun podcastGateway2(): PodcastGateway
+    fun podcastAlbumGateway2(): PodcastAlbumGateway
+    fun podcastArtistGateway2(): PodcastArtistGateway
 
     @Component.Factory
     interface Factory {

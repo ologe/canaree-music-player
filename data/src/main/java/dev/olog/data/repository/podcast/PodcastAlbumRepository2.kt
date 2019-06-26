@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.HasLastPlayed
 import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PodcastAlbumGateway2
+import dev.olog.core.gateway.PodcastAlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
@@ -28,7 +28,7 @@ internal class PodcastAlbumRepository2 @Inject constructor(
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,
         appDatabase: AppDatabase
-) : BaseRepository<Album, Id>(context), PodcastAlbumGateway2 {
+) : BaseRepository<Album, Id>(context), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
     private val lastPlayedDao = appDatabase.lastPlayedPodcastAlbumDao()

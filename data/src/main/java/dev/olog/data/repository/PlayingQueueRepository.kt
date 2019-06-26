@@ -4,8 +4,8 @@ import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.PodcastGateway2
-import dev.olog.core.gateway.SongGateway2
+import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.dao.AppDatabase
 import io.reactivex.Completable
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
     database: AppDatabase,
-    private val songGateway: SongGateway2,
-    private val podcastGateway: PodcastGateway2
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 
 ) : PlayingQueueGateway {
 

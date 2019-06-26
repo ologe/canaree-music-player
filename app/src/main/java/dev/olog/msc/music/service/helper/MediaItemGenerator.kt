@@ -13,13 +13,13 @@ import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(
-        private val folderGateway: FolderGateway2,
-        private val getAllPlaylistsUseCase: PlaylistGateway2,
-        private val getAllSongsUseCase: SongGateway2,
-        private val getAllAlbumsUseCase: AlbumGateway2,
-        private val getAllArtistsUseCase: ArtistGateway2,
-        private val getAllGenresUseCase: GenreGateway2,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+    private val folderGateway: FolderGateway,
+    private val getAllPlaylistsUseCase: PlaylistGateway2,
+    private val getAllSongsUseCase: SongGateway,
+    private val getAllAlbumsUseCase: AlbumGateway,
+    private val getAllArtistsUseCase: ArtistGateway,
+    private val getAllGenresUseCase: GenreGateway,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {
 
 
