@@ -18,7 +18,7 @@
     <dimen name="item_album_subtitle">12dp</dimen>
 
     <!--item detail main header-->
-    <dimen name="item_detail_main_header_title_size">32dp</dimen>
+    <dimen name="item_detail_main_header_title_size">35dp</dimen>
     <dimen name="item_detail_main_header_subtitle_size">12dp</dimen>
 
     <!--item detail header-->
