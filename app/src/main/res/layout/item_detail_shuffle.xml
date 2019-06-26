@@ -23,12 +23,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="@dimen/item_shuffle_cover_size"
-            android:layout_height="@dimen/item_shuffle_cover_size"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:src="@drawable/vd_shuffle"
-            android:padding="@dimen/item_shuffle_padding"
-            android:layout_marginTop="8dp"
-            android:background="@null"/>
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/text"

@@ -21,7 +21,6 @@
     <dimen name="item_detail_main_header_subtitle_size">13dp</dimen>
 
     <!--shuffle-->
-    <dimen name="item_shuffle_cover_size">50dp</dimen>
     <dimen name="item_shuffle_text_size">16dp</dimen>
 
 </resources>

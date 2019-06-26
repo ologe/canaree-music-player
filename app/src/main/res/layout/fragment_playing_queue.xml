@@ -9,21 +9,11 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <dev.olog.presentation.widgets.StatusBarView
-        android:id="@+id/statusBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/status_bar"
-        android:background="?android:attr/colorPrimaryDark"
-        android:elevation="@dimen/toolbar_elevation"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        android:background="?android:attr/colorPrimary"
+        android:background="?colorSurface"
         android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
+            android:layout_marginStart="16dp"
             android:gravity="center"
             android:text="@string/playing_queue"
             app:layout_constraintBottom_toBottomOf="@+id/more"
@@ -43,7 +33,7 @@
         <ImageButton
             android:id="@+id/more"
             android:layout_width="@dimen/common_icon_size"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/common_icon_size"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:elevation="@dimen/toolbar_elevation"
@@ -59,7 +49,7 @@
             app:layout_constraintEnd_toStartOf="@+id/more"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="@dimen/common_icon_size"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/common_icon_size"
             android:elevation="@dimen/toolbar_elevation"
             android:src="@drawable/vd_search_text"
             android:clickable="true"
@@ -68,9 +58,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <dev.olog.presentation.widgets.StatusBarView
+        android:id="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="?android:attr/colorPrimaryDark"
+        android:elevation="@dimen/toolbar_elevation"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

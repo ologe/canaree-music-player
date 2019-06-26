@@ -31,9 +31,7 @@
     <dimen name="item_detail_header_padding_top">36dp</dimen>
 
     <!--shuffle-->
-    <dimen name="item_shuffle_cover_size">45dp</dimen>
     <dimen name="item_shuffle_text_size">15dp</dimen>
-    <dimen name="item_shuffle_padding">14dp</dimen>
 
     <!--item search footer-->
     <dimen name="item_search_footer_text_size">16dp</dimen>

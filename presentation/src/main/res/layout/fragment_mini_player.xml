@@ -111,7 +111,7 @@
         android:id="@+id/progressBar"
         style="@style/DefaultHorizontalProgressBar"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:progressTint="@color/textColorPrimary"
         android:max="@integer/common_high_number"
         app:layout_constraintEnd_toEndOf="parent"
