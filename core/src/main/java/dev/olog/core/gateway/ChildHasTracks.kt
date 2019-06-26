@@ -1,10 +1,11 @@
 package dev.olog.core.gateway
 
+import dev.olog.core.entity.track.Song
 import kotlinx.coroutines.flow.Flow
 
-interface ChildHasTracks<T, Param> {
+interface ChildHasTracks<Param> {
 
-    fun getTrackListByParam(param: Param): List<T>
-    fun observeTrackListByParam(param: Param): Flow<List<T>>
+    fun getTrackListByParam(param: Param): List<Song>
+    fun observeTrackListByParam(param: Param): Flow<List<Song>>
 
 }

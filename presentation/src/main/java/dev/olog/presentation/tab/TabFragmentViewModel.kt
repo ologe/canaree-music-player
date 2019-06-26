@@ -11,8 +11,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class TabFragmentViewModel @Inject constructor(
-        private val tabDataProvider: TabDataProvider,
-        private val appPreferencesUseCase: SortPreferences
+    private val dataProvider: TabDataProvider,
+    private val appPreferencesUseCase: SortPreferences
 
 ) : ViewModel() {
 
@@ -22,7 +22,7 @@ internal class TabFragmentViewModel @Inject constructor(
         return withContext(Dispatchers.Default) {
             var liveData = liveDataMap[category]
             if (liveData == null) {
-                liveData = tabDataProvider.get(category).asLiveData()
+                liveData = dataProvider.get(category).asLiveData()
             }
             liveData!!
         }

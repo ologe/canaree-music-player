@@ -63,6 +63,14 @@ internal class GenreQueries(
         return contentResolver.querySql(query, arrayOf(genreId.toString()))
     }
 
+    fun getRecentlyAdded(id: Id): Cursor {
+
+        val query = """
+            
+        """
+        return contentResolver.querySql(query, arrayOf("$id"))
+    }
+
     private fun defaultSelection(): String {
         return "${isPodcast()} AND ${notBlacklisted()}"
     }

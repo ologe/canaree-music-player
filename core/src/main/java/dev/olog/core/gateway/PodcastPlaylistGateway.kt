@@ -1,15 +1,14 @@
 package dev.olog.core.gateway
 
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface PodcastPlaylistGateway :
-        BaseGateway<Playlist, Id>,
-        ChildHasTracks<Song, Id>,
-        HasSiblings<Playlist, Id>,
-        HasRelatedArtists<Id> {
+    BaseGateway<Playlist, Id>,
+    ChildHasTracks<Id>,
+    HasSiblings<Playlist, Id>,
+    HasRelatedArtists<Id> {
 
     fun getAllAutoPlaylists(): List<Playlist>
 

@@ -9,7 +9,6 @@ import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase
 import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchUseCase
 import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchUseCase
 import dev.olog.presentation.model.DisplayableItem
-import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchFragmentViewModel @Inject constructor(
-    private val searchDataProvider: SearchDataProvider,
+    private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
@@ -35,37 +34,37 @@ class SearchFragmentViewModel @Inject constructor(
     init {
         // all
         viewModelScope.launch {
-            searchDataProvider.observe()
+            dataProvider.observe()
                 .flowOn(Dispatchers.Default)
                 .collect { data.value = it }
         }
         // albums
         viewModelScope.launch {
-            searchDataProvider.observeAlbums()
+            dataProvider.observeAlbums()
                 .flowOn(Dispatchers.Default)
                 .collect { albumData.value = it }
         }
         // artists
         viewModelScope.launch {
-            searchDataProvider.observeArtists()
+            dataProvider.observeArtists()
                 .flowOn(Dispatchers.Default)
                 .collect { artistsData.value = it }
         }
         // genres
         viewModelScope.launch {
-            searchDataProvider.observeGenres()
+            dataProvider.observeGenres()
                 .flowOn(Dispatchers.Default)
                 .collect { genresData.value = it }
         }
         // playlist
         viewModelScope.launch {
-            searchDataProvider.observePlaylists()
+            dataProvider.observePlaylists()
                 .flowOn(Dispatchers.Default)
                 .collect { playlistsData.value = it }
         }
         // folders
         viewModelScope.launch {
-            searchDataProvider.observeFolders()
+            dataProvider.observeFolders()
                 .flowOn(Dispatchers.Default)
                 .collect { foldersData.value = it }
         }
@@ -84,7 +83,7 @@ class SearchFragmentViewModel @Inject constructor(
 
 
     fun updateQuery(newQuery: String) {
-        searchDataProvider.updateQuery(newQuery.trim())
+        dataProvider.updateQuery(newQuery.trim())
     }
 
     fun insertToRecent(mediaId: MediaId) {

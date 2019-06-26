@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface PlaylistGateway2 :
         BaseGateway<Playlist, Id>,
-        ChildHasTracks<Song, Id>,
+        ChildHasTracks<Id>,
         HasMostPlayed,
         HasSiblings<Playlist, Id>,
         PlaylistOperations,

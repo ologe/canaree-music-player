@@ -18,6 +18,7 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
+import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -105,6 +106,14 @@ internal class GenreRepository @Inject constructor(
         return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
             .distinctUntilChanged()
             .assertBackground()
+    }
+
+    override fun observeRecentlyAdded(id: Id): Flow<List<Song>> {
+        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) {
+            val cursor = queries.getRecentlyAdded(id)
+            contentResolver.queryAll(cursor) { it.toSong() }
+        }
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {

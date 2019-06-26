@@ -8,8 +8,8 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.most.played.ObserveMostPlayedSongsUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.ObserveRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
@@ -24,6 +24,7 @@ import dev.olog.shared.extensions.swap
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Single
 import io.reactivex.functions.Function
+import kotlinx.coroutines.rx2.asFlowable
 import java.text.Collator
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -36,8 +37,8 @@ class QueueManager @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val shuffleMode: ShuffleMode,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
-    private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
-    private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
+    private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
+    private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
     private val songGateway: SongGateway,
     private val genreGateway: GenreGateway,
     private val collator: Collator,
@@ -143,7 +144,8 @@ class QueueManager @Inject constructor(
     override fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf!!
 
-        return getRecentlyAddedUseCase.execute(mediaId)
+        return getRecentlyAddedUseCase(mediaId)
+            .asFlowable().toObservable()
                 .firstOrError()
                 .map { it.mapIndexed { index, song-> song.toMediaEntity(index, mediaId) } }
                 .map { shuffleIfNeeded(songId).apply(it) }
@@ -158,7 +160,8 @@ class QueueManager @Inject constructor(
     override fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf!!
 
-        return getMostPlayedSongsUseCase.execute(mediaId)
+        return getMostPlayedSongsUseCase(mediaId)
+            .asFlowable().toObservable()
                 .firstOrError()
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
                 .map { shuffleIfNeeded(songId).apply(it) }

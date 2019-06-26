@@ -5,13 +5,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.core.MediaId
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
-import dev.olog.core.MediaId
+import dev.olog.presentation.dagger.ViewModelKey
 
-@Module(includes = [DetailFragmentModule.Bindings::class] )
-class DetailFragmentModule(private val fragment: DetailFragment) {
+@Module(includes = [DetailFragmentModule.Bindings::class])
+internal class DetailFragmentModule(private val fragment: DetailFragment) {
 
     @Provides
     internal fun provideMediaId(): MediaId {
@@ -20,7 +20,7 @@ class DetailFragmentModule(private val fragment: DetailFragment) {
     }
 
     @Module
-    interface Bindings{
+    internal interface Bindings {
 
         @Binds
         @IntoMap

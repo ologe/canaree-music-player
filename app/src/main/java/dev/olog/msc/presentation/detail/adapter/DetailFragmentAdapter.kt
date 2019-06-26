@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.detail
+package dev.olog.msc.presentation.detail.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
@@ -12,9 +12,10 @@ import dev.olog.media.MediaProvider
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.detail.DetailFragmentHeaders
+import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
-import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
@@ -22,10 +23,11 @@ import dev.olog.msc.utils.k.extension.setOnMoveListener
 import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.tutorial.TutorialTapTarget
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 
-class DetailFragmentAdapter (
+internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaId: MediaId,
     private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
@@ -35,11 +37,11 @@ class DetailFragmentAdapter (
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
-    private val recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+    private val recycledViewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
 
             R.layout.item_detail_most_played_list -> {
@@ -107,16 +109,18 @@ class DetailFragmentAdapter (
             }
         }
 
-        when (viewType){
+        when (viewType) {
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle -> viewHolder.elevateSongOnTouch()
         }
     }
 
-    private fun setupHorizontalListAsGrid(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(list.context,
-                NESTED_SPAN_COUNT, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsGrid(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>) {
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+            list.context,
+            NESTED_SPAN_COUNT, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false
+        )
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
@@ -127,8 +131,12 @@ class DetailFragmentAdapter (
         snapHelper.attachToRecyclerView(list)
     }
 
-    private fun setupHorizontalListAsList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(list.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>) {
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            list.context,
+            androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
+            false
+        )
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
@@ -137,7 +145,7 @@ class DetailFragmentAdapter (
     }
 
     override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
-        when (holder.itemViewType){
+        when (holder.itemViewType) {
             R.layout.item_detail_most_played_list -> {
                 mostPlayedAdapter.setAfterDataChanged(null)
             }
@@ -168,28 +176,29 @@ class DetailFragmentAdapter (
                 val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
-                        .takeUntil(RxView.detaches(holder.itemView))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ (sort, arranging) ->
-                            if (sort == SortType.CUSTOM){
-                                sortImage.setImageResource(R.drawable.vd_remove)
+                    .takeUntil(RxView.detaches(holder.itemView))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ (sort, arranging) ->
+                        if (sort == SortType.CUSTOM) {
+                            sortImage.setImageResource(R.drawable.vd_remove)
+                        } else {
+                            if (arranging == SortArranging.ASCENDING) {
+                                sortImage.setImageResource(R.drawable.vd_arrow_down)
                             } else {
-                                if (arranging == SortArranging.ASCENDING){
-                                    sortImage.setImageResource(R.drawable.vd_arrow_down)
-                                } else {
-                                    sortImage.setImageResource(R.drawable.vd_arrow_up)
-                                }
+                                sortImage.setImageResource(R.drawable.vd_arrow_up)
                             }
+                        }
 
-                        }, Throwable::printStackTrace)
+                    }, Throwable::printStackTrace)
 
                 viewModel.showSortByTutorialIfNeverShown()
-                        .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
             }
         }
     }
 
-    private fun updateNestedSpanCount(layoutManager: androidx.recyclerview.widget.GridLayoutManager, size: Int){
+    private fun updateNestedSpanCount(layoutManager: androidx.recyclerview.widget.GridLayoutManager, size: Int) {
         layoutManager.spanCount = when {
             size == 0 -> 1
             size < NESTED_SPAN_COUNT -> size
@@ -197,13 +206,13 @@ class DetailFragmentAdapter (
         }
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
     }
 
-    val canSwipeRight : Boolean
+    val canSwipeRight: Boolean
         get() {
-            if (mediaId.isPlaylist){
+            if (mediaId.isPlaylist) {
                 val playlistId = mediaId.resolveId
                 return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
             }
@@ -227,7 +236,7 @@ class DetailFragmentAdapter (
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-        if (mediaId.isPodcastPlaylist){
+        if (mediaId.isPodcastPlaylist) {
             return false
         }
         return viewType == R.layout.item_detail_song ||

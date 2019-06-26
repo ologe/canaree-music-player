@@ -6,24 +6,26 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.ObserveRecentlyAddedUseCase
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.mapToList
-import dev.olog.presentation.model.DisplayableItem
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class RecentlyAddedFragmentViewModel @Inject constructor(
     mediaId: MediaId,
-    useCase: GetRecentlyAddedUseCase,
+    useCase: ObserveRecentlyAddedUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
 
     val itemOrdinal = mediaId.category.ordinal
 
-    val data : LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
-            .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
-            .asLiveData()
+    val data: LiveData<List<DisplayableItem>> = useCase(mediaId)
+        .asFlowable().toObservable()
+        .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
+        .asLiveData()
 
     val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
 

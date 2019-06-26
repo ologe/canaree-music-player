@@ -1,47 +1,44 @@
 package dev.olog.msc.presentation.detail
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.debounceFirst
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
-class DetailFragmentViewModel @Inject constructor(
+internal class DetailFragmentViewModel @Inject constructor(
     val mediaId: MediaId,
-    item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-    albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
-    data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
+    private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
-    private val observeSortOrderUseCase: GetSortOrderUseCase,
+    private val observeSortOrderUseCase: ObserveDetailSortOrderUseCase,
     private val setSortArrangingUseCase: SetSortArrangingUseCase,
     private val getSortArrangingUseCase: GetSortArrangingUseCase,
-    getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
     private val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModel() {
 
     companion object {
-        const val RECENTLY_ADDED = "RECENTLY_ADDED"
-        const val MOST_PLAYED = "MOST_PLAYED"
-        const val RELATED_ARTISTS = "RELATED_ARTISTS"
         const val SONGS = "SONGS"
 
         const val NESTED_SPAN_COUNT = 4
@@ -49,123 +46,141 @@ class DetailFragmentViewModel @Inject constructor(
         const val RELATED_ARTISTS_TO_SEE = 10
     }
 
+
     private val currentCategory = mediaId.category
 
     private val subscriptions = CompositeDisposable()
 
     private val filterPublisher = BehaviorSubject.createDefault("")
 
-    fun updateFilter(filter: String){
-        if (filter.isEmpty() || filter.length >= 2){
+    fun updateFilter(filter: String) {
+        if (filter.isEmpty() || filter.length >= 2) {
             filterPublisher.onNext(filter.toLowerCase())
         }
     }
 
-    val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!
-            .debounceFirst()
-            .doOnError { it.printStackTrace() }
-            .onErrorReturnItem(listOf())
-            .asLiveData()
+    private val itemLiveData = MutableLiveData<DisplayableItem>()
+    private val mostPlayedLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
 
-    private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
-            Observables.combineLatest(
-                    item[currentCategory]!!.toObservable().debounceFirst().distinctUntilChanged(),
-                    data[MOST_PLAYED]!!.debounceFirst().distinctUntilChanged(),
-                    data[RECENTLY_ADDED]!!.debounceFirst().distinctUntilChanged(),
-                    albums[currentCategory]!!.debounceFirst().distinctUntilChanged(),
-                    data[RELATED_ARTISTS]!!.debounceFirst().distinctUntilChanged(),
-                    filterSongs(data[SONGS]!!),
-                    getVisibleTabsUseCase.execute()
-            ) { item, mostPlayed, recent, albums, artists, songs, visibility ->
-                presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
-            }.doOnError { it.printStackTrace() }
-                    .onErrorReturnItem(mutableMapOf())
-
-    private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>>{
-        return Observables.combineLatest(
-                songObservable.debounceFirst(50, TimeUnit.MILLISECONDS).distinctUntilChanged(),
-                filterPublisher.debounceFirst().distinctUntilChanged()
-        ) { songs, filter ->
-            if (filter.isBlank()){
-                songs
-            } else {
-                songs.filter {
-                    it.title.toLowerCase().contains(filter) || it.subtitle?.toLowerCase()?.contains(filter) == true
-                }
-            }
-        }.distinctUntilChanged()
+    init {
+        // header
+        viewModelScope.launch {
+            dataProvider.observeHeader(mediaId)
+                .flowOn(Dispatchers.Default)
+                .collect { itemLiveData.value = it }
+        }
+        // most played
+        viewModelScope.launch {
+            dataProvider.observeMostPlayed(mediaId)
+                .flowOn(Dispatchers.Default)
+                .collect { mostPlayedLiveData.value = it }
+        }
+        // related artists
+        viewModelScope.launch {
+            dataProvider.observeRelatedArtists(mediaId)
+                .map { it.take(RELATED_ARTISTS_TO_SEE) }
+                .flowOn(Dispatchers.Default)
+                .collect { relatedArtistsLiveData.value = it }
+        }
+        // siblings
+        viewModelScope.launch {
+            dataProvider.observeSiblings(mediaId)
+                .flowOn(Dispatchers.Default)
+                .collect { siblingsLiveData.value = it }
+        }
+        // recent
+        viewModelScope.launch {
+            dataProvider.observeRecentlyAdded(mediaId)
+                .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
+                .flowOn(Dispatchers.Default)
+                .collect { recentlyAddedLiveData.value = it }
+        }
+        // songs
+        viewModelScope.launch {
+            dataProvider.observe(mediaId)
+                .flowOn(Dispatchers.Default)
+                .collect { songLiveData.value = it }
+        }
     }
 
     override fun onCleared() {
         subscriptions.clear()
+        viewModelScope.cancel()
     }
 
-    fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
-            dataMap.asLiveData()
+    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
+    fun observeMostPlayed(): LiveData<List<DisplayableItem>> = mostPlayedLiveData
+    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
+    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
+    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
+    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
 
-    val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
-            .debounceFirst()
-            .asLiveData()
+//    private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>> {
+//        return Observables.combineLatest( TODO
+//            songObservable.debounceFirst(50, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+//            filterPublisher.debounceFirst().distinctUntilChanged()
+//        ) { songs, filter ->
+//            if (filter.isBlank()) {
+//                songs
+//            } else {
+//                songs.filter {
+//                    it.title.toLowerCase().contains(filter) || it.subtitle?.toLowerCase()?.contains(filter) == true
+//                }
+//            }
+//        }.distinctUntilChanged()
+//    }
 
-    val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
-            .debounceFirst()
-            .map { it.take(RELATED_ARTISTS_TO_SEE) }
-            .asLiveData()
-
-    val albumsLiveData: LiveData<List<DisplayableItem>> = albums[currentCategory]!!
-            .debounceFirst()
-            .asLiveData()
-
-    val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
-            .debounceFirst()
-            .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-            .asLiveData()
-
-    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit){
+    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         getDetailSortDataUseCase.execute(mediaId)
-                .subscribe(action, Throwable::printStackTrace)
-                .addTo(subscriptions)
+            .subscribe(action, Throwable::printStackTrace)
+            .addTo(subscriptions)
     }
 
     fun observeSortOrder(action: (SortType) -> Unit) {
-        observeSortOrderUseCase.execute(mediaId)
-                .firstOrError()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ action(it) }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+        observeSortOrderUseCase(mediaId)
+            .asFlowable().toObservable()
+            .firstOrError()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ action(it) }, Throwable::printStackTrace)
+            .addTo(subscriptions)
     }
 
-    fun updateSortOrder(sortType: SortType){
+    fun updateSortOrder(sortType: SortType) {
         setSortOrderUseCase.execute(SetSortOrderRequestModel(mediaId, sortType))
-                .subscribe({ }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+            .subscribe({ }, Throwable::printStackTrace)
+            .addTo(subscriptions)
     }
 
-    fun toggleSortArranging(){
-        observeSortOrderUseCase.execute(mediaId)
-                .firstOrError()
-                .filter { it != SortType.CUSTOM }
-                .flatMapCompletable { setSortArrangingUseCase.execute() }
-                .subscribe({ }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+    fun toggleSortArranging() {
+        observeSortOrderUseCase(mediaId)
+            .asFlowable().toObservable()
+            .firstOrError()
+            .filter { it != SortType.CUSTOM }
+            .flatMapCompletable { setSortArrangingUseCase.execute() }
+            .subscribe({ }, Throwable::printStackTrace)
+            .addTo(subscriptions)
 
     }
 
-    fun moveItemInPlaylist(from: Int, to: Int){
+    fun moveItemInPlaylist(from: Int, to: Int) {
         presenter.moveInPlaylist(from, to)
     }
 
     fun removeFromPlaylist(item: DisplayableItem) {
         presenter.removeFromPlaylist(item)
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
+            .subscribe({}, Throwable::printStackTrace)
+            .addTo(subscriptions)
     }
 
-    fun observeSorting(): Observable<Pair<SortType, SortArranging>>{
+    fun observeSorting(): Observable<Pair<SortType, SortArranging>> {
         return Observables.combineLatest(
-                observeSortOrderUseCase.execute(mediaId),
-                getSortArrangingUseCase.execute(),
-                { sort, arranging -> Pair(sort, arranging) }
+            observeSortOrderUseCase(mediaId).asFlowable().toObservable(),
+            getSortArrangingUseCase.execute(),
+            { sort, arranging -> Pair(sort, arranging) }
         )
     }
 

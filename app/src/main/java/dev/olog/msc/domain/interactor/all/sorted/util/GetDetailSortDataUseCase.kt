@@ -6,11 +6,12 @@ import dev.olog.core.executor.IoScheduler
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class GetDetailSortDataUseCase @Inject constructor(
     scheduler: IoScheduler,
-    private val getSortOrderUseCase: GetSortOrderUseCase,
+    private val getSortOrderUseCase: ObserveDetailSortOrderUseCase,
     private val getSortArrangingUseCase: GetSortArrangingUseCase
 
 ) : SingleUseCaseWithParam<SortEntity, MediaId>(scheduler){
@@ -18,7 +19,7 @@ class GetDetailSortDataUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Single<SortEntity> {
         val arranging = getSortArrangingUseCase.execute().firstOrError()
-        val sortOrder = getSortOrderUseCase.execute(mediaId).firstOrError()
+        val sortOrder = getSortOrderUseCase(mediaId).asFlowable().firstOrError()
         return Singles.zip(arranging, sortOrder, { arr, sort ->  SortEntity(
                 sort, arr
         )

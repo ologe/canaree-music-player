@@ -139,6 +139,14 @@ internal class FolderRepository @Inject constructor(
             .assertBackground()
     }
 
+    override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {
+        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) {
+            val cursor = queries.getRecentlyAdded(path)
+            contentResolver.queryAll(cursor) { it.toSong() }
+        }
+    }
+
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
         return context.contentResolver.queryAll(cursor) { it.toArtist() }

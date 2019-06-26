@@ -8,19 +8,20 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.ObserveRelatedArtistsUseCase
 import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.mapToList
 import dev.olog.msc.utils.safeCompare
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.extensions.mapToList
 import dev.olog.shared.utils.TextUtils
+import kotlinx.coroutines.rx2.asFlowable
 import java.text.Collator
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModel @Inject constructor(
     resources: Resources,
     mediaId: MediaId,
-    useCase: GetRelatedArtistsUseCase,
+    useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase,
     collator: Collator
 
@@ -28,7 +29,8 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     val itemOrdinal = mediaId.category.ordinal
 
-    val data: LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
+    val data: LiveData<List<DisplayableItem>> = useCase(mediaId)
+        .asFlowable().toObservable()
             .mapToList { it.toRelatedArtist(resources) }
             .map { it.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) }) }
             .asLiveData()

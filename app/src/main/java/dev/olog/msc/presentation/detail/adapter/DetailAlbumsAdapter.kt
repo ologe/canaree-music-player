@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.detail
+package dev.olog.msc.presentation.detail.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
@@ -10,17 +10,15 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
 
-class DetailRelatedArtistsAdapter(
+class DetailAlbumsAdapter (
         lifecycle: Lifecycle,
         private val navigator: Navigator
 
-) : AbsAdapter<DisplayableItem>(lifecycle) {
+) : AbsAdapter<DisplayableItem>(lifecycle){
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(controller) { item, _, _ ->
+        viewHolder.setOnClickListener(controller) { item, _,_ ->
             navigator.toDetailFragment(item.mediaId)
         }
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->

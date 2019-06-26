@@ -13,15 +13,14 @@ import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.detail.adapter.*
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
-import dev.olog.presentation.widgets.ShapeImageView
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
@@ -78,7 +77,12 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
             navigator
         )
     }
-    private val albumsAdapter by lazyFast { DetailAlbumsAdapter(lifecycle, navigator) }
+    private val albumsAdapter by lazyFast {
+        DetailAlbumsAdapter(
+            lifecycle,
+            navigator
+        )
+    }
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
@@ -109,38 +113,35 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        viewModel.mostPlayedLiveData
+        viewModel.observeMostPlayed()
                 .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
 
-        viewModel.recentlyAddedLiveData
+        viewModel.observeRecentlyAdded()
                 .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
 
-        viewModel.relatedArtistsLiveData
+        viewModel.observeRelatedArtists()
                 .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
 
-        viewModel.albumsLiveData
+        viewModel.observeSiblings()
                 .subscribe(viewLifecycleOwner) {
                     albumsAdapter.updateDataSet(it)
                 }
 
-        viewModel.observeData()
-                .subscribe(viewLifecycleOwner) { map ->
-                    val copy = map.deepCopy()
-                    if (copy.isEmpty()){
+        viewModel.observeSongs()
+                .subscribe(viewLifecycleOwner) { list ->
+                    if (list.isEmpty()){
                         act.onBackPressed()
                     } else {
-                        adapter.updateDataSet(copy)
+                        adapter.updateDataSet(list)
                     }
                 }
 
-        viewModel.itemLiveData.subscribe(viewLifecycleOwner) { item ->
-            if (item.isNotEmpty()){
-                headerText.text = item[0].title
-                val cover = view.findViewById<View>(R.id.cover)
-                if (cover is ShapeImageView){
-                    BindingsAdapter.loadBigAlbumImage(cover, item[0])
-                }
-            }
+        viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
+            headerText.text = item.title
+//            val cover = view.findViewById<View>(R.id.cover) TODO
+//            if (cover is ShapeImageView){
+//                BindingsAdapter.loadBigAlbumImage(cover, item)
+//            }
         }
 
         RxTextView.afterTextChangeEvents(view.editText)
