@@ -113,9 +113,9 @@ internal class DetailDataProvider @Inject constructor(
                 observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() }
         ) { header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists ->
             if (mediaId.isArtist) {
-                (siblings + mostPlayed + recentlyAdded + songList + recentlyAdded).startWith(header)
+                (siblings + mostPlayed + recentlyAdded + songList + relatedArtists).startWith(header)
             } else {
-                (mostPlayed + recentlyAdded + songList + recentlyAdded + siblings).startWith(header)
+                (mostPlayed + recentlyAdded + songList + relatedArtists + siblings).startWith(header)
             }
         }
     }
