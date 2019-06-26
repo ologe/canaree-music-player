@@ -5,7 +5,7 @@ import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
 import io.reactivex.Single
 
-interface PlaylistGateway2 :
+interface PlaylistGateway :
         BaseGateway<Playlist, Id>,
         ChildHasTracks<Id>,
         HasMostPlayed,

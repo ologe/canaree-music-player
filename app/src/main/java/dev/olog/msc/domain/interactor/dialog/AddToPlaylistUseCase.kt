@@ -3,23 +3,24 @@ package dev.olog.msc.domain.interactor.dialog
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PodcastPlaylistGateway
 import dev.olog.core.interactor.CompletableUseCaseWithParam
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class AddToPlaylistUseCase @Inject constructor(
-    scheduler: IoScheduler,
-    private val playlistGateway: PlaylistGateway2,
-    private val getSongUseCase: GetSongUseCase,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val getPodcastUseCase: GetPodcastUseCase,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
+        scheduler: IoScheduler,
+        private val playlistGateway: PlaylistGateway,
+        private val getSongUseCase: GetSongUseCase,
+        private val podcastPlaylistGateway: PodcastPlaylistGateway,
+        private val getPodcastUseCase: GetPodcastUseCase,
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) : CompletableUseCaseWithParam<Pair<Playlist, MediaId>>(scheduler) {
 
@@ -38,7 +39,8 @@ class AddToPlaylistUseCase @Inject constructor(
                     .flatMapCompletable { playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
         }
 
-        return getSongListByParamUseCase.execute(mediaId)
+        return getSongListByParamUseCase(mediaId)
+                .asFlowable()
                 .firstOrError()
                 .mapToList { it.id }
                 .flatMapCompletable {

@@ -21,21 +21,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchDataProvider @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val searchHeaders: SearchFragmentHeaders,
-    private val folderGateway: FolderGateway,
-    private val playlistGateway2: PlaylistGateway2,
-    private val songGateway: SongGateway,
-    private val albumGateway: AlbumGateway,
-    private val artistGateway: ArtistGateway,
-    private val genreGateway: GenreGateway,
+        @ApplicationContext private val context: Context,
+        private val searchHeaders: SearchFragmentHeaders,
+        private val folderGateway: FolderGateway,
+        private val playlistGateway2: PlaylistGateway,
+        private val songGateway: SongGateway,
+        private val albumGateway: AlbumGateway,
+        private val artistGateway: ArtistGateway,
+        private val genreGateway: GenreGateway,
     // podcasts
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+        private val podcastPlaylistGateway: PodcastPlaylistGateway,
+        private val podcastGateway: PodcastGateway,
+        private val podcastAlbumGateway: PodcastAlbumGateway,
+        private val podcastArtistGateway: PodcastArtistGateway,
     // recent
-    private val recentSearchesGateway: RecentSearchesGateway
+        private val recentSearchesGateway: RecentSearchesGateway
 
 ) : CoroutineScope by CustomScope() {
 

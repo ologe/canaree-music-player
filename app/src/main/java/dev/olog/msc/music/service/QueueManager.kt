@@ -7,7 +7,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.most.played.ObserveMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.ObserveRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
@@ -25,6 +25,7 @@ import dev.olog.msc.utils.safeCompare
 import io.reactivex.Single
 import io.reactivex.functions.Function
 import kotlinx.coroutines.rx2.asFlowable
+import kotlinx.coroutines.rx2.asObservable
 import java.text.Collator
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -32,18 +33,18 @@ import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 class QueueManager @Inject constructor(
-    private val queueImpl: QueueImpl,
-    private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
-    private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val shuffleMode: ShuffleMode,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase,
-    private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
-    private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
-    private val songGateway: SongGateway,
-    private val genreGateway: GenreGateway,
-    private val collator: Collator,
-    private val enhancedShuffle: EnhancedShuffle,
-    private val podcastPosition: PodcastPositionUseCase
+        private val queueImpl: QueueImpl,
+        private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
+        private val shuffleMode: ShuffleMode,
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
+        private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
+        private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
+        private val songGateway: SongGateway,
+        private val genreGateway: GenreGateway,
+        private val collator: Collator,
+        private val enhancedShuffle: EnhancedShuffle,
+        private val podcastPosition: PodcastPositionUseCase
 
 ) : Queue {
 
@@ -108,7 +109,8 @@ class QueueManager @Inject constructor(
     override fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf ?: -1L
 
-        return getSongListByParamUseCase.execute(mediaId)
+        return getSongListByParamUseCase(mediaId)
+                .asFlowable()
                 .firstOrError()
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
                 .map { sortOnDemand(it, extras) }
@@ -174,7 +176,8 @@ class QueueManager @Inject constructor(
     }
 
     override fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity> {
-        return getSongListByParamUseCase.execute(mediaId)
+        return getSongListByParamUseCase(mediaId)
+                .asFlowable()
                 .firstOrError()
                 .map {
                     shuffleMode.setEnabled(true)
@@ -211,12 +214,12 @@ class QueueManager @Inject constructor(
         val mediaId = MediaId.songId(-1)
 
         val songList = when {
-            params.isUnstructured -> VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)
-            params.isAlbumFocus -> VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album)
-            params.isArtistFocus -> VoiceSearch.filterByArtist(getSongListByParamUseCase.execute(mediaId), params.artist)
-            params.isSongFocus -> VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song)
+            params.isUnstructured -> VoiceSearch.search(getSongListByParamUseCase(mediaId).asObservable(), query)
+            params.isAlbumFocus -> VoiceSearch.filterByAlbum(getSongListByParamUseCase(mediaId).asObservable(), params.album)
+            params.isArtistFocus -> VoiceSearch.filterByArtist(getSongListByParamUseCase(mediaId).asObservable(), params.artist)
+            params.isSongFocus -> VoiceSearch.filterByTitle(getSongListByParamUseCase(mediaId).asObservable(), params.song)
             params.isGenreFocus -> VoiceSearch.filterByGenre(genreGateway, params.genre)
-            else -> VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId).map { it.shuffled() })
+            else -> VoiceSearch.noFilter(getSongListByParamUseCase(mediaId).asObservable().map { it.shuffled() })
         }
 
         return songList

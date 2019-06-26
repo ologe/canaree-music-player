@@ -9,18 +9,18 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
-    appDatabase: AppDatabase,
-    private val songGateway: SongGateway,
-    private val albumGateway: AlbumGateway,
-    private val artistGateway: ArtistGateway,
-    private val playlistGateway: PlaylistGateway2,
-    private val genreGateway: GenreGateway,
-    private val folderGateway: FolderGateway,
+        appDatabase: AppDatabase,
+        private val songGateway: SongGateway,
+        private val albumGateway: AlbumGateway,
+        private val artistGateway: ArtistGateway,
+        private val playlistGateway: PlaylistGateway,
+        private val genreGateway: GenreGateway,
+        private val folderGateway: FolderGateway,
 
-    private val podcastGateway: PodcastGateway,
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway
+        private val podcastGateway: PodcastGateway,
+        private val podcastPlaylistGateway: PodcastPlaylistGateway,
+        private val podcastArtistGateway: PodcastArtistGateway,
+        private val podcastAlbumGateway: PodcastAlbumGateway
 
 ) : RecentSearchesGateway {
 

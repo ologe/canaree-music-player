@@ -5,16 +5,16 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FolderGateway
 import dev.olog.core.gateway.GenreGateway
-import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.msc.domain.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ObserveMostPlayedSongsUseCase @Inject constructor(
-    private val folderGateway: FolderGateway,
-    private val playlistGateway: PlaylistGateway2,
-    private val genreGateway: GenreGateway
+        private val folderGateway: FolderGateway,
+        private val playlistGateway: PlaylistGateway,
+        private val genreGateway: GenreGateway
 
 ) : FlowUseCaseWithParam<List<Song>, MediaId>() {
 

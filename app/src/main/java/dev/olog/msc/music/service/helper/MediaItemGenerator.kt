@@ -6,20 +6,20 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(
-    private val folderGateway: FolderGateway,
-    private val getAllPlaylistsUseCase: PlaylistGateway2,
-    private val getAllSongsUseCase: SongGateway,
-    private val getAllAlbumsUseCase: AlbumGateway,
-    private val getAllArtistsUseCase: ArtistGateway,
-    private val getAllGenresUseCase: GenreGateway,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
+        private val folderGateway: FolderGateway,
+        private val getAllPlaylistsUseCase: PlaylistGateway,
+        private val getAllSongsUseCase: SongGateway,
+        private val getAllAlbumsUseCase: AlbumGateway,
+        private val getAllArtistsUseCase: ArtistGateway,
+        private val getAllGenresUseCase: GenreGateway,
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 ) {
 
 
@@ -42,7 +42,8 @@ class MediaItemGenerator @Inject constructor(
     }
 
     fun getCategoryValueChilds(parentId: MediaId): Single<MutableList<MediaBrowserCompat.MediaItem>> {
-        return getSongListByParamUseCase.execute(parentId)
+        return getSongListByParamUseCase(parentId)
+                .asFlowable()
                 .firstOrError()
                 .mapToList { it.toChildMediaItem(parentId) }
                 .map { it.toMutableList() }

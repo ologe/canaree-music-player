@@ -13,20 +13,20 @@ import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(
-    @ApplicationContext context: Context,
-    private val headers: TabFragmentHeaders,
+        @ApplicationContext context: Context,
+        private val headers: TabFragmentHeaders,
         // songs
-    private val folderGateway: FolderGateway,
-    private val playlistGateway: PlaylistGateway2,
-    private val songGateway: SongGateway,
-    private val albumGateway: AlbumGateway,
-    private val artistGateway: ArtistGateway,
-    private val genreGateway: GenreGateway,
+        private val folderGateway: FolderGateway,
+        private val playlistGateway: PlaylistGateway,
+        private val songGateway: SongGateway,
+        private val albumGateway: AlbumGateway,
+        private val artistGateway: ArtistGateway,
+        private val genreGateway: GenreGateway,
         // podcast
-    private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
+        private val podcastPlaylistGateway: PodcastPlaylistGateway,
+        private val podcastGateway: PodcastGateway,
+        private val podcastAlbumGateway: PodcastAlbumGateway,
+        private val podcastArtistGateway: PodcastArtistGateway
 ) {
 
     private val resources = context.resources

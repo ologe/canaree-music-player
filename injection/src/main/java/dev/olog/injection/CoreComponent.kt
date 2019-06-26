@@ -82,7 +82,7 @@ interface CoreComponent {
     fun collator(): Collator
 
     fun folderGateway2(): FolderGateway
-    fun playlistGateway2(): PlaylistGateway2
+    fun playlistGateway2(): PlaylistGateway
     fun songGateway2(): SongGateway
     fun albumGateway2(): AlbumGateway
     fun artistGateway2(): ArtistGateway

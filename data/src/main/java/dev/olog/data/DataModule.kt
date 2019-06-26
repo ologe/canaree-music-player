@@ -28,7 +28,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway2
+    internal abstract fun providePlaylistRepository(repository: PlaylistRepository): PlaylistGateway
 
     @Binds
     @Singleton

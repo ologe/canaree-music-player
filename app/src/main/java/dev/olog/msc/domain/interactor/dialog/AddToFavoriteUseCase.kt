@@ -3,17 +3,18 @@ package dev.olog.msc.domain.interactor.dialog
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
+import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class AddToFavoriteUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val favoriteGateway: FavoriteGateway,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) : CompletableUseCaseWithParam<AddToFavoriteUseCase.Input>(scheduler) {
 
@@ -25,7 +26,8 @@ class AddToFavoriteUseCase @Inject constructor(
             return favoriteGateway.addSingle(type, songId)
         }
 
-        return getSongListByParamUseCase.execute(mediaId)
+        return getSongListByParamUseCase(mediaId)
+                .asFlowable()
                 .firstOrError()
                 .mapToList { it.id }
                 .flatMapCompletable { favoriteGateway.addGroup(type, it) }

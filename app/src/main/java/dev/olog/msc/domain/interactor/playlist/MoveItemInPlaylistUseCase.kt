@@ -1,11 +1,11 @@
 package dev.olog.msc.domain.interactor.playlist
 
-import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.presentation.model.PlaylistType
 import javax.inject.Inject
 
 class MoveItemInPlaylistUseCase @Inject constructor(
-        private val playlistGateway: PlaylistGateway2
+        private val playlistGateway: PlaylistGateway
 ) {
 
     fun execute(input: Input): Boolean {

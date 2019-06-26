@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.edit.album
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.utils.k.extension.get
@@ -17,7 +17,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
     private val mediaId: MediaId,
     private val getAlbumUseCase: GetAlbumUseCase,
     private val getPodcastAlbumUseCase: GetPodcastAlbumUseCase,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
+    private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) {
 
@@ -32,29 +32,32 @@ class EditAlbumFragmentPresenter @Inject constructor(
     }
 
     private fun observeAlbumInternal(): Single<DisplayableAlbum>{
-        return getAlbumUseCase.execute(mediaId)
-                .flatMap { original ->
-                    getSongListByParamUseCase.execute(mediaId)
-                            .map { original.toDisplayableAlbum(it[0].path)  }
-                }
-                .firstOrError()
-                .doOnSuccess { originalAlbum = it }
+        TODO()
+//        return getAlbumUseCase.execute(mediaId)
+//                .flatMap { original ->
+//                    getSongListByParamUseCase.execute(mediaId)
+//                            .map { original.toDisplayableAlbum(it[0].path)  }
+//                }
+//                .firstOrError()
+//                .doOnSuccess { originalAlbum = it }
     }
 
     private fun observePodcastAlbumInternal(): Single<DisplayableAlbum>{
-        return getPodcastAlbumUseCase.execute(mediaId)
-                .flatMap { original ->
-                    getSongListByParamUseCase.execute(mediaId)
-                            .map { original.toDisplayableAlbum(it[0].path)}
-                }
-                .firstOrError()
-                .doOnSuccess { originalAlbum = it }
+        TODO()
+//        return getPodcastAlbumUseCase.execute(mediaId)
+//                .flatMap { original ->
+//                    getSongListByParamUseCase.execute(mediaId)
+//                            .map { original.toDisplayableAlbum(it[0].path)}
+//                }
+//                .firstOrError()
+//                .doOnSuccess { originalAlbum = it }
     }
 
     fun getSongList(): Single<List<Song>> {
-        return getSongListByParamUseCase.execute(mediaId)
-                .firstOrError()
-                .doOnSuccess { songList = it }
+        TODO()
+//        return getSongListByParamUseCase.execute(mediaId)
+//                .firstOrError()
+//                .doOnSuccess { songList = it }
     }
 
     fun getAlbum(): DisplayableAlbum = originalAlbum

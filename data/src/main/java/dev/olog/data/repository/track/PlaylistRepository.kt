@@ -12,7 +12,7 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PlaylistGateway2
+import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PlaylistOperations
 import dev.olog.core.gateway.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
@@ -40,7 +40,7 @@ internal class PlaylistRepository @Inject constructor(
     appDatabase: AppDatabase,
     private val songGateway2: SongGateway,
     private val helper: PlaylistRepositoryHelper
-) : BaseRepository<Playlist, Id>(context), PlaylistGateway2, PlaylistOperations by helper {
+) : BaseRepository<Playlist, Id>(context), PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val queries = PlaylistQueries(contentResolver, blacklistPrefs, sortPrefs)

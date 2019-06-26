@@ -2,24 +2,26 @@ package dev.olog.msc.domain.interactor.update
 
 import dev.olog.injection.IoSchedulers
 import dev.olog.core.gateway.UsedImageGateway
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.coroutines.rx2.asFlowable
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
-    schedulers: IoSchedulers,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase,
-    private val updateTrackUseCase: UpdateTrackUseCase,
-    private val gateway: UsedImageGateway
+        schedulers: IoSchedulers,
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
+        private val updateTrackUseCase: UpdateTrackUseCase,
+        private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateMultipleTracksUseCase.Data>(schedulers){
 
     override fun buildUseCaseObservable(param: Data): Completable {
-        return getSongListByParamUseCase.execute(param.mediaId)
+        return getSongListByParamUseCase(param.mediaId)
+                .asFlowable()
                 .firstOrError()
                 .flatMapObservable { Observable.fromIterable(it) }
                 .flatMapCompletable { updateTrackUseCase.execute(

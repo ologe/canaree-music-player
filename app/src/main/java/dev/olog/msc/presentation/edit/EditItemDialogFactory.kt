@@ -9,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.MediaId
@@ -18,6 +18,7 @@ import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.rx2.asFlowable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
@@ -30,7 +31,7 @@ class EditItemDialogFactory @Inject constructor(
         @ApplicationContext private val context: Context,
         private val getSongUseCase: GetSongUseCase,
         private val getPodcastUseCase: GetPodcastUseCase,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -62,7 +63,7 @@ class EditItemDialogFactory @Inject constructor(
 
     fun toEditAlbum(mediaId: MediaId, action: () -> Unit){
         toDialogDisposable.unsubscribe()
-        toDialogDisposable = getSongListByParamUseCase.execute(mediaId)
+        toDialogDisposable = getSongListByParamUseCase(mediaId).asFlowable()
                 .observeOn(Schedulers.computation())
                 .firstOrError()
                 .flattenAsObservable { it }
@@ -74,7 +75,7 @@ class EditItemDialogFactory @Inject constructor(
 
     fun toEditArtist(mediaId: MediaId, action: () -> Unit){
         toDialogDisposable.unsubscribe()
-        toDialogDisposable = getSongListByParamUseCase.execute(mediaId)
+        toDialogDisposable = getSongListByParamUseCase(mediaId).asFlowable()
                 .observeOn(Schedulers.computation())
                 .firstOrError()
                 .flattenAsObservable { it }

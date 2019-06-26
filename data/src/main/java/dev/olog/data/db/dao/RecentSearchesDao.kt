@@ -36,16 +36,16 @@ abstract class RecentSearchesDao {
     abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
 
     fun getAll(
-        songList: SongGateway,
-        albumList: AlbumGateway,
-        artistList: ArtistGateway,
-        playlistList: PlaylistGateway2,
-        genreList: GenreGateway,
-        folderList: FolderGateway,
-        podcastList: PodcastGateway,
-        podcastPlaylistList: PodcastPlaylistGateway,
-        podcastAlbumList: PodcastAlbumGateway,
-        podcastArtistList: PodcastArtistGateway
+            songList: SongGateway,
+            albumList: AlbumGateway,
+            artistList: ArtistGateway,
+            playlistList: PlaylistGateway,
+            genreList: GenreGateway,
+            folderList: FolderGateway,
+            podcastList: PodcastGateway,
+            podcastPlaylistList: PodcastPlaylistGateway,
+            podcastAlbumList: PodcastAlbumGateway,
+            podcastArtistList: PodcastArtistGateway
     ): Flow<List<SearchResult>> {
 
         return getAllImpl()
