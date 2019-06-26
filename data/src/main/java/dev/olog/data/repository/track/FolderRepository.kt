@@ -49,8 +49,8 @@ internal class FolderRepository @Inject constructor(
     private fun extractFolders(cursor: Cursor): List<Folder> {
         assertBackgroundThread()
         val pathList = context.contentResolver.queryAll(cursor) {
-            val data = it.getString(MediaStore.Audio.AudioColumns.DATA)
-            data.substring(1, data.lastIndexOf(File.separator)) // path
+            val data = it.getString(MediaStore.Audio.Media.DATA)
+            data.substring(0, data.lastIndexOf(File.separator)) // path
         }
         return pathList.asSequence()
             .groupBy { it }
