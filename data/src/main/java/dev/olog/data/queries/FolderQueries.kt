@@ -56,8 +56,7 @@ internal class FolderQueries(
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection(false)} AND $folderProjection = ?
-
-            ORDER BY lower($ARTIST) COLLATED UNICODE ASC
+            ORDER BY lower($ARTIST) COLLATE UNICODE ASC
         """
 
         return contentResolver.querySql(query, arrayOf(path))

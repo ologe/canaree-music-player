@@ -57,7 +57,7 @@ internal class PlaylistQueries(
             FROM ${Members.getContentUri("external", playlistId)}
             WHERE ${defaultSelection()}
 
-            ORDER BY lower(${Members.ARTIST}) COLLATED UNICODE ASC
+            ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
         """
 
         return contentResolver.querySql(query, arrayOf(playlistId.toString()))

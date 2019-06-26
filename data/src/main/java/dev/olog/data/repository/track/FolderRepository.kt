@@ -32,11 +32,11 @@ import java.io.File
 import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        private val songGateway2: SongGateway
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    private val songGateway2: SongGateway
 ) : BaseRepository<Folder, Path>(context), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -89,6 +89,7 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {
+        assertBackgroundThread()
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
@@ -96,6 +97,7 @@ internal class FolderRepository @Inject constructor(
     override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
+            .assertBackground()
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
@@ -113,15 +115,14 @@ internal class FolderRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
-            mostPlayedDao.insertOne(
-                FolderMostPlayedEntity(
-                    0,
-                    item.id,
-                    item.folderPath
-                )
+        // TODO check
+        mostPlayedDao.insertOne(
+            FolderMostPlayedEntity(
+                0,
+                mediaId.leaf!!,
+                mediaId.categoryValue
             )
-        } ?: Log.w("FolderRepo", "song not found=$mediaId")
+        )
     }
 
     override fun observeSiblings(path: Path): Flow<List<Folder>> {

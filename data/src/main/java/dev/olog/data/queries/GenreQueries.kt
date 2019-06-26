@@ -57,7 +57,7 @@ internal class GenreQueries(
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection()}
 
-            ORDER BY lower(${Members.ARTIST}) COLLATED UNICODE ASC
+            ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
         """
 
         return contentResolver.querySql(query, arrayOf(genreId.toString()))
