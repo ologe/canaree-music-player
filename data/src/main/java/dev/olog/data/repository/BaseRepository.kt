@@ -15,7 +15,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flowViaChannel
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
@@ -61,16 +61,16 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        val flow : Flow<R> =  channelFlow {
+        val flow : Flow<R> =  flowViaChannel { channel ->
 
-            if (!isClosedForSend) {
-                safeSend(action())
+            if (!channel.isClosedForSend) {
+                channel.offer(action())
             }
 
             val observer = DataObserver {
                 launch {
-                    if (!isClosedForSend) {
-                        safeSend(action())
+                    if (!channel.isClosedForSend) {
+                        channel.safeSend(action())
                     }
                 }
             }
@@ -80,7 +80,7 @@ internal abstract class BaseRepository<T, Param>(
                 contentUri.notifyForDescendants,
                 observer
             )
-            invokeOnClose { contentResolver.unregisterContentObserver(observer) }
+            channel.invokeOnClose { contentResolver.unregisterContentObserver(observer) }
         }
         return flow.assertBackground()
     }

@@ -6,12 +6,10 @@ import dev.olog.core.gateway.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.extensions.doIf
-import dev.olog.shared.extensions.mapListItem
-import dev.olog.shared.extensions.startWith
-import dev.olog.shared.extensions.startWithIfNotEmpty
+import dev.olog.shared.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(

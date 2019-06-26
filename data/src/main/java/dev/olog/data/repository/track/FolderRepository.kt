@@ -3,7 +3,6 @@ package dev.olog.data.repository.track
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
@@ -17,6 +16,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.mapper.toArtist
+import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -24,7 +24,10 @@ import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
@@ -86,11 +89,13 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {
-        return listOf()
+        val cursor = queries.getSongList(param)
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
-        return flow { }
+        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
