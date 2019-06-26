@@ -7,15 +7,7 @@
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/upperFragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp" />
-
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
     <dev.olog.msc.presentation.main.widget.SlidingPanelFade
         android:id="@+id/slidingPanelFade"

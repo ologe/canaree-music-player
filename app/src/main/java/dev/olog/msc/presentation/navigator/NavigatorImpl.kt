@@ -1,19 +1,18 @@
 package dev.olog.msc.presentation.navigator
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.appinvite.AppInviteInvitation
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
-import dev.olog.presentation.model.PlaylistType
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
@@ -36,15 +35,13 @@ import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.presentation.utils.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.presentation.navigator.Navigator
-import io.reactivex.disposables.Disposable
+import dev.olog.presentation.utils.collapse
 import javax.inject.Inject
-
-private const val NEXT_REQUEST_THRESHOLD : Long = 400 // ms
 
 class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,
@@ -54,76 +51,37 @@ class NavigatorImpl @Inject internal constructor(
 
 ) : DefaultLifecycleObserver, Navigator {
 
-    private var lastRequest: Long = -1
-
-    private var popupDisposable: Disposable? = null
-
-    init {
-        activity.lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        popupDisposable.unsubscribe()
-    }
-
     override fun toFirstAccess() {
         val intent = Intent(activity, SplashActivity::class.java)
         activity.startActivity(intent)
     }
 
-    private fun getFragmentOnFragmentContainer(): androidx.fragment.app.Fragment? {
-        return activity.supportFragmentManager.fragments
-                .firstOrNull { (it.view?.parent as View?)?.id == R.id.fragmentContainer  }
-    }
-
     override fun toDetailFragment(mediaId: MediaId) {
+        (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
 
-        if (allowed()){
-            (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
-
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                getFragmentOnFragmentContainer()?.let { hide(it) }
-                replace(R.id.upperFragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
-                addToBackStack(DetailFragment.TAG)
-            }
-        }
+        val newTag = createBackStackTag(DetailFragment.TAG)
+        superCerealTransition(activity, DetailFragment.newInstance(mediaId), newTag)
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
-        if (allowed()){
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                getFragmentOnFragmentContainer()?.let { hide(it) }
-                replace(R.id.upperFragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
-                addToBackStack(RelatedArtistFragment.TAG)
-            }
-        }
+        val newTag = createBackStackTag(RelatedArtistFragment.TAG)
+        superCerealTransition(activity, RelatedArtistFragment.newInstance(mediaId), newTag)
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
-        if (allowed()){
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                getFragmentOnFragmentContainer()?.let { hide(it) }
-                replace(R.id.upperFragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
-                addToBackStack(RecentlyAddedFragment.TAG)
-            }
-        }
+        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
+        superCerealTransition(activity, RecentlyAddedFragment.newInstance(mediaId), newTag)
     }
 
     override fun toOfflineLyrics() {
-        if (allowed()){
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, OfflineLyricsFragment.newInstance(),
-                        OfflineLyricsFragment.TAG)
-                addToBackStack(OfflineLyricsFragment.TAG)
-            }
+        if (!allowed()) {
+            return
+        }
+        activity.fragmentTransaction {
+            setReorderingAllowed(true)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            add(android.R.id.content, OfflineLyricsFragment.newInstance(), OfflineLyricsFragment.TAG)
+            addToBackStack(OfflineLyricsFragment.TAG)
         }
     }
 
@@ -154,37 +112,24 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        if (allowed()){
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                getFragmentOnFragmentContainer()?.let { hide(it) }
-                replace(R.id.upperFragmentContainer, PlaylistTracksChooserFragment.newInstance(type), PlaylistTracksChooserFragment.TAG)
-                addToBackStack(PlaylistTracksChooserFragment.TAG)
-            }
-        }
+        val newTag = createBackStackTag(PlaylistTracksChooserFragment.TAG)
+        superCerealTransition(activity, PlaylistTracksChooserFragment.newInstance(type), newTag)
     }
 
     override fun toDialog(item: DisplayableItem, anchor: View) {
         toDialog(item.mediaId, anchor)
     }
 
+    @SuppressLint("RxLeakedSubscription", "CheckResult")
     override fun toDialog(mediaId: MediaId, anchor: View) {
-        if (allowed()){
-            popupDisposable.unsubscribe()
-            popupDisposable = popupFactory.create(anchor, mediaId)
+        if (allowed()) {
+            popupFactory.create(anchor, mediaId) // TODO
                     .subscribe({ it.show() }, Throwable::printStackTrace)
         }
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
         mainPopup.get().show(activity, anchor, category)
-    }
-
-    private fun allowed(): Boolean {
-        val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD
-        lastRequest = System.currentTimeMillis()
-        return allowed
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {

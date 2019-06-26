@@ -191,7 +191,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
                 return
             }
 
-            val topFragment = getTopFragment()
+            val topFragment = supportFragmentManager.getTopFragment()
 
             when {
                 topFragment is DrawsOnTop -> super.onBackPressed()
