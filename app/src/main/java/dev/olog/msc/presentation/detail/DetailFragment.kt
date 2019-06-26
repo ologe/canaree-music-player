@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.detail
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -149,7 +150,6 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { edit ->
                     val isEmpty = edit.text.isEmpty()
-                    view.clear.toggleVisibility(!isEmpty, true)
                     viewModel.updateFilter(edit.text.toString())
                 }
     }
@@ -162,7 +162,6 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         filter.setOnClickListener {
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }
-        clear.setOnClickListener { editText.setText("") }
     }
 
     override fun onPause() {
@@ -171,7 +170,6 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)
-        clear.setOnClickListener(null)
     }
 
     override fun adjustStatusBarColor() {
@@ -188,10 +186,10 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
     private fun removeLightStatusBar(){
         act.window.removeLightStatusBar()
-        val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
-        view?.back?.setColorFilter(color)
-        more?.setColorFilter(color)
-        filter?.setColorFilter(color)
+        val color = Color.WHITE
+        back.setColorFilter(color)
+        more.setColorFilter(color)
+        filter.setColorFilter(color)
     }
 
     private fun setLightStatusBar(){
@@ -200,10 +198,10 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         }
 
         act.window.setLightStatusBar()
-        val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
-        view?.back?.setColorFilter(color)
-        more?.setColorFilter(color)
-        filter?.setColorFilter(color)
+        val color = requireContext().colorControlNormal()
+        back.setColorFilter(color)
+        more.setColorFilter(color)
+        filter.setColorFilter(color)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
