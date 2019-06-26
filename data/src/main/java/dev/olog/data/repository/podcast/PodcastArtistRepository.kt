@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-internal class PodcastArtistRepository2 @Inject constructor(
+internal class PodcastArtistRepository @Inject constructor(
         @ApplicationContext context: Context,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,

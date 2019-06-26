@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.track
 
 import android.content.Context
 import android.database.Cursor
@@ -19,6 +19,8 @@ import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.queries.GenreQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import dev.olog.shared.extensions.assertBackground
@@ -26,7 +28,7 @@ import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-internal class GenreRepository2 @Inject constructor(
+internal class GenreRepository @Inject constructor(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         sortPrefs: SortPreferences,

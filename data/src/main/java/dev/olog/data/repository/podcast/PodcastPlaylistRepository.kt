@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-internal class PodcastPlaylistRepository2 @Inject constructor(
+internal class PodcastPlaylistRepository @Inject constructor(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         private val favoriteGateway: FavoriteGateway

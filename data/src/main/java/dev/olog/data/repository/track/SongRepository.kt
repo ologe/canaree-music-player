@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.track
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -19,6 +19,8 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
@@ -31,7 +33,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
 import javax.inject.Inject
 
-internal class SongRepository2 @Inject constructor(
+internal class SongRepository @Inject constructor(
         @ApplicationContext context: Context,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences

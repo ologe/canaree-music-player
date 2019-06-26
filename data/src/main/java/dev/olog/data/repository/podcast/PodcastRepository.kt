@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
 import javax.inject.Inject
 
-internal class PodcastRepository2 @Inject constructor(
+internal class PodcastRepository @Inject constructor(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         sortPrefs: SortPreferences,

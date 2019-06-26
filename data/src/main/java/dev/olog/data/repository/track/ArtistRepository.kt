@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.track
 
 import android.content.Context
 import android.database.Cursor
@@ -14,6 +14,8 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.queries.ArtistQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
@@ -21,7 +23,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-internal class ArtistRepository2 @Inject constructor(
+internal class ArtistRepository @Inject constructor(
         @ApplicationContext context: Context,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,

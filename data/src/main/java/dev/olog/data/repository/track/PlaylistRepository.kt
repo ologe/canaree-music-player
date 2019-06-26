@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.track
 
 import android.content.Context
 import android.database.Cursor
@@ -23,6 +23,9 @@ import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toPlaylist
 import dev.olog.data.queries.PlaylistQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
+import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import dev.olog.shared.extensions.assertBackground
@@ -30,7 +33,7 @@ import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-internal class PlaylistRepository2 @Inject constructor(
+internal class PlaylistRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,

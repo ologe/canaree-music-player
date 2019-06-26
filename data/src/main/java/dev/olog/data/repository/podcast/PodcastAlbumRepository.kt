@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.podcast
 
 import android.content.Context
 import android.database.Cursor
@@ -6,14 +6,16 @@ import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.AlbumGateway
 import dev.olog.core.gateway.HasLastPlayed
 import dev.olog.core.gateway.Id
+import dev.olog.core.gateway.PodcastAlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.queries.AlbumsQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
@@ -21,15 +23,15 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-internal class AlbumRepository2 @Inject constructor(
+internal class PodcastAlbumRepository @Inject constructor(
         @ApplicationContext context: Context,
         sortPrefs: SortPreferences,
         blacklistPrefs: BlacklistPreferences,
         appDatabase: AppDatabase
-) : BaseRepository<Album, Id>(context), AlbumGateway {
+) : BaseRepository<Album, Id>(context), PodcastAlbumGateway {
 
-    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
-    private val lastPlayedDao = appDatabase.lastPlayedAlbumDao()
+    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
+    private val lastPlayedDao = appDatabase.lastPlayedPodcastAlbumDao()
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)

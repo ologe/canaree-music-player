@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.track
 
 import android.content.Context
 import android.database.Cursor
@@ -18,6 +18,8 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.queries.FolderQueries
+import dev.olog.data.repository.BaseRepository
+import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.extensions.assertBackground
@@ -26,7 +28,7 @@ import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
 
-internal class FolderRepository2 @Inject constructor(
+internal class FolderRepository @Inject constructor(
         @ApplicationContext context: Context,
         appDatabase: AppDatabase,
         sortPrefs: SortPreferences,

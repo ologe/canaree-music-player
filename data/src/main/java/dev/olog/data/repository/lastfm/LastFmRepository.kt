@@ -1,4 +1,4 @@
-package dev.olog.data.repository
+package dev.olog.data.repository.lastfm
 
 import android.provider.MediaStore
 import dev.olog.core.entity.LastFmAlbum
@@ -16,7 +16,7 @@ import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
-internal class LastFmRepository2 @Inject constructor(
+internal class LastFmRepository @Inject constructor(
     private val lastFmService: LastFmService,
     private val lastFmRepoTrack: LastFmLocalTrack,
     private val lastFmRepoArtist: LastFmLocalArtist,
