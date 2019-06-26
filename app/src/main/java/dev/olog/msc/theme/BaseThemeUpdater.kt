@@ -6,7 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 
-internal abstract class BaseThemeUpdater(
+abstract class BaseThemeUpdater(
     protected val context: Context,
     protected val prefs: SharedPreferences,
     protected val key: String
@@ -26,6 +26,7 @@ internal abstract class BaseThemeUpdater(
     }
 
     override fun onStop(owner: LifecycleOwner) {
+        hasInit = false
         prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
 

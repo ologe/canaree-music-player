@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.QuickAction
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ internal class QuickActionListener @Inject constructor(
         prefs: SharedPreferences
 ) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_quick_action_key)){
 
-    val quickActionPublisher by lazyFast { ConflatedBroadcastChannel<QuickAction>() }
+    val quickActionPublisher = ConflatedBroadcastChannel(QuickAction.NONE)
     fun quickAction() = quickActionPublisher.value
 
     override fun onPrefsChanged(forced: Boolean) {
@@ -27,7 +27,10 @@ internal class QuickActionListener @Inject constructor(
             context.getString(R.string.prefs_quick_action_entry_value_play) -> QuickAction.PLAY
             else -> QuickAction.SHUFFLE
         }
-        GlobalScope.launch { quickActionPublisher.send(quickActon) }
+        GlobalScope.launch {
+            delay(10) // give some time to initialize publisher
+            quickActionPublisher.send(quickActon)
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.ImageShape
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +28,10 @@ internal class ImageShapeListener @Inject constructor(
             context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
             else -> throw IllegalArgumentException("image shape not valid=$value")
         }
-        GlobalScope.launch { imageShapePublisher.send(imageShape) }
+        GlobalScope.launch {
+            delay(10) // give some time to initialize publisher
+            imageShapePublisher.send(imageShape)
+        }
     }
 
 }

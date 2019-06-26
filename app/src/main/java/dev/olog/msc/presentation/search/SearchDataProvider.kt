@@ -11,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.extensions.combineLatest
 import dev.olog.shared.extensions.mapListItem
 import dev.olog.shared.extensions.startWithIfNotEmpty
 import kotlinx.coroutines.CoroutineScope
@@ -105,7 +106,9 @@ class SearchDataProvider @Inject constructor(
                 getGenres(query).map { if (it.isNotEmpty()) searchHeaders.genreHeaders(it.size) else it },
                 getFolders(query).map { if (it.isNotEmpty()) searchHeaders.foldersHeaders(it.size) else it },
                 getSongs(query)
-            ) { list -> list.flatMap { it } }
+            ) { artists, albums, playlists, genres, folders, songs ->
+                artists + albums + playlists + genres + folders + songs
+            }
     }
 
     private fun getSongs(query: String): Flow<List<DisplayableItem>> {
