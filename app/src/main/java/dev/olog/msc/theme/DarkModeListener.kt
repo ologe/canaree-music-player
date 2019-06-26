@@ -24,7 +24,7 @@ internal class DarkModeListener @Inject constructor(
                 if (isQ()) {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 } else {
-                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY // TODO update what the string value when pre Q
                 }
             }
             context.getString(R.string.prefs_dark_mode_2_entry_value_light) -> AppCompatDelegate.MODE_NIGHT_NO

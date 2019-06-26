@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.base
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
@@ -16,6 +17,8 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFra
 
     @Inject
     internal lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    private var customResources: Resources? = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +45,13 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFra
 
     protected open fun injectComponent() {}
 
-
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
+
+    override fun getResources(): Resources {
+        if (customResources == null) {
+            customResources = CustomResources(this, assets, super.getResources())
+        }
+        return customResources!!
+    }
 
 }

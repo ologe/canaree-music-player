@@ -107,7 +107,31 @@
     </style>
 
 
+    <!--    search-->
+    <style name="SearchThemeLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/search_state_list</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/searchBoxBackground</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconDrawable">@drawable/vd_clear</item>
+        <item name="boxCornerRadiusTopStart">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/search_round_corner</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/search_round_corner</item>
+        <item name="hintEnabled">false</item>
+    </style>
 
+
+    <style name="SearchThemeEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:imeOptions">flagNoExtractUi|actionDone</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:inputType">textFilter</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
 
 
 

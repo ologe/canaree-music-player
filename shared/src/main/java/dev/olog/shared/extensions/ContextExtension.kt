@@ -107,7 +107,7 @@ private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: 
     return fallbackColor
 }
 
-private fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
+fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
     val outValue = TypedValue()
     val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)

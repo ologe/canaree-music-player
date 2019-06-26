@@ -12,4 +12,6 @@
     <color name="textColorPrimary">#fff</color>
     <color name="textColorSecondary">#7f7f7f</color>
 
+    <color name="searchBoxBackground">#303336</color>
+
 </resources>

@@ -30,12 +30,13 @@
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:layout_gravity="bottom"
         android:max="@integer/common_high_number"
         tools:max="100"
         tools:progress="50"
         android:progressTint="@android:color/white"
-        style="@style/SizedProgressBar"
+        style="@style/DefaultHorizontalProgressBar"
         android:scaleY="1.2"/>
 
 </FrameLayout>

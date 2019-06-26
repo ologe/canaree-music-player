@@ -46,19 +46,8 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
     private lateinit var layoutManager: androidx.recyclerview.widget.LinearLayoutManager
-    private var bestMatchDisposable : Disposable? = null
 
     private var queryDisposable : Disposable? = null
-
-    private fun searchForBestMatch(query: String){
-        bestMatchDisposable.unsubscribe()
-        bestMatchDisposable = viewModel.getBestMatch(query)
-                .subscribe({
-                    didYouMean.text = it
-                    didYouMeanHeader.toggleVisibility(it.isNotBlank(), true)
-                    didYouMean.toggleVisibility(it.isNotBlank(), true)
-                }, Throwable::printStackTrace)
-    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!)
@@ -74,16 +63,10 @@ class SearchFragment : BaseFragment() {
 
         viewModel.searchData.subscribe(viewLifecycleOwner) { (map, query) ->
 
-            didYouMean.setGone()
-            didYouMeanHeader.setGone()
-
             if (query.isNotBlank()){
                 val isEmpty = map.map { it.value }
                         .map { it.isEmpty() }
                         .reduce { all, current -> all && current }
-                if (isEmpty){
-                    searchForBestMatch(query)
-                }
             }
 
             val albums = map[SearchFragmentType.ALBUMS]!!.toList()
@@ -98,21 +81,12 @@ class SearchFragment : BaseFragment() {
             folderAdapter.updateDataSet(folders)
             adapter.updateDataSet(viewModel.adjustDataMap(map))
         }
-
-        RxTextView.afterTextChangeEvents(view.editText)
-                .map { it.view().text.isBlank() }
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) { isEmpty ->
-                    view.clear.toggleVisibility(!isEmpty, true)
-                }
     }
 
     override fun onResume() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        clear.setOnClickListener { editText.setText("") }
         keyboard.setOnClickListener { ImeUtils.showIme(editText) }
-        didYouMean.setOnClickListener { editText.setText(didYouMean.text.toString()) }
 
         queryDisposable = RxTextView.afterTextChangeEvents(editText)
                 .map { it.editable()!!.toString() }
@@ -130,9 +104,7 @@ class SearchFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
-        clear.setOnClickListener(null)
         keyboard.setOnClickListener(null)
-        didYouMean.setOnClickListener(null)
         queryDisposable.unsubscribe()
         adapter.setAfterDataChanged(null)
         floatingWindow.setOnClickListener(null)
@@ -153,18 +125,11 @@ class SearchFragment : BaseFragment() {
 
         val showEmptyState = isEmpty && queryLength >= 2
         this.emptyStateText.toggleVisibility(showEmptyState, true)
-        this.emptyStateImage.toggleVisibility(showEmptyState, true)
-        if(showEmptyState){
-            this.emptyStateImage.resumeAnimation()
-        } else {
-            this.emptyStateImage.progress = 0f
-        }
     }
 
     override fun onStop() {
         super.onStop()
         ImeUtils.hideIme(editText)
-        bestMatchDisposable.unsubscribe()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

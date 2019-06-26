@@ -11,6 +11,9 @@
     <color name="textColorPrimary">#2b2b2b</color>
     <color name="textColorSecondary">#7f7f7f</color>
 
+    <color name="searchBoxBackground">#f1f3f4</color>
+
+
     <color name="light_grey">#AAA</color>
     <color name="dark_grey">#262626</color>
     <color name="grey400">#BDBDBD</color>
