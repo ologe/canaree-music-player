@@ -19,10 +19,7 @@ import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
+import dev.olog.presentation.base.*
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
@@ -49,7 +46,7 @@ class PlayerFragmentAdapter(
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter
 
-) : ObservableAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     private val playerViewTypes = listOf(
         R.layout.fragment_player_controls,

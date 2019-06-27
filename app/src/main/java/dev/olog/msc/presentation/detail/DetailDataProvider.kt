@@ -121,7 +121,9 @@ internal class DetailDataProvider @Inject constructor(
     }
 
     fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem>> {
-        return mostPlayedUseCase(mediaId).mapListItem { it.toMostPlayedDetailDisplayableItem(mediaId) }
+        return mostPlayedUseCase(mediaId).map {
+            it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(mediaId, index) }
+        }
     }
 
     fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem>> {

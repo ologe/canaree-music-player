@@ -6,13 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.presentation.search.*
+import dev.olog.msc.presentation.search.SearchFragmentViewModel
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
+import dev.olog.presentation.base.*
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -24,7 +20,7 @@ class SearchFragmentAdapter (
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){

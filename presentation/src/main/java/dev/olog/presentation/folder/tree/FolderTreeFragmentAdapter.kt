@@ -19,7 +19,7 @@ class FolderTreeFragmentAdapter(
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableFile>(lifecycle) {
+) : ObservableAdapter<DisplayableFile>(lifecycle, DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

@@ -13,7 +13,8 @@
         android:paddingTop="36dp"
         android:paddingBottom="8dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:background="?colorSurface">
 
         <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"

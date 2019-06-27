@@ -18,10 +18,7 @@ import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
+import dev.olog.presentation.base.*
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -39,7 +36,7 @@ internal class DetailFragmentAdapter(
         private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

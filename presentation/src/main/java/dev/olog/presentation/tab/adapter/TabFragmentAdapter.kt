@@ -21,7 +21,7 @@ internal class TabFragmentAdapter (
         private val viewModel: TabFragmentViewModel,
         private val setupNestedList: SetupNestedList
 
-) : ObservableAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

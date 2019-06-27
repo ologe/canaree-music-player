@@ -12,7 +12,7 @@ internal class TabFragmentNestedAdapter(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator
 
-): ObservableAdapter<DisplayableItem>(lifecycle) {
+): ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

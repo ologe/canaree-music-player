@@ -29,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @PerService
@@ -82,6 +83,7 @@ class MediaSessionCallback @Inject constructor(
                 }
                 else -> Single.error(Throwable("invalid case $extras"))
             }.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
                     .doOnSubscribe { updatePodcastPosition() }
                     .subscribe(player::play, Throwable::printStackTrace)
                     .addTo(subscriptions)

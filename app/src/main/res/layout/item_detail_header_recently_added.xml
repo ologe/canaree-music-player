@@ -16,14 +16,14 @@
         android:paddingEnd="@dimen/detail_header_margin_end"
         android:paddingTop="@dimen/item_detail_header_padding_top"
         android:paddingBottom="12dp"
-        android:background="?android:windowBackground">
+        android:background="?colorSurface">
 
         <TextView
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.subtitle}"
-            android:textColor="?attr/colorAccent"
+            android:textColor="?colorPrimary"
             android:textSize="@dimen/item_header_sec_text_size"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
-            android:textColor="?attr/colorAccent"
+            android:textColor="?colorPrimary"
             android:textSize="@dimen/item_header_sec_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

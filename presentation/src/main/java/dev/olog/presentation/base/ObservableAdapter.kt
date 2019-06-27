@@ -13,15 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.drop
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.drop
 
 abstract class ObservableAdapter<T : BaseModel>(
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
+    private val itemCallback: DiffUtil.ItemCallback<T>
 
 ) : RecyclerView.Adapter<DataBoundViewHolder>(),
     DefaultLifecycleObserver,
@@ -41,7 +40,7 @@ abstract class ObservableAdapter<T : BaseModel>(
         lifecycle.addObserver(this)
         launch {
             for (list in channel.openSubscription()) {
-                val diffCallback = AdapterDiffUtil(data, list)
+                val diffCallback = AdapterDiffUtil(data, list, itemCallback)
                 yield()
                 val diff = DiffUtil.calculateDiff(diffCallback)
                 yield()

@@ -16,7 +16,7 @@
         android:paddingEnd="@dimen/detail_header_margin_end"
         android:paddingTop="@dimen/item_detail_header_padding_top"
         android:paddingBottom="12dp"
-        android:background="?android:windowBackground">
+        android:background="?colorSurface">
 
         <TextView
             android:id="@+id/title"
@@ -37,7 +37,7 @@
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
-            android:textColor="?attr/colorAccent"
+            android:textColor="?colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"

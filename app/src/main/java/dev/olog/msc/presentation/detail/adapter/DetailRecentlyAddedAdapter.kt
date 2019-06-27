@@ -6,10 +6,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
+import dev.olog.presentation.base.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 
@@ -18,7 +15,7 @@ class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
-) : ObservableAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
