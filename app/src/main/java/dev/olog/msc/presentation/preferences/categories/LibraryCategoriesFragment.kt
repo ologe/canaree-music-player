@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.presentation.base.drag.TouchHelperAdapterCallback
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.withArguments

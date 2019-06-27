@@ -97,6 +97,10 @@ fun Context.isDarkMode(): Boolean {
     return resources.getBoolean(R.bool.is_dark_mode)
 }
 
+fun Context.colorSwipeBackground(): Int {
+    return themeAttributeToColor(R.attr.colorSwipeBackground)
+}
+
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
     val outValue = TypedValue()
     val theme = this.theme

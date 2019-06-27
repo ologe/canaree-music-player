@@ -8,7 +8,7 @@ import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.presentation.base.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.extensions.*
@@ -54,7 +54,10 @@ class PlayingQueueFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT)
+        val callback = TouchHelperAdapterCallback(
+            adapter,
+            ItemTouchHelper.RIGHT
+        )
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper

@@ -1,5 +1,7 @@
 package dev.olog.msc.presentation.detail.adapter
 
+import android.view.MotionEvent
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +21,8 @@ import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.presentation.base.*
+import dev.olog.presentation.base.drag.OnStartDragListener
+import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -29,14 +33,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 
 internal class DetailFragmentAdapter(
-        lifecycle: Lifecycle,
-        private val mediaId: MediaId,
-        private val setupNestedList: SetupNestedList,
-        private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
-        private val viewModel: DetailFragmentViewModel
-
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+    lifecycle: Lifecycle,
+    private val mediaId: MediaId,
+    private val setupNestedList: SetupNestedList,
+    private val navigator: Navigator,
+    private val mediaProvider: MediaProvider,
+    private val viewModel: DetailFragmentViewModel,
+    private val onStartDragListener: OnStartDragListener
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -63,7 +67,12 @@ internal class DetailFragmentAdapter(
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-//                viewHolder.setOnMoveListener(controller, touchHelper) TODo
+                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
+                    if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        onStartDragListener.onStartDrag(viewHolder)
+                    }
+                    false
+                }
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
@@ -80,7 +89,9 @@ internal class DetailFragmentAdapter(
 
                 viewHolder.setOnClickListener(R.id.seeMore, this) { item, _, _ ->
                     when (item.mediaId) {
-                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(mediaId)
+                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(
+                            mediaId
+                        )
                     }
                 }
             }
@@ -88,7 +99,13 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, this) { _, _, view ->
                     viewModel.observeSortOrder {
-                        DetailSortDialog().show(view.context, view, mediaId, it, viewModel::updateSortOrder)
+                        DetailSortDialog().show(
+                            view.context,
+                            view,
+                            mediaId,
+                            it,
+                            viewModel::updateSortOrder
+                        )
                     }
                 }
                 viewHolder.setOnClickListener(R.id.sortImage, this) { _, _, _ ->
@@ -113,32 +130,32 @@ internal class DetailFragmentAdapter(
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
                 adapter.observeData(false)
-                        .asLiveData()
-                        .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
+                    .asLiveData()
+                    .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
             }
             R.layout.item_detail_header_all_song -> {
                 val sortText = holder.itemView.sort
                 val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
-                        .takeUntil(RxView.detaches(holder.itemView))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ (sort, arranging) ->
-                            if (sort == SortType.CUSTOM) {
-                                sortImage.setImageResource(R.drawable.vd_remove)
+                    .takeUntil(RxView.detaches(holder.itemView))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ (sort, arranging) ->
+                        if (sort == SortType.CUSTOM) {
+                            sortImage.setImageResource(R.drawable.vd_remove)
+                        } else {
+                            if (arranging == SortArranging.ASCENDING) {
+                                sortImage.setImageResource(R.drawable.vd_arrow_down)
                             } else {
-                                if (arranging == SortArranging.ASCENDING) {
-                                    sortImage.setImageResource(R.drawable.vd_arrow_down)
-                                } else {
-                                    sortImage.setImageResource(R.drawable.vd_arrow_up)
-                                }
+                                sortImage.setImageResource(R.drawable.vd_arrow_up)
                             }
+                        }
 
-                        }, Throwable::printStackTrace)
+                    }, Throwable::printStackTrace)
 
                 viewModel.showSortByTutorialIfNeverShown()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
             }
         }
     }
@@ -159,12 +176,34 @@ internal class DetailFragmentAdapter(
         get() {
             if (mediaId.isPlaylist) {
                 val playlistId = mediaId.resolveId
-                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlistId)
+                return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
+                    playlistId
+                )
             }
             return false
         }
 
-//    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
+    override fun onMoved(from: Int, to: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onClearView() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    //    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 //
 //    override fun onSwipedRight(position: Int) {
 //        onSwipeRightAction.invoke(position)

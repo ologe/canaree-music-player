@@ -8,9 +8,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
+import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.extensions.unsubscribe
@@ -21,7 +22,8 @@ abstract class AbsAdapter<Model : BaseModel>(
         lifecycle: Lifecycle,
         protected val controller : AdapterDataController<Model> = BaseAdapterDataController()
 
-) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver, TouchableAdapter {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver,
+    TouchableAdapter {
 
     private var dataDisposable : Disposable? = null
     var touchHelper: ItemTouchHelper? = null
@@ -136,7 +138,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         onDragAction!!.invoke(relativeFrom, relativeTo)
     }
 
-    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val context = viewHolder.itemView.context
 
@@ -149,7 +151,8 @@ abstract class AbsAdapter<Model : BaseModel>(
         Relative position is calculated from first interactive item,
         because there are items that isn't
      */
-    override fun onSwipedRight(position: Int) {
+    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
+        val position = viewHolder.adapterPosition
         controller.pauseObservingData()
         val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
         val relativePosition = position - positionPivot

@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
@@ -16,7 +15,6 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.extractBookmark
 import dev.olog.media.isPlaying
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.presentation.utils.isCollapsed

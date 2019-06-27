@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.presentation.base.drag.TouchHelperAdapterCallback
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.core.MediaId
@@ -44,7 +44,10 @@ class RecentlyAddedFragment : BaseFragment() {
         view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.setHasFixedSize(true)
 
-        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
+        val callback = TouchHelperAdapterCallback(
+            adapter,
+            ItemTouchHelper.LEFT
+        )
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper

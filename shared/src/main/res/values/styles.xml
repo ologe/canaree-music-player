@@ -7,6 +7,7 @@
 
     <attr name="colorScrim" format="reference|color"/>
     <attr name="colorPrimaryTransparent" format="reference" />
+    <attr name="colorSwipeBackground" format="reference|color"/>
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -15,6 +16,7 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
+        <item name="colorSwipeBackground">@color/colorSwipeBackground</item>
         <item name="colorScrim">@color/colorScrim</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
