@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.subscribe
@@ -39,7 +39,7 @@ class BlacklistFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
-        val builder = ThemedDialog.builder(ctx)
+        val builder = AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_blacklist_title)
                 .setMessage(R.string.prefs_blacklist_description)
                 .setView(view)

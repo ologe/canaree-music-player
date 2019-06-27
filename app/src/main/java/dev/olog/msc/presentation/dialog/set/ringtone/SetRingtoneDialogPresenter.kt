@@ -10,11 +10,11 @@ import android.os.Build
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import dev.olog.msc.R
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.msc.R
 import dev.olog.shared.utils.isMarshmallow
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
@@ -44,7 +44,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
 
     @TargetApi(23)
     private fun requestWritingSettingsPermission(){
-        ThemedDialog.builder(activity)
+        AlertDialog.Builder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)

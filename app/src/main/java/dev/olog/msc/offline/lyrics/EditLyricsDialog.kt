@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
 
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit){
-        val builder = ThemedDialog.builder(context)
+        val builder = AlertDialog.Builder(context)
                 .setTitle(R.string.offline_lyrics_edit_title)
                 .setView(R.layout.layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)
@@ -41,7 +41,7 @@ object EditLyricsDialog {
     }
 
     fun showForService(context: Context, currentText: String, updateFunc: (String) -> Unit){
-        val builder = ThemedDialog.frameworkBuilder(context)
+        val builder = android.app.AlertDialog.Builder(context)
                 .setTitle(R.string.offline_lyrics_edit_title)
                 .setView(R.layout.content_layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)

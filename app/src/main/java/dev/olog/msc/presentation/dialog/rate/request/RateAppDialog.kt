@@ -2,15 +2,15 @@ package dev.olog.msc.presentation.dialog.rate.request
 
 import android.app.Activity
 import android.content.Context
-import androidx.preference.PreferenceManager
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.preference.PreferenceManager
 import dev.olog.msc.R
-import dev.olog.presentation.dagger.ActivityLifecycle
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.openPlayStore
+import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,7 +44,7 @@ class RateAppDialog @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    ThemedDialog.builder(activity)
+                    AlertDialog.Builder(activity)
                             .setTitle(R.string.rate_app_title)
                             .setMessage(R.string.rate_app_message)
                             .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->

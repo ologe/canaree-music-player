@@ -1,17 +1,17 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
 import android.app.Activity
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.setOnClickListener
+import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.dagger.ActivityLifecycle
+import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject
 
 class PlaylistChooserActivityAdapter @Inject constructor(
@@ -27,7 +27,7 @@ class PlaylistChooserActivityAdapter @Inject constructor(
     }
 
     private fun askConfirmation(item: DisplayableItem) {
-        ThemedDialog.builder(activity)
+        AlertDialog.Builder(activity)
                 .setTitle(R.string.playlist_chooser_dialog_title)
                 .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->

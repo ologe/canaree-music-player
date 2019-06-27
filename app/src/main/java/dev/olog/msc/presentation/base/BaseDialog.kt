@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import dev.olog.msc.presentation.theme.ThemedDialog
+import androidx.appcompat.app.AlertDialog
 import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.toast
 import io.reactivex.Completable
@@ -19,7 +19,7 @@ abstract class BaseDialog : BaseDialogFragment() {
 
         val application = activity!!.application
 
-        val builder = ThemedDialog.builder(act)
+        val builder = AlertDialog.Builder(act)
                 .setTitle(title(application))
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)

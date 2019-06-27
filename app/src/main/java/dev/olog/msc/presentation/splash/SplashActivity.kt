@@ -11,7 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.shared.extensions.lazyFast
-import dev.olog.msc.utils.k.extension.simpleDialog
+import dev.olog.msc.utils.k.extension.alertDialog
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity(), View.OnClickListener {
@@ -82,7 +82,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
 
     private fun onStoragePermissionDenied(){
         if (Permissions.hasUserDisabledReadStorage(this)){
-            simpleDialog {
+            alertDialog {
                 setTitle(R.string.splash_storage_permission)
                 setMessage(R.string.splash_storage_permission_disabled)
                 setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })

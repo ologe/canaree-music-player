@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import dev.olog.msc.presentation.theme.ThemedDialog
 
 fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
@@ -23,8 +22,8 @@ fun FragmentManager.getTopFragment(): Fragment? {
     return null
 }
 
-fun FragmentActivity.simpleDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
-    ThemedDialog.builder(this)
+fun FragmentActivity.alertDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
+    AlertDialog.Builder(this)
             .builder()
             .show()
 }

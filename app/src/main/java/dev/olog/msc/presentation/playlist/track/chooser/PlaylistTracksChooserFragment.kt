@@ -6,16 +6,16 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
+import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.PlaylistType
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
@@ -135,7 +135,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun showCreateDialog(){
-        val builder = ThemedDialog.builder(act)
+        val builder = AlertDialog.Builder(act)
                 .setTitle(R.string.popup_new_playlist)
                 .setView(R.layout.layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)

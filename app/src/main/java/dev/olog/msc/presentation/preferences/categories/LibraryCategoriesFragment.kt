@@ -6,14 +6,14 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.core.MediaIdCategory
 import dev.olog.shared.extensions.ctx
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.withArguments
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title
                     else R.string.prefs_library_categories_title_podcasts
 
-        val builder = ThemedDialog.builder(ctx)
+        val builder = AlertDialog.Builder(ctx)
                 .setTitle(title)
                 .setView(view)
                 .setNeutralButton(R.string.popup_neutral_reset, null)

@@ -10,14 +10,14 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.shared.Permissions
-import dev.olog.msc.R
-import dev.olog.image.provider.GlideApp
-import dev.olog.msc.presentation.base.BaseBottomSheetFragment
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.GlideApp
+import dev.olog.msc.R
+import dev.olog.msc.presentation.base.BaseBottomSheetFragment
+import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.ctx
 
@@ -77,7 +77,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     }
 
     protected fun changeImage(){
-        ThemedDialog.builder(ctx)
+        AlertDialog.Builder(ctx)
                 .setItems(R.array.edit_item_image_dialog) { _, which ->
                     when (which){
                         0 -> openImagePicker()

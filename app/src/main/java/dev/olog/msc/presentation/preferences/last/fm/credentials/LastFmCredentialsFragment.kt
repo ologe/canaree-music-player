@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
-import dev.olog.msc.R
+import androidx.appcompat.app.AlertDialog
 import dev.olog.core.entity.UserCredentials
+import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.last.fm.scrobble.GetLastFmUserCredentials
 import dev.olog.msc.domain.interactor.last.fm.scrobble.UpdateLastFmUserCredentials
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.shared.extensions.ctx
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.layout_credentials_edit_text, null, false)
 
-        val builder = ThemedDialog.builder(ctx)
+        val builder = AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_last_fm_credentials_title)
                 .setMessage(R.string.prefs_last_fm_credentials_message)
                 .setView(view)

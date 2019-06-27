@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -15,23 +16,19 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
-import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
-import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ColorPalette
-import dev.olog.msc.utils.k.extension.*
-import dev.olog.shared.extensions.act
-import dev.olog.shared.extensions.ctx
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.extensions.toast
+import dev.olog.msc.utils.k.extension.forEach
+import dev.olog.msc.utils.k.extension.fragmentTransaction
+import dev.olog.presentation.AppConstants
+import dev.olog.shared.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -179,7 +176,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     private fun showDeleteAllCacheDialog(){
-        ThemedDialog.builder(ctx)
+        AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_delete_cached_images_title)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
@@ -202,7 +199,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     private fun showResetTutorialDialog(){
-        ThemedDialog.builder(ctx)
+        AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_reset_tutorial_title)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
