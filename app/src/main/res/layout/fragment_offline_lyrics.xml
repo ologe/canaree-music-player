@@ -103,7 +103,7 @@
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="80dp"
-        android:fontFamily="@font/roboto_slab_bold"
+        android:fontFamily="sans-serif-black"
         android:clickable="false"
         android:focusable="false"/>
 
@@ -182,7 +182,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Wanksta"
-                    android:fontFamily="@font/roboto_slab_bold"/>
+                    android:fontFamily="sans-serif-black"/>
 
                 <TextView
                     android:id="@+id/subHeader"

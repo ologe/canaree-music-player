@@ -100,7 +100,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginBottom="80dp"
                 android:textStyle="bold"
-                android:fontFamily="@font/roboto_slab_bold"/>
+                android:fontFamily="sans-serif-black"/>
 
             <View
                 android:id="@+id/fakeNext"
@@ -155,7 +155,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Wanksta"
-                            android:fontFamily="@font/roboto_slab_bold"/>
+                            android:fontFamily="sans-serif-black"/>
 
                         <TextView
                             android:id="@+id/subHeader"
