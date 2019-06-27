@@ -20,7 +20,7 @@ import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
-import dev.olog.presentation.widgets.WaveSideBarView
+import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils
 import kotlinx.android.synthetic.main.fragment_tab.*

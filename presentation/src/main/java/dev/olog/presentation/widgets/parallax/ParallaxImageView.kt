@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.widget.parallax
+package dev.olog.presentation.widgets.parallax
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import com.google.android.material.math.MathUtils
-import dev.olog.msc.R
+import dev.olog.presentation.R
 import dev.olog.shared.utils.clamp
 import dev.olog.shared.widgets.ForegroundImageView
 
@@ -14,8 +14,8 @@ private const val DEFAULT_PARALLAX = 10
 private const val MAX_ALPHA = 40 // .3f
 
 class ParallaxImageView(
-        context: Context,
-        attrs: AttributeSet
+    context: Context,
+    attrs: AttributeSet
 ) : ForegroundImageView(context, attrs) {
 
     private var scrimColor = Color.LTGRAY
@@ -28,14 +28,21 @@ class ParallaxImageView(
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.ParallaxImageView)
-        parallax = a.getInt(R.styleable.ParallaxImageView_parallax, DEFAULT_PARALLAX)
-        maxScrimAlpha = a.getInt(R.styleable.ParallaxImageView_max_scrim_alpha_255, MAX_ALPHA).toFloat()
+        parallax = a.getInt(
+            R.styleable.ParallaxImageView_parallax,
+            DEFAULT_PARALLAX
+        )
+        maxScrimAlpha = a.getInt(
+            R.styleable.ParallaxImageView_max_scrim_alpha_255,
+            MAX_ALPHA
+        ).toFloat()
         a.recycle()
 
         // start transparent
         paint.color = scrimColor
         paint.alpha = 0
     }
+
     override fun onDraw(canvas: Canvas) {
         drawParallax(canvas)
         super.onDraw(canvas)
@@ -43,7 +50,7 @@ class ParallaxImageView(
     }
 
     private fun drawParallax(canvas: Canvas) {
-        if (isInEditMode){
+        if (isInEditMode) {
             return
         }
         if (drawable != null) {
@@ -52,8 +59,8 @@ class ParallaxImageView(
         }
     }
 
-    private fun drawScrim(canvas: Canvas){
-        if (isInEditMode){
+    private fun drawScrim(canvas: Canvas) {
+        if (isInEditMode) {
             return
         }
         val max = height / 2

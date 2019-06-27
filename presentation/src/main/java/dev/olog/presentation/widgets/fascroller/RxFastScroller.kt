@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets
+package dev.olog.presentation.widgets.fascroller
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

@@ -17,7 +17,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.presentation.model.PlaylistType
-import dev.olog.presentation.widgets.WaveSideBarView
+import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils
 import io.reactivex.Observable

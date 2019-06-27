@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets
+package dev.olog.presentation.widgets.fascroller
 
 import android.content.Context
 import android.util.AttributeSet

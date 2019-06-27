@@ -1,11 +1,9 @@
-package dev.olog.msc.presentation.widget.parallax
+package dev.olog.presentation.widgets.parallax
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.msc.R
 
 class ParallaxRecyclerView : RecyclerView {
 
