@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.edit.artist
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import io.reactivex.Single

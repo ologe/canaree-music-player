@@ -4,7 +4,7 @@ import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.all.related.artists.ObserveRelatedArtistsUseCase
+import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.core.MediaId
 import java.text.Collator
 import javax.inject.Inject

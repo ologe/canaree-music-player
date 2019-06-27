@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.last.fm
 
 import dev.olog.core.gateway.LastFmGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.injection.IoSchedulers
 import io.reactivex.Completable
 import kotlinx.coroutines.runBlocking

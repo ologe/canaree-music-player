@@ -4,7 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PodcastPlaylistGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 

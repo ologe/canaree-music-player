@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.favorite
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 

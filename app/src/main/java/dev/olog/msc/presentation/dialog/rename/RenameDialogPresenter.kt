@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.dialog.rename
 
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
 import dev.olog.core.MediaId

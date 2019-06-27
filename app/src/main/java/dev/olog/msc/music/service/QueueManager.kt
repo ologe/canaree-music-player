@@ -7,9 +7,9 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
-import dev.olog.msc.domain.interactor.all.most.played.ObserveMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.all.recently.added.ObserveRecentlyAddedUseCase
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
+import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
@@ -33,18 +33,18 @@ import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 class QueueManager @Inject constructor(
-        private val queueImpl: QueueImpl,
-        private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
-        private val musicPreferencesUseCase: MusicPreferencesGateway,
-        private val shuffleMode: ShuffleMode,
-        private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
-        private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
-        private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
-        private val songGateway: SongGateway,
-        private val genreGateway: GenreGateway,
-        private val collator: Collator,
-        private val enhancedShuffle: EnhancedShuffle,
-        private val podcastPosition: PodcastPositionUseCase
+    private val queueImpl: QueueImpl,
+    private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val shuffleMode: ShuffleMode,
+    private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
+    private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
+    private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
+    private val songGateway: SongGateway,
+    private val genreGateway: GenreGateway,
+    private val collator: Collator,
+    private val enhancedShuffle: EnhancedShuffle,
+    private val podcastPosition: PodcastPositionUseCase
 
 ) : Queue {
 

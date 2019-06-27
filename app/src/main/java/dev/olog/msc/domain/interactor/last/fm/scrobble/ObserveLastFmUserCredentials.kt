@@ -4,7 +4,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.injection.LastFmEncrypter
-import dev.olog.msc.domain.interactor.base.ObservableUseCase
+import dev.olog.core.interactor.base.ObservableUseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 

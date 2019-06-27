@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.msc.R
-import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper

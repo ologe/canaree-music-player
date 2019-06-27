@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter

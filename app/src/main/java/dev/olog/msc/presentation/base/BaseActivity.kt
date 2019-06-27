@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import dev.olog.msc.utils.k.extension.setLightStatusBar
+import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.theme.isImmersiveMode
 import javax.inject.Inject
 

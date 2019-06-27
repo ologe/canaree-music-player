@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.edit.album
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.utils.k.extension.get

@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragmentViewModel
 

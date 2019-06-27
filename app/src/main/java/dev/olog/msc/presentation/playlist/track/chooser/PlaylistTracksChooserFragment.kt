@@ -16,7 +16,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils

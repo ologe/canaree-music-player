@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.all.related.artists.ObserveRelatedArtistsUseCase
+import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.msc.utils.safeCompare
 import dev.olog.presentation.model.DisplayableItem

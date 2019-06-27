@@ -5,8 +5,8 @@ import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PodcastGateway
 import dev.olog.core.gateway.SongGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import io.reactivex.Completable
 import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject

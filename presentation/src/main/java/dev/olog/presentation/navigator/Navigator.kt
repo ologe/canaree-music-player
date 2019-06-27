@@ -3,7 +3,7 @@ package dev.olog.presentation.navigator
 import android.view.View
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.model.DisplayableItem
 
 interface Navigator {

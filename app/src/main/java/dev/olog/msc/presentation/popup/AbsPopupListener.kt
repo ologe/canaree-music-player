@@ -7,7 +7,7 @@ import android.content.Intent
 import android.widget.PopupMenu
 import dev.olog.msc.FileProvider
 import dev.olog.msc.R
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase

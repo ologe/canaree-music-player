@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.dialog.create.playlist
 
-import dev.olog.presentation.model.PlaylistType
+import dev.olog.core.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
@@ -15,13 +15,13 @@ import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class NewPlaylistDialogPresenter @Inject constructor(
-        private val mediaId: MediaId,
-        playlists: GetPlaylistsBlockingUseCase,
-        private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
-        private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
-        private val getSongUseCase: GetSongUseCase,
-        private val getPodcastUseCase: GetPodcastUseCase,
-        private val getPlayinghQueueUseCase: GetPlayingQueueUseCase
+    private val mediaId: MediaId,
+    playlists: GetPlaylistsBlockingUseCase,
+    private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
+    private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
+    private val getSongUseCase: GetSongUseCase,
+    private val getPodcastUseCase: GetPodcastUseCase,
+    private val getPlayinghQueueUseCase: GetPlayingQueueUseCase
 
 ) {
 

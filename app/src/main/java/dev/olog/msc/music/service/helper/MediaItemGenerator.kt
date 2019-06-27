@@ -6,7 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asFlowable

@@ -5,7 +5,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.presentation.ViewModelModule
-import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
+import dev.olog.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
 import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
 import dev.olog.msc.presentation.dialog.create.playlist.di.NewPlaylistDialogInjector

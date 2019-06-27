@@ -10,7 +10,7 @@ import android.widget.Button
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.utils.PendingIntents
-import dev.olog.msc.utils.TimeUtils
+import dev.olog.shared.utils.TimeUtils
 import dev.olog.shared.extensions.act
 import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.shared.extensions.toast

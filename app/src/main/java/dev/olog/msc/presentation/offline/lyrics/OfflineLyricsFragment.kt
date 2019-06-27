@@ -20,6 +20,8 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.presentation.utils.removeLightStatusBar
+import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.extensions.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

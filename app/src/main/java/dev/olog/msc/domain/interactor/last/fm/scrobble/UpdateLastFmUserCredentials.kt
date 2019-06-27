@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.last.fm.scrobble
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.injection.LastFmEncrypter
 import io.reactivex.Completable
 import javax.inject.Inject

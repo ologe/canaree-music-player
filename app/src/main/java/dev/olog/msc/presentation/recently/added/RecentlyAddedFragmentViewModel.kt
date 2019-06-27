@@ -6,7 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.all.recently.added.ObserveRecentlyAddedUseCase
+import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.mapToList

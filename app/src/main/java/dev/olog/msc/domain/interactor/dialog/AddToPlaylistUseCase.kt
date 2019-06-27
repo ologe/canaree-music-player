@@ -5,8 +5,8 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PodcastPlaylistGateway
-import dev.olog.core.interactor.CompletableUseCaseWithParam
-import dev.olog.msc.domain.interactor.all.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.shared.extensions.mapToList

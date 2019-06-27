@@ -3,6 +3,7 @@ package dev.olog.core.interactor
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.MediaId
+import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
