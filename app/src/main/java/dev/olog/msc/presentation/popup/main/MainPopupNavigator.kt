@@ -28,7 +28,7 @@ class MainPopupNavigator @Inject constructor(
         val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
                 .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
-        if (billing.isPremium() && useAppEqualizer){
+        if (billing.getBillingsState().isPremiumEnabled() && useAppEqualizer){
             toBuiltInEqualizer()
         } else {
             searchForEqualizer()

@@ -9,7 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.main.LibraryPage
 import dev.olog.shared.observeKey
-import io.reactivex.Completable
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,8 +17,8 @@ import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class PresentationPreferencesImpl @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val preferences: SharedPreferences
+    @ApplicationContext private val context: Context,
+    private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {
 
     companion object {
@@ -50,10 +50,13 @@ class PresentationPreferencesImpl @Inject constructor(
         private const val CATEGORY_PODCAST_ALBUM_ORDER = "$TAG.CATEGORY_PODCAST_ALBUM_ORDER"
         private const val CATEGORY_PODCAST_ARTIST_ORDER = "$TAG.CATEGORY_PODCAST_ARTIST_ORDER"
 
-        private const val CATEGORY_PODCAST_PLAYLIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_PODCAST_PLAYLIST_VISIBILITY"
+        private const val CATEGORY_PODCAST_PLAYLIST_VISIBILITY =
+            "$TAG.CATEGORY_PODCAST_PODCAST_PLAYLIST_VISIBILITY"
         private const val CATEGORY_PODCAST_VISIBILITY = "$TAG.CATEGORY_PODCAST_VISIBILITY"
-        private const val CATEGORY_PODCAST_ALBUM_VISIBILITY = "$TAG.CATEGORY_PODCAST_ALBUM_VISIBILITY"
-        private const val CATEGORY_PODCAST_ARTIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
+        private const val CATEGORY_PODCAST_ALBUM_VISIBILITY =
+            "$TAG.CATEGORY_PODCAST_ALBUM_VISIBILITY"
+        private const val CATEGORY_PODCAST_ARTIST_VISIBILITY =
+            "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -83,7 +86,8 @@ class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun getLastBottomViewPage(): BottomNavigationPage {
-        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
+        val page =
+            preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
         return BottomNavigationPage.valueOf(page)
     }
 
@@ -103,7 +107,10 @@ class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun observeVisibleTabs(): Flow<BooleanArray> {
-        return preferences.observeKey<Set<String>>(context.getString(R.string.prefs_detail_sections_key), setOf())
+        return preferences.observeKey<Set<String>>(
+            context.getString(R.string.prefs_detail_sections_key),
+            setOf()
+        )
             .map {
                 booleanArrayOf(
                     it.contains(context.getString(R.string.prefs_detail_section_entry_value_most_played)),
@@ -235,19 +242,24 @@ class PresentationPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun setDefault(): Completable {
-        return Completable.fromCallable {
-            setLibraryCategories(getDefaultLibraryCategories())
-            setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
-        }
+    override fun setDefault() {
+        assertBackgroundThread()
+        setLibraryCategories(getDefaultLibraryCategories())
+        setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
     }
 
     override fun observeLibraryNewVisibility(): Observable<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_show_new_albums_artists_key), true).asObservable()
+        return preferences.observeKey(
+            context.getString(R.string.prefs_show_new_albums_artists_key),
+            true
+        ).asObservable()
     }
 
     override fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> {
-        return preferences.observeKey((context.getString(R.string.prefs_show_recent_albums_artists_key)), true)
+        return preferences.observeKey(
+            (context.getString(R.string.prefs_show_recent_albums_artists_key)),
+            true
+        )
             .asObservable()
     }
 

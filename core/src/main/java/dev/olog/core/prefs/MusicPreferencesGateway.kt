@@ -31,7 +31,7 @@ interface MusicPreferencesGateway {
     fun setLastMetadata(metadata: LastMetadata)
     fun observeLastMetadata(): Observable<LastMetadata>
 
-    fun setDefault(): Completable
+    fun setDefault()
 
     fun observeCrossFade(): Observable<Int>
     fun observeGapless(): Observable<Boolean>

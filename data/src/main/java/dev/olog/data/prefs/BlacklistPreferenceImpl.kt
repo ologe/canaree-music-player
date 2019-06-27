@@ -1,16 +1,13 @@
 package dev.olog.data.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.BlacklistPreferences
-import io.reactivex.Completable
+import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class BlacklistPreferenceImpl @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val preferences: SharedPreferences
+    private val preferences: SharedPreferences
 ) : BlacklistPreferences {
 
     companion object {
@@ -26,10 +23,9 @@ class BlacklistPreferenceImpl @Inject constructor(
         preferences.edit { putStringSet(BLACKLIST, set) }
     }
 
-    override fun setDefault(): Completable {
-        return Completable.fromCallable {
-            setBlackList(setOf())
-        }
+    override fun setDefault() {
+        assertBackgroundThread()
+        setBlackList(setOf())
     }
 
 }

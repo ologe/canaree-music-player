@@ -108,7 +108,7 @@ class AboutActivityPresenter(
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> {
-        return billing.observeTrialPremiumState().withLatestFrom(Observable.just(data),
+        return billing.observeBillingsState().withLatestFrom(Observable.just(data),
             BiFunction { state: BillingState, data: List<DisplayableItem> ->
                 when {
                     state.isBought -> listOf(alreadyPro).plus(data)
@@ -119,8 +119,10 @@ class AboutActivityPresenter(
     }
 
     fun buyPro() {
-        if (!billing.isOnlyPremium()) {
+        if (!billing.getBillingsState().isPremiumStrict()) {
             billing.purchasePremium()
+        } else {
+            // TODO show toast with already purchased
         }
     }
 

@@ -28,6 +28,6 @@ interface AppPreferencesGateway {
 
     fun isAdaptiveColorEnabled(): Boolean
 
-    fun setDefault(): Completable
+    fun setDefault()
 }
 

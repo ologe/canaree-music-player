@@ -64,24 +64,21 @@ class AppPreferencesImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun setDefault(): Completable {
-        return Completable.create { emitter ->
-            hideQuickAction()
-            setDefaultVisibleSections()
-            hideClassicPlayerControls()
-            setDefaultAutoDownloadImages()
-            setDefaultTheme()
-            setLastFmCredentials(UserCredentials("", ""))
-            setDefaultFolderView()
-            setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
-            setDefaultAccentColor()
-            setDefaultLibraryAlbumArtistVisibility()
-            setDefaultPodcastVisibility()
-            setDefaultAdaptiveColors()
-            setDefaultLockscreenArtwork()
-
-            emitter.onComplete()
-        }
+    override fun setDefault() {
+        assertBackgroundThread()
+        hideQuickAction()
+        setDefaultVisibleSections()
+        hideClassicPlayerControls()
+        setDefaultAutoDownloadImages()
+        setDefaultTheme()
+        setLastFmCredentials(UserCredentials("", ""))
+        setDefaultFolderView()
+        setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
+        setDefaultAccentColor()
+        setDefaultLibraryAlbumArtistVisibility()
+        setDefaultPodcastVisibility()
+        setDefaultAdaptiveColors()
+        setDefaultLockscreenArtwork()
     }
 
     private fun setDefaultLockscreenArtwork() {

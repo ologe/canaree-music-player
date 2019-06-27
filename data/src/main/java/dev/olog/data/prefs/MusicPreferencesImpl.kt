@@ -8,7 +8,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
-import io.reactivex.Completable
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -119,14 +119,11 @@ class MusicPreferencesImpl @Inject constructor(
                 .map { getLastMetadata() }
     }
 
-    override fun setDefault(): Completable {
-        return Completable.create { emitter ->
-            setMidnightMode(false)
-            setCrossFade(0)
-            setGapless(false)
-
-            emitter.onComplete()
-        }
+    override fun setDefault() {
+        assertBackgroundThread()
+        setMidnightMode(false)
+        setCrossFade(0)
+        setGapless(false)
     }
 
     private fun setMidnightMode(enable: Boolean){

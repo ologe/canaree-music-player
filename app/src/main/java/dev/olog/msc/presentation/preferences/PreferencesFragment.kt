@@ -72,7 +72,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         super.onViewCreated(view, savedInstanceState)
 
         val billing = (act as PreferencesActivity).billing
-        billing.observeIsPremium()
+        billing.observeBillingsState()
+            .map { it.isPremiumEnabled() }
                 .take(2) // take current and after check values
                 .distinctUntilChanged()
                 .asLiveData()

@@ -15,7 +15,7 @@ import dev.olog.msc.dagger.qualifier.ActivityContext
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.navigator.NavigatorImpl
-import dev.olog.msc.pro.BillingImpl
+import dev.olog.presentation.pro.BillingImpl
 import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.presentation.dagger.PerActivity

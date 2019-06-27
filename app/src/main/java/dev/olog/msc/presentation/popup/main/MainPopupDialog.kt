@@ -40,7 +40,7 @@ class MainPopupDialog @Inject constructor(
         }
         popup.inflate(layoutId)
 
-        if (billing.isOnlyPremium()){
+        if (billing.getBillingsState().isPremiumStrict()){
             popup.menu.removeItem(R.id.premium)
         }
 

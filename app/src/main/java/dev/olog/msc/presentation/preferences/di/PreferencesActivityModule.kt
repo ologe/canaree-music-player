@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.msc.presentation.preferences.PreferencesActivity
-import dev.olog.msc.pro.BillingImpl
+import dev.olog.presentation.pro.BillingImpl
 import dev.olog.presentation.pro.IBilling
 
 @Module

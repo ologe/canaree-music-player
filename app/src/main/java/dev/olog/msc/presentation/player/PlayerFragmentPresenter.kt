@@ -13,8 +13,8 @@ class PlayerFragmentPresenter @Inject constructor(
 
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return Observables.combineLatest(
-                billing.observeIsPremium(),
-                appPrefsUseCase.observePlayerControlsVisibility()
+            billing.observeBillingsState().map { it.isPremiumEnabled() },
+            appPrefsUseCase.observePlayerControlsVisibility()
         ) { premium, show -> premium && show }
     }
 

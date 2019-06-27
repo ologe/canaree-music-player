@@ -2,7 +2,6 @@ package dev.olog.presentation.model
 
 import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.main.LibraryPage
-import io.reactivex.Completable
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 
@@ -29,5 +28,5 @@ interface PresentationPreferencesGateway {
     fun observeLibraryRecentPlayedVisibility(): Observable<Boolean>
     fun canShowPodcastCategory(): Boolean
 
-    fun setDefault(): Completable
+    fun setDefault()
 }

@@ -48,7 +48,6 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
 
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
-//            Traceur.enableLogging()
 //            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
 //            StrictMode.initialize()
