@@ -11,7 +11,6 @@ import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.base.setOnClickListener
 import dev.olog.presentation.base.setOnLongClickListener
-import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*

@@ -32,7 +32,6 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -122,7 +121,7 @@ class DetailFragment : BaseFragment(),
         }
         val callback = TouchHelperAdapterCallback(adapter, swipeDirections)
         itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper!!.attachToRecyclerView(view.list)
+        itemTouchHelper!!.attachToRecyclerView(list)
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
@@ -154,7 +153,7 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        RxTextView.afterTextChangeEvents(view.editText)
+        RxTextView.afterTextChangeEvents(editText)
             .map { it.view() }
             .asLiveData()
             .subscribe(viewLifecycleOwner) { edit ->
