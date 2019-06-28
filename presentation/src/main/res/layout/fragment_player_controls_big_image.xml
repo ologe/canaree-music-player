@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:clipChildren="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/background"
+        android:id="@+id/playerRoot">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/coverWrapper"
+            app:cardCornerRadius="0dp"
+            android:stateListAnimator="@animator/elevate_on_activated"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1">
+
+            <dev.olog.presentation.widgets.PlayerImageView
+                android:id="@+id/bigCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@android:color/holo_red_light"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <dev.olog.presentation.widgets.SwipeableView
+            android:id="@+id/swipeableView"
+            android:elevation="20dp"
+            app:layout_constraintTop_toTopOf="@+id/coverWrapper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            android:layout_marginBottom="16dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            tools:visibility="invisible" />
+
+        <dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
+            android:id="@+id/waveWrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/coverWrapper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="11dp" />
+
+        <!-- seekbar -->
+        <dev.olog.presentation.widgets.CustomSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/waveWrapper"
+            app:layout_constraintBottom_toBottomOf="@+id/waveWrapper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="@integer/common_high_number"
+            android:elevation="12dp"
+            android:alpha="0"/>
+
+        <!-- bookmark -->
+        <TextView
+            android:id="@+id/bookmark"
+            tools:text="0:00"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/player_bookmark_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/coverWrapper"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!-- duration -->
+        <TextView
+            android:id="@+id/duration"
+            tools:text="2:57"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/player_bookmark_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/coverWrapper"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!-- title -->
+        <TextView
+            android:id="@+id/title"
+            tools:text="Thirty Seconds to Mars - The Kills"
+            app:layout_constraintTop_toBottomOf="@+id/bookmark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_title_text_size"
+            android:textColor="?android:attr/textColorPrimary"
+            android:maxLines="2"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/artist"
+            tools:text="50 Cent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_artist_text_size"
+            android:textColor="?android:attr/textColorSecondary"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:layout_marginStart="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center" />
+
+        <include
+            android:id="@+id/playerControls"
+            app:layout_constraintTop_toBottomOf="@+id/artist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/more"
+            layout="@layout/player_controls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:rotation="90"/>
+
+        <ImageButton
+            android:id="@+id/lyrics"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:src="@drawable/vd_offline_lyrics"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintStart_toEndOf="@+id/playbackSpeed"
+            app:layout_constraintEnd_toStartOf="@+id/favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/more"/>
+
+        <dev.olog.presentation.widgets.LottieFavorite
+            android:id="@+id/favorite"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:layout_gravity="end"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintStart_toEndOf="@+id/lyrics"
+            app:layout_constraintBottom_toBottomOf="@+id/more"/>
+
+        <ImageButton
+            android:id="@+id/playbackSpeed"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:src="@drawable/vd_slow_motion"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            android:layout_marginStart="16dp"/>
+
+        <dev.olog.shared.widgets.DottedSeparator
+            android:id="@+id/separator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="0dp"
+            android:layout_height="2dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

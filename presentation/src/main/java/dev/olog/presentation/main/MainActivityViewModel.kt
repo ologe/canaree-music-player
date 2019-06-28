@@ -11,7 +11,9 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.asFlowable
 import dev.olog.shared.extensions.assertBackground
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
@@ -30,6 +32,7 @@ class MainActivityViewModel @Inject constructor(
                 .asFlowable()
                 .asFlow()
                 .assertBackground()
+                .flowOn(Dispatchers.Default)
                 .collect { isRepositoryEmptyLiveData.value = it }
         }
     }

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <dev.olog.presentation.widgets.StatusBarView
+        android:id="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="?android:attr/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/emptyStateText"
+        android:text="@string/common_no_tracks"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <FrameLayout
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:src="@drawable/vd_back_arrow"
+            android:padding="12dp"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <TextView
+            android:id="@+id/header"
+            android:text="@string/popup_new_playlist"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
+            android:textAppearance="@style/Headline6.Alt"
+            android:textColor="?android:attr/textColorPrimary"/>
+
+        <ImageButton
+            android:id="@+id/filterList"
+            android:src="@drawable/vd_filter"
+            android:padding="12dp"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:tint="@color/button_selected"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/toolbar2"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_height="52dp"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <FrameLayout
+            android:id="@+id/searchWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditItemEditText"
+                    android:textSize="16dp"
+                    android:imeOptions="flagNoExtractUi|actionDone"
+                    android:maxLines="1"
+                    android:hint="@string/common_filter"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/clear"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/vd_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:fabSize="normal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vd_playlist_save"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_choose_track" />
+
+    <dev.olog.presentation.widgets.fascroller.RxWaveSideBarView
+        android:id="@+id/sidebar"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_constraintHeight_max="420dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

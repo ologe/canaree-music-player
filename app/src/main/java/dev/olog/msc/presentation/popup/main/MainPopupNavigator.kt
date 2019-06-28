@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
-import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
-import dev.olog.msc.presentation.equalizer.EqualizerFragment
+import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
+import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.prefs.PreferencesActivity
 import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.extensions.toast
@@ -61,7 +61,10 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toSleepTimer(){
-        SleepTimerPickerDialogBuilder(activity, activity.supportFragmentManager)
+        SleepTimerPickerDialogBuilder(
+            activity,
+            activity.supportFragmentManager
+        )
                 .show()
     }
 

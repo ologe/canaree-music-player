@@ -26,7 +26,7 @@
         app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior">
 
         <fragment
-            android:name="dev.olog.msc.presentation.player.PlayerFragment"
+            android:name="dev.olog.presentation.player.PlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="@string/player_fragment_tag" />

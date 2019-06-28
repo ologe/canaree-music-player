@@ -12,7 +12,6 @@ import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateAlbumInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.android.synthetic.main.fragment_edit_album.view.*

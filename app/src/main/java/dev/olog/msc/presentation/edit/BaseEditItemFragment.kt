@@ -16,7 +16,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseBottomSheetFragment
+import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.ctx

@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
+import dev.olog.presentation.widgets.BlurShadow
 import dev.olog.shared.extensions.dpToPx
 import kotlin.properties.Delegates
 

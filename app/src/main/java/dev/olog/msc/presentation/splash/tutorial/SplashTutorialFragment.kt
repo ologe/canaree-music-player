@@ -15,7 +15,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
 import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.widget.StoppingViewPager
-import dev.olog.msc.presentation.widget.SwipeableView
+import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.image.provider.CoverUtils
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.unsubscribe

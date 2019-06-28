@@ -6,8 +6,8 @@ import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.interactor.GetPlayingQueueUseCase
-import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
-import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.core.interactor.InsertCustomTrackListRequest
+import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.core.MediaId
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
@@ -34,26 +34,50 @@ class NewPlaylistDialogPresenter @Inject constructor(
         if (mediaId.isPlayingQueue){
             return getPlayinghQueueUseCase.execute().mapToList { it.id }
                     .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
+                        insertCustomTrackListToPlaylist.execute(
+                            InsertCustomTrackListRequest(
+                                playlistTitle,
+                                it,
+                                playlistType
+                            )
+                        )
                     }
         }
 
         return if (mediaId.isLeaf && mediaId.isPodcast) {
             getPodcastUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
                     .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
+                        insertCustomTrackListToPlaylist.execute(
+                            InsertCustomTrackListRequest(
+                                playlistTitle,
+                                it,
+                                playlistType
+                            )
+                        )
                     }
         } else if (mediaId.isLeaf) {
             getSongUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
                     .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
+                        insertCustomTrackListToPlaylist.execute(
+                            InsertCustomTrackListRequest(
+                                playlistTitle,
+                                it,
+                                playlistType
+                            )
+                        )
                     }
         } else {
             getSongListByParamUseCase(mediaId)
                     .asFlowable()
                     .firstOrError().mapToList { it.id }
                     .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
+                        insertCustomTrackListToPlaylist.execute(
+                            InsertCustomTrackListRequest(
+                                playlistTitle,
+                                it,
+                                playlistType
+                            )
+                        )
                     }
         }
     }
