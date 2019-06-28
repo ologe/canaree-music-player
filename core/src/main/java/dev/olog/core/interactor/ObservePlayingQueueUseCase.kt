@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.playing.queue
+package dev.olog.core.interactor
 
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.executor.IoScheduler

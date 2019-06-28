@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.playing.queue.di
+package dev.olog.presentation.queue.di
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
@@ -8,8 +8,8 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
-import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModel
+import dev.olog.presentation.queue.PlayingQueueFragment
+import dev.olog.presentation.queue.PlayingQueueFragmentViewModel
 
 @Module(includes = [PlayingQueueFragmentModule.Binding::class])
 class PlayingQueueFragmentModule(

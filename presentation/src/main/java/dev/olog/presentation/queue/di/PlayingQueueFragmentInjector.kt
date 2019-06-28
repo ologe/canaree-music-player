@@ -1,11 +1,11 @@
-package dev.olog.msc.presentation.playing.queue.di
+package dev.olog.presentation.queue.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
+import dev.olog.presentation.queue.PlayingQueueFragment
 
 
 @Module(subcomponents = arrayOf(PlayingQueueFragmentSubComponent::class))

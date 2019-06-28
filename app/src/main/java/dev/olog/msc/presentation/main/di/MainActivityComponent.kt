@@ -21,7 +21,7 @@ import dev.olog.msc.presentation.edit.track.di.EditTrackFragmentInjector
 import dev.olog.msc.presentation.library.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.player.di.PlayerFragmentModule
-import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector
+import dev.olog.presentation.queue.di.PlayingQueueFragmentInjector
 import dev.olog.msc.presentation.playlist.track.chooser.di.PlaylistTracksChooserInjector
 import dev.olog.msc.presentation.recently.added.di.RecentlyAddedFragmentInjector
 import dev.olog.msc.presentation.related.artists.di.RelatedArtistFragmentInjector
