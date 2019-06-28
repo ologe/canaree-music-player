@@ -53,6 +53,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
 
+    implementation "com.afollestad.material-dialogs:core:$rootProject.material_dialogs"
+    implementation "com.afollestad.material-dialogs:color:$rootProject.material_dialogs"
+
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8

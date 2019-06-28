@@ -13,7 +13,7 @@ import dagger.multibindings.IntoMap
 import dev.olog.media.MediaProvider
 import dev.olog.injection.dagger.ActivityContext
 import dev.olog.msc.presentation.edit.EditItemViewModel
-import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.presentation.main.MainActivityViewModel
 import dev.olog.msc.presentation.navigator.NavigatorImpl
 import dev.olog.presentation.pro.BillingImpl
 import dev.olog.presentation.pro.IBilling
@@ -53,6 +53,11 @@ abstract class MainActivityModule {
     @Binds
     @PerActivity
     abstract fun provideBilling(impl: BillingImpl): IBilling
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainActivityViewModel::class)
+    abstract fun proviewViewModel(impl: MainActivityViewModel): ViewModel
 
     @Module
     companion object {

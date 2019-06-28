@@ -27,7 +27,7 @@ import dev.olog.msc.presentation.edit.EditItemDialogFactory
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
-import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.main.di.MainActivity
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.popup.PopupMenuFactory
@@ -35,11 +35,14 @@ import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.msc.utils.k.extension.fragmentTransaction
+import dev.olog.shared.extensions.fragmentTransaction
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.allowed
+import dev.olog.presentation.navigator.createBackStackTag
+import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.utils.collapse
 import javax.inject.Inject
 
@@ -60,17 +63,29 @@ class NavigatorImpl @Inject internal constructor(
         (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
 
         val newTag = createBackStackTag(DetailFragment.TAG)
-        superCerealTransition(activity, DetailFragment.newInstance(mediaId), newTag)
+        superCerealTransition(
+            activity,
+            DetailFragment.newInstance(mediaId),
+            newTag
+        )
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
-        superCerealTransition(activity, RelatedArtistFragment.newInstance(mediaId), newTag)
+        superCerealTransition(
+            activity,
+            RelatedArtistFragment.newInstance(mediaId),
+            newTag
+        )
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
-        superCerealTransition(activity, RecentlyAddedFragment.newInstance(mediaId), newTag)
+        superCerealTransition(
+            activity,
+            RecentlyAddedFragment.newInstance(mediaId),
+            newTag
+        )
     }
 
     override fun toOfflineLyrics() {
@@ -112,8 +127,13 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val newTag = createBackStackTag(PlaylistTracksChooserFragment.TAG)
-        superCerealTransition(activity, PlaylistTracksChooserFragment.newInstance(type), newTag)
+        val newTag =
+            createBackStackTag(PlaylistTracksChooserFragment.TAG)
+        superCerealTransition(
+            activity,
+            PlaylistTracksChooserFragment.newInstance(type),
+            newTag
+        )
     }
 
     override fun toDialog(item: DisplayableItem, anchor: View) {

@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.shortcuts.playlist.chooser
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*

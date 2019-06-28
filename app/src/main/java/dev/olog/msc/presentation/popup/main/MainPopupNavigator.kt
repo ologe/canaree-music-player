@@ -5,11 +5,11 @@ import android.media.audiofx.AudioEffect
 import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.presentation.about.AboutActivity
+import dev.olog.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
-import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.presentation.prefs.PreferencesActivity
 import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.extensions.toast
 import javax.inject.Inject

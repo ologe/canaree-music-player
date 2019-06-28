@@ -6,8 +6,6 @@ import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.presentation.main.BottomNavigationPage
-import dev.olog.presentation.main.LibraryPage
 import dev.olog.shared.observeKey
 import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Observable

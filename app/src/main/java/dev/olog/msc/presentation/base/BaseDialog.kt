@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.toast
 import io.reactivex.Completable

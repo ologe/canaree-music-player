@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import dev.olog.msc.R
-import dev.olog.msc.presentation.utils.openPlayStore
+import dev.olog.shared.utils.PlayStoreUtils
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
@@ -49,7 +49,7 @@ class RateAppDialog @Inject constructor(
                             .setMessage(R.string.rate_app_message)
                             .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->
                                 setNeverShowAgain()
-                                openPlayStore(activity)
+                                PlayStoreUtils.open(activity)
                             }
                             .setNegativeButton(R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
                             .setNeutralButton(R.string.rate_app_neutral_button) { _, _ ->  }

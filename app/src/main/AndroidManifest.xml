@@ -38,7 +38,7 @@
 
         <!--main activity-->
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.main.di.MainActivity"
             android:launchMode="singleTop"
             android:colorMode="wideColorGamut"
             tools:ignore="UnusedAttribute"
@@ -98,10 +98,10 @@
         <activity android:name=".presentation.splash.SplashActivity" />
 
         <!--about activity-->
-        <activity android:name=".presentation.about.AboutActivity" />
+        <activity android:name="dev.olog.presentation.about.AboutActivity" />
 
         <!--settings activity-->
-        <activity android:name=".presentation.preferences.PreferencesActivity" />
+        <activity android:name="dev.olog.presentation.prefs.PreferencesActivity" />
 
         <!--dummy shortcuts activity-->
         <activity android:name="dev.olog.appshortcuts.ShortcutsActivity" />

@@ -8,8 +8,8 @@ import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.main.BottomNavigationPage
-import dev.olog.presentation.main.LibraryPage
+import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.extensions.*

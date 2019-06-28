@@ -12,7 +12,7 @@ import dev.olog.msc.R
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.MusicService
-import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.main.di.MainActivity
 import dev.olog.shared.palette.ImageProcessorResult
 import dev.olog.shared.extensions.asServicePendingIntent
 import dev.olog.shared.extensions.getAppWidgetsIdsFor

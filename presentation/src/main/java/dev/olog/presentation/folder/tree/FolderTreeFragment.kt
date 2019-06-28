@@ -3,9 +3,10 @@ package dev.olog.presentation.folder.tree
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.shared.extensions.*
@@ -13,7 +14,9 @@ import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
 
-class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
+class FolderTreeFragment : BaseFragment(),
+    BreadCrumbLayout.SelectionCallback,
+    CanHandleOnBackPressed {
 
     companion object {
 
@@ -23,8 +26,10 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
         }
     }
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject lateinit var navigator: Navigator
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var navigator: Navigator
     private val viewModel by lazyFast {
         viewModelProvider<FolderTreeFragmentViewModel>(
             viewModelFactory
@@ -53,18 +58,18 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 //        }
 
         viewModel.observeFileName()
-                .subscribe(viewLifecycleOwner) {
-                    bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
-                }
+            .subscribe(viewLifecycleOwner) {
+                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+            }
 
         viewModel.observeChildrens()
-                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
         viewModel.observeCurrentFolder()
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
-                    defaultFolder.toggleVisibility(!isInDefaultFolder, true)
-                }
+            .asLiveData()
+            .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
+                defaultFolder.toggleVisibility(!isInDefaultFolder, true)
+            }
     }
 
     override fun onResume() {
@@ -83,7 +88,7 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
         viewModel.nextFolder(crumb.file.safeGetCanonicalFile())
     }
 
-    fun pop(): Boolean{
+    override fun handleOnBackPressed(): Boolean {
         return viewModel.popFolder()
     }
 

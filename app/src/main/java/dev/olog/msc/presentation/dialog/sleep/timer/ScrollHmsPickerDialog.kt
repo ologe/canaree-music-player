@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseDialogFragment
+import dev.olog.presentation.base.BaseDialogFragment
 
 open class ScrollHmsPickerDialog : BaseDialogFragment() {
     interface HmsPickHandler {

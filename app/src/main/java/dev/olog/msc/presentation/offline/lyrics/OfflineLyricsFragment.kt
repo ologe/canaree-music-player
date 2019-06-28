@@ -11,9 +11,6 @@ import androidx.core.content.ContextCompat
 import dev.olog.media.*
 import dev.olog.msc.R
 import dev.olog.shared.AppConstants
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.NoScrollTouchListener
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.tutorial.TutorialTapTarget

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
+import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.toast
