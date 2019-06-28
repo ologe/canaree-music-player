@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
-import dev.olog.msc.presentation.search.SearchFragment
+import dev.olog.presentation.search.SearchFragment
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.R
 import dev.olog.presentation.main.BottomNavigationPage

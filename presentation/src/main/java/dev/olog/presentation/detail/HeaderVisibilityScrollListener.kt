@@ -23,7 +23,7 @@ class HeaderVisibilityScrollListener(
 
         val view = fragment.view!!
 
-        if (holder.itemViewType == R.layout.item_detail_item_image) {
+        if (holder.itemViewType == R.layout.item_detail_image) {
             if (textWrapper == null){
                 textWrapper = child.findViewById(R.id.textWrapper)
             }

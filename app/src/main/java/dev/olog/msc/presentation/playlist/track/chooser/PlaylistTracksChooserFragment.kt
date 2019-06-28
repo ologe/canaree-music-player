@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.msc.presentation.utils.ImeUtils
+import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.core.entity.PlaylistType

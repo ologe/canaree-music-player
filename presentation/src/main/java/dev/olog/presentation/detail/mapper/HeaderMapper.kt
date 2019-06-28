@@ -10,7 +10,7 @@ import dev.olog.shared.utils.TextUtils
 internal fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
-        R.layout.item_detail_item_image,
+        R.layout.item_detail_image,
         getMediaId(),
         title,
         subtitle = resources.getQuantityString(
@@ -30,7 +30,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
     }
 
     return DisplayableItem(
-        R.layout.item_detail_item_image,
+        R.layout.item_detail_image,
         getMediaId(),
         title,
         listSize
@@ -41,7 +41,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
 internal fun Album.toHeaderItem(): DisplayableItem {
 
     return DisplayableItem(
-        R.layout.item_detail_item_image,
+        R.layout.item_detail_image,
         getMediaId(),
         title,
         DisplayableItem.adjustArtist(this.artist)
@@ -59,7 +59,7 @@ internal fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
     }
 
     return DisplayableItem(
-        R.layout.item_detail_item_image,
+        R.layout.item_detail_image,
         getMediaId(),
         name,
         "$albums$songs".toLowerCase()
@@ -69,7 +69,7 @@ internal fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 internal fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
-        R.layout.item_detail_item_image,
+        R.layout.item_detail_image,
         getMediaId(),
         name,
         resources.getQuantityString(

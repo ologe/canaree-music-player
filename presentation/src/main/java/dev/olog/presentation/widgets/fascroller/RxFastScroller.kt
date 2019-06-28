@@ -55,7 +55,7 @@ class RxFastScroller @JvmOverloads constructor(
     }
 
     private fun layout(context: Context, attrs: AttributeSet?) {
-        View.inflate(context, R.layout.fastscroller, this)
+        View.inflate(context, R.layout.layout_fastscroller, this)
 
         clipChildren = false
         orientation = LinearLayout.HORIZONTAL

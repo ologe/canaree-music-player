@@ -190,7 +190,7 @@ internal class DetailDataProvider @Inject constructor(
         val time = TimeUtils.formatMillis(context, duration)
 
         return DisplayableItem(
-            R.layout.item_detail_footer, MediaId.headerId("duration footer"),
+            R.layout.item_detail_song_footer, MediaId.headerId("duration footer"),
             songs + TextUtils.MIDDLE_DOT_SPACED + time
         )
     }

@@ -25,7 +25,7 @@ class DetailFragmentHeaders @Inject constructor(
             context.getString(R.string.detail_most_played)
         ),
         DisplayableItem(
-            R.layout.item_detail_most_played_list,
+            R.layout.item_detail_list_most_played,
             MediaId.headerId("most played horiz list"),
             ""
         )
@@ -39,7 +39,7 @@ class DetailFragmentHeaders @Inject constructor(
             extra = bundleOf("visible" to showSeeAll)
         ),
         DisplayableItem(
-            R.layout.item_detail_related_artists_list,
+            R.layout.item_detail_list_related_artists,
             MediaId.headerId("related artist list"),
             ""
         )
@@ -54,7 +54,7 @@ class DetailFragmentHeaders @Inject constructor(
             extra = bundleOf("visible" to showSeeAll)
         ),
         DisplayableItem(
-            R.layout.item_detail_recently_added_list,
+            R.layout.item_detail_list_recently_added,
             MediaId.headerId("recent horiz list"),
             ""
         )
@@ -63,7 +63,7 @@ class DetailFragmentHeaders @Inject constructor(
     fun albums() = listOf(
         albumHeader(),
         DisplayableItem(
-            R.layout.item_detail_albums_list,
+            R.layout.item_detail_list_albums,
             MediaId.headerId("albums horiz list"),
             ""
         )

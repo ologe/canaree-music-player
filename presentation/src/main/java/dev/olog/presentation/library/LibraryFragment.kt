@@ -16,7 +16,7 @@ import dev.olog.shared.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_library_categories.*
+import kotlinx.android.synthetic.main.fragment_library.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -111,5 +111,5 @@ class LibraryFragment : BaseFragment() {
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_library_categories
+    override fun provideLayoutId(): Int = R.layout.fragment_library
 }

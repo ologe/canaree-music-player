@@ -215,16 +215,16 @@ class DetailFragment : BaseFragment(),
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
         when (layoutId) {
-            R.layout.item_detail_most_played_list -> {
+            R.layout.item_detail_list_most_played -> {
                 setupHorizontalListAsGrid(recyclerView, mostPlayedAdapter)
             }
-            R.layout.item_detail_recently_added_list -> {
+            R.layout.item_detail_list_recently_added -> {
                 setupHorizontalListAsGrid(recyclerView, recentlyAddedAdapter)
             }
-            R.layout.item_detail_related_artists_list -> {
+            R.layout.item_detail_list_related_artists -> {
                 setupHorizontalListAsList(recyclerView, relatedArtistAdapter)
             }
-            R.layout.item_detail_albums_list -> {
+            R.layout.item_detail_list_albums -> {
                 setupHorizontalListAsList(recyclerView, albumsAdapter)
             }
         }

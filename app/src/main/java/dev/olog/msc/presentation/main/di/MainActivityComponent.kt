@@ -25,7 +25,7 @@ import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector
 import dev.olog.msc.presentation.playlist.track.chooser.di.PlaylistTracksChooserInjector
 import dev.olog.msc.presentation.recently.added.di.RecentlyAddedFragmentInjector
 import dev.olog.msc.presentation.related.artists.di.RelatedArtistFragmentInjector
-import dev.olog.msc.presentation.search.di.SearchFragmentInjector
+import dev.olog.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.model.PresentationModelModule
 import dev.olog.presentation.tab.di.TabFragmentInjector

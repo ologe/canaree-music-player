@@ -45,10 +45,10 @@ internal class DetailFragmentAdapter(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
 
-            R.layout.item_detail_most_played_list,
-            R.layout.item_detail_recently_added_list,
-            R.layout.item_detail_related_artists_list,
-            R.layout.item_detail_albums_list -> {
+            R.layout.item_detail_list_most_played,
+            R.layout.item_detail_list_recently_added,
+            R.layout.item_detail_list_related_artists,
+            R.layout.item_detail_list_albums -> {
                 setupNestedList.setupNestedList(viewType, viewHolder.itemView as RecyclerView)
             }
 
@@ -125,8 +125,8 @@ internal class DetailFragmentAdapter(
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         super.onViewAttachedToWindow(holder)
         when (holder.itemViewType) {
-            R.layout.item_detail_recently_added_list,
-            R.layout.item_detail_most_played_list -> {
+            R.layout.item_detail_list_recently_added,
+            R.layout.item_detail_list_most_played -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
