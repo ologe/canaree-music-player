@@ -3,28 +3,24 @@ package dev.olog.msc.presentation.related.artists
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
+import dev.olog.presentation.base.*
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
-import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import javax.inject.Inject
 
 class RelatedArtistFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val navigator: Navigator
+    @FragmentLifecycle lifecycle: Lifecycle,
+    private val navigator: Navigator
 
-): AbsAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(controller) { item, _, _ ->
+        viewHolder.setOnClickListener(this) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
         }
-        viewHolder.setOnLongClickListener(controller) { item, _, _ ->
+        viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.elevateAlbumOnTouch()

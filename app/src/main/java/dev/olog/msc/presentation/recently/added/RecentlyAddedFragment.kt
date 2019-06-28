@@ -44,13 +44,13 @@ class RecentlyAddedFragment : BaseFragment() {
         view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.setHasFixedSize(true)
 
-        val callback = TouchHelperAdapterCallback(
-            adapter,
-            ItemTouchHelper.LEFT
-        )
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(view.list)
-        adapter.touchHelper = touchHelper
+//        val callback = TouchHelperAdapterCallback(
+//            adapter,
+//            ItemTouchHelper.LEFT
+//        )
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(view.list)
+//        adapter.touchHelper = touchHelper
 
         viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
 

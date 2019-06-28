@@ -26,6 +26,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_playlist_track_chooser.*
 import kotlinx.android.synthetic.main.fragment_playlist_track_chooser.view.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -60,7 +62,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
 
     private var errorDisposable : Disposable? = null
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
@@ -81,9 +83,10 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
                     view.sidebar.onDataChanged(it)
                 }
 
-        adapter.setAfterDataChanged({
-            view.emptyStateText.toggleVisibility(it.isEmpty(), true)
-        })
+        launch {
+            adapter.observeData(false)
+                .collect { view.emptyStateText.toggleVisibility(it.isEmpty(), true) }
+        }
 
         RxView.clicks(view.back)
                 .asLiveData()

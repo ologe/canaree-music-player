@@ -4,25 +4,26 @@ import android.content.res.ColorStateList
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.navigator.NavigatorAbout
-import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.base.DiffCallbackDisplayableItem
+import dev.olog.presentation.base.ObservableAdapter
+import dev.olog.presentation.base.setOnClickListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.colorPrimary
 import kotlinx.android.synthetic.main.item_about.view.*
 
 
-class AboutActivityAdapter (
-        lifecycle: Lifecycle,
-        private val navigator: NavigatorAbout,
-        private val presenter: AboutActivityPresenter
+class AboutActivityAdapter(
+    lifecycle: Lifecycle,
+    private val navigator: NavigatorAbout,
+    private val presenter: AboutActivityPresenter
 
-) : AbsAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(controller) { item, _, _ ->
-            when (item.mediaId){
+        viewHolder.setOnClickListener(this) { item, _, _ ->
+            when (item.mediaId) {
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.toMarket()
@@ -35,7 +36,7 @@ class AboutActivityAdapter (
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        if (item.mediaId == AboutActivityPresenter.BUY_PRO){
+        if (item.mediaId == AboutActivityPresenter.BUY_PRO) {
             val view = binding.root
             view.title.setTextColor(ColorStateList.valueOf(view.context.colorPrimary()))
         }

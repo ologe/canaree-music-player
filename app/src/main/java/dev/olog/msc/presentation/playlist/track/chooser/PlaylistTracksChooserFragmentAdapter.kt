@@ -5,21 +5,22 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.base.DiffCallbackDisplayableItem
+import dev.olog.presentation.base.ObservableAdapter
+import dev.olog.presentation.base.setOnClickListener
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject
 
 class PlaylistTracksChooserFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val viewModel: PlaylistTracksChooserFragmentViewModel
+    @FragmentLifecycle lifecycle: Lifecycle,
+    private val viewModel: PlaylistTracksChooserFragmentViewModel
 
-) : AbsAdapter<DisplayableItem>(lifecycle) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(controller) { item, position, view ->
+        viewHolder.setOnClickListener(this) { item, position, view ->
             val checkBox = view.findViewById<CheckBox>(R.id.selected)
             val wasChecked = checkBox.isChecked
             checkBox.isChecked = !wasChecked

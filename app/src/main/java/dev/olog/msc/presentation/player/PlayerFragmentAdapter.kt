@@ -18,7 +18,6 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
-import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.presentation.base.*
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.interfaces.HasSlidingPanel
@@ -70,7 +69,7 @@ class PlayerFragmentAdapter(
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.elevateSongOnTouch()
+                viewHolder.elevateAlbumOnTouch()
 
 //                viewHolder.setOnMoveListener(controller, touchHelper!!) TODO
             }

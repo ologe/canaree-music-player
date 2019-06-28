@@ -3,22 +3,23 @@ package dev.olog.msc.presentation.licenses
 import android.text.method.LinkMovementMethod
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.DiffUtil
 import dev.olog.msc.BR
 import dev.olog.msc.databinding.ItemLicenseBinding
-import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.base.setOnClickListener
 import kotlinx.android.synthetic.main.item_license.view.*
 
-class LicensesFragmentAdapter (lifecycle: Lifecycle)
-    : AbsAdapter<LicenseModel>(lifecycle){
+class LicensesFragmentAdapter(
+    lifecycle: Lifecycle
+) : ObservableAdapter<LicenseModel>(lifecycle, DiffCallbackLicenseModel) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         (viewHolder.binding as ItemLicenseBinding)
-                .url.movementMethod = LinkMovementMethod.getInstance()
+            .url.movementMethod = LinkMovementMethod.getInstance()
 
-        viewHolder.setOnClickListener(controller) { _, _, _ ->
+        viewHolder.setOnClickListener(this) { _, _, _ ->
             val maxLines = if (viewHolder.itemView.license.maxLines > 10) 10 else Int.MAX_VALUE
             viewHolder.itemView.license.maxLines = maxLines
         }
@@ -28,4 +29,14 @@ class LicensesFragmentAdapter (lifecycle: Lifecycle)
         binding.setVariable(BR.licenseModel, item)
     }
 
+}
+
+object DiffCallbackLicenseModel : DiffUtil.ItemCallback<LicenseModel>() {
+    override fun areItemsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun areContentsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
+        return oldItem == newItem
+    }
 }
