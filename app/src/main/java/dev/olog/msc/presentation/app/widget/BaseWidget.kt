@@ -11,12 +11,12 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.msc.music.service.MusicService
+import dev.olog.service.music.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.shared.palette.ImageProcessorResult
-import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.presentation.AppConstants
+import dev.olog.shared.extensions.asServicePendingIntent
+import dev.olog.shared.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.AppConstants
 import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
 import javax.inject.Inject

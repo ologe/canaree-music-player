@@ -11,7 +11,7 @@ import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
@@ -23,11 +23,11 @@ import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
-        @ApplicationContext private val context: Context,
-        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-        private val appPreferencesUseCase: AppPreferencesGateway,
-        private val musicPrefsUseCase: MusicPreferencesGateway,
-        private val tutorialPreferenceUseCase: TutorialPreferenceGateway
+    @ApplicationContext private val context: Context,
+    observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+    private val appPreferencesUseCase: AppPreferencesGateway,
+    private val musicPrefsUseCase: MusicPreferencesGateway,
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) : ViewModel() {
 

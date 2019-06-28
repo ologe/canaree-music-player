@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
-import dev.olog.msc.utils.PendingIntents
+import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.shared.PendingIntents
 import dev.olog.shared.utils.TimeUtils
 import dev.olog.shared.extensions.act
 import dev.olog.msc.utils.k.extension.logStackStace

@@ -18,7 +18,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.presentation.utils.isCollapsed
-import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
+import dev.olog.shared.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator

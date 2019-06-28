@@ -58,6 +58,8 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':presentation')
     implementation project(':shared')
+    implementation project(':service-music')
+    implementation project(':service-floating')
 
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"

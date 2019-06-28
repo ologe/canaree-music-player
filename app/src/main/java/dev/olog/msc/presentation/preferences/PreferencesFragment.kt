@@ -27,7 +27,6 @@ import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentia
 import dev.olog.msc.presentation.utils.ColorPalette
 import dev.olog.msc.utils.k.extension.forEach
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.presentation.AppConstants
 import dev.olog.shared.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -163,7 +162,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key){
-            getString(R.string.prefs_lockscreen_artwork_key) -> AppConstants.updateLockscreenArtworkEnabled(ctx)
             getString(R.string.prefs_folder_tree_view_key),
             getString(R.string.prefs_blacklist_key),
             getString(R.string.prefs_show_podcasts_key),

@@ -7,7 +7,7 @@ import dev.olog.core.gateway.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.utils.k.extension.get
-import dev.olog.presentation.AppConstants
+import dev.olog.shared.AppConstants
 import io.reactivex.Single
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx2.asObservable

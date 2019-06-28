@@ -12,7 +12,7 @@ import dev.olog.media.getArtist
 import dev.olog.media.getTitle
 import dev.olog.media.isPlaying
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants.PROGRESS_BAR_INTERVAL
+import dev.olog.shared.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicGlueService
 import dev.olog.shared.widgets.playpause.IPlayPauseBehavior
 import dev.olog.shared.extensions.subscribe

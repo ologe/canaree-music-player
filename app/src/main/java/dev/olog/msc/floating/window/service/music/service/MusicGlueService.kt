@@ -13,8 +13,8 @@ import androidx.lifecycle.LiveData
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.media.*
 import dev.olog.media.connection.OnConnectionChanged
-import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.dagger.scope.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.injection.dagger.PerService
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.map

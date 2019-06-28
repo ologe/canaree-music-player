@@ -5,7 +5,7 @@ import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.core.interactor.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
+import dev.olog.core.interactor.GetPlayingQueueUseCase
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.MediaId

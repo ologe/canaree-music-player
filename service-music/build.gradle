@@ -8,12 +8,23 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-    dataBinding.enabled = true
+    buildTypes {
+        release {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+        debug {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+    }
 }
 
 apply from: '../kapt.gradle'
 
 dependencies {
+    implementation project(':app-shortcuts')
+    implementation project(':jaudiotagger')
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')
@@ -29,6 +40,17 @@ dependencies {
     kapt lib_core.dagger_processor
 
     implementation lib_x.media
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_extensions
+    implementation lib_x.lifecycle_java8
+
+    implementation lib_ui.glide
+
+    implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
+
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
+
 
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.0'
 //    implementation project(':exoplayer-library-core')

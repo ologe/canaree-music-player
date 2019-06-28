@@ -2,7 +2,7 @@ package dev.olog.msc
 
 import dev.olog.appshortcuts.ShortcutsActivity
 import dev.olog.msc.floating.window.service.FloatingWindowService
-import dev.olog.msc.music.service.MusicService
+import dev.olog.service.music.MusicService
 import dev.olog.msc.presentation.app.widget.WidgetColored
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity

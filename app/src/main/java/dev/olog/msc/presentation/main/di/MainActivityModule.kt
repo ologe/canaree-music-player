@@ -11,7 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.media.MediaProvider
-import dev.olog.msc.dagger.qualifier.ActivityContext
+import dev.olog.injection.dagger.ActivityContext
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.navigator.NavigatorImpl

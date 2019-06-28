@@ -12,13 +12,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.analytics.FirebaseAnalytics
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.presentation.AppConstants
+import dev.olog.shared.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.shared.MusicConstants
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.msc.music.service.MusicService
+import dev.olog.service.music.MusicService
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.interfaces.HasSlidingPanel

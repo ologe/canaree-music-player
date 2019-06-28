@@ -3,7 +3,7 @@ package dev.olog.msc.floating.window.service.di
 import dagger.BindsInstance
 import dagger.Component
 import dev.olog.injection.CoreComponent
-import dev.olog.msc.dagger.scope.PerService
+import dev.olog.injection.dagger.PerService
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 fun FloatingWindowService.inject(){

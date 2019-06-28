@@ -55,3 +55,13 @@ fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any
     }
     return this
 }
+
+fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): Boolean {
+    for (t in this) {
+        if (predicate(t)) {
+            this.remove(t)
+            return true
+        }
+    }
+    return false
+}

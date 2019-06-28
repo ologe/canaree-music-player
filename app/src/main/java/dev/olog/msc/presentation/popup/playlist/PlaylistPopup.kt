@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.msc.R
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.presentation.AppConstants
+import dev.olog.shared.AppConstants
 
 class PlaylistPopup(
     view: View,

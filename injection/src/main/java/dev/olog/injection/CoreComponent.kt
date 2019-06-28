@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
+import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.executor.IoScheduler
@@ -21,7 +22,6 @@ import dev.olog.injection.equalizer.EqualizerModule
 import dev.olog.injection.equalizer.IBassBoost
 import dev.olog.injection.equalizer.IEqualizer
 import dev.olog.injection.equalizer.IVirtualizer
-import java.text.Collator
 import javax.inject.Singleton
 
 @Component(
@@ -77,9 +77,6 @@ interface CoreComponent {
 
     fun cpuDispatcher(): ComputationScheduler
     fun ioDispatcher(): IoScheduler
-    fun encrypter(): LastFmEncrypter
-
-    fun collator(): Collator
 
     fun folderGateway2(): FolderGateway
     fun playlistGateway2(): PlaylistGateway
@@ -91,6 +88,8 @@ interface CoreComponent {
     fun podcastGateway2(): PodcastGateway
     fun podcastAlbumGateway2(): PodcastAlbumGateway
     fun podcastArtistGateway2(): PodcastArtistGateway
+
+    fun encrypter(): IEncrypter
 
     @Component.Factory
     interface Factory {

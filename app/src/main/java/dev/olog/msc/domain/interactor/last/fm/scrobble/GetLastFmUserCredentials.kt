@@ -2,12 +2,12 @@ package dev.olog.msc.domain.interactor.last.fm.scrobble
 
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.injection.LastFmEncrypter
+import dev.olog.injection.EncrypterImpl
 import javax.inject.Inject
 
 class GetLastFmUserCredentials @Inject constructor(
     private val gateway: AppPreferencesGateway,
-    private val lastFmEncrypter: LastFmEncrypter
+    private val lastFmEncrypter: EncrypterImpl
 
 ) {
 

@@ -11,9 +11,8 @@ import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
-import dev.olog.msc.utils.PendingIntents
-import dev.olog.presentation.AppConstants
+import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.shared.PendingIntents
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -55,7 +54,6 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
     }
 
     private fun initializeConstants() {
-        AppConstants.initialize(this)
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
     }
 

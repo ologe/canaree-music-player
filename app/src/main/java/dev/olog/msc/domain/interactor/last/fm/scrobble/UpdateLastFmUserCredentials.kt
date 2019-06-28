@@ -4,14 +4,14 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.interactor.base.CompletableUseCaseWithParam
-import dev.olog.injection.LastFmEncrypter
+import dev.olog.injection.EncrypterImpl
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class UpdateLastFmUserCredentials @Inject constructor(
     schedulers: IoScheduler,
     private val gateway: AppPreferencesGateway,
-    private val lastFmEncrypter: LastFmEncrypter
+    private val lastFmEncrypter: EncrypterImpl
 
 ) : CompletableUseCaseWithParam<UserCredentials>(schedulers) {
 

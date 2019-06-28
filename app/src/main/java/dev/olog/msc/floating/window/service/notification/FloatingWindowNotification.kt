@@ -10,11 +10,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowService
 import dev.olog.shared.utils.isOreo
-import dev.olog.msc.utils.k.extension.asServicePendingIntent
+import dev.olog.shared.extensions.asServicePendingIntent
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -22,10 +22,10 @@ import javax.inject.Inject
 private const val CHANNEL_ID = "0xfff"
 
 class FloatingWindowNotification @Inject constructor(
-        private val service: Service,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        private val notificationManager: NotificationManager,
-        private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val service: Service,
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val notificationManager: NotificationManager,
+    private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver {
 

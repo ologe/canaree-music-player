@@ -7,8 +7,8 @@ import androidx.lifecycle.Lifecycle
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ServiceContext
-import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.injection.dagger.ServiceContext
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 @Module

@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.PopupMenu
-import dev.olog.msc.FileProvider
+import dev.olog.shared.FileProvider
 import dev.olog.msc.R
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -60,7 +60,7 @@ abstract class AbsPopupListener(
     protected fun share(activity: Activity, song: Song){
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForSong(activity, song))
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForPath(activity, song.path))
         intent.type = "audio/*"
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         try {

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
 import dagger.android.AndroidInjection
-import dev.olog.msc.constants.WidgetConstants
+import dev.olog.shared.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
 

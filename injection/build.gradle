@@ -6,6 +6,15 @@ android {
     defaultConfig {
         consumerProguardFiles 'consumer-rules.pro'
     }
+
+    buildTypes {
+        debug {
+            buildConfigField 'String', "AES_PASSWORD", aes_password
+        }
+        release {
+            buildConfigField 'String', "AES_PASSWORD", aes_password
+        }
+    }
 }
 
 apply from: '../kapt.gradle'
