@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+apply from: '../base_module.gradle'
+
+android {
+
+    defaultConfig {
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':shared')
+    implementation project(':jaudiotagger')
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+
+    implementation lib_core.dagger
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_rx
+
+    implementation lib_x.appcompat
+    implementation lib_x.material
+    implementation lib_x.core
+    implementation lib_x.core_ktx
+}

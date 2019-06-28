@@ -11,14 +11,14 @@ import androidx.core.content.ContextCompat
 import dev.olog.media.*
 import dev.olog.msc.R
 import dev.olog.shared.AppConstants
-import dev.olog.msc.offline.lyrics.EditLyricsDialog
-import dev.olog.msc.offline.lyrics.NoScrollTouchListener
-import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.presentation.widget.animateBackgroundColor
-import dev.olog.msc.presentation.widget.animateTextColor
+import dev.olog.shared.extensions.animateBackgroundColor
+import dev.olog.shared.extensions.animateTextColor
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
@@ -104,7 +104,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            EditLyricsDialog.show(act, presenter.getOriginalLyrics()) { newLyrics ->
+            dev.olog.offlinelyrics.EditLyricsDialog.show(act, presenter.getOriginalLyrics()) { newLyrics ->
                 presenter.updateLyrics(newLyrics)
             }
         }
@@ -112,13 +112,13 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         search.setOnClickListener { searchLyrics() }
         act.window.removeLightStatusBar()
 
-        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
-        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
-        scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
+        fakeNext.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
+        fakePrev.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
+        scrollView.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(ctx) { mediaProvider.playPause() })
         seekBar.setOnSeekBarChangeListener(seekBarListener)
 
         sync.setOnClickListener { _ ->
-            OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
+            dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
                 presenter.updateSyncAdjustement(it)
             }
         }

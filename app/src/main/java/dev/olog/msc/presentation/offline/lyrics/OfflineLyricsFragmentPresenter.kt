@@ -2,9 +2,9 @@ package dev.olog.msc.presentation.offline.lyrics
 
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
-import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
-import dev.olog.msc.offline.lyrics.BaseOfflineLyricsPresenter
+import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
+import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
+import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import io.reactivex.Completable
 import javax.inject.Inject
 

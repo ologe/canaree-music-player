@@ -130,7 +130,7 @@
 
         <!--floating window service-->
         <service
-            android:name=".floating.window.service.FloatingWindowService"
+            android:name="dev.olog.service.floating.FloatingWindowService"
             android:exported="false" />
 
 

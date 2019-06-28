@@ -23,6 +23,7 @@ dependencies {
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':tap-target-view')
+    implementation project(':offline-lyrics')
 
     kapt lib_ui.data_binding
 

@@ -15,8 +15,8 @@ import dev.olog.media.*
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.presentation.widget.animateBackgroundColor
-import dev.olog.msc.presentation.widget.animateTextColor
+import dev.olog.shared.extensions.animateBackgroundColor
+import dev.olog.shared.extensions.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.presentation.base.*
 import dev.olog.presentation.dagger.FragmentLifecycle
