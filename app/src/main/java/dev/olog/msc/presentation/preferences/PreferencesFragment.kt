@@ -20,7 +20,6 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.R
-import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
@@ -86,13 +85,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                                 .show()
                     }
                 }
-
-        val lowRam = isLowMemoryDevice(ctx)
-        if (lowRam){
-            autoCreateImages.isChecked = false
-            autoCreateImages.isEnabled = false
-            autoCreateImages.summaryOff = getString(R.string.prefs_auto_create_images_summary_low_memory)
-        }
 
     }
 

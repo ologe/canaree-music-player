@@ -50,8 +50,6 @@
   <string name="prefs_auto_download_images_summary_mobile">Vždy</string>
   <string name="prefs_auto_download_images_summary_wifi">Pouze na Wi-Fi</string>
   <string name="prefs_auto_download_images_summary_never">Nikdy</string>
-  <!--auto create images-->
-  <string name="prefs_auto_create_images_summary_low_memory">Zakázáno na zařízeních s nízkou pamětí</string>
   <!--appearance-->
   <string name="prefs_appearance_title">Vzhled obrazovky \"Nyní hraje\"</string>
   <string name="prefs_appearance_default">Výchozí</string>

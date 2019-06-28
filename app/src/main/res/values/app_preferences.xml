@@ -155,7 +155,6 @@
     <string name="prefs_auto_create_images_title">Auto create folder, playlist and genre images</string>
     <string name="prefs_auto_create_images_summary_on">@string/common_enabled</string>
     <string name="prefs_auto_create_images_summary_off">@string/common_disabled</string>
-    <string name="prefs_auto_create_images_summary_low_memory">Disabled on low memory devices</string>
 
     <!--appearance-->
     <string name="prefs_appearance_title">Now playing screen appearance</string>

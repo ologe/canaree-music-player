@@ -53,7 +53,6 @@
   <string name="prefs_auto_download_images_summary_never">Mai</string>
   <!--auto create images-->
   <string name="prefs_auto_create_images_title">Crea automaticamente immagini per cartelle, playlist e generi</string>
-  <string name="prefs_auto_create_images_summary_low_memory">Disabilitato su dispositivi con memoria limitata</string>
   <!--appearance-->
   <string name="prefs_appearance_title">Apparenza schermata Now Playing</string>
   <string name="prefs_appearance_default">Normale</string>

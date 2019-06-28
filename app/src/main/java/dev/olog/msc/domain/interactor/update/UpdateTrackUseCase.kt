@@ -2,11 +2,10 @@ package dev.olog.msc.domain.interactor.update
 
 import android.content.Context
 import com.crashlytics.android.Crashlytics
-import dev.olog.injection.IoSchedulers
-import dev.olog.msc.catchNothing
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.core.interactor.base.CompletableUseCaseWithParam
+import dev.olog.injection.IoSchedulers
 import dev.olog.msc.notifyItemChanged
 import io.reactivex.Completable
 import org.jaudiotagger.audio.AudioFileIO
@@ -34,7 +33,11 @@ class UpdateTrackUseCase @Inject constructor(
                 }
 
                 for (field in param.fields) {
-                    catchNothing { tag.setField(field.key, field.value) }
+                    try {
+                        tag.setField(field.key, field.value)
+                    } catch (ex: Exception){
+                        ex.printStackTrace()
+                    }
                 }
 
                 audioFile.commit()
