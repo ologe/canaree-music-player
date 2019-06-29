@@ -7,7 +7,6 @@
 
     <!--seekbar-->
     <dimen name="player_seekBar_padding_bottom">30dp</dimen>
-    <dimen name="player_seekBar_padding_top">18dp</dimen>
     <dimen name="player_seekBar_padding_horizontal">80dp</dimen>
 
     <!--durations-->

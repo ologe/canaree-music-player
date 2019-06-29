@@ -3,11 +3,11 @@
 
     <!--cover-->
     <dimen name="player_cover_margin_vertical">2dp</dimen>
-    <dimen name="player_cover_margin_horizontal">16dp</dimen>
+    <dimen name="player_cover_margin_horizontal">12dp</dimen>
 
     <!--seekbar-->
     <dimen name="player_seekBar_padding_bottom">22dp</dimen>
-    <dimen name="player_seekBar_padding_top">6dp</dimen>
+    <dimen name="player_seekBar_padding_top">16dp</dimen>
     <dimen name="player_seekBar_padding_horizontal">36dp</dimen>
 
     <dimen name="player_seekBar_spotify_padding">12dp</dimen>
