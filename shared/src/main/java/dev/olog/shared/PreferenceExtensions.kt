@@ -3,11 +3,14 @@ package dev.olog.shared
 import android.content.SharedPreferences
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.extensions.safeSend
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.flowViaChannel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-inline fun <reified T> SharedPreferences.observeKey(key: String, default: T): Flow<T> {
+inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dispatcher: CoroutineContext = Dispatchers.Default): Flow<T> {
     val flow: Flow<T> = flowViaChannel { channel ->
         channel.offer(getItem(key, default))
 
@@ -22,19 +25,21 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T): Fl
         registerOnSharedPreferenceChangeListener(listener)
         channel.invokeOnClose { unregisterOnSharedPreferenceChangeListener(listener) }
     }
-    return flow.assertBackground()
+    return flow
+        .assertBackground()
+        .flowOn(dispatcher)
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <reified T> SharedPreferences.getItem(key: String, default: T): T {
-    return when {
-        String::class.java.isAssignableFrom(T::class.java) -> getString(key, default as String) as T
-        Int::class.java.isAssignableFrom(T::class.java) -> getInt(key, default as Int) as T
-        Long::class.java.isAssignableFrom(T::class.java) -> getLong(key, default as Long) as T
-        Boolean::class.java.isAssignableFrom(T::class.java) -> getBoolean(key, default as Boolean) as T
-        Float::class.java.isAssignableFrom(T::class.java) -> getFloat(key, default as Float) as T
-        Set::class.java.isAssignableFrom(T::class.java) -> getStringSet(key, default as Set<String>) as T
-        MutableSet::class.java.isAssignableFrom(T::class.java) -> getStringSet(key, default as MutableSet<String>) as T
+    @Suppress("UNCHECKED_CAST")
+    return when (default){
+        is String -> getString(key, default) as T
+        is Int -> getInt(key, default) as T
+        is Long -> getLong(key, default) as T
+        is Boolean -> getBoolean(key, default) as T
+        is Float -> getFloat(key, default) as T
+        is Set<*> -> getStringSet(key, default as Set<String>) as T
+        is MutableSet<*> -> getStringSet(key, default as MutableSet<String>) as T
         else -> throw IllegalArgumentException("generic type not handle ${T::class.java.name}")
     }
 }
