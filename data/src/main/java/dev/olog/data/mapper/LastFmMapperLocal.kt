@@ -3,15 +3,9 @@ package dev.olog.data.mapper
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.data.api.lastfm.album.info.AlbumInfo
-import dev.olog.data.api.lastfm.album.search.AlbumSearch
-import dev.olog.data.api.lastfm.artist.info.ArtistInfo
-import dev.olog.data.api.lastfm.track.info.TrackInfo
-import dev.olog.data.api.lastfm.track.search.TrackSearch
 import dev.olog.data.db.entities.LastFmAlbumEntity
 import dev.olog.data.db.entities.LastFmArtistEntity
 import dev.olog.data.db.entities.LastFmTrackEntity
-import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -3,6 +3,7 @@ package dev.olog.data
 import dagger.Binds
 import dagger.Module
 import dev.olog.core.gateway.*
+import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.LastFmRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
@@ -66,5 +67,25 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideLastFmRepository(repository: LastFmRepository): LastFmGateway
+
+    @Binds
+    @Singleton
+    abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideFavoriteRepository(repository: FavoriteRepository): FavoriteGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideUsedImageRepository(repository: UsedImageRepository): UsedImageGateway
 
 }

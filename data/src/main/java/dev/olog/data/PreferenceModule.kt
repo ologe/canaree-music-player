@@ -44,14 +44,14 @@ abstract class PreferenceModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)
         }
 
         @Provides
         @JvmStatic
         @Singleton
-        fun provideRxPreferences(preferences: SharedPreferences): RxSharedPreferences {
+        internal fun provideRxPreferences(preferences: SharedPreferences): RxSharedPreferences {
             return RxSharedPreferences.create(preferences)
         }
     }

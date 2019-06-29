@@ -16,7 +16,6 @@ import dev.olog.core.prefs.*
 import dev.olog.data.DataModule
 import dev.olog.data.PreferenceModule
 import dev.olog.data.RepositoryHelperModule
-import dev.olog.data.RepositoryModule
 import dev.olog.data.api.lastfm.LastFmModule
 import dev.olog.injection.equalizer.EqualizerModule
 import dev.olog.injection.equalizer.IBassBoost
@@ -31,7 +30,6 @@ import javax.inject.Singleton
         LastFmModule::class,
 
 //        // data
-        RepositoryModule::class,
         RepositoryHelperModule::class,
         PreferenceModule::class,
         DataModule::class,

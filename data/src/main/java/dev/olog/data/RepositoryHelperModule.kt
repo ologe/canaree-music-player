@@ -15,7 +15,7 @@ class RepositoryHelperModule {
 
     @Provides
     @Singleton
-    fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
+    internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(MIGRATION_15_16)
             .build()
