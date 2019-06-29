@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import dev.olog.presentation.R
+import kotlin.math.abs
 
 class AudioWaveView : View {
 
@@ -29,16 +30,8 @@ class AudioWaveView : View {
         inflateAttrs(attrs)
     }
 
-//    var onProgressListener: OnProgressListener? = null
-
-//    var onProgressChanged: (Float, Boolean) -> Unit = { _, _ -> Unit }
-
-//    var onStartTracking: (Float) -> Unit = {}
-
-//    var onStopTracking: (Float) -> Unit = {}
-
     var chunkHeight: Int = 0
-        get() = if (field == 0) h else Math.abs(field)
+        get() = if (field == 0) h else abs(field)
         set(value) {
             field = value
             redrawData()
@@ -46,25 +39,25 @@ class AudioWaveView : View {
 
     var chunkWidth: Int = dip(2)
         set(value) {
-            field = Math.abs(value)
+            field = abs(value)
             redrawData()
         }
 
     var chunkSpacing: Int = dip(1)
         set(value) {
-            field = Math.abs(value)
+            field = abs(value)
             redrawData()
         }
 
     var chunkRadius: Int = 0
         set(value) {
-            field = Math.abs(value)
+            field = abs(value)
             redrawData()
         }
 
     var minChunkHeight: Int = dip(2)
         set(value) {
-            field = Math.abs(value)
+            field = abs(value)
             redrawData()
         }
 
@@ -77,12 +70,9 @@ class AudioWaveView : View {
 
     var progress: Float = 0F
         set(value) {
-            require(value in 0..100) { "Progress must be in 0..100" }
+            require(value in 0f..100f) { "Progress must be in 0..100" }
 
             field = Math.abs(value)
-
-//            onProgressListener?.onProgressChanged(field, isTouched)
-//            onProgressChanged(field, isTouched)
 
             postInvalidate()
         }
@@ -178,38 +168,6 @@ class AudioWaveView : View {
         }
     }
 
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        event ?: return super.onTouchEvent(event)
-//
-//        when (event.action) {
-//            MotionEvent.ACTION_DOWN -> {
-//                isTouched = true
-//                progress = event.toProgress()
-//
-//                // these paired calls look ugly, but we need them for Java
-//                onProgressListener?.onStartTracking(progress)
-//                onStartTracking(progress)
-//
-//                return true
-//            }
-//            MotionEvent.ACTION_MOVE -> {
-//                isTouched = true
-//                progress = event.toProgress()
-//                return true
-//            }
-//            MotionEvent.ACTION_UP -> {
-//                isTouched = false
-//                onProgressListener?.onStopTracking(progress)
-//                onStopTracking(progress)
-//                return false
-//            }
-//            else -> {
-//                isTouched = false
-//                return super.onTouchEvent(event)
-//            }
-//        }
-//    }
-
     // Java convenience
     fun setRawData(raw: ByteArray, callback: OnSamplingListener) {
         setRawData(raw) { callback.onComplete() }
@@ -289,11 +247,5 @@ class AudioWaveView : View {
     interface OnSamplingListener {
         fun onComplete()
     }
-
-//    interface OnProgressListener {
-//        fun onStartTracking(progress: Float)
-//        fun onStopTracking(progress: Float)
-//        fun onProgressChanged(progress: Float, byUser: Boolean)
-//    }
 
 }
