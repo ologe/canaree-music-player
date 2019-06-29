@@ -3,7 +3,7 @@ package dev.olog.msc.app
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dev.olog.injection.CoreComponent
-import dev.olog.msc.presentation.app.widget.WidgetBindingModule
+import dev.olog.msc.appwidgets.WidgetBindingModule
 import javax.inject.Scope
 
 @Component(

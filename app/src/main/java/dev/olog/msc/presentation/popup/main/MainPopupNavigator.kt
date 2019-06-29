@@ -6,7 +6,7 @@ import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.presentation.about.AboutActivity
-import dev.olog.msc.presentation.debug.DebugConfigurationActivity
+import dev.olog.presentation.debug.DebugConfigurationActivity
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.prefs.PreferencesActivity

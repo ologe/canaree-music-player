@@ -95,7 +95,7 @@
         </activity>
 
         <!--splash activity-->
-        <activity android:name=".presentation.splash.SplashActivity" />
+        <activity android:name="dev.olog.presentation.splash.SplashActivity" />
 
         <!--about activity-->
         <activity android:name="dev.olog.presentation.about.AboutActivity" />
@@ -110,7 +110,7 @@
         <activity android:name=".presentation.shortcuts.playlist.chooser.PlaylistChooserActivity" />
 
         <!--debug configuration-->
-        <activity android:name=".presentation.debug.DebugConfigurationActivity" />
+        <activity android:name="dev.olog.presentation.debug.DebugConfigurationActivity" />
 
         <!--music service-->
         <service
@@ -136,7 +136,7 @@
 
         <!--widget -->
         <receiver
-            android:name=".presentation.app.widget.WidgetColored"
+            android:name=".appwidgets.WidgetColored"
             android:label="@string/app_widget_default">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

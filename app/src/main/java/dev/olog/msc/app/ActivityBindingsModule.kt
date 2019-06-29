@@ -2,7 +2,7 @@ package dev.olog.msc.app
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dev.olog.msc.presentation.splash.SplashActivity
+import dev.olog.presentation.splash.SplashActivity
 
 @Module
 abstract class ActivityBindingsModule {
