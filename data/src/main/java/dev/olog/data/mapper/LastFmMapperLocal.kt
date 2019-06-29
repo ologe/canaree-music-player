@@ -22,7 +22,10 @@ fun LastFmTrackEntity.toDomain(): LastFmTrack {
         this.title,
         this.artist,
         this.album,
-        this.image
+        this.image,
+        this.mbid,
+        this.artistMbid,
+        this.albumMbid
     )
 }
 
@@ -31,7 +34,9 @@ fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
         this.id,
         this.title,
         this.artist,
-        this.image
+        this.image,
+        this.mbid,
+        this.wiki
     )
 }
 
@@ -44,7 +49,10 @@ fun LastFmTrack.toModel(): LastFmTrackEntity {
         this.artist,
         this.album,
         this.image,
-        millisToFormattedDate(System.currentTimeMillis())
+        millisToFormattedDate(System.currentTimeMillis()),
+        this.mbid,
+        this.artistMbid,
+        this.albumMbid
     )
 }
 
@@ -56,14 +64,18 @@ fun LastFmAlbum.toModel(): LastFmAlbumEntity {
         this.title,
         this.artist,
         this.image,
-        millisToFormattedDate(System.currentTimeMillis())
+        millisToFormattedDate(System.currentTimeMillis()),
+        this.mbid,
+        this.wiki
     )
 }
 
 fun LastFmArtistEntity.toDomain(): LastFmArtist {
     return LastFmArtist(
         this.id,
-        this.image
+        this.image,
+        this.mbid,
+        this.wiki
     )
 }
 
@@ -71,7 +83,9 @@ fun LastFmArtist.toModel() : LastFmArtistEntity{
     return LastFmArtistEntity(
         this.id,
         this.image,
-        millisToFormattedDate(System.currentTimeMillis())
+        millisToFormattedDate(System.currentTimeMillis()),
+        this.mbid,
+        this.wiki
     )
 }
 
@@ -84,7 +98,10 @@ object LastFmNulls {
             "",
             "",
             "",
-            millisToFormattedDate(System.currentTimeMillis())
+            millisToFormattedDate(System.currentTimeMillis()),
+            "",
+            "",
+            ""
         )
     }
 
@@ -92,7 +109,9 @@ object LastFmNulls {
         return LastFmArtistEntity(
             artistId,
             "",
-            millisToFormattedDate(System.currentTimeMillis())
+            millisToFormattedDate(System.currentTimeMillis()),
+            "",
+            ""
         )
     }
 
@@ -102,7 +121,9 @@ object LastFmNulls {
             "",
             "",
             "",
-            millisToFormattedDate(System.currentTimeMillis())
+            millisToFormattedDate(System.currentTimeMillis()),
+            "",
+            ""
         )
     }
 
