@@ -30,9 +30,9 @@ import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
 import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
-import kotlinx.android.synthetic.main.fragment_player_controls.view.*
-import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
-import kotlinx.android.synthetic.main.player_controls.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.*
+import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.android.synthetic.main.player_controls_default.view.*
 
 class PlayerFragmentAdapter(
     @FragmentLifecycle lifecycle: Lifecycle,
@@ -44,13 +44,13 @@ class PlayerFragmentAdapter(
 ) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
     private val playerViewTypes = listOf(
-        R.layout.fragment_player_controls,
-        R.layout.fragment_player_controls_spotify,
-        R.layout.fragment_player_controls_flat,
-        R.layout.fragment_player_controls_big_image,
-        R.layout.fragment_player_controls_fullscreen,
-        R.layout.fragment_player_controls_clean,
-        R.layout.fragment_player_controls_mini
+        R.layout.player_layout_default,
+        R.layout.player_layout_spotify,
+        R.layout.player_layout_flat,
+        R.layout.player_layout_big_image,
+        R.layout.player_layout_fullscreen,
+        R.layout.player_layout_clean,
+        R.layout.player_layout_mini
     )
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -69,13 +69,13 @@ class PlayerFragmentAdapter(
 
 //                viewHolder.setOnMoveListener(controller, touchHelper!!) TODO
             }
-            R.layout.fragment_player_controls,
-            R.layout.fragment_player_controls_spotify,
-            R.layout.fragment_player_controls_fullscreen,
-            R.layout.fragment_player_controls_flat,
-            R.layout.fragment_player_controls_big_image,
-            R.layout.fragment_player_controls_clean,
-            R.layout.fragment_player_controls_mini -> {
+            R.layout.player_layout_default,
+            R.layout.player_layout_spotify,
+            R.layout.player_layout_fullscreen,
+            R.layout.player_layout_flat,
+            R.layout.player_layout_big_image,
+            R.layout.player_layout_clean,
+            R.layout.player_layout_mini -> {
                 setupListeners(viewHolder)
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
@@ -116,10 +116,10 @@ class PlayerFragmentAdapter(
         val view = holder.itemView
 
         when (viewType) {
-            R.layout.fragment_player_controls,
-            R.layout.fragment_player_controls_spotify,
-            R.layout.fragment_player_controls_big_image,
-            R.layout.fragment_player_controls_clean -> {
+            R.layout.player_layout_default,
+            R.layout.player_layout_spotify,
+            R.layout.player_layout_big_image,
+            R.layout.player_layout_clean -> {
 
                 viewModel.observePaletteColors()
                     .map { it.accent }
@@ -135,7 +135,7 @@ class PlayerFragmentAdapter(
                     }
 
             }
-            R.layout.fragment_player_controls_flat -> {
+            R.layout.player_layout_flat -> {
                 viewModel.observeProcessorColors()
                     .asLiveData()
                     .subscribe(holder) { colors ->
@@ -161,7 +161,7 @@ class PlayerFragmentAdapter(
                         view.repeat.updateSelectedColor(accent)
                     }
             }
-            R.layout.fragment_player_controls_fullscreen -> {
+            R.layout.player_layout_fullscreen -> {
                 view.playPause.useLightImage()
                 view.next.useLightImage()
                 view.previous.useLightImage()
@@ -180,7 +180,7 @@ class PlayerFragmentAdapter(
                         view.repeat.updateSelectedColor(accent)
                     }
             }
-            R.layout.fragment_player_controls_mini -> {
+            R.layout.player_layout_mini -> {
                 viewModel.observePaletteColors()
                     .map { it.accent }
                     .asLiveData()

@@ -53,12 +53,12 @@
 
             <include
                 android:id="@+id/playerToolbar"
-                layout="@layout/fragment_player_toolbar_fullscreen"
+                layout="@layout/player_toolbar_fullscreen"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/player_toolbar"
+                android:layout_height="@dimen/toolbar"
                 android:layout_marginTop="@dimen/status_bar"/>
 
             <!-- seekbar -->

@@ -9,9 +9,8 @@
     <!-- shuffle -->
     <dev.olog.presentation.widgets.ShuffleButton
         android:id="@+id/shuffle"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
-        android:padding="@dimen/player_shuffle_padding"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         tools:src="@drawable/vd_shuffle"
@@ -28,8 +27,8 @@
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
         android:background="@null"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/shuffle"
@@ -41,8 +40,8 @@
 
     <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:padding="8dp"
         tools:src="@drawable/vd_playpause_play"
         android:background="@null"
@@ -62,8 +61,8 @@
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"
         android:background="@null"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:padding="10dp"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/playPause"
@@ -75,8 +74,8 @@
 
     <ImageButton
         android:id="@+id/replay"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay"
@@ -90,8 +89,8 @@
 
     <ImageButton
         android:id="@+id/replay30"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay_30"
@@ -106,8 +105,8 @@
 
     <ImageButton
         android:id="@+id/forward30"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward_30"
@@ -121,8 +120,8 @@
 
     <ImageButton
         android:id="@+id/forward"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward"
@@ -137,9 +136,8 @@
     <!-- repeat -->
     <dev.olog.presentation.widgets.RepeatButton
         android:id="@+id/repeat"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
-        android:padding="@dimen/player_shuffle_padding"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_repeat"

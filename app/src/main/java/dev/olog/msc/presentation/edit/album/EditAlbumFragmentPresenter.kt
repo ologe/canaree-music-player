@@ -15,8 +15,6 @@ import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
     private val mediaId: MediaId,
-    private val getAlbumUseCase: GetAlbumUseCase,
-    private val getPodcastAlbumUseCase: GetPodcastAlbumUseCase,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) {

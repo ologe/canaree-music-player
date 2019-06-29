@@ -12,10 +12,9 @@ import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 
-class ShuffleButton @JvmOverloads constructor(
+class ShuffleButton(
     context: Context,
-    attrs: AttributeSet? = null
-
+    attrs: AttributeSet
 ) : AppCompatImageButton(context, attrs) {
 
     private var enabledColor: Int
@@ -27,6 +26,7 @@ class ShuffleButton @JvmOverloads constructor(
         setImageResource(R.drawable.vd_shuffle)
         enabledColor = context.colorPrimary()
         setColorFilter(getDefaultColor())
+        background = null
     }
 
     fun cycle(state: Int) {

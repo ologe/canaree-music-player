@@ -97,13 +97,13 @@ class PlayerFragmentViewModel @Inject constructor(
     fun playerControls(): DisplayableItem {
         val hasPlayerAppearance = context.hasPlayerAppearance()
         val id = when (hasPlayerAppearance.playerAppearance()) {
-            PlayerAppearance.DEFAULT -> R.layout.fragment_player_controls
-            PlayerAppearance.FLAT -> R.layout.fragment_player_controls_flat
-            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_controls_spotify
-            PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_controls_fullscreen
-            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_controls_big_image
-            PlayerAppearance.CLEAN -> R.layout.fragment_player_controls_clean
-            PlayerAppearance.MINI -> R.layout.fragment_player_controls_mini
+            PlayerAppearance.DEFAULT -> R.layout.player_layout_default
+            PlayerAppearance.FLAT -> R.layout.player_layout_flat
+            PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify
+            PlayerAppearance.FULLSCREEN -> R.layout.player_layout_fullscreen
+            PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image
+            PlayerAppearance.CLEAN -> R.layout.player_layout_clean
+            PlayerAppearance.MINI -> R.layout.player_layout_mini
             else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")

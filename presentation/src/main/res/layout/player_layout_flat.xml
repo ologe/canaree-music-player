@@ -13,12 +13,12 @@
 
         <include
             android:id="@+id/playerToolbar"
-            layout="@layout/fragment_player_toolbar_flat"
+            layout="@layout/player_toolbar_flat"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/player_toolbar" />
+            android:layout_height="@dimen/toolbar" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/coverWrapper"
@@ -111,7 +111,7 @@
             app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            layout="@layout/player_controls"
+            layout="@layout/player_controls_default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintVertical_bias=".9"/>

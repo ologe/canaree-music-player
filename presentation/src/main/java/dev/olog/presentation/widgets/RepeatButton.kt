@@ -13,9 +13,9 @@ import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 
-class RepeatButton @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null
+class RepeatButton(
+    context: Context,
+    attrs: AttributeSet
 
 ) : AppCompatImageButton(context, attrs) {
 
@@ -28,12 +28,13 @@ class RepeatButton @JvmOverloads constructor(
         setImageResource(R.drawable.vd_repeat)
         enabledColor = context.colorPrimary()
         setColorFilter(getDefaultColor())
+        background = null
     }
 
-    fun cycle(state: Int){
-        if (this.repeatMode != state){
+    fun cycle(state: Int) {
+        if (this.repeatMode != state) {
             this.repeatMode = state
-            when (state){
+            when (state) {
                 PlaybackStateCompat.REPEAT_MODE_NONE -> repeatNone()
                 PlaybackStateCompat.REPEAT_MODE_ONE -> repeatOne()
                 PlaybackStateCompat.REPEAT_MODE_ALL -> repeatAll()
@@ -41,33 +42,33 @@ class RepeatButton @JvmOverloads constructor(
         }
     }
 
-    fun updateSelectedColor(color: Int){
+    fun updateSelectedColor(color: Int) {
         this.enabledColor = color
 
-        if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE){
+        if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE) {
             setColorFilter(this.enabledColor)
         }
     }
 
-    private fun repeatNone(){
+    private fun repeatNone() {
         val color = getDefaultColor()
         animateAvd(color, R.drawable.repeat_hide_one, R.drawable.repeat_show)
     }
 
-    private fun repeatOne(){
+    private fun repeatOne() {
         alpha = 1f
         animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
     }
 
-    private fun repeatAll(){
+    private fun repeatAll() {
         alpha = 1f
         animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
     }
 
-    private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int){
+    private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int) {
         val hideDrawable = context.getAnimatedVectorDrawable(hideAnim)
         setImageDrawable(hideDrawable)
-        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback(){
+        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
             override fun onAnimationEnd(drawable: Drawable?) {
                 val showDrawable = context.getAnimatedVectorDrawable(showAnim)
                 setColorFilter(endColor)

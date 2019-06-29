@@ -33,8 +33,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
-import kotlinx.android.synthetic.main.fragment_player_toolbar.*
-import kotlinx.android.synthetic.main.player_controls.*
+import kotlinx.android.synthetic.main.player_toolbar_default.*
+import kotlinx.android.synthetic.main.player_controls_default.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs

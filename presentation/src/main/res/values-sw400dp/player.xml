@@ -10,9 +10,6 @@
     <dimen name="player_seekBar_padding_bottom">26dp</dimen>
     <dimen name="player_seekBar_padding_top">12dp</dimen>
 
-    <!--shuffle-->
-    <dimen name="player_shuffle_size">55dp</dimen>
-
     <!--durations-->
     <dimen name="player_bookmark_text_size">14dp</dimen>
 

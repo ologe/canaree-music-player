@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/player_toolbar"
+    android:layout_height="@dimen/toolbar"
     android:clickable="true"
     android:focusable="true"
     android:paddingStart="@dimen/player_toolbar_margin_start"
@@ -10,45 +10,45 @@
 
     <TextView
         android:id="@+id/nowPlaying"
-        android:text="@string/player_now_playing"
-        android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+        android:stateListAnimator="@animator/now_playing"
+        android:text="@string/player_now_playing"
+        android:textAppearance="@style/NowPlaying"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAppearance="@style/NowPlaying"
-        android:stateListAnimator="@animator/now_playing"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/lyrics"
-        android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
-        android:src="@drawable/vd_offline_lyrics"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:src="@drawable/vd_offline_lyrics"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/playbackSpeed"
-        android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
-        android:src="@drawable/vd_slow_motion"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:src="@drawable/vd_slow_motion"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/lyrics"/>
+        app:layout_constraintEnd_toStartOf="@+id/lyrics"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
