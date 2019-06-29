@@ -2,13 +2,12 @@ package dev.olog.data.api.lastfm
 
 import androidx.annotation.IntRange
 import dev.olog.data.BuildConfig
-import dev.olog.data.api.lastfm.album.info.AlbumInfo
-import dev.olog.data.api.lastfm.album.search.AlbumSearch
-import dev.olog.data.api.lastfm.artist.info.ArtistInfo
-import dev.olog.data.api.lastfm.artist.search.ArtistSearch
-import dev.olog.data.api.lastfm.track.info.TrackInfo
-import dev.olog.data.api.lastfm.track.search.TrackSearch
-import io.reactivex.Single
+import dev.olog.data.api.lastfm.album.AlbumInfo
+import dev.olog.data.api.lastfm.album.AlbumSearch
+import dev.olog.data.api.lastfm.artist.ArtistInfo
+import dev.olog.data.api.lastfm.artist.ArtistSearch
+import dev.olog.data.api.lastfm.track.TrackInfo
+import dev.olog.data.api.lastfm.track.TrackSearch
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
