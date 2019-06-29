@@ -14,3 +14,4 @@
 - limit shuffle all to N (something like 500), and the let do the shuffle
   algoritm  the rest when pressing shuffle again (like prioritize track not played first,
   then added the rest)
+- since now album and artist has wiki, show it in detail
