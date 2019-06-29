@@ -27,13 +27,12 @@ internal class MediaIdKey(private val mediaId: MediaId) : Key {
     }
 
     override fun hashCode(): Int {
-        if (mediaId.isLeaf) {
-            var result = MediaIdCategory.SONGS.hashCode()
-            result = 31 * result + mediaId.leaf!!.hashCode()
-            return result
-        }
-        var result = mediaId.category.hashCode()
+        var result = 17
+        result = 31 * result + mediaId.category.hashCode()
         result = 31 * result + mediaId.categoryValue.hashCode()
+        if (mediaId.isLeaf) {
+            result = 31 * result + mediaId.leaf!!.hashCode()
+        }
         return result
     }
 
