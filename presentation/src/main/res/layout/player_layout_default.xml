@@ -124,55 +124,54 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
-        <!-- title -->
-        <TextView
-            android:id="@+id/title"
-            tools:text="In Da Club"
+<!--        wrapper is mandatory to avoid autoscroll collision with seekbar -->
+        <LinearLayout
+            android:id="@+id/textWrapper"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerControls"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_title_text_size"
-            android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:textStyle="bold"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="start"
-            android:layout_marginTop="@dimen/player_title_margin_top"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/artist"
-            tools:text="50 Cent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/more"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_artist_text_size"
-            android:textColor="?android:attr/textColorSecondary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
-            android:layout_marginTop="4dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="start|center_vertical" />
+            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+                android:id="@+id/title"
+                tools:text="In Da Club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_title_text_size"
+                android:textColor="?android:attr/textColorPrimary"
+                app:fontFamily="sans-serif-black"
+                android:layout_marginStart="@dimen/player_title_margin_horizontal"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="start"
+                android:layout_marginTop="@dimen/player_title_margin_top"/>
+
+            <TextView
+                android:id="@+id/artist"
+                tools:text="50 Cent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_artist_text_size"
+                android:textColor="?android:attr/textColorSecondary"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginStart="@dimen/player_title_margin_horizontal"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="@dimen/player_artist_bottom_padding"
+                android:layout_marginTop="4dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="start|center_vertical" />
+
+        </LinearLayout>
 
 
         <ImageButton
             android:id="@+id/more"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
+            app:layout_constraintTop_toTopOf="@+id/textWrapper"
+            app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/vd_more"
             android:padding="12dp"
@@ -185,7 +184,7 @@
 
         <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
-            app:layout_constraintTop_toBottomOf="@+id/artist"
+            app:layout_constraintTop_toBottomOf="@+id/textWrapper"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

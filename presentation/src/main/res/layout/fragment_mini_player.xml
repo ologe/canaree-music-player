@@ -45,17 +45,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_music_previous" />
 
-    <TextView
+    <dev.olog.presentation.widgets.autoscroll.AutoScrollTextView
         android:id="@+id/title"
         style="@style/MiniPlayerText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/mini_player_margin_start"
         android:layout_marginBottom="2dp"
-        android:ellipsize="marquee"
-        android:scrollHorizontally="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:singleLine="true"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/artist"
