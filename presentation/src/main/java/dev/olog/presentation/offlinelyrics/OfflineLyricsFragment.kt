@@ -44,11 +44,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val mediaProvider by lazy { activity as MediaProvider }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        super.onViewBound(view, savedInstanceState)
-        postponeEnterTransition()
-        view.image.post { startPostponedEnterTransition() }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
                 .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) }, {})
 

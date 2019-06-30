@@ -1,6 +1,7 @@
 package dev.olog.presentation.navigator
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -13,6 +14,9 @@ import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
+import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
+import dev.olog.presentation.relatedartists.RelatedArtistFragment
+import dev.olog.presentation.splash.SplashActivity
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.extensions.fragmentTransaction
 import javax.inject.Inject
@@ -26,8 +30,8 @@ class NavigatorImpl @Inject internal constructor( // TODO
 ) : DefaultLifecycleObserver, Navigator {
 
     override fun toFirstAccess() {
-//        val intent = Intent(activity, SplashActivity::class.java) TODO
-//        activity.startActivity(intent)
+        val intent = Intent(activity, SplashActivity::class.java)
+        activity.startActivity(intent)
     }
 
     override fun toDetailFragment(mediaId: MediaId) {
@@ -42,21 +46,21 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
-//        val newTag = createBackStackTag(RelatedArtistFragment.TAG)
-//        superCerealTransition(
-//            activity,
-//            RelatedArtistFragment.newInstance(mediaId),
-//            newTag
-//        )
+        val newTag = createBackStackTag(RelatedArtistFragment.TAG)
+        superCerealTransition(
+            activity,
+            RelatedArtistFragment.newInstance(mediaId),
+            newTag
+        )
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
-//        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
-//        superCerealTransition(
-//            activity,
-//            RecentlyAddedFragment.newInstance(mediaId),
-//            newTag
-//        )
+        val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
+        superCerealTransition(
+            activity,
+            RecentlyAddedFragment.newInstance(mediaId),
+            newTag
+        )
     }
 
     override fun toOfflineLyrics() {
