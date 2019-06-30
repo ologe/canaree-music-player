@@ -8,7 +8,5 @@ data class FavoriteStateEntity(
 
 enum class FavoriteEnum {
     FAVORITE,
-    NOT_FAVORITE,
-    ANIMATE_TO_FAVORITE,
-    ANIMATE_NOT_FAVORITE
+    NOT_FAVORITE
 }

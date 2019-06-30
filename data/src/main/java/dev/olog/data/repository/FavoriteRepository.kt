@@ -28,27 +28,11 @@ class FavoriteRepository @Inject constructor(
 
     private val favoriteStatePublisher = BehaviorSubject.create<FavoriteStateEntity>()
 
-    override fun observeToggleFavorite(): Observable<FavoriteEnum> = favoriteStatePublisher.map { it.enum }
+    override fun observeToggleFavorite(): Observable<FavoriteEnum> =
+        favoriteStatePublisher.map { it.enum }
 
-    override fun updateFavoriteState(type: FavoriteType, state: FavoriteStateEntity) {
+    override fun updateFavoriteState(state: FavoriteStateEntity) {
         favoriteStatePublisher.onNext(state)
-        if (state.enum == FavoriteEnum.ANIMATE_NOT_FAVORITE) {
-            favoriteStatePublisher.onNext(
-                FavoriteStateEntity(
-                    state.songId,
-                    FavoriteEnum.NOT_FAVORITE,
-                    type
-                )
-            )
-        } else if (state.enum == FavoriteEnum.ANIMATE_TO_FAVORITE) {
-            favoriteStatePublisher.onNext(
-                FavoriteStateEntity(
-                    state.songId,
-                    FavoriteEnum.FAVORITE,
-                    type
-                )
-            )
-        }
     }
 
     override fun getAll(): Observable<List<Song>> {
@@ -81,12 +65,7 @@ class FavoriteRepository @Inject constructor(
                 val id = favoriteStatePublisher.value?.songId ?: return@andThen
                 if (songId == id) {
                     updateFavoriteState(
-                        type,
-                        FavoriteStateEntity(
-                            songId,
-                            FavoriteEnum.FAVORITE,
-                            type
-                        )
+                        FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
                     )
                 }
                 it.onComplete()
@@ -99,12 +78,7 @@ class FavoriteRepository @Inject constructor(
                 val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                 if (songListId.contains(songId)) {
                     updateFavoriteState(
-                        type,
-                        FavoriteStateEntity(
-                            songId,
-                            FavoriteEnum.FAVORITE,
-                            type
-                        )
+                        FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
                     )
                 }
                 it.onComplete()
@@ -117,12 +91,7 @@ class FavoriteRepository @Inject constructor(
                 val id = favoriteStatePublisher.value?.songId ?: return@andThen
                 if (songId == id) {
                     updateFavoriteState(
-                        type,
-                        FavoriteStateEntity(
-                            songId,
-                            FavoriteEnum.NOT_FAVORITE,
-                            type
-                        )
+                        FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
                     )
                 }
                 it.onComplete()
@@ -135,12 +104,7 @@ class FavoriteRepository @Inject constructor(
                 val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                 if (songListId.contains(songId)) {
                     updateFavoriteState(
-                        type,
-                        FavoriteStateEntity(
-                            songId,
-                            FavoriteEnum.NOT_FAVORITE,
-                            type
-                        )
+                        FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
                     )
                 }
                 it.onComplete()
@@ -152,12 +116,7 @@ class FavoriteRepository @Inject constructor(
             .andThen {
                 val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                 updateFavoriteState(
-                    type,
-                    FavoriteStateEntity(
-                        songId,
-                        FavoriteEnum.NOT_FAVORITE,
-                        type
-                    )
+                    FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
                 )
                 it.onComplete()
             }
@@ -180,23 +139,13 @@ class FavoriteRepository @Inject constructor(
         when (state) {
             FavoriteEnum.NOT_FAVORITE -> {
                 updateFavoriteState(
-                    type,
-                    FavoriteStateEntity(
-                        id,
-                        FavoriteEnum.ANIMATE_TO_FAVORITE,
-                        type
-                    )
+                    FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type)
                 )
                 action = favoriteDao.addToFavoriteSingle(type, id)
             }
             FavoriteEnum.FAVORITE -> {
                 updateFavoriteState(
-                    type,
-                    FavoriteStateEntity(
-                        id,
-                        FavoriteEnum.ANIMATE_NOT_FAVORITE,
-                        type
-                    )
+                    FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
                 )
                 action = favoriteDao.removeFromFavorite(type, listOf(id))
             }

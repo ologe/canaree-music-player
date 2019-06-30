@@ -2,9 +2,13 @@ package dev.olog.presentation.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.extensions.isDarkMode
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.hasPlayerAppearance
 
 class LottieFavorite(
@@ -12,6 +16,9 @@ class LottieFavorite(
     attrs: AttributeSet
 
 ) : LottieAnimationView(context, attrs) {
+
+    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private var isSlidingPanelExpanded = false
 
     private var state: FavoriteEnum? = null
 
@@ -31,6 +38,18 @@ class LottieFavorite(
 
         scaleX = 1.15f
         scaleY = 1.15f
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+        slidingPanel.addPanelSlideListener(listener)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        isSlidingPanelExpanded = false
+        slidingPanel.removePanelSlideListener(listener)
     }
 
     private fun toggleFavorite(isFavorite: Boolean) {
@@ -59,16 +78,29 @@ class LottieFavorite(
         this.state = favoriteEnum
 
         when (favoriteEnum) {
-            FavoriteEnum.FAVORITE -> toggleFavorite(true)
-            FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
-            FavoriteEnum.ANIMATE_TO_FAVORITE -> {
-                animateFavorite(true)
-                this.state = FavoriteEnum.FAVORITE
+            FavoriteEnum.FAVORITE -> {
+                if (isSlidingPanelExpanded) {
+                    animateFavorite(true)
+                } else {
+                    toggleFavorite(true)
+                }
             }
-            FavoriteEnum.ANIMATE_NOT_FAVORITE -> {
-                animateFavorite(false)
-                this.state = FavoriteEnum.NOT_FAVORITE
+            FavoriteEnum.NOT_FAVORITE -> {
+                if (isSlidingPanelExpanded) {
+                    animateFavorite(false)
+                } else {
+                    toggleFavorite(false)
+                }
             }
+        }
+    }
+
+    private val listener = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

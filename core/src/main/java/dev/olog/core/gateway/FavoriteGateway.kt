@@ -24,7 +24,7 @@ interface FavoriteGateway {
     fun isFavorite(type: FavoriteType, songId: Long): Single<Boolean>
 
     fun observeToggleFavorite(): Observable<FavoriteEnum>
-    fun updateFavoriteState(type: FavoriteType, state: FavoriteStateEntity)
+    fun updateFavoriteState(state: FavoriteStateEntity)
 
     fun toggleFavorite()
 

@@ -36,7 +36,7 @@ class SlidingParentAutoScrollTextView(
         var list: RecyclerView? = null
         while (currentParent != null) {
             if (currentParent is RecyclerView) {
-                list = currentParent as RecyclerView
+                list = currentParent
             }
             currentParent = currentParent.parent
         }

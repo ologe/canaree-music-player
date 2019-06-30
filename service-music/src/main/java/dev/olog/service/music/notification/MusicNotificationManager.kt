@@ -103,7 +103,7 @@ class MusicNotificationManager @Inject constructor(
                 .addTo(subscriptions)
 
         observeFavoriteUseCase.execute()
-                .map { it == FavoriteEnum.FAVORITE || it == FavoriteEnum.ANIMATE_TO_FAVORITE }
+                .map { it == FavoriteEnum.FAVORITE }
                 .distinctUntilChanged()
                 .subscribe(this::onNextFavorite, Throwable::printStackTrace)
                 .addTo(subscriptions)

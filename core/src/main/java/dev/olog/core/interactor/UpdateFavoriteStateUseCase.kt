@@ -15,7 +15,7 @@ class UpdateFavoriteStateUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(param: FavoriteStateEntity): Completable {
         return Completable.fromCallable {
-            favoriteGateway.updateFavoriteState(param.favoriteType, param)
+            favoriteGateway.updateFavoriteState(param)
         }
     }
 }
