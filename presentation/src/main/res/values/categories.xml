@@ -9,8 +9,6 @@
         <item name="tabMode">scrollable</item>
     </style>
 
-    <dimen name="main_toolbar_text_size">28dp</dimen>
-
     <string name="category_header">@string/common_library</string>
 
     <string-array name="categories">

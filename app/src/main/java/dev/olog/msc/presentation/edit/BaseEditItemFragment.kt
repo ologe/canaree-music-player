@@ -27,11 +27,6 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Permissions.requestReadStorage(act)
-    }
-
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()

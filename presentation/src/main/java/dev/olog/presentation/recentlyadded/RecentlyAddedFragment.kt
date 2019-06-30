@@ -11,7 +11,6 @@ import dev.olog.presentation.R
 import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.extensions.withArguments
 import kotlinx.android.synthetic.main.fragment_recently_added.*
-import kotlinx.android.synthetic.main.fragment_recently_added.view.*
 import javax.inject.Inject
 
 class RecentlyAddedFragment : BaseFragment() {
@@ -37,10 +36,10 @@ class RecentlyAddedFragment : BaseFragment() {
         )
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.adapter = adapter
-        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        view.list.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        list.adapter = adapter
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        list.setHasFixedSize(true)
 
 //        val callback = TouchHelperAdapterCallback(
 //            adapter,

@@ -94,9 +94,6 @@
 
         </activity>
 
-        <!--splash activity-->
-        <activity android:name="dev.olog.presentation.splash.SplashActivity" />
-
         <!--about activity-->
         <activity android:name="dev.olog.presentation.about.AboutActivity" />
 

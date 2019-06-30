@@ -11,7 +11,6 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
-import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
 
 class FolderTreeFragment : BaseFragment(),
@@ -36,25 +35,25 @@ class FolderTreeFragment : BaseFragment(),
         )
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
             lifecycle,
             viewModel,
             activity as MediaProvider,
             navigator
         )
-        view.list.adapter = adapter
-        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        view.list.setHasFixedSize(true)
+        list.adapter = adapter
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        list.setHasFixedSize(true)
 
-        view.fastScroller.attachRecyclerView(view.list)
-        view.fastScroller.showBubble(false)
+        fastScroller.attachRecyclerView(list)
+        fastScroller.showBubble(false)
 
 //        if (AppTheme.isDarkTheme()){ TODO
-//            view.bread_crumbs.setBackgroundColor(ctx.windowBackground())
+//            bread_crumbs.setBackgroundColor(ctx.windowBackground())
 //        }
 //        if (AppTheme.isGrayMode()){
-//            view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
+//            bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
 //        }
 
         viewModel.observeFileName()

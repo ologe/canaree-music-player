@@ -3,7 +3,7 @@ package dev.olog.presentation.splash
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class SplashActivityViewPagerAdapter(
+class SplashFragmentViewPagerAdapter(
         fragmentManager : FragmentManager
 
 ) : FragmentPagerAdapter(fragmentManager) {

@@ -1,6 +1,5 @@
 package dev.olog.presentation.main
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -21,7 +20,6 @@ import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.prefs.PreferencesActivity
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.rateapp.RateAppDialog
@@ -77,11 +75,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
             )
         )
 
-        bottomNavigation.presentationPrefs = presentationPrefs
-
-        viewModel.observeIsRepositoryEmpty()
-            .subscribe(this, this::handleEmptyRepository)
-
         when {
             viewModel.isFirstAccess() -> {
                 navigator.toFirstAccess()
@@ -93,6 +86,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
                 bottomNavigation.navigateToLastPage()
             }
         }
+
+        bottomNavigation.presentationPrefs = presentationPrefs
+
+        viewModel.observeIsRepositoryEmpty()
+            .subscribe(this, this::handleEmptyRepository)
 
         intent?.let { handleIntent(it) }
     }
@@ -153,15 +151,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                PreferencesActivity.REQUEST_CODE -> {
-                    recreate()
-                    return
-                }
-            }
-        }
-
         if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
             FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
         } else {

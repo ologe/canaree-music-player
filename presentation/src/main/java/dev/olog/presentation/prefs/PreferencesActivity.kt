@@ -25,7 +25,6 @@ class PreferencesActivity : DaggerAppCompatActivity(),
     ThemedActivity {
 
     companion object {
-        const val REQUEST_CODE = 1221
         const val EXTRA_NEED_TO_RECREATE = "EXTRA_NEED_TO_RECREATE"
     }
 

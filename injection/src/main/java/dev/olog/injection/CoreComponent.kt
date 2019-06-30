@@ -36,7 +36,6 @@ import javax.inject.Singleton
         EqualizerModule::class
 //
 //        // presentation
-//        ActivityBindingsModule ::class,
 //        AboutActivityInjector::class,
 //        PreferencesActivityInjector::class,
 //        PlaylistChooserActivityInjector::class

@@ -32,7 +32,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player.*
-import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.android.synthetic.main.player_controls_default.*
 import java.util.concurrent.TimeUnit
@@ -61,29 +60,29 @@ class PlayerFragment : BaseFragment() {
 
     private var lyricsDisposable: Disposable? = null
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
             navigator, viewModel, presenter
         )
 
         layoutManager = LinearLayoutManager(context)
-        view.list.adapter = adapter
-        view.list.layoutManager = layoutManager
-        view.list.isNestedScrollingEnabled = false
+        list.adapter = adapter
+        list.layoutManager = layoutManager
+        list.isNestedScrollingEnabled = false
 //        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/) TODO
 //        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(view.list)
+//        touchHelper.attachToRecyclerView(list)
 //        adapter.touchHelper = touchHelper
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        view.statusBar?.alpha = statusBarAlpha
+        statusBar?.alpha = statusBarAlpha
 
         val playerAppearance = requireContext().hasPlayerAppearance()
         if (playerAppearance.isBigImage()) {
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
-            set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
             set.applyTo(view)
         }
 
@@ -157,28 +156,6 @@ class PlayerFragment : BaseFragment() {
         super.onStop()
         seekBarDisposable.unsubscribe()
         lyricsDisposable.unsubscribe()
-    }
-
-    private val onSwipeListener = object : SwipeableView.SwipeListener {
-        override fun onSwipedLeft() {
-            mediaProvider.skipToNext()
-        }
-
-        override fun onSwipedRight() {
-            mediaProvider.skipToPrevious()
-        }
-
-        override fun onClick() {
-            mediaProvider.playPause()
-        }
-
-        override fun onLeftEdgeClick() {
-            mediaProvider.skipToPrevious()
-        }
-
-        override fun onRightEdgeClick() {
-            mediaProvider.skipToNext()
-        }
     }
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {

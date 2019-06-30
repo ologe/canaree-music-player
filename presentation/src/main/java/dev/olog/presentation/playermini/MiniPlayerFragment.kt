@@ -19,7 +19,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
-import kotlinx.android.synthetic.main.fragment_mini_player.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -37,16 +36,16 @@ class MiniPlayerFragment : BaseFragment(){
 
     private val media by lazyFast { requireActivity() as MediaProvider }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
         val (modelTitle, modelSubtitle) = presenter.getMetadata()
-        view.title.text = modelTitle
-        view.artist.text = DisplayableItem.adjustArtist(modelSubtitle)
+        title.text = modelTitle
+        artist.text = DisplayableItem.adjustArtist(modelSubtitle)
 
-        view.coverWrapper.toggleVisibility(requireContext().hasPlayerAppearance().isMini(), true)
-        view.title.isSelected = true
+        coverWrapper.toggleVisibility(requireContext().hasPlayerAppearance().isMini(), true)
+        title.isSelected = true
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
@@ -61,7 +60,7 @@ class MiniPlayerFragment : BaseFragment(){
 
         presenter.observeProgress
                 .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { text -> view.artist.text != text }
+                .filter { text -> artist.text != text }
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) {
                     artist.text = it
@@ -98,12 +97,12 @@ class MiniPlayerFragment : BaseFragment(){
 
         presenter.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
-                    view.next.updateVisibility(it)
+                    next.updateVisibility(it)
                 }
 
         presenter.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
-                    view.previous.updateVisibility(it)
+                    previous.updateVisibility(it)
                 }
     }
 
@@ -148,18 +147,18 @@ class MiniPlayerFragment : BaseFragment(){
         if (getSlidingPanel().isExpanded()) return
 
         if (toNext) {
-            view!!.next.playAnimation()
+            next.playAnimation()
         } else {
-            view!!.previous.playAnimation()
+            previous.playAnimation()
         }
     }
 
     private fun updateProgressBarProgress(progress: Long) {
-        view!!.progressBar.progress = progress.toInt()
+        progressBar.progress = progress.toInt()
     }
 
     private fun updateProgressBarMax(max: Long) {
-        view!!.progressBar.max = max.toInt()
+        progressBar.max = max.toInt()
     }
 
     private fun updateImage(metadata: MediaMetadataCompat){

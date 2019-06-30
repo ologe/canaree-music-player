@@ -24,9 +24,6 @@ import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.android.synthetic.main.fragment_tab.view.fab
-import kotlinx.android.synthetic.main.fragment_tab.view.list
-import kotlinx.android.synthetic.main.fragment_tab.view.sidebar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -105,11 +102,11 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     @CallSuper
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val gridLayoutManager = LayoutManagerFactory.get(act, category, adapter)
-        view.list.layoutManager = gridLayoutManager
-        view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
+        list.layoutManager = gridLayoutManager
+        list.adapter = adapter
+        list.setHasFixedSize(true)
 
         val scrollableLayoutId = when (category) {
             TabCategory.SONGS -> R.layout.item_tab_song
@@ -117,9 +114,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
             TabCategory.ARTISTS -> R.layout.item_tab_artist
             else -> R.layout.item_tab_album
         }
-        view.sidebar.scrollableLayoutId = scrollableLayoutId
+        sidebar.scrollableLayoutId = scrollableLayoutId
 
-        view.fab.toggleVisibility(category == TabCategory.PLAYLISTS ||
+        fab.toggleVisibility(category == TabCategory.PLAYLISTS ||
                 category == TabCategory.PODCASTS_PLAYLIST, true)
 
         launch {

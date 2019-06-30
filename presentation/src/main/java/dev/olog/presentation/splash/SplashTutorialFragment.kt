@@ -1,15 +1,16 @@
 package dev.olog.presentation.splash
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.image.provider.GlideApp
@@ -20,15 +21,12 @@ import dev.olog.presentation.R
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
 class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
 
     private var progressive = 0
 
-    private lateinit var cover : ImageView
-    private lateinit var nowPlaying: TextView
-    private lateinit var coverWrapper: View
-    private lateinit var swipeableView : SwipeableView
     private lateinit var viewPager : StoppingViewPager
 
     private var touchDisposable : Disposable? = null
@@ -38,14 +36,10 @@ class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        nowPlaying = view.findViewById(R.id.nowPlaying)
-        viewPager = activity!!.findViewById(R.id.viewPager)
-        cover = view.findViewById(R.id.cover)
-        swipeableView = view.findViewById(R.id.swipeableView)
-        coverWrapper = view.findViewById(R.id.coverWrapper)
+        viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
 
         loadPhoneImage(view)
-        loadImage(cover, progressive)
+        loadImage(progressive)
     }
 
     override fun onResume() {
@@ -92,36 +86,35 @@ class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
     }
 
     private fun loadNextImage(){
-        progressive++
-        loadImage(cover, progressive)
+        loadImage(++progressive)
     }
 
     private fun loadPreviousImage(){
-        progressive--
-        loadImage(cover, progressive)
+        loadImage(--progressive)
     }
 
     private fun loadPhoneImage(view: View){
-        GlideApp.with(ctx)
+        GlideApp.with(requireContext())
                 .asBitmap()
                 .load(R.drawable.phone_black)
                 .priority(Priority.IMMEDIATE)
-                .into(object : SimpleTarget<Bitmap>(){
+                .into(object : CustomTarget<Bitmap>(){
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         view.findViewById<ImageView>(R.id.phoneImage).setImageBitmap(resource)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
     }
 
-    private fun loadImage(view: ImageView, position: Int){
-        GlideApp.with(ctx).clear(view)
+    private fun loadImage(position: Int){
+        GlideApp.with(ctx).clear(cover)
 
         GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
                 .placeholder(CoverUtils.getGradient(ctx, position))
-                .priority(Priority.IMMEDIATE)
-                .override(400)
-                .into(view)
+                .into(cover)
     }
 }

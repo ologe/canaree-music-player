@@ -25,7 +25,7 @@ class LibraryFragment : BaseFragment() {
     companion object {
         val TAG_TRACK = LibraryFragment::class.java.name
         val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
-        val IS_PODCAST = "IS_PODCAST"
+        const val IS_PODCAST = "IS_PODCAST"
 
         @JvmStatic
         fun newInstance(isPodcast: Boolean): LibraryFragment {
@@ -102,14 +102,20 @@ class LibraryFragment : BaseFragment() {
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }
 
-    private val onPageChangeListener = object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
-        override fun onPageScrollStateChanged(state: Int) {}
-        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+    private val onPageChangeListener =
+        object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
-        override fun onPageSelected(position: Int) {
-            presenter.setViewPagerLastPage(position, isPodcast)
+            override fun onPageSelected(position: Int) {
+                presenter.setViewPagerLastPage(position, isPodcast)
+            }
         }
-    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_library
 }

@@ -57,7 +57,7 @@ class MainPopupNavigator @Inject constructor(
 
     fun toSettingsActivity(){
         val intent = Intent(activity, PreferencesActivity::class.java)
-        activity.startActivityForResult(intent, PreferencesActivity.REQUEST_CODE)
+        activity.startActivity(intent)
     }
 
     fun toSleepTimer(){

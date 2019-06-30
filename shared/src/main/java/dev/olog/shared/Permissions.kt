@@ -1,11 +1,10 @@
 package dev.olog.shared
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 object Permissions {
 
@@ -21,28 +20,31 @@ object Permissions {
         return hasPermission(context, READ_STORAGE)
     }
 
-    fun requestReadStorage(activity: Activity){
+    fun requestReadStorage(fragment: Fragment) {
         requestPermissions(
-            activity,
+            fragment,
             READ_STORAGE,
             READ_CODE
         )
     }
 
-    fun hasUserDisabledReadStorage(activity: Activity): Boolean {
-        return hasUserDisabledPermission(activity, READ_STORAGE)
+    fun hasUserDisabledReadStorage(fragment: Fragment): Boolean {
+        return hasUserDisabledPermission(fragment, READ_STORAGE)
     }
 
-    private fun hasPermission(context: Context, permission: String): Boolean{
-        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    private fun hasPermission(context: Context, permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun requestPermissions(activity: Activity, permission: String, requestCode: Int){
-        ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
+    private fun requestPermissions(fragment: Fragment, permission: String, requestCode: Int) {
+        fragment.requestPermissions(arrayOf(permission), requestCode)
     }
 
-    private fun hasUserDisabledPermission(activity: Activity, permission: String): Boolean{
-        return !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
+    private fun hasUserDisabledPermission(fragment: Fragment, permission: String): Boolean {
+        return !fragment.shouldShowRequestPermissionRationale(permission)
     }
 
 }

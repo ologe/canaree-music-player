@@ -13,7 +13,6 @@ import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.extensions.withArguments
 import kotlinx.android.synthetic.main.fragment_related_artist.*
-import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 
 class RelatedArtistFragment: BaseFragment() {
@@ -39,10 +38,10 @@ class RelatedArtistFragment: BaseFragment() {
         )
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = GridLayoutManager(context!!, 2)
-        view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        list.layoutManager = GridLayoutManager(context!!, 2)
+        list.adapter = adapter
+        list.setHasFixedSize(true)
 
         viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
