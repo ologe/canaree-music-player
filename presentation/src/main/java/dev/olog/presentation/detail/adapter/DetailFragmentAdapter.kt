@@ -184,23 +184,25 @@ internal class DetailFragmentAdapter(
         }
 
     override fun onMoved(from: Int, to: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (mediaId.isPodcastPlaylist) {
+            return false
+        }
+        return viewType == R.layout.item_detail_song ||
+                viewType == R.layout.item_detail_song_with_drag_handle ||
+                viewType == R.layout.item_detail_song_with_track ||
+                viewType == R.layout.item_detail_song_with_track_and_image
     }
 
     override fun onClearView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     //    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
@@ -219,13 +221,4 @@ internal class DetailFragmentAdapter(
 //        controller.getItem(position)?.let { mediaProvider.addToPlayNext(it.mediaId) } ?: Any()
 //    }
 //
-//    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-//        if (mediaId.isPodcastPlaylist) {
-//            return false
-//        }
-//        return viewType == R.layout.item_detail_song ||
-//                viewType == R.layout.item_detail_song_with_drag_handle ||
-//                viewType == R.layout.item_detail_song_with_track ||
-//                viewType == R.layout.item_detail_song_with_track_and_image
-//    }
 }

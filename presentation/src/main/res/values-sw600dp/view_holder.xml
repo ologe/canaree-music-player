@@ -2,8 +2,6 @@
 <resources>
 
 
-    <dimen name="item_header_text_size">26dp</dimen>
-
     <!--item album-->
     <dimen name="item_album_title">16dp</dimen>
     <dimen name="item_album_subtitle">13dp</dimen>

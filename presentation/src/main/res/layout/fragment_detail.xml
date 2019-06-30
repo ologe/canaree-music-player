@@ -87,7 +87,6 @@
             android:id="@+id/back"
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/vd_back_arrow"
@@ -106,14 +105,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <dev.olog.presentation.widgets.autoscroll.AutoScrollTextView
             android:id="@+id/headerText"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:ellipsize="marquee"
             android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
             android:singleLine="true"
             android:textAppearance="@style/Headline6.Alt"
             android:visibility="gone"

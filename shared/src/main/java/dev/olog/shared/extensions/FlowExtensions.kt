@@ -24,7 +24,6 @@ inline fun <T, R> Flow<List<T>>.mapListItem(crossinline mapper: (T) -> R): Flow<
 fun <T> Flow<T>.assertBackground(): Flow<T> {
     return flow {
         assertBackgroundThread()
-
         collect { emit(it) }
     }
 }

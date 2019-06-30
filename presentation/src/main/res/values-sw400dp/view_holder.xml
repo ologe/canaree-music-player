@@ -8,10 +8,6 @@
     <dimen name="item_song_title">15dp</dimen>
     <dimen name="item_song_subtitle">12dp</dimen>
 
-    <!--item detail header-->
-    <dimen name="item_header_text_size">20dp</dimen>
-    <dimen name="item_header_sec_text_size">14dp</dimen>
-
     <!--item album-->
     <dimen name="item_album_title">13dp</dimen>
     <dimen name="item_album_subtitle">11dp</dimen>

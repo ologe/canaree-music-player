@@ -119,7 +119,7 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadImage()
+        loadImage(savedInstanceState)
 
         list.layoutManager = LinearLayoutManager(ctx)
         list.adapter = adapter
@@ -174,7 +174,10 @@ class DetailFragment : BaseFragment(),
         }
     }
 
-    private fun loadImage() {
+    private fun loadImage(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null){
+            return
+        }
         postponeEnterTransition()
         GlideApp.with(requireContext())
             .load(mediaId)
