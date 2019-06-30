@@ -7,6 +7,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.BaseGateway
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
+import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
 import dev.olog.shared.extensions.safeSend
@@ -27,9 +28,18 @@ internal abstract class BaseRepository<T, Param>(
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 
     init {
+        firstQuery()
+    }
+
+    private fun firstQuery(){
         launch {
+            assertBackgroundThread()
             // small delay to make subclass initialization
             delay(10)
+
+            while (!Permissions.canReadStorage(context)){
+                delay(300)
+            }
 
             val contentUri = registerMainContentUri()
 

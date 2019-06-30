@@ -30,10 +30,14 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     private val mediaExposer by lazyFast { MediaExposer(this, this) }
 
+    fun connect(){
+        mediaExposer.connect()
+    }
+
     @CallSuper
     override fun onStart() {
         super.onStart()
-        mediaExposer.connect()
+        connect()
     }
 
     @CallSuper

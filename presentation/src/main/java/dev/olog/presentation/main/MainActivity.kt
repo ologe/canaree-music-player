@@ -11,10 +11,7 @@ import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
-import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
@@ -37,7 +34,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottomNavigation {
+class MainActivity : MusicGlueActivity(),
+    HasSlidingPanel,
+    HasBilling,
+    HasBottomNavigation,
+    OnPermissionChanged {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -80,19 +81,26 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottom
                 navigator.toFirstAccess()
                 return
             }
-            savedInstanceState == null -> {
-                getSlidingPanel().peekHeight =
-                    dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
-                bottomNavigation.navigateToLastPage()
-            }
+            savedInstanceState == null -> initialize()
         }
 
+        intent?.let { handleIntent(it) }
+    }
+
+    override fun onPermissionGranted(permission: Permission) = when (permission){
+        Permission.STORAGE -> {
+            initialize()
+            connect()
+        }
+    }
+
+    private fun initialize(){
+        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         bottomNavigation.presentationPrefs = presentationPrefs
+        bottomNavigation.navigateToLastPage()
 
         viewModel.observeIsRepositoryEmpty()
             .subscribe(this, this::handleEmptyRepository)
-
-        intent?.let { handleIntent(it) }
     }
 
     override fun onResume() {
