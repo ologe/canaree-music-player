@@ -13,6 +13,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toAlbum
+import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -66,11 +67,14 @@ internal class AlbumRepository @Inject constructor(
 
     override fun getTrackListByParam(param: Id): List<Song> {
         assertBackgroundThread()
-        return listOf()
+        val cursor = queries.getSongList(param)
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flow { }
+        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
+            .assertBackground()
     }
 
     override fun observeLastPlayed(): Flow<List<Album>> {
@@ -101,14 +105,20 @@ internal class AlbumRepository @Inject constructor(
 
     override fun observeSiblings(id: Id): Flow<List<Album>> {
         return observeAll()
-            .map { it.filter { it.id != id } }
+            .map {
+                val artistId = it.find { it.id == id }?.artistId ?: -1
+                it.asSequence()
+                    .filter { it.artistId == artistId }
+                    .filter { it.id != id }
+                    .toList()
+            }
             .distinctUntilChanged()
             .assertBackground()
     }
 
     override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
         return observeAll()
-            .map { it.filter { it.artistId != artistId } }
+            .map { it.filter { it.artistId == artistId } }
             .distinctUntilChanged()
             .assertBackground()
     }

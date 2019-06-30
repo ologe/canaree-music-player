@@ -9,7 +9,7 @@ import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.gateway.PodcastPlaylistGateway
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class ObserveRelatedArtistsUseCase @Inject constructor(
@@ -26,7 +26,7 @@ class ObserveRelatedArtistsUseCase @Inject constructor(
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryId)
             MediaIdCategory.GENRES -> genreGateway.observeRelatedArtists(mediaId.categoryId)
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeRelatedArtists(mediaId.categoryId)
-            else -> flow {  }
+            else -> flowOf(listOf())
         }
     }
 }

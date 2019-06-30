@@ -8,7 +8,7 @@ import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.PlaylistGateway
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class ObserveMostPlayedSongsUseCase @Inject constructor(
@@ -23,7 +23,7 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
             MediaIdCategory.GENRES -> return genreGateway.observeMostPlayed(mediaId)
             MediaIdCategory.PLAYLISTS -> return playlistGateway.observeMostPlayed(mediaId)
             MediaIdCategory.FOLDERS -> folderGateway.observeMostPlayed(mediaId)
-            else -> flow {  }
+            else -> flowOf(listOf())
         }
     }
 }

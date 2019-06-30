@@ -23,7 +23,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
@@ -71,7 +71,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flow {  }
+        return flowOf(listOf())
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {

@@ -70,7 +70,7 @@ internal class PodcastAlbumRepository @Inject constructor(
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flow { }
+        return flowOf(listOf())
     }
 
     override fun observeLastPlayed(): Flow<List<Album>> {

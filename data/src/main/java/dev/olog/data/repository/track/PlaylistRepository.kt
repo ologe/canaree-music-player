@@ -79,7 +79,7 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flow { }
+        return flowOf(listOf())
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {

@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.Id
@@ -50,6 +51,20 @@ internal class AlbumsQueries(
             ORDER BY ${sortOrder()}
         """
 
+        return contentResolver.querySql(query, arrayOf("$id"))
+    }
+
+    fun getSongList(id: Id): Cursor {
+
+        val query = """
+            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
+                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
+                $DURATION, $DATA, $YEAR,
+                $TRACK, $DATE_ADDED, $IS_PODCAST
+            FROM $EXTERNAL_CONTENT_URI
+            WHERE ${defaultSelection()} AND $ALBUM_ID = ?
+            ORDER BY ${songListSortOrder(MediaIdCategory.ALBUMS, DEFAULT_SORT_ORDER)}
+        """
         return contentResolver.querySql(query, arrayOf("$id"))
     }
 

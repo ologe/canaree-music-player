@@ -6,5 +6,4 @@ interface ArtistGateway :
     BaseGateway<Artist, Id>,
     ChildHasTracks<Id>,
     HasRecentlyAdded<Artist>,
-    HasLastPlayed<Artist>,
-    HasSiblings<Artist, Id>
+    HasLastPlayed<Artist>
