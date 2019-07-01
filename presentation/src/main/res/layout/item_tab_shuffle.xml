@@ -23,7 +23,10 @@
                 android:layout_width="@dimen/common_icon_size"
                 android:layout_height="@dimen/common_icon_size"
                 android:src="@drawable/vd_shuffle"
-                android:layout_marginStart="16dp" />
+                android:layout_marginStart="16dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:background="@null"/>
 
             <TextView
                 android:id="@+id/text"
