@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Genres.*
 import dev.olog.contentresolversql.querySql
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -38,7 +39,6 @@ internal class GenreQueries(
     }
 
     fun countGenreSize(genreId: Id): Cursor {
-        // TODO remove playlist with 0 tracks if possibile
         val query = """
             SELECT ${Members._ID}, ${Members.AUDIO_ID}
             FROM ${Members.getContentUri("external", genreId)}
@@ -56,19 +56,37 @@ internal class GenreQueries(
                 ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection()}
-
             ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
         """
 
-        return contentResolver.querySql(query, arrayOf(genreId.toString()))
+        return contentResolver.querySql(query)
     }
 
-    fun getRecentlyAdded(id: Id): Cursor {
+    fun getRecentlyAdded(genreId: Id): Cursor {
+        val query = """
+            SELECT ${Members._ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
+                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
+                ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
+                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.IS_PODCAST}
+            FROM ${Members.getContentUri("external", genreId)}
+            WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
+            ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
+        """
+        return contentResolver.querySql(query)
+    }
+
+    fun getSongList(genreId: Id): Cursor {
 
         val query = """
-            
+            SELECT ${Members._ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
+                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
+                ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
+                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.IS_PODCAST}
+            FROM ${Members.getContentUri("external", genreId)}
+            WHERE ${defaultSelection()}
+            ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, arrayOf("$id"))
+        return contentResolver.querySql(query)
     }
 
     private fun defaultSelection(): String {

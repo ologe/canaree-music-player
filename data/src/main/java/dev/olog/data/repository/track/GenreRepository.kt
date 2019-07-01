@@ -49,7 +49,7 @@ internal class GenreRepository @Inject constructor(
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
         return genres.map { genre ->
-            // playerAppearance the size for every playlist
+            // playerAppearance the size for every genre
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
             genre.copy(size = sizeQuery)
@@ -68,11 +68,16 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        return listOf()
+        assertBackgroundThread()
+        val cursor = queries.getSongList(param)
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flowOf(listOf())
+        val uri = MediaStore.Audio.Genres.Members.getContentUri("external", param)
+        val contentUri = ContentUri(uri, true)
+        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
+            .assertBackground()
     }
 
     override fun observeSiblings(id: Id): Flow<List<Genre>> {
@@ -90,15 +95,13 @@ internal class GenreRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
-            mostPlayedDao.insertOne(
-                GenreMostPlayedEntity(
-                    0,
-                    item.id,
-                    mediaId.categoryId
-                )
+        mostPlayedDao.insertOne(
+            GenreMostPlayedEntity(
+                0,
+                mediaId.leaf!!,
+                mediaId.categoryId
             )
-        } ?: Log.w("FolderRepo", "song not found=$mediaId")
+        )
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {

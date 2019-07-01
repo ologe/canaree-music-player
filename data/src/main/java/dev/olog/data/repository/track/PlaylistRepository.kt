@@ -22,6 +22,7 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toPlaylist
+import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.PlaylistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -75,11 +76,16 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        return listOf()
+        assertBackgroundThread()
+        val cursor = queries.getSongList(param)
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        return flowOf(listOf())
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", param)
+        val contentUri = ContentUri(uri, true)
+        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
+            .assertBackground()
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
@@ -104,15 +110,13 @@ internal class PlaylistRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        songGateway2.getByParam(mediaId.leaf!!)?.let { item ->
-            mostPlayedDao.insertOne(
-                PlaylistMostPlayedEntity(
-                    0,
-                    item.id,
-                    mediaId.categoryId
-                )
+        mostPlayedDao.insertOne(
+            PlaylistMostPlayedEntity(
+                0,
+                mediaId.leaf!!,
+                mediaId.categoryId
             )
-        } ?: Log.w("PlaylistRepo", "song not found=$mediaId")
+        )
     }
 
     override fun observeSiblings(id: Id): Flow<List<Playlist>> {

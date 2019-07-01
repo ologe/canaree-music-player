@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.MediaStore.Audio.Playlists.*
 import dev.olog.contentresolversql.querySql
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -38,7 +39,6 @@ internal class PlaylistQueries(
     }
 
     fun countPlaylistSize(playlistId: Id): Cursor {
-        // TODO remove playlist with 0 tracks if possibile
         val query = """
             SELECT ${Members._ID}, ${Members.AUDIO_ID}
             FROM ${Members.getContentUri("external", playlistId)}
@@ -56,11 +56,24 @@ internal class PlaylistQueries(
                 ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", playlistId)}
             WHERE ${defaultSelection()}
-
             ORDER BY lower(${Members.ARTIST}) COLLATE UNICODE ASC
         """
 
-        return contentResolver.querySql(query, arrayOf(playlistId.toString()))
+        return contentResolver.querySql(query)
+    }
+
+    fun getSongList(playlistId: Id): Cursor {
+
+        val query = """
+            SELECT ${Members._ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
+                ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
+                ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
+                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.IS_PODCAST}
+            FROM ${Members.getContentUri("external", playlistId)}
+            WHERE ${defaultSelection()}
+            ORDER BY ${songListSortOrder(MediaIdCategory.PLAYLISTS, Members.DEFAULT_SORT_ORDER)}
+        """
+        return contentResolver.querySql(query)
     }
 
     private fun defaultSelection(): String {
