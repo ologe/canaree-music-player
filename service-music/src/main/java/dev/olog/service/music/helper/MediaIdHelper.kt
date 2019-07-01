@@ -24,11 +24,6 @@ object MediaIdHelper {
             // TODO podcasts ?
             createBrowsableMediaItem(
                 context,
-                FOLDERS,
-                R.string.common_folders
-            ),
-            createBrowsableMediaItem(
-                context,
                 PLAYLISTS,
                 R.string.common_playlists
             ),
