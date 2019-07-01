@@ -16,8 +16,6 @@ import dev.olog.media.extractBookmark
 import dev.olog.media.isPlaying
 import dev.olog.presentation.R
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.widgets.SwipeableView
-import dev.olog.presentation.utils.isCollapsed
 import dev.olog.shared.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
@@ -33,7 +31,9 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
-import kotlinx.android.synthetic.main.player_controls_default.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -89,7 +89,6 @@ class PlayerFragment : BaseFragment() {
         mediaProvider = (activity as MediaProvider)
 
         mediaProvider.observeQueue()
-            .distinctUntilChanged()
             .map { it.map { it.toDisplayableItem() } }
             .map { queue ->
                 if (!playerAppearance.isMini()) {
@@ -102,9 +101,11 @@ class PlayerFragment : BaseFragment() {
                 } else {
                     listOf(viewModel.playerControls())
                 }
-            }.subscribe(viewLifecycleOwner, viewModel::updateQueue)
-
-        viewModel.observeMiniQueue()
+            }
+            .assertBackground()
+            .flowOn(Dispatchers.Default)
+            .asLiveData()
+            // TODO for some reasong the queue is blocking for half second the ui
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
         mediaProvider.observePlaybackState()
@@ -114,16 +115,6 @@ class PlayerFragment : BaseFragment() {
                 handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
             }
 
-    }
-
-    private fun animateSkipTo(toNext: Boolean) {
-        if (getSlidingPanel().isCollapsed()) return
-
-        if (toNext) {
-            next.playAnimation()
-        } else {
-            previous.playAnimation()
-        }
     }
 
     private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float) {
@@ -140,15 +131,11 @@ class PlayerFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        shuffle?.setOnClickListener { mediaProvider.toggleShuffleMode() }
-        repeat?.setOnClickListener { mediaProvider.toggleRepeatMode() }
         getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        shuffle?.setOnClickListener(null)
-        repeat?.setOnClickListener(null)
         getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
     }
 

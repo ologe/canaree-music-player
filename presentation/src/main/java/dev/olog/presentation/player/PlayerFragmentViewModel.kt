@@ -64,20 +64,12 @@ class PlayerFragmentViewModel @Inject constructor(
         palettePublisher.onNext(palette)
     }
 
-    private val miniQueue = MutableLiveData<List<DisplayableItem>>()
-
     private val currentTrackIdPublisher = BehaviorSubject.create<Long>()
 
     fun getCurrentTrackId() = currentTrackIdPublisher.value!!
 
     fun updateCurrentTrackId(trackId: Long) {
         currentTrackIdPublisher.onNext(trackId)
-    }
-
-    fun observeMiniQueue(): LiveData<List<DisplayableItem>> = miniQueue
-
-    fun updateQueue(list: List<DisplayableItem>) {
-        miniQueue.postValue(list)
     }
 
     private val progressPublisher = BehaviorSubject.createDefault(0)

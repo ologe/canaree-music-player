@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.CustomScope
+import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -40,9 +41,10 @@ abstract class ObservableAdapter<T : BaseModel>(
         lifecycle.addObserver(this)
         launch {
             for (list in channel.openSubscription()) {
+                assertBackgroundThread()
                 val diffCallback = AdapterDiffUtil(data, list, itemCallback)
                 yield()
-                val diff = DiffUtil.calculateDiff(diffCallback)
+                val diff = DiffUtil.calculateDiff(diffCallback, false)
                 yield()
                 withContext(Dispatchers.Main) {
                     updateDataSetInternal(list)

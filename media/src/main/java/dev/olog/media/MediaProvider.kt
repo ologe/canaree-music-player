@@ -7,6 +7,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import kotlinx.coroutines.flow.Flow
 
 interface MediaProvider {
 
@@ -14,7 +15,9 @@ interface MediaProvider {
     fun observePlaybackState(): LiveData<PlaybackStateCompat>
     fun observeRepeat(): LiveData<Int>
     fun observeShuffle(): LiveData<Int>
-    fun observeQueue(): LiveData<List<MediaSessionCompat.QueueItem>>
+    // is a flow intead of livedata because list operations may be expensive, so they can be
+    // moved to a background thead
+    fun observeQueue(): Flow<List<MediaSessionCompat.QueueItem>>
     fun observeQueueTitle(): LiveData<String>
     fun observeExtras(): LiveData<Bundle>
 

@@ -27,6 +27,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class MediaExposer(
@@ -54,13 +58,13 @@ class MediaExposer(
     private val statePublisher = MutableLiveData<PlaybackStateCompat>()
     private val repeatModePublisher = MutableLiveData<Int>()
     private val shuffleModePublisher = MutableLiveData<Int>()
-    private val queuePublisher = MutableLiveData<List<MediaSessionCompat.QueueItem>>()
+    private val queuePublisher = ConflatedBroadcastChannel<List<MediaSessionCompat.QueueItem>>(listOf())
     private val queueTitlePublisher = MutableLiveData<String>()
     private val extrasPublisher = MutableLiveData<Bundle>()
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
-            Log.w("MediaExposer", "Read storage permission is not granted")
+            Log.w("MediaExposer", "Storage permission is not granted")
             return
         }
         job?.cancel()
@@ -116,7 +120,7 @@ class MediaExposer(
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-        queuePublisher.value = queue
+        queue?.let { launch { queuePublisher.send(it) } }
     }
 
     override fun onQueueTitleChanged(title: CharSequence?) {
@@ -149,8 +153,8 @@ class MediaExposer(
 
     fun observeExtras(): LiveData<Bundle> = extrasPublisher.filter { it != null }
 
-    fun observeQueue(): LiveData<List<MediaSessionCompat.QueueItem>> = queuePublisher
-        .filter { it != null }
+    fun observeQueue(): Flow<List<MediaSessionCompat.QueueItem>> = queuePublisher
+        .asFlow()
         .distinctUntilChanged()
 
 }

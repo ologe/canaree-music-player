@@ -22,6 +22,7 @@ import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.Flow
 
 abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
@@ -97,7 +98,7 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     override fun observeExtras(): LiveData<Bundle> = mediaExposer.observeExtras()
 
-    override fun observeQueue(): LiveData<List<MediaSessionCompat.QueueItem>> =
+    override fun observeQueue(): Flow<List<MediaSessionCompat.QueueItem>> =
         mediaExposer.observeQueue()
 
     private fun mediaController(): MediaControllerCompat? {
