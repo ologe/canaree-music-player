@@ -4,21 +4,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.tab.adapter.TabFragmentAdapter
-import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
-import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.tab.adapter.TabFragmentAdapter
+import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
@@ -40,8 +41,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
     }
 
-    @Inject lateinit var navigator : Navigator
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var navigator: Navigator
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
@@ -83,15 +86,15 @@ class TabFragment : BaseFragment(), SetupNestedList {
         TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
     }
 
-    private fun handleEmptyStateVisibility(isEmpty: Boolean){
+    private fun handleEmptyStateVisibility(isEmpty: Boolean) {
         emptyStateText.toggleVisibility(isEmpty, true)
-        if (isEmpty){
-             if (isPodcastFragment()){
-                 val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
-                 emptyStateText.text = emptyText[category.ordinal - 6]
+        if (isEmpty) {
+            if (isPodcastFragment()) {
+                val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
+                emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
-                 val emptyText = resources.getStringArray(R.array.tab_empty_state)
-                 emptyStateText.text = emptyText[category.ordinal]
+                val emptyText = resources.getStringArray(R.array.tab_empty_state)
+                emptyStateText.text = emptyText[category.ordinal]
             }
         }
     }
@@ -108,6 +111,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
         list.adapter = adapter
         list.setHasFixedSize(true)
 
+        if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
+            list.updatePadding(0, 0, 0, 0)
+        }
+
         val scrollableLayoutId = when (category) {
             TabCategory.SONGS -> R.layout.item_tab_song
             TabCategory.PODCASTS -> R.layout.item_tab_podcast
@@ -116,20 +123,22 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
         sidebar.scrollableLayoutId = scrollableLayoutId
 
-        fab.toggleVisibility(category == TabCategory.PLAYLISTS ||
-                category == TabCategory.PODCASTS_PLAYLIST, true)
+        fab.toggleVisibility(
+            category == TabCategory.PLAYLISTS ||
+                    category == TabCategory.PODCASTS_PLAYLIST, true
+        )
 
         launch {
             viewModel.observeData(category)
-                    .subscribe(viewLifecycleOwner) { list ->
-                        handleEmptyStateVisibility(list.isEmpty())
-                        adapter.updateDataSet(list)
-                        sidebar.onDataChanged(list)
-                    }
+                .subscribe(viewLifecycleOwner) { list ->
+                    handleEmptyStateVisibility(list.isEmpty())
+                    adapter.updateDataSet(list)
+                    sidebar.onDataChanged(list)
+                }
         }
 
         launch {
-            when (category){
+            when (category) {
                 TabCategory.ALBUMS -> {
                     viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
                         .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
@@ -154,7 +163,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
                         .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
                 }
-                else -> {/*making lint happy*/}
+                else -> {/*making lint happy*/
+                }
             }
         }
 
@@ -162,10 +172,22 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
         when (layoutId) {
-            R.layout.item_tab_last_played_album_horizontal_list -> setupHorizontalList(recyclerView, lastAlbumsAdapter)
-            R.layout.item_tab_last_played_artist_horizontal_list -> setupHorizontalList(recyclerView, lastArtistsAdapter)
-            R.layout.item_tab_new_album_horizontal_list -> setupHorizontalList(recyclerView, newAlbumsAdapter)
-            R.layout.item_tab_new_artist_horizontal_list -> setupHorizontalList(recyclerView, newArtistsAdapter)
+            R.layout.item_tab_last_played_album_horizontal_list -> setupHorizontalList(
+                recyclerView,
+                lastAlbumsAdapter
+            )
+            R.layout.item_tab_last_played_artist_horizontal_list -> setupHorizontalList(
+                recyclerView,
+                lastArtistsAdapter
+            )
+            R.layout.item_tab_new_album_horizontal_list -> setupHorizontalList(
+                recyclerView,
+                newAlbumsAdapter
+            )
+            R.layout.item_tab_new_artist_horizontal_list -> setupHorizontalList(
+                recyclerView,
+                newArtistsAdapter
+            )
         }
     }
 
@@ -179,7 +201,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
         super.onResume()
         sidebar.setListener(letterTouchListener)
         fab.setOnClickListener {
-            val type = if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
+            val type =
+                if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
             navigator.toChooseTracksForPlaylistFragment(type)
 
         }
@@ -196,10 +219,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
         val scrollableItem = sidebar.scrollableLayoutId
 
-        val position = when (letter){
+        val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
             "#" -> adapter.indexOf {
-                if (it.type != scrollableItem){
+                if (it.type != scrollableItem) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
@@ -208,7 +231,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
             }
             "?" -> adapter.indexOf {
-                if (it.type != scrollableItem){
+                if (it.type != scrollableItem) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
@@ -217,7 +240,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
             }
             else -> adapter.indexOf {
-                if (it.type != scrollableItem){
+                if (it.type != scrollableItem) {
                     false
                 } else {
                     val sorting = getCurrentSorting(it)
@@ -226,17 +249,17 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
             }
         }
-        if (position != -1){
+        if (position != -1) {
             val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
     private fun getCurrentSorting(item: DisplayableItem): String {
-        return when (category){
+        return when (category) {
             TabCategory.SONGS -> {
                 val sortOrder = viewModel.getAllTracksSortOrder()
-                when (sortOrder.type){
+                when (sortOrder.type) {
                     SortType.ARTIST -> item.subtitle!!
                     SortType.ALBUM -> item.subtitle!!.substring(item.subtitle!!.indexOf(TextUtils.MIDDLE_DOT) + 1).trim()
                     else -> item.title
@@ -244,7 +267,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }
             TabCategory.ALBUMS -> {
                 val sortOrder = viewModel.getAllAlbumsSortOrder()
-                when (sortOrder.type){
+                when (sortOrder.type) {
                     SortType.TITLE -> item.title
                     else -> item.subtitle!!
                 }
