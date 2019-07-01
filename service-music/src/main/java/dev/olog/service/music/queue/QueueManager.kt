@@ -8,6 +8,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.GenreGateway
 import dev.olog.core.gateway.SongGateway
 import dev.olog.core.interactor.*
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EnhancedShuffle
 import dev.olog.service.music.model.MediaEntity

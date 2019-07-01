@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -22,17 +21,18 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.shared.Classes
-import dev.olog.shared.FileProvider
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
 import dev.olog.shared.extensions.toast
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MusicService : BaseMusicService() {
+class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     companion object {
         const val TAG = "MusicService"
@@ -170,7 +170,6 @@ class MusicService : BaseMusicService() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)) {
-            grantUriPermissions(CarHelper.AUTO_APP_PACKAGE_NAME)
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
         if (WearHelper.isValidWearCompanionPackage(clientPackageName)) {
@@ -188,50 +187,46 @@ class MusicService : BaseMusicService() {
             result.sendResult(MediaIdHelper.getLibraryCategories(this))
             return
         }
-        val mediaIdCategory = MediaIdCategory.values()
-            .toList()
-            .firstOrNull { it.toString() == parentId }
-
-        if (mediaIdCategory != null) {
-            result.detach()
-            mediaItemGenerator.get().getCategoryChilds(mediaIdCategory)
-                .map { it.toMutableList() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result::sendResult, Throwable::printStackTrace)
-                .addTo(subsriptions)
-            return
-        }
-        val mediaId = MediaId.fromString(parentId)
         result.detach()
+        launch(Dispatchers.Default) {
 
-        mediaItemGenerator.get().getCategoryValueChilds(mediaId)
-            .map { it.toMutableList() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(result::sendResult, Throwable::printStackTrace)
-            .addTo(subsriptions)
+            val mediaIdCategory = MediaIdCategory.values()
+                .toList()
+                .find { it.toString() == parentId }
 
-    }
+            val songList = if (mediaIdCategory != null) {
+                mediaItemGenerator.get().getCategoryChilds(mediaIdCategory)
 
-    private fun grantUriPermissions(packageName: String) {
-        try {
-            grantUriPermission(
-                packageName,
-                Uri.parse("content://media/external/audio/albumart"),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-        try {
-            grantUriPermission(
-                packageName,
-                FileProvider.getUriForPath(this, cacheDir.path),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+            } else {
+                val mediaId = MediaId.fromString(parentId)
+                mediaItemGenerator.get().getCategoryValueChilds(mediaId)
+            }
+            result.sendResult(songList)
         }
     }
+
+
+
+//    private fun grantUriPermissions(packageName: String) { TODO
+//        try {
+//            grantUriPermission(
+//                packageName,
+//                Uri.parse("content://media/external/audio/albumart"),
+//                Intent.FLAG_GRANT_READ_URI_PERMISSION
+//            )
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//        }
+//        try {
+//            grantUriPermission(
+//                packageName,
+//                FileProvider.getUriForPath(this, cacheDir.path),
+//                Intent.FLAG_GRANT_READ_URI_PERMISSION
+//            )
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//        }
+//    }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)

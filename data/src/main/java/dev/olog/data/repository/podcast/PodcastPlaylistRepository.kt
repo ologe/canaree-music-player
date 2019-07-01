@@ -34,7 +34,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
         private val favoriteGateway: FavoriteGateway
 ) : PodcastPlaylistGateway {
 
-    private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val podcastPlaylistDao = appDatabase.podcastPlaylistDao()
     private val historyDao = appDatabase.historyDao()
 
@@ -72,19 +71,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         return flowOf(listOf())
-    }
-
-    override fun getAllAutoPlaylists(): List<Playlist> {
-        assertBackgroundThread()
-        return listOf(
-            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0], 0),
-            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1], 0),
-            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2], 0)
-        )
-    }
-
-    private fun createAutoPlaylist(id: Long, title: String, listSize: Int): Playlist {
-        return Playlist(id, title, listSize, true)
     }
 
     override fun observeSiblings(id: Id): Flow<List<Playlist>> {

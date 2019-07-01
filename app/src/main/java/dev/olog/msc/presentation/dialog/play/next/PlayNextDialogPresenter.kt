@@ -4,7 +4,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
 import dev.olog.shared.MusicConstants
-import dev.olog.core.interactor.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import io.reactivex.Single

@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.dialog.create.playlist
 
 import dev.olog.core.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.core.interactor.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.interactor.GetPlayingQueueUseCase

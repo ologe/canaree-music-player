@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.dialog
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.interactor.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.shared.extensions.mapToList

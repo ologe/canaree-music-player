@@ -6,108 +6,115 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
-import dev.olog.core.interactor.ObserveSongListByParamUseCase
-import dev.olog.shared.extensions.mapToList
-import io.reactivex.Single
-import kotlinx.coroutines.rx2.asFlowable
+import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(
-        private val folderGateway: FolderGateway,
-        private val getAllPlaylistsUseCase: PlaylistGateway,
-        private val getAllSongsUseCase: SongGateway,
-        private val getAllAlbumsUseCase: AlbumGateway,
-        private val getAllArtistsUseCase: ArtistGateway,
-        private val getAllGenresUseCase: GenreGateway,
-        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val genreGateway: GenreGateway,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {
 
 
-    fun getCategoryChilds(category: MediaIdCategory): Single<List<MediaBrowserCompat.MediaItem>> {
+    fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
+        assertBackgroundThread()
         return when (category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            MediaIdCategory.PLAYLISTS -> getAllPlaylistsUseCase.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            MediaIdCategory.SONGS -> getAllSongsUseCase.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            MediaIdCategory.ALBUMS -> getAllAlbumsUseCase.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            MediaIdCategory.ARTISTS -> getAllArtistsUseCase.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            MediaIdCategory.GENRES -> getAllGenresUseCase.observeAll().asFlowable().firstOrError()
-                    .mapToList { it.toMediaItem() }
-            else -> Single.error(IllegalArgumentException("invalid category $category"))
-        }
+            MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.SONGS -> songGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.ALBUMS -> albumGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.ARTISTS -> artistGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.GENRES -> genreGateway.getAll().map { it.toMediaItem() }
+            else -> throw IllegalArgumentException("invalid category $category")
+        }.toMutableList()
     }
 
-    fun getCategoryValueChilds(parentId: MediaId): Single<MutableList<MediaBrowserCompat.MediaItem>> {
+    fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
         return getSongListByParamUseCase(parentId)
-                .asFlowable()
-                .firstOrError()
-                .mapToList { it.toChildMediaItem(parentId) }
-                .map { it.toMutableList() }
+            .asSequence()
+            .map { it.toChildMediaItem(parentId) }
+            .toMutableList()
 
     }
 
     private fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.title)
-                .build()
-        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.title)
+            .build()
+        return MediaBrowserCompat.MediaItem(
+            description,
+            MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        )
     }
 
     private fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.title)
-                .build()
-        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.title)
+            .build()
+        return MediaBrowserCompat.MediaItem(
+            description,
+            MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        )
     }
 
     private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.title)
-                .setSubtitle(this.artist)
-                .setDescription(this.album)
-                .build()
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.title)
+            .setSubtitle(this.artist)
+            .setDescription(this.album)
+            .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
     private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.playableItem(parentId, this.id).toString())
-                .setTitle(this.title)
-                .setSubtitle(this.artist)
-                .setDescription(this.album)
-                .build()
+            .setMediaId(MediaId.playableItem(parentId, this.id).toString())
+            .setTitle(this.title)
+            .setSubtitle(this.artist)
+            .setDescription(this.album)
+            .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
     private fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.title)
-                .build()
-        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.title)
+            .build()
+        return MediaBrowserCompat.MediaItem(
+            description,
+            MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        )
     }
 
     private fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.name)
-                .build()
-        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.name)
+            .build()
+        return MediaBrowserCompat.MediaItem(
+            description,
+            MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        )
     }
 
     private fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(getMediaId().toString())
-                .setTitle(this.name)
-                .build()
-        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
+            .setMediaId(getMediaId().toString())
+            .setTitle(this.name)
+            .build()
+        return MediaBrowserCompat.MediaItem(
+            description,
+            MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
+        )
     }
 
 }

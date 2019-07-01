@@ -10,8 +10,6 @@ interface PodcastPlaylistGateway :
     HasSiblings<Playlist, Id>,
     HasRelatedArtists<Id> {
 
-    fun getAllAutoPlaylists(): List<Playlist>
-
     fun createPlaylist(playlistName: String): Single<Long>
 
     fun renamePlaylist(playlistId: Id, newTitle: String): Completable

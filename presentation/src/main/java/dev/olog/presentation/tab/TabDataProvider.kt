@@ -9,7 +9,6 @@ import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
 import dev.olog.shared.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(
@@ -106,10 +105,6 @@ internal class TabDataProvider @Inject constructor(
             list.asSequence().map { it.toTabDisplayableItem(resources) }
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
-        }.combineLatest(
-            flowOf(podcastPlaylistGateway.getAllAutoPlaylists().map { it.toTabDisplayableItem(resources) }.startWith(headers.autoPlaylistHeader))
-        ) { all, auto ->
-            auto + all
         }
     }
 

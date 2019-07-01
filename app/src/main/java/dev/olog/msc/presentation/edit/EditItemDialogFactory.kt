@@ -9,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.interactor.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.core.MediaId
