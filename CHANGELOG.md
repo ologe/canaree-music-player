@@ -1,4 +1,13 @@
 # Release notes
+
+## 3.0.0
+- internal changes
+    - migration from rx to coroutines
+    - splitted app in packages
+- android auto
+    - fixed not working
+    - updated theme (not finished)
+
 ## 2.1.1
 - fixed all tracks sort order by date
 
