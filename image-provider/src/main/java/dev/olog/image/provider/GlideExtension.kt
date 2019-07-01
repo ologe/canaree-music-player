@@ -24,7 +24,6 @@ suspend fun Context.getCachedBitmap(
     val error = GlideApp.with(this)
         .asBitmap()
         .load(placeholder.toBitmap())
-        .override(size)
         .extend(extension)
 
     GlideApp.with(this)

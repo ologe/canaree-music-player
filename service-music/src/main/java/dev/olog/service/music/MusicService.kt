@@ -15,6 +15,12 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
+import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
+import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALUE
+import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
+import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_PLAYABLE_HINT
+import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_SUPPORTED
+import dev.olog.service.music.helper.CarHelper.EXTRA_MEDIA_SEARCH_SUPPORTED
 import dev.olog.service.music.helper.MediaIdHelper
 import dev.olog.service.music.helper.MediaItemGenerator
 import dev.olog.service.music.helper.WearHelper
@@ -170,7 +176,12 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)) {
-            return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+            val extras = Bundle()
+            extras.putBoolean(CONTENT_STYLE_SUPPORTED, true)
+//            extras.putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true) TODO not sure what is doing
+            extras.putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_GRID_ITEM_HINT_VALUE)
+            extras.putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
+            return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, extras)
         }
         if (WearHelper.isValidWearCompanionPackage(clientPackageName)) {
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
@@ -188,6 +199,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             return
         }
         result.detach()
+        // TODO made cancellable
         launch(Dispatchers.Default) {
 
             val mediaIdCategory = MediaIdCategory.values()

@@ -1,16 +1,20 @@
 package dev.olog.service.music.helper
 
+import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class MediaItemGenerator @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val songGateway: SongGateway,
@@ -21,7 +25,7 @@ class MediaItemGenerator @Inject constructor(
 ) {
 
 
-    fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
+    suspend fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
         assertBackgroundThread()
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
@@ -34,18 +38,17 @@ class MediaItemGenerator @Inject constructor(
         }.toMutableList()
     }
 
-    fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
+    suspend fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
         return getSongListByParamUseCase(parentId)
-            .asSequence()
             .map { it.toChildMediaItem(parentId) }
             .toMutableList()
-
     }
 
-    private fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -53,10 +56,11 @@ class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -64,30 +68,33 @@ class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
+    private suspend fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(MediaId.playableItem(parentId, this.id).toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -95,10 +102,11 @@ class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.name)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -106,10 +114,11 @@ class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private suspend fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.name)
+            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
