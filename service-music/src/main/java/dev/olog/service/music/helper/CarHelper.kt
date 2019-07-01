@@ -1,19 +1,8 @@
 package dev.olog.service.music.helper
 
-import android.os.Bundle
-
 internal object CarHelper {
 
     val AUTO_APP_PACKAGE_NAME = "com.google.android.projection.gearhead"
-
-    // Use these extras to reserve space for the corresponding actions, even when they are disabled
-    // in the playbackstate, so the custom actions don't reflow.
-    private val SLOT_RESERVATION_SKIP_TO_NEXT =
-        "com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_NEXT"
-    private val SLOT_RESERVATION_SKIP_TO_PREV =
-        "com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_PREVIOUS"
-    private val SLOT_RESERVATION_QUEUE =
-        "com.google.android.gms.car.media.ALWAYS_RESERVE_SPACE_FOR.ACTION_QUEUE"
 
     /**
      * Action for an intent broadcast by Android Auto when a media app is connected or
@@ -44,27 +33,6 @@ internal object CarHelper {
 
     fun isValidCarPackage(packageName: String): Boolean {
         return AUTO_APP_PACKAGE_NAME == packageName
-    }
-
-    fun setSlotReservationFlags(
-        extras: Bundle, reservePlayingQueueSlot: Boolean,
-        reserveSkipToNextSlot: Boolean, reserveSkipToPrevSlot: Boolean
-    ) {
-        if (reservePlayingQueueSlot) {
-            extras.putBoolean(SLOT_RESERVATION_QUEUE, true)
-        } else {
-            extras.remove(SLOT_RESERVATION_QUEUE)
-        }
-        if (reserveSkipToPrevSlot) {
-            extras.putBoolean(SLOT_RESERVATION_SKIP_TO_PREV, true)
-        } else {
-            extras.remove(SLOT_RESERVATION_SKIP_TO_PREV)
-        }
-        if (reserveSkipToNextSlot) {
-            extras.putBoolean(SLOT_RESERVATION_SKIP_TO_NEXT, true)
-        } else {
-            extras.remove(SLOT_RESERVATION_SKIP_TO_NEXT)
-        }
     }
 
     /** Declares that ContentStyle is supported */
