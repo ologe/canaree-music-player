@@ -69,6 +69,7 @@ class MediaSessionCallback @Inject constructor(
             val mediaId = MediaId.fromString(mediaIdAsString)
 
             when {
+                mediaId == MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
                 extras.isEmpty ||
                         extras.getString(MusicConstants.ARGUMENT_SORT_TYPE) != null ||
                         extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING) != null -> {
@@ -225,18 +226,6 @@ class MediaSessionCallback @Inject constructor(
                     if (queue.handleRemoveRelative(extras!!)) {
                         onStop()
                     }
-                }
-                MusicConstants.ACTION_SHUFFLE -> {
-                    doWhenReady({
-                        updatePodcastPosition()
-                        val mediaIdAsString =
-                            extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)!!
-                        val mediaId = MediaId.fromString(mediaIdAsString)
-                        queue.handlePlayShuffle(mediaId)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(player::play, Throwable::printStackTrace)
-                            .addTo(subscriptions)
-                    })
                 }
                 MusicConstants.ACTION_FORWARD_10_SECONDS -> player.forwardTenSeconds()
                 MusicConstants.ACTION_REPLAY_10_SECONDS -> player.replayTenSeconds()

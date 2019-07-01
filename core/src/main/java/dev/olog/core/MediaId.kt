@@ -49,8 +49,8 @@ class MediaId private constructor(
             return MediaId(parentId.category, parentId.categoryValue, songId)
         }
 
-        fun shuffleAllId(): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "")
+        fun shuffleId(): MediaId {
+            return MediaId(MediaIdCategory.SONGS, "shuffle")
         }
 
         fun fromString(mediaId: String): MediaId {

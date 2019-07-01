@@ -94,7 +94,7 @@ internal class TabDataProvider @Inject constructor(
                 val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                    .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
+                    .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
                     .plus(all)
             }
     }
@@ -131,7 +131,7 @@ internal class TabDataProvider @Inject constructor(
                 val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                    .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
+                    .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
                     .plus(all)
             }
     }

@@ -20,7 +20,6 @@ import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_GRID_ITEM_HINT_VALU
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_PLAYABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_SUPPORTED
-import dev.olog.service.music.helper.CarHelper.EXTRA_MEDIA_SEARCH_SUPPORTED
 import dev.olog.service.music.helper.MediaIdHelper
 import dev.olog.service.music.helper.MediaItemGenerator
 import dev.olog.service.music.helper.WearHelper
@@ -97,26 +96,11 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleAppShortcutPlay(intent: Intent) {
-        try {
-            mediaSession.controller.transportControls.play()
-        } catch (ex: Exception) {
-            this.applicationContext.toast("Please check your storage permission, contact the developer if the problem persists")
-        }
+        mediaSession.controller.transportControls.play()
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
-        try {
-            val bundle = Bundle()
-            bundle.putString(
-                MediaMetadataCompat.METADATA_KEY_MEDIA_ID,
-                MediaId.shuffleAllId().toString()
-            )
-            mediaSession.controller.transportControls.sendCustomAction(
-                MusicConstants.ACTION_SHUFFLE, bundle
-            )
-        } catch (ex: Exception) {
-            this.applicationContext.toast("Please check your storage permission, contact the developer if the problem persists")
-        }
+        mediaSession.controller.transportControls.playFromMediaId(MediaId.shuffleId().toString(), null)
     }
 
     override fun handlePlayPause(intent: Intent) {

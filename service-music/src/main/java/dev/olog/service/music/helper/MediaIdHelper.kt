@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import androidx.annotation.StringRes
+import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.service.music.R
 
@@ -11,7 +12,6 @@ object MediaIdHelper {
 
     const val MEDIA_ID_ROOT = "__ROOT__"
 
-    val FOLDERS = MediaIdCategory.FOLDERS.toString()
     val PLAYLISTS = MediaIdCategory.PLAYLISTS.toString()
     val SONGS = MediaIdCategory.SONGS.toString()
     val ALBUMS = MediaIdCategory.ALBUMS.toString()
@@ -22,6 +22,7 @@ object MediaIdHelper {
         return mutableListOf(
                 // todo pensare a quali categorie usare, mini queue, recents, ecc
             // TODO podcasts ?
+            createShuffleAllMediaIem(context),
             createBrowsableMediaItem(
                 context,
                 PLAYLISTS,
@@ -48,6 +49,14 @@ object MediaIdHelper {
                 R.string.common_genres
             )
         )
+    }
+
+    private fun createShuffleAllMediaIem(context: Context): MediaBrowserCompat.MediaItem{
+        val description = MediaDescriptionCompat.Builder() // TODO not handles
+            .setMediaId(MediaId.shuffleId().toString())
+            .setTitle(context.getString(R.string.common_shuffle))
+            .build()
+        return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
     private fun createBrowsableMediaItem(context: Context, mediaId: String, @StringRes stringRes: Int): MediaBrowserCompat.MediaItem {

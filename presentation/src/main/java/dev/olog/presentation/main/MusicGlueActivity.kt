@@ -136,9 +136,7 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun shuffle(mediaId: MediaId) {
-        val bundle = Bundle()
-        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId.toString())
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_SHUFFLE, bundle)
+        transportControls()?.playFromMediaId(MediaId.shuffleId().toString(), null)
     }
 
     override fun skipToNext() {
