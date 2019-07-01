@@ -23,6 +23,12 @@ class PlayerState @Inject constructor(
 
 ) {
 
+    companion object {
+        const val CUSTOM_ACTION_ADD_FAVORITE = "PlayerState.add.favorite"
+        const val CUSTOM_ACTION_SHUFFLE = "PlayerState.shuffle"
+        const val CUSTOM_ACTION_REPEAT = "PlayerState.repeat"
+    }
+
     private val appShortcuts = AppShortcuts.instance(context)
 
     private val builder = PlaybackStateCompat.Builder()
@@ -33,8 +39,31 @@ class PlayerState @Inject constructor(
             PlaybackStateCompat.STATE_PAUSED,
             musicPreferencesUseCase.getBookmark(),
             0f
-        )
-            .setActions(getActions())
+        ).setActions(getActions())
+            .addCustomAction(addToFavoriteAction())
+            .addCustomAction(repeatAction())
+            .addCustomAction(shuffleAction()) // TODO
+    }
+
+    private fun addToFavoriteAction(): PlaybackStateCompat.CustomAction {
+        val action = CUSTOM_ACTION_ADD_FAVORITE
+        val name = "Add favorite"
+        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_favorite)
+            .build()
+    }
+
+    private fun repeatAction(): PlaybackStateCompat.CustomAction {
+        val action = CUSTOM_ACTION_REPEAT
+        val name = "Repeat"
+        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_repeat)
+            .build()
+    }
+
+    private fun shuffleAction(): PlaybackStateCompat.CustomAction {
+        val action = CUSTOM_ACTION_SHUFFLE
+        val name = "Shuffle"
+        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_shuffle)
+            .build()
     }
 
     fun prepare(id: Long, bookmark: Long) {

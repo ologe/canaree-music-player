@@ -74,7 +74,6 @@ class MediaItemGenerator @Inject constructor(
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
@@ -94,7 +93,7 @@ class MediaItemGenerator @Inject constructor(
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
+            .setIconBitmap(context.getCachedBitmap(getMediaId(), 200))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,

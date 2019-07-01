@@ -98,6 +98,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         queue.handlePlayFromGoogleSearch(query, extras)
+            .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updatePodcastPosition() }
             .subscribe(player::play) {

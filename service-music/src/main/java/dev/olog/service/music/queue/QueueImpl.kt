@@ -44,21 +44,21 @@ class QueueImpl @Inject constructor(
 
     private var savePlayingQueueDisposable: Disposable? = null
 
-    private val playingQueue = Vector<dev.olog.service.music.model.MediaEntity>()
+    private val playingQueue = Vector<MediaEntity>()
 
     private var currentSongPosition by Delegates.observable(-1) { _, _, new ->
         musicPreferencesUseCase.setLastPositionInQueue(new)
     }
 
     @MainThread
-    fun updatePlayingQueueAndPersist(songList: List<dev.olog.service.music.model.MediaEntity>) {
+    fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
         playingQueue.clear()
         playingQueue.addAll(songList)
 
         persist(songList)
     }
 
-    private fun persist(songList: List<dev.olog.service.music.model.MediaEntity>) {
+    private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
             .flattenAsObservable { it }
@@ -72,7 +72,7 @@ class QueueImpl @Inject constructor(
     }
 
     fun updateCurrentSongPosition(
-        list: List<dev.olog.service.music.model.MediaEntity>,
+        list: List<MediaEntity>,
         position: Int,
         immediate: Boolean = false
     ) {
@@ -100,7 +100,7 @@ class QueueImpl @Inject constructor(
     }
 
     @CheckResult
-    fun getSongById(idInPlaylist: Long): dev.olog.service.music.model.MediaEntity {
+    fun getSongById(idInPlaylist: Long): MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist.toLong() == idInPlaylist }
         val safePosition = ensurePosition(playingQueue, positionToTest)
         val media = playingQueue[safePosition]
@@ -111,13 +111,13 @@ class QueueImpl @Inject constructor(
 
     @CheckResult
     @MainThread
-    fun getCurrentSong(): dev.olog.service.music.model.MediaEntity? {
+    fun getCurrentSong(): MediaEntity? {
         return playingQueue.getOrNull(currentSongPosition)
     }
 
     @CheckResult
     @MainThread
-    fun getNextSong(trackEnded: Boolean): dev.olog.service.music.model.MediaEntity? {
+    fun getNextSong(trackEnded: Boolean): MediaEntity? {
         assertMainThread()
 
         if (repeatMode.isRepeatOne() && trackEnded) {
@@ -139,7 +139,7 @@ class QueueImpl @Inject constructor(
 
     @CheckResult
     @MainThread
-    fun getPreviousSong(playerBookmark: Long): dev.olog.service.music.model.MediaEntity? {
+    fun getPreviousSong(playerBookmark: Long): MediaEntity? {
         assertMainThread()
 
         if (/*repeatMode.isRepeatOne() || */playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD) {
@@ -168,7 +168,7 @@ class QueueImpl @Inject constructor(
     @Contract(pure = true)
     @CheckResult
     private fun ensurePosition(
-        list: List<dev.olog.service.music.model.MediaEntity>,
+        list: List<MediaEntity>,
         position: Int
     ): Int {
         return clamp(position, 0, list.lastIndex)
@@ -177,7 +177,7 @@ class QueueImpl @Inject constructor(
     @Contract(pure = true)
     @CheckResult
     private fun isPositionValid(
-        list: List<dev.olog.service.music.model.MediaEntity>,
+        list: List<MediaEntity>,
         position: Int
     ): Boolean {
         return position in 0..list.lastIndex
@@ -242,8 +242,8 @@ class QueueImpl @Inject constructor(
     }
 
     @CheckResult
-    private fun handleQueueOnRepeatMode(list: MutableList<dev.olog.service.music.model.MediaEntity>)
-            : MutableList<dev.olog.service.music.model.MediaEntity> {
+    private fun handleQueueOnRepeatMode(list: MutableList<MediaEntity>)
+            : MutableList<MediaEntity> {
 
         val copy = list.toMutableList()
 
@@ -307,7 +307,7 @@ class QueueImpl @Inject constructor(
     }
 
     fun computePositionInQueue(
-        list: List<dev.olog.service.music.model.MediaEntity>,
+        list: List<MediaEntity>,
         position: Int
     ): dev.olog.service.music.model.PositionInQueue {
         return when {

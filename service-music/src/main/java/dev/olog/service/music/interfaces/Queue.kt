@@ -11,31 +11,31 @@ interface Queue {
 
     fun isReady() : Boolean
 
-    fun getCurrentPositionInQueue(): dev.olog.service.music.model.PositionInQueue
+    fun getCurrentPositionInQueue(): PositionInQueue
 
-    fun prepare(): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun prepare(): Single<PlayerMediaEntity>
 
-    fun handleSkipToNext(trackEnded: Boolean): dev.olog.service.music.model.PlayerMediaEntity?
+    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
 
-    fun handleSkipToPrevious(playerBookmark: Long): dev.olog.service.music.model.PlayerMediaEntity?
+    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
 
-    fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity>
 
-    fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayMostPlayed(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handleSkipToQueueItem(idInPlaylist: Long): dev.olog.service.music.model.PlayerMediaEntity
+    fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity
 
-    fun handlePlayShuffle(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayFolderTree(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
 
-    fun handlePlayFromUri(uri: Uri): Single<dev.olog.service.music.model.PlayerMediaEntity>
+    fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity>
 
-    fun getPlayingSong(): dev.olog.service.music.model.PlayerMediaEntity
+    fun getPlayingSong(): PlayerMediaEntity
 
     fun handleSwap(extras: Bundle)
     fun handleSwapRelative(extras: Bundle)
@@ -49,9 +49,9 @@ interface Queue {
 
     fun onRepeatModeChanged()
 
-    fun playLater(songIds: List<Long>, isPodcast: Boolean) : dev.olog.service.music.model.PositionInQueue
+    fun playLater(songIds: List<Long>, isPodcast: Boolean) : PositionInQueue
 
-    fun playNext(songIds: List<Long>, isPodcast: Boolean) : dev.olog.service.music.model.PositionInQueue
+    fun playNext(songIds: List<Long>, isPodcast: Boolean) : PositionInQueue
 //    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
 
     fun updatePodcastPosition(position: Long)
