@@ -90,11 +90,4 @@ class MusicGlueService @Inject constructor(
         .map { it.state }
         .distinctUntilChanged()
 
-    val onBookmarkChangedLiveData: LiveData<Long> = observePlaybackState()
-        .filter { it.isPlaying() || it.isPaused() }
-        .map { it.position }
-
-    val onMaxChangedLiveData: LiveData<Long> = observeMetadata()
-        .map { it.getDuration() }
-
 }

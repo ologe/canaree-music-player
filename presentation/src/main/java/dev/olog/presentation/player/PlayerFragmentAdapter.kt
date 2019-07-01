@@ -242,7 +242,6 @@ class PlayerFragmentAdapter(
         )
     }
 
-    @SuppressLint("RxLeakedSubscription", "CheckResult")
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
 
         val waveWrapper: AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
@@ -264,12 +263,12 @@ class PlayerFragmentAdapter(
         mediaProvider.observePlaybackState()
             .subscribe(holder) { onPlaybackStateChanged(view, it) }
 
-        viewModel.observeProgress
+        mediaProvider.observePlaybackState()
+            .subscribe(holder) {view.seekBar.onStateChanged(it) }
+
+        view.seekBar.observeProgress()
             .asLiveData()
-            .subscribe(holder) {
-                view.seekBar.setProgress(it)
-                waveWrapper?.updateProgress(it)
-            }
+            .subscribe(holder) { waveWrapper?.updateProgress(it.toInt()) }
 
         mediaProvider.observeRepeat()
             .subscribe(holder, view.repeat::cycle)
@@ -343,9 +342,9 @@ class PlayerFragmentAdapter(
                 .subscribe(holder) { state ->
 
                     if (state == PlaybackStateCompat.STATE_PLAYING) {
-                        playAnimation(view, true)
+                        playAnimation(view)
                     } else {
-                        pauseAnimation(view, true)
+                        pauseAnimation(view)
                     }
                 }
         }
@@ -371,7 +370,7 @@ class PlayerFragmentAdapter(
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat) {
-        view.bigCover.loadImage(metadata) ?: return
+        view.bigCover.loadImage(metadata)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {
@@ -410,16 +409,16 @@ class PlayerFragmentAdapter(
         }
     }
 
-    private fun playAnimation(view: View, animate: Boolean) {
+    private fun playAnimation(view: View) {
         val hasSlidingPanel = (view.context) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPlay(isPanelExpanded && animate)
+        view.playPause.animationPlay(isPanelExpanded)
     }
 
-    private fun pauseAnimation(view: View, animate: Boolean) {
+    private fun pauseAnimation(view: View) {
         val hasSlidingPanel = (view.context) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPause(isPanelExpanded && animate)
+        view.playPause.animationPause(isPanelExpanded)
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

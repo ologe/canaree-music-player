@@ -1,26 +1,26 @@
-package dev.olog.presentation.widgets
+package dev.olog.shared.widgets.progressbar
 
 import android.content.Context
+import android.os.SystemClock
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
-import androidx.core.content.ContextCompat
-import dev.olog.presentation.R
+import kotlinx.coroutines.flow.Flow
 
 class CustomSeekBar(
     context: Context,
     attrs: AttributeSet
 
-) : AppCompatSeekBar(context, attrs) {
+) : AppCompatSeekBar(context, attrs),
+    IProgressDeletegate {
 
     private var isTouched = false
 
     private var listener: OnSeekBarChangeListener? = null
 
-    init {
-        // TODO needed? not already declared in styles?
-        progressDrawable = ContextCompat.getDrawable(context, R.drawable.seek_bar_progress)
-    }
+    private val delegate: IProgressDeletegate =
+        ProgressDeletegate(this)
 
     fun setListener(
         onProgressChanged: (Int) -> Unit,
@@ -45,7 +45,9 @@ class CustomSeekBar(
         }
 
         setOnSeekBarChangeListener(null) // clear old listener
-        setOnSeekBarChangeListener(listener)
+        if (isAttachedToWindow) {
+            setOnSeekBarChangeListener(listener)
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -56,6 +58,7 @@ class CustomSeekBar(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnSeekBarChangeListener(null)
+        stopAutoIncrement(0)
     }
 
     override fun setProgress(progress: Int) {
@@ -70,5 +73,20 @@ class CustomSeekBar(
         }
     }
 
+    override fun startAutoIncrement(startMillis: Int, speed: Float) {
+        delegate.startAutoIncrement(startMillis, speed)
+    }
 
+    override fun stopAutoIncrement(startMillis: Int) {
+        delegate.stopAutoIncrement(startMillis)
+    }
+
+    override fun onStateChanged(state: PlaybackStateCompat){
+        delegate.onStateChanged(state)
+
+    }
+
+    override fun observeProgress(): Flow<Long> {
+        return delegate.observeProgress()
+    }
 }

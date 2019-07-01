@@ -72,14 +72,6 @@ class PlayerFragmentViewModel @Inject constructor(
         currentTrackIdPublisher.onNext(trackId)
     }
 
-    private val progressPublisher = BehaviorSubject.createDefault(0)
-
-    val observeProgress: Observable<Int> = progressPublisher
-
-    fun updateProgress(progress: Int) {
-        progressPublisher.onNext(progress)
-    }
-
     val footerLoadMore = DisplayableItem(
             R.layout.item_mini_queue_load_more,
             MediaId.headerId("load more"),

@@ -56,8 +56,6 @@ class PlayerFragment : BaseFragment() {
 
     private lateinit var mediaProvider: MediaProvider
 
-    private var seekBarDisposable: Disposable? = null
-
     private var lyricsDisposable: Disposable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,26 +105,6 @@ class PlayerFragment : BaseFragment() {
             .asLiveData()
             // TODO for some reasong the queue is blocking for half second the ui
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
-
-        mediaProvider.observePlaybackState()
-            .subscribe(viewLifecycleOwner) {
-                val bookmark = it.extractBookmark()
-                viewModel.updateProgress(bookmark)
-                handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
-            }
-
-    }
-
-    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float) {
-        seekBarDisposable.unsubscribe()
-
-        if (isPlaying) {
-            seekBarDisposable =
-                Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
-                    .map { (it + 1) * PROGRESS_BAR_INTERVAL * speed + bookmark }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
-        }
     }
 
     override fun onResume() {
@@ -141,7 +119,6 @@ class PlayerFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        seekBarDisposable.unsubscribe()
         lyricsDisposable.unsubscribe()
     }
 

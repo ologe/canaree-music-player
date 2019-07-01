@@ -18,6 +18,7 @@ import dev.olog.service.floating.api.Content
 import dev.olog.shared.extensions.*
 import dev.olog.shared.flowInterval
 import dev.olog.shared.widgets.BlurImageView
+import dev.olog.shared.widgets.progressbar.CustomSeekBar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
@@ -32,7 +33,6 @@ class OfflineLyricsContent(
 
 ) : Content() {
 
-    private var seekBarJob: Job? = null
     private var lyricsJob: Job? = null
     private var paletteDisposable: Disposable? = null
 
@@ -45,7 +45,7 @@ class OfflineLyricsContent(
     private val lyricsText = content.findViewById<TextView>(R.id.text)
     private val image = content.findViewById<BlurImageView>(R.id.image)
     private val emptyState = content.findViewById<TextView>(R.id.emptyState)
-    private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
+    private val seekBar = content.findViewById<CustomSeekBar>(R.id.seekBar)
     private val fakeNext = content.findViewById<View>(R.id.fakeNext)
     private val fakePrev = content.findViewById<View>(R.id.fakePrev)
     private val scrollView = content.findViewById<ScrollView>(R.id.scrollBar)
@@ -101,18 +101,11 @@ class OfflineLyricsContent(
                 loadImage(it)
                 header.text = it.getTitle()
                 subHeader.text = it.getArtist()
-                updateProgressBarMax(it.getDuration())
+                seekBar.max = it.getDuration().toInt()
             }
 
         glueService.observePlaybackState()
-            .subscribe(this) {
-                handleSeekBarState(it.isPlaying(), it.playbackSpeed)
-            }
-
-        glueService.observePlaybackState()
-            .subscribe(this) {
-                handleSeekBarState(it.isPlaying(), it.playbackSpeed)
-            }
+            .subscribe(this) { seekBar.onStateChanged(it) }
 
         lyricsJob = GlobalScope.launch {
             presenter.observeLyrics()
@@ -120,12 +113,14 @@ class OfflineLyricsContent(
                 .collect {
                     withContext(Dispatchers.Main) {
                         emptyState.toggleVisibility(it.isEmpty(), true)
-                        lyricsText.setText(it)
+                        lyricsText.text = it
                     }
                 }
         }
 
-        setupSeekBar()
+        seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
+            glueService.seekTo(seekBar.progress.toLong())
+        })
     }
 
     override fun onHidden() {
@@ -138,44 +133,7 @@ class OfflineLyricsContent(
         fakePrev.setOnTouchListener(null)
         scrollView.setOnTouchListener(null)
 
-        seekBarJob?.cancel()
         lyricsJob?.cancel()
-    }
-
-    private fun handleSeekBarState(isPlaying: Boolean, speed: Float) {
-        seekBarJob?.cancel()
-        if (isPlaying) {
-            resumeSeekBar(speed)
-        }
-    }
-
-    private fun updateProgressBarMax(max: Long) {
-        seekBar.max = max.toInt()
-    }
-
-    private fun resumeSeekBar(speed: Float) {
-        seekBarJob = GlobalScope.launch(Dispatchers.Main) {
-            flowInterval(
-                250,
-                TimeUnit.MILLISECONDS
-            ).collect { seekBar.incrementProgressBy((250 * speed).toInt()) }
-        }
-    }
-
-    private fun setupSeekBar() {
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                glueService.seekTo(seekBar.progress.toLong())
-            }
-        })
     }
 
 }

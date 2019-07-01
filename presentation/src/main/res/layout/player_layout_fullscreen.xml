@@ -62,7 +62,7 @@
                 android:layout_marginTop="@dimen/status_bar"/>
 
             <!-- seekbar -->
-            <dev.olog.presentation.widgets.CustomSeekBar
+            <dev.olog.shared.widgets.progressbar.CustomSeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

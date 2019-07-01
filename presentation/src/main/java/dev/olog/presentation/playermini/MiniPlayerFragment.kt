@@ -19,6 +19,10 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,13 +30,10 @@ class MiniPlayerFragment : BaseFragment(){
 
     companion object {
         private const val TAG = "MiniPlayerFragment"
-        private const val PROGRESS_BAR_INTERVAL = 250L
         private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter
-
-    private var seekBarDisposable: Disposable? = null
 
     private val media by lazyFast { requireActivity() as MediaProvider }
 
@@ -58,21 +59,17 @@ class MiniPlayerFragment : BaseFragment(){
                     updateImage(it)
                 }
 
-        presenter.observeProgress
-                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-                .filter { text -> artist.text != text }
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) {
-                    artist.text = it
-                }
-
         media.observePlaybackState()
                 .filter { it.isPlaying()|| it.isPaused() }
                 .distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) {
-                    updateProgressBarProgress(it.position)
-                    handleProgressBar(it.isPlaying(), it.playbackSpeed)
-                }
+                .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
+
+        launch {
+            presenter.observePodcastProgress(progressBar.observeProgress())
+                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+                .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
+                .collect { artist.text = it }
+        }
 
         media.observePlaybackState()
                 .map { it.state }
@@ -80,7 +77,6 @@ class MiniPlayerFragment : BaseFragment(){
                         it == PlaybackStateCompat.STATE_PAUSED
                 }.distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { state ->
-
                     if (state == PlaybackStateCompat.STATE_PLAYING){
                         playAnimation(true)
                     } else {
@@ -125,11 +121,6 @@ class MiniPlayerFragment : BaseFragment(){
         previous.setOnClickListener(null)
     }
 
-    override fun onStop() {
-        super.onStop()
-        seekBarDisposable.unsubscribe()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(BUNDLE_IS_VISIBLE, getSlidingPanel().isCollapsed())
@@ -153,10 +144,6 @@ class MiniPlayerFragment : BaseFragment(){
         }
     }
 
-    private fun updateProgressBarProgress(progress: Long) {
-        progressBar.progress = progress.toInt()
-    }
-
     private fun updateProgressBarMax(max: Long) {
         progressBar.max = max.toInt()
     }
@@ -167,23 +154,6 @@ class MiniPlayerFragment : BaseFragment(){
         }
         bigCover.loadImage(metadata)
     }
-
-    private fun handleProgressBar(isPlaying: Boolean, speed: Float) {
-        seekBarDisposable.unsubscribe()
-        if (isPlaying) {
-            resumeProgressBar(speed)
-        }
-    }
-
-    private fun resumeProgressBar(speed: Float) {
-        seekBarDisposable = Observable
-                .interval(PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS, Schedulers.computation())
-                .subscribe({
-                    progressBar.incrementProgressBy((PROGRESS_BAR_INTERVAL * speed).toInt())
-                    presenter.updateProgress((progressBar.progress + (PROGRESS_BAR_INTERVAL * speed)).toLong())
-                }, Throwable::printStackTrace)
-    }
-
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
