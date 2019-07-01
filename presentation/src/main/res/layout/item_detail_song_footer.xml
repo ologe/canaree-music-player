@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+
+        <variable
+            name="item"
+            type="dev.olog.presentation.model.DisplayableItem" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?colorSurface"
         android:orientation="vertical"
-        android:paddingTop="36dp"
-        android:paddingBottom="8dp"
         android:paddingStart="16dp"
+        android:paddingTop="24dp"
         android:paddingEnd="16dp"
-        android:background="?colorSurface">
+        android:paddingBottom="8dp">
 
         <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
@@ -22,16 +26,17 @@
             android:layout_height="2dp" />
 
         <TextView
-            android:layout_marginTop="8dp"
-            android:text="@{item.title}"
-            tools:text="3 Songs, 9 Minutes"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold"
-            android:textSize="14dp"
-            android:padding="12dp"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="@{item.title}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="14dp"
+            app:fontFamily="sans-serif-black"
+            tools:fontFamily="sans-serif-black"
+            tools:text="3 Songs, 9 Minutes" />
 
     </LinearLayout>
 
