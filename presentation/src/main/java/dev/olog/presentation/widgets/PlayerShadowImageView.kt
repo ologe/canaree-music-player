@@ -67,12 +67,10 @@ class PlayerShadowImageView @JvmOverloads constructor(
     override fun loadImage(metadata: MediaMetadataCompat){
         val mediaId = metadata.getMediaId()
 
-        val model = metadata.toPlayerImage()
-
         GlideApp.with(context).clear(this)
 
         GlideApp.with(context)
-                .load(model)
+                .load(mediaId)
                 .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .override(Target.SIZE_ORIGINAL)
