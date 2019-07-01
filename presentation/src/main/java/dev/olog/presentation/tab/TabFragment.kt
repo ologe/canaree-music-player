@@ -46,35 +46,13 @@ class TabFragment : BaseFragment(), SetupNestedList {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
-    private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
-    }
+    private val lastAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
+    private val lastArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
+    private val newAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
+    private val newArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
 
     private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(
-            viewModelFactory
-        )
+        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
     }
 
     internal val category: TabCategory by lazyFast {
