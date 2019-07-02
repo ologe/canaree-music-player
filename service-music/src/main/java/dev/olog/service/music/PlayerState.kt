@@ -10,6 +10,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.media.isPlaying
+import dev.olog.service.music.model.PositionInQueue
 import dev.olog.shared.Classes
 import dev.olog.shared.WidgetConstants
 import dev.olog.shared.extensions.getAppWidgetsIdsFor
@@ -128,28 +129,30 @@ class PlayerState @Inject constructor(
 
     fun updateActiveQueueId(id: Long) {
         val state = builder.setActiveQueueItemId(id).build()
+        // TODO spamming skip to next will make this crash
+        // java.lang.IllegalStateException: beginBroadcast() called while already in a broadcast
         mediaSession.setPlaybackState(state)
     }
 
-    fun toggleSkipToActions(positionInQueue: dev.olog.service.music.model.PositionInQueue) {
+    fun toggleSkipToActions(positionInQueue: PositionInQueue) {
 
         when {
-            positionInQueue === dev.olog.service.music.model.PositionInQueue.FIRST -> {
+            positionInQueue === PositionInQueue.FIRST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
                 musicPreferencesUseCase.setSkipToNextVisibility(true)
                 notifyWidgetsActionChanged(false, true)
             }
-            positionInQueue === dev.olog.service.music.model.PositionInQueue.LAST -> {
+            positionInQueue === PositionInQueue.LAST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(true)
                 musicPreferencesUseCase.setSkipToNextVisibility(false)
                 notifyWidgetsActionChanged(true, false)
             }
-            positionInQueue === dev.olog.service.music.model.PositionInQueue.IN_MIDDLE -> {
+            positionInQueue === PositionInQueue.IN_MIDDLE -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(true)
                 musicPreferencesUseCase.setSkipToNextVisibility(true)
                 notifyWidgetsActionChanged(true, true)
             }
-            positionInQueue == dev.olog.service.music.model.PositionInQueue.BOTH -> {
+            positionInQueue == PositionInQueue.BOTH -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
                 musicPreferencesUseCase.setSkipToNextVisibility(false)
                 notifyWidgetsActionChanged(false, false)

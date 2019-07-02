@@ -14,8 +14,11 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.image.provider.getBitmapAsync
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.media.putBoolean
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
+import dev.olog.service.music.model.MetadataEntity
+import dev.olog.service.music.model.SkipType
 import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.WidgetConstants
@@ -54,19 +57,21 @@ class PlayerMetadata @Inject constructor(
         }
     }
 
-    override fun onPrepare(entity: MediaEntity) {
-        update(entity)
+    override fun onPrepare(metadata: MetadataEntity) {
+        update(metadata)
     }
 
-    override fun onMetadataChanged(entity: MediaEntity) {
-        update(entity)
+    override fun onMetadataChanged(metadata: MetadataEntity) {
+        update(metadata)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         cancel()
     }
 
-    private fun update(entity: MediaEntity) {
+    private fun update(metadata: MetadataEntity) {
+        val entity = metadata.entity
+
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
             .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
@@ -78,7 +83,9 @@ class PlayerMetadata @Inject constructor(
 //                .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image) TODO ??
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
             .putString(MusicConstants.PATH, entity.path)
-            .putLong(MusicConstants.IS_PODCAST, if (entity.isPodcast) 1 else 0)
+            .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
+            .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)
+            .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
 
         if (showLockScreenArtwork) {
             context.getBitmapAsync(entity.mediaId, Target.SIZE_ORIGINAL) { bitmap ->

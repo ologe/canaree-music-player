@@ -18,8 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/toolbar" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/coverWrapper"
+        <dev.olog.presentation.widgets.switcher.CustomViewSwitcher
+            android:id="@+id/imageSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -31,26 +31,46 @@
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            app:cardCornerRadius="@dimen/default_corner_radius"
-            android:stateListAnimator="@animator/elevate_on_activated">
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out">
 
-            <dev.olog.presentation.widgets.PlayerImageView
-                android:id="@+id/bigCover"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:src="@drawable/placeholder_musical_note"
-                android:clickable="false"
-                android:focusable="false" />
+                app:cardCornerRadius="@dimen/default_corner_radius"
+                android:stateListAnimator="@animator/elevate_on_activated">
 
-        </com.google.android.material.card.MaterialCardView>
+                <dev.olog.shared.widgets.ForegroundImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@drawable/placeholder_musical_note" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="@dimen/default_corner_radius"
+                android:stateListAnimator="@animator/elevate_on_activated">
+
+                <dev.olog.shared.widgets.ForegroundImageView
+                    android:id="@id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@drawable/placeholder_musical_note" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
 
         <dev.olog.presentation.widgets.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
-            app:layout_constraintTop_toTopOf="@+id/coverWrapper"
+            app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/coverWrapper"
+            app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"

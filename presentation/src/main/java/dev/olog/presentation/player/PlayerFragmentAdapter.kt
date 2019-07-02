@@ -22,10 +22,9 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
+import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.*
-import dev.olog.shared.theme.HasImageShape
-import dev.olog.shared.theme.ImageShape
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
@@ -82,13 +81,6 @@ class PlayerFragmentAdapter(
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
-
-                val view = viewHolder.itemView
-                val hasImageShape = view.context.applicationContext as HasImageShape
-                val imageShape = hasImageShape.getImageShape()
-                if (imageShape == ImageShape.RECTANGLE) {
-                    view.coverWrapper.radius = 0f
-                }
             }
         }
 
@@ -103,10 +95,10 @@ class PlayerFragmentAdapter(
         if (viewType in playerViewTypes) {
 
             val view = holder.itemView
-            view.bigCover.observeProcessorColors()
+            view.imageSwitcher.observeProcessorColors()
                 .asLiveData()
                 .subscribe(holder, viewModel::updateProcessorColors)
-            view.bigCover.observePaletteColors()
+            view.imageSwitcher.observePaletteColors()
                 .asLiveData()
                 .subscribe(holder, viewModel::updatePaletteColors)
 
@@ -264,7 +256,7 @@ class PlayerFragmentAdapter(
             .subscribe(holder) { onPlaybackStateChanged(view, it) }
 
         mediaProvider.observePlaybackState()
-            .subscribe(holder) {view.seekBar.onStateChanged(it) }
+            .subscribe(holder) { view.seekBar.onStateChanged(it) }
 
         view.seekBar.observeProgress()
             .asLiveData()
@@ -331,7 +323,8 @@ class PlayerFragmentAdapter(
                             state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
                 }
                 .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-                .subscribe(holder) { animateSkipTo(view, it) }
+                .subscribe(holder) {
+                    animateSkipTo(view, it) }
 
             mediaProvider.observePlaybackState()
                 .map { it.state }
@@ -370,7 +363,7 @@ class PlayerFragmentAdapter(
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat) {
-        view.bigCover.loadImage(metadata)
+        view.imageSwitcher.loadImage(metadata)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {
@@ -386,15 +379,16 @@ class PlayerFragmentAdapter(
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat) {
         val isPlaying = playbackState.isPlaying()
+
         if (isPlaying || playbackState.isPaused()) {
             view.nowPlaying.isActivated = isPlaying
             val playerAppearance = view.context.hasPlayerAppearance()
             if (playerAppearance.isClean()) {
-                view.bigCover.isActivated = isPlaying
+//                view.bigCover.isActivated = isPlaying TODO
             } else {
-                view.coverWrapper.isActivated = isPlaying
+                // TODO
+                view.imageSwitcher.setChildrenActivated(isPlaying)
             }
-
         }
     }
 

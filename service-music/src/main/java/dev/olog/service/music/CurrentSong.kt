@@ -4,16 +4,17 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
+import dev.olog.core.entity.LastMetadata
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.injection.dagger.PerService
-import dev.olog.core.entity.LastMetadata
 import dev.olog.core.interactor.*
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
+import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -43,15 +44,15 @@ class CurrentSong @Inject constructor(
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
     private val playerListener = object : PlayerLifecycle.Listener {
-        override fun onPrepare(entity: MediaEntity) {
-            updateFavorite(entity)
-            saveLastMetadata(entity)
+        override fun onPrepare(metadata: MetadataEntity) {
+            updateFavorite(metadata.entity)
+            saveLastMetadata(metadata.entity)
         }
 
-        override fun onMetadataChanged(entity: MediaEntity) {
-            launch { channel.send(entity) }
-            updateFavorite(entity)
-            saveLastMetadata(entity)
+        override fun onMetadataChanged(metadata: MetadataEntity) {
+            launch { channel.send(metadata.entity) }
+            updateFavorite(metadata.entity)
+            saveLastMetadata(metadata.entity)
         }
     }
 

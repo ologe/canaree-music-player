@@ -14,6 +14,7 @@ import dev.olog.service.music.interfaces.CustomExoPlayer
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.interfaces.ServiceLifecycleController
+import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.utils.clamp
@@ -65,7 +66,7 @@ class PlayerImpl @Inject constructor(
         playerState.updatePlaybackSpeed(currentSpeed)
         playerState.toggleSkipToActions(playerModel.positionInQueue)
 
-        listeners.forEach { it.onPrepare(entity) }
+        listeners.forEach { it.onPrepare(MetadataEntity(playerModel.mediaEntity, SkipType.NONE)) }
     }
 
     override fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
@@ -95,7 +96,7 @@ class PlayerImpl @Inject constructor(
 
         listeners.forEach {
             it.onStateChanged(state)
-            it.onMetadataChanged(entity)
+            it.onMetadataChanged(MetadataEntity(entity, skipType))
         }
 
         playerState.toggleSkipToActions(playerModel.positionInQueue)

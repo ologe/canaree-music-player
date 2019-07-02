@@ -38,5 +38,17 @@ fun MediaMetadataCompat.getId(): Long {
 }
 
 fun MediaMetadataCompat.isPodcast(): Boolean {
-    return getLong(MusicConstants.IS_PODCAST) != 0L
+    return getBoolean(MusicConstants.IS_PODCAST)
+}
+
+fun MediaMetadataCompat.Builder.putBoolean(
+    key: String,
+    value: Boolean
+): MediaMetadataCompat.Builder {
+    putLong(key, if (value) 1 else 0)
+    return this
+}
+
+fun MediaMetadataCompat.getBoolean(key: String): Boolean {
+    return getLong(key) != 0L
 }

@@ -14,6 +14,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
+import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -67,8 +68,8 @@ class LastFmScrobbling @Inject constructor(
         credendialsDisposable.unsubscribe()
     }
 
-    override fun onMetadataChanged(entity: MediaEntity) {
-        scrobble(entity)
+    override fun onMetadataChanged(metadata: MetadataEntity) {
+        scrobble(metadata.entity)
     }
 
     private fun scrobble(entity: MediaEntity){

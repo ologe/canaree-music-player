@@ -14,6 +14,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.service.music.interfaces.INotification
+import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.utils.isOreo
 import dev.olog.shared.extensions.dispatchEvent
@@ -50,12 +51,12 @@ class MusicNotificationManager @Inject constructor(
     private var publishDisposable : Disposable? = null
 
     private val playerListener = object : dev.olog.service.music.interfaces.PlayerLifecycle.Listener {
-        override fun onPrepare(entity: dev.olog.service.music.model.MediaEntity) {
-            onNextMetadata(entity)
+        override fun onPrepare(metadata: MetadataEntity) {
+            onNextMetadata(metadata.entity)
         }
 
-        override fun onMetadataChanged(entity: dev.olog.service.music.model.MediaEntity) {
-            onNextMetadata(entity)
+        override fun onMetadataChanged(metadata: MetadataEntity) {
+            onNextMetadata(metadata.entity)
         }
 
         override fun onStateChanged(state: PlaybackStateCompat) {

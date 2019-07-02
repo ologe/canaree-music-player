@@ -1,6 +1,7 @@
 package dev.olog.service.music.interfaces
 
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.service.music.model.MetadataEntity
 
 interface PlayerLifecycle {
 
@@ -8,10 +9,10 @@ interface PlayerLifecycle {
     fun removeListener(listener: Listener)
 
     interface Listener {
-        fun onPrepare(entity: dev.olog.service.music.model.MediaEntity) {}
-        fun onMetadataChanged(entity: dev.olog.service.music.model.MediaEntity) {}
-        fun onStateChanged(state: PlaybackStateCompat){}
-        fun onSeek(where: Long){}
+        fun onPrepare(metadata: MetadataEntity) {}
+        fun onMetadataChanged(metadata: MetadataEntity) {}
+        fun onStateChanged(state: PlaybackStateCompat) {}
+        fun onSeek(where: Long) {}
     }
 
 }
