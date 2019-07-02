@@ -16,9 +16,7 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dis
 
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
             if (key == k) {
-                launch {
-                    channel.safeSend(getItem(key, default)!!)
-                }
+                channel.offer(getItem(key, default)!!)
             }
         }
 
