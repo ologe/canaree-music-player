@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Typeface
 import android.support.v4.media.session.MediaSessionCompat
@@ -13,19 +12,15 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.image.provider.legacy.getCachedBitmapOld
-import dev.olog.service.music.MusicService
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.AppConstants
 import dev.olog.shared.Classes
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.asActivityPendingIntent
-import dev.olog.shared.extensions.asServicePendingIntent
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
@@ -54,30 +49,19 @@ open class NotificationImpl21 @Inject constructor(
             .setColor(ContextCompat.getColor(service, R.color.dark_grey))
             .setColorized(false)
             .setContentIntent(buildContentIntent())
-            .setDeleteIntent(buildPendingIntent(PlaybackStateCompat.ACTION_STOP))
+            .setDeleteIntent(
+                NotificationActions.buildMediaPendingIntent(
+                    service,
+                    PlaybackStateCompat.ACTION_STOP
+                )
+            )
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setStyle(mediaStyle)
-            .addAction(
-                R.drawable.vd_not_favorite,
-                "Add to Favorite",
-                buildToggleFavoritePendingIntent()
-            )
-            .addAction(
-                R.drawable.vd_skip_previous,
-                "Previous",
-                buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
-            )
-            .addAction(
-                R.drawable.vd_pause_big,
-                "PlayPause",
-                buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
-            )
-            .addAction(
-                R.drawable.vd_skip_next,
-                "Next",
-                buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT)
-            )
+            .addAction(NotificationActions.favorite(service, false))
+            .addAction(NotificationActions.skipPrevious(service, false))
+            .addAction(NotificationActions.playPause(service, false))
+            .addAction(NotificationActions.skipNext(service, false))
 
         extendInitialization()
 
@@ -103,7 +87,7 @@ open class NotificationImpl21 @Inject constructor(
 
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
-        updateMetadataImpl(state.id, spannableTitle, artist, album)
+        updateMetadataImpl(state.id, spannableTitle, artist, album, state.isPodcast)
         updateState(state.isPlaying, state.bookmark - state.duration)
         updateFavorite(state.isFavorite)
 
@@ -113,9 +97,7 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
-        val action = builder.mActions[2]
-//        action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
-        action.icon = if (isPlaying) R.drawable.vd_pause_big else R.drawable.vd_play_big
+        builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
 
@@ -127,16 +109,18 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     private fun updateFavorite(isFavorite: Boolean) {
-        val favoriteAction = builder.mActions[0]
-        favoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
+        builder.mActions[0] = NotificationActions.favorite(service, isFavorite)
     }
 
     protected open fun updateMetadataImpl(
         id: Long,
         title: SpannableString,
         artist: String,
-        album: String
+        album: String,
+        isPodcast: Boolean
     ) {
+        builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)
+        builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
 
         val bitmap = service.getCachedBitmapOld(MediaId.songId(id), INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
@@ -145,24 +129,10 @@ open class NotificationImpl21 @Inject constructor(
             .setSubText(album)
     }
 
-    private fun buildToggleFavoritePendingIntent(): PendingIntent {
-        val intent = Intent(service, MusicService::class.java)
-        intent.action = MusicConstants.ACTION_TOGGLE_FAVORITE
-        return intent.asServicePendingIntent(service)
-    }
-
     private fun buildContentIntent(): PendingIntent {
         val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
         intent.action = AppConstants.ACTION_CONTENT_VIEW
         return intent.asActivityPendingIntent(service)
-    }
-
-    private fun buildPendingIntent(action: Long): PendingIntent {
-        return MediaButtonReceiver.buildMediaButtonPendingIntent(
-            service,
-            ComponentName(service, MediaButtonReceiver::class.java),
-            action
-        )
     }
 
     override fun cancel() {

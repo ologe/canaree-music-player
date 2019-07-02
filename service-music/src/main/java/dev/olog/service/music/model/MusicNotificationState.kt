@@ -11,7 +11,8 @@ data class MusicNotificationState (
         var isPlaying: Boolean = false,
         var bookmark: Long = -1,
         var duration: Long = -1,
-        var isFavorite: Boolean = false
+        var isFavorite: Boolean = false,
+        var isPodcast: Boolean = false
 ) {
 
     private fun isValidState(): Boolean{
@@ -24,12 +25,13 @@ data class MusicNotificationState (
                 duration != -1L
     }
 
-    fun updateMetadata(metadata: dev.olog.service.music.model.MediaEntity): Boolean {
+    fun updateMetadata(metadata: MediaEntity): Boolean {
         this.id = metadata.id
         this.title = metadata.title
         this.artist = metadata.artist
         this.album = metadata.album
         this.duration = metadata.duration
+        this.isPodcast = metadata.isPodcast
         return isValidState()
     }
 
@@ -44,11 +46,12 @@ data class MusicNotificationState (
         return isValidState()
     }
 
-    fun isDifferentMetadata(metadata: dev.olog.service.music.model.MediaEntity): Boolean {
+    fun isDifferentMetadata(metadata: MediaEntity): Boolean {
         return this.id != metadata.id ||
                 this.title != metadata.title ||
                 this.artist != metadata.artist ||
-                this.album != metadata.album
+                this.album != metadata.album ||
+                this.isPodcast != metadata.isPodcast
     }
 
     fun isDifferentState(state: PlaybackStateCompat): Boolean{

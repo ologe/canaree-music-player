@@ -145,6 +145,22 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
         }
     }
 
+    override fun handleReplay10(intent: Intent) {
+        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_REPLAY_10_SECONDS, null)
+    }
+
+    override fun handleReplay30(intent: Intent) {
+        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_REPLAY_30_SECONDS, null)
+    }
+
+    override fun handleForward10(intent: Intent) {
+        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_FORWARD_10_SECONDS, null)
+    }
+
+    override fun handleForward30(intent: Intent) {
+        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_FORWARD_30_SECONDS, null)
+    }
+
     private fun resetSleepTimer() {
         sleepTimerUseCase.reset()
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))

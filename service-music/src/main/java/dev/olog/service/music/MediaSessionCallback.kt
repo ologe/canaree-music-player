@@ -29,6 +29,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
@@ -323,7 +325,10 @@ class MediaSessionCallback @Inject constructor(
     }
 
     private fun updatePodcastPosition() {
-        queue.updatePodcastPosition(player.getBookmark())
+        // TODO move somewhere else
+        GlobalScope.launch {
+            queue.updatePodcastPosition(player.getBookmark())
+        }
     }
 
 }
