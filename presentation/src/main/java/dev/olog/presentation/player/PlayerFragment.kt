@@ -68,6 +68,7 @@ class PlayerFragment : BaseFragment() {
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
+        list.isNestedScrollingEnabled = false
 //        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/) TODO
 //        val touchHelper = ItemTouchHelper(callback)
 //        touchHelper.attachToRecyclerView(list)
