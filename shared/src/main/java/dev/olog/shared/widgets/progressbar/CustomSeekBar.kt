@@ -19,8 +19,7 @@ class CustomSeekBar(
 
     private var listener: OnSeekBarChangeListener? = null
 
-    private val delegate: IProgressDeletegate =
-        ProgressDeletegate(this)
+    private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
 
     fun setListener(
         onProgressChanged: (Int) -> Unit,

@@ -23,21 +23,23 @@ class LottieFavorite(
     private var state: FavoriteEnum? = null
 
     init {
-        val isDarkMode = context.isDarkMode()
-        val playerAppearance = context.hasPlayerAppearance()
-        var useWhiteIcon = playerAppearance.isFullscreen()
+        if (!isInEditMode){
+            val isDarkMode = context.isDarkMode()
+            val playerAppearance = context.hasPlayerAppearance()
+            var useWhiteIcon = playerAppearance.isFullscreen()
 
-        useWhiteIcon = useWhiteIcon || isDarkMode
+            useWhiteIcon = useWhiteIcon || isDarkMode
 
-        val icon = when {
-            playerAppearance.isClean() && !isDarkMode -> "favorite_gray"
-            useWhiteIcon -> "favorite_white"
-            else -> "favorite"
+            val icon = when {
+                playerAppearance.isClean() && !isDarkMode -> "favorite_gray"
+                useWhiteIcon -> "favorite_white"
+                else -> "favorite"
+            }
+            setAnimation("$icon.json")
+
+            scaleX = 1.15f
+            scaleY = 1.15f
         }
-        setAnimation("$icon.json")
-
-        scaleX = 1.15f
-        scaleY = 1.15f
     }
 
     override fun onAttachedToWindow() {
