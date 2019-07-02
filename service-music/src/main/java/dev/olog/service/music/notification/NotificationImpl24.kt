@@ -8,6 +8,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dagger.Lazy
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.legacy.getCachedBitmapOld
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.shared.utils.TextUtils
@@ -46,7 +47,9 @@ open class NotificationImpl24 @Inject constructor(
         builder.mActions[1] = NotificationActions.skipPrevious(service, isPodcast)
         builder.mActions[3] = NotificationActions.skipNext(service, isPodcast)
 
-        val bitmap = service.getCachedBitmapOld(MediaId.songId(id), INotification.IMAGE_SIZE)
+        val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+        val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
+        val bitmap = service.getCachedBitmapOld(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
             .setContentTitle(title)
             .setContentText(artist)
