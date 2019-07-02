@@ -8,9 +8,12 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
+import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.observeKey
 import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 private const val TAG = "MusicPreferences"
@@ -31,6 +34,8 @@ private const val LAST_ID = "$TAG.last.id"
 private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 
 private const val LAST_POSITION = "$TAG.last_position"
+
+private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -184,5 +189,20 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun getLastPositionInQueue(): Int {
         return preferences.getInt(LAST_POSITION, -1)
+    }
+
+    override fun setVolume(volume: Int) {
+        preferences.edit {
+            putInt(MUSIC_VOLUME, volume)
+        }
+    }
+
+    override fun getVolume(): Int {
+        return preferences.getInt(MUSIC_VOLUME, 100)
+    }
+
+    override fun observeVolume(): Flow<Int> {
+        return preferences.observeKey(MUSIC_VOLUME, 100)
+            .assertBackground()
     }
 }

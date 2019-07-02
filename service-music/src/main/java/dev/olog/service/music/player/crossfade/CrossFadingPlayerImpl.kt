@@ -15,8 +15,7 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.service.music.interfaces.IPlayerVolume
-import dev.olog.service.music.player.DefaultPlayer
+import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.shared.extensions.dispatchEvent
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
@@ -33,10 +32,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
     private val audioManager: Lazy<AudioManager>,
-    private val volume: IPlayerVolume,
+    private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume),
+): AbsPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume),
     ExoPlayerListenerWrapper {
 
     private var isCurrentSongPodcast = false
@@ -140,7 +139,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
         cancelFade()
         val (min, max, interval, delta) = CrossFadeInternals(
             crossFadeTime,
-            volume.getVolume()
+            volume.getMaxAllowedVolume()
         )
         player.volume = min
 
@@ -165,7 +164,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
 
         val (min, max, interval, delta) = CrossFadeInternals(
             time.toInt(),
-            volume.getVolume()
+            volume.getMaxAllowedVolume()
         )
         player.volume = max
 
@@ -187,7 +186,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     private fun restoreDefaultVolume() {
-        player.volume = volume.getVolume()
+        player.volume = volume.getMaxAllowedVolume()
     }
 
     private fun requestNextSong(){

@@ -10,6 +10,8 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.dip
 import dev.olog.presentation.R
+import dev.olog.shared.extensions.colorScrim
+import dev.olog.shared.extensions.scrimBackground
 
 class SlidingPanelFade(
         context: Context,
@@ -17,17 +19,13 @@ class SlidingPanelFade(
 ) : View(context, attrs) {
 
     private val fragmentContainer by lazyFast {
-        (context as FragmentActivity).findViewById<View>(
-            R.id.fragmentContainer
-        )
+        (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
     }
     private val maxTranslation by lazyFast { context.dip(20) }
 
     init {
-        setBackgroundColor(0x99_FFFFFF.toInt())
+        setBackgroundColor(context.scrimBackground())
         alpha = 0f
-
-
     }
 
     override fun onAttachedToWindow() {

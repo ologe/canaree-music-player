@@ -8,12 +8,16 @@ import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.player.PlayerFragment
 import dev.olog.presentation.player.PlayerFragmentViewModel
+import dev.olog.presentation.player.volume.PlayerVolumeFragment
 
 @Module
 abstract class PlayerFragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun proviewFragment(): PlayerFragment
+    abstract fun provideFragment(): PlayerFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideVolumeFragment(): PlayerVolumeFragment
 
     @Binds
     @IntoMap

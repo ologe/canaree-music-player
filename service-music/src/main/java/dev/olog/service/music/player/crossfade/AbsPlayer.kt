@@ -1,4 +1,4 @@
-package dev.olog.service.music.player
+package dev.olog.service.music.player.crossfade
 
 import android.content.Context
 import android.util.Log
@@ -14,21 +14,21 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.CustomExoPlayer
-import dev.olog.service.music.interfaces.IPlayerVolume
+import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
+import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.SourceFactory
-import dev.olog.service.music.player.crossfade.CrossFadePlayerImpl
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.utils.clamp
 
-abstract class DefaultPlayer<T>(
+abstract class AbsPlayer<T>(
     private val context: Context,
     lifecycle: Lifecycle,
     private val mediaSourceFactory: SourceFactory<T>,
-    volume: IPlayerVolume
+    volume: IMaxAllowedPlayerVolume
 
 ) : CustomExoPlayer<T>,
-    dev.olog.service.music.interfaces.ExoPlayerListenerWrapper,
-        DefaultLifecycleObserver {
+    ExoPlayerListenerWrapper,
+    DefaultLifecycleObserver {
 
     private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
@@ -37,8 +37,8 @@ abstract class DefaultPlayer<T>(
     init {
         lifecycle.addObserver(this)
 
-        volume.listener = object : IPlayerVolume.Listener {
-            override fun onVolumeChanged(volume: Float) {
+        volume.listener = object : IMaxAllowedPlayerVolume.Listener {
+            override fun onMaxAllowedVolumeChanged(volume: Float) {
                 player.volume = volume
             }
         }

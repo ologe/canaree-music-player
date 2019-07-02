@@ -10,15 +10,15 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.PlayerState
 import dev.olog.service.music.focus.AudioFocusBehavior
-import dev.olog.service.music.interfaces.CustomExoPlayer
-import dev.olog.service.music.interfaces.Player
-import dev.olog.service.music.interfaces.PlayerLifecycle
-import dev.olog.service.music.interfaces.ServiceLifecycleController
+import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.shared.utils.clamp
 import dev.olog.shared.extensions.unsubscribe
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,17 +29,19 @@ class PlayerImpl @Inject constructor(
     private val serviceLifecycle: ServiceLifecycleController,
     private val audioFocus : AudioFocusBehavior,
     private val player: CustomExoPlayer<PlayerMediaEntity>,
-    musicPrefsUseCase: MusicPreferencesGateway
+    musicPrefsUseCase: MusicPreferencesGateway,
+    private val playerVolume: IMaxAllowedPlayerVolume
 
 ) : Player,
-        DefaultLifecycleObserver,
-    PlayerLifecycle {
+    DefaultLifecycleObserver,
+    PlayerLifecycle,
+    CoroutineScope by MainScope() {
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
 
     private var currentSpeed = 1f
 
-    private val playerVolumeDisposable = musicPrefsUseCase.observePlaybackSpeed()
+    private val playbackSpeedDisposable = musicPrefsUseCase.observePlaybackSpeed()
             .subscribe({
                 currentSpeed = it
                 player.setPlaybackSpeed(it)
@@ -48,13 +50,23 @@ class PlayerImpl @Inject constructor(
 
     init {
         lifecycle.addObserver(this)
-//        playerFading.setPlayerLifecycle(this)
+
+        launch {
+            // TODO combine with max allowed volume changes
+            musicPrefsUseCase.observeVolume()
+                .flowOn(Dispatchers.Default)
+                .collect { volume ->
+                    val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
+                    player.setVolume(newVolume)
+                }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
-        playerVolumeDisposable.unsubscribe()
+        playbackSpeedDisposable.unsubscribe()
         releaseFocus()
+        cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {

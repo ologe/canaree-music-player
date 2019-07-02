@@ -65,6 +65,10 @@ fun Context.colorScrim(): Int {
     return themeAttributeToColor(R.attr.colorScrim)
 }
 
+fun Context.scrimBackground(): Int {
+    return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
+}
+
 fun Context.textColorPrimary(): Int {
     return themeAttributeToColor(android.R.attr.textColorPrimary)
 }

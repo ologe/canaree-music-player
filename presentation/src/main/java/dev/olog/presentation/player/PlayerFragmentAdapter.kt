@@ -1,6 +1,5 @@
 package dev.olog.presentation.player
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -8,6 +7,8 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.MediaId
 import dev.olog.media.*
@@ -18,20 +19,20 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
-import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
 import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.*
 
 class PlayerFragmentAdapter(
     @FragmentLifecycle lifecycle: Lifecycle,
@@ -250,6 +251,14 @@ class PlayerFragmentAdapter(
                 updateMetadata(view, it)
                 updateImage(view, it)
             }
+
+        view.volume.setOnClickListener {
+            (view.context as FragmentActivity).fragmentTransaction {
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                add(android.R.id.content, PlayerVolumeFragment(), PlayerVolumeFragment.TAG)
+                addToBackStack(PlayerVolumeFragment.TAG)
+            }
+        }
 
         mediaProvider.observePlaybackState()
             .subscribe(holder) { onPlaybackStateChanged(view, it) }

@@ -1,8 +1,8 @@
 package dev.olog.core.prefs
 
 import dev.olog.core.entity.LastMetadata
-import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface MusicPreferencesGateway {
 
@@ -43,5 +43,12 @@ interface MusicPreferencesGateway {
     fun setLastPositionInQueue(position: Int)
     fun observeLastPositionInQueue(): Observable<Int>
     fun getLastPositionInQueue(): Int
+
+    /**
+     * volume from 0 to 100
+     */
+    fun setVolume(volume: Int)
+    fun getVolume(): Int
+    fun observeVolume(): Flow<Int>
 
 }

@@ -22,7 +22,7 @@ import dev.olog.service.music.interfaces.CustomExoPlayer
 import dev.olog.service.music.player.PlayerImpl
 import dev.olog.service.music.player.PlayerVolume
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
-import dev.olog.service.music.interfaces.IPlayerVolume
+import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 
 @Module
@@ -53,7 +53,7 @@ abstract class MusicServiceModule {
 
     @Binds
     @PerService
-    internal abstract fun providePlayerVolume(volume: PlayerVolume): IPlayerVolume
+    internal abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
 
     @Module
     companion object {
