@@ -17,6 +17,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.model.SpecialThanksModel
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.presentation.widgets.ExplicitView
 import dev.olog.presentation.widgets.QuickActionView
 
 object BindingsAdapter {
@@ -142,6 +143,12 @@ object BindingsAdapter {
     @JvmStatic
     fun quickActionItem(view: QuickActionView, item: DisplayableItem){
         view.setId(item.mediaId)
+    }
+
+    @JvmStatic
+    @BindingAdapter("explicit")
+    fun explicit(view: ExplicitView, item: DisplayableItem){
+        view.onItemChanged(item)
     }
 
 }
