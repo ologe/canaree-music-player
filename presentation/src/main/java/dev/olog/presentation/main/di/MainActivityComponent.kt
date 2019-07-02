@@ -12,6 +12,7 @@ import dev.olog.presentation.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
 import dev.olog.presentation.player.di.PlayerFragmentModule
+import dev.olog.presentation.prefs.di.SettingsFragmentsModule
 import dev.olog.presentation.queue.di.PlayingQueueFragmentInjector
 import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
@@ -42,7 +43,9 @@ fun MainActivity.inject() {
         RelatedArtistFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
-        PlaylistTracksChooserInjector::class
+        PlaylistTracksChooserInjector::class,
+
+        SettingsFragmentsModule::class
 
 //        EditTrackFragmentInjector::class, TODO
 //        EditAlbumFragmentInjector::class,

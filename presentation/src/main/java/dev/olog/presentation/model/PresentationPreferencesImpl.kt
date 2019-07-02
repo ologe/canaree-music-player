@@ -264,4 +264,15 @@ class PresentationPreferencesImpl @Inject constructor(
     override fun canShowPodcastCategory(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
     }
+
+    override fun observePlayerControlsVisibility(): Observable<Boolean> {
+        return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
+            .asObservable()
+    }
+
+    override fun isAdaptiveColorEnabled(): Boolean {
+//        assertBackgroundThread() TODO
+        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
+    }
+
 }

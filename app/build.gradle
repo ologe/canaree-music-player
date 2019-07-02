@@ -87,7 +87,7 @@ dependencies {
     implementation "androidx.cardview:cardview:$rootProject.androidX"
     implementation "androidx.browser:browser:$rootProject.androidX"
     implementation "com.google.android.material:material:$rootProject.androidX"
-    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
+    implementation lib_x.preference
     implementation "androidx.palette:palette:$rootProject.androidX"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraint_layout"
 

@@ -12,7 +12,6 @@ interface AppPreferencesGateway {
     fun getSleepTime() : Long
     fun getSleepFrom() : Long
 
-    fun observePlayerControlsVisibility(): Observable<Boolean>
     fun canAutoCreateImages(): Boolean
 
     fun getLastFmCredentials(): UserCredentials
@@ -25,8 +24,6 @@ interface AppPreferencesGateway {
     fun observeDefaultMusicFolder(): Observable<File>
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
-
-    fun isAdaptiveColorEnabled(): Boolean
 
     fun setDefault()
 }

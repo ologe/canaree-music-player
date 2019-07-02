@@ -2,13 +2,13 @@ package dev.olog.presentation.prefs.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dev.olog.presentation.prefs.PreferencesFragment
+import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 
 @Module
-abstract class PreferenceActivityFragmentsModule {
+abstract class SettingsFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun provideLibraryCategoriesFragment() : LibraryCategoriesFragment
@@ -20,6 +20,6 @@ abstract class PreferenceActivityFragmentsModule {
     abstract fun provideLastFmCredentialsFragment() : LastFmCredentialsFragment
 
     @ContributesAndroidInjector
-    abstract fun providePreferencesFragment() : PreferencesFragment
+    abstract fun providePreferencesFragment() : SettingsFragment
 
 }

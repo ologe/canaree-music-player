@@ -44,7 +44,7 @@ dependencies {
     implementation lib_x.palette
     implementation lib_x.media
     implementation lib_x.browser
-    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX" // TODO update
+    implementation lib_x.preference
     implementation "com.android.billingclient:billing:$rootProject.billing"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
 

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/root">
+    android:id="@+id/root"
+    android:paddingBottom="@dimen/sliding_panel_peek">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
-        android:background="?android:attr/colorPrimary">
+        android:background="?colorSurface">
 
         <ImageButton
             android:id="@+id/back"
@@ -23,15 +24,13 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="@dimen/toolbar_elevation" />
 
         <TextView
             android:id="@+id/header"
             android:text="@string/settings"
-            android:gravity="center"
+            android:gravity="center_vertical"
+            android:layout_marginStart="56dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="@style/Headline6.Alt"/>
@@ -39,8 +38,8 @@
     </FrameLayout>
 
     <fragment
-        android:name="dev.olog.presentation.prefs.PreferencesFragment"
-        android:tag="dev.olog.msc.PreferencesFragment"
+        android:name="dev.olog.presentation.prefs.SettingsFragment"
+        android:tag="dev.olog.presentation.prefs.PreferencesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

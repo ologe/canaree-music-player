@@ -37,7 +37,6 @@ import javax.inject.Singleton
 //
 //        // presentation
 //        AboutActivityInjector::class,
-//        PreferencesActivityInjector::class,
 //        PlaylistChooserActivityInjector::class
 
     )

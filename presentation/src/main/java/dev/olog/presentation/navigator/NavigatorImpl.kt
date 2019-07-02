@@ -13,6 +13,7 @@ import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
+import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
@@ -21,7 +22,7 @@ import dev.olog.shared.extensions.fragmentTransaction
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor( // TODO
-        private val activity: AppCompatActivity
+    private val activity: AppCompatActivity
 //        private val popupFactory: PopupMenuFactory,
 //        private val mainPopup: Lazy<MainPopupDialog>,
 //        private val editItemDialogFactory: EditItemDialogFactory
@@ -70,7 +71,11 @@ class NavigatorImpl @Inject internal constructor( // TODO
         activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(android.R.id.content, OfflineLyricsFragment.newInstance(), OfflineLyricsFragment.TAG)
+            add(
+                android.R.id.content,
+                OfflineLyricsFragment.newInstance(),
+                OfflineLyricsFragment.TAG
+            )
             addToBackStack(OfflineLyricsFragment.TAG)
         }
     }
@@ -102,8 +107,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val newTag =
-            createBackStackTag(PlaylistTracksChooserFragment.TAG)
+        val newTag = createBackStackTag(PlaylistTracksChooserFragment.TAG)
         superCerealTransition(
             activity,
             PlaylistTracksChooserFragment.newInstance(type),
@@ -124,6 +128,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
+        superCerealTransition(activity, SettingsFragmentWrapper(), SettingsFragmentWrapper.TAG)
 //        mainPopup.get().show(activity, anchor, category)
     }
 

@@ -10,9 +10,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.shared.utils.assertBackgroundThread
-import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
 
@@ -55,13 +53,6 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun getSleepFrom(): Long {
         return preferences.getLong(SLEEP_FROM, -1)
-    }
-
-    override fun observePlayerControlsVisibility(): Observable<Boolean> {
-        val key = context.getString(R.string.prefs_player_controls_visibility_key)
-        return rxPreferences.getBoolean(key, false)
-            .asObservable()
-            .subscribeOn(Schedulers.io())
     }
 
     override fun setDefault() {
@@ -240,7 +231,4 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun isAdaptiveColorEnabled(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
-    }
 }

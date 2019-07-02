@@ -10,7 +10,7 @@
             android:summary="@string/prefs_library_categories_summary"
             android:key="@string/prefs_library_categories_key" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_show_podcasts_title"
             android:summary="@string/prefs_show_podcasts_summary"
             android:key="@string/prefs_show_podcasts_key"
@@ -27,7 +27,7 @@
             android:summary="@string/prefs_blacklist_summary"
             android:key="@string/prefs_blacklist_key"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_folder_tree_view_title"
             android:summaryOn="@string/prefs_folder_tree_view_summary_on"
             android:summaryOff="@string/prefs_folder_tree_view_summary_off"
@@ -39,27 +39,29 @@
     <PreferenceCategory
         android:title="@string/prefs_category_audio">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_used_equalizer_title"
             android:defaultValue="true"
             android:key="@string/prefs_used_equalizer_key"
             android:summaryOn="@string/prefs_used_equalizer_summary_on"
             android:summaryOff="@string/prefs_used_equalizer_summary_off"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_lower_volume_on_night_title"
             android:summary="@string/prefs_lower_volume_on_night_summary"
             android:key="@string/prefs_midnight_mode_key"
             android:defaultValue="false" />
 
-        <SeekBarPreference
+        <androidx.preference.SeekBarPreference
             android:key="@string/prefs_cross_fade_key"
             android:title="@string/prefs_cross_fade_title"
             android:summary="@string/prefs_cross_fade_summary"
+            android:enabled="true"
             android:defaultValue="0"
-            android:enabled="true" />
+            app:min="0"
+            android:max="12"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_gapless_title"
             android:summary="@string/prefs_gapless_summary"
             android:key="@string/prefs_gapless_key"
@@ -91,33 +93,33 @@
                 app:summary="@string/prefs_accent_color_summary"
                 app:title="@string/prefs_accent_color_title" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_adaptive_colors_title"
             android:summaryOn="@string/prefs_adaptive_colors_summary_on"
             android:summaryOff="@string/prefs_adaptive_colors_summary_off"
             android:key="@string/prefs_adaptive_colors_key"
             android:defaultValue="false" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_immersive_title"
             android:summaryOn="@string/prefs_immersive_summary_on"
             android:summaryOff="@string/prefs_immersive_summary_off"
             android:key="@string/prefs_immersive_key"
             android:defaultValue="false"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/prefs_show_recent_albums_artists_key"
             android:title="@string/prefs_show_recent_albums_artists_title"
             android:summary="@string/prefs_show_recent_albums_artists_summary"
             android:defaultValue="true"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/prefs_show_new_albums_artists_key"
             android:title="@string/prefs_show_new_albums_artists_title"
             android:summary="@string/prefs_show_new_albums_artists_summary"
             android:defaultValue="true"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_player_controls_visibility_title"
             android:summaryOn="@string/prefs_player_controls_visibility_summary_on"
             android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
@@ -153,7 +155,7 @@
     <PreferenceCategory
         android:title="@string/prefs_category_other">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/prefs_lockscreen_artwork_key"
             android:title="@string/prefs_lockscreen_artwork_title"
             android:summaryOn="@string/prefs_lockscreen_artwork_summary_on"
@@ -174,7 +176,7 @@
             android:entryValues="@array/prefs_auto_download_images_entry_values"
             android:defaultValue="@string/prefs_auto_download_images_entry_value_wifi" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:title="@string/prefs_auto_create_images_title"
             android:summaryOn="@string/prefs_auto_create_images_summary_on"
             android:summaryOff="@string/prefs_auto_create_images_summary_off"

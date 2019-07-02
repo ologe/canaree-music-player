@@ -9,7 +9,6 @@ import dev.olog.presentation.about.AboutActivity
 import dev.olog.presentation.debug.DebugConfigurationActivity
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.presentation.equalizer.EqualizerFragment
-import dev.olog.presentation.prefs.PreferencesActivity
 import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.extensions.toast
 import javax.inject.Inject
@@ -56,8 +55,8 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toSettingsActivity(){
-        val intent = Intent(activity, PreferencesActivity::class.java)
-        activity.startActivity(intent)
+//        val intent = Intent(activity, PreferencesActivity::class.java) TODO
+//        activity.startActivity(intent)
     }
 
     fun toSleepTimer(){

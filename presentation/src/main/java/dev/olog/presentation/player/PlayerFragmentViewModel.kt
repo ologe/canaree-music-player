@@ -1,18 +1,16 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
-import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
@@ -25,7 +23,7 @@ import javax.inject.Inject
 class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-    private val appPreferencesUseCase: AppPreferencesGateway,
+    private val presentationPrefs: PresentationPreferencesGateway,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
@@ -36,7 +34,7 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun observeProcessorColors(): Observable<ProcessorColors> = processorPublisher
             .map {
-                if (appPreferencesUseCase.isAdaptiveColorEnabled()) {
+                if (presentationPrefs.isAdaptiveColorEnabled()) {
                     it
                 } else {
                     InvalidProcessColors
@@ -47,7 +45,7 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun observePaletteColors(): Observable<PaletteColors> = palettePublisher
             .map {
-                if (appPreferencesUseCase.isAdaptiveColorEnabled()) {
+                if (presentationPrefs.isAdaptiveColorEnabled()) {
                     it
                 } else {
                     InvalidPaletteColors

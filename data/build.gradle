@@ -44,13 +44,13 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_x.core_ktx
+    implementation lib_x.preference
 
     // TODO rmeove
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     // rename
-    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
     implementation "com.google.code.gson:gson:$rootProject.gson"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"

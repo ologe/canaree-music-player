@@ -9,7 +9,7 @@ import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.prefs.PreferencesFragment
+import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.shared.extensions.findViewByIdNotRecursive
@@ -33,7 +33,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
         var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(R.id.list)
-        if (recyclerView == null && fragment.tag == PreferencesFragment.TAG) {
+        if (recyclerView == null && fragment.tag == SettingsFragment.TAG) {
             recyclerView = fragment.view?.findViewById(R.id.recycler_view)
         }
         return recyclerView

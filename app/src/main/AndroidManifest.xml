@@ -97,9 +97,6 @@
         <!--about activity-->
         <activity android:name="dev.olog.presentation.about.AboutActivity" />
 
-        <!--settings activity-->
-        <activity android:name="dev.olog.presentation.prefs.PreferencesActivity" />
-
         <!--dummy shortcuts activity-->
         <activity android:name="dev.olog.appshortcuts.ShortcutsActivity" />
 

@@ -62,8 +62,7 @@ fun superCerealTransition(activity: FragmentActivity, fragment: Fragment, tag: S
         return
     }
 
-    val topFragment =
-        findFirstVisibleFragment(activity.supportFragmentManager)
+    val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
 
     activity.fragmentTransaction {
         setReorderingAllowed(true)

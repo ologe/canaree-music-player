@@ -1,17 +1,16 @@
 package dev.olog.presentation.prefs
 
-import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
@@ -23,17 +22,17 @@ import dev.olog.presentation.R
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
-import dev.olog.shared.extensions.fragmentTransaction
+import dev.olog.presentation.pro.HasBilling
 import dev.olog.shared.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
 
     companion object {
-        val TAG = PreferencesFragment::class.java.name
+        val TAG = SettingsFragment::class.java.name
     }
 
     @Inject lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
@@ -44,7 +43,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var iconShape : Preference
     private lateinit var deleteCache : Preference
     private lateinit var lastFmCredentials: Preference
-    private lateinit var autoCreateImages: SwitchPreference
+    private lateinit var autoCreateImages: Preference
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
@@ -55,23 +54,21 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
-        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))
-        blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
-        iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
-        deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
-        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
-        autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
-        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))
-        resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))
+        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
+        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))!!
+        blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))!!
+        iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))!!
+        deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
+        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))!!
+        autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
+        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
+        resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
     }
-
-    private var needsToRecreate = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val billing = (act as PreferencesActivity).billing
+        val billing = (act as HasBilling).billing
         billing.observeBillingsState()
             .map { it.isPremiumEnabled() }
                 .take(2) // take current and after check values
@@ -92,7 +89,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onResume() {
         super.onResume()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         libraryCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
                     .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
@@ -100,7 +96,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
         podcastCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                    .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         blacklist.setOnPreferenceClickListener {
@@ -132,7 +128,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                             colors = ColorPalette.ACCENT_COLORS,
                             subColors = ColorPalette.ACCENT_COLORS_SUB,
                             initialSelection = prefs.getInt(key, defaultColor),
-                            selection = act as PreferencesActivity
+                            selection = this
                     ).show()
             true
         }
@@ -144,7 +140,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onPause() {
         super.onPause()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
@@ -152,20 +147,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         lastFmCredentials.onPreferenceClickListener = null
         accentColorChooser.onPreferenceClickListener = null
         resetTutorial.onPreferenceClickListener = null
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when (key){
-            getString(R.string.prefs_folder_tree_view_key),
-            getString(R.string.prefs_blacklist_key),
-            getString(R.string.prefs_show_podcasts_key),
-            getString(R.string.prefs_adaptive_colors_key)-> requestMainActivityToRecreate()
-        }
-    }
-
-    fun requestMainActivityToRecreate(){
-        needsToRecreate = true
-        act.setResult(Activity.RESULT_OK)
     }
 
     private fun showDeleteAllCacheDialog(){
@@ -183,7 +164,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                     }.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe({
-                                requestMainActivityToRecreate()
                                 ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
                             }, Throwable::printStackTrace)
                 }
@@ -195,11 +175,17 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_reset_tutorial_title)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                    tutorialPrefsUseCase.reset()
-                }
+                .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
                 .setNegativeButton(R.string.popup_negative_no, null)
                 .show()
     }
 
+    override fun invoke(dialog: MaterialDialog, color: Int) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(act)
+        val key = getString(R.string.prefs_color_accent_key)
+        prefs.edit {
+            putInt(key, color)
+        }
+        act.recreate()
+    }
 }

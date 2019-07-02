@@ -86,7 +86,6 @@ class PlayerFragmentAdapter(
 
     }
 
-    @SuppressLint("RxLeakedSubscription")
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         super.onViewAttachedToWindow(holder)
 
