@@ -20,6 +20,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.extensions.unsubscribe
@@ -139,7 +140,8 @@ class MediaSessionCallback @Inject constructor(
         doWhenReady({
             updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-                player.playNext(metadata, SkipType.RESTART)
+                val skipType = if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.RESTART else SkipType.SKIP_PREVIOUS
+                player.playNext(metadata, skipType)
             }
         }, { context.toast("Something went wrong") })
     }

@@ -11,10 +11,7 @@ import dev.olog.core.interactor.*
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EnhancedShuffle
-import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.PositionInQueue
-import dev.olog.service.music.model.toMediaEntity
-import dev.olog.service.music.model.toPlayerMediaEntity
+import dev.olog.service.music.model.*
 import dev.olog.service.music.utils.ComparatorUtils
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
@@ -54,7 +51,7 @@ class QueueManager @Inject constructor(
 
     override fun isReady(): Boolean = isReady.get()
 
-    override fun prepare(): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun prepare(): Single<PlayerMediaEntity> {
         return getPlayingQueueUseCase.execute()
             .map { list -> list.map { it.toMediaEntity() } }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
@@ -91,25 +88,25 @@ class QueueManager @Inject constructor(
         }
     }
 
-    override fun handleSkipToQueueItem(idInPlaylist: Long): dev.olog.service.music.model.PlayerMediaEntity {
+    override fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity {
         val mediaEntity = queueImpl.getSongById(idInPlaylist)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
-    override fun handleSkipToNext(trackEnded: Boolean): dev.olog.service.music.model.PlayerMediaEntity? {
+    override fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getNextSong(trackEnded)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
-    override fun getPlayingSong(): dev.olog.service.music.model.PlayerMediaEntity {
+    override fun getPlayingSong(): PlayerMediaEntity {
         val mediaEntity = queueImpl.getCurrentSong()!!
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
-    override fun handleSkipToPrevious(playerBookmark: Long): dev.olog.service.music.model.PlayerMediaEntity? {
+    override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
@@ -118,7 +115,7 @@ class QueueManager @Inject constructor(
     override fun handlePlayFromMediaId(
         mediaId: MediaId,
         extras: Bundle?
-    ): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    ): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf ?: -1L
 
         return getSongListByParamUseCase(mediaId)
@@ -139,7 +136,7 @@ class QueueManager @Inject constructor(
             }
     }
 
-    override fun handlePlayFolderTree(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
         return handlePlayFromMediaId(mediaId, null)
     }
 
@@ -173,7 +170,7 @@ class QueueManager @Inject constructor(
 
     }
 
-    override fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf!!
 
         return getRecentlyAddedUseCase(mediaId)
@@ -193,7 +190,7 @@ class QueueManager @Inject constructor(
             }
     }
 
-    override fun handlePlayMostPlayed(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf!!
 
         return getMostPlayedSongsUseCase(mediaId)
@@ -213,7 +210,7 @@ class QueueManager @Inject constructor(
             }
     }
 
-    override fun handlePlayShuffle(mediaId: MediaId): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity> {
         return getSongListByParamUseCase(mediaId)
             .asFlowable()
             .firstOrError()
@@ -235,7 +232,7 @@ class QueueManager @Inject constructor(
             }
     }
 
-    override fun handlePlayFromUri(uri: Uri): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    override fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity> {
         return Single.fromCallable { songGateway.getByUri(uri) }
             .delay(500, TimeUnit.MILLISECONDS)
             .map { it.toMediaEntity(0, MediaId.songId(it.id)) }
@@ -254,7 +251,7 @@ class QueueManager @Inject constructor(
     override fun handlePlayFromGoogleSearch(
         query: String,
         extras: Bundle
-    ): Single<dev.olog.service.music.model.PlayerMediaEntity> {
+    ): Single<PlayerMediaEntity> {
 //        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")
 
         val params = VoiceSearchParams(query, extras)

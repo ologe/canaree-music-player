@@ -30,7 +30,8 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
+// TODO move
+const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 class QueueImpl @Inject constructor(
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
