@@ -29,7 +29,7 @@ class GlideOriginalImageFetcher(
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
-    override fun getDataSource(): DataSource = DataSource.LOCAL
+    override fun getDataSource(): DataSource = DataSource.DATA_DISK_CACHE
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         launch {
