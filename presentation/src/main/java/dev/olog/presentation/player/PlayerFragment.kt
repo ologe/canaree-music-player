@@ -103,7 +103,6 @@ class PlayerFragment : BaseFragment() {
             .assertBackground()
             .flowOn(Dispatchers.Default)
             .asLiveData()
-            // TODO for some reasong the queue is blocking for half second the ui
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
     }
 
