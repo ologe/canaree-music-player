@@ -15,6 +15,7 @@ import dev.olog.shared.extensions.dip
 import dev.olog.shared.extensions.findChild
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlin.math.abs
 
 private const val DEFAULT_SWIPED_THRESHOLD = 100
 
@@ -69,6 +70,7 @@ class SwipeableView(
 
         return when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                parent.requestDisallowInterceptTouchEvent(true)
                 isTouchingPublisher.onNext(true)
                 onActionDown(event)
             }
@@ -77,7 +79,9 @@ class SwipeableView(
                 isTouchingPublisher.onNext(true)
                 return true
             }
-            MotionEvent.ACTION_UP  -> {
+            MotionEvent.ACTION_UP,
+            MotionEvent.ACTION_CANCEL -> {
+                parent.requestDisallowInterceptTouchEvent(false)
                 isTouchingPublisher.onNext(false)
                 onActionUp(event)
             }
@@ -97,10 +101,10 @@ class SwipeableView(
     private fun onActionUp(event: MotionEvent) : Boolean {
         xUp = event.x
         yUp = event.y
-        val swipedHorizontally = Math.abs(xUp - xDown) > swipedThreshold
-        val swipedVertically = Math.abs(yUp - yDown) > swipedThreshold
+        val swipedHorizontally = abs(xUp - xDown) > swipedThreshold
+        val swipedVertically = abs(yUp - yDown) > swipedThreshold
 
-        val isHorizontalScroll = swipedHorizontally && Math.abs(xUp - xDown) > Math.abs(yUp - yDown)
+        val isHorizontalScroll = swipedHorizontally && abs(xUp - xDown) > abs(yUp - yDown)
 
         if (isHorizontalScroll) {
             val swipedRight = xUp > xDown
