@@ -137,7 +137,7 @@ class MediaSessionCallback @Inject constructor(
         doWhenReady({
             updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-                player.playNext(metadata, SkipType.SKIP_PREVIOUS)
+                player.playNext(metadata, SkipType.RESTART)
             }
         }, { context.toast("Something went wrong") })
     }
@@ -171,6 +171,7 @@ class MediaSessionCallback @Inject constructor(
             try {
                 action()
             } catch (ex: Exception) {
+                ex.printStackTrace()
                 error?.invoke()
             }
         } else {

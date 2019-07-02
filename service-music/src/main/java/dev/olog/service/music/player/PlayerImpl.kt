@@ -71,10 +71,11 @@ class PlayerImpl @Inject constructor(
 
     override fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
         when (skipType){
+            SkipType.NONE -> throw IllegalArgumentException("skip type must not be NONE")
+            SkipType.RESTART -> playerState.skipTo(false)
             SkipType.SKIP_PREVIOUS -> playerState.skipTo(false)
             SkipType.SKIP_NEXT,
             SkipType.TRACK_ENDED -> playerState.skipTo(true)
-            else -> throw IllegalStateException("skip type can not be NONE")
         }
 
         playInternal(playerModel, skipType)

@@ -1,5 +1,6 @@
 package dev.olog.service.music.interfaces
 
+import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 
 interface Player : PlayerLifecycle {
@@ -7,9 +8,9 @@ interface Player : PlayerLifecycle {
     fun isPlaying(): Boolean
     fun getBookmark(): Long
 
-    fun prepare(playerModel: dev.olog.service.music.model.PlayerMediaEntity)
-    fun playNext(playerModel: dev.olog.service.music.model.PlayerMediaEntity, skipType: SkipType)
-    fun play(playerModel: dev.olog.service.music.model.PlayerMediaEntity)
+    fun prepare(playerModel: PlayerMediaEntity)
+    fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
+    fun play(playerModel: PlayerMediaEntity)
 
     fun resume()
     fun pause(stopService: Boolean, releaseFocus: Boolean = true)
