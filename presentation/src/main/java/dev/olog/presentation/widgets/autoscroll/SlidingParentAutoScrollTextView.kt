@@ -20,9 +20,11 @@ class SlidingParentAutoScrollTextView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        isSelected = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
-        slidingPanel.addPanelSlideListener(listener)
-        parentList?.addOnScrollListener(recyclerViewListener)
+        if (!isInEditMode){
+            isSelected = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+            slidingPanel.addPanelSlideListener(listener)
+            parentList?.addOnScrollListener(recyclerViewListener)
+        }
     }
 
     override fun onDetachedFromWindow() {

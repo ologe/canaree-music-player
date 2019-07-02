@@ -44,8 +44,10 @@ class LottieFavorite(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
-        slidingPanel.addPanelSlideListener(listener)
+        if (!isInEditMode){
+            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+            slidingPanel.addPanelSlideListener(listener)
+        }
     }
 
     override fun onDetachedFromWindow() {
