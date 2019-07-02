@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
@@ -30,8 +29,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @PerService
@@ -329,7 +330,8 @@ class MediaSessionCallback @Inject constructor(
     private fun updatePodcastPosition() {
         // TODO move somewhere else
         GlobalScope.launch {
-            queue.updatePodcastPosition(player.getBookmark())
+            val bookmark = withContext(Dispatchers.Main){ player.getBookmark() }
+            queue.updatePodcastPosition(bookmark)
         }
     }
 
