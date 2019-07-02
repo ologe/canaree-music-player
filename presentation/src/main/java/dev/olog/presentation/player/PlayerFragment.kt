@@ -67,14 +67,14 @@ class PlayerFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         list.adapter = adapter
         list.layoutManager = layoutManager
-        list.isNestedScrollingEnabled = false
+        list.setHasFixedSize(true)
 //        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/) TODO
 //        val touchHelper = ItemTouchHelper(callback)
 //        touchHelper.attachToRecyclerView(list)
 //        adapter.touchHelper = touchHelper
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        statusBar?.alpha = statusBarAlpha
+        statusBar.alpha = statusBarAlpha
 
         val playerAppearance = requireContext().hasPlayerAppearance()
         if (playerAppearance.isBigImage()) {
