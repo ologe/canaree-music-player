@@ -141,7 +141,7 @@ class MediaSessionCallback @Inject constructor(
         doWhenReady({
             updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-                val skipType = if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.RESTART else SkipType.SKIP_PREVIOUS
+                val skipType = if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS else SkipType.RESTART
                 player.playNext(metadata, skipType)
             }
         }, { context.toast("Something went wrong") })
