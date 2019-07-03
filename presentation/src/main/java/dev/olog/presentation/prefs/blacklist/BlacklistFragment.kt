@@ -7,11 +7,11 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.presentation.R
-
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.ctx
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.subscribe
 import dev.olog.shared.extensions.toast
 import javax.inject.Inject
@@ -27,14 +27,7 @@ class BlacklistFragment : BaseDialogFragment() {
     }
 
     @Inject lateinit var presenter: BlacklistFragmentPresenter
-    private lateinit var adapter : BlacklistFragmentAdapter
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.data.asLiveData()
-                .subscribe(this, adapter::updateDataSet)
-    }
+    private val adapter by lazyFast { BlacklistFragmentAdapter(lifecycle) }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
@@ -48,24 +41,28 @@ class BlacklistFragment : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list)
-        adapter = BlacklistFragmentAdapter()
         list.adapter = adapter
-        list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
+        list.layoutManager = GridLayoutManager(context, 3)
 
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    val allIsBlacklisted = adapter.data.all { it.isBlacklisted }
+                    val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
                     if (allIsBlacklisted){
                         showErrorMessage()
                     } else {
-                        presenter.setDataSet(adapter.data)
+                        presenter.saveBlacklisted(adapter.getData())
                         notifyMediaStore()
                         dismiss()
                     }
                 }
 
         return dialog
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        presenter.observeData()
+            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
     }
 
     private fun notifyMediaStore(){

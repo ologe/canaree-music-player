@@ -29,7 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:imageAlbum="@{item}"
+                app:imageAlbum="@{item.mediaId}"
                 tools:src="@drawable/placeholder_artist"
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>

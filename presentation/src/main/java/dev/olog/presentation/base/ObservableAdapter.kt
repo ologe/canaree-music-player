@@ -27,8 +27,11 @@ abstract class ObservableAdapter<T : BaseModel>(
     DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
 
-    protected val data = mutableListOf<T>()
+    protected val dataSet = mutableListOf<T>()
+
     private val channel = ConflatedBroadcastChannel<List<T>>()
+
+    fun getData(): List<T> = dataSet.toList()
 
     fun observeData(skipInitialValue: Boolean): Flow<List<T>> {
         if (skipInitialValue){
@@ -42,7 +45,7 @@ abstract class ObservableAdapter<T : BaseModel>(
         launch {
             for (list in channel.openSubscription()) {
                 assertBackgroundThread()
-                val diffCallback = AdapterDiffUtil(data, list, itemCallback)
+                val diffCallback = AdapterDiffUtil(dataSet, list, itemCallback)
                 yield()
                 val diff = DiffUtil.calculateDiff(diffCallback, false)
                 yield()
@@ -72,14 +75,14 @@ abstract class ObservableAdapter<T : BaseModel>(
     }
 
     fun getItem(position: Int): T? {
-        if (position in 0..data.size) {
-            return data[position]
+        if (position in 0..dataSet.size) {
+            return dataSet[position]
         }
         return null
     }
 
     fun indexOf(predicate: (T) -> Boolean): Int {
-        return data.indexOfFirst(predicate)
+        return dataSet.indexOfFirst(predicate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
@@ -92,12 +95,12 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = dataSet.size
 
-    override fun getItemViewType(position: Int): Int = data[position].type
+    override fun getItemViewType(position: Int): Int = dataSet[position].type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        val item = data[position]
+        val item = dataSet[position]
         bind(holder.binding, item, position)
         holder.binding.executePendingBindings()
     }
@@ -105,12 +108,12 @@ abstract class ObservableAdapter<T : BaseModel>(
     protected abstract fun bind(binding: ViewDataBinding, item: T, position: Int)
 
     fun updateDataSet(data: List<T>) {
-        launch { channel.send(data) }
+        channel.offer(data)
     }
 
     private fun updateDataSetInternal(data: List<T>) {
-        this.data.clear()
-        this.data.addAll(data)
+        this.dataSet.clear()
+        this.dataSet.addAll(data)
     }
 
 }

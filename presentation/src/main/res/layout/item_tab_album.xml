@@ -19,7 +19,7 @@
 
         <dev.olog.presentation.widgets.ShapeImageView
             android:id="@+id/cover"
-            app:imageAlbum="@{item}"
+            app:imageAlbum="@{item.mediaId}"
             tools:src="@drawable/placeholder_album"
             android:layout_width="0dp"
             android:layout_height="0dp"

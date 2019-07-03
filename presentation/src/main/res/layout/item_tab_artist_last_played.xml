@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:imageAlbum="@{item}"
+            app:imageAlbum="@{item.mediaId}"
             tools:src="@drawable/placeholder_artist" />
 
         <dev.olog.presentation.widgets.QuickActionView

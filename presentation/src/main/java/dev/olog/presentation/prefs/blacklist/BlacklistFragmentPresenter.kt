@@ -1,44 +1,50 @@
 package dev.olog.presentation.prefs.blacklist
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.extensions.mapToList
-import io.reactivex.Observable
+import dev.olog.presentation.model.BaseModel
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
     folderGateway: FolderGateway,
     private val appPreferencesUseCase: BlacklistPreferences
-) {
+) : CoroutineScope by MainScope() {
 
-    val data: Observable<List<BlacklistModel>> = Observable.just(folderGateway.getAllBlacklistedIncluded())
-        .mapToList { it.toDisplayableItem() }
-        .map { folders ->
+    private val data = MutableLiveData<List<BlacklistModel>>()
+
+    init {
+        launch(Dispatchers.Default) {
+            delay(100)
             val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
-            folders.map {
-                BlacklistModel(
-                    it,
-                    blacklisted.contains(it.subtitle!!.toLowerCase())
-                )
+            val folders = folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
+            withContext(Dispatchers.Main) {
+                data.value = folders
             }
         }
+    }
 
-    private fun Folder.toDisplayableItem(): DisplayableItem {
-        return DisplayableItem(
+    fun observeData(): LiveData<List<BlacklistModel>> = data
+
+    private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
+        return BlacklistModel(
             R.layout.dialog_blacklist_item,
             getMediaId(),
             this.title,
-            this.path
+            this.path,
+            blacklisted.contains(this.path.toLowerCase())
         )
     }
 
-    fun setDataSet(data: List<BlacklistModel>) {
+    fun saveBlacklisted(data: List<BlacklistModel>) {
         val blacklisted = data.filter { it.isBlacklisted }
-            .mapNotNull { it.displayableItem.subtitle }
+            .map { it.path }
             .toSet()
         appPreferencesUseCase.setBlackList(blacklisted)
     }
@@ -46,7 +52,10 @@ class BlacklistFragmentPresenter @Inject constructor(
 
 }
 
-class BlacklistModel(
-    val displayableItem: DisplayableItem,
+data class BlacklistModel(
+    override val type: Int,
+    override val mediaId: MediaId,
+    val title: String,
+    val path: String,
     var isBlacklisted: Boolean
-)
+) : BaseModel

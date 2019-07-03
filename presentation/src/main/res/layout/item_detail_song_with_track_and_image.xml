@@ -63,7 +63,7 @@
                     android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                     android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
                     tools:src="@drawable/placeholder_folder"
-                    app:imageSong="@{item}"/>
+                    app:imageSong="@{item.mediaId}"/>
 
                 <TextView
                     android:id="@+id/index"

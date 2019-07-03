@@ -49,7 +49,7 @@ object BindingsAdapter {
         )
         loadImageImpl(
             view,
-            displayableItem,
+            displayableItem.mediaId,
             OVERRIDE_SMALL
         )
     }
@@ -57,12 +57,11 @@ object BindingsAdapter {
     @JvmStatic
     private fun loadImageImpl(
         view: ImageView,
-        item: DisplayableItem,
+        mediaId: MediaId,
         override: Int,
         priority: Priority = Priority.HIGH,
         crossfade: Boolean = true){
 
-        val mediaId = item.mediaId
         val context = view.context
 
         GlideApp.with(context).clear(view)
@@ -84,43 +83,22 @@ object BindingsAdapter {
 
     @BindingAdapter("imageSong")
     @JvmStatic
-    fun loadSongImage(view: ImageView, item: DisplayableItem) {
+    fun loadSongImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
             view,
-            item,
+            mediaId,
             OVERRIDE_SMALL
-        )
-    }
-
-    @BindingAdapter("imageSong")
-    @JvmStatic
-    fun loadSongImage(view: ImageView, item: DisplayableQueueSong) {
-        loadImageImpl(
-            view,
-            DisplayableItem(item.type, item.mediaId, "", ""), OVERRIDE_SMALL
         )
     }
 
     @BindingAdapter("imageAlbum")
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, item: DisplayableItem) {
+    fun loadAlbumImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
             view,
-            item,
+            mediaId,
             OVERRIDE_MID,
             Priority.HIGH
-        )
-    }
-
-    @BindingAdapter("imageBigAlbum")
-    @JvmStatic
-    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(
-            view,
-            item,
-            Target.SIZE_ORIGINAL,
-            Priority.IMMEDIATE,
-            crossfade = false
         )
     }
 

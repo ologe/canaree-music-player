@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="item"
-            type="dev.olog.presentation.model.DisplayableItem"/>
+            type="dev.olog.presentation.prefs.blacklist.BlacklistModel"/>
         <variable name="isBlacklisted" type="boolean"/>
 
     </data>
@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:imageAlbum="@{item}"
+            app:imageAlbum="@{item.mediaId}"
             tools:src="@android:color/holo_red_dark"/>
 
         <FrameLayout
@@ -38,17 +38,16 @@
             app:layout_constraintEnd_toEndOf="@+id/cover"
             android:layout_height="0dp"
             android:layout_width="0dp"
-            android:background="#8000"
-            android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}">
+            android:background="?scrimBackground">
 
-            <ImageView
+            <dev.olog.presentation.widgets.LockView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/vd_lock"
                 android:tint="#FAFAFA"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}"/>
 
         </FrameLayout>
 
@@ -78,7 +77,7 @@
             app:layout_constraintEnd_toEndOf="parent"
 
             style="@style/Album.SecondaryText"
-            android:text="@{item.subtitle}"
+            android:text="@{item.path}"
 
             tools:text="@tools:sample/lorem"
             tools:visibility="visible"

@@ -31,7 +31,7 @@
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
                 tools:src="@drawable/placeholder_folder"
-                app:imageAlbum="@{item}" />
+                app:imageAlbum="@{item.mediaId}" />
 
             <TextView
                 android:id="@+id/firstText"
