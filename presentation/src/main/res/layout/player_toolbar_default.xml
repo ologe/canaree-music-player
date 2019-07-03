@@ -52,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.VolumeChangerView
         android:id="@+id/volume"
         android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"

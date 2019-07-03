@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
-import dev.olog.media.extractBookmark
-import dev.olog.media.isPlaying
 import dev.olog.presentation.R
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.AppConstants.PROGRESS_BAR_INTERVAL
@@ -52,6 +51,8 @@ class PlayerFragment : BaseFragment() {
     @Inject
     lateinit var navigator: Navigator
 
+    @Inject lateinit var musicPrefs: MusicPreferencesGateway
+
     private lateinit var layoutManager: LinearLayoutManager
 
     private lateinit var mediaProvider: MediaProvider
@@ -61,7 +62,8 @@ class PlayerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
-            navigator, viewModel, presenter
+            navigator, viewModel, presenter, musicPrefs
+
         )
 
         layoutManager = LinearLayoutManager(context)

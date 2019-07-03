@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
 import dev.olog.core.MediaId
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.*
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -39,7 +40,8 @@ class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
-    private val presenter: PlayerFragmentPresenter
+    private val presenter: PlayerFragmentPresenter,
+    private val musicPrefs: MusicPreferencesGateway
 
 ) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
 
@@ -82,6 +84,7 @@ class PlayerFragmentAdapter(
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
+                viewHolder.itemView.volume.musicPrefs = musicPrefs
             }
         }
 
