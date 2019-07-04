@@ -193,6 +193,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
+        // TODO when scrolling move toolbar and sliding panel out
         list.stopScroll()
 
         val scrollableItem = sidebar.scrollableLayoutId
