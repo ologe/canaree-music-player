@@ -4,7 +4,6 @@
 - playing queue fragment has index problems
 - for some reason is trying to dowload already tried to download images (check if still not working)
 - too many touches on player image view cause crash caused by ripple (check if still not working)
-- fix player swipe (fixed by disabling scrolling, improvove)
 - bottom navigation not showing last item when reopening the app
 - shuffle not working as intended in detail fragment
 
@@ -18,6 +17,7 @@
 
 ## DONE
 - fix android auto not working
+- fix player swipe
 
 
 
