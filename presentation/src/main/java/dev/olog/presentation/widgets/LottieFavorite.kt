@@ -65,6 +65,11 @@ class LottieFavorite(
         }
     }
 
+    fun toggleFavorite(){
+        this.state = this.state?.reverse()
+        animateFavorite(this.state == FavoriteEnum.FAVORITE)
+    }
+
     private fun animateFavorite(toFavorite: Boolean) {
         cancelAnimation()
         if (toFavorite) {
@@ -82,20 +87,8 @@ class LottieFavorite(
         this.state = favoriteEnum
 
         when (favoriteEnum) {
-            FavoriteEnum.FAVORITE -> {
-                if (isSlidingPanelExpanded) {
-                    animateFavorite(true)
-                } else {
-                    toggleFavorite(true)
-                }
-            }
-            FavoriteEnum.NOT_FAVORITE -> {
-                if (isSlidingPanelExpanded) {
-                    animateFavorite(false)
-                } else {
-                    toggleFavorite(false)
-                }
-            }
+            FavoriteEnum.FAVORITE -> toggleFavorite(true)
+            FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
         }
     }
 

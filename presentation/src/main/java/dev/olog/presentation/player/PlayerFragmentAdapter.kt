@@ -202,7 +202,10 @@ class PlayerFragmentAdapter(
         val view = holder.itemView
         view.repeat.setOnClickListener { mediaProvider.toggleRepeatMode() }
         view.shuffle.setOnClickListener { mediaProvider.toggleShuffleMode() }
-        view.favorite.setOnClickListener { mediaProvider.togglePlayerFavorite() }
+        view.favorite.setOnClickListener {
+            view.favorite.toggleFavorite()
+            mediaProvider.togglePlayerFavorite()
+        }
         view.lyrics.setOnClickListener { navigator.toOfflineLyrics() }
         view.next.setOnClickListener { mediaProvider.skipToNext() }
         view.playPause.setOnClickListener { mediaProvider.playPause() }
