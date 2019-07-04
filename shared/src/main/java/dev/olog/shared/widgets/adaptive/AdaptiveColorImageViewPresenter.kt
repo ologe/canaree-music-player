@@ -22,7 +22,7 @@ class AdaptiveColorImageViewPresenter(
         context.colorBackground(), context.textColorPrimary(), context.textColorSecondary()
     )
 
-    private val defaultPaletteColors = ValidPaletteColors(context.colorPrimary())
+    private val defaultPaletteColors = ValidPaletteColors(context.colorAccent())
 
     private val processorPalettePublisher = BehaviorSubject.createDefault<ProcessorColors>(defaultProcessorColors)
     private val palettePublisher = BehaviorSubject.createDefault<PaletteColors>(defaultPaletteColors)
@@ -42,7 +42,7 @@ class AdaptiveColorImageViewPresenter(
 
     fun onNextImage(drawable: Drawable?){
         try {
-            onNextImage(drawable?.toBitmap(300, 300))
+            onNextImage(drawable?.toBitmap())
         } catch (ex: Exception) {
             if (ex !is IllegalArgumentException){
                 ex.printStackTrace()
