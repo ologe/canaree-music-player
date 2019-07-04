@@ -1,11 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <attr name="cleanButtonColor" format="reference|color"/>
     <attr name="cleanTitleColor" format="reference|color"/>
     <attr name="cleanSeekBarColor" format="reference|color"/>
     <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
 
-    <attr name="colorScrim" format="reference|color"/>
     <attr name="colorPrimaryTransparent" format="reference" />
     <attr name="colorSwipeBackground" format="reference|color"/>
 
@@ -13,11 +12,11 @@
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
         <item name="colorSwipeBackground">@color/colorSwipeBackground</item>
-        <item name="colorScrim">@color/colorScrim</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
@@ -57,9 +56,9 @@
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabMode">scrollable</item>
         <item name="tabGravity">center</item>
-        <item name="tabSelectedTextColor">?colorPrimary</item>
+        <item name="tabSelectedTextColor">?colorAccent</item>
         <item name="tabTextColor">?colorControlNormal</item>
-        <item name="tabIndicatorColor">?colorPrimary</item>
+        <item name="tabIndicatorColor">?colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabUnboundedRipple">true</item>
@@ -104,7 +103,7 @@
 <!--    fab-->
     <style name="MaterialFab" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="fabSize">normal</item>
-        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
         <item name="tint">?attr/colorPrimaryTransparent</item>
     </style>
 

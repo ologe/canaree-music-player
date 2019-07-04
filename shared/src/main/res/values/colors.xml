@@ -3,6 +3,7 @@
 
     <color name="colorBackground">@android:color/white</color>
     <color name="colorPrimary">@color/defaultColorAccent</color>
+    <color name="colorAccent">@color/defaultColorAccent</color>
     <color name="colorSurface">@android:color/white</color>
     <color name="colorControlNormal">#606367</color>
     <color name="colorSwipeBackground">#c6c6c6</color>
@@ -20,11 +21,6 @@
     <color name="grey400">#BDBDBD</color>
     <color name="grey600">#757575</color>
 
-    <!--<item name="accent">#FF1744</item>-->
-    <color name="accent">@color/md_indigo_A400</color>
-
-    <color name="colorAccent">@color/accent</color>
-
     <color name="background">@android:color/white</color>
     <color name="background_accent">@color/dark_grey</color>
 
@@ -34,7 +30,7 @@
     <color name="button_secondary_tint">@color/button_primary_tint</color>
 
     <!--<color name="item_selected">#FF1744</color>-->
-    <color name="item_selected">@color/accent</color>
+    <color name="item_selected">?colorAccent</color>
 
     <!-- Colors for the Hover menu itself -->
     <color name="hover_selector_color">@android:color/white</color>
@@ -54,7 +50,5 @@
 
     <color name="transparent_white">#E6FFFFFF</color>
     <color name="transparent_black">#E6000000</color>
-
-    <color name="colorScrim">#8fff</color>
 
 </resources>

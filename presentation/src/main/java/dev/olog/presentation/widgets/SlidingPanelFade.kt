@@ -10,7 +10,6 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.dip
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.colorScrim
 import dev.olog.shared.extensions.scrimBackground
 
 class SlidingPanelFade(

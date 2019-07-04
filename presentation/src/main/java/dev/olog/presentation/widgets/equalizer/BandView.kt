@@ -90,7 +90,7 @@ class BandView (
                 normalWidth, LinearLayout.LayoutParams.MATCH_PARENT)
 
         view.layoutParams = params
-        view.setBackgroundColor(context.colorPrimary())
+        view.setBackgroundColor(context.colorAccent())
         view.alpha = getAlphaBasedOnPosition()
         view.elevation = resources.getDimension(R.dimen.eq_bar_elevation)
 

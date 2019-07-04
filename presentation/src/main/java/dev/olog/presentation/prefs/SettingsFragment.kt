@@ -121,7 +121,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
         accentColorChooser.setOnPreferenceClickListener {
             val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
             val key = getString(R.string.prefs_color_accent_key)
-            val defaultColor = ContextCompat.getColor(act, R.color.accent)
+            val defaultColor = ContextCompat.getColor(act, R.color.defaultColorAccent)
 
             MaterialDialog(act)
                     .colorChooser(

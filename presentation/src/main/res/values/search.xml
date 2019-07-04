@@ -35,6 +35,6 @@
     </plurals>
 
     <color name="search_item_hint_message">@color/textColorPrimary</color>
-    <color name="search_item_hint">@color/accent</color>
+    <color name="search_item_hint">?colorAccent</color>
 
 </resources>

@@ -5,8 +5,8 @@ import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import dev.olog.presentation.R
+import dev.olog.shared.extensions.colorAccent
 import dev.olog.shared.extensions.colorBackground
-import dev.olog.shared.extensions.colorPrimary
 import dev.olog.taptargetview.TapTarget
 import dev.olog.taptargetview.TapTargetSequence
 import dev.olog.taptargetview.TapTargetView
@@ -70,7 +70,7 @@ object TutorialTapTarget {
     }
 
     private fun TapTarget.tint(context: Context): TapTarget {
-        val accentColor = context.colorPrimary()
+        val accentColor = context.colorAccent()
         val backgroundColor = context.colorBackground()
 
         return this.tintTarget(true)

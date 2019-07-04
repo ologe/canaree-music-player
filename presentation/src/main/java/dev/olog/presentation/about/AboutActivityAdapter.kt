@@ -10,7 +10,7 @@ import dev.olog.presentation.base.ObservableAdapter
 import dev.olog.presentation.base.setOnClickListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.shared.extensions.colorPrimary
+import dev.olog.shared.extensions.colorAccent
 import kotlinx.android.synthetic.main.item_about.view.*
 
 
@@ -38,7 +38,7 @@ class AboutActivityAdapter(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         if (item.mediaId == AboutActivityPresenter.BUY_PRO) {
             val view = binding.root
-            view.title.setTextColor(ColorStateList.valueOf(view.context.colorPrimary()))
+            view.title.setTextColor(ColorStateList.valueOf(view.context.colorAccent()))
         }
         binding.setVariable(BR.item, item)
     }

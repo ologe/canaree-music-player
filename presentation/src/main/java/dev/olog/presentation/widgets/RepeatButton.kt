@@ -26,7 +26,7 @@ class RepeatButton(
 
     init {
         setImageResource(R.drawable.vd_repeat)
-        enabledColor = context.colorPrimary()
+        enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
             setColorFilter(getDefaultColor())

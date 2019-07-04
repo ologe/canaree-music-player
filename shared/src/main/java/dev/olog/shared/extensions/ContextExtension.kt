@@ -61,10 +61,6 @@ fun Context.vibrate(time: Long){
     }
 }
 
-fun Context.colorScrim(): Int {
-    return themeAttributeToColor(R.attr.colorScrim)
-}
-
 fun Context.scrimBackground(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
 }
@@ -87,6 +83,10 @@ fun Context.colorBackground():Int {
 
 fun Context.colorPrimary(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorPrimary)
+}
+
+fun Context.colorAccent(): Int {
+    return themeAttributeToColor(com.google.android.material.R.attr.colorAccent)
 }
 
 fun Context.colorControlNormal(): Int {

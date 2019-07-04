@@ -99,7 +99,7 @@ class AppPreferencesImpl @Inject constructor(
 
     private fun setDefaultAccentColor() {
         preferences.edit {
-            putInt(context.getString(R.string.prefs_color_accent_key), R.color.accent)
+            putInt(context.getString(R.string.prefs_color_accent_key), R.color.defaultColorAccent)
         }
     }
 

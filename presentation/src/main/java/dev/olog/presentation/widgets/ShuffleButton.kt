@@ -24,7 +24,7 @@ class ShuffleButton(
 
     init {
         setImageResource(R.drawable.vd_shuffle)
-        enabledColor = context.colorPrimary()
+        enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
             setColorFilter(getDefaultColor())
