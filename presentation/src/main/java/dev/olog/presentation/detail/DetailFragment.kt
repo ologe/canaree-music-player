@@ -19,7 +19,8 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.drag.OnStartDragListener
+import dev.olog.presentation.base.drag.DragListenerImpl
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
@@ -40,7 +41,7 @@ import kotlin.properties.Delegates
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
-    OnStartDragListener {
+    IDragListener by DragListenerImpl() {
 
     companion object {
         val TAG = DetailFragment::class.java.name
@@ -65,8 +66,6 @@ class DetailFragment : BaseFragment(),
         val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
-
-    private var itemTouchHelper: ItemTouchHelper? = null
 
     private val mostPlayedAdapter by lazyFast {
         DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
@@ -112,9 +111,7 @@ class DetailFragment : BaseFragment(),
         if (adapter.canSwipeRight) {
             swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
-        val callback = TouchHelperAdapterCallback(adapter, swipeDirections)
-        itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper!!.attachToRecyclerView(list)
+        setupDragListener(list, swipeDirections)
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
@@ -192,10 +189,6 @@ class DetailFragment : BaseFragment(),
 
         // setup for parallax
         list.setView(cover)
-    }
-
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        itemTouchHelper?.startDrag(viewHolder)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

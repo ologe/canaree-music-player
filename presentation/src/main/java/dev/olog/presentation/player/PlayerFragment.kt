@@ -7,7 +7,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -15,8 +17,9 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.base.drag.DragListenerImpl
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
@@ -24,7 +27,6 @@ import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.isMarshmallow
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -37,14 +39,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
 
-class PlayerFragment : BaseFragment() {
+class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast {
-        viewModelProvider<PlayerFragmentViewModel>(
-            viewModelFactory
-        )
+        viewModelProvider<PlayerFragmentViewModel>(viewModelFactory)
     }
     @Inject
     lateinit var presenter: PlayerFragmentPresenter
@@ -55,15 +55,15 @@ class PlayerFragment : BaseFragment() {
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    private lateinit var mediaProvider: MediaProvider
+    private val mediaProvider by lazyFast { act as MediaProvider }
 
     private var lyricsDisposable: Disposable? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
-            navigator, viewModel, presenter, musicPrefs
-
+            navigator, viewModel, presenter, musicPrefs, this
         )
 
         layoutManager = LinearLayoutManager(context)
@@ -71,10 +71,8 @@ class PlayerFragment : BaseFragment() {
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
         list.isNestedScrollingEnabled = false
-//        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/) TODO
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(list)
-//        adapter.touchHelper = touchHelper
+
+        setupDragListener(list, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar.alpha = statusBarAlpha
@@ -86,8 +84,6 @@ class PlayerFragment : BaseFragment() {
             set.connect(list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
             set.applyTo(view)
         }
-
-        mediaProvider = (activity as MediaProvider)
 
         mediaProvider.observeQueue()
             .map { it.map { it.toDisplayableItem() } }
@@ -122,6 +118,10 @@ class PlayerFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         lyricsDisposable.unsubscribe()
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+
     }
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {

@@ -1,8 +1,6 @@
 package dev.olog.presentation.detail.adapter
 
 
-import android.view.MotionEvent
-import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +14,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.*
-import dev.olog.presentation.base.drag.OnStartDragListener
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
@@ -39,7 +37,7 @@ internal class DetailFragmentAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
-    private val onStartDragListener: OnStartDragListener
+    private val dragListener: IDragListener
 ) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -67,13 +65,8 @@ internal class DetailFragmentAdapter(
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.itemView.findViewById<View>(R.id.dragHandle)
-                    ?.setOnTouchListener { _, event ->
-                        if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                            onStartDragListener.onStartDrag(viewHolder)
-                        }
-                        false
-                    }
+
+                viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
@@ -183,16 +176,7 @@ internal class DetailFragmentAdapter(
             return false
         }
 
-    override fun onMoved(from: Int, to: Int) {
-    }
-
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-    }
-
-    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-    }
-
-    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+    override fun canInteractWithViewHolder(viewType: Int): Boolean {
         if (mediaId.isPodcastPlaylist) {
             return false
         }
@@ -203,6 +187,10 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onClearView() {
+    }
+
+    override fun onMoved(from: Int, to: Int) {
+        notifyItemMoved(from ,to)
     }
 
     //    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }

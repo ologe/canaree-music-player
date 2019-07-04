@@ -10,13 +10,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.*
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.*
-import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -36,14 +38,16 @@ import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 
 class PlayerFragmentAdapter(
-    @FragmentLifecycle lifecycle: Lifecycle,
+    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter,
-    private val musicPrefs: MusicPreferencesGateway
+    private val musicPrefs: MusicPreferencesGateway,
+    private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem),
+    TouchableAdapter {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -69,7 +73,7 @@ class PlayerFragmentAdapter(
                 }
                 viewHolder.elevateAlbumOnTouch()
 
-//                viewHolder.setOnMoveListener(controller, touchHelper!!) TODO
+                viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
             }
             R.layout.player_layout_default,
             R.layout.player_layout_spotify,
@@ -430,11 +434,24 @@ class PlayerFragmentAdapter(
         binding.setVariable(BR.item, item)
     }
 
-//    override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) } TODO
-//
-//    override val onSwipeRightAction = { position: Int -> mediaProvider.removeRelative(position) }
-//
-//    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-//        return viewType == R.layout.item_mini_queue
-//    }
+    override fun canInteractWithViewHolder(viewType: Int): Boolean {
+        return viewType == R.layout.item_mini_queue
+    }
+
+    override fun onMoved(from: Int, to: Int) {
+        val realFrom = from - 1
+        val realTo = to - 1
+        mediaProvider.swapRelative(realFrom, realTo)
+        notifyItemMoved(from ,to)
+    }
+
+    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
+        val realPosition = viewHolder.adapterPosition - 1
+        mediaProvider.removeRelative(realPosition)
+    }
+
+    override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
+        notifyItemRemoved(viewHolder.adapterPosition)
+    }
+
 }

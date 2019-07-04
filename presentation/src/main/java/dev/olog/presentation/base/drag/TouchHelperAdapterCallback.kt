@@ -6,6 +6,10 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class TouchHelperAdapterCallback(
@@ -15,7 +19,7 @@ class TouchHelperAdapterCallback(
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
-) {
+), CoroutineScope by MainScope() {
 
     private val animationsController = TouchHelperAnimationController()
 
@@ -24,8 +28,8 @@ class TouchHelperAdapterCallback(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!! &&
-            adapter.canInteractWithViewHolder(target.itemViewType)!!
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType) &&
+            adapter.canInteractWithViewHolder(target.itemViewType)
         ) {
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
             return true
@@ -37,17 +41,29 @@ class TouchHelperAdapterCallback(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!) {
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
             return super.getSwipeDirs(recyclerView, viewHolder)
         }
         return 0
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!) {
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
             when (direction) {
-                ItemTouchHelper.RIGHT -> adapter.onSwipedRight(viewHolder)
-                ItemTouchHelper.LEFT -> adapter.onSwipedLeft(viewHolder)
+                ItemTouchHelper.RIGHT -> {
+                    launch {
+                        adapter.onSwipedRight(viewHolder)
+                        delay(250)
+                        adapter.afterSwipeRight(viewHolder)
+                    }
+                }
+                ItemTouchHelper.LEFT -> {
+                    launch {
+                        adapter.onSwipedLeft(viewHolder)
+                        delay(250)
+                        adapter.afterSwipeLeft(viewHolder)
+                    }
+                }
             }
         }
     }

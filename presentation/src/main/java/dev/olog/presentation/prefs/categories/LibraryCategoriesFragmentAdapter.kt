@@ -76,7 +76,7 @@ class LibraryCategoriesFragmentAdapter (
         throw IllegalStateException("operation not supported")
     }
 
-    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+    override fun canInteractWithViewHolder(viewType: Int): Boolean {
         return viewType == R.layout.item_library_categories
     }
 
