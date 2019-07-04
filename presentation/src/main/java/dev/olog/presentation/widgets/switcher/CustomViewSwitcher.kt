@@ -87,9 +87,8 @@ class CustomViewSwitcher(
         isFirstResource: Boolean
     ): Boolean {
         transitionToNext()
-        if (model is Drawable?){
-            // TODO check
-            presenter.onNextImage(model)
+        if (model is MediaId){
+            presenter.onNextImage(CoverUtils.getGradient(context, model))
         }
         return false
     }
