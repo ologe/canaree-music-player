@@ -8,10 +8,10 @@
 - fix player swipe  
 - add add to favorite in android auto
 - check if can use custom icons in android auto
-- not loading 'i punched keaku reaves' image, but it generates folder merged image (my device)
+- custom preset in equalizer
 
 ## DONE
-- check android auto
+- fix android auto not working
 
 ## Maybe
 - highlight playing song in every list
