@@ -45,6 +45,7 @@ dependencies {
     implementation lib_x.media
     implementation lib_x.browser
     implementation lib_x.preference
+    implementation lib_x.coordinator
     implementation "com.android.billingclient:billing:$rootProject.billing"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
 

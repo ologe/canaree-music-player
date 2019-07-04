@@ -30,7 +30,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -70,7 +70,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
-        list.isNestedScrollingEnabled = false
+//        list.isNestedScrollingEnabled = false
 
         setupDragListener(list, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/)
 
@@ -143,7 +143,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini
-            else -> R.layout.fragment_player
+            else -> R.layout.fragment_player_default
         }
     }
 
