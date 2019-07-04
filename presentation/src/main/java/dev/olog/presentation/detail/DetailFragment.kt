@@ -69,30 +69,16 @@ class DetailFragment : BaseFragment(),
     private var itemTouchHelper: ItemTouchHelper? = null
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(
-            lifecycle,
-            navigator,
-            act as MediaProvider
-        )
+        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(
-            lifecycle,
-            navigator,
-            act as MediaProvider
-        )
+        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(
-            lifecycle,
-            navigator
-        )
+        DetailRelatedArtistsAdapter(lifecycle, navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailAlbumsAdapter(
-            lifecycle,
-            navigator
-        )
+        DetailAlbumsAdapter(lifecycle, navigator)
     }
 
     private val adapter by lazyFast {
@@ -107,11 +93,7 @@ class DetailFragment : BaseFragment(),
         )
     }
 
-    private val recyclerOnScrollListener by lazyFast {
-        HeaderVisibilityScrollListener(
-            this
-        )
-    }
+    private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
@@ -175,7 +157,7 @@ class DetailFragment : BaseFragment(),
     }
 
     private fun loadImage(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             return
         }
         postponeEnterTransition()
