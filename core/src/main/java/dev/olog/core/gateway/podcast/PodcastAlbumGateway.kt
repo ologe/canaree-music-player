@@ -1,6 +1,7 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Album
+import dev.olog.core.gateway.base.*
 import kotlinx.coroutines.flow.Flow
 
 interface PodcastAlbumGateway :

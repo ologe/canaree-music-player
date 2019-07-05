@@ -5,8 +5,8 @@ import android.os.Bundle
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.GenreGateway
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.*
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway

@@ -12,6 +12,11 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.core.prefs.*
 import dev.olog.data.DataModule
 import dev.olog.data.PreferenceModule

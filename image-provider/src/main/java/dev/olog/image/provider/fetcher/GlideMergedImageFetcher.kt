@@ -6,9 +6,9 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.gateway.FolderGateway
-import dev.olog.core.gateway.GenreGateway
-import dev.olog.core.gateway.PlaylistGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.image.provider.creator.MergedImagesCreator
 import dev.olog.image.provider.executor.GlideScope
@@ -20,11 +20,11 @@ import java.io.File
 import java.io.InputStream
 
 class GlideMergedImageFetcher(
-        private val context: Context,
-        private val mediaId: MediaId,
-        private val folderGateway: FolderGateway,
-        private val playlistGateway: PlaylistGateway,
-        private val genreGateway: GenreGateway
+    private val context: Context,
+    private val mediaId: MediaId,
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val genreGateway: GenreGateway
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {

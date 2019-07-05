@@ -5,8 +5,8 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.PodcastGateway
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel

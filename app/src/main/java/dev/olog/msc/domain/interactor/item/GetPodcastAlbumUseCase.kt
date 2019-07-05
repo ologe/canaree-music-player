@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.item
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.interactor.base.ObservableUseCaseWithParam
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.map

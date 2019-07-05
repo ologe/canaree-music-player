@@ -1,6 +1,6 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
 import javax.inject.Inject
 
 class PodcastPositionUseCase @Inject constructor(

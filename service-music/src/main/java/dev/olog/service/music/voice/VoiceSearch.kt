@@ -4,7 +4,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.core.gateway.GenreGateway
+import dev.olog.core.gateway.track.GenreGateway
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asObservable

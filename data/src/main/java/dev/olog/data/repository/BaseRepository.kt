@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.BaseGateway
+import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope
 import dev.olog.shared.Permissions

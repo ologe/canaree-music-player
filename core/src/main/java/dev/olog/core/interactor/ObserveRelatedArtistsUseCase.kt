@@ -3,20 +3,20 @@ package dev.olog.core.interactor
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.gateway.FolderGateway
-import dev.olog.core.gateway.GenreGateway
-import dev.olog.core.gateway.PlaylistGateway
-import dev.olog.core.gateway.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class ObserveRelatedArtistsUseCase @Inject constructor(
-        private val folderGateway: FolderGateway,
-        private val playlistGateway: PlaylistGateway,
-        private val genreGateway: GenreGateway,
-        private val podcastPlaylistGateway: PodcastPlaylistGateway
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val genreGateway: GenreGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway
 
 ) : FlowUseCaseWithParam<List<Artist>, MediaId>() {
 

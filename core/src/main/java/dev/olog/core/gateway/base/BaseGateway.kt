@@ -1,9 +1,6 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.base
 
 import kotlinx.coroutines.flow.Flow
-
-typealias Id = Long
-typealias Path = String
 
 interface BaseGateway<T, Param> {
     fun getAll(): List<T>

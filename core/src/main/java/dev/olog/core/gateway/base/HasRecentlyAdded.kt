@@ -1,4 +1,4 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.base
 
 import kotlinx.coroutines.flow.Flow
 

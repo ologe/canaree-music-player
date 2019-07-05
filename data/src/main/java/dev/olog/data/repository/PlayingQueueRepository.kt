@@ -4,8 +4,8 @@ import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.PodcastGateway
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.dao.AppDatabase
 import io.reactivex.Completable

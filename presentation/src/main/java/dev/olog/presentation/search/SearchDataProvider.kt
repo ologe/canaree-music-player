@@ -4,6 +4,11 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.CustomScope
@@ -18,21 +23,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchDataProvider @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val searchHeaders: SearchFragmentHeaders,
-        private val folderGateway: FolderGateway,
-        private val playlistGateway2: PlaylistGateway,
-        private val songGateway: SongGateway,
-        private val albumGateway: AlbumGateway,
-        private val artistGateway: ArtistGateway,
-        private val genreGateway: GenreGateway,
+    @ApplicationContext private val context: Context,
+    private val searchHeaders: SearchFragmentHeaders,
+    private val folderGateway: FolderGateway,
+    private val playlistGateway2: PlaylistGateway,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val genreGateway: GenreGateway,
     // podcasts
-        private val podcastPlaylistGateway: PodcastPlaylistGateway,
-        private val podcastGateway: PodcastGateway,
-        private val podcastAlbumGateway: PodcastAlbumGateway,
-        private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastGateway: PodcastGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastArtistGateway: PodcastArtistGateway,
     // recent
-        private val recentSearchesGateway: RecentSearchesGateway
+    private val recentSearchesGateway: RecentSearchesGateway
 
 ) : CoroutineScope by CustomScope() {
 

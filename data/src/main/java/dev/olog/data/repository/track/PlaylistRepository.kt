@@ -3,7 +3,6 @@ package dev.olog.data.repository.track
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
@@ -11,10 +10,10 @@ import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PlaylistGateway
-import dev.olog.core.gateway.PlaylistOperations
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.track.PlaylistOperations
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
@@ -41,7 +40,8 @@ internal class PlaylistRepository @Inject constructor(
     appDatabase: AppDatabase,
     private val songGateway2: SongGateway,
     private val helper: PlaylistRepositoryHelper
-) : BaseRepository<Playlist, Id>(context), PlaylistGateway, PlaylistOperations by helper {
+) : BaseRepository<Playlist, Id>(context),
+    PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val queries = PlaylistQueries(contentResolver, blacklistPrefs, sortPrefs)

@@ -1,17 +1,17 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PlaylistGateway
-import dev.olog.core.gateway.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.core.entity.PlaylistType
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class InsertCustomTrackListToPlaylist @Inject constructor(
-        scheduler: IoScheduler,
-        private val playlistGateway: PlaylistGateway,
-        private val podcastPlaylistGateway: PodcastPlaylistGateway
+    scheduler: IoScheduler,
+    private val playlistGateway: PlaylistGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway
 
 ): CompletableUseCaseWithParam<InsertCustomTrackListRequest>(scheduler) {
 

@@ -1,6 +1,7 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.track
 
 import dev.olog.core.entity.track.Genre
+import dev.olog.core.gateway.base.*
 
 interface GenreGateway :
     BaseGateway<Genre, Id>,

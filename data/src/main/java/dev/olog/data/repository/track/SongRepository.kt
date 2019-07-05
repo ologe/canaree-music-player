@@ -13,8 +13,8 @@ import android.provider.MediaStore.Audio
 import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.mapper.toSong

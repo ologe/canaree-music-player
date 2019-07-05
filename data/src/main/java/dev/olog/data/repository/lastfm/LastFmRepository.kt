@@ -5,12 +5,13 @@ import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.*
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.repository.lastfm.LastFmLocalAlbum
-import dev.olog.data.repository.lastfm.LastFmLocalArtist
-import dev.olog.data.repository.lastfm.LastFmLocalTrack
 import dev.olog.data.utils.awaitRepeat
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.assertBackgroundThread

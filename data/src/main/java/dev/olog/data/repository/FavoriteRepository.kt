@@ -6,8 +6,8 @@ import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.PodcastGateway
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.AppDatabase
 import io.reactivex.Completable
 import io.reactivex.Observable

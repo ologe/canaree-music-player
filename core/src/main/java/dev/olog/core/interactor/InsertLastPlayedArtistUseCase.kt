@@ -1,8 +1,8 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.ArtistGateway
-import dev.olog.core.gateway.PodcastArtistGateway
+import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 

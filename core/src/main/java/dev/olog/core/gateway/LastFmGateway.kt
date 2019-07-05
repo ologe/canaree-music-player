@@ -3,6 +3,7 @@ package dev.olog.core.gateway
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
+import dev.olog.core.gateway.base.Id
 
 interface LastFmGateway {
     suspend fun mustFetchTrack(trackId: Id): Boolean

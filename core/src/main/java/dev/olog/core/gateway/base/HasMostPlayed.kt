@@ -1,4 +1,4 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.base
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song

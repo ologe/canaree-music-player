@@ -2,9 +2,9 @@ package dev.olog.msc.domain.interactor.dialog
 
 import dev.olog.core.MediaId
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PlaylistGateway
-import dev.olog.core.gateway.PodcastGateway
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import io.reactivex.Completable
@@ -12,11 +12,11 @@ import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class DeleteUseCase @Inject constructor(
-        scheduler: IoScheduler,
-        private val playlistGateway: PlaylistGateway,
-        private val podcastGateway: PodcastGateway,
-        private val songGateway: SongGateway,
-        private val getSongListByParamUseCase: ObserveSongListByParamUseCase
+    scheduler: IoScheduler,
+    private val playlistGateway: PlaylistGateway,
+    private val podcastGateway: PodcastGateway,
+    private val songGateway: SongGateway,
+    private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) : CompletableUseCaseWithParam<MediaId>(scheduler) {
 

@@ -1,6 +1,6 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.gateway.PlaylistGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.entity.PlaylistType
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
 import io.reactivex.Flowable

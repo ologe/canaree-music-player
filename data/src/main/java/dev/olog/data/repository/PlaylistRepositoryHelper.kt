@@ -10,7 +10,7 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.id
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.PlaylistOperations
+import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.getLong
 import io.reactivex.Completable

@@ -1,6 +1,7 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Playlist
+import dev.olog.core.gateway.base.*
 import io.reactivex.Completable
 import io.reactivex.Single
 

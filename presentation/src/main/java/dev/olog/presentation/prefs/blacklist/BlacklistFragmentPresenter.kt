@@ -6,11 +6,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.lazyFast
 import javax.inject.Inject
 

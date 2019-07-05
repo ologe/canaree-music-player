@@ -1,7 +1,7 @@
 package dev.olog.data.repository.lastfm
 
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.Id
+import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel

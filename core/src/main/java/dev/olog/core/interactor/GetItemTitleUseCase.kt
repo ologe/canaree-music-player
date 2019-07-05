@@ -4,7 +4,11 @@ import dev.olog.core.executor.IoScheduler
 import dev.olog.core.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx2.asObservable

@@ -7,7 +7,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.utils.assertBackgroundThread

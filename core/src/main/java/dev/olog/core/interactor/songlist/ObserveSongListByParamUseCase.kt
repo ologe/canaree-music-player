@@ -3,23 +3,27 @@ package dev.olog.core.interactor.songlist
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
 class ObserveSongListByParamUseCase @Inject constructor(
-        private val folderGateway: FolderGateway,
-        private val playlistGateway: PlaylistGateway,
-        private val songDataStore: SongGateway,
-        private val albumGateway: AlbumGateway,
-        private val artistGateway: ArtistGateway,
-        private val genreGateway: GenreGateway,
-        private val podcastPlaylistGateway: PodcastPlaylistGateway,
-        private val podcastGateway: PodcastGateway,
-        private val podcastAlbumGateway: PodcastAlbumGateway,
-        private val podcastArtistGateway: PodcastArtistGateway
+    private val folderGateway: FolderGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val songDataStore: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val genreGateway: GenreGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastGateway: PodcastGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val podcastArtistGateway: PodcastArtistGateway
 
 ) : FlowUseCaseWithParam<List<Song>, MediaId>() {
 

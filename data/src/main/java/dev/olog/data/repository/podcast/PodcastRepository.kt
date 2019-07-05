@@ -7,8 +7,8 @@ import android.provider.MediaStore
 import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PodcastGateway
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase

@@ -2,6 +2,11 @@ package dev.olog.data.repository
 
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.dao.RecentSearchesDao
 import io.reactivex.Completable
@@ -9,18 +14,18 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RecentSearchesRepository @Inject constructor(
-        appDatabase: AppDatabase,
-        private val songGateway: SongGateway,
-        private val albumGateway: AlbumGateway,
-        private val artistGateway: ArtistGateway,
-        private val playlistGateway: PlaylistGateway,
-        private val genreGateway: GenreGateway,
-        private val folderGateway: FolderGateway,
+    appDatabase: AppDatabase,
+    private val songGateway: SongGateway,
+    private val albumGateway: AlbumGateway,
+    private val artistGateway: ArtistGateway,
+    private val playlistGateway: PlaylistGateway,
+    private val genreGateway: GenreGateway,
+    private val folderGateway: FolderGateway,
 
-        private val podcastGateway: PodcastGateway,
-        private val podcastPlaylistGateway: PodcastPlaylistGateway,
-        private val podcastArtistGateway: PodcastArtistGateway,
-        private val podcastAlbumGateway: PodcastAlbumGateway
+    private val podcastGateway: PodcastGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway
 
 ) : RecentSearchesGateway {
 

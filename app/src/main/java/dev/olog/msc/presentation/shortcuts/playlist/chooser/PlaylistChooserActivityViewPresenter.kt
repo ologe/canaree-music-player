@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.shortcuts.playlist.chooser
 import android.content.res.Resources
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.core.gateway.PlaylistGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.mapToList

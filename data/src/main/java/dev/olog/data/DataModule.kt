@@ -3,6 +3,11 @@ package dev.olog.data
 import dagger.Binds
 import dagger.Module
 import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.LastFmRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository

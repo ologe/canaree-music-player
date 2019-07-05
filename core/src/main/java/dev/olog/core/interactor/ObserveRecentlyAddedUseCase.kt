@@ -3,8 +3,8 @@ package dev.olog.core.interactor
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.FolderGateway
-import dev.olog.core.gateway.GenreGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

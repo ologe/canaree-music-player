@@ -9,9 +9,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.Id
-import dev.olog.core.gateway.PodcastPlaylistGateway
-import dev.olog.data.R
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity

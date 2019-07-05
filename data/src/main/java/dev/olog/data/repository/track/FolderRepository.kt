@@ -8,9 +8,9 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.FolderGateway
-import dev.olog.core.gateway.Path
-import dev.olog.core.gateway.SongGateway
+import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.gateway.base.Path
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase

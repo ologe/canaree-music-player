@@ -1,9 +1,12 @@
-package dev.olog.core.gateway
+package dev.olog.core.gateway.podcast
 
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.base.BaseGateway
+import dev.olog.core.gateway.base.Id
 import io.reactivex.Completable
 
-interface PodcastGateway : BaseGateway<Song, Id> {
+interface PodcastGateway :
+    BaseGateway<Song, Id> {
 
     fun deleteSingle(id: Id): Completable
     fun deleteGroup(podcastList: List<Song>): Completable

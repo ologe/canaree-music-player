@@ -14,7 +14,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.FolderGateway
+import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.extensions.*

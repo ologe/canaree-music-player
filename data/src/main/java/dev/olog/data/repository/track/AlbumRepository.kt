@@ -6,9 +6,9 @@ import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.AlbumGateway
-import dev.olog.core.gateway.HasLastPlayed
-import dev.olog.core.gateway.Id
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.gateway.base.HasLastPlayed
+import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase

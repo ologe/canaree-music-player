@@ -13,7 +13,11 @@ import dev.olog.core.RecentSearchesTypes.PODCAST_PLAYLIST
 import dev.olog.core.RecentSearchesTypes.SONG
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
 import dev.olog.shared.extensions.assertBackground
 import io.reactivex.Completable
@@ -36,16 +40,16 @@ abstract class RecentSearchesDao {
     abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
 
     fun getAll(
-            songList: SongGateway,
-            albumList: AlbumGateway,
-            artistList: ArtistGateway,
-            playlistList: PlaylistGateway,
-            genreList: GenreGateway,
-            folderList: FolderGateway,
-            podcastList: PodcastGateway,
-            podcastPlaylistList: PodcastPlaylistGateway,
-            podcastAlbumList: PodcastAlbumGateway,
-            podcastArtistList: PodcastArtistGateway
+        songList: SongGateway,
+        albumList: AlbumGateway,
+        artistList: ArtistGateway,
+        playlistList: PlaylistGateway,
+        genreList: GenreGateway,
+        folderList: FolderGateway,
+        podcastList: PodcastGateway,
+        podcastPlaylistList: PodcastPlaylistGateway,
+        podcastAlbumList: PodcastAlbumGateway,
+        podcastArtistList: PodcastArtistGateway
     ): Flow<List<SearchResult>> {
 
         return getAllImpl()
