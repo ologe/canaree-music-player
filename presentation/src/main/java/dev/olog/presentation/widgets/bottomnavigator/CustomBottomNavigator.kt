@@ -23,6 +23,9 @@ class CustomBottomNavigator(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        val lastLibraryPage = presentationPrefs.getLastBottomViewPage()
+        selectedItemId = lastLibraryPage.toMenuId()
+
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
             val libraryPage = presentationPrefs.getLastLibraryPage()
