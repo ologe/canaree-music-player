@@ -167,7 +167,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="80dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/sliding_panel_peek"
         android:paddingStart="16dp"
         app:bubbleColor="@color/item_selected"
         app:handleColor="@color/dark_grey"
