@@ -3,10 +3,10 @@ package dev.olog.presentation.widgets.autoscroll
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.extensions.findParentByType
 import dev.olog.shared.extensions.lazyFast
 
 class SlidingParentAutoScrollTextView(
@@ -16,7 +16,7 @@ class SlidingParentAutoScrollTextView(
 
     private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
 
-    private val parentList: RecyclerView? by lazyFast { findParentRecyclerView() }
+    private val parentList: RecyclerView? by lazyFast { findParentByType<RecyclerView>() }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -31,18 +31,6 @@ class SlidingParentAutoScrollTextView(
         super.onDetachedFromWindow()
         slidingPanel.removePanelSlideListener(listener)
         parentList?.removeOnScrollListener(recyclerViewListener)
-    }
-
-    private fun findParentRecyclerView(): RecyclerView? {
-        var currentParent: ViewParent? = parent
-        var list: RecyclerView? = null
-        while (currentParent != null) {
-            if (currentParent is RecyclerView) {
-                list = currentParent
-            }
-            currentParent = currentParent.parent
-        }
-        return list
     }
 
     private val recyclerViewListener = object : RecyclerView.OnScrollListener() {

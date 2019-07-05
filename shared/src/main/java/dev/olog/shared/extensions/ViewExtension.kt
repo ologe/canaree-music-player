@@ -4,6 +4,7 @@ package dev.olog.shared.extensions
 
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -59,9 +60,9 @@ inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     }
 }
 
-fun View.setHeight(@Px heightPx: Int){
+fun View.setHeight(@Px heightPx: Int) {
     val params = this.layoutParams
-    when (params){
+    when (params) {
         is FrameLayout.LayoutParams -> params.height = heightPx
         is LinearLayout.LayoutParams -> params.height = heightPx
         is RelativeLayout.LayoutParams -> params.height = heightPx
@@ -71,9 +72,9 @@ fun View.setHeight(@Px heightPx: Int){
     layoutParams = params
 }
 
-fun View.setWidth(@Px heightPx: Int){
+fun View.setWidth(@Px heightPx: Int) {
     val params = this.layoutParams
-    when (params){
+    when (params) {
         is FrameLayout.LayoutParams -> params.width = heightPx
         is LinearLayout.LayoutParams -> params.width = heightPx
         is RelativeLayout.LayoutParams -> params.width = heightPx
@@ -83,11 +84,11 @@ fun View.setWidth(@Px heightPx: Int){
     layoutParams = params
 }
 
-fun ViewGroup.findChild(filter: (View) -> Boolean): View?{
-    var child : View? = null
+fun ViewGroup.findChild(filter: (View) -> Boolean): View? {
+    var child: View? = null
 
     forEachRecursively {
-        if (filter(it)){
+        if (filter(it)) {
             child = it
             return@forEachRecursively
         }
@@ -103,6 +104,17 @@ fun <T : View> View.findViewByIdNotRecursive(id: Int): T? {
                 return child as T
             }
         }
+    }
+    return null
+}
+
+inline fun <reified T : View> View.findParentByType(): T? {
+    var currentParent: ViewParent? = parent
+    while (currentParent != null) {
+        if (currentParent is T) {
+            return currentParent
+        }
+        currentParent = currentParent.parent
     }
     return null
 }

@@ -9,7 +9,6 @@ import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
@@ -61,24 +60,26 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val hasPlayerAppearance = requireContext().hasPlayerAppearance()
+
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
-            navigator, viewModel, presenter, musicPrefs, this
+            navigator, viewModel, presenter, musicPrefs,
+            this, IPlayerApperanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = LinearLayoutManager(context)
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
-//        list.isNestedScrollingEnabled = false // TODO
+        list.isNestedScrollingEnabled = false
 
         setupDragListener(list, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar.alpha = statusBarAlpha
 
-        val playerAppearance = requireContext().hasPlayerAppearance()
-        if (playerAppearance.isBigImage()) {
+        if (hasPlayerAppearance.isBigImage()) {
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -88,7 +89,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         mediaProvider.observeQueue()
             .map { it.map { it.toDisplayableItem() } }
             .map { queue ->
-                if (!playerAppearance.isMini()) {
+                if (!hasPlayerAppearance.isMini()) {
                     val copy = queue.toMutableList()
                     if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
                         copy.add(viewModel.footerLoadMore)
@@ -118,10 +119,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     override fun onStop() {
         super.onStop()
         lyricsDisposable.unsubscribe()
-    }
-
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-
     }
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {

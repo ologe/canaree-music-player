@@ -1,6 +1,5 @@
 package dev.olog.presentation.player
 
-import android.content.res.ColorStateList
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
@@ -37,19 +36,19 @@ import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 
-class PlayerFragmentAdapter(
+internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter,
     private val musicPrefs: MusicPreferencesGateway,
-    private val dragListener: IDragListener
+    private val dragListener: IDragListener,
+    private val playerApperanceAdaptiveBehavior: IPlayerApperanceAdaptiveBehavior
 
 ) : ObservableAdapter<DisplayableItem>(lifecycle,
     DiffCallbackDisplayableItem
-),
-    TouchableAdapter {
+), TouchableAdapter {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -112,91 +111,8 @@ class PlayerFragmentAdapter(
                 .subscribe(holder, viewModel::updatePaletteColors)
 
             bindPlayerControls(holder, view)
-        }
 
-        val view = holder.itemView
-
-        when (viewType) {
-            R.layout.player_layout_default,
-            R.layout.player_layout_spotify,
-            R.layout.player_layout_big_image,
-            R.layout.player_layout_clean -> {
-
-                viewModel.observePaletteColors()
-                    .map { it.accent }
-                    .asLiveData()
-                    .subscribe(holder) { accent ->
-                        view.artist.apply { animateTextColor(accent) }
-                        view.shuffle.updateSelectedColor(accent)
-                        view.repeat.updateSelectedColor(accent)
-                        view.seekBar.apply {
-                            thumbTintList = ColorStateList.valueOf(accent)
-                            progressTintList = ColorStateList.valueOf(accent)
-                        }
-                    }
-
-            }
-            R.layout.player_layout_flat -> {
-                viewModel.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder) { colors ->
-                        view.title.apply {
-                            animateTextColor(colors.primaryText)
-                            animateBackgroundColor(colors.background)
-                        }
-                        view.artist.apply {
-                            animateTextColor(colors.secondaryText)
-                            animateBackgroundColor(colors.background)
-                        }
-                    }
-
-                viewModel.observePaletteColors()
-                    .map { it.accent }
-                    .asLiveData()
-                    .subscribe(holder) { accent ->
-                        view.seekBar.apply {
-                            thumbTintList = ColorStateList.valueOf(accent)
-                            progressTintList = ColorStateList.valueOf(accent)
-                        }
-                        view.shuffle.updateSelectedColor(accent)
-                        view.repeat.updateSelectedColor(accent)
-                    }
-            }
-            R.layout.player_layout_fullscreen -> {
-                view.playPause.useLightImage()
-                view.next.useLightImage()
-                view.previous.useLightImage()
-
-                viewModel.observePaletteColors()
-                    .map { it.accent }
-                    .asLiveData()
-                    .subscribe(holder) { accent ->
-                        view.seekBar.apply {
-                            thumbTintList = ColorStateList.valueOf(accent)
-                            progressTintList = ColorStateList.valueOf(accent)
-                        }
-                        view.artist.animateTextColor(accent)
-                        view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
-                        view.shuffle.updateSelectedColor(accent)
-                        view.repeat.updateSelectedColor(accent)
-                    }
-            }
-            R.layout.player_layout_mini -> {
-                viewModel.observePaletteColors()
-                    .map { it.accent }
-                    .asLiveData()
-                    .subscribe(holder) { accent ->
-                        view.artist.apply { animateTextColor(accent) }
-                        view.shuffle.updateSelectedColor(accent)
-                        view.repeat.updateSelectedColor(accent)
-                        view.seekBar.apply {
-                            thumbTintList = ColorStateList.valueOf(accent)
-                            progressTintList = ColorStateList.valueOf(accent)
-                        }
-                        view.more.imageTintList = ColorStateList.valueOf(accent)
-                        view.lyrics.imageTintList = ColorStateList.valueOf(accent)
-                    }
-            }
+            playerApperanceAdaptiveBehavior(holder, viewModel)
         }
     }
 
@@ -447,6 +363,7 @@ class PlayerFragmentAdapter(
         val realFrom = from - 1
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
+        dataSet.swap(from, to)
         notifyItemMoved(from ,to)
     }
 
@@ -456,6 +373,7 @@ class PlayerFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
+        dataSet.removeAt(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
     }
 

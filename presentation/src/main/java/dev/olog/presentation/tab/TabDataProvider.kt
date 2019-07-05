@@ -4,6 +4,7 @@ import android.content.Context
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
 import dev.olog.shared.extensions.*
@@ -65,7 +66,7 @@ internal class TabDataProvider @Inject constructor(
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
         }.combineLatest(
-            flowOf(playlistGateway.getAllAutoPlaylists().map { it.toTabDisplayableItem(resources) }.startWith(headers.autoPlaylistHeader))
+            flowOf(playlistGateway.getAllAutoPlaylists().map { it.toAutoPlaylist() }.startWith(headers.autoPlaylistHeader))
         ) { all, auto ->
             auto + all
         }

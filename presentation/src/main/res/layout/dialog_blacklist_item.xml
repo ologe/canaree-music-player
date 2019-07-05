@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="dev.olog.presentation.prefs.blacklist.BlacklistModel" />
@@ -15,53 +15,72 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        tools:layout_width="match_parent">
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:checked="@{item.blacklisted}"/>
+        tools:layout_width="150dp">
 
         <dev.olog.presentation.widgets.ShapeImageView
             android:id="@+id/cover"
-            android:layout_width="@dimen/item_song_cover_size"
-            android:layout_height="@dimen/item_song_cover_size"
-            app:imageSong="@{item.mediaId}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:imageAlbum="@{item.mediaId}"
             app:layout_constraintDimensionRatio="1"
-            app:layout_constraintStart_toEndOf="@+id/checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@android:color/holo_red_dark" />
 
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#8000"
+            android:visibility="@{item.blacklisted ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/cover">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/vd_lock"
+                android:tint="#FAFAFA" />
+
+        </FrameLayout>
+
         <TextView
             android:id="@+id/firstText"
-            style="@style/Song.MainText"
+            style="@style/Album.MainText"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:maxLines="1"
+            android:singleLine="true"
+
             android:text="@{item.title}"
-            app:layout_constraintBottom_toTopOf="@+id/secondText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cover"
-            app:layout_constraintTop_toTopOf="@+id/cover"
-            tools:text="Hip Hop"
-            android:layout_marginEnd="8dp"/>
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
+            tools:text="Hip hop" />
 
         <TextView
             android:id="@+id/secondText"
-            style="@style/Song.SecondaryText"
+            style="@style/Album.SecondaryText"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:text="@{item.displayablePath}"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
-            app:layout_constraintEnd_toEndOf="@+id/firstText"
-            app:layout_constraintStart_toStartOf="@+id/firstText"
+            android:ellipsize="start"
+            android:singleLine="true"
+
+            android:text="@{item.path}"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/firstText"
-            tools:text="/storage/emulated/0/musica/folder/folder/folder/hip hop"
-            android:ellipsize="start"/>
+            tools:text="/folder/folder/musica/download" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

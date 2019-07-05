@@ -2,6 +2,7 @@ package dev.olog.presentation.prefs.blacklist
 
 import android.provider.MediaStore
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
@@ -36,7 +37,7 @@ class BlacklistFragment : ListDialog() {
         GlobalScope.launch {
             adapter = BlacklistFragmentAdapter(presenter.data)
             list.adapter = adapter
-            list.layoutManager = LinearLayoutManager(context)
+            list.layoutManager = GridLayoutManager(context, 3)
         }
     }
 
