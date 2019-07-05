@@ -12,7 +12,7 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.presentation.base.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.shared.extensions.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*

@@ -4,10 +4,10 @@ import android.content.res.ColorStateList
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BR
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.shared.extensions.colorAccent
@@ -19,7 +19,9 @@ class AboutActivityAdapter(
     private val navigator: NavigatorAbout,
     private val presenter: AboutActivityPresenter
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

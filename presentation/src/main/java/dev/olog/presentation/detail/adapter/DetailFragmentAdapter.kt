@@ -13,7 +13,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.detail.DetailFragmentHeaders
@@ -38,7 +38,9 @@ internal class DetailFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

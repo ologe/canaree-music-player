@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.presentation.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.presentation.model.DisplayableItem

@@ -5,10 +5,10 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
-import dev.olog.presentation.base.setOnLongClickListener
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator

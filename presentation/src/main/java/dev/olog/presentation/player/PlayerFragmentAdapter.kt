@@ -16,7 +16,7 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.*
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.HasSlidingPanel
@@ -46,7 +46,9 @@ class PlayerFragmentAdapter(
     private val musicPrefs: MusicPreferencesGateway,
     private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem),
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+),
     TouchableAdapter {
 
     private val playerViewTypes = listOf(

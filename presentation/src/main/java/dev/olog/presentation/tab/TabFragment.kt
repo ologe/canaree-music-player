@@ -14,7 +14,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.ObservableAdapter
+import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator

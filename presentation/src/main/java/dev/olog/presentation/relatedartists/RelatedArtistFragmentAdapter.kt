@@ -3,7 +3,7 @@ package dev.olog.presentation.relatedartists
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BR
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -13,7 +13,9 @@ class RelatedArtistFragmentAdapter @Inject constructor(
     @FragmentLifecycle lifecycle: Lifecycle,
     private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+) {
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {

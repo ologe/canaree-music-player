@@ -4,9 +4,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.presentation.BR
-import dev.olog.presentation.base.DataBoundViewHolder
-import dev.olog.presentation.base.ObservableAdapter
-import dev.olog.presentation.base.setOnClickListener
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.adapter.setOnClickListener
 
 class BlacklistFragmentAdapter(
     lifecycle: Lifecycle

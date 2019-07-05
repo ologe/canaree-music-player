@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.presentation.base.adapter
 
 import android.view.MotionEvent
 import android.view.View

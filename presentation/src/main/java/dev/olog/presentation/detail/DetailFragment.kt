@@ -18,10 +18,9 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.ObservableAdapter
+import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchHelperAdapterCallback
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList

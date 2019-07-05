@@ -7,7 +7,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.search.SearchFragmentViewModel
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -19,7 +19,9 @@ class SearchFragmentAdapter (
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){

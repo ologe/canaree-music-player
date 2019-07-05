@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -16,7 +16,9 @@ class RecentlyAddedFragmentAdapter @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(lifecycle,
+    DiffCallbackDisplayableItem
+) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

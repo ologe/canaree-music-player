@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.presentation.base.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -45,7 +45,8 @@ abstract class ObservableAdapter<T : BaseModel>(
         launch {
             for (list in channel.openSubscription()) {
                 assertBackgroundThread()
-                val diffCallback = AdapterDiffUtil(dataSet, list, itemCallback)
+                val diffCallback =
+                    AdapterDiffUtil(dataSet, list, itemCallback)
                 yield()
                 val diff = DiffUtil.calculateDiff(diffCallback, false)
                 yield()

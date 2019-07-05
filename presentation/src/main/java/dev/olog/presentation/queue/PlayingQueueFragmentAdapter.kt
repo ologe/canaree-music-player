@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
-import dev.olog.presentation.base.*
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.textColorPrimary

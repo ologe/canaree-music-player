@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.presentation.base.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
