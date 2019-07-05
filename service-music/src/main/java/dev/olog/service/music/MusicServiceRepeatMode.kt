@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 @PerService
-class RepeatMode @Inject constructor(
+class MusicServiceRepeatMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
         private val musicPreferencesUseCase: MusicPreferencesGateway
 

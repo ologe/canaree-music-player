@@ -8,7 +8,7 @@ import dev.olog.injection.dagger.PerService
 import javax.inject.Inject
 
 @PerService
-class ShuffleMode @Inject constructor(
+class MusicServiceShuffleMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
         private val musicPreferencesUseCase: MusicPreferencesGateway
 ) {

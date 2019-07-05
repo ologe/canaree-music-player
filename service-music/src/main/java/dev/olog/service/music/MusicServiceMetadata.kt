@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
-class PlayerMetadata @Inject constructor(
+class MusicServiceMetadata @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,

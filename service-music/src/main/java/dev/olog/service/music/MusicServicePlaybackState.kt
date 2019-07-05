@@ -17,7 +17,7 @@ import dev.olog.shared.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
 
 @PerService
-class PlayerState @Inject constructor(
+class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway

@@ -6,7 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.service.music.PlayerState
+import dev.olog.service.music.MusicServicePlaybackState
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MediaSessionQueueModel
 import dev.olog.shared.extensions.unsubscribe
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSession: MediaSessionCompat,
-    private val playerState: PlayerState
+    private val playerState: MusicServicePlaybackState
 
 ) : DefaultLifecycleObserver {
 

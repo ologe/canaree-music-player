@@ -6,7 +6,6 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
@@ -29,7 +28,6 @@ import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
-import dev.olog.shared.extensions.toast
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +49,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     @Inject
     lateinit var currentSong: CurrentSong
     @Inject
-    lateinit var playerMetadata: PlayerMetadata
+    lateinit var playerMetadata: MusicServiceMetadata
     @Inject
     lateinit var notification: MusicNotificationManager
     @Inject

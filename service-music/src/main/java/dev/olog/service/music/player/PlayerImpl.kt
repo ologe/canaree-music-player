@@ -8,7 +8,7 @@ import dagger.Lazy
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
-import dev.olog.service.music.PlayerState
+import dev.olog.service.music.MusicServicePlaybackState
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
-    private val playerState: PlayerState,
+    private val playerState: MusicServicePlaybackState,
     private val noisy: Lazy<Noisy>,
     private val serviceLifecycle: ServiceLifecycleController,
     private val audioFocus : AudioFocusBehavior,

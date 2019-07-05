@@ -32,7 +32,7 @@ class QueueManager @Inject constructor(
     private val queueImpl: QueueImpl,
     private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val shuffleMode: dev.olog.service.music.ShuffleMode,
+    private val shuffleMode: dev.olog.service.music.MusicServiceShuffleMode,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
     private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,

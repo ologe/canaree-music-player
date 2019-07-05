@@ -41,10 +41,10 @@ class MediaSessionCallback @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val queue: Queue,
     private val player: Player,
-    private val repeatMode: RepeatMode,
-    private val shuffleMode: ShuffleMode,
+    private val repeatMode: MusicServiceRepeatMode,
+    private val shuffleMode: MusicServiceShuffleMode,
     private val mediaButton: MediaButton,
-    private val playerState: PlayerState,
+    private val playerState: MusicServicePlaybackState,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
 ) : MediaSessionCompat.Callback(), DefaultLifecycleObserver {

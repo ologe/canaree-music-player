@@ -35,7 +35,7 @@ const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 class QueueImpl @Inject constructor(
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
-    private val repeatMode: dev.olog.service.music.RepeatMode,
+    private val repeatMode: dev.olog.service.music.MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val queueMediaSession: MediaSessionQueue,
     private val songGateway: SongGateway,
