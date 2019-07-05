@@ -26,6 +26,8 @@ class CustomViewSwitcher(
     attrs: AttributeSet
 ) : ViewSwitcher(context, attrs), RequestListener<Drawable> {
 
+    private var lastItem: MediaId? = null
+
     private val presenter by lazyFast { AdaptiveColorImageViewPresenter(context) }
 
     private enum class Direction {
@@ -54,6 +56,11 @@ class CustomViewSwitcher(
     }
 
     fun loadImage(metadata: PlayerMetadata){
+        if (lastItem == metadata.mediaId){
+            return
+        }
+        lastItem = metadata.mediaId
+
         currentDirection = when {
             metadata.isSkippingToNext -> Direction.RIGHT
             metadata.isSkippingToPrevious -> Direction.LEFT
