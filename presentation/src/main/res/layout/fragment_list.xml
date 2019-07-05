@@ -17,8 +17,6 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/dialog_blacklist_item"
-        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:spanCount="2"
         android:requiresFadingEdge="vertical"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"/>

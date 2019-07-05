@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentTransaction
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -103,6 +104,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
             act.fragmentTransaction {
                 setReorderingAllowed(true)
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             }
             true
         }

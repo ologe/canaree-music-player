@@ -13,6 +13,7 @@
 - add add to favorite in android auto
 - check if can use custom icons in android auto
 - custom preset in equalizer
+- add a flag in update item that sets the track as podcast // overriding IS_PODCAST column
 
 
 ## DONE

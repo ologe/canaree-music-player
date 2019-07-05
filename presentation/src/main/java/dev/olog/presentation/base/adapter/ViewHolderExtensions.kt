@@ -63,14 +63,8 @@ fun RecyclerView.ViewHolder.setOnDragListener(dragHandleId: Int, dragListener: I
     itemView.findViewById<View>(dragHandleId)?.setOnTouchListener { view, event ->
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-//                (view.parent.parent).requestDisallowInterceptTouchEvent(false)
                 dragListener.onStartDrag(this)
                 true
-            }
-            MotionEvent.ACTION_UP,
-            MotionEvent.ACTION_CANCEL -> {
-//                (view.parent.parent).requestDisallowInterceptTouchEvent(true)
-                false
             }
             else -> false
         }

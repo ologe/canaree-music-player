@@ -1,86 +1,59 @@
 package dev.olog.presentation.prefs.categories
 
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-
-import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.adapter.SimpleAdapter
+import dev.olog.presentation.base.adapter.setOnDragListener
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.shared.extensions.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LibraryCategoriesFragmentAdapter (
-        val data: MutableList<LibraryCategoryBehavior>
-
-) : RecyclerView.Adapter<DataBoundViewHolder>(),
+        data: List<LibraryCategoryBehavior>,
+        private val dragListener: IDragListener
+) : SimpleAdapter<LibraryCategoryBehavior>(data.toMutableList()),
     TouchableAdapter {
 
-    var touchHelper: ItemTouchHelper? = null
-
-    override fun getItemCount(): Int = data.size
+    private var job: Job? = null
 
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
-    override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        holder.binding.setVariable(BR.item, data[position])
-        holder.binding.executePendingBindings()
+    override fun bind(binding: ViewDataBinding, item: LibraryCategoryBehavior, position: Int) {
+        binding.setVariable(BR.item, dataSet[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(binding)
-        initViewHolderListeners(viewHolder)
-        return viewHolder
-    }
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+        viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
 
-    private fun initViewHolderListeners(viewHolder: DataBoundViewHolder){
-        viewHolder.itemView.findViewById<View>(R.id.dragHandle).setOnTouchListener { _, event ->
-            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                touchHelper?.startDrag(viewHolder)
-                true
-            } else false
-        }
         viewHolder.itemView.setOnClickListener {
-            val item = data[viewHolder.adapterPosition]
-            item.visible = !item.visible
-            viewHolder.itemView.checkBox.isChecked = item.visible
+            getItem(viewHolder.adapterPosition)?.let { item ->
+                item.visible = !item.visible
+                viewHolder.itemView.checkBox.isChecked = item.visible
+            }
         }
-    }
-
-    fun updateDataSet(list: List<LibraryCategoryBehavior>){
-        this.data.clear()
-        this.data.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    override fun onMoved(from: Int, to: Int) {
-        data.swap(from, to)
-        data.forEachIndexed { index, item -> item.order = index }
-        notifyItemMoved(from, to)
-    }
-
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        throw IllegalStateException("operation not supported")
-    }
-
-    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-        throw IllegalStateException("operation not supported")
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {
         return viewType == R.layout.item_library_categories
     }
 
-    override fun onClearView() {
+    override fun onMoved(from: Int, to: Int) {
+        job?.cancel()
+        job = GlobalScope.launch {
+            delay(200)
+            dataSet.forEachIndexed { index, item -> item.order = index }
+        }
 
+        dataSet.swap(from, to)
+        notifyItemMoved(from, to)
     }
 }

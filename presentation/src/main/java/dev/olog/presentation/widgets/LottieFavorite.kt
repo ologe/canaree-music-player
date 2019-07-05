@@ -39,6 +39,12 @@ class LottieFavorite(
 
             scaleX = 1.15f
             scaleY = 1.15f
+        } else {
+            // design time
+            setAnimation("favorite.json")
+
+            scaleX = 1.15f
+            scaleY = 1.15f
         }
     }
 

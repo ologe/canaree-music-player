@@ -1,22 +1,16 @@
 package dev.olog.presentation.prefs.blacklist
 
-import android.app.Dialog
-import android.content.DialogInterface
-import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.extensions.ctx
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.subscribe
+import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.extensions.toast
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class BlacklistFragment : BaseDialogFragment() {
+class BlacklistFragment : ListDialog() {
 
     companion object {
         const val TAG = "BlacklistFragment"
@@ -27,42 +21,34 @@ class BlacklistFragment : BaseDialogFragment() {
     }
 
     @Inject lateinit var presenter: BlacklistFragmentPresenter
-    private val adapter by lazyFast { BlacklistFragmentAdapter(lifecycle) }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity!!)
-        val view : View = inflater.inflate(R.layout.fragment_list, null, false)
+    private lateinit var adapter: BlacklistFragmentAdapter
 
-        val builder = AlertDialog.Builder(ctx)
-                .setTitle(R.string.prefs_blacklist_title)
-                .setMessage(R.string.prefs_blacklist_description)
-                .setView(view)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_save, null)
-
-        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list)
-        list.adapter = adapter
-        list.layoutManager = GridLayoutManager(context, 3)
-
-        val dialog = builder.show()
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
-                    if (allIsBlacklisted){
-                        showErrorMessage()
-                    } else {
-                        presenter.saveBlacklisted(adapter.getData())
-                        notifyMediaStore()
-                        dismiss()
-                    }
-                }
-
-        return dialog
+    override fun setupBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return builder
+            .setTitle(R.string.prefs_blacklist_title)
+            .setMessage(R.string.prefs_blacklist_description)
+            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(R.string.popup_positive_save, null)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+    override fun setupRecyclerView(list: RecyclerView) {
+        GlobalScope.launch {
+            adapter = BlacklistFragmentAdapter(presenter.data)
+            list.adapter = adapter
+            list.layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    override fun positiveAction() {
+        val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
+        if (allIsBlacklisted){
+            showErrorMessage()
+        } else {
+            presenter.saveBlacklisted(adapter.getData())
+            notifyMediaStore()
+            dismiss()
+        }
     }
 
     private fun notifyMediaStore(){

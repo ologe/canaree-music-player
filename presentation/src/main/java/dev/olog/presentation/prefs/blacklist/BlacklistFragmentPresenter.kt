@@ -1,7 +1,6 @@
 package dev.olog.presentation.prefs.blacklist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.os.Environment
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.getMediaId
@@ -9,28 +8,18 @@ import dev.olog.core.gateway.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import kotlinx.coroutines.*
+import dev.olog.shared.extensions.lazyFast
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
     folderGateway: FolderGateway,
     private val appPreferencesUseCase: BlacklistPreferences
-) : CoroutineScope by MainScope() {
+) {
 
-    private val data = MutableLiveData<List<BlacklistModel>>()
-
-    init {
-        launch(Dispatchers.Default) {
-            delay(100)
-            val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
-            val folders = folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
-            withContext(Dispatchers.Main) {
-                data.value = folders
-            }
-        }
+    val data : List<BlacklistModel> by lazyFast {
+        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
+        folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
     }
-
-    fun observeData(): LiveData<List<BlacklistModel>> = data
 
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
         return BlacklistModel(
@@ -58,4 +47,13 @@ data class BlacklistModel(
     val title: String,
     val path: String,
     var isBlacklisted: Boolean
-) : BaseModel
+) : BaseModel {
+
+    companion object {
+        private val defaultStorageDir = Environment.getExternalStorageDirectory().path ?: "/storage/emulated/0/"
+    }
+
+    // show the path without "/storage/emulated/0"
+    val displayablePath = path.substring(defaultStorageDir.length)
+
+}
