@@ -9,7 +9,6 @@ import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
-import dev.olog.media.isPlaying
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.shared.Classes
 import dev.olog.shared.WidgetConstants
@@ -121,7 +120,7 @@ class MusicServicePlaybackState @Inject constructor(
                 0f
             )
         } else {
-            val stateSpeed = if (currentState.isPlaying()) speed else 0f
+            val stateSpeed = if (currentState.state == PlaybackStateCompat.STATE_PLAYING) speed else 0f
             builder.setState(currentState.state, currentState.position, stateSpeed)
         }
         mediaSession.setPlaybackState(builder.build())

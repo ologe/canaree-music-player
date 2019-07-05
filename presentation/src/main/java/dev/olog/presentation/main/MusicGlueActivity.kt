@@ -3,7 +3,6 @@ package dev.olog.presentation.main
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -16,6 +15,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.MediaExposer
 import dev.olog.media.MediaProvider
 import dev.olog.media.connection.OnConnectionChanged
+import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.MusicConstants
@@ -85,21 +85,18 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<MediaMetadataCompat> = mediaExposer.observeMetadata()
+    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
 
-    override fun observePlaybackState(): LiveData<PlaybackStateCompat> =
+    override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
         mediaExposer.observePlaybackState()
 
-    override fun observeRepeat(): LiveData<Int> = mediaExposer.observeRepeat()
+    override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
 
-    override fun observeShuffle(): LiveData<Int> = mediaExposer.observeShuffle()
+    override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
 
     override fun observeQueueTitle(): LiveData<String> = mediaExposer.observeQueueTitle()
 
-    override fun observeExtras(): LiveData<Bundle> = mediaExposer.observeExtras()
-
-    override fun observeQueue(): Flow<List<MediaSessionCompat.QueueItem>> =
-        mediaExposer.observeQueue()
+    override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
 
     private fun mediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)

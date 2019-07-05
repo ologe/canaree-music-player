@@ -1,14 +1,13 @@
 package dev.olog.presentation.offlinelyrics
 
 import android.content.Intent
-import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import dev.olog.media.*
 import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
@@ -53,12 +52,12 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         mediaProvider.observeMetadata()
             .subscribe(viewLifecycleOwner) {
-                presenter.updateCurrentTrackId(it.getId())
-                presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
-                image.loadImage(it)
-                header.text = it.getTitle()
-                subHeader.text = it.getArtist()
-                seekBar.max = it.getDuration().toInt()
+                presenter.updateCurrentTrackId(it.id)
+                presenter.updateCurrentMetadata(it.title, it.artist)
+                image.loadImage(it.mediaId)
+                header.text = it.title
+                subHeader.text = it.artist
+                seekBar.max = it.duration.toInt()
             }
 
         presenter.observeLyrics()
@@ -72,7 +71,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }
 
         mediaProvider.observePlaybackState()
-            .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
+            .filter { it.isPlayOrPause }
             .subscribe(viewLifecycleOwner) { seekBar.onStateChanged(it) }
 
         view.image.observePaletteColors()

@@ -1,12 +1,12 @@
 package dev.olog.presentation.playermini
 
 import android.os.Bundle
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.media.*
+import dev.olog.core.MediaId
+import dev.olog.media.model.PlayerState
+import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
@@ -15,15 +15,12 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class MiniPlayerFragment : BaseFragment(){
@@ -50,17 +47,17 @@ class MiniPlayerFragment : BaseFragment(){
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
-                    title.text = it.getTitle()
-                    presenter.startShowingLeftTime(it.isPodcast(), it.getDuration())
-                    if (!it.isPodcast()){
-                        artist.text = it.getArtist()
+                    title.text = it.title
+                    presenter.startShowingLeftTime(it.isPodcast, it.duration)
+                    if (!it.isPodcast){
+                        artist.text = it.artist
                     }
-                    updateProgressBarMax(it.getDuration())
-                    updateImage(it)
+                    updateProgressBarMax(it.duration)
+                    updateImage(it.mediaId)
                 }
 
         media.observePlaybackState()
-                .filter { it.isPlaying()|| it.isPaused() }
+                .filter { it.isPlaying|| it.isPaused }
                 .distinctUntilChanged()
                 .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
 
@@ -72,24 +69,22 @@ class MiniPlayerFragment : BaseFragment(){
         }
 
         media.observePlaybackState()
-                .map { it.state }
-                .filter { it == PlaybackStateCompat.STATE_PLAYING ||
-                        it == PlaybackStateCompat.STATE_PAUSED
-                }.distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) { state ->
-                    if (state == PlaybackStateCompat.STATE_PLAYING){
-                        playAnimation(true)
-                    } else {
-                        pauseAnimation(true)
-                    }
+            .filter { it.isPlayOrPause }
+            .map { it.state }
+            .distinctUntilChanged()
+            .subscribe(viewLifecycleOwner) { state ->
+                when (state){
+                    PlayerState.PLAYING -> playAnimation(true)
+                    PlayerState.PAUSED -> pauseAnimation(true)
+                    else -> throw IllegalArgumentException("invalid state $state")
                 }
+            }
 
         media.observePlaybackState()
-                .map { it.state }
-                .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
-                        state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-                .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-                .subscribe(viewLifecycleOwner, this::animateSkipTo)
+            .filter { it.isSkipTo }
+            .map { it.state == PlayerState.SKIP_TO_NEXT }
+            .distinctUntilChanged()
+            .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
         presenter.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
@@ -148,11 +143,11 @@ class MiniPlayerFragment : BaseFragment(){
         progressBar.max = max.toInt()
     }
 
-    private fun updateImage(metadata: MediaMetadataCompat){
+    private fun updateImage(mediaId: MediaId){
         if (!requireContext().hasPlayerAppearance().isMini()){
             return
         }
-        bigCover.loadImage(metadata)
+        bigCover.loadImage(mediaId)
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){

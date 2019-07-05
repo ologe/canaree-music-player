@@ -8,20 +8,19 @@ import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
-import android.support.v4.media.MediaMetadataCompat
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.Target
+import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.media.getMediaId
 import dev.olog.presentation.R
+import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.shared.extensions.dpToPx
-import dev.olog.presentation.ripple.RippleTarget
 import kotlin.properties.Delegates
 
 class PlayerShadowImageView @JvmOverloads constructor(
@@ -64,8 +63,7 @@ class PlayerShadowImageView @JvmOverloads constructor(
         }
     }
 
-    override fun loadImage(metadata: MediaMetadataCompat){
-        val mediaId = metadata.getMediaId()
+    override fun loadImage(mediaId: MediaId){
 
         GlideApp.with(context).clear(this)
 

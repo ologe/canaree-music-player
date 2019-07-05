@@ -2,7 +2,6 @@ package dev.olog.presentation.widgets.switcher
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.v4.media.MediaMetadataCompat
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,11 +14,9 @@ import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.media.getBoolean
-import dev.olog.media.getMediaId
+import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
@@ -56,13 +53,13 @@ class CustomViewSwitcher(
         setOutAnimation(context, outAnim)
     }
 
-    fun loadImage(metadata: MediaMetadataCompat){
+    fun loadImage(metadata: PlayerMetadata){
         currentDirection = when {
-            metadata.getBoolean(MusicConstants.SKIP_NEXT) -> Direction.RIGHT
-            metadata.getBoolean(MusicConstants.SKIP_PREVIOUS) -> Direction.LEFT
+            metadata.isSkippingToNext -> Direction.RIGHT
+            metadata.isSkippingToPrevious -> Direction.LEFT
             else -> Direction.NONE
         }
-        loadImageInternal(metadata.getMediaId())
+        loadImageInternal(metadata.mediaId)
     }
 
     private fun loadImageInternal(mediaId: MediaId){

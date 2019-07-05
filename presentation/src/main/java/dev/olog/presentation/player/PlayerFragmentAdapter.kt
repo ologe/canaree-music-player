@@ -1,7 +1,5 @@
 package dev.olog.presentation.player
 
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.media.*
+import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -26,8 +24,10 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.extensions.*
+import dev.olog.media.model.PlayerPlaybackState
+import dev.olog.media.model.PlayerState
+import dev.olog.media.MediaProvider
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
@@ -35,6 +35,7 @@ import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import java.lang.IllegalArgumentException
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
@@ -172,9 +173,9 @@ internal class PlayerFragmentAdapter(
 
         mediaProvider.observeMetadata()
             .subscribe(holder) {
-                viewModel.updateCurrentTrackId(it.getId())
-                waveWrapper?.onTrackChanged(it.getString(MusicConstants.PATH))
-                waveWrapper?.updateMax(it.getDuration())
+                viewModel.updateCurrentTrackId(it.id)
+                waveWrapper?.onTrackChanged(it.path)
+                waveWrapper?.updateMax(it.duration)
 
                 updateMetadata(view, it)
                 updateImage(view, it)
@@ -253,43 +254,36 @@ internal class PlayerFragmentAdapter(
         if (playerAppearance.isFullscreen() || playerAppearance.isMini()) {
 
             mediaProvider.observePlaybackState()
-                .map { it.state }
-                .filter { state ->
-                    state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
-                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
-                }
-                .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+                .filter { it.isSkipTo }
+                .map { state -> state.state == PlayerState.SKIP_TO_NEXT }
                 .subscribe(holder) {
                     animateSkipTo(view, it) }
 
             mediaProvider.observePlaybackState()
+                .filter { it.isPlayOrPause }
+                .distinctUntilChanged()
                 .map { it.state }
-                .filter {
-                    it == PlaybackStateCompat.STATE_PLAYING ||
-                            it == PlaybackStateCompat.STATE_PAUSED
-                }.distinctUntilChanged()
                 .subscribe(holder) { state ->
-
-                    if (state == PlaybackStateCompat.STATE_PLAYING) {
-                        playAnimation(view)
-                    } else {
-                        pauseAnimation(view)
+                    when (state){
+                        PlayerState.PLAYING -> playAnimation(view)
+                        PlayerState.PAUSED -> pauseAnimation(view)
+                        else -> throw IllegalArgumentException("invalid state ${state}")
                     }
                 }
         }
     }
 
-    private fun updateMetadata(view: View, metadata: MediaMetadataCompat) {
-        view.title.text = metadata.getTitle()
-        view.artist.text = metadata.getArtist()
+    private fun updateMetadata(view: View, metadata: PlayerMetadata) {
+        view.title.text = metadata.title
+        view.artist.text = metadata.artist
 
-        val duration = metadata.getDuration()
+        val duration = metadata.duration
 
-        val readableDuration = metadata.getDurationReadable()
+        val readableDuration = metadata.readableDuration
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
 
-        val isPodcast = metadata.isPodcast()
+        val isPodcast = metadata.isPodcast
         val playerControlsRoot: ConstraintLayout = view.findViewById(R.id.playerControls)
             ?: view.findViewById(R.id.playerRoot) as ConstraintLayout
         playerControlsRoot.findViewById<View>(R.id.replay).toggleVisibility(isPodcast, true)
@@ -298,7 +292,7 @@ internal class PlayerFragmentAdapter(
         playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
     }
 
-    private fun updateImage(view: View, metadata: MediaMetadataCompat) {
+    private fun updateImage(view: View, metadata: PlayerMetadata) {
         view.imageSwitcher.loadImage(metadata)
     }
 
@@ -313,10 +307,10 @@ internal class PlayerFragmentAdapter(
         popup.show()
     }
 
-    private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat) {
-        val isPlaying = playbackState.isPlaying()
+    private fun onPlaybackStateChanged(view: View, playbackState: PlayerPlaybackState) {
+        val isPlaying = playbackState.isPlaying
 
-        if (isPlaying || playbackState.isPaused()) {
+        if (isPlaying || playbackState.isPaused) {
             view.nowPlaying.isActivated = isPlaying
             val playerAppearance = view.context.hasPlayerAppearance()
             if (playerAppearance.isClean()) {

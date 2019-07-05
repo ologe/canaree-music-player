@@ -3,9 +3,7 @@ package dev.olog.service.floating
 import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -13,13 +11,15 @@ import androidx.lifecycle.LiveData
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.media.*
+import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
+import dev.olog.media.playPause
+import dev.olog.media.skipToNext
+import dev.olog.media.skipToPrevious
 import dev.olog.shared.CustomScope
-import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.map
+import dev.olog.media.model.PlayerMetadata
+import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import javax.inject.Inject
@@ -66,8 +66,8 @@ class MusicGlueService @Inject constructor(
         mediaController?.unregisterCallback(callback)
     }
 
-    fun observePlaybackState(): LiveData<PlaybackStateCompat> = mediaExposer.observePlaybackState()
-    fun observeMetadata(): LiveData<MediaMetadataCompat> = mediaExposer.observeMetadata()
+    fun observePlaybackState(): LiveData<PlayerPlaybackState> = mediaExposer.observePlaybackState()
+    fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
 
     fun playPause() {
         mediaController?.playPause()
@@ -84,10 +84,5 @@ class MusicGlueService @Inject constructor(
     fun skipToPrevious() {
         mediaController?.skipToPrevious()
     }
-
-    val animatePlayPauseLiveData: LiveData<Int> = observePlaybackState()
-        .filter { it.isPlaying() || it.isPaused() }
-        .map { it.state }
-        .distinctUntilChanged()
 
 }

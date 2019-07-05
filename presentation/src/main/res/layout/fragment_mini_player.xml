@@ -103,7 +103,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <dev.olog.shared.widgets.progressbar.CustomProgressBar
+    <dev.olog.media.widget.CustomProgressBar
         android:id="@+id/progressBar"
         style="@style/DefaultHorizontalProgressBar"
         android:layout_width="0dp"

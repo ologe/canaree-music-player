@@ -199,7 +199,7 @@
                     tools:text="50 Cent" />
 
                 <!-- seekbar -->
-                <dev.olog.shared.widgets.progressbar.CustomSeekBar
+                <dev.olog.media.widget.CustomSeekBar
                     android:id="@+id/seekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

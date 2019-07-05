@@ -1,7 +1,5 @@
-package dev.olog.shared.widgets.progressbar
+package dev.olog.media.widget
 
-import android.os.SystemClock
-import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.ProgressBar
 import dev.olog.shared.AppConstants
 import dev.olog.shared.flowInterval
@@ -11,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
-    fun onStateChanged(state: PlaybackStateCompat)
+    fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState)
     fun startAutoIncrement(startMillis: Int, speed: Float)
     fun stopAutoIncrement(startMillis: Int)
     fun observeProgress(): Flow<Long>
@@ -48,21 +46,13 @@ class ProgressDeletegate(
         return channel.asFlow()
     }
 
-    override fun onStateChanged(state: PlaybackStateCompat) {
-        if (state.state == PlaybackStateCompat.STATE_PLAYING) {
-            startAutoIncrement(state.extractBookmark(), state.playbackSpeed)
+    override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {
+        if (state.isPlaying) {
+            startAutoIncrement(state.bookmark, state.playbackSpeed)
         } else {
-            stopAutoIncrement(state.extractBookmark())
+            stopAutoIncrement(state.bookmark)
         }
     }
 
-    private fun PlaybackStateCompat.extractBookmark(): Int {
-        var bookmark = this.position
 
-        if (this.state == PlaybackStateCompat.STATE_PLAYING) {
-            val timeDelta = SystemClock.elapsedRealtime() - this.lastPositionUpdateTime
-            bookmark += (timeDelta * this.playbackSpeed).toLong()
-        }
-        return bookmark.toInt()
-    }
 }

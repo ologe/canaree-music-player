@@ -15,11 +15,11 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 
 internal class TabFragmentAdapter (
-        lifecycle: Lifecycle,
-        private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
-        private val viewModel: TabFragmentViewModel,
-        private val setupNestedList: SetupNestedList
+    lifecycle: Lifecycle,
+    private val navigator: Navigator,
+    private val mediaProvider: MediaProvider,
+    private val viewModel: TabFragmentViewModel,
+    private val setupNestedList: SetupNestedList
 
 ) : ObservableAdapter<DisplayableItem>(lifecycle,
     DiffCallbackDisplayableItem

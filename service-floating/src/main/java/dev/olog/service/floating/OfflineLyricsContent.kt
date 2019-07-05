@@ -1,30 +1,26 @@
 package dev.olog.service.floating
 
 import android.content.Context
-import android.support.v4.media.MediaMetadataCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ScrollView
-import android.widget.SeekBar
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.media.*
 import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.extensions.*
-import dev.olog.shared.flowInterval
 import dev.olog.shared.widgets.BlurImageView
-import dev.olog.shared.widgets.progressbar.CustomSeekBar
+import dev.olog.media.widget.CustomSeekBar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.rx2.collect
-import java.util.concurrent.TimeUnit
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -51,13 +47,13 @@ class OfflineLyricsContent(
     private val scrollView = content.findViewById<ScrollView>(R.id.scrollBar)
 
 
-    private fun loadImage(metadata: MediaMetadataCompat) {
+    private fun loadImage(mediaId: MediaId) {
         GlideApp.with(context).clear(this.image)
 
-        val drawable = CoverUtils.getGradient(context, metadata.getMediaId())
+        val drawable = CoverUtils.getGradient(context, mediaId)
 
         GlideApp.with(context)
-            .load(metadata.getMediaId())
+            .load(mediaId)
             .placeholder(drawable)
             .priority(Priority.IMMEDIATE)
             .override(500)
@@ -83,9 +79,9 @@ class OfflineLyricsContent(
                 presenter.updateSyncAdjustement(it)
             }
         }
-        fakeNext.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(context) { glueService.skipToNext() })
-        fakePrev.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(context) { glueService.skipToPrevious() })
-        scrollView.setOnTouchListener(dev.olog.offlinelyrics.NoScrollTouchListener(context) { glueService.playPause() })
+        fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
+        fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
+        scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
 
         paletteDisposable = image.observePaletteColors()
             .map { it.accent }
@@ -97,11 +93,11 @@ class OfflineLyricsContent(
 
         glueService.observeMetadata()
             .subscribe(this) {
-                presenter.updateCurrentTrackId(it.getId())
-                loadImage(it)
-                header.text = it.getTitle()
-                subHeader.text = it.getArtist()
-                seekBar.max = it.getDuration().toInt()
+                presenter.updateCurrentTrackId(it.id)
+                loadImage(it.mediaId)
+                header.text = it.title
+                subHeader.text = it.artist
+                seekBar.max = it.duration.toInt()
             }
 
         glueService.observePlaybackState()

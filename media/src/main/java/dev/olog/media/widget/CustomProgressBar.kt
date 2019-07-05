@@ -1,9 +1,9 @@
-package dev.olog.shared.widgets.progressbar
+package dev.olog.media.widget
 
 import android.content.Context
-import android.support.v4.media.session.PlaybackStateCompat
 import android.util.AttributeSet
 import android.widget.ProgressBar
+import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
 class CustomProgressBar(
@@ -13,8 +13,7 @@ class CustomProgressBar(
 ) : ProgressBar(context, attrs),
     IProgressDeletegate {
 
-    private val delegate: IProgressDeletegate =
-        ProgressDeletegate(this)
+    private val delegate: IProgressDeletegate = ProgressDeletegate(this)
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -33,7 +32,7 @@ class CustomProgressBar(
         return delegate.observeProgress()
     }
 
-    override fun onStateChanged(state: PlaybackStateCompat) {
+    override fun onStateChanged(state: PlayerPlaybackState) {
         return delegate.onStateChanged(state)
     }
 }

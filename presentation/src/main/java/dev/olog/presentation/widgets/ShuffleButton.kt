@@ -3,14 +3,15 @@ package dev.olog.presentation.widgets
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.v4.media.session.PlaybackStateCompat
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
+import java.lang.IllegalStateException
 
 class ShuffleButton(
     context: Context,
@@ -18,7 +19,7 @@ class ShuffleButton(
 ) : AppCompatImageButton(context, attrs) {
 
     private var enabledColor: Int
-    private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
+    private var shuffleMode = PlayerShuffleMode.NOT_SET
 
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
@@ -31,12 +32,13 @@ class ShuffleButton(
         }
     }
 
-    fun cycle(state: Int) {
+    fun cycle(state: PlayerShuffleMode) {
         if (this.shuffleMode != state) {
             this.shuffleMode = state
             when (state) {
-                PlaybackStateCompat.SHUFFLE_MODE_NONE -> disable()
-                else -> enable()
+                PlayerShuffleMode.NOT_SET -> throw IllegalStateException("value not valid $state")
+                PlayerShuffleMode.DISABLED -> disable()
+                PlayerShuffleMode.ENABLED -> enable()
             }
         }
     }
@@ -44,7 +46,7 @@ class ShuffleButton(
     fun updateSelectedColor(color: Int) {
         this.enabledColor = color
 
-        if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL) {
+        if (shuffleMode == PlayerShuffleMode.ENABLED) {
             setColorFilter(this.enabledColor)
         }
     }

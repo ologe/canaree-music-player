@@ -1,19 +1,18 @@
 package dev.olog.service.floating
 
 import android.content.Context
-import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.media.getArtist
-import dev.olog.media.getDuration
-import dev.olog.media.getTitle
+import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.subscribe
+import dev.olog.media.model.PlayerState
 import dev.olog.shared.widgets.playpause.IPlayPauseBehavior
-import dev.olog.shared.widgets.progressbar.CustomSeekBar
+import dev.olog.media.widget.CustomSeekBar
 import io.reactivex.disposables.CompositeDisposable
+import java.lang.IllegalArgumentException
 
 class LyricsContent(
     lifecycle: Lifecycle,
@@ -41,24 +40,25 @@ class LyricsContent(
                 seekBar.onStateChanged(it)
             }
 
-        glueService.animatePlayPauseLiveData
+        glueService.observePlaybackState()
+            .filter { it.isPlayOrPause }
             .subscribe(this) {
-                if (it == PlaybackStateCompat.STATE_PLAYING) {
-                    playPauseBehavior.animationPlay(true)
-                } else if (it == PlaybackStateCompat.STATE_PAUSED) {
-                    playPauseBehavior.animationPause(true)
+                when (it.state){
+                    PlayerState.PLAYING -> playPauseBehavior.animationPlay(true)
+                    PlayerState.PAUSED -> playPauseBehavior.animationPause(true)
+                    else -> throw IllegalArgumentException("state not valid ${it.state}")
                 }
             }
 
         glueService.observeMetadata()
             .subscribe(this) {
-                title.text = it.getTitle()
-                artist.text = it.getArtist()
+                title.text = it.title
+                artist.text = it.artist
             }
 
         glueService.observeMetadata()
             .subscribe(this) {
-                seekBar.max = it.getDuration().toInt()
+                seekBar.max = it.duration.toInt()
             }
 
         seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {

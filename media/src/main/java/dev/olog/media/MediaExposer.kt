@@ -11,27 +11,25 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dev.olog.core.MediaId
 import dev.olog.media.connection.IMediaConnectionCallback
 import dev.olog.media.connection.MusicServiceConnection
 import dev.olog.media.connection.MusicServiceConnectionState
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
+import dev.olog.media.model.*
 import dev.olog.shared.Classes
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.filter
 import dev.olog.shared.extensions.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 
 class MediaExposer(
     private val context: Context,
@@ -44,7 +42,8 @@ class MediaExposer(
         MediaBrowserCompat(
             context,
             ComponentName(context, Classes.SERVICE_MUSIC),
-            MusicServiceConnection(this), null
+            MusicServiceConnection(this),
+            null
         )
     }
 
@@ -54,13 +53,12 @@ class MediaExposer(
 
     private val connectionPublisher = BroadcastChannel<MusicServiceConnectionState>(Channel.CONFLATED)
 
-    private val metadataPublisher = MutableLiveData<MediaMetadataCompat>()
-    private val statePublisher = MutableLiveData<PlaybackStateCompat>()
-    private val repeatModePublisher = MutableLiveData<Int>()
-    private val shuffleModePublisher = MutableLiveData<Int>()
-    private val queuePublisher = ConflatedBroadcastChannel<List<MediaSessionCompat.QueueItem>>(listOf())
+    private val metadataPublisher = MutableLiveData<PlayerMetadata>()
+    private val statePublisher = MutableLiveData<PlayerPlaybackState>()
+    private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
+    private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
+    private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
     private val queueTitlePublisher = MutableLiveData<String>()
-    private val extrasPublisher = MutableLiveData<Bundle>()
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
@@ -75,7 +73,10 @@ class MediaExposer(
                     MusicServiceConnectionState.CONNECTED -> {
                         onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
                     }
-                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(mediaBrowser, callback)
+                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(
+                        mediaBrowser,
+                        callback
+                    )
                 }
             }
         }
@@ -100,61 +101,75 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        launch { connectionPublisher.send(state) }
+        connectionPublisher.offer(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        metadataPublisher.value = metadata
+        metadata?.let {
+            metadataPublisher.value = PlayerMetadata(it)
+        }
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-        statePublisher.value = state
+        state?.let {
+            statePublisher.value = PlayerPlaybackState(it)
+        }
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
-        repeatModePublisher.value = repeatMode
+        repeatModePublisher.value = PlayerRepeatMode.of(repeatMode)
     }
 
     override fun onShuffleModeChanged(shuffleMode: Int) {
-        shuffleModePublisher.value = shuffleMode
+        shuffleModePublisher.value = PlayerShuffleMode.of(shuffleMode)
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-        queue?.let { launch { queuePublisher.send(it) } }
+        if (queue == null) {
+            return
+        }
+        launch(Dispatchers.Default) {
+            val result = queue.map { it.toDisplayableItem() }
+            queuePublisher.send(result)
+        }
     }
 
-    override fun onQueueTitleChanged(title: CharSequence?) {
+    override fun onQueueTitleChanged(title: CharSequence?) = runBlocking {
         queueTitlePublisher.value = title.toString()
     }
 
     override fun onExtrasChanged(extras: Bundle?) {
-        extrasPublisher.value = extras
+        throw IllegalArgumentException("extras not supported")
     }
 
-    fun observeMetadata(): LiveData<MediaMetadataCompat> = metadataPublisher
-        .filter { it != null }
+    fun observeMetadata(): LiveData<PlayerMetadata> = metadataPublisher
         .distinctUntilChanged()
 
-    fun observePlaybackState(): LiveData<PlaybackStateCompat> = statePublisher
-        .filter { it != null }
+    fun observePlaybackState(): LiveData<PlayerPlaybackState> = statePublisher
         .distinctUntilChanged()
 
-    fun observeRepeat(): LiveData<Int> = repeatModePublisher
-        .filter { it != null }
+    fun observeRepeat(): LiveData<PlayerRepeatMode> = repeatModePublisher
         .distinctUntilChanged()
 
-    fun observeShuffle(): LiveData<Int> = shuffleModePublisher
-        .filter { it != null }
+    fun observeShuffle(): LiveData<PlayerShuffleMode> = shuffleModePublisher
         .distinctUntilChanged()
 
     fun observeQueueTitle(): LiveData<String> = queueTitlePublisher
-        .filter { it != null }
         .distinctUntilChanged()
 
-    fun observeExtras(): LiveData<Bundle> = extrasPublisher.filter { it != null }
-
-    fun observeQueue(): Flow<List<MediaSessionCompat.QueueItem>> = queuePublisher
+    fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher
         .asFlow()
         .distinctUntilChanged()
 
+
+    private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {
+        val description = this.description
+
+        return PlayerItem(
+            MediaId.fromString(description.mediaId!!),
+            description.title!!.toString(),
+            description.subtitle!!.toString(),
+            this.queueId
+        )
+    }
 }

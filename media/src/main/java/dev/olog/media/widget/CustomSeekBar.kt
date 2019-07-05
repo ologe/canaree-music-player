@@ -1,11 +1,10 @@
-package dev.olog.shared.widgets.progressbar
+package dev.olog.media.widget
 
 import android.content.Context
-import android.os.SystemClock
-import android.support.v4.media.session.PlaybackStateCompat
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
+import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
 class CustomSeekBar(
@@ -80,7 +79,7 @@ class CustomSeekBar(
         delegate.stopAutoIncrement(startMillis)
     }
 
-    override fun onStateChanged(state: PlaybackStateCompat){
+    override fun onStateChanged(state: PlayerPlaybackState) {
         delegate.onStateChanged(state)
 
     }

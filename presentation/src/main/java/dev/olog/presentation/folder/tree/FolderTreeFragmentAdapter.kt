@@ -14,10 +14,10 @@ import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
 
 class FolderTreeFragmentAdapter(
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val viewModel: FolderTreeFragmentViewModel,
-        private val mediaProvider: MediaProvider,
-        private val navigator: Navigator
+    @FragmentLifecycle lifecycle: Lifecycle,
+    private val viewModel: FolderTreeFragmentViewModel,
+    private val mediaProvider: MediaProvider,
+    private val navigator: Navigator
 
 ) : ObservableAdapter<DisplayableFile>(lifecycle, DiffCallbackDisplayableFile) {
 

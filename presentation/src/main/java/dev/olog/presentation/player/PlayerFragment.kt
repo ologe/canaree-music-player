@@ -10,17 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
@@ -87,7 +85,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         }
 
         mediaProvider.observeQueue()
-            .map { it.map { it.toDisplayableItem() } }
+            .mapListItem { it.toDisplayableItem() }
             .map { queue ->
                 if (!hasPlayerAppearance.isMini()) {
                     val copy = queue.toMutableList()
@@ -119,19 +117,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     override fun onStop() {
         super.onStop()
         lyricsDisposable.unsubscribe()
-    }
-
-    private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {
-        val description = this.description
-
-        return DisplayableItem(
-            R.layout.item_mini_queue,
-            MediaId.fromString(description.mediaId!!),
-            description.title!!.toString(),
-            DisplayableItem.adjustArtist(description.subtitle!!.toString()),
-            isPlayable = true,
-            trackNumber = "${this.queueId}"
-        )
     }
 
     override fun provideLayoutId(): Int {

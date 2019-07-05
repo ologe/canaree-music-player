@@ -3,15 +3,16 @@ package dev.olog.presentation.widgets
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.v4.media.session.PlaybackStateCompat
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
+import java.lang.IllegalStateException
 
 class RepeatButton(
     context: Context,
@@ -20,7 +21,7 @@ class RepeatButton(
 ) : AppCompatImageButton(context, attrs) {
 
     private var enabledColor: Int
-    private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+    private var repeatMode = PlayerRepeatMode.NOT_SET
 
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
@@ -33,13 +34,14 @@ class RepeatButton(
         }
     }
 
-    fun cycle(state: Int) {
+    fun cycle(state: PlayerRepeatMode) {
         if (this.repeatMode != state) {
             this.repeatMode = state
             when (state) {
-                PlaybackStateCompat.REPEAT_MODE_NONE -> repeatNone()
-                PlaybackStateCompat.REPEAT_MODE_ONE -> repeatOne()
-                PlaybackStateCompat.REPEAT_MODE_ALL -> repeatAll()
+                PlayerRepeatMode.NOT_SET -> throw IllegalStateException("value not valid $state")
+                PlayerRepeatMode.NONE -> repeatNone()
+                PlayerRepeatMode.ONE -> repeatOne()
+                PlayerRepeatMode.ALL -> repeatAll()
             }
         }
     }
@@ -47,7 +49,7 @@ class RepeatButton(
     fun updateSelectedColor(color: Int) {
         this.enabledColor = color
 
-        if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE) {
+        if (repeatMode != PlayerRepeatMode.NONE) {
             setColorFilter(this.enabledColor)
         }
     }
