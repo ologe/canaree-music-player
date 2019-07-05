@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MaterialDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialDialog.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialDialog.Subtitle</item>
+        <item name="android:backgroundDimAmount">.65</item>
+    </style>
+
+
+    <style name="MaterialDialog.Title" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <style name="MaterialDialog.Subtitle" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+</resources>

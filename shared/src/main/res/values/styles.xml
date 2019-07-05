@@ -24,6 +24,7 @@
 
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
 
+        <item name="materialAlertDialogTheme">@style/MaterialDialog</item>
 
         <item name="bottomNavigationStyle">@style/MaterialBottomNavigationBar</item>
         <item name="tabStyle">@style/MaterialTabLayout</item>

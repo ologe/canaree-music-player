@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dev.olog.presentation.widgets.MaxHeightLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+<dev.olog.presentation.widgets.MaxHeightLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:layout_marginTop="64dp"
-    tools:layout_marginBottom="64dp"
-    app:maxHeightDp="@integer/blacklist_max_height"
-    android:layout_gravity="center">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:maxHeightDp="@integer/blacklist_max_height">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -16,9 +13,9 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/dialog_blacklist_item"
-        android:requiresFadingEdge="vertical"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp"/>
+        android:paddingEnd="8dp"
+        android:requiresFadingEdge="vertical"
+        tools:listitem="@layout/dialog_blacklist_item" />
 
 </dev.olog.presentation.widgets.MaxHeightLinearLayout>
