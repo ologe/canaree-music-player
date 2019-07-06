@@ -100,11 +100,11 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$rootProject.room"
 
     // dagger
-    implementation "com.google.dagger:dagger:$rootProject.dagger"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
-    implementation "com.google.dagger:dagger-android:$rootProject.dagger"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
+    implementation lib_core.dagger
+    kapt lib_core.dagger_processor
+    implementation lib_core.dagger_android
+    implementation lib_core.dagger_android_support
+    kapt lib_core.dagger_android_processor
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"

@@ -99,9 +99,6 @@ ext {
     custom_tabs = '2.0.0'
     material_dialogs = '2.8.1'
 
-    // dependency injection
-    dagger = '2.22.1'
-
     // debug
     leak_canary = '1.6.3'
     crashlytics = '2.9.9'

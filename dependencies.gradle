@@ -1,6 +1,6 @@
 ext {
     coroutines = '1.2.1'
-//    dagger = '2.23.1'
+    dagger = '2.23.2'
 
     android_x_core = '1.1.0-rc02'
     android_x_legacy = '1.0.0'
@@ -23,12 +23,15 @@ ext {
     room = '2.1.0'
 
     lib_core = [
-            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
-            dagger            : "com.google.dagger:dagger:$dagger",
-            dagger_processor  : "com.google.dagger:dagger-compiler:$dagger",
-            coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
-            coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-            coroutines_rx     : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines",
+            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            dagger                  : "com.google.dagger:dagger:$dagger",
+            dagger_processor        : "com.google.dagger:dagger-compiler:$dagger",
+            dagger_android          : "com.google.dagger:dagger-android:$dagger",
+            dagger_android_support  : "com.google.dagger:dagger-android-support:$dagger",
+            dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
+            coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+            coroutines_rx           : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines",
     ]
 
     lib_x = [
