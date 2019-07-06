@@ -9,15 +9,18 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.AppDatabase
+import dev.olog.shared.extensions.assertBackground
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.rx2.asObservable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
-class FavoriteRepository @Inject constructor(
+internal class FavoriteRepository @Inject constructor(
     appDatabase: AppDatabase,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
@@ -35,28 +38,24 @@ class FavoriteRepository @Inject constructor(
         favoriteStatePublisher.onNext(state)
     }
 
-    override fun observeTracks(): Observable<List<Song>> {
-        return favoriteDao.getAllImpl()
-            .toObservable()
-            .switchMap { favorites ->
-                songGateway.observeAll().asObservable().map { songList ->
-                    favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
-                        .sortedBy { it.title }
-                }
-            }
+    override fun observeTracks(): Flow<List<Song>> {
+        return favoriteDao.observeAllTracks()
+            .asFlow()
+            .map { favorites ->
+                val songs : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                favorites.mapNotNull { id -> songs[id]?.get(0) }
+                    .sortedBy { it.title }
+            }.assertBackground()
     }
 
-    override fun observePodcasts(): Observable<List<Song>> {
-        return favoriteDao.getAllPodcastsImpl()
-            .toObservable()
-            .switchMap { favorites ->
-                podcastGateway.observeAll().asObservable().map { podcastList ->
-                    favorites.asSequence()
-                        .mapNotNull { favoriteId -> podcastList.firstOrNull { it.id == favoriteId } }
-                        .sortedBy { it.title }
-                        .toList()
-                }
-            }
+    override fun observePodcasts(): Flow<List<Song>> {
+        return favoriteDao.observeAllPodcasts()
+            .asFlow()
+            .map { favorites ->
+                val podcast : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                favorites.mapNotNull { id -> podcast[id]?.get(0) }
+                    .sortedBy { it.title }
+            }.assertBackground()
     }
 
     override fun addSingle(type: FavoriteType, songId: Long): Completable {
@@ -112,7 +111,7 @@ class FavoriteRepository @Inject constructor(
     }
 
     override fun deleteAll(type: FavoriteType): Completable {
-        return Completable.fromCallable { favoriteDao.deleteAll() }
+        return Completable.fromCallable { favoriteDao.deleteTracks() }
             .andThen {
                 val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                 updateFavoriteState(

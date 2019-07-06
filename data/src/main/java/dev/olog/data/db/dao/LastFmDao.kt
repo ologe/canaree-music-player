@@ -9,7 +9,7 @@ import dev.olog.data.db.entities.*
 private const val CACHE_TIME = "7 days"
 
 @Dao
-abstract class LastFmDao {
+internal abstract class LastFmDao {
 
     // track
 

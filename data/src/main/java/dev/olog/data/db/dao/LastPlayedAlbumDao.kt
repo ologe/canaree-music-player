@@ -8,7 +8,7 @@ import dev.olog.data.db.entities.LastPlayedAlbumEntity
 import io.reactivex.Flowable
 
 @Dao
-abstract class LastPlayedAlbumDao {
+internal abstract class LastPlayedAlbumDao {
 
     @Query(
         """

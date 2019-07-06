@@ -8,7 +8,7 @@ import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import io.reactivex.Flowable
 
 @Dao
-abstract class PodcastPlaylistDao {
+internal abstract class PodcastPlaylistDao {
 
     @Query("""
         SELECT playlist.*, count(*) as size

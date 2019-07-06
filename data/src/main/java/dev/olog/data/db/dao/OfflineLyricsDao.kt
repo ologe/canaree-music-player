@@ -8,7 +8,7 @@ import dev.olog.data.db.entities.OfflineLyricsEntity
 import io.reactivex.Flowable
 
 @Dao
-abstract class OfflineLyricsDao {
+internal abstract class OfflineLyricsDao {
 
     @Query("SELECT * FROM offline_lyrics WHERE trackId = :trackId")
      abstract fun observeLyrics(trackId: Long): Flowable<List<OfflineLyricsEntity>>

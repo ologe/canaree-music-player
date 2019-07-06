@@ -40,7 +40,7 @@ import dev.olog.data.db.entities.*
         PodcastPositionEntity::class
 
 ), version = 17, exportSchema = true)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
 

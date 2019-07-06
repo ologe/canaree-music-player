@@ -5,15 +5,21 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
+import dev.olog.shared.extensions.assertBackground
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
-abstract class HistoryDao {
+internal abstract class HistoryDao {
 
 
     @Query("""
@@ -21,7 +27,7 @@ abstract class HistoryDao {
         ORDER BY dateAdded
         DESC LIMIT 200
     """)
-    internal abstract fun getAllImpl(): Flowable<List<HistoryEntity>>
+    internal abstract fun getAllTracksImpl(): Flowable<List<HistoryEntity>>
 
     @Query("""
         SELECT * FROM podcast_song_history
@@ -48,30 +54,26 @@ abstract class HistoryDao {
     """)
     abstract fun deleteSinglePodcast(podcastId: Long)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<Song>> {
-        return getAllImpl().toObservable()
-                .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<Song> = ids
-                            .asSequence()
-                            .mapNotNull { historyEntity ->
-                                val song = songs.firstOrNull { it.id == historyEntity.songId }
-                                song?.copy(idInPlaylist = historyEntity.id)
-                            }.toList()
-                    Single.just(result)
-                } }
+    fun observeTracks(songGateway: SongGateway): Flow<List<Song>> {
+        return getAllTracksImpl()
+            .asFlow()
+            .map { historyList ->
+                val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                historyList.mapNotNull { entity ->
+                    songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
+                }
+            }.assertBackground()
     }
 
-    fun getAllPodcasts(podcastList: Single<List<Song>>): Observable<List<Song>> {
-        return getAllPodcastsImpl().toObservable()
-                .flatMapSingle { ids -> podcastList.flatMap { songs ->
-                    val result : List<Song> = ids
-                            .asSequence()
-                            .mapNotNull { historyEntity ->
-                                val song = songs.firstOrNull { it.id == historyEntity.podcastId }
-                                song?.copy(idInPlaylist = historyEntity.id)
-                            }.toList()
-                    Single.just(result)
-                } }
+    fun getAllPodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
+        return getAllPodcastsImpl()
+            .asFlow()
+            .map { historyList ->
+                val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                historyList.mapNotNull { entity ->
+                    songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
+                }
+            }.assertBackground()
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

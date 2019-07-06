@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
-abstract class PlayingQueueDao {
+internal abstract class PlayingQueueDao {
 
     @Query(
         """

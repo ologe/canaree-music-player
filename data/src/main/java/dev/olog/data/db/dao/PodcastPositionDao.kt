@@ -7,7 +7,7 @@ import androidx.room.Query
 import dev.olog.data.db.entities.PodcastPositionEntity
 
 @Dao
-abstract class PodcastPositionDao {
+internal abstract class PodcastPositionDao {
 
     @Query("""
         SELECT position

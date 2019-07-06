@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
-abstract class RecentSearchesDao {
+internal abstract class RecentSearchesDao {
 
     @Query(
         """

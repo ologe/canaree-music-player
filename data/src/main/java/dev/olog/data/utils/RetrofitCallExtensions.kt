@@ -5,7 +5,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 import retrofit2.Response
 
-suspend fun<T> Deferred<Response<T>>.awaitRepeat(repeatTimes: Int = 3): T? {
+internal suspend fun<T> Deferred<Response<T>>.awaitRepeat(repeatTimes: Int = 3): T? {
     var errorCode : Int? = null
     var errorMessage : String? = null
 
@@ -23,5 +23,5 @@ suspend fun<T> Deferred<Response<T>>.awaitRepeat(repeatTimes: Int = 3): T? {
     throw InvalidNetworkCall(errorCode, errorMessage)
 }
 
-class InvalidNetworkCall(statusCode: Int?, statusMessage: String?)
+internal class InvalidNetworkCall(statusCode: Int?, statusMessage: String?)
     : Throwable(message = "status code=$statusCode, message=$statusMessage")

@@ -13,7 +13,7 @@ import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PlayingQueueRepository @Inject constructor(
+internal class PlayingQueueRepository @Inject constructor(
     database: AppDatabase,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway

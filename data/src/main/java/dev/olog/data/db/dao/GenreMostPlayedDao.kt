@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
-abstract class GenreMostPlayedDao {
+internal abstract class GenreMostPlayedDao {
 
     @Query("""
         SELECT songId, count(*) as timesPlayed

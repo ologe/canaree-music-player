@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
-abstract class LastPlayedPodcastArtistDao {
+internal abstract class LastPlayedPodcastArtistDao {
 
     @Query("""
         SELECT * FROM last_played_podcast_artists

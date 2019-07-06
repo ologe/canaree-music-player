@@ -8,7 +8,7 @@ import dev.olog.data.mapper.toModel
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
-class LastFmLocalAlbum @Inject constructor(
+internal class LastFmLocalAlbum @Inject constructor(
     appDatabase: AppDatabase
 
 ) {

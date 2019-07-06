@@ -9,7 +9,7 @@ import dev.olog.data.db.entities.UsedArtistImageEntity
 import dev.olog.data.db.entities.UsedTrackImageEntity
 
 @Dao
-abstract class UsedImageDao {
+internal abstract class UsedImageDao {
 
     // playerAppearance all
 

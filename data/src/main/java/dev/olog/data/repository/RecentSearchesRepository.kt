@@ -13,7 +13,7 @@ import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class RecentSearchesRepository @Inject constructor(
+internal class RecentSearchesRepository @Inject constructor(
     appDatabase: AppDatabase,
     private val songGateway: SongGateway,
     private val albumGateway: AlbumGateway,

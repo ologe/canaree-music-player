@@ -1,15 +1,15 @@
 package dev.olog.data.repository
 
-import dev.olog.data.db.dao.AppDatabase
-import dev.olog.data.db.entities.OfflineLyricsEntity
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.OfflineLyricsEntity
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class OfflineLyricsRepository @Inject constructor(
-        appDatabase: AppDatabase
+internal class OfflineLyricsRepository @Inject constructor(
+    appDatabase: AppDatabase
 
 ) : OfflineLyricsGateway {
 

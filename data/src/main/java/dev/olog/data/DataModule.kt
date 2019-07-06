@@ -75,22 +75,22 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
+    internal abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
 
     @Binds
     @Singleton
-    abstract fun provideFavoriteRepository(repository: FavoriteRepository): FavoriteGateway
+    internal abstract fun provideFavoriteRepository(repository: FavoriteRepository): FavoriteGateway
 
     @Binds
     @Singleton
-    abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
+    internal abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
 
     @Binds
     @Singleton
-    abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
+    internal abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
 
     @Binds
     @Singleton
-    abstract fun provideUsedImageRepository(repository: UsedImageRepository): UsedImageGateway
+    internal abstract fun provideUsedImageRepository(repository: UsedImageRepository): UsedImageGateway
 
 }

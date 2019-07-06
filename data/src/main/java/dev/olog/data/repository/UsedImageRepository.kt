@@ -10,7 +10,7 @@ import dev.olog.core.entity.UsedTrackImage
 import dev.olog.core.gateway.UsedImageGateway
 import javax.inject.Inject
 
-class UsedImageRepository @Inject constructor(
+internal class UsedImageRepository @Inject constructor(
         appDatabase: AppDatabase
 
 ) : UsedImageGateway {

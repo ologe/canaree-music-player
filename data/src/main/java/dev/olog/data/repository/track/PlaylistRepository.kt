@@ -10,6 +10,7 @@ import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
@@ -31,6 +32,7 @@ import dev.olog.data.utils.queryCountRow
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -38,14 +40,16 @@ internal class PlaylistRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     appDatabase: AppDatabase,
-    private val songGateway2: SongGateway,
-    private val helper: PlaylistRepositoryHelper
+    private val songGateway: SongGateway,
+    private val helper: PlaylistRepositoryHelper,
+    private val favoriteGateway: FavoriteGateway
 ) : BaseRepository<Playlist, Id>(context),
     PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val queries = PlaylistQueries(contentResolver, blacklistPrefs, sortPrefs)
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
+    private val historyDao = appDatabase.historyDao()
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, true)
@@ -82,10 +86,24 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return observeAutoPlaylists(param)
+                .assertBackground()
+        }
+
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
             .assertBackground()
+    }
+
+    private fun observeAutoPlaylists(param: Id): Flow<List<Song>> {
+        return when (param){
+            AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
+            AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
+            else -> throw IllegalStateException("invalid auto playlist id")
+        }
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
@@ -103,7 +121,7 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
-        return mostPlayedDao.getAll(folderPath, songGateway2)
+        return mostPlayedDao.getAll(folderPath, songGateway)
             .distinctUntilChanged()
             .assertBackground()
     }
