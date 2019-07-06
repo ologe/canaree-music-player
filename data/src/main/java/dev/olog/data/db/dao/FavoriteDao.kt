@@ -11,10 +11,16 @@ import io.reactivex.Flowable
 internal abstract class FavoriteDao {
 
     @Query("SELECT songId FROM favorite_songs")
-    abstract fun observeAllTracks(): Flowable<List<Long>>
+    abstract fun getAllTracksImpl(): List<Long>
 
     @Query("SELECT podcastId FROM favorite_podcast_songs")
-    abstract fun observeAllPodcasts(): Flowable<List<Long>>
+    abstract fun getAllPodcastsImpl(): List<Long>
+
+    @Query("SELECT songId FROM favorite_songs")
+    abstract fun observeAllTracksImpl(): Flowable<List<Long>>
+
+    @Query("SELECT podcastId FROM favorite_podcast_songs")
+    abstract fun observeAllPodcastsImpl(): Flowable<List<Long>>
 
     @Query("DELETE FROM favorite_songs")
     abstract fun deleteTracks()

@@ -81,13 +81,16 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun getTrackListByParam(param: Id): List<Song> {
         assertBackgroundThread()
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return getAutoPlaylistsTracks(param)
+        }
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
-            return observeAutoPlaylists(param)
+            return observeAutoPlaylistsTracks(param)
                 .assertBackground()
         }
 
@@ -97,7 +100,16 @@ internal class PlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    private fun observeAutoPlaylists(param: Id): Flow<List<Song>> {
+    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+        return when (param){
+            AutoPlaylist.LAST_ADDED.id -> songGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
+            AutoPlaylist.HISTORY.id -> historyDao.getTracks(songGateway)
+            else -> throw IllegalStateException("invalid auto playlist id")
+        }
+    }
+
+    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
