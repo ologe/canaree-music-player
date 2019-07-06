@@ -15,13 +15,12 @@ interface MediaProvider {
     // is a flow instead of livedata because list operations may be expensive, so they can be
     // moved to a background thread
     fun observeQueue(): Flow<List<PlayerItem>>
-    fun observeQueueTitle(): LiveData<String>
 
     fun playFromMediaId(mediaId: MediaId, sort: SortEntity? = null)
     fun playMostPlayed(mediaId: MediaId)
     fun playRecentlyAdded(mediaId: MediaId)
 
-    fun skipToQueueItem(idInPlaylist: Long)
+    fun skipToQueueItem(idInPlaylist: Int)
     fun shuffle(mediaId: MediaId)
     fun skipToNext()
     fun skipToPrevious()

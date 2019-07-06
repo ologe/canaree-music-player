@@ -7,6 +7,9 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableQueueSong"/>
+        <variable
+            name="currentIndex"
+            type="Integer" />
     </data>
 
     <FrameLayout
@@ -66,7 +69,7 @@
 
                 <TextView
                     android:id="@+id/index"
-                    android:text="@{item.positionInList}"
+                    android:text="@{item.positionInList(currentIndex)}"
                     tools:text="+1"
                     tools:layout_marginStart="8dp"
                     android:textStyle="bold"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
+import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.*
@@ -20,6 +21,7 @@ import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.clamp
 import io.reactivex.Single
 import io.reactivex.functions.Function
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.rx2.asFlowable
 import kotlinx.coroutines.rx2.asObservable
 import java.text.Collator
@@ -30,7 +32,7 @@ import javax.inject.Inject
 
 class QueueManager @Inject constructor(
     private val queueImpl: QueueImpl,
-    private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
+    private val playingQueueGateway: PlayingQueueGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val shuffleMode: dev.olog.service.music.MusicServiceShuffleMode,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
@@ -52,7 +54,8 @@ class QueueManager @Inject constructor(
     override fun isReady(): Boolean = isReady.get()
 
     override fun prepare(): Single<PlayerMediaEntity> {
-        return getPlayingQueueUseCase.execute()
+        return Single.fromCallable { playingQueueGateway.getAll() }
+            .subscribeOn(Schedulers.computation())
             .map { list -> list.map { it.toMediaEntity() } }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { lastSessionSong.apply(it) }
@@ -89,7 +92,7 @@ class QueueManager @Inject constructor(
     }
 
     override fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity {
-        val mediaEntity = queueImpl.getSongById(idInPlaylist)
+        val mediaEntity = queueImpl.getSongByPosition(idInPlaylist)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }

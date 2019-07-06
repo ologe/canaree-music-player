@@ -41,7 +41,7 @@ interface MusicPreferencesGateway {
     fun getPlaybackSpeed(): Float
 
     fun setLastPositionInQueue(position: Int)
-    fun observeLastPositionInQueue(): Observable<Int>
+    fun observeLastPositionInQueue(): Flow<Int>
     fun getLastPositionInQueue(): Int
 
     /**

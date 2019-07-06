@@ -8,10 +8,9 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.dao.AppDatabase
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import kotlinx.coroutines.rx2.asObservable
+import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.utils.assertBackgroundThread
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
@@ -23,27 +22,24 @@ class PlayingQueueRepository @Inject constructor(
 
     private val playingQueueDao = database.playingQueueDao()
 
-    override fun getAll(): Single<List<PlayingQueueSong>> {
-        return Single.concat(
-                playingQueueDao.getAllAsSongs(
-                        songGateway.observeAll().asObservable().firstOrError(),
-                        podcastGateway.observeAll().asObservable().firstOrError()
-                ).firstOrError(),
-
-                songGateway.observeAll().asObservable().firstOrError()
-                        .map { it.mapIndexed { index, song -> song.toPlayingQueueSong(index) } }
-        ).filter { it.isNotEmpty() }.firstOrError()
+    override fun getAll(): List<PlayingQueueSong> {
+        assertBackgroundThread()
+        val playingQueue =
+            playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
+        if (playingQueue.isNotEmpty()) {
+            return playingQueue
+        }
+        return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
     }
 
-    override fun observeAll(): Observable<List<PlayingQueueSong>> {
-        return playingQueueDao.getAllAsSongs(
-                songGateway.observeAll().asObservable().firstOrError(),
-                podcastGateway.observeAll().asObservable().firstOrError()
-        )
+    override fun observeAll(): Flow<List<PlayingQueueSong>> {
+        return playingQueueDao.observeAllAsSongs(songGateway, podcastGateway)
+            .assertBackground()
     }
 
-    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable {
-        return playingQueueDao.insert(list)
+    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
+        assertBackgroundThread()
+        playingQueueDao.insert(list)
     }
 
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {

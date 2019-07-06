@@ -3,21 +3,25 @@ package dev.olog.presentation.queue
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.base.drag.DragListenerImpl
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment() {
+class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
         val TAG = PlayingQueueFragment::class.java.name
@@ -34,7 +38,8 @@ class PlayingQueueFragment : BaseFragment() {
         PlayingQueueFragmentAdapter(
             lifecycle,
             act as MediaProvider,
-            navigator
+            navigator,
+            this
         )
     }
 
@@ -57,29 +62,24 @@ class PlayingQueueFragment : BaseFragment() {
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-//        val callback = TouchHelperAdapterCallback(
-//            adapter,
-//            ItemTouchHelper.RIGHT
-//        )
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(list)
-//        adapter.touchHelper = touchHelper
+        setupDragListener(list, ItemTouchHelper.RIGHT)
 
-        viewModel.data.subscribe(viewLifecycleOwner) {
+        viewModel.observeData().subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-        launch {
-            adapter.observeData(false)
-                .take(1)
-                .collect {
-                    layoutManager.scrollToPositionWithOffset(
-                        viewModel.getCurrentPosition(),
-                        ctx.dip(20)
-                    )
-                }
-        }
+//        launch {
+//            adapter.observeData(false)
+//                .filter { it.isNotEmpty() }
+//                .take(1)
+//                .collect {
+//                    layoutManager.scrollToPositionWithOffset(
+//                        viewModel.getCurrentPosition(),
+//                        ctx.dip(20)
+//                    )
+//                }
+//        }
     }
 
     override fun onResume() {

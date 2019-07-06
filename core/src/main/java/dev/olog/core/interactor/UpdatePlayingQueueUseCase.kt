@@ -1,20 +1,15 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.MediaId
-import dev.olog.core.interactor.base.CompletableUseCaseWithParam
-import io.reactivex.Completable
+import dev.olog.core.gateway.PlayingQueueGateway
 import javax.inject.Inject
 
 class UpdatePlayingQueueUseCase @Inject constructor(
-    schedulers: IoScheduler,
     private val gateway: PlayingQueueGateway
+) {
 
-) : CompletableUseCaseWithParam<List<UpdatePlayingQueueUseCaseRequest>>(schedulers) {
-
-    override fun buildUseCaseObservable(param: List<UpdatePlayingQueueUseCaseRequest>): Completable {
-        return gateway.update(param)
+    operator fun invoke(param: List<UpdatePlayingQueueUseCaseRequest>){
+        gateway.update(param)
     }
 
 }

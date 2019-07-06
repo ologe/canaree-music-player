@@ -48,8 +48,7 @@ abstract class ObservableAdapter<T : BaseModel>(
         launch {
             for (list in channel) {
                 assertBackgroundThread()
-                val diffCallback =
-                    AdapterDiffUtil(dataSet, list, itemCallback)
+                val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
                 yield()
                 val diff = DiffUtil.calculateDiff(diffCallback, false)
                 yield()

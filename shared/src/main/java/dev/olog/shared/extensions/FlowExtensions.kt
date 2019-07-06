@@ -29,7 +29,11 @@ fun <T> Flow<T>.assertBackground(): Flow<T> {
 }
 
 
-fun <T, R, S, U> Flow<T>.combineLatest(flow2: Flow<R>, flow3: Flow<S>, combiner: (T, R, S) -> U): Flow<U> {
+fun <T, R, S, U> Flow<T>.combineLatest(
+    flow2: Flow<R>,
+    flow3: Flow<S>,
+    combiner: (T, R, S) -> U
+): Flow<U> {
     return flow {
         coroutineScope {
             var result1: T? = null
@@ -63,7 +67,12 @@ fun <T, R, S, U> Flow<T>.combineLatest(flow2: Flow<R>, flow3: Flow<S>, combiner:
     }
 }
 
-fun <T, R, S, U, V> Flow<T>.combineLatest(flow2: Flow<R>, flow3: Flow<S>, flow4: Flow<U>, combiner: (T, R, S, U) -> V): Flow<V> {
+fun <T, R, S, U, V> Flow<T>.combineLatest(
+    flow2: Flow<R>,
+    flow3: Flow<S>,
+    flow4: Flow<U>,
+    combiner: (T, R, S, U) -> V
+): Flow<V> {
     return flow {
         coroutineScope {
             var result1: T? = null
@@ -128,7 +137,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 collect {
                     result1 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }
@@ -136,7 +154,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 flow2.collect {
                     result2 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }
@@ -144,7 +171,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 flow3.collect {
                     result3 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }
@@ -152,7 +188,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 flow4.collect {
                     result4 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }
@@ -160,7 +205,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 flow5.collect {
                     result5 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }
@@ -168,7 +222,16 @@ fun <T, R, S, U, V, W, X> Flow<T>.combineLatest(
                 flow6.collect {
                     result6 = it
                     if (result1 != null && result2 != null && result3 != null && result4 != null && result5 != null && result6 != null) {
-                        emit(combiner(result1!!, result2!!, result3!!, result4!!, result5!!, result6!!))
+                        emit(
+                            combiner(
+                                result1!!,
+                                result2!!,
+                                result3!!,
+                                result4!!,
+                                result5!!,
+                                result6!!
+                            )
+                        )
                     }
                 }
             }

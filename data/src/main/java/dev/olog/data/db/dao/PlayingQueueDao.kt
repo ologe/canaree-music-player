@@ -3,69 +3,105 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
-import io.reactivex.*
-import io.reactivex.rxkotlin.Singles
+import dev.olog.shared.utils.assertBackgroundThread
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
+import io.reactivex.Flowable
+import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 abstract class PlayingQueueDao {
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM playing_queue
         ORDER BY progressive
-    """)
-     abstract fun getAllImpl(): Flowable<List<PlayingQueueEntity>>
+    """
+    )
+    abstract fun getAllImpl(): List<PlayingQueueEntity>
+
+    @Query(
+        """
+        SELECT * FROM playing_queue
+        ORDER BY progressive
+    """
+    )
+    abstract fun observeAllImpl(): Flowable<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
-     abstract fun deleteAllImpl()
+    abstract fun deleteAllImpl()
 
     @Insert
-     abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
+    abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>, podcastList: Single<List<Song>>)
-            : Observable<List<PlayingQueueSong>> {
+    private fun makePlayingQueue(
+        playingQueue: List<PlayingQueueEntity>,
+        songList: List<Song>,
+        podcastList: List<Song>
+    ): List<PlayingQueueSong> {
+        // mapping to avoid O(n^2) iteration
+        val mappedSongList = songList.groupBy { it.id }
+        val mappedPodcastList = podcastList.groupBy { it.id }
 
-        return this.getAllImpl()
-                .toObservable()
-                .flatMapSingle { ids ->  Singles.zip(songList, podcastList) { songList, podcastList ->
+        val result = mutableListOf<PlayingQueueSong>()
 
-                    val result = mutableListOf<PlayingQueueSong>()
-                    for (item in ids){
-                        var song : Song? = songList.firstOrNull { it.id == item.songId }
-                        if (song == null){
-                            song = podcastList.firstOrNull { it.id == item.songId }
-                        }
-                        if (song == null){
-                            continue
-                        }
-
-                        val itemToAdd = song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
-                        result.add(itemToAdd)
-
-                    }
-                    result.toList()
-
-                } }
+        for (playingQueueEntity in playingQueue) {
+            val id = playingQueueEntity.songId
+            val fakeSongList = mappedSongList[id] ?: mappedPodcastList[id] ?: continue
+            val song = fakeSongList[0] // only one song
+            val playingQueueSong = song.toPlayingQueueSong(
+                playingQueueEntity.idInPlaylist,
+                playingQueueEntity.category,
+                playingQueueEntity.categoryValue
+            )
+            result.add(playingQueueSong)
+        }
+        return result
     }
 
-    fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) : Completable {
+    fun getAllAsSongs(songList: List<Song>, podcastList: List<Song>): List<PlayingQueueSong> {
+        val queueEntityList = getAllImpl()
+        return makePlayingQueue(queueEntityList, songList, podcastList)
+    }
 
-        return Single.fromCallable { deleteAllImpl() }
-                .map { list.map {
-                    val (mediaId, songId, idInPlaylist) = it
-                    PlayingQueueEntity(
-                        songId = songId,
-                        category = mediaId.category.toString(),
-                        categoryValue = mediaId.categoryValue,
-                        idInPlaylist = idInPlaylist
-                    )
-                }
-                }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
+    fun observeAllAsSongs(
+        songGateway: SongGateway,
+        podcastGateway: PodcastGateway
+    ): Flow<List<PlayingQueueSong>> {
+        return this.observeAllImpl()
+            .asFlow()
+            .map {
+                makePlayingQueue(it, songGateway.getAll(), podcastGateway.getAll())
+            }
+    }
+
+    @Transaction
+    open fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
+        assertBackgroundThread()
+
+        deleteAllImpl()
+        val result = list.map {
+            val (mediaId, songId, idInPlaylist) = it
+            PlayingQueueEntity(
+                songId = songId,
+                category = mediaId.category.toString(),
+                categoryValue = mediaId.categoryValue,
+                idInPlaylist = idInPlaylist
+            )
+        }
+        insertAllImpl(result)
     }
 
     private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)

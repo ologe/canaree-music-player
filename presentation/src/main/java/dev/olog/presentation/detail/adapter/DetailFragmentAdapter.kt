@@ -71,7 +71,7 @@ internal class DetailFragmentAdapter(
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
             }
             R.layout.item_detail_shuffle -> {
-                viewHolder.setOnClickListener(this) { _, _, _ ->
+                viewHolder.setOnClickListener(this) { item, _, _ ->
                     mediaProvider.shuffle(mediaId)
                 }
             }

@@ -2,9 +2,7 @@ package dev.olog.core.gateway
 
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface PlayingQueueGateway {
 
@@ -12,10 +10,10 @@ interface PlayingQueueGateway {
         const val MINI_QUEUE_SIZE = 50
     }
 
-    fun observeAll(): Observable<List<PlayingQueueSong>>
+    fun observeAll(): Flow<List<PlayingQueueSong>>
 
-    fun getAll(): Single<List<PlayingQueueSong>>
+    fun getAll(): List<PlayingQueueSong>
 
-    fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable
+    fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
 
 }

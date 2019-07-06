@@ -182,9 +182,9 @@ class MusicPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun observeLastPositionInQueue(): Observable<Int> {
-        return rxPreferences.getInteger(LAST_POSITION, -1)
-                .asObservable()
+    override fun observeLastPositionInQueue(): Flow<Int> {
+        return preferences.observeKey(LAST_POSITION, -1)
+            .assertBackground()
     }
 
     override fun getLastPositionInQueue(): Int {

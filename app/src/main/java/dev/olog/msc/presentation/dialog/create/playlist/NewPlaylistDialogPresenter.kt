@@ -1,14 +1,14 @@
 package dev.olog.msc.presentation.dialog.create.playlist
 
+import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
-import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
-import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.core.interactor.GetPlayingQueueUseCase
+import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.interactor.InsertCustomTrackListRequest
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
-import dev.olog.core.MediaId
+import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
+import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
+import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.shared.extensions.mapToList
 import io.reactivex.Completable
 import kotlinx.coroutines.rx2.asFlowable
@@ -21,7 +21,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
     private val getSongUseCase: GetSongUseCase,
     private val getPodcastUseCase: GetPodcastUseCase,
-    private val getPlayinghQueueUseCase: GetPlayingQueueUseCase
+    private val playingQueueGateway: PlayingQueueGateway
 
 ) {
 
@@ -32,16 +32,14 @@ class NewPlaylistDialogPresenter @Inject constructor(
 
     fun execute(playlistTitle: String) : Completable {
         if (mediaId.isPlayingQueue){
-            return getPlayinghQueueUseCase.execute().mapToList { it.id }
-                    .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(
-                            InsertCustomTrackListRequest(
-                                playlistTitle,
-                                it,
-                                playlistType
-                            )
-                        )
-                    }
+            val playingQueue = playingQueueGateway.getAll().map { it.id }
+            insertCustomTrackListToPlaylist.execute(
+                InsertCustomTrackListRequest(
+                    playlistTitle,
+                    playingQueue,
+                    playlistType
+                )
+            )
         }
 
         return if (mediaId.isLeaf && mediaId.isPodcast) {

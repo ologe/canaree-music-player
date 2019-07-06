@@ -98,9 +98,6 @@ class MainActivity : MusicGlueActivity(),
         getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         bottomNavigation.presentationPrefs = presentationPrefs
         bottomNavigation.navigateToLastPage()
-
-        viewModel.observeIsRepositoryEmpty()
-            .subscribe(this, this::handleEmptyRepository)
     }
 
     override fun onResume() {
@@ -148,14 +145,6 @@ class MainActivity : MusicGlueActivity(),
             }
         }
         setIntent(null)
-    }
-
-    private fun handleEmptyRepository(isEmpty: Boolean) {
-//        if (isEmpty){ TODO
-//            getSlidingPanel().peekHeight = dimen(R.dimen.bottom_navigation_height)
-//        } else {
-//            getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

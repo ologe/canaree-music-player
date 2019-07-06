@@ -1,6 +1,5 @@
 package dev.olog.media.controller
 
-import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -16,9 +15,5 @@ internal interface IMediaControllerCallback {
     fun onShuffleModeChanged(shuffleMode: Int)
 
     fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?)
-
-    fun onQueueTitleChanged(title: CharSequence?)
-
-    fun onExtrasChanged(extras: Bundle?)
 
 }

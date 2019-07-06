@@ -94,8 +94,6 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
 
-    override fun observeQueueTitle(): LiveData<String> = mediaExposer.observeQueueTitle()
-
     override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
 
     private fun mediaController(): MediaControllerCompat? {
@@ -129,12 +127,12 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
-    override fun skipToQueueItem(idInPlaylist: Long) {
-        transportControls()?.skipToQueueItem(idInPlaylist)
+    override fun skipToQueueItem(idInPlaylist: Int) {
+        transportControls()?.skipToQueueItem(idInPlaylist.toLong())
     }
 
     override fun shuffle(mediaId: MediaId) {
-        transportControls()?.playFromMediaId(MediaId.shuffleId().toString(), null)
+        transportControls()?.playFromMediaId(mediaId.toString(), bundleOf(MusicConstants.ACTION_SHUFFLE to true))
     }
 
     override fun skipToNext() {

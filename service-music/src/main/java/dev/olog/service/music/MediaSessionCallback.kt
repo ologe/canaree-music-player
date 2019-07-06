@@ -73,16 +73,17 @@ class MediaSessionCallback @Inject constructor(
             val mediaId = MediaId.fromString(mediaIdAsString)
 
             when {
-                mediaId == MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
+                mediaId == MediaId.shuffleId() ||
+                extras.containsKey(MusicConstants.ACTION_SHUFFLE) -> queue.handlePlayShuffle(mediaId)
                 extras.isEmpty ||
-                        extras.getString(MusicConstants.ARGUMENT_SORT_TYPE) != null ||
-                        extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING) != null -> {
+                        extras.containsKey(MusicConstants.ARGUMENT_SORT_TYPE) ||
+                        extras.containsKey(MusicConstants.ARGUMENT_SORT_ARRANGING) -> {
                     queue.handlePlayFromMediaId(mediaId, extras)
                 }
-                extras.getBoolean(MusicConstants.BUNDLE_MOST_PLAYED, false) -> {
+                extras.containsKey(MusicConstants.BUNDLE_MOST_PLAYED) -> {
                     queue.handlePlayMostPlayed(mediaId)
                 }
-                extras.getBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, false) -> {
+                extras.containsKey(MusicConstants.BUNDLE_RECENTLY_PLAYED) -> {
                     queue.handlePlayRecentlyPlayed(mediaId)
                 }
                 else -> Single.error(Throwable("invalid case $extras"))

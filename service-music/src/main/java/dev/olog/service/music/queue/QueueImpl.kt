@@ -17,6 +17,7 @@ import dev.olog.service.music.EnhancedShuffle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MediaSessionQueueModel
 import dev.olog.service.music.model.toMediaEntity
+import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.extensions.unsubscribe
 import dev.olog.shared.utils.assertMainThread
@@ -25,6 +26,10 @@ import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -41,9 +46,9 @@ class QueueImpl @Inject constructor(
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway,
     private val enhancedShuffle: EnhancedShuffle
-) {
+) : CoroutineScope by CustomScope() {
 
-    private var savePlayingQueueDisposable: Disposable? = null
+    private var savePlayingQueueJob: Job? = null
 
     private val playingQueue = Vector<MediaEntity>()
 
@@ -60,16 +65,12 @@ class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueDisposable.unsubscribe()
-        savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
-            .flattenAsObservable { it }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .map { UpdatePlayingQueueUseCaseRequest(it.mediaId, it.id, it.idInPlaylist) }
-            .toList()
-            .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
-            .subscribe({}, Throwable::printStackTrace)
-
+        savePlayingQueueJob?.cancel()
+        savePlayingQueueJob = launch {
+            val request = songList.map { UpdatePlayingQueueUseCaseRequest(it.mediaId, it.id, it.idInPlaylist) }
+            yield()
+            updatePlayingQueueUseCase(request)
+        }
     }
 
     fun updateCurrentSongPosition(
@@ -101,7 +102,7 @@ class QueueImpl @Inject constructor(
     }
 
     @CheckResult
-    fun getSongById(idInPlaylist: Long): MediaEntity {
+    fun getSongByPosition(idInPlaylist: Long): MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist.toLong() == idInPlaylist }
         val safePosition = ensurePosition(playingQueue, positionToTest)
         val media = playingQueue[safePosition]

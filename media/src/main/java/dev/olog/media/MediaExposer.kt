@@ -2,7 +2,6 @@ package dev.olog.media
 
 import android.content.ComponentName
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -58,7 +57,6 @@ class MediaExposer(
     private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
     private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
-    private val queueTitlePublisher = MutableLiveData<String>()
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
@@ -134,14 +132,6 @@ class MediaExposer(
         }
     }
 
-    override fun onQueueTitleChanged(title: CharSequence?) = runBlocking {
-        queueTitlePublisher.value = title.toString()
-    }
-
-    override fun onExtrasChanged(extras: Bundle?) {
-        throw IllegalArgumentException("extras not supported")
-    }
-
     fun observeMetadata(): LiveData<PlayerMetadata> = metadataPublisher
         .distinctUntilChanged()
 
@@ -152,9 +142,6 @@ class MediaExposer(
         .distinctUntilChanged()
 
     fun observeShuffle(): LiveData<PlayerShuffleMode> = shuffleModePublisher
-        .distinctUntilChanged()
-
-    fun observeQueueTitle(): LiveData<String> = queueTitlePublisher
         .distinctUntilChanged()
 
     fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher
