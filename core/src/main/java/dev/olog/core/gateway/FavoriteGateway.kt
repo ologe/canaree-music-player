@@ -10,8 +10,8 @@ import io.reactivex.Single
 
 interface FavoriteGateway {
 
-    fun getAll(): Observable<List<Song>>
-    fun getAllPodcasts(): Observable<List<Song>>
+    fun observeTracks(): Observable<List<Song>>
+    fun observePodcasts(): Observable<List<Song>>
 
     fun addSingle(type: FavoriteType, songId: Long): Completable
     fun addGroup(type: FavoriteType, songListId: List<Long>): Completable

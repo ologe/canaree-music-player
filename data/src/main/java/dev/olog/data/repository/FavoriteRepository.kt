@@ -35,7 +35,7 @@ class FavoriteRepository @Inject constructor(
         favoriteStatePublisher.onNext(state)
     }
 
-    override fun getAll(): Observable<List<Song>> {
+    override fun observeTracks(): Observable<List<Song>> {
         return favoriteDao.getAllImpl()
             .toObservable()
             .switchMap { favorites ->
@@ -46,7 +46,7 @@ class FavoriteRepository @Inject constructor(
             }
     }
 
-    override fun getAllPodcasts(): Observable<List<Song>> {
+    override fun observePodcasts(): Observable<List<Song>> {
         return favoriteDao.getAllPodcastsImpl()
             .toObservable()
             .switchMap { favorites ->
