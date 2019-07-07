@@ -28,15 +28,15 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
+class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
-        const val TAG = "PlaylistTracksChooserFragment"
-        const val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
+        val TAG = CreatePlaylistFragment::class.java
+        val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
 
         @JvmStatic
-        fun newInstance(type: PlaylistType): PlaylistTracksChooserFragment {
-            return PlaylistTracksChooserFragment().withArguments(
+        fun newInstance(type: PlaylistType): CreatePlaylistFragment {
+            return CreatePlaylistFragment().withArguments(
                 ARGUMENT_PLAYLIST_TYPE to type.ordinal
             )
         }
@@ -45,12 +45,10 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast {
-        viewModelProvider<PlaylistTracksChooserFragmentViewModel>(
-            viewModelFactory
-        )
+        viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
     }
     private val adapter by lazyFast {
-        PlaylistTracksChooserFragmentAdapter(
+        CreatePlaylistFragmentAdapter(
             lifecycle,
             viewModel
         )

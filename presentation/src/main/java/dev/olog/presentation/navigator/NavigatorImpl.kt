@@ -8,7 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.createplaylist.PlaylistTracksChooserFragment
+import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.model.DisplayableItem
@@ -107,10 +107,10 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
-        val newTag = createBackStackTag(PlaylistTracksChooserFragment.TAG)
+        val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
         superCerealTransition(
             activity,
-            PlaylistTracksChooserFragment.newInstance(type),
+            CreatePlaylistFragment.newInstance(type),
             newTag
         )
     }

@@ -8,11 +8,11 @@ import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.createplaylist.PlaylistTracksChooserFragment
-import dev.olog.presentation.createplaylist.PlaylistTracksChooserFragmentViewModel
+import dev.olog.presentation.createplaylist.CreatePlaylistFragment
+import dev.olog.presentation.createplaylist.CreatePlaylistFragmentViewModel
 
 @Module(includes = [PlaylistTracksChooserFragmentModule.Binding::class])
-class PlaylistTracksChooserFragmentModule(private val fragment: PlaylistTracksChooserFragment) {
+class PlaylistTracksChooserFragmentModule(private val fragment: CreatePlaylistFragment) {
 
     @Provides
     @FragmentLifecycle
@@ -20,7 +20,7 @@ class PlaylistTracksChooserFragmentModule(private val fragment: PlaylistTracksCh
 
     @Provides
     fun providePlaylistType(): PlaylistType {
-        val type = fragment.arguments!!.getInt(PlaylistTracksChooserFragment.ARGUMENT_PLAYLIST_TYPE)
+        val type = fragment.arguments!!.getInt(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)
         return PlaylistType.values()[type]
     }
 
@@ -29,8 +29,8 @@ class PlaylistTracksChooserFragmentModule(private val fragment: PlaylistTracksCh
 
         @Binds
         @IntoMap
-        @ViewModelKey(PlaylistTracksChooserFragmentViewModel::class)
-        fun provideViewModel(viewModel: PlaylistTracksChooserFragmentViewModel): ViewModel
+        @ViewModelKey(CreatePlaylistFragmentViewModel::class)
+        fun provideViewModel(viewModel: CreatePlaylistFragmentViewModel): ViewModel
 
     }
 

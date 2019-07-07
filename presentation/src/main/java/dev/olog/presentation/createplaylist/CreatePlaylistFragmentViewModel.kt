@@ -27,7 +27,7 @@ import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
-class PlaylistTracksChooserFragmentViewModel @Inject constructor(
+class CreatePlaylistFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
