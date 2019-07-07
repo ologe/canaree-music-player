@@ -7,13 +7,13 @@ import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 
-@Module(subcomponents = arrayOf(PlaylistTracksChooserFragmentSubComponent::class))
-abstract class PlaylistTracksChooserInjector {
+@Module(subcomponents = arrayOf(CreatePlaylistFragmentSubComponent::class))
+abstract class CreatePlaylistFragmentInjector {
 
     @Binds
     @IntoMap
     @ClassKey(CreatePlaylistFragment::class)
-    internal abstract fun injectorFactory(builder: PlaylistTracksChooserFragmentSubComponent.Builder)
+    internal abstract fun injectorFactory(builder: CreatePlaylistFragmentSubComponent.Builder)
             : AndroidInjector.Factory<*>
 
 }

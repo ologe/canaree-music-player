@@ -11,8 +11,8 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.createplaylist.CreatePlaylistFragmentViewModel
 
-@Module(includes = [PlaylistTracksChooserFragmentModule.Binding::class])
-class PlaylistTracksChooserFragmentModule(private val fragment: CreatePlaylistFragment) {
+@Module(includes = [CreatePlaylistFragmentModule.Binding::class])
+class CreatePlaylistFragmentModule(private val fragment: CreatePlaylistFragment) {
 
     @Provides
     @FragmentLifecycle

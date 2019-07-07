@@ -5,7 +5,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dev.olog.injection.CoreComponent
 import dev.olog.presentation.ViewModelModule
-import dev.olog.presentation.createplaylist.di.PlaylistTracksChooserInjector
+import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
 import dev.olog.presentation.folder.tree.di.FolderTreeFragmentModule
@@ -43,7 +43,7 @@ fun MainActivity.inject() {
         RelatedArtistFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
-        PlaylistTracksChooserInjector::class,
+        CreatePlaylistFragmentInjector::class,
 
         SettingsFragmentsModule::class
 

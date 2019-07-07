@@ -7,19 +7,19 @@ import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 
 
 @Subcomponent(modules = arrayOf(
-        PlaylistTracksChooserFragmentModule::class
+        CreatePlaylistFragmentModule::class
 ))
 @PerFragment
-interface PlaylistTracksChooserFragmentSubComponent : AndroidInjector<CreatePlaylistFragment> {
+interface CreatePlaylistFragmentSubComponent : AndroidInjector<CreatePlaylistFragment> {
 
     @Subcomponent.Builder
     abstract class Builder : AndroidInjector.Builder<CreatePlaylistFragment>() {
 
-        abstract fun module(module: PlaylistTracksChooserFragmentModule): Builder
+        abstract fun module(module: CreatePlaylistFragmentModule): Builder
 
         override fun seedInstance(instance: CreatePlaylistFragment) {
             module(
-                PlaylistTracksChooserFragmentModule(
+                CreatePlaylistFragmentModule(
                     instance
                 )
             )
