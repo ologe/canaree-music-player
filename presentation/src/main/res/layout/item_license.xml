@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:gravity="center"
-            android:textAppearance="@style/Headline5"/>
+            android:textAppearance="@style/Header.Main"/>
 
         <TextView
             android:id="@+id/url"

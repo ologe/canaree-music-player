@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/more"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/more"
-            android:textAppearance="@style/Headline5"/>
+            android:textAppearance="@style/Header.Main"/>
 
         <ImageButton
             android:id="@+id/more"

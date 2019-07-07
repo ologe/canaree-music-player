@@ -10,14 +10,8 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">sans-serif-black</item>
-        <item name="android:textSize">28dp</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
     <style name="Headline6">
-        <item name="android:textSize">@dimen/item_header_text_size</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -25,14 +19,24 @@
         <item name="android:letterSpacing">0.0125</item>
     </style>
 
-    <style name="Headline6.Alt" parent="Headline6">
-        <item name="android:fontFamily">sans-serif-black</item>
-        <item name="android:maxLines">2</item>
-    </style>
-
     <style name="Body1">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Header" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Header.Main">
+        <item name="android:textSize">28dp</item>
+    </style>
+
+    <style name="Header.Secondary">
+        <item name="android:textSize">20dp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

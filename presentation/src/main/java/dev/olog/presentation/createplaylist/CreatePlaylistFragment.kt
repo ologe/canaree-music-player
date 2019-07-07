@@ -22,8 +22,10 @@ import dev.olog.shared.utils.TextUtils
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_playlist_track_chooser.*
+import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,7 +33,7 @@ import javax.inject.Inject
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
-        val TAG = CreatePlaylistFragment::class.java
+        val TAG = CreatePlaylistFragment::class.java.name
         val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
 
         @JvmStatic
@@ -47,12 +49,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     private val viewModel by lazyFast {
         viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
     }
-    private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            lifecycle,
-            viewModel
-        )
-    }
+    private val adapter by lazyFast { CreatePlaylistFragmentAdapter(lifecycle, viewModel) }
 
     private var toast: Toast? = null
 
@@ -74,30 +71,39 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     )
                 }
                 header.text = text
-                save.toggleVisibility(size > 0, true)
+                fab.toggleVisibility(size > 0, true)
             }
 
-//        viewModel.getAllSongs(filter(view)) TODO
-//            .subscribe(viewLifecycleOwner) {
-//                adapter.updateDataSet(it)
-//                sidebar.onDataChanged(it)
-//            }
+        viewModel.observeData()
+            .subscribe(viewLifecycleOwner){
+                adapter.updateDataSet(it)
+                sidebar.onDataChanged(it)
+            }
 
         launch {
             adapter.observeData(false)
+                .filter { it.isNotEmpty() }
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
         }
 
         sidebar.scrollableLayoutId = R.layout.item_choose_track
+
+        launch {
+            editText.afterTextChange()
+                .filter { it.isBlank() || it.trim().length >= 2 }
+                .debounce(250)
+                .collect {
+                    viewModel.updateFilter(it)
+                }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         sidebar.setListener(letterTouchListener)
-        clear.setOnClickListener { filter.setText("") }
-        save.setOnClickListener { showCreateDialog() }
+        fab.setOnClickListener { showCreateDialog() }
         back.setOnClickListener {
-            ImeUtils.hideIme(filter)
+            ImeUtils.hideIme(editText)
             act.onBackPressed()
         }
         filterList.setOnClickListener {
@@ -117,8 +123,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     override fun onPause() {
         super.onPause()
         sidebar.setListener(null)
-        clear.setOnClickListener(null)
-        save.setOnClickListener(null)
+        fab.setOnClickListener(null)
         back.setOnClickListener(null)
         filterList.setOnClickListener(null)
     }
@@ -175,13 +180,6 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             .subscribe({ editTextLayout.isErrorEnabled = false }, Throwable::printStackTrace)
     }
 
-//    private fun filter(view: View): Observable<String> { TODO
-//        return RxTextView.afterTextChangeEvents(view.filter)
-//            .map { it.editable().toString() }
-//            .filter { it.isBlank() || it.trim().length >= 2 }
-//            .debounce(250, TimeUnit.MILLISECONDS)
-//    }
-
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
         list.stopScroll()
 
@@ -196,10 +194,10 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         }
         if (position != -1) {
             val layoutManager =
-                list.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
+                list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_playlist_track_chooser
+    override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
 }

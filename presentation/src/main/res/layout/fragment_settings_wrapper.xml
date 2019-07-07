@@ -34,7 +34,7 @@
             android:layout_marginStart="56dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAppearance="@style/Headline6.Alt"/>
+            android:textAppearance="@style/Header.Secondary"/>
 
     </FrameLayout>
 

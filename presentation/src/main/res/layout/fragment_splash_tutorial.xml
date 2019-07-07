@@ -106,7 +106,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textAppearance="@style/Headline5"
+                    android:textAppearance="@style/Header.Main"
                     android:alpha=".4"
                     android:stateListAnimator="@animator/now_playing"
                     tools:fontFamily="sans-serif-black"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_selected="true" android:color="?attr/colorAccent"/>
+    <item android:state_selected="true" android:color="?colorAccent"/>
 
-    <item android:color="?android:attr/textColorTertiary"/>
+    <item android:color="?colorControlNormal"/>
 
 </selector>

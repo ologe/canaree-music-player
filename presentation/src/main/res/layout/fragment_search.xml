@@ -17,7 +17,8 @@
         android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar">
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/header"
@@ -26,7 +27,7 @@
             android:layout_marginStart="16dp"
             android:gravity="center"
             android:text="@string/common_search"
-            android:textAppearance="@style/Headline5"
+            android:textAppearance="@style/Header.Main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/more" />

@@ -21,11 +21,16 @@ class StatusBarView(
     }
 
     init {
-        setBackgroundColor(context.colorSurface())
+        if (!isInEditMode){
+            setBackgroundColor(context.colorSurface())
+        }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (isInEditMode){
+            return
+        }
         if (viewHeight == -1){
             setOnApplyWindowInsetsListener { v, insets ->
                 val height = insets?.systemWindowInsetTop ?: 0

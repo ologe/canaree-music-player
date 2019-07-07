@@ -82,7 +82,7 @@ class AboutActivity : BaseActivity() {
         textView.layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
-        TextViewCompat.setTextAppearance(textView, R.style.Headline6_Alt)
+        TextViewCompat.setTextAppearance(textView, R.style.Headline6)
         textView.gravity = Gravity.CENTER
         textView
     }

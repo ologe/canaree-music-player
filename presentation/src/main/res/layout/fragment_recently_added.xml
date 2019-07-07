@@ -33,12 +33,13 @@
         <TextView
             android:id="@+id/header"
             android:text="@string/common_recently_added"
-            android:gravity="center"
+            android:gravity="center_vertical"
+            tools:fontFamily="sans-serif-black"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="56dp"
             android:layout_marginEnd="48dp"
-            android:textAppearance="@style/Headline6.Alt"/>
+            android:textAppearance="@style/Header.Secondary"/>
 
     </FrameLayout>
 
