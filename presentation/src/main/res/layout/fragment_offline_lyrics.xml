@@ -30,8 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/placeholder_album"
-        android:layout_marginBottom="90dp"/>
+        tools:src="@drawable/placeholder_album" />
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blurLayout"
@@ -41,7 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="90dp"
         app:blk_fps="24"/>
 
     <View
@@ -55,11 +53,8 @@
 
     <ImageButton
         android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_back_arrow"
         android:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,11 +62,8 @@
 
     <ImageButton
         android:id="@+id/search"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_search"
         android:tint="@android:color/white"
         app:layout_constraintTop_toTopOf="@+id/back"
@@ -79,11 +71,8 @@
 
     <ImageButton
         android:id="@+id/sync"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_sync"
         android:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,100 +135,71 @@
         android:layout_height="120dp"
         android:background="@drawable/vd_fade"/>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:id="@+id/wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:background="?colorSurface">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bar"
+        <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="100dp">
-
-                <TextView
-                    android:id="@+id/header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxLines="1"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/offline_lyrics_title_size"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/edit"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Wanksta"
-                    android:fontFamily="sans-serif-black"/>
-
-                <TextView
-                    android:id="@+id/subHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxLines="1"
-                    android:textColor="?attr/colorAccent"
-                    android:textSize="@dimen/offline_lyrics_artist_size"
-                    tools:text="50 Cent" />
-
-                <!-- seekbar -->
-                <dev.olog.media.widget.CustomSeekBar
-                    android:id="@+id/seekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="8dp"
-                    android:max="@integer/common_high_number"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/header"
-                    app:layout_constraintStart_toStartOf="@+id/header"
-                    app:layout_constraintTop_toBottomOf="@+id/subHeader"
-                    app:layout_constraintVertical_bias="1"
-                    tools:max="100"
-                    tools:progress="40" />
-
-            </LinearLayout>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <dev.olog.shared.widgets.BottomAppBarFab
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@id/bar"
-            android:clickable="false"
-            android:focusable="false"
-            app:backgroundTint="@android:color/transparent"
-            app:elevation="0dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/offline_lyrics_title_size"
+            app:layout_constraintEnd_toStartOf="@+id/edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Wanksta"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginEnd="100dp"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <TextView
+            android:id="@+id/subHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="?attr/colorAccent"
+            android:textSize="@dimen/offline_lyrics_artist_size"
+            tools:text="50 Cent"
+            android:layout_marginEnd="100dp"/>
+
+        <!-- seekbar -->
+        <dev.olog.media.widget.CustomSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:max="@integer/common_high_number"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            tools:max="100"
+            tools:progress="40" />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/vd_edit"
-        android:layout_gravity="end"
-        android:translationY="-107dp"
+        app:layout_constraintTop_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/wrapper"
         android:translationX="-32dp"
         app:fabSize="normal"
         android:clickable="true"

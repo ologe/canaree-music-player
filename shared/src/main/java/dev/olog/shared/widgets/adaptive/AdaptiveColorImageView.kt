@@ -19,11 +19,17 @@ open class AdaptiveColorImageView @JvmOverloads constructor(
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
-        presenter.onNextImage(bm)
+        if (!isInEditMode){
+            presenter.onNextImage(bm)
+        }
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
+        if (isInEditMode){
+            return
+        }
+
         if (drawable is TransitionDrawable){
             if (drawable.numberOfLayers == 2){
                 presenter.onNextImage(drawable.layers[1])
