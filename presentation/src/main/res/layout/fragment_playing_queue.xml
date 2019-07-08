@@ -80,7 +80,8 @@
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_playing_queue" />
+        tools:listitem="@layout/item_playing_queue"
+        android:overScrollMode="never"/>
 
     <dev.olog.presentation.widgets.fascroller.RxFastScroller
         android:id="@+id/fastScroller"
