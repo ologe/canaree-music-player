@@ -21,7 +21,7 @@ class StatusBarColorBehavior @Inject constructor(
 
 ) : DefaultLifecycleObserver, FragmentManager.OnBackStackChangedListener {
 
-    private val slidingPanel by lazyFast { (activity as HasSlidingPanel?)?.getSlidingPanel() }
+    private val slidingPanel by lazyFast { (activity as HasSlidingPanel).getSlidingPanel() }
 
     init {
         activity.lifecycle.addObserver(this)
@@ -32,9 +32,8 @@ class StatusBarColorBehavior @Inject constructor(
             return
         }
 
-        slidingPanel?.addPanelSlideListener(slidingPanelListener)?.also {
-            activity.supportFragmentManager.addOnBackStackChangedListener(this)
-        }
+        slidingPanel.addPanelSlideListener(slidingPanelListener)
+        activity.supportFragmentManager.addOnBackStackChangedListener(this)
     }
 
     override fun onPause(owner: LifecycleOwner) {
@@ -42,9 +41,8 @@ class StatusBarColorBehavior @Inject constructor(
             return
         }
 
-        slidingPanel?.removePanelSlideListener(slidingPanelListener)?.also {
-            activity.supportFragmentManager.removeOnBackStackChangedListener(this)
-        }
+        slidingPanel.removePanelSlideListener(slidingPanelListener)
+        activity.supportFragmentManager.removeOnBackStackChangedListener(this)
     }
 
     override fun onBackStackChanged() {
@@ -52,7 +50,7 @@ class StatusBarColorBehavior @Inject constructor(
             return
         }
 
-        val fragment = searchForDetailFragmentOnPortraitMode()
+        val fragment = searchFragmentWithLightStatusBar()
         if (fragment == null){
             activity.window.setLightStatusBar()
         } else {
@@ -64,7 +62,7 @@ class StatusBarColorBehavior @Inject constructor(
         }
     }
 
-    private fun searchForDetailFragmentOnPortraitMode(): CanChangeStatusBarColor? {
+    private fun searchFragmentWithLightStatusBar(): CanChangeStatusBarColor? {
         val fm = activity.supportFragmentManager
         val backStackEntryCount = fm.backStackEntryCount - 1
         if (backStackEntryCount > -1) {
@@ -94,7 +92,7 @@ class StatusBarColorBehavior @Inject constructor(
                     }
                 }
                 BottomSheetBehavior.STATE_COLLAPSED -> {
-                    searchForDetailFragmentOnPortraitMode()?.adjustStatusBarColor() ?: activity.window.setLightStatusBar()
+                    searchFragmentWithLightStatusBar()?.adjustStatusBarColor() ?: activity.window.setLightStatusBar()
                 }
             }
         }
