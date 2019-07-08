@@ -92,7 +92,7 @@ class GlideMergedImageFetcher(
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
 
-    override fun getDataSource(): DataSource = DataSource.DATA_DISK_CACHE
+    override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun cleanup() {
         cancel(null)

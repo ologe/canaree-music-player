@@ -77,7 +77,7 @@ internal class GlideOverridenImageFetcher(
 
     }
 
-    override fun getDataSource(): DataSource = DataSource.DATA_DISK_CACHE
+    override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun cancel() {
 

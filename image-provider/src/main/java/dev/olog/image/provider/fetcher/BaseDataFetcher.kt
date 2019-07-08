@@ -36,7 +36,7 @@ abstract class BaseDataFetcher(
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
 
-    override fun getDataSource(): DataSource = DataSource.REMOTE
+    override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun cleanup() {
         unsubscribe()
