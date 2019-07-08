@@ -12,6 +12,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
@@ -35,12 +36,12 @@ class AdaptiveColorImageViewPresenter(
     fun observeProcessorColors() = processorPalettePublisher
         .subscribeOn(Schedulers.computation())
         .observeOn(Schedulers.computation())
-        .debounceFirst()
+        .debounce(200, TimeUnit.MILLISECONDS)
 
     fun observePalette() = palettePublisher
         .subscribeOn(Schedulers.computation())
         .observeOn(Schedulers.computation())
-        .debounceFirst()
+        .debounce(200, TimeUnit.MILLISECONDS)
 
     fun onNextImage(drawable: Drawable?) {
         try {
