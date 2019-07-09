@@ -7,13 +7,9 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.ToggleFavoriteUseCase
 import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.SkipType
@@ -29,7 +25,6 @@ import javax.inject.Inject
 
 @PerService
 class MediaSessionCallback @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
     private val queue: Queue,
     private val player: Player,
     private val repeatMode: MusicServiceRepeatMode,
@@ -38,18 +33,12 @@ class MediaSessionCallback @Inject constructor(
     private val playerState: MusicServicePlaybackState,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
-) : MediaSessionCompat.Callback(), DefaultLifecycleObserver {
+) : MediaSessionCompat.Callback() {
 
     private val subscriptions = CompositeDisposable()
 
     init {
-
-        lifecycle.addObserver(this)
         onPrepare()
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        subscriptions.clear()
     }
 
     override fun onPrepare() {
