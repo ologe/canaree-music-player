@@ -62,8 +62,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     @Inject
     lateinit var lastFmScrobbling: LastFmScrobbling
 
-    private val subsriptions = CompositeDisposable()
-
     override fun onCreate() {
         inject()
         super.onCreate()
@@ -87,7 +85,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     override fun onDestroy() {
         super.onDestroy()
         resetSleepTimer()
-        subsriptions.clear()
         mediaSession.setMediaButtonReceiver(null)
         mediaSession.setCallback(null)
         mediaSession.isActive = false
@@ -141,25 +138,25 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     override fun handleReplay10(intent: Intent) {
         mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.REPLAY_10, null
+            MusicServiceAction.REPLAY_10.name, null
         )
     }
 
     override fun handleReplay30(intent: Intent) {
         mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.REPLAY_30, null
+            MusicServiceAction.REPLAY_30.name, null
         )
     }
 
     override fun handleForward10(intent: Intent) {
         mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.FORWARD_10, null
+            MusicServiceAction.FORWARD_10.name, null
         )
     }
 
     override fun handleForward30(intent: Intent) {
         mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.FORWARD_30, null
+            MusicServiceAction.FORWARD_30.name, null
         )
     }
 
