@@ -30,15 +30,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @PerService
 class MediaSessionCallback @Inject constructor(
-    @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val queue: Queue,
     private val player: Player,
@@ -51,7 +47,6 @@ class MediaSessionCallback @Inject constructor(
 ) : MediaSessionCompat.Callback(), DefaultLifecycleObserver {
 
     private val subscriptions = CompositeDisposable()
-    private var prepareDisposable: Disposable? = null
 
     init {
         lifecycle.addObserver(this)
@@ -60,13 +55,12 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         subscriptions.clear()
-        prepareDisposable.unsubscribe()
     }
 
     override fun onPrepare() {
-        prepareDisposable = queue.prepare()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(player::prepare, Throwable::printStackTrace)
+        runBlocking {
+            queue.prepare()?.let { track -> player.prepare(track) }
+        }
     }
 
     override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
@@ -83,11 +77,8 @@ class MediaSessionCallback @Inject constructor(
             .addTo(subscriptions)
     }
 
-    @Suppress("MoveLambdaOutsideParentheses")
     override fun onPlay() {
-        doWhenReady({
-            player.resume()
-        })
+        player.resume()
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
@@ -127,13 +118,11 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        doWhenReady({
-            updatePodcastPosition()
-            queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-                val skipType = if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS else SkipType.RESTART
-                player.playNext(metadata, skipType)
-            }
-        }, { context.toast("Something went wrong") })
+        updatePodcastPosition()
+        queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
+            val skipType = if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS else SkipType.RESTART
+            player.playNext(metadata, skipType)
+        }
     }
 
     private fun onTrackEnded() {
@@ -144,42 +133,16 @@ class MediaSessionCallback @Inject constructor(
      * Try to skip to next song, if can't, restart current
      */
     private fun onSkipToNext(trackEnded: Boolean) {
-        doWhenReady({
-            updatePodcastPosition()
-            val metadata = queue.handleSkipToNext(trackEnded)
-            if (metadata != null) {
-                val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
-                player.playNext(metadata, skipType)
-            } else {
-                val currentSong = queue.getPlayingSong()
-                player.play(currentSong)
-                player.pause(true)
-                player.seekTo(0L)
-            }
-        }, { context.toast("Something went wrong") })
-    }
-
-    private fun doWhenReady(action: () -> Unit, error: (() -> Unit)? = null) {
-        prepareDisposable.unsubscribe()
-        if (queue.isReady()) {
-            try {
-                action()
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-                error?.invoke()
-            }
+        updatePodcastPosition()
+        val metadata = queue.handleSkipToNext(trackEnded)
+        if (metadata != null) {
+            val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
+            player.playNext(metadata, skipType)
         } else {
-            prepareDisposable = queue.prepare()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    try {
-                        player.prepare(it)
-                        action()
-                    } catch (ex: Exception) {
-                        error?.invoke()
-                    }
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+            val currentSong = queue.getPlayingSong()
+            player.play(currentSong)
+            player.pause(true)
+            player.seekTo(0L)
         }
     }
 

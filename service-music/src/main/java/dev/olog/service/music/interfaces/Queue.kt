@@ -9,11 +9,9 @@ import io.reactivex.Single
 
 interface Queue {
 
-    fun isReady() : Boolean
-
     fun getCurrentPositionInQueue(): PositionInQueue
 
-    fun prepare(): Single<PlayerMediaEntity>
+    suspend fun prepare(): PlayerMediaEntity?
 
     fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
 

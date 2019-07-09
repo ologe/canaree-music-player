@@ -8,7 +8,9 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.*
+import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
+import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EnhancedShuffle
@@ -16,19 +18,18 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.utils.ComparatorUtils
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.clamp
 import io.reactivex.Single
 import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.rx2.asFlowable
 import kotlinx.coroutines.rx2.asObservable
+import kotlinx.coroutines.withContext
 import java.text.Collator
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 class QueueManager @Inject constructor(
@@ -50,24 +51,26 @@ class QueueManager @Inject constructor(
         Collator.getInstance(Locale.UK).apply { strength = Collator.SECONDARY }
     }
 
-    private val isReady = AtomicBoolean(false)
+    override suspend fun prepare(): PlayerMediaEntity? = withContext(Dispatchers.Default) {
+        val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
+        queueImpl.updatePlayingQueueAndPersist(playingQueue)
 
-    override fun isReady(): Boolean = isReady.get()
+        val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
+        val currentPosition = clamp(
+            playingQueue.indexOfFirst { it.idInPlaylist == lastPlayedId },
+            0,
+            playingQueue.lastIndex
+        )
+        queueImpl.updateCurrentSongPosition(playingQueue, currentPosition)
 
-    override fun prepare(): Single<PlayerMediaEntity> {
-        return Single.fromCallable { playingQueueGateway.getAll() }
-            .subscribeOn(Schedulers.computation())
-            .map { list -> list.map { it.toMediaEntity() } }
-            .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
-            .map { lastSessionSong.apply(it) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
-            .map { (list, position) ->
-                list[position].toPlayerMediaEntity(
-                    queueImpl.computePositionInQueue(list, position),
-                    getLastSessionBookmark(list[position])
-                )
-            }
-            .doOnSuccess { isReady.compareAndSet(false, true) }
+        if (currentPosition in 0 until playingQueue.size) {
+            playingQueue[currentPosition].toPlayerMediaEntity(
+                queueImpl.computePositionInQueue(playingQueue, currentPosition),
+                getLastSessionBookmark(playingQueue[currentPosition])
+            )
+        } else {
+            null
+        }
     }
 
     private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {
@@ -150,7 +153,8 @@ class QueueManager @Inject constructor(
     ): List<MediaEntity> {
         return try {
             extras!!
-            val sortOrder = SortType.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_TYPE)!!)
+            val sortOrder =
+                SortType.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_TYPE)!!)
             val arranging =
                 SortArranging.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_ARRANGING)!!)
             return if (arranging == SortArranging.ASCENDING) {
@@ -311,14 +315,6 @@ class QueueManager @Inject constructor(
     override fun shuffle() {
         queueImpl.shuffle()
     }
-
-    private val lastSessionSong =
-        Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
-            val idInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
-            val currentPosition =
-                clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
-            Pair(list, currentPosition)
-        }
 
     private fun getCurrentSongOnPlayFromId(songId: Long) =
         Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
