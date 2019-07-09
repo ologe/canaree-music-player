@@ -27,7 +27,6 @@ enum class MusicServiceAction {
 
     companion object {
         val ARGUMENT_MEDIA_ID = "${MusicServiceAction::class.java}.mediaid"
-        val ARGUMENT_ID = "${MusicServiceAction::class.java}.id"
         val ARGUMENT_SWAP_FROM = "${MusicServiceAction::class.java}.swap.from"
         val ARGUMENT_SWAP_TO = "${MusicServiceAction::class.java}.swap.to"
         val ARGUMENT_POSITION = "${MusicServiceAction::class.java}.position"
