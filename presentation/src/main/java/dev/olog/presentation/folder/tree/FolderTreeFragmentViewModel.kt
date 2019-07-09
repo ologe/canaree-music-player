@@ -10,7 +10,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -27,9 +27,9 @@ import java.io.File
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val appPreferencesUseCase: AppPreferencesGateway,
-        private val folderGateway: FolderGateway
+    @ApplicationContext private val context: Context,
+    private val appPreferencesUseCase: AppPreferencesGateway,
+    private val folderGateway: FolderGateway
 
 ) : ViewModel() {
 

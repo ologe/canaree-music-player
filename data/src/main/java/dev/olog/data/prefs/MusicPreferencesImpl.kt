@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
@@ -38,9 +38,9 @@ private const val LAST_POSITION = "$TAG.last_position"
 private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 class MusicPreferencesImpl @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val preferences: SharedPreferences,
-        private val rxPreferences: RxSharedPreferences
+    @ApplicationContext private val context: Context,
+    private val preferences: SharedPreferences,
+    private val rxPreferences: RxSharedPreferences
 
 ): MusicPreferencesGateway {
 

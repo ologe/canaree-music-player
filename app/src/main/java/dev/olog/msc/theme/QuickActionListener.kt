@@ -2,7 +2,7 @@ package dev.olog.msc.theme
 
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.theme.QuickAction
 import kotlinx.coroutines.GlobalScope
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class QuickActionListener @Inject constructor(
-        @ApplicationContext context: Context,
-        prefs: SharedPreferences
+    @ApplicationContext context: Context,
+    prefs: SharedPreferences
 ) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_quick_action_key)){
 
     val quickActionPublisher = ConflatedBroadcastChannel(QuickAction.NONE)

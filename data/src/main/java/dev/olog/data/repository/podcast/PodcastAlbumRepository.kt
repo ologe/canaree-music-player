@@ -3,7 +3,7 @@ package dev.olog.data.repository.podcast
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.HasLastPlayed
@@ -24,10 +24,10 @@ import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastAlbumRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        appDatabase: AppDatabase
+    @ApplicationContext context: Context,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    appDatabase: AppDatabase
 ) : BaseRepository<Album, Id>(context), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)

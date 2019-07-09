@@ -5,7 +5,7 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.Log
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -28,10 +28,10 @@ import java.io.File
 import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), PodcastGateway {
 
     private val podcastPositionDao = appDatabase.podcastPositionDao()

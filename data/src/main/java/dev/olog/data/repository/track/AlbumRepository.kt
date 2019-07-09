@@ -3,7 +3,7 @@ package dev.olog.data.repository.track
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.AlbumGateway
@@ -25,10 +25,10 @@ import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class AlbumRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        appDatabase: AppDatabase
+    @ApplicationContext context: Context,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    appDatabase: AppDatabase
 ) : BaseRepository<Album, Id>(context), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)

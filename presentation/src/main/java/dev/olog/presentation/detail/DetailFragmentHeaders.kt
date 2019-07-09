@@ -3,7 +3,7 @@ package dev.olog.presentation.detail
 import android.content.Context
 import androidx.core.os.bundleOf
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject

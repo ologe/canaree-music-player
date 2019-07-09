@@ -2,7 +2,7 @@ package dev.olog.msc.theme
 
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.ImageShape
@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
-        @ApplicationContext context: Context,
-        prefs: SharedPreferences
+    @ApplicationContext context: Context,
+    prefs: SharedPreferences
 ) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_icon_shape_key)){
 
     val imageShapePublisher by lazyFast { ConflatedBroadcastChannel<ImageShape>() }

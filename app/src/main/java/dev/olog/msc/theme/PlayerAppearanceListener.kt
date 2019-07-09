@@ -2,14 +2,14 @@ package dev.olog.msc.theme
 
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.shared.R
 import dev.olog.shared.theme.PlayerAppearance
 import javax.inject.Inject
 
 internal class PlayerAppearanceListener @Inject constructor(
-        @ApplicationContext context: Context,
-        prefs: SharedPreferences
+    @ApplicationContext context: Context,
+    prefs: SharedPreferences
 ) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_appearance_key)) {
 
     var playerAppearance = PlayerAppearance.DEFAULT

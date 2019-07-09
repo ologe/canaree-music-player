@@ -13,7 +13,7 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.msc.R
 import dev.olog.shared.utils.isMarshmallow
 import io.reactivex.Completable
@@ -21,9 +21,9 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SetRingtoneDialogPresenter @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val activity: AppCompatActivity,
-        private val mediaId: MediaId
+    @ApplicationContext private val context: Context,
+    private val activity: AppCompatActivity,
+    private val mediaId: MediaId
 
 ) {
 

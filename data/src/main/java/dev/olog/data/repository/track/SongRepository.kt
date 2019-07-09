@@ -11,7 +11,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio
 import android.util.Log
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
@@ -34,9 +34,9 @@ import java.io.File
 import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences
+    @ApplicationContext context: Context,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences
 ) : BaseRepository<Song, Id>(context), SongGateway {
 
     private val queries = TrackQueries(

@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
@@ -29,11 +29,11 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
-        @ApplicationContext context: Context,
-        appDatabase: AppDatabase,
-        sortPrefs: SortPreferences,
-        blacklistPrefs: BlacklistPreferences,
-        private val songGateway2: SongGateway
+    @ApplicationContext context: Context,
+    appDatabase: AppDatabase,
+    sortPrefs: SortPreferences,
+    blacklistPrefs: BlacklistPreferences,
+    private val songGateway2: SongGateway
 ) : BaseRepository<Genre, Id>(context), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)

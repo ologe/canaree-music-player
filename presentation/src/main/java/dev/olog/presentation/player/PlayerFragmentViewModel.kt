@@ -3,7 +3,7 @@ package dev.olog.presentation.player
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway

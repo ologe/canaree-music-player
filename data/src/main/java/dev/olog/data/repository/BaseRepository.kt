@@ -3,7 +3,7 @@ package dev.olog.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.data.DataObserver
 import dev.olog.shared.CustomScope

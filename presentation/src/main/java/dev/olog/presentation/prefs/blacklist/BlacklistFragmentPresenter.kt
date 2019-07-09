@@ -3,7 +3,7 @@ package dev.olog.presentation.prefs.blacklist
 import android.content.Context
 import android.os.Environment
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.dagger.ApplicationContext
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.track.FolderGateway
