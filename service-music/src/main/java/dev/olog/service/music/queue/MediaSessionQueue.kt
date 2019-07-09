@@ -6,7 +6,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.service.music.MusicServicePlaybackState
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MediaSessionQueueModel
 import dev.olog.shared.extensions.unsubscribe
@@ -18,9 +17,7 @@ import javax.inject.Inject
 
 class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
-    mediaSession: MediaSessionCompat,
-    private val playerState: MusicServicePlaybackState
-
+    mediaSession: MediaSessionCompat
 ) : DefaultLifecycleObserver {
 
     private val publisher: PublishSubject<MediaSessionQueueModel<MediaEntity>> =
@@ -41,7 +38,6 @@ class MediaSessionQueue @Inject constructor(
             .map { it.toQueueItem() }
             .subscribe({ (id, queue) ->
                 mediaSession.setQueue(queue)
-                playerState.updateActiveQueueId(id)
             }, Throwable::printStackTrace)
 
         immediateMiniQueueDisposable = immediatePublisher
@@ -51,7 +47,6 @@ class MediaSessionQueue @Inject constructor(
             .map { it.toQueueItem() }
             .subscribe({ (id, queue) ->
                 mediaSession.setQueue(queue)
-                playerState.updateActiveQueueId(id)
             }, Throwable::printStackTrace)
     }
 

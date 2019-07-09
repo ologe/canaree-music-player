@@ -32,7 +32,6 @@ class MusicServicePlaybackState @Inject constructor(
     private val appShortcuts = AppShortcuts.instance(context)
 
     private val builder = PlaybackStateCompat.Builder()
-    private var activeQueueId = MediaSessionCompat.QueueItem.UNKNOWN_ID.toLong()
 
     init {
         builder.setState(
@@ -73,14 +72,10 @@ class MusicServicePlaybackState @Inject constructor(
         notifyWidgetsOfStateChanged(false, bookmark)
     }
 
-    fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
-        return update(state, bookmark, null, speed)
-    }
-
     /**
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
-    fun update(state: Int, bookmark: Long, id: Long?, speed: Float): PlaybackStateCompat {
+    fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
         if (isPlaying) {
@@ -92,11 +87,6 @@ class MusicServicePlaybackState @Inject constructor(
         builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
 
         musicPreferencesUseCase.setBookmark(bookmark)
-
-        if (id != null) {
-            activeQueueId = id
-            builder.setActiveQueueItemId(activeQueueId)
-        }
 
         val playbackState = builder.build()
 
@@ -124,13 +114,6 @@ class MusicServicePlaybackState @Inject constructor(
             builder.setState(currentState.state, currentState.position, stateSpeed)
         }
         mediaSession.setPlaybackState(builder.build())
-    }
-
-    fun updateActiveQueueId(id: Long) {
-        val state = builder.setActiveQueueItemId(id).build()
-        // TODO spamming skip to next will make this crash
-        // java.lang.IllegalStateException: beginBroadcast() called while already in a broadcast
-        mediaSession.setPlaybackState(state)
     }
 
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {

@@ -104,8 +104,9 @@ class PlayerImpl @Inject constructor(
 
         player.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
-        val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
-                playerModel.bookmark, entity.id, currentSpeed)
+        val state = playerState.update(
+            if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
+            playerModel.bookmark, currentSpeed)
 
         listeners.forEach {
             it.onStateChanged(state)
