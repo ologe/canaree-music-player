@@ -70,10 +70,7 @@ class MediaSessionCallback @Inject constructor(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updatePodcastPosition() }
-            .subscribe(player::play) {
-                playerState.setEmptyQueue()
-                it.printStackTrace()
-            }
+            .subscribe(player::play, Throwable::printStackTrace)
             .addTo(subscriptions)
     }
 
@@ -81,10 +78,7 @@ class MediaSessionCallback @Inject constructor(
         queue.handlePlayFromUri(uri)
             .doOnSubscribe { updatePodcastPosition() }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(player::play) {
-                playerState.setEmptyQueue()
-                it.printStackTrace()
-            }
+            .subscribe(player::play, Throwable::printStackTrace)
             .addTo(subscriptions)
     }
 

@@ -171,17 +171,6 @@ class MusicServicePlaybackState @Inject constructor(
         mediaSession.setPlaybackState(builder.build())
     }
 
-    fun setEmptyQueue() {
-        val localBuilder = PlaybackStateCompat.Builder(builder.build())
-        localBuilder.setState(PlaybackStateCompat.STATE_ERROR, 0, 0f)
-            .setErrorMessage(
-                PlaybackStateCompat.ERROR_CODE_UNKNOWN_ERROR,
-                context.getString(R.string.music_error_empty_queue)
-            )
-
-        mediaSession.setPlaybackState(localBuilder.build())
-    }
-
     private fun getActions(): Long {
         return PlaybackStateCompat.ACTION_PLAY_PAUSE or
                 PlaybackStateCompat.ACTION_PLAY or
