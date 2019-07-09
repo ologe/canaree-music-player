@@ -10,13 +10,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.service.music.interfaces.Player
+import dev.olog.service.music.interfaces.ServiceLifecycleController
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.PendingIntents
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
-        LifecycleOwner,
-    dev.olog.service.music.interfaces.ServiceLifecycleController {
+    LifecycleOwner,
+    ServiceLifecycleController {
 
     companion object {
         private const val ACTION_KEEP_SERVICE_ALIVE = "action.KEEP_SERVICE_ALIVE"
@@ -25,7 +26,8 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     @Suppress("LeakingThis")
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
-    @Inject lateinit var player: Player
+    @Inject
+    lateinit var player: Player
 
     private var serviceStarted = false
 
@@ -47,10 +49,10 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private fun handleIntent(intent: Intent?) {
         if (intent == null) return
 
-        val action = intent.action
-
-        when (action){
+        when (intent.action) {
             null -> stop()
+            ACTION_KEEP_SERVICE_ALIVE -> {
+            }
             MusicConstants.ACTION_SHUFFLE -> handleAppShortcutShuffle(intent)
             MusicConstants.ACTION_PLAY -> handleAppShortcutPlay(intent)
             MusicConstants.ACTION_PLAY_PAUSE -> handlePlayPause(intent)
@@ -87,8 +89,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     override fun start() {
         if (!serviceStarted) {
             val intent = Intent(this, MusicService::class.java)
-            intent.action =
-                ACTION_KEEP_SERVICE_ALIVE
+            intent.action = ACTION_KEEP_SERVICE_ALIVE
             ContextCompat.startForegroundService(this, intent)
 
             serviceStarted = true

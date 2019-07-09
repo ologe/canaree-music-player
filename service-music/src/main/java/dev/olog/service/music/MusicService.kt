@@ -215,33 +215,10 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
         }
     }
 
-
-
-//    private fun grantUriPermissions(packageName: String) { TODO
-//        try {
-//            grantUriPermission(
-//                packageName,
-//                Uri.parse("content://media/external/audio/albumart"),
-//                Intent.FLAG_GRANT_READ_URI_PERMISSION
-//            )
-//        } catch (ex: Exception) {
-//            ex.printStackTrace()
-//        }
-//        try {
-//            grantUriPermission(
-//                packageName,
-//                FileProvider.getUriForPath(this, cacheDir.path),
-//                Intent.FLAG_GRANT_READ_URI_PERMISSION
-//            )
-//        } catch (ex: Exception) {
-//            ex.printStackTrace()
-//        }
-//    }
-
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
         intent.setClass(this, this.javaClass)
-        return intent.asServicePendingIntent(this, PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asServicePendingIntent(this, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
