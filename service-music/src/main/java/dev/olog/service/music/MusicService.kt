@@ -25,11 +25,9 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.shared.Classes
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
