@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.interactor.ToggleFavoriteUseCase
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -22,12 +20,8 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
-import dev.olog.shared.extensions.toast
-import dev.olog.shared.extensions.unsubscribe
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
@@ -49,6 +43,7 @@ class MediaSessionCallback @Inject constructor(
     private val subscriptions = CompositeDisposable()
 
     init {
+
         lifecycle.addObserver(this)
         onPrepare()
     }
