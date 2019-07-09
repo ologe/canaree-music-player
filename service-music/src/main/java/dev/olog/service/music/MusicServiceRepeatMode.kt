@@ -3,15 +3,15 @@ package dev.olog.service.music
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
-import dev.olog.injection.dagger.PerService
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.injection.dagger.PerService
 import javax.inject.Inject
 
 
 @PerService
 class MusicServiceRepeatMode @Inject constructor(
-        private val mediaSession: MediaSessionCompat,
-        private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val mediaSession: MediaSessionCompat,
+    private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ) {
 
@@ -30,7 +30,7 @@ class MusicServiceRepeatMode @Inject constructor(
     fun update() {
         val repeatMode = getState()
 
-        val newState = when (repeatMode){
+        val newState = when (repeatMode) {
             REPEAT_MODE_NONE -> REPEAT_MODE_ALL
             REPEAT_MODE_ALL -> REPEAT_MODE_ONE
             else -> REPEAT_MODE_NONE

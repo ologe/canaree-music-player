@@ -9,17 +9,17 @@ import javax.inject.Inject
 
 @PerService
 class MusicServiceShuffleMode @Inject constructor(
-        private val mediaSession: MediaSessionCompat,
-        private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val mediaSession: MediaSessionCompat,
+    private val musicPreferencesUseCase: MusicPreferencesGateway
 ) {
 
     init {
         mediaSession.setShuffleMode(getState())
     }
 
-    fun isEnabled(): Boolean= getState() != SHUFFLE_MODE_NONE
+    fun isEnabled(): Boolean = getState() != SHUFFLE_MODE_NONE
 
-    fun setEnabled(enabled: Boolean){
+    fun setEnabled(enabled: Boolean) {
         val shuffleMode = if (enabled) SHUFFLE_MODE_ALL else SHUFFLE_MODE_NONE
         musicPreferencesUseCase.setShuffleMode(shuffleMode)
         mediaSession.setShuffleMode(shuffleMode)
