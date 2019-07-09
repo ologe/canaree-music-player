@@ -2,9 +2,9 @@ package dev.olog.service.music.interfaces
 
 import android.net.Uri
 import android.os.Bundle
+import dev.olog.core.MediaId
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.PositionInQueue
-import dev.olog.core.MediaId
 import io.reactivex.Single
 
 interface Queue {
@@ -21,7 +21,7 @@ interface Queue {
 
     fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity>
 
-    fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
+    fun handlePlayRecentlyAdded(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
@@ -37,11 +37,17 @@ interface Queue {
 
     fun getPlayingSong(): PlayerMediaEntity
 
-    fun handleSwap(extras: Bundle)
-    fun handleSwapRelative(extras: Bundle)
+    fun handleSwap(from: Int, to: Int)
+    fun handleSwapRelative(from: Int, to: Int)
 
-    fun handleRemove(extras: Bundle): Boolean
-    fun handleRemoveRelative(extras: Bundle): Boolean
+    /**
+     * returns true if remove from queue playing item
+     */
+    fun handleRemove(position: Int): Boolean
+    /**
+     * returns true if remove from queue playing item
+     */
+    fun handleRemoveRelative(position: Int): Boolean
 
     fun sort()
 

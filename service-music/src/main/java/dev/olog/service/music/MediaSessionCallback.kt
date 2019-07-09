@@ -21,6 +21,7 @@ import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.shared.MusicConstants
+import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Single
@@ -68,31 +69,18 @@ class MediaSessionCallback @Inject constructor(
             .subscribe(player::prepare, Throwable::printStackTrace)
     }
 
-    override fun onPlayFromMediaId(mediaIdAsString: String, extras: Bundle?) {
-        if (extras != null) {
-            val mediaId = MediaId.fromString(mediaIdAsString)
+    override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+        mediaId ?: return
+        extras ?: return
 
-            when {
-                mediaId == MediaId.shuffleId() ||
-                extras.containsKey(MusicConstants.ACTION_SHUFFLE) -> queue.handlePlayShuffle(mediaId)
-                extras.isEmpty ||
-                        extras.containsKey(MusicConstants.ARGUMENT_SORT_TYPE) ||
-                        extras.containsKey(MusicConstants.ARGUMENT_SORT_ARRANGING) -> {
-                    queue.handlePlayFromMediaId(mediaId, extras)
-                }
-                extras.containsKey(MusicConstants.BUNDLE_MOST_PLAYED) -> {
-                    queue.handlePlayMostPlayed(mediaId)
-                }
-                extras.containsKey(MusicConstants.BUNDLE_RECENTLY_PLAYED) -> {
-                    queue.handlePlayRecentlyPlayed(mediaId)
-                }
-                else -> Single.error(Throwable("invalid case $extras"))
-            }.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.computation())
-                .doOnSubscribe { updatePodcastPosition() }
-                .subscribe(player::play, Throwable::printStackTrace)
-                .addTo(subscriptions)
-        }
+        when (val mediaId = MediaId.fromString(mediaId)) {
+            MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
+            else -> queue.handlePlayFromMediaId(mediaId, extras)
+        }.observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.computation())
+            .doOnSubscribe { updatePodcastPosition() }
+            .subscribe(player::play, Throwable::printStackTrace)
+            .addTo(subscriptions)
     }
 
     @Suppress("MoveLambdaOutsideParentheses")
@@ -218,27 +206,63 @@ class MediaSessionCallback @Inject constructor(
         toggleFavoriteUseCase.execute()
     }
 
-    @Suppress("MoveLambdaOutsideParentheses")
     override fun onCustomAction(action: String?, extras: Bundle?) {
-        if (action != null) {
-            when (action) {
-                MusicConstants.ACTION_SWAP -> queue.handleSwap(extras!!)
-                MusicConstants.ACTION_SWAP_RELATIVE -> queue.handleSwapRelative(extras!!)
-                MusicConstants.ACTION_REMOVE -> {
-                    if (queue.handleRemove(extras!!)) {
-                        onStop()
-                    }
-                }
-                MusicConstants.ACTION_REMOVE_RELATIVE -> {
-                    if (queue.handleRemoveRelative(extras!!)) {
-                        onStop()
-                    }
-                }
-                MusicConstants.ACTION_FORWARD_10_SECONDS -> player.forwardTenSeconds()
-                MusicConstants.ACTION_REPLAY_10_SECONDS -> player.replayTenSeconds()
-                MusicConstants.ACTION_FORWARD_30_SECONDS -> player.forwardThirtySeconds()
-                MusicConstants.ACTION_REPLAY_30_SECONDS -> player.replayThirtySeconds()
+        action ?: return
+        extras ?: return
+
+        val musicAction = MusicServiceAction.valueOfOrNull(action)
+
+        when (musicAction){
+            MusicServiceAction.SHUFFLE -> {
+                val mediaId = extras.getString(MusicServiceAction.ARGUMENT_MEDIA_ID)!!
+                queue.handlePlayShuffle(MediaId.fromString(mediaId))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { updatePodcastPosition() }
+                    .subscribe(player::play, Throwable::printStackTrace)
+                    .addTo(subscriptions)
             }
+            MusicServiceAction.SWAP -> {
+                val from = extras.getInt(MusicServiceAction.ARGUMENT_SWAP_FROM, 0)
+                val to = extras.getInt(MusicServiceAction.ARGUMENT_SWAP_TO, 0)
+                queue.handleSwap(from, to)
+            }
+            MusicServiceAction.SWAP_RELATIVE -> {
+                val from = extras.getInt(MusicServiceAction.ARGUMENT_SWAP_FROM, 0)
+                val to = extras.getInt(MusicServiceAction.ARGUMENT_SWAP_TO, 0)
+                queue.handleSwapRelative(from, to)
+            }
+            MusicServiceAction.REMOVE -> {
+                val position = extras.getInt(MusicServiceAction.ARGUMENT_POSITION, -1)
+                if (queue.handleRemove(position)) {
+                    onStop()
+                }
+            }
+            MusicServiceAction.REMOVE_RELATIVE -> {
+                val position = extras.getInt(MusicServiceAction.ARGUMENT_POSITION, -1)
+                if (queue.handleRemoveRelative(position)) {
+                    onStop()
+                }
+            }
+            MusicServiceAction.PLAY_RECENTLY_ADDED -> {
+                val mediaId = extras.getString(MusicServiceAction.ARGUMENT_MEDIA_ID)!!
+                queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { updatePodcastPosition() }
+                    .subscribe(player::play, Throwable::printStackTrace)
+                    .addTo(subscriptions)
+            }
+            MusicServiceAction.PLAY_MOST_PLAYED -> {
+                val mediaId = extras.getString(MusicServiceAction.ARGUMENT_MEDIA_ID)!!
+                queue.handlePlayMostPlayed(MediaId.fromString(mediaId))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { updatePodcastPosition() }
+                    .subscribe(player::play, Throwable::printStackTrace)
+                    .addTo(subscriptions)
+            }
+            MusicServiceAction.FORWARD_10 -> player.forwardTenSeconds()
+            MusicServiceAction.FORWARD_30 -> player.forwardThirtySeconds()
+            MusicServiceAction.REPLAY_10 -> player.replayTenSeconds()
+            MusicServiceAction.REPLAY_30 -> player.replayThirtySeconds()
         }
     }
 

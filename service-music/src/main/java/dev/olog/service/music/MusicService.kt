@@ -26,6 +26,7 @@ import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
+import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
 import io.reactivex.disposables.CompositeDisposable
@@ -113,11 +114,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
         callback.onSkipToPrevious()
     }
 
-    override fun handleSkipToItem(intent: Intent) {
-        val id = intent.getIntExtra(MusicConstants.EXTRA_SKIP_TO_ITEM_ID, -1)
-        callback.onSkipToQueueItem(id.toLong())
-    }
-
     override fun handleMediaButton(intent: Intent) {
         androidx.media.session.MediaButtonReceiver.handleIntent(mediaSession, intent)
     }
@@ -144,19 +140,27 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleReplay10(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_REPLAY_10_SECONDS, null)
+        mediaSession.controller.transportControls.sendCustomAction(
+            MusicServiceAction.REPLAY_10, null
+        )
     }
 
     override fun handleReplay30(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_REPLAY_30_SECONDS, null)
+        mediaSession.controller.transportControls.sendCustomAction(
+            MusicServiceAction.REPLAY_30, null
+        )
     }
 
     override fun handleForward10(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_FORWARD_10_SECONDS, null)
+        mediaSession.controller.transportControls.sendCustomAction(
+            MusicServiceAction.FORWARD_10, null
+        )
     }
 
     override fun handleForward30(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(MusicConstants.ACTION_FORWARD_30_SECONDS, null)
+        mediaSession.controller.transportControls.sendCustomAction(
+            MusicServiceAction.FORWARD_30, null
+        )
     }
 
     private fun resetSleepTimer() {

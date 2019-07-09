@@ -17,6 +17,7 @@ import dev.olog.service.music.utils.ComparatorUtils
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
 import dev.olog.shared.MusicConstants
+import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.clamp
 import io.reactivex.Single
@@ -149,23 +150,13 @@ class QueueManager @Inject constructor(
     ): List<MediaEntity> {
         return try {
             extras!!
-            val sortOrder = SortType.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_TYPE)!!)
+            val sortOrder = SortType.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_TYPE)!!)
             val arranging =
-                SortArranging.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING)!!)
+                SortArranging.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_ARRANGING)!!)
             return if (arranging == SortArranging.ASCENDING) {
-                list.sortedWith(
-                    getAscendingComparator(
-                        sortOrder,
-                        collator
-                    )
-                )
+                list.sortedWith(getAscendingComparator(sortOrder, collator))
             } else {
-                list.sortedWith(
-                    getDescendingComparator(
-                        sortOrder,
-                        collator
-                    )
-                )
+                list.sortedWith(getDescendingComparator(sortOrder, collator))
             }
         } catch (ex: Exception) {
             list
@@ -173,7 +164,7 @@ class QueueManager @Inject constructor(
 
     }
 
-    override fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
+    override fun handlePlayRecentlyAdded(mediaId: MediaId): Single<PlayerMediaEntity> {
         val songId = mediaId.leaf!!
 
         return getRecentlyAddedUseCase(mediaId)
@@ -297,25 +288,19 @@ class QueueManager @Inject constructor(
 
     }
 
-    override fun handleSwap(extras: Bundle) {
-        val from = extras.getInt(MusicConstants.ARGUMENT_SWAP_FROM, 0)
-        val to = extras.getInt(MusicConstants.ARGUMENT_SWAP_TO, 0)
+    override fun handleSwap(from: Int, to: Int) {
         queueImpl.handleSwap(from, to)
     }
 
-    override fun handleSwapRelative(extras: Bundle) {
-        val from = extras.getInt(MusicConstants.ARGUMENT_SWAP_FROM, 0)
-        val to = extras.getInt(MusicConstants.ARGUMENT_SWAP_TO, 0)
+    override fun handleSwapRelative(from: Int, to: Int) {
         queueImpl.handleSwapRelative(from, to)
     }
 
-    override fun handleRemove(extras: Bundle): Boolean {
-        val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
+    override fun handleRemove(position: Int): Boolean {
         return queueImpl.handleRemove(position)
     }
 
-    override fun handleRemoveRelative(extras: Bundle): Boolean {
-        val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
+    override fun handleRemoveRelative(position: Int): Boolean {
         return queueImpl.handleRemoveRelative(position)
     }
 

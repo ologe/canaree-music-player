@@ -19,6 +19,7 @@ import dev.olog.shared.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.AppConstants
 import dev.olog.shared.Classes
 import dev.olog.shared.MusicConstants
+import dev.olog.shared.MusicServiceAction
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -49,9 +50,9 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
         val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
@@ -69,9 +70,9 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
-        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
-        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
+        remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name))
+        remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicServiceAction.PLAY_PAUSE.name))
+        remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
@@ -85,9 +86,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         val previousVisibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
         val nextVisibility = if (showNext) View.VISIBLE else View.INVISIBLE
 
-        val previousPendingIntent = if (showPrevious) buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS)
+        val previousPendingIntent = if (showPrevious) buildPendingIntent(context, MusicServiceAction.SKIP_PREVIOUS.name)
             else null
-        val nextPendingIntent = if (showNext) buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT)
+        val nextPendingIntent = if (showNext) buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name)
             else null
 
         remoteViews.setViewVisibility(R.id.previous, previousVisibility)

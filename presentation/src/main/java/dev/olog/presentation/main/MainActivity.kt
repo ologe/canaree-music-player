@@ -25,10 +25,7 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.AppConstants
-import dev.olog.shared.Classes
-import dev.olog.shared.FloatingWindowsConstants
-import dev.olog.shared.MusicConstants
+import dev.olog.shared.*
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -139,7 +136,7 @@ class MainActivity : MusicGlueActivity(),
             }
             Intent.ACTION_VIEW -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
-                serviceIntent.action = MusicConstants.ACTION_PLAY_FROM_URI
+                serviceIntent.action = MusicServiceAction.PLAY_URI.name
                 serviceIntent.data = intent.data
                 ContextCompat.startForegroundService(this, serviceIntent)
             }

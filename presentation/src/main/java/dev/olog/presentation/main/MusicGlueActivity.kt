@@ -19,6 +19,7 @@ import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.MusicConstants
+import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -105,26 +106,26 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun playFromMediaId(mediaId: MediaId, sort: SortEntity?) {
-        val bundle = if (sort != null) {
-            Bundle().apply {
-                putString(MusicConstants.ARGUMENT_SORT_TYPE, sort.type.toString())
-                putString(MusicConstants.ARGUMENT_SORT_ARRANGING, sort.arranging.toString())
-            }
-        } else null
+        val bundle = bundleOf(
+            MusicServiceAction.ARGUMENT_SORT_TYPE to sort?.type?.name,
+            MusicServiceAction.ARGUMENT_SORT_ARRANGING to sort?.arranging?.name
+        )
 
         transportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
     override fun playMostPlayed(mediaId: MediaId) {
-        val bundle = Bundle()
-        bundle.putBoolean(MusicConstants.BUNDLE_MOST_PLAYED, true)
-        transportControls()?.playFromMediaId(mediaId.toString(), bundle)
+        val bundle = bundleOf(
+            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+        )
+        transportControls()?.sendCustomAction(MusicServiceAction.PLAY_MOST_PLAYED.name, bundle)
     }
 
     override fun playRecentlyAdded(mediaId: MediaId) {
-        val bundle = Bundle()
-        bundle.putBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, true)
-        transportControls()?.playFromMediaId(mediaId.toString(), bundle)
+        val bundle = bundleOf(
+            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+        )
+        transportControls()?.sendCustomAction(MusicServiceAction.PLAY_RECENTLY_ADDED.name, bundle)
     }
 
     override fun skipToQueueItem(idInPlaylist: Int) {
@@ -132,7 +133,9 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun shuffle(mediaId: MediaId) {
-        transportControls()?.playFromMediaId(mediaId.toString(), bundleOf(MusicConstants.ACTION_SHUFFLE to true))
+        transportControls()?.sendCustomAction(MusicServiceAction.SHUFFLE.name, bundleOf(
+            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+        ))
     }
 
     override fun skipToNext() {
@@ -165,32 +168,32 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     override fun swap(from: Int, to: Int) {
         val bundle = bundleOf(
-            MusicConstants.ARGUMENT_SWAP_FROM to from,
-            MusicConstants.ARGUMENT_SWAP_TO to to
+            MusicServiceAction.ARGUMENT_SWAP_FROM to from,
+            MusicServiceAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP, bundle)
+        transportControls()?.sendCustomAction(MusicServiceAction.SWAP.name, bundle)
     }
 
     override fun swapRelative(from: Int, to: Int) {
         val bundle = bundleOf(
-            MusicConstants.ARGUMENT_SWAP_FROM to from,
-            MusicConstants.ARGUMENT_SWAP_TO to to
+            MusicServiceAction.ARGUMENT_SWAP_FROM to from,
+            MusicServiceAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, bundle)
+        transportControls()?.sendCustomAction(MusicServiceAction.SWAP_RELATIVE.name, bundle)
     }
 
     override fun remove(position: Int) {
         val bundle = bundleOf(
-            MusicConstants.ARGUMENT_REMOVE_POSITION to position
+            MusicServiceAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE, bundle)
+        transportControls()?.sendCustomAction(MusicServiceAction.REMOVE.name, bundle)
     }
 
     override fun removeRelative(position: Int) {
         val bundle = bundleOf(
-            MusicConstants.ARGUMENT_REMOVE_POSITION to position
+            MusicServiceAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE_RELATIVE, bundle)
+        transportControls()?.sendCustomAction(MusicServiceAction.REMOVE_RELATIVE.name, bundle)
     }
 
     override fun addToPlayNext(mediaId: MediaId) {
@@ -212,18 +215,18 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun replayTenSeconds() {
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_REPLAY_10_SECONDS, null)
+        transportControls()?.sendCustomAction(MusicServiceAction.REPLAY_10.name, null)
     }
 
     override fun forwardTenSeconds() {
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_FORWARD_10_SECONDS, null)
+        transportControls()?.sendCustomAction(MusicServiceAction.FORWARD_10.name, null)
     }
 
     override fun replayThirtySeconds() {
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_REPLAY_30_SECONDS, null)
+        transportControls()?.sendCustomAction(MusicServiceAction.REPLAY_30.name, null)
     }
 
     override fun forwardThirtySeconds() {
-        transportControls()?.sendCustomAction(MusicConstants.ACTION_FORWARD_30_SECONDS, null)
+        transportControls()?.sendCustomAction(MusicServiceAction.FORWARD_30.name, null)
     }
 }
