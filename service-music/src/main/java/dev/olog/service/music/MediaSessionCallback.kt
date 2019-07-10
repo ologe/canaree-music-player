@@ -37,13 +37,10 @@ class MediaSessionCallback @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    init {
-        onPrepare()
-    }
-
-    override fun onPrepare() {
-        runBlocking {
-            queue.prepare()?.let { track -> player.prepare(track) }
+    override fun onPrepare() = runBlocking<Unit> {
+        val track = queue.prepare()
+        if (track != null){
+            player.prepare(track)
         }
     }
 

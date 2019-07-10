@@ -43,7 +43,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     @Inject
     lateinit var mediaSession: MediaSessionCompat
     @Inject
-    lateinit var callback: MediaSessionCallback
+    internal lateinit var callback: MediaSessionCallback
 
     @Inject
     lateinit var currentSong: CurrentSong
@@ -76,6 +76,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
         mediaSession.setSessionActivity(buildSessionActivityPendingIntent())
         mediaSession.setRatingType(RatingCompat.RATING_HEART)
         mediaSession.setCallback(callback)
+        callback.onPrepare() // prepare queue
 
         mediaSession.isActive = true
     }
