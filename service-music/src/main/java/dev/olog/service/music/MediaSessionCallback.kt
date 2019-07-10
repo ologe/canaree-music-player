@@ -108,7 +108,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     /**
-     * Try to skip to next song, if can't, restart current
+     * Try to skip to next song, if can't, restart current and pause
      */
     private fun onSkipToNext(trackEnded: Boolean) {
         updatePodcastPosition()
