@@ -22,27 +22,26 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
-
     <application
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:name=".app.App"
-        tools:ignore="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m"
-        tools:replace="android:supportsRtl">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl"
+        tools:targetApi="m">
 
         <!--main activity-->
         <activity
             android:name="dev.olog.presentation.main.MainActivity"
-            android:launchMode="singleTop"
             android:colorMode="wideColorGamut"
-            tools:ignore="UnusedAttribute"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            tools:ignore="UnusedAttribute">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,8 +87,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
-                    android:host="deveugeniuolog.wixsite.com" />
+                    android:host="deveugeniuolog.wixsite.com"
+                    android:scheme="https" />
             </intent-filter>
 
         </activity>
@@ -127,6 +126,10 @@
             android:name="dev.olog.service.floating.FloatingWindowService"
             android:exported="false" />
 
+
+        <uses-library
+            android:name="android.test.runner"
+            android:required="false" />
 
         <!--widget -->
         <receiver

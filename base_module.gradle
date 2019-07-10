@@ -42,13 +42,35 @@ android {
         preDexLibraries true
     }
 
+    useLibrary 'android.test.runner'
+
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
+
 }
 
 dependencies {
     implementation lib_core.kotlin
 
+//    testImplementation 'junit:junit:4.12'
+//    testImplementation "org.mockito:mockito-core:2.23.4"
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    // Core library
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.23.4"
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    androidTestImplementation 'androidx.test:core:1.2.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+
+    // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
 }
