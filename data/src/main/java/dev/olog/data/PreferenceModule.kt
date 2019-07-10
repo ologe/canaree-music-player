@@ -7,7 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.*
 import dev.olog.data.prefs.*
 import javax.inject.Singleton

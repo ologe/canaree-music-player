@@ -3,7 +3,7 @@ package dev.olog.msc.theme
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import javax.inject.Inject
 

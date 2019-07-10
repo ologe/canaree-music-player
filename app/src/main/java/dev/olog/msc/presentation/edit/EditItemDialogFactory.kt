@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.presentation.dagger.ActivityLifecycle
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase

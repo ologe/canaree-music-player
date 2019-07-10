@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.presentation.edit.track.DisplayableSong
 import dev.olog.core.MediaId
 import dev.olog.shared.extensions.toast

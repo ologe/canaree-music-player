@@ -3,7 +3,7 @@ package dev.olog.data.repository.track
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.AlbumGateway

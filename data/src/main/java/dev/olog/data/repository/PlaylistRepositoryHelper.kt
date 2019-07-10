@@ -5,7 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.id

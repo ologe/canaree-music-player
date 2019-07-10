@@ -1,7 +1,7 @@
 package dev.olog.data.repository.podcast
 
 import android.content.Context
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.id

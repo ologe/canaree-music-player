@@ -8,7 +8,7 @@ import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
 import dev.olog.core.IEncrypter
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.executor.ComputationScheduler
 import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.*
@@ -51,7 +51,7 @@ interface CoreComponent {
 
     fun provideAlarmManager(): AlarmManager
 
-    @dev.olog.shared.dagger.ApplicationContext
+    @ApplicationContext
     fun context(): Context
     fun resources(): Resources
 

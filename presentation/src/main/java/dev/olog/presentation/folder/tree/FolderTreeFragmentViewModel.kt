@@ -10,7 +10,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory

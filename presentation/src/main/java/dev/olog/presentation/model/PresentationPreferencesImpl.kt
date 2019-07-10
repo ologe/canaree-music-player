@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.observeKey
 import dev.olog.shared.utils.assertBackgroundThread

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R

@@ -2,7 +2,7 @@ package dev.olog.presentation.main
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.Permissions
 import javax.inject.Inject

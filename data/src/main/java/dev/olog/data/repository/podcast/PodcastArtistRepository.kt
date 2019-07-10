@@ -3,7 +3,7 @@ package dev.olog.data.repository.podcast
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.HasLastPlayed

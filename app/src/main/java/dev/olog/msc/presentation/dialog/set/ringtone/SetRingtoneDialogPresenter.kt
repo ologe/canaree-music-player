@@ -13,7 +13,7 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.core.MediaId
-import dev.olog.shared.dagger.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
 import dev.olog.shared.utils.isMarshmallow
 import io.reactivex.Completable
