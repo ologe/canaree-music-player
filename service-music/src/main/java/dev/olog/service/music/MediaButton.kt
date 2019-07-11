@@ -1,8 +1,6 @@
 package dev.olog.service.music
 
-import android.content.Intent
 import android.media.AudioManager
-import android.view.KeyEvent
 import android.view.KeyEvent.*
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -12,7 +10,6 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.shared.extensions.dispatchEvent
 import kotlinx.coroutines.*
-import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 
@@ -23,7 +20,7 @@ class MediaButton @Inject internal constructor(
 
 ) : DefaultLifecycleObserver, CoroutineScope by MainScope() {
 
-    private var clicks = AtomicInteger(0)
+    private var clicks = 0
 
     private var job: Job? = null
 
@@ -35,18 +32,14 @@ class MediaButton @Inject internal constructor(
         job?.cancel()
     }
 
-    fun onNextEvent(mediaButtonEvent: Intent) {
-        val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+    fun onHeatSetHookClick() {
+        clicks++
 
-        if (event.action == ACTION_DOWN && event.keyCode == KEYCODE_HEADSETHOOK) {
-            val current = clicks.incrementAndGet()
-
-            if (current < 5) {
-                job?.cancel()
-                job = launch { // TODO check if works
-                    delay(300)
-                    dispatchEvent(current)
-                }
+        if (clicks < 5) {
+            job?.cancel()
+            job = launch { // TODO check if works
+                delay(300)
+                dispatchEvent(clicks)
             }
         }
     }
@@ -58,9 +51,10 @@ class MediaButton @Inject internal constructor(
             1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
             2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
             3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
-//            else -> speech.speak()
+            else -> { // TODO speech ??
+            }
         }
-        this.clicks.set(0)
+        this.clicks = 0
     }
 
 }

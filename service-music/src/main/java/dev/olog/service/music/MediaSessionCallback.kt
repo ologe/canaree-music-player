@@ -21,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @PerService
@@ -220,13 +221,12 @@ class MediaSessionCallback @Inject constructor(
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
     }
 
-    override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-        val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+    override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
+        val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
 
-        if (event.action == KeyEvent.ACTION_DOWN) {
-            val keyCode = event.keyCode
+        if (event.action == KeyEvent.ACTION_DOWN) { // TODO or maybe is better action up??
 
-            when (keyCode) {
+            when (event.keyCode) {
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> handlePlayPause()
                 KeyEvent.KEYCODE_MEDIA_NEXT -> onSkipToNext()
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
@@ -234,7 +234,8 @@ class MediaSessionCallback @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_PAUSE -> player.pause(false)
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                 KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
-                else -> mediaButton.onNextEvent(mediaButtonEvent)
+                KeyEvent.KEYCODE_HEADSETHOOK -> mediaButton.onHeatSetHookClick()
+                else -> throw IllegalArgumentException("not handled")
             }
         }
 
