@@ -53,15 +53,11 @@ class Noisy @Inject constructor(
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
-            if (intent.action?.isBecomingNoisy() == true) {
+            if (intent.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
                 audioManager.get().dispatchEvent(KEYCODE_MEDIA_PAUSE)
             }
 
         }
     }
 
-}
-
-private fun String.isBecomingNoisy() : Boolean{
-    return this == AudioManager.ACTION_AUDIO_BECOMING_NOISY
 }
