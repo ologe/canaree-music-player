@@ -1,22 +1,21 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
-import android.media.AudioManager
 import android.view.KeyEvent
 import androidx.core.math.MathUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dagger.Lazy
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.service.music.EventDispatcher
+import dev.olog.service.music.EventDispatcher.*
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.shared.extensions.dispatchEvent
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,7 +30,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
-    private val audioManager: Lazy<AudioManager>,
+    private val eventDispatcher: EventDispatcher,
     private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
@@ -190,8 +189,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     private fun requestNextSong(){
-//      audioManager.playerAppearance().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
-        audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
+        eventDispatcher.dispatchEvent(Event.TRACK_ENDED)
     }
 
     data class Model(

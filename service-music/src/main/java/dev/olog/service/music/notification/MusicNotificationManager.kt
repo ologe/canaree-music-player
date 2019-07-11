@@ -2,23 +2,21 @@ package dev.olog.service.music.notification
 
 import android.app.Notification
 import android.app.Service
-import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dagger.Lazy
-import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.injection.dagger.PerService
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
+import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.service.music.EventDispatcher
+import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.utils.isOreo
-import dev.olog.shared.extensions.dispatchEvent
 import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.utils.isOreo
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -34,7 +32,7 @@ private const val MINUTES_TO_DESTROY = 30L
 class MusicNotificationManager @Inject constructor(
     private val service: Service,
     @ServiceLifecycle lifecycle: Lifecycle,
-    private val audioManager: Lazy<AudioManager>,
+    private val eventDispatcher: EventDispatcher,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: dev.olog.service.music.interfaces.PlayerLifecycle
@@ -173,7 +171,7 @@ class MusicNotificationManager @Inject constructor(
 
         stopServiceAfterDelayDisposable = Single
                 .timer(MINUTES_TO_DESTROY, TimeUnit.MINUTES)
-                .subscribe({ audioManager.get().dispatchEvent(KEYCODE_MEDIA_STOP) },
+                .subscribe({ eventDispatcher.dispatchEvent(Event.STOP) },
                         Throwable::printStackTrace)
 
         isForeground = false

@@ -5,22 +5,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
-import android.view.KeyEvent.KEYCODE_MEDIA_PAUSE
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dagger.Lazy
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.shared.extensions.dispatchEvent
+import dev.olog.service.music.EventDispatcher.Event
 import javax.inject.Inject
 
 @PerService
 class Noisy @Inject constructor(
     @ServiceContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
-    private val audioManager: Lazy<AudioManager>
+    private val eventDispatcher: EventDispatcher
 
 ) : DefaultLifecycleObserver {
 
@@ -54,7 +52,7 @@ class Noisy @Inject constructor(
         override fun onReceive(context: Context, intent: Intent) {
 
             if (intent.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
-                audioManager.get().dispatchEvent(KEYCODE_MEDIA_PAUSE)
+                eventDispatcher.dispatchEvent(Event.PLAY_PAUSE)
             }
 
         }

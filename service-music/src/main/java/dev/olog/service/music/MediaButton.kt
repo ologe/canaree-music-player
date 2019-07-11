@@ -1,36 +1,20 @@
 package dev.olog.service.music
 
-import android.media.AudioManager
-import android.view.KeyEvent.*
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import dagger.Lazy
 import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.shared.extensions.dispatchEvent
+import dev.olog.service.music.EventDispatcher.Event
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
 @PerService
 class MediaButton @Inject internal constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
-    private val audioManager: Lazy<AudioManager>
+    private val eventDispatcher: EventDispatcher
 
-) : DefaultLifecycleObserver, CoroutineScope by MainScope() {
+) : CoroutineScope by MainScope() {
 
     private var clicks = 0
 
     private var job: Job? = null
-
-    init {
-        lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        job?.cancel()
-    }
 
     fun onHeatSetHookClick() {
         clicks++
@@ -48,9 +32,9 @@ class MediaButton @Inject internal constructor(
         when (clicks) {
             0 -> {
             }
-            1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
-            2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
-            3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
+            1 -> eventDispatcher.dispatchEvent(Event.PLAY_PAUSE)
+            2 -> eventDispatcher.dispatchEvent(Event.SKIP_NEXT)
+            3 -> eventDispatcher.dispatchEvent(Event.SKIP_PREVIOUS)
             else -> { // TODO speech ??
             }
         }
