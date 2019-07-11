@@ -21,9 +21,11 @@ class MediaButton @Inject internal constructor(
 
         if (clicks < 5) {
             job?.cancel()
-            job = launch { // TODO check if works
+            job = launch {
+                // TODO check if works
                 delay(300)
                 dispatchEvent(clicks)
+                clicks = 0
             }
         }
     }
@@ -38,7 +40,6 @@ class MediaButton @Inject internal constructor(
             else -> { // TODO speech ??
             }
         }
-        this.clicks = 0
     }
 
 }
