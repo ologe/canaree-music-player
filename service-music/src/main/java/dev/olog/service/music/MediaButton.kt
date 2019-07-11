@@ -7,10 +7,15 @@ import javax.inject.Inject
 
 
 @PerService
-class MediaButton @Inject internal constructor(
+internal class MediaButton @Inject internal constructor(
     private val eventDispatcher: EventDispatcher
 
 ) : CoroutineScope by MainScope() {
+
+    companion object {
+        internal const val DELAY = 300L
+        internal const val MAX_ALLOWED_CLICKS = 3
+    }
 
     private var clicks = 0
 
@@ -19,11 +24,11 @@ class MediaButton @Inject internal constructor(
     fun onHeatSetHookClick() {
         clicks++
 
-        if (clicks < 5) {
+        if (clicks <= MAX_ALLOWED_CLICKS) {
             job?.cancel()
             job = launch {
                 // TODO check if works
-                delay(300)
+                delay(DELAY)
                 dispatchEvent(clicks)
                 clicks = 0
             }

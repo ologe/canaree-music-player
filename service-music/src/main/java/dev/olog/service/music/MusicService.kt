@@ -41,24 +41,24 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     @Inject
-    lateinit var mediaSession: MediaSessionCompat
+    internal lateinit var mediaSession: MediaSessionCompat
     @Inject
     internal lateinit var callback: MediaSessionCallback
 
     @Inject
-    lateinit var currentSong: CurrentSong
+    internal lateinit var currentSong: CurrentSong
     @Inject
-    lateinit var playerMetadata: MusicServiceMetadata
+    internal lateinit var playerMetadata: MusicServiceMetadata
     @Inject
-    lateinit var notification: MusicNotificationManager
+    internal lateinit var notification: MusicNotificationManager
     @Inject
-    lateinit var sleepTimerUseCase: SleepTimerUseCase
+    internal lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject
-    lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
+    internal lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
     @Inject
-    lateinit var alarmManager: AlarmManager
+    internal lateinit var alarmManager: AlarmManager
     @Inject
-    lateinit var lastFmScrobbling: LastFmScrobbling
+    internal lateinit var lastFmScrobbling: LastFmScrobbling
 
     override fun onCreate() {
         inject()

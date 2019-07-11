@@ -25,7 +25,7 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @PerService
-class MediaSessionCallback @Inject constructor(
+internal class MediaSessionCallback @Inject constructor(
     private val queue: Queue,
     private val player: Player,
     private val repeatMode: MusicServiceRepeatMode,
