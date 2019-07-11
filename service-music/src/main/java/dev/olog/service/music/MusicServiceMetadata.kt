@@ -58,11 +58,12 @@ class MusicServiceMetadata @Inject constructor(
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
-        update(metadata)
+        onMetadataChanged(metadata)
     }
 
     override fun onMetadataChanged(metadata: MetadataEntity) {
         update(metadata)
+        notifyWidgets(metadata.entity)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -95,9 +96,6 @@ class MusicServiceMetadata @Inject constructor(
         } else {
             mediaSession.setMetadata(builder.build())
         }
-
-        notifyWidgets(entity)
-
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
