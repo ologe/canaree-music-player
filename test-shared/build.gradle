@@ -1,3 +1,4 @@
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
@@ -47,37 +48,15 @@ android {
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
 }
 
 dependencies {
     implementation lib_core.kotlin
-    testImplementation project (':test-shared')
-    androidTestImplementation project (':test-shared')
-
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation "org.mockito:mockito-core:2.23.4"
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_android
+    implementation lib_core.coroutines_test
 
     // Core library
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.23.4'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    androidTestImplementation 'androidx.test:core:1.2.0'
-
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-
-    // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
-
-    // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+    implementation 'junit:junit:4.12'
+    implementation 'org.mockito:mockito-core:2.23.4'
 }

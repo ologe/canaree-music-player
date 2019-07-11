@@ -31,6 +31,7 @@ ext {
             dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
             coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             coroutines_rx           : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines",
     ]
 
