@@ -1,4 +1,5 @@
 package dev.olog.service.music.model
+
 enum class PositionInQueue {
     /**
      * Has only next songs
@@ -15,5 +16,5 @@ enum class PositionInQueue {
     /**
      * Is the only song the list, has no previous or next songs
      */
-    BOTH
+    FIRST_AND_LAST
 }

@@ -134,7 +134,7 @@ class MusicServicePlaybackState @Inject constructor(
                 musicPreferencesUseCase.setSkipToNextVisibility(true)
                 notifyWidgetsActionChanged(true, true)
             }
-            positionInQueue == PositionInQueue.BOTH -> {
+            positionInQueue == PositionInQueue.FIRST_AND_LAST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
                 musicPreferencesUseCase.setSkipToNextVisibility(false)
                 notifyWidgetsActionChanged(false, false)

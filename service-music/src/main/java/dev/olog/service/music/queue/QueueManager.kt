@@ -213,7 +213,7 @@ class QueueManager @Inject constructor(
             .map { list ->
                 val bookmark = getPodcastBookmarkOrDefault(list[0])
                 list[0].toPlayerMediaEntity(
-                    PositionInQueue.BOTH,
+                    PositionInQueue.FIRST_AND_LAST,
                     bookmark
                 )
             }
@@ -328,7 +328,7 @@ class QueueManager @Inject constructor(
         val currentPositionInQueue = getCurrentPositionInQueue()
         queueImpl.playLater(songIds, isPodcast)
         return when (currentPositionInQueue) {
-            PositionInQueue.BOTH -> PositionInQueue.FIRST
+            PositionInQueue.FIRST_AND_LAST -> PositionInQueue.FIRST
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
             else -> currentPositionInQueue
         }
@@ -341,7 +341,7 @@ class QueueManager @Inject constructor(
         val currentPositionInQueue = getCurrentPositionInQueue()
         queueImpl.playNext(songIds, isPodcast)
         return when (currentPositionInQueue) {
-            PositionInQueue.BOTH -> PositionInQueue.FIRST
+            PositionInQueue.FIRST_AND_LAST -> PositionInQueue.FIRST
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
             else -> currentPositionInQueue
         }

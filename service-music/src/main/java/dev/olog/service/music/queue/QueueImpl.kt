@@ -302,7 +302,7 @@ class QueueImpl @Inject constructor(
     ): dev.olog.service.music.model.PositionInQueue {
         return when {
             repeatMode.isRepeatAll() || repeatMode.isRepeatOne() -> dev.olog.service.music.model.PositionInQueue.IN_MIDDLE
-            position == 0 && position == list.lastIndex -> dev.olog.service.music.model.PositionInQueue.BOTH
+            position == 0 && position == list.lastIndex -> dev.olog.service.music.model.PositionInQueue.FIRST_AND_LAST
             position == 0 -> dev.olog.service.music.model.PositionInQueue.FIRST
             position == list.lastIndex -> dev.olog.service.music.model.PositionInQueue.LAST
             else -> dev.olog.service.music.model.PositionInQueue.IN_MIDDLE

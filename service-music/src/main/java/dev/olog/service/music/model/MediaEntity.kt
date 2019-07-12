@@ -65,6 +65,6 @@ fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     )
 }
 
-fun MediaEntity.toPlayerMediaEntity(positionInQueue: dev.olog.service.music.model.PositionInQueue, bookmark: Long) : PlayerMediaEntity {
+fun MediaEntity.toPlayerMediaEntity(positionInQueue: PositionInQueue, bookmark: Long) : PlayerMediaEntity {
     return PlayerMediaEntity(this, positionInQueue, bookmark)
 }
