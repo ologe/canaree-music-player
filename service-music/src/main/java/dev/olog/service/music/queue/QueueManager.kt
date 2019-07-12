@@ -17,10 +17,8 @@ import dev.olog.service.music.EnhancedShuffle
 import dev.olog.service.music.MusicServiceShuffleMode
 import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.*
-import dev.olog.service.music.utils.ComparatorUtils
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.clamp
 import io.reactivex.Single
@@ -121,6 +119,7 @@ class QueueManager @Inject constructor(
         return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
+    // detail sorting is handled in data layer
     override fun handlePlayFromMediaId(
         mediaId: MediaId,
         extras: Bundle?
@@ -131,7 +130,6 @@ class QueueManager @Inject constructor(
             .asFlowable()
             .firstOrError()
             .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
-            .map { sortOnDemand(it, extras) }
             .map { shuffleIfNeeded(songId).apply(it) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -147,27 +145,6 @@ class QueueManager @Inject constructor(
 
     override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
         return handlePlayFromMediaId(mediaId, null)
-    }
-
-    private fun sortOnDemand(
-        list: List<MediaEntity>,
-        extras: Bundle?
-    ): List<MediaEntity> {
-        return try {
-            extras!!
-            val sortOrder =
-                SortType.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_TYPE)!!)
-            val arranging =
-                SortArranging.valueOf(extras.getString(MusicServiceAction.ARGUMENT_SORT_ARRANGING)!!)
-            return if (arranging == SortArranging.ASCENDING) {
-                list.sortedWith(getAscendingComparator(sortOrder, collator))
-            } else {
-                list.sortedWith(getDescendingComparator(sortOrder, collator))
-            }
-        } catch (ex: Exception) {
-            list
-        }
-
     }
 
     override fun handlePlayRecentlyAdded(mediaId: MediaId): Single<PlayerMediaEntity> {
@@ -381,47 +358,5 @@ class QueueManager @Inject constructor(
         if (mediaEntity?.isPodcast == true) {
             podcastPosition.set(mediaEntity.id, position)
         }
-    }
-}
-
-private fun getAscendingComparator(
-    sortType: SortType,
-    collator: Collator
-): Comparator<MediaEntity> {
-    return when (sortType) {
-        SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }
-        SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.artist, o2.artist) }
-        SortType.ALBUM_ARTIST -> Comparator { o1, o2 ->
-            collator.compare(
-                o1.albumArtist,
-                o2.albumArtist
-            )
-        }
-        SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
-        SortType.DURATION -> compareBy { it.duration }
-        SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
-        SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityAscendingTrackNumberComparator()
-        SortType.CUSTOM -> compareBy { 0 }
-    }
-}
-
-private fun getDescendingComparator(
-    sortType: SortType,
-    collator: Collator
-): Comparator<MediaEntity> {
-    return when (sortType) {
-        SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o2.title, o1.title) }
-        SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.artist, o1.artist) }
-        SortType.ALBUM_ARTIST -> Comparator { o1, o2 ->
-            collator.compare(
-                o2.albumArtist,
-                o1.albumArtist
-            )
-        }
-        SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
-        SortType.DURATION -> compareByDescending { it.duration }
-        SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
-        SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityDescendingTrackNumberComparator()
-        SortType.CUSTOM -> compareByDescending { 0 }
     }
 }
