@@ -10,7 +10,6 @@ import dev.olog.shared.CustomScope
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.utils.assertBackgroundThread
-import dev.olog.shared.extensions.safeSend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
@@ -31,13 +30,13 @@ internal abstract class BaseRepository<T, Param>(
         firstQuery()
     }
 
-    private fun firstQuery(){
+    private fun firstQuery() {
         launch {
             assertBackgroundThread()
             // small delay to make subclass initialization
-            delay(10)
+            delay(50)
 
-            while (!Permissions.canReadStorage(context)){
+            while (!Permissions.canReadStorage(context)) {
                 delay(300)
             }
 
@@ -46,13 +45,9 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver {
-                    launch {
-                        channel.safeSend(queryAll())
-                    }
-                }
+                DataObserver { channel.offer(queryAll()) }
             )
-            channel.safeSend(queryAll())
+            channel.offer(queryAll())
         }
     }
 
@@ -71,17 +66,15 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        val flow : Flow<R> =  flowViaChannel { channel ->
+        val flow: Flow<R> = flowViaChannel { channel ->
 
             if (!channel.isClosedForSend) {
                 channel.offer(action())
             }
 
             val observer = DataObserver {
-                launch {
-                    if (!channel.isClosedForSend) {
-                        channel.safeSend(action())
-                    }
+                if (!channel.isClosedForSend) {
+                    channel.offer(action())
                 }
             }
 
