@@ -15,16 +15,13 @@ import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EnhancedShuffle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.MediaSessionQueueModel
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.swap
-import dev.olog.shared.extensions.unsubscribe
 import dev.olog.shared.utils.assertMainThread
 import dev.olog.shared.utils.clamp
 import io.reactivex.Maybe
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -91,13 +88,10 @@ class QueueImpl @Inject constructor(
             .toMutableList()
         miniQueue = handleQueueOnRepeatMode(miniQueue)
 
-        val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
-        val model = MediaSessionQueueModel(activeId, miniQueue)
-
         if (immediate) {
-            queueMediaSession.onNextImmediate(model)
+            queueMediaSession.onNextImmediate(miniQueue)
         } else {
-            queueMediaSession.onNext(model)
+            queueMediaSession.onNext(miniQueue)
         }
     }
 
@@ -231,13 +225,7 @@ class QueueImpl @Inject constructor(
         list = handleQueueOnRepeatMode(list)
 
         try {
-            val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
-            queueMediaSession.onNext(
-                MediaSessionQueueModel(
-                    activeId,
-                    list
-                )
-            )
+            queueMediaSession.onNext(list)
         } catch (ex: IndexOutOfBoundsException) {
             ex.printStackTrace()
         }

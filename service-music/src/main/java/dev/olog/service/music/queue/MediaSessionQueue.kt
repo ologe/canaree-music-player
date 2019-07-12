@@ -7,7 +7,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.service.music.model.MediaSessionQueueModel
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -20,9 +19,9 @@ class MediaSessionQueue @Inject constructor(
     mediaSession: MediaSessionCompat
 ) : DefaultLifecycleObserver {
 
-    private val publisher: PublishSubject<MediaSessionQueueModel<MediaEntity>> =
+    private val publisher: PublishSubject<List<MediaEntity>> =
         PublishSubject.create()
-    private val immediatePublisher: PublishSubject<MediaSessionQueueModel<MediaEntity>> =
+    private val immediatePublisher: PublishSubject<List<MediaEntity>> =
         PublishSubject.create()
     private var miniQueueDisposable: Disposable? = null
     private var immediateMiniQueueDisposable: Disposable? = null
@@ -36,7 +35,7 @@ class MediaSessionQueue @Inject constructor(
             .distinctUntilChanged()
             .debounce(1, TimeUnit.SECONDS)
             .map { it.toQueueItem() }
-            .subscribe({ (id, queue) ->
+            .subscribe({ queue ->
                 mediaSession.setQueue(queue)
             }, Throwable::printStackTrace)
 
@@ -45,16 +44,16 @@ class MediaSessionQueue @Inject constructor(
             .observeOn(Schedulers.computation())
             .distinctUntilChanged()
             .map { it.toQueueItem() }
-            .subscribe({ (id, queue) ->
+            .subscribe({ queue ->
                 mediaSession.setQueue(queue)
             }, Throwable::printStackTrace)
     }
 
-    fun onNext(list: MediaSessionQueueModel<MediaEntity>) {
+    fun onNext(list: List<MediaEntity>) {
         publisher.onNext(list)
     }
 
-    fun onNextImmediate(list: MediaSessionQueueModel<MediaEntity>) {
+    fun onNextImmediate(list: List<MediaEntity>) {
         immediatePublisher.onNext(list)
     }
 
@@ -74,9 +73,8 @@ class MediaSessionQueue @Inject constructor(
         return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())
     }
 
-    private fun MediaSessionQueueModel<MediaEntity>.toQueueItem(): MediaSessionQueueModel<MediaSessionCompat.QueueItem> {
-        val queue = this.queue.map { it.toQueueItem() }
-        return MediaSessionQueueModel(this.activeId, queue)
+    private fun List<MediaEntity>.toQueueItem(): List<MediaSessionCompat.QueueItem> {
+        return map { it.toQueueItem() }
     }
 
 }
