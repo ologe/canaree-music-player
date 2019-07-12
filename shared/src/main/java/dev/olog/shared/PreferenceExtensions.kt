@@ -2,12 +2,10 @@ package dev.olog.shared
 
 import android.content.SharedPreferences
 import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.extensions.safeSend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.flowViaChannel
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dispatcher: CoroutineContext = Dispatchers.Default): Flow<T> {
