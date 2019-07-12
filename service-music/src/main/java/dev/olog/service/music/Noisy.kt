@@ -15,7 +15,7 @@ import dev.olog.service.music.EventDispatcher.Event
 import javax.inject.Inject
 
 @PerService
-class Noisy @Inject constructor(
+internal class Noisy @Inject constructor(
     @ServiceContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val eventDispatcher: EventDispatcher

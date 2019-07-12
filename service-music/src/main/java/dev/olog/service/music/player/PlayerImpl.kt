@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.flowOn
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class PlayerImpl @Inject constructor(
+internal class PlayerImpl @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val playerState: MusicServicePlaybackState,
     private val noisy: Lazy<Noisy>,
