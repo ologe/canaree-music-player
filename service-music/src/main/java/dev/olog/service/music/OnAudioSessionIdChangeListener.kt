@@ -6,63 +6,76 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.Format
 import com.google.android.exoplayer2.audio.AudioRendererEventListener
 import com.google.android.exoplayer2.decoder.DecoderCounters
+import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.injection.equalizer.IBassBoost
 import dev.olog.injection.equalizer.IEqualizer
 import dev.olog.injection.equalizer.IVirtualizer
-import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.injection.dagger.PerService
-import dev.olog.shared.extensions.unsubscribe
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @PerService
-class OnAudioSessionIdChangeListener @Inject constructor(
+internal class OnAudioSessionIdChangeListener @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val equalizer: IEqualizer,
     private val virtualizer: IVirtualizer,
     private val bassBoost: IBassBoost
 
-) : AudioRendererEventListener, DefaultLifecycleObserver {
+) : AudioRendererEventListener,
+    DefaultLifecycleObserver,
+    CoroutineScope by MainScope() {
 
-    private var delayDisposable: Disposable? = null
+    companion object {
+        internal const val DELAY = 500L
+    }
+
+    private var job: Job? = null
 
     init {
         lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        delayDisposable.unsubscribe()
+        job?.cancel()
     }
-
-    override fun onAudioSinkUnderrun(bufferSize: Int, bufferSizeMs: Long, elapsedSinceLastFeedMs: Long) {}
-
-    override fun onAudioEnabled(counters: DecoderCounters?) {}
-
-    override fun onAudioInputFormatChanged(format: Format?) {}
-
-    override fun onAudioDecoderInitialized(decoderName: String?, initializedTimestampMs: Long, initializationDurationMs: Long) {}
-
-    override fun onAudioDisabled(counters: DecoderCounters?) {}
 
     override fun onAudioSessionId(audioSessionId: Int) {
-        delayDisposable.unsubscribe()
-        delayDisposable = Single.timer(500, TimeUnit.MILLISECONDS, Schedulers.computation())
-                .map { audioSessionId }
-                .subscribe(this::onAudioSessionIdInternal, Throwable::printStackTrace)
+        job?.cancel()
+        job = launch {
+            delay(DELAY)
+            onAudioSessionIdInternal(audioSessionId)
+        }
     }
 
-    private fun onAudioSessionIdInternal(audioSessionId: Int){
+    private fun onAudioSessionIdInternal(audioSessionId: Int) {
         equalizer.onAudioSessionIdChanged(audioSessionId)
         virtualizer.onAudioSessionIdChanged(audioSessionId)
         bassBoost.onAudioSessionIdChanged(audioSessionId)
     }
 
-    fun release(){
+    fun release() {
         equalizer.release()
         virtualizer.release()
         bassBoost.release()
     }
+
+    override fun onAudioSinkUnderrun(
+        bufferSize: Int,
+        bufferSizeMs: Long,
+        elapsedSinceLastFeedMs: Long
+    ) {
+    }
+
+    override fun onAudioEnabled(counters: DecoderCounters?) {}
+
+    override fun onAudioInputFormatChanged(format: Format?) {}
+
+    override fun onAudioDecoderInitialized(
+        decoderName: String?,
+        initializedTimestampMs: Long,
+        initializationDurationMs: Long
+    ) {
+    }
+
+    override fun onAudioDisabled(counters: DecoderCounters?) {}
 }
