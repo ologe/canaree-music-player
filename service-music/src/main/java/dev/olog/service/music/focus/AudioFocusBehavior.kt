@@ -8,6 +8,7 @@ import dagger.Lazy
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.model.FocusState
+import dev.olog.shared.utils.assertMainThread
 import javax.inject.Inject
 
 class AudioFocusBehavior @Inject constructor(
@@ -19,8 +20,6 @@ class AudioFocusBehavior @Inject constructor(
 
     private val focusRequest by lazy { buildFocusRequest() }
     private var currentFocus = FocusState.NONE
-
-    private val focusLock = Object()
 
     internal fun requestFocus(): Boolean {
         val focus = requestFocusInternal()
@@ -58,30 +57,29 @@ class AudioFocusBehavior @Inject constructor(
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        synchronized(focusLock) {
-            when (focusChange) {
-                AudioManager.AUDIOFOCUS_GAIN -> {
-                    player.get().setVolume(this.volume.normal())
-                    if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
-                        player.get().resume()
-                    }
-                    currentFocus = FocusState.GAIN
+        assertMainThread()
+        when (focusChange) {
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                player.get().setVolume(this.volume.normal())
+                if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
+                    player.get().resume()
                 }
-                AudioManager.AUDIOFOCUS_LOSS -> {
-                    currentFocus = FocusState.NONE
-                    player.get().pause(false, releaseFocus = true)
-                }
-                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                    if (player.get().isPlaying()) {
-                        currentFocus = FocusState.PLAY_WHEN_READY
-                    }
-                    player.get().pause(false, currentFocus != FocusState.PLAY_WHEN_READY)
-                }
-                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                    player.get().setVolume(this.volume.ducked())
-                }
-
+                currentFocus = FocusState.GAIN
             }
+            AudioManager.AUDIOFOCUS_LOSS -> {
+                currentFocus = FocusState.NONE
+                player.get().pause(false, releaseFocus = true)
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                if (player.get().isPlaying()) {
+                    currentFocus = FocusState.PLAY_WHEN_READY
+                }
+                player.get().pause(false, currentFocus != FocusState.PLAY_WHEN_READY)
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                player.get().setVolume(this.volume.ducked())
+            }
+
         }
     }
 }
