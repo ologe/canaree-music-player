@@ -14,6 +14,8 @@ import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.EnhancedShuffle
+import dev.olog.service.music.MusicServiceShuffleMode
+import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.*
 import dev.olog.service.music.utils.ComparatorUtils
 import dev.olog.service.music.voice.VoiceSearch
@@ -36,7 +38,7 @@ class QueueManager @Inject constructor(
     private val queueImpl: QueueImpl,
     private val playingQueueGateway: PlayingQueueGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val shuffleMode: dev.olog.service.music.MusicServiceShuffleMode,
+    private val shuffleMode: MusicServiceShuffleMode,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
     private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
@@ -45,7 +47,7 @@ class QueueManager @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase
 
-) : dev.olog.service.music.interfaces.Queue {
+) : Queue {
 
     private val collator by lazy {
         Collator.getInstance(Locale.UK).apply { strength = Collator.SECONDARY }
@@ -373,15 +375,6 @@ class QueueManager @Inject constructor(
             else -> currentPositionInQueue
         }
     }
-
-//    override fun moveToPlayNext(idInPlaylist: Int): PositionInQueue {
-//        val currentPositionInQueue = getCurrentPositionInQueue()
-//        queueImpl.moveToPlayNext(idInPlaylist)
-//        return when (currentPositionInQueue){
-//            PositionInQueue.BOTH -> PositionInQueue.FIRST
-//            else -> PositionInQueue.IN_MIDDLE
-//        }
-//    }
 
     override fun updatePodcastPosition(position: Long) {
         val mediaEntity = queueImpl.getCurrentSong()
