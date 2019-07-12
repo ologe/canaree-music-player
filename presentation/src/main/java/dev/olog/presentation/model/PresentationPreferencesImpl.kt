@@ -26,7 +26,7 @@ class PresentationPreferencesImpl @Inject constructor(
 
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
         private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
-        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_2"
+        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
         private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
 
         private const val CATEGORY_FOLDER_ORDER = "$TAG.CATEGORY_FOLDER_ORDER"

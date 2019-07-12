@@ -64,6 +64,9 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
+        bottomNavigation.presentationPrefs = presentationPrefs
+
         scrollHelper = SuperCerealScrollHelper(
             this, Input.Full(
                 slidingPanel = getSlidingPanel() to dimen(R.dimen.sliding_panel_peek),
@@ -78,7 +81,7 @@ class MainActivity : MusicGlueActivity(),
                 navigator.toFirstAccess()
                 return
             }
-            savedInstanceState == null -> initialize()
+            savedInstanceState == null -> navigateToLastPage()
         }
 
         intent?.let { handleIntent(it) }
@@ -86,14 +89,12 @@ class MainActivity : MusicGlueActivity(),
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
         Permission.STORAGE -> {
-            initialize()
+            navigateToLastPage()
             connect()
         }
     }
 
-    private fun initialize(){
-        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
-        bottomNavigation.presentationPrefs = presentationPrefs
+    private fun navigateToLastPage(){
         bottomNavigation.navigateToLastPage()
     }
 
