@@ -8,7 +8,7 @@ import dagger.Lazy
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
-import dev.olog.service.music.MusicServicePlaybackState
+import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity

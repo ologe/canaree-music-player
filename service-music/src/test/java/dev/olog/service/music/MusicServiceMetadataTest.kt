@@ -10,6 +10,7 @@ import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.shared.MusicServiceData
+import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.test.shared.CoroutinesMainDispatcherRule
 import org.junit.Rule
 import org.junit.Test

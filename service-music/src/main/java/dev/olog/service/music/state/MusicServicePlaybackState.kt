@@ -1,4 +1,4 @@
-package dev.olog.service.music
+package dev.olog.service.music.state
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -9,6 +9,7 @@ import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
+import dev.olog.service.music.R
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.shared.Classes
 import dev.olog.shared.WidgetConstants
@@ -45,23 +46,32 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun addToFavoriteAction(): PlaybackStateCompat.CustomAction {
-        val action = CUSTOM_ACTION_ADD_FAVORITE
+        val action =
+            CUSTOM_ACTION_ADD_FAVORITE
         val name = "Add favorite"
-        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_favorite)
+        return PlaybackStateCompat.CustomAction.Builder(action, name,
+            R.drawable.vd_favorite
+        )
             .build()
     }
 
     private fun repeatAction(): PlaybackStateCompat.CustomAction {
-        val action = CUSTOM_ACTION_REPEAT
+        val action =
+            CUSTOM_ACTION_REPEAT
         val name = "Repeat"
-        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_repeat)
+        return PlaybackStateCompat.CustomAction.Builder(action, name,
+            R.drawable.vd_repeat
+        )
             .build()
     }
 
     private fun shuffleAction(): PlaybackStateCompat.CustomAction {
-        val action = CUSTOM_ACTION_SHUFFLE
+        val action =
+            CUSTOM_ACTION_SHUFFLE
         val name = "Shuffle"
-        return PlaybackStateCompat.CustomAction.Builder(action, name, R.drawable.vd_shuffle)
+        return PlaybackStateCompat.CustomAction.Builder(action, name,
+            R.drawable.vd_shuffle
+        )
             .build()
     }
 

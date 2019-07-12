@@ -13,9 +13,9 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.EnhancedShuffle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
+import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.assertMainThread
@@ -37,7 +37,7 @@ const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 class QueueImpl @Inject constructor(
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
-    private val repeatMode: dev.olog.service.music.MusicServiceRepeatMode,
+    private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val queueMediaSession: MediaSessionQueue,
     private val songGateway: SongGateway,

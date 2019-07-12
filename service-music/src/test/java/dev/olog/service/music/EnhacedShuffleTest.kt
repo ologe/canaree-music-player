@@ -1,10 +1,10 @@
 package dev.olog.service.music
 
 import com.nhaarman.mockitokotlin2.mock
-import dev.olog.core.MediaId
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.queue.EnhancedShuffle
 import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.test.shared.CoroutinesMainDispatcherRule
 import kotlinx.coroutines.runBlocking

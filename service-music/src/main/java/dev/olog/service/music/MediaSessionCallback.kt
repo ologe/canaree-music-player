@@ -14,6 +14,9 @@ import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
+import dev.olog.service.music.state.MusicServicePlaybackState
+import dev.olog.service.music.state.MusicServiceRepeatMode
+import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
 import io.reactivex.android.schedulers.AndroidSchedulers

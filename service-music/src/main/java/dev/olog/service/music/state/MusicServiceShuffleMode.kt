@@ -1,4 +1,4 @@
-package dev.olog.service.music
+package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_ALL

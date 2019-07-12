@@ -1,11 +1,10 @@
-package dev.olog.service.music
+package dev.olog.service.music.queue
 
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.extensions.removeFirst
-import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 import kotlin.math.min
 

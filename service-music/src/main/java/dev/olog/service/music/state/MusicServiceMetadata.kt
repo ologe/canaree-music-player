@@ -1,4 +1,4 @@
-package dev.olog.service.music
+package dev.olog.service.music.state
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -15,6 +15,7 @@ import dev.olog.image.provider.getBitmapAsync
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.putBoolean
+import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
