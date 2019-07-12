@@ -1,0 +1,55 @@
+package dev.olog.service.music
+
+import android.content.Context
+import android.support.v4.media.session.MediaSessionCompat
+import androidx.lifecycle.Lifecycle
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.spy
+import com.nhaarman.mockitokotlin2.verify
+import dev.olog.service.music.interfaces.PlayerLifecycle
+import dev.olog.service.music.model.MetadataEntity
+import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.shared.MusicServiceData
+import dev.olog.test.shared.CoroutinesMainDispatcherRule
+import org.junit.Rule
+import org.junit.Test
+
+class MusicServiceMetadataTest {
+
+    @get:Rule
+    var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
+
+    private val lifecycle = mock<Lifecycle>()
+    private val context = mock<Context>()
+    private val mediaSession = mock<MediaSessionCompat>()
+    private val playerLifecycle = mock<PlayerLifecycle>()
+
+    private val musicServiceMetadata = MusicServiceMetadata(
+        lifecycle, context, mediaSession, playerLifecycle, mock()
+    )
+
+    @Test
+    fun `test subscription`() {
+        verify(lifecycle).addObserver(musicServiceMetadata)
+        verify(playerLifecycle).addListener(musicServiceMetadata)
+    }
+
+    @Test
+    fun `test onPrepared`() {
+        val item = MusicServiceData.mediaEntity
+        val metadataItem = MetadataEntity(item, SkipType.NONE)
+
+        val spy = spy(musicServiceMetadata)
+
+        spy.onPrepare(metadataItem)
+
+        verify(spy).onMetadataChanged(metadataItem)
+    }
+
+    @Test
+    fun `test onMetadataChanged`() {
+        // TODO don't know how to test, update and notifyWidgets are private and
+        //  I don't want to make internal
+    }
+
+}

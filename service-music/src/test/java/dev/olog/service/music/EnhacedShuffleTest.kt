@@ -5,6 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.test.shared.CoroutinesMainDispatcherRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -24,13 +25,7 @@ class EnhacedShuffleTest {
         // given
         val queue = emptyList<MediaEntity>()
 
-        val justPlayed = listOf(
-            MediaEntity(
-                1L, 1, MediaId.songId(1L), 1L, 1L,
-                "title", "artist", "album", "album", 1,
-                1, "", "", 0, 0, false
-            )
-        )
+        val justPlayed = MusicServiceData.mediaEntityList(5)
 
         // when, after playing n songs
         for (metadataEntity in justPlayed) {
@@ -51,13 +46,7 @@ class EnhacedShuffleTest {
     fun `test shuffle`() = runBlocking<Unit> {
 
         // given
-        val queue = (0 until 10).map {
-            MediaEntity(
-                it.toLong(), it, MediaId.songId(it.toLong()), it.toLong(), it.toLong(),
-                "title", "artist", "album", "album", 1,
-                1, "", "", 0, 0, false
-            )
-        }
+        val queue = MusicServiceData.mediaEntityList(10)
 
         val justPlayed = queue.take(5)
         val notPlayedYet = queue.drop(justPlayed.size)
