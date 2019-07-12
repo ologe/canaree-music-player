@@ -50,7 +50,7 @@ class QueueManager @Inject constructor(
 ) : Queue {
 
     private val collator by lazy {
-        Collator.getInstance(Locale.UK).apply { strength = Collator.SECONDARY }
+        Collator.getInstance(Locale.getDefault()).apply { strength = Collator.SECONDARY }
     }
 
     override suspend fun prepare(): PlayerMediaEntity? = withContext(Dispatchers.Default) {
