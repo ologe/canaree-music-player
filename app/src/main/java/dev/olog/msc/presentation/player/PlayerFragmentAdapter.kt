@@ -221,9 +221,9 @@ class PlayerFragmentAdapter (
                     view.bookmark.text = TextUtils.formatMillis(it)
                 }, onStartTouch = {
 
-                }, onStopTouch = {
-                    mediaProvider.seekTo(it.toLong())
-                })
+        }, onStopTouch = {
+            mediaProvider.seekTo(it.toLong())
+        })
 
         viewModel.observeProgress
                 .takeUntil(RxView.detaches(view))
@@ -314,7 +314,7 @@ class PlayerFragmentAdapter (
                     replay30View.animate().rotation(-50f)
                             .setDuration(200)
                             .withEndAction { replay30View.animate().rotation(0f).setDuration(200) }
-                    mediaProvider.replayTenSeconds()
+                    mediaProvider.replayThirtySeconds()
                 }, Throwable::printStackTrace)
 
         val forwardView = view.findViewById<View>(R.id.forward)
@@ -336,7 +336,7 @@ class PlayerFragmentAdapter (
                     forward30View.animate().rotation(50f)
                             .setDuration(200)
                             .withEndAction { forward30View.animate().rotation(0f).setDuration(200) }
-                    mediaProvider.forwardTenSeconds()
+                    mediaProvider.forwardThirtySeconds()
                 }, Throwable::printStackTrace)
 
         val playbackSpeed = view.findViewById<View>(R.id.playbackSpeed)
