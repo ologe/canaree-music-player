@@ -67,11 +67,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
         sessionToken = mediaSession.sessionToken
 
-        mediaSession.setFlags(
-            MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                    MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or
-                    MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS
-        )
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS)
 
         mediaSession.setMediaButtonReceiver(buildMediaButtonReceiverPendingIntent())
         mediaSession.setSessionActivity(buildSessionActivityPendingIntent())
