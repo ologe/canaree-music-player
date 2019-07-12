@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -88,11 +89,11 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleAppShortcutPlay(intent: Intent) {
-        mediaSession.controller.transportControls.play()
+        callback.onPlay()
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
-        mediaSession.controller.transportControls.playFromMediaId(MediaId.shuffleId().toString(), null)
+        callback.onPlayFromMediaId(MediaId.shuffleId().toString(), null)
     }
 
     override fun handlePlayPause(intent: Intent) {
@@ -108,7 +109,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleMediaButton(intent: Intent) {
-        androidx.media.session.MediaButtonReceiver.handleIntent(mediaSession, intent)
+        MediaButtonReceiver.handleIntent(mediaSession, intent)
     }
 
     override fun handleToggleFavorite() {
@@ -129,31 +130,23 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     override fun handlePlayFromUri(intent: Intent) {
         intent.data?.let { uri ->
             callback.onPlayFromUri(uri, null)
-        }
+        } // TODO else
     }
 
     override fun handleReplay10(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.REPLAY_10.name, null
-        )
+        callback.onCustomAction(MusicServiceAction.REPLAY_10.name, null)
     }
 
     override fun handleReplay30(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.REPLAY_30.name, null
-        )
+        callback.onCustomAction(MusicServiceAction.REPLAY_30.name, null)
     }
 
     override fun handleForward10(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.FORWARD_10.name, null
-        )
+        callback.onCustomAction(MusicServiceAction.FORWARD_10.name, null)
     }
 
     override fun handleForward30(intent: Intent) {
-        mediaSession.controller.transportControls.sendCustomAction(
-            MusicServiceAction.FORWARD_30.name, null
-        )
+        callback.onCustomAction(MusicServiceAction.FORWARD_30.name, null)
     }
 
     private fun resetSleepTimer() {
