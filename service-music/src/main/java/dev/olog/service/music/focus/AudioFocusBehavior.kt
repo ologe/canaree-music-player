@@ -11,7 +11,7 @@ import dev.olog.service.music.model.FocusState
 import dev.olog.shared.utils.assertMainThread
 import javax.inject.Inject
 
-class AudioFocusBehavior @Inject constructor(
+internal class AudioFocusBehavior @Inject constructor(
     private val player: Lazy<Player>,
     private val volume: IMaxAllowedPlayerVolume,
     private val audioManager: Lazy<AudioManager> // keep it lazy to avoid circular dependency
@@ -21,7 +21,7 @@ class AudioFocusBehavior @Inject constructor(
     private val focusRequest by lazy { buildFocusRequest() }
     private var currentFocus = FocusState.NONE
 
-    internal fun requestFocus(): Boolean {
+    fun requestFocus(): Boolean {
         val focus = requestFocusInternal()
         currentFocus = when (focus) {
             AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> FocusState.GAIN
@@ -32,7 +32,7 @@ class AudioFocusBehavior @Inject constructor(
         return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
     }
 
-    internal fun abandonFocus() {
+    fun abandonFocus() {
         currentFocus = FocusState.NONE
         AudioManagerCompat.abandonAudioFocusRequest(audioManager.get(), focusRequest)
     }
