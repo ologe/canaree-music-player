@@ -3,8 +3,6 @@ package dev.olog.service.music.queue
 import android.net.Uri
 import android.os.Bundle
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -141,10 +139,6 @@ class QueueManager @Inject constructor(
                     bookmark
                 )
             }
-    }
-
-    override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
-        return handlePlayFromMediaId(mediaId, null)
     }
 
     override fun handlePlayRecentlyAdded(mediaId: MediaId): Single<PlayerMediaEntity> {

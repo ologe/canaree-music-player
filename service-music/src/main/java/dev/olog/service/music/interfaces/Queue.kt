@@ -27,8 +27,6 @@ interface Queue {
 
     fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity>
-
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
 
     fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity>
