@@ -16,7 +16,7 @@ internal class MusicServiceShuffleMode @Inject constructor(
 
     companion object {
         @JvmStatic
-        private val TAG = "SM:${this::class.java.simpleName}"
+        private val TAG = "SM:${MusicServiceShuffleMode::class.java.simpleName}"
     }
 
     init {

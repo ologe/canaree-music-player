@@ -1,7 +1,6 @@
 package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
 import android.util.Log
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -17,7 +16,7 @@ internal class MusicServiceRepeatMode @Inject constructor(
 
     companion object {
         @JvmStatic
-        private val TAG = "SM:${this::class.java.simpleName}"
+        private val TAG = "SM:${MusicServiceRepeatMode::class.java.simpleName}"
     }
 
     init {

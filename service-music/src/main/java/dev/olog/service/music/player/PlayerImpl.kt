@@ -72,7 +72,7 @@ internal class PlayerImpl @Inject constructor(
         val entity = playerModel.mediaEntity
         player.prepare(playerModel, playerModel.bookmark)
 
-        playerState.prepare(entity.id, playerModel.bookmark)
+        playerState.prepare(playerModel.bookmark)
         player.setPlaybackSpeed(currentSpeed)
         playerState.updatePlaybackSpeed(currentSpeed)
         playerState.toggleSkipToActions(playerModel.positionInQueue)

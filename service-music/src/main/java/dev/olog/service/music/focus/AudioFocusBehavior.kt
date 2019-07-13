@@ -25,7 +25,7 @@ internal class AudioFocusBehavior @Inject constructor(
 
     companion object {
         @JvmStatic
-        private val TAG = "SM:${this::class.java.simpleName}"
+        private val TAG = "SM:${AudioFocusBehavior::class.java.simpleName}"
     }
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
