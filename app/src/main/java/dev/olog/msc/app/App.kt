@@ -3,15 +3,16 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import androidx.preference.PreferenceManager
+import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasBroadcastReceiverInjector
 import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.shared.PendingIntents
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
@@ -49,7 +50,6 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
         if (BuildConfig.DEBUG) {
 //            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
-//            StrictMode.initialize()
         }
     }
 

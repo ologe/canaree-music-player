@@ -70,7 +70,7 @@ ext {
 
     // App dependencies
     androidX = '1.0.0'
-    firebase = '16.0.8'
+    firebase = '17.0.1'
     firebase_in_app_mess = '17.0.3'
     lifecycle = '2.0.0'
     room = '2.0.0'
