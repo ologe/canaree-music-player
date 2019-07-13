@@ -1,24 +1,15 @@
 package dev.olog.service.music
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 
 class NoisyTest {
 
-    private val lifecycle = mock<Lifecycle>()
     private val context = mock<Context>()
     private val eventDispatcher = mock<EventDispatcher>()
 
-    private val noisy = Noisy(
-        context, lifecycle, eventDispatcher
-    )
-
-    @Test
-    fun `test lifecycle subscribe`() {
-        verify(lifecycle).addObserver(noisy)
-    }
+    private val noisy = Noisy(context, eventDispatcher)
 
     @Test
     fun `test lifecycle unsubscribe`() {
