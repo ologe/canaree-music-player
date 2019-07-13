@@ -82,9 +82,8 @@ internal class MusicServicePlaybackState @Inject constructor(
         ).build()
     }
 
-    fun prepare(id: Long, bookmark: Long) {
-        Log.v(TAG, "prepare id=$id, bookmark=$bookmark")
-        builder.setActiveQueueItemId(id)
+    fun prepare(bookmark: Long) {
+        Log.v(TAG, "prepare bookmark=$bookmark")
         mediaSession.setPlaybackState(builder.build())
 
         notifyWidgetsOfStateChanged(false, bookmark)
