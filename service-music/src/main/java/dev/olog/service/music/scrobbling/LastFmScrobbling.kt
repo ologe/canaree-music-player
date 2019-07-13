@@ -12,7 +12,6 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 internal class LastFmScrobbling @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
     observeLastFmUserCredentials: ObserveLastFmUserCredentials,
     playerLifecycle: PlayerLifecycle,
     private val lastFmService: LastFmService
@@ -25,7 +24,6 @@ internal class LastFmScrobbling @Inject constructor(
             .subscribe(lastFmService::tryAutenticate, Throwable::printStackTrace)
 
     init {
-        lifecycle.addObserver(this)
         playerLifecycle.addListener(this)
     }
 

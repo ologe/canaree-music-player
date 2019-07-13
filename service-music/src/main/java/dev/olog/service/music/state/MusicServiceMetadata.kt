@@ -34,7 +34,6 @@ import javax.inject.Inject
 
 @PerService
 class MusicServiceMetadata @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: PlayerLifecycle,
@@ -49,7 +48,6 @@ class MusicServiceMetadata @Inject constructor(
     private var showLockScreenArtwork = false
 
     init {
-        lifecycle.addObserver(this)
         playerLifecycle.addListener(this)
 
         launch {

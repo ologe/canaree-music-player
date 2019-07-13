@@ -1,7 +1,6 @@
 package dev.olog.service.music
 
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastMetadata
@@ -11,7 +10,6 @@ import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.interactor.*
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -27,7 +25,6 @@ import javax.inject.Inject
 
 @PerService
 class CurrentSong @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
     insertHistorySongUseCase: InsertHistorySongUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -50,15 +47,13 @@ class CurrentSong @Inject constructor(
         }
 
         override fun onMetadataChanged(metadata: MetadataEntity) {
-            launch { channel.send(metadata.entity) }
+            channel.offer(metadata.entity)
             updateFavorite(metadata.entity)
             saveLastMetadata(metadata.entity)
         }
     }
 
     init {
-        lifecycle.addObserver(this)
-
         playerLifecycle.addListener(playerListener)
 
         launch(Dispatchers.IO) {

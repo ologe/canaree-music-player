@@ -13,6 +13,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.interfaces.INotification
+import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.extensions.unsubscribe
@@ -31,11 +32,10 @@ private const val MINUTES_TO_DESTROY = 30L
 @PerService
 class MusicNotificationManager @Inject constructor(
     private val service: Service,
-    @ServiceLifecycle lifecycle: Lifecycle,
     private val eventDispatcher: EventDispatcher,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
-    playerLifecycle: dev.olog.service.music.interfaces.PlayerLifecycle
+    playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
 
@@ -48,7 +48,7 @@ class MusicNotificationManager @Inject constructor(
     private val currentState = MusicNotificationState()
     private var publishDisposable : Disposable? = null
 
-    private val playerListener = object : dev.olog.service.music.interfaces.PlayerLifecycle.Listener {
+    private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(metadata: MetadataEntity) {
             onNextMetadata(metadata.entity)
         }
@@ -63,7 +63,6 @@ class MusicNotificationManager @Inject constructor(
     }
 
     init {
-        lifecycle.addObserver(this)
         playerLifecycle.addListener(playerListener)
 
         publisher.toSerialized()

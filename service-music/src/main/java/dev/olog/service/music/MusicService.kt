@@ -65,7 +65,20 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     override fun onCreate() {
         inject()
         super.onCreate()
+        setupObservers()
+        setupMediaSession()
+    }
 
+    private fun setupObservers(){
+        lifecycle.run {
+            addObserver(currentSong)
+            addObserver(playerMetadata)
+            addObserver(notification)
+            addObserver(lastFmScrobbling)
+        }
+    }
+
+    private fun setupMediaSession(){
         sessionToken = mediaSession.sessionToken
 
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS)
