@@ -2,64 +2,70 @@ package dev.olog.service.music.queue
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.extensions.unsubscribe
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
+import dev.olog.shared.CustomScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
 class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
-    mediaSession: MediaSessionCompat
-) : DefaultLifecycleObserver {
+    private val mediaSession: MediaSessionCompat
+) : DefaultLifecycleObserver,
+    CoroutineScope by CustomScope() {
 
-    private val publisher: PublishSubject<List<MediaEntity>> =
-        PublishSubject.create()
-    private val immediatePublisher: PublishSubject<List<MediaEntity>> =
-        PublishSubject.create()
-    private var miniQueueDisposable: Disposable? = null
-    private var immediateMiniQueueDisposable: Disposable? = null
+    companion object {
+        private val TAG = "SM:${this::class.java.simpleName}"
+        private const val DELAY = 1000L
+    }
+
+    private val delayedChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
+    private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
     init {
         lifecycle.addObserver(this)
 
-        miniQueueDisposable = publisher
-            .toSerialized()
-            .observeOn(Schedulers.computation())
-            .distinctUntilChanged()
-            .debounce(1, TimeUnit.SECONDS)
-            .map { it.toQueueItem() }
-            .subscribe({ queue ->
-                mediaSession.setQueue(queue)
-            }, Throwable::printStackTrace)
+        launch {
+            delayedChannel.asFlow()
+                .debounce(DELAY)
+                .collect { publish(it) }
+        }
 
-        immediateMiniQueueDisposable = immediatePublisher
-            .toSerialized()
-            .observeOn(Schedulers.computation())
-            .distinctUntilChanged()
-            .map { it.toQueueItem() }
-            .subscribe({ queue ->
-                mediaSession.setQueue(queue)
-            }, Throwable::printStackTrace)
+        launch {
+            immediateChannel.asFlow()
+                .collect { publish(it) }
+        }
+    }
+
+    private suspend fun publish(list: List<MediaEntity>) {
+        Log.v(TAG, "publish")
+        val queue = list.map { it.toQueueItem() }
+
+        withContext(Dispatchers.Main) {
+            mediaSession.setQueue(queue)
+        }
     }
 
     fun onNext(list: List<MediaEntity>) {
-        publisher.onNext(list)
+        Log.v(TAG, "on next delayed")
+        delayedChannel.offer(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
-        immediatePublisher.onNext(list)
+        Log.v(TAG, "on next immediate")
+        immediateChannel.offer(list)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        miniQueueDisposable.unsubscribe()
-        immediateMiniQueueDisposable.unsubscribe()
+        cancel()
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {
@@ -71,10 +77,6 @@ class MediaSessionQueue @Inject constructor(
             .build()
 
         return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())
-    }
-
-    private fun List<MediaEntity>.toQueueItem(): List<MediaSessionCompat.QueueItem> {
-        return map { it.toQueueItem() }
     }
 
 }
