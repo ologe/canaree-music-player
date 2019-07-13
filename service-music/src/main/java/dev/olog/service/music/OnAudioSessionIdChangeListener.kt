@@ -1,5 +1,6 @@
 package dev.olog.service.music
 
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -26,6 +27,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     CoroutineScope by MainScope() {
 
     companion object {
+        private val TAG = OnAudioSessionIdChangeListener::class.java.simpleName
         internal const val DELAY = 500L
     }
 
@@ -48,12 +50,15 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     private fun onAudioSessionIdInternal(audioSessionId: Int) {
+        Log.v(TAG, "on audio session id changed =$audioSessionId")
+
         equalizer.onAudioSessionIdChanged(audioSessionId)
         virtualizer.onAudioSessionIdChanged(audioSessionId)
         bassBoost.onAudioSessionIdChanged(audioSessionId)
     }
 
     fun release() {
+        Log.v(TAG, "release")
         equalizer.release()
         virtualizer.release()
         bassBoost.release()

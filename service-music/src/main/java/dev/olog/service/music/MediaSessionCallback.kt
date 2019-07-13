@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
 import android.view.KeyEvent
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.ToggleFavoriteUseCase
@@ -39,6 +40,10 @@ internal class MediaSessionCallback @Inject constructor(
 
 ) : MediaSessionCompat.Callback() {
 
+    companion object {
+        private val TAG = MediaSessionCallback::class.java.simpleName
+    }
+
     private val subscriptions = CompositeDisposable()
 
     override fun onPrepare() = runBlocking<Unit> {
@@ -46,11 +51,13 @@ internal class MediaSessionCallback @Inject constructor(
         if (track != null){
             player.prepare(track)
         }
+        Log.v(TAG, "onPrepare with track=$track")
     }
 
     override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+        Log.v(TAG, "onPlayFromMediaId mediaId=$mediaId, extras=$extras")
+
         mediaId ?: return
-        extras ?: return
 
         when (val mediaId = MediaId.fromString(mediaId)) {
             MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
