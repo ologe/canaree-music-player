@@ -1,6 +1,6 @@
 package dev.olog.service.music.model
 
-data class MetadataEntity(
+internal data class MetadataEntity(
     val entity: MediaEntity,
     val skipType: SkipType
 )

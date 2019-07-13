@@ -7,7 +7,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.notification.NotificationModule
 
-fun MusicService.inject() {
+internal fun MusicService.inject() {
     val coreComponent = CoreComponent.coreComponent(application)
     DaggerMusicServiceComponent.factory().create(this, coreComponent)
             .inject(this)

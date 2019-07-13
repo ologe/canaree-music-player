@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.service.music.R
 
-object MediaIdHelper {
+internal object MediaIdHelper {
 
     const val MEDIA_ID_ROOT = "__ROOT__"
 

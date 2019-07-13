@@ -9,7 +9,7 @@ import javax.inject.Inject
 import kotlin.math.min
 
 @PerService
-class EnhancedShuffle @Inject constructor(
+internal class EnhancedShuffle @Inject constructor(
     playerLifecycle: PlayerLifecycle
 
 ) : PlayerLifecycle.Listener {

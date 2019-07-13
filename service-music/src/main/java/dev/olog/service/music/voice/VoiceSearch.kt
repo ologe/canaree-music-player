@@ -9,7 +9,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asObservable
 
-object VoiceSearch {
+internal object VoiceSearch {
 
     fun noFilter(flowable: Observable<List<Song>>): Single<List<dev.olog.service.music.model.MediaEntity>> {
         val mediaId = MediaId.songId(-1)

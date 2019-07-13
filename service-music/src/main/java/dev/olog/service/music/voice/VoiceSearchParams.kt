@@ -28,7 +28,7 @@ import android.text.TextUtils
  * @param query the query parameter from a voice search
  * @param extras the extras parameter from a voice search
  */
-class VoiceSearchParams(
+internal class VoiceSearchParams(
         val query: String, extras: Bundle?
 
 ) {
@@ -92,11 +92,6 @@ class VoiceSearchParams(
                     else -> isUnstructured = true
                 }
             }
-
-            song = song.toLowerCase()
-            artist = artist.toLowerCase()
-            album = album.toLowerCase()
-            genre = genre.toLowerCase()
         }
 
     }

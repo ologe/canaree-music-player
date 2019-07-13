@@ -9,7 +9,7 @@ import dev.olog.shared.utils.isNougat
 import dev.olog.shared.utils.isOreo
 
 @Module
-class NotificationModule {
+internal class NotificationModule {
 
     @Provides
     @PerService

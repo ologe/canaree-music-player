@@ -29,7 +29,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class QueueManager @Inject constructor(
+internal class QueueManager @Inject constructor(
     private val queueImpl: QueueImpl,
     private val playingQueueGateway: PlayingQueueGateway,
     private val musicPreferencesUseCase: MusicPreferencesGateway,

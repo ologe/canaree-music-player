@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
-class CurrentSong @Inject constructor(
+internal class CurrentSong @Inject constructor(
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
     insertHistorySongUseCase: InsertHistorySongUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,

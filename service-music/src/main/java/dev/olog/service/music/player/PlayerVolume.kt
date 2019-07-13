@@ -23,7 +23,7 @@ private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 @PerService
-class PlayerVolume @Inject constructor(
+internal class PlayerVolume @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     musicPreferencesUseCase: MusicPreferencesGateway
 

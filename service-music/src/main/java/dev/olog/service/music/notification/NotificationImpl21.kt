@@ -25,7 +25,7 @@ import dev.olog.shared.extensions.asActivityPendingIntent
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
-open class NotificationImpl21 @Inject constructor(
+internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
     private val mediaSession: MediaSessionCompat
 ) : INotification {

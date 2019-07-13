@@ -23,8 +23,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
-class CrossFadePlayerImpl @Inject internal constructor(
+internal class CrossFadePlayerImpl @Inject internal constructor(
     @ApplicationContext context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,

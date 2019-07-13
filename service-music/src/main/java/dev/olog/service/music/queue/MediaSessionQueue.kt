@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
-class MediaSessionQueue @Inject constructor(
+internal class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val mediaSession: MediaSessionCompat
 ) : DefaultLifecycleObserver,

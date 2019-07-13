@@ -20,7 +20,7 @@ import dev.olog.service.music.interfaces.SourceFactory
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.utils.clamp
 
-abstract class AbsPlayer<T>(
+internal abstract class AbsPlayer<T>(
     private val context: Context,
     lifecycle: Lifecycle,
     private val mediaSourceFactory: SourceFactory<T>,

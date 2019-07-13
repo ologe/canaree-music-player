@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-interface ExoPlayerListenerWrapper : Player.EventListener {
+internal interface ExoPlayerListenerWrapper : Player.EventListener {
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {
     }

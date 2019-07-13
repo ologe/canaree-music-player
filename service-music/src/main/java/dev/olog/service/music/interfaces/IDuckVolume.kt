@@ -1,10 +1,8 @@
 package dev.olog.service.music.interfaces
 
-interface IDuckVolume {
+internal interface IDuckVolume {
 
     val normal: Float
     val duck: Float
-
-
 
 }

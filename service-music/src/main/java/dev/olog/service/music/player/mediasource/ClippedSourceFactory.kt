@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ClippedSourceFactory @Inject constructor (
+internal class ClippedSourceFactory @Inject constructor (
     @ServiceLifecycle lifecycle: Lifecycle,
     private val sourceFactory: DefaultSourceFactory,
     musicPrefsUseCase: MusicPreferencesGateway

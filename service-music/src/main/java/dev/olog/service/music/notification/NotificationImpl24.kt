@@ -13,7 +13,7 @@ import dev.olog.shared.utils.TextUtils
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-open class NotificationImpl24 @Inject constructor(
+internal open class NotificationImpl24 @Inject constructor(
     service: Service,
     mediaSession: MediaSessionCompat
 

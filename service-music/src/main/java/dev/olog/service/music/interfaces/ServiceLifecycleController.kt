@@ -1,6 +1,6 @@
 package dev.olog.service.music.interfaces
 
-interface ServiceLifecycleController {
+internal interface ServiceLifecycleController {
 
     fun start()
     fun stop()

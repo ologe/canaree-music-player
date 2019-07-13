@@ -12,7 +12,7 @@ import dev.olog.service.music.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
-class NotificationImpl26 @Inject constructor(
+internal class NotificationImpl26 @Inject constructor(
         service: Service,
         mediaSession: MediaSessionCompat
 

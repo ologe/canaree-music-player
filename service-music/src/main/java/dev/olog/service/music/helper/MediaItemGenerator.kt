@@ -13,7 +13,7 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
-class MediaItemGenerator @Inject constructor(
+internal class MediaItemGenerator @Inject constructor(
     @ApplicationContext private val context: Context,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,

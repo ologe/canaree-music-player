@@ -14,7 +14,7 @@ import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.extensions.asServicePendingIntent
 
-object NotificationActions {
+internal object NotificationActions {
 
     fun favorite(context: Context, isFavorite: Boolean): NotificationCompat.Action {
         val icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite

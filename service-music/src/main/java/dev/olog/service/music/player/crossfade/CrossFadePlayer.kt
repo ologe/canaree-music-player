@@ -11,7 +11,7 @@ private enum class CurrentPlayer {
     PLAYER_TWO
 }
 
-class CrossFadePlayer @Inject internal constructor(
+internal class CrossFadePlayer @Inject internal constructor(
     private val playerOne: CrossFadePlayerImpl,
     private val playerTwo: CrossFadePlayerImpl
 

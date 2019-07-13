@@ -3,7 +3,7 @@ package dev.olog.service.music.interfaces
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 
-interface Player : PlayerLifecycle {
+internal interface Player : PlayerLifecycle {
 
     fun isPlaying(): Boolean
     fun getBookmark(): Long

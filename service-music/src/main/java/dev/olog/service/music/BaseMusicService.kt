@@ -29,7 +29,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     @Inject
-    lateinit var player: Player
+    internal lateinit var player: Player
 
     private var serviceStarted = false
 
