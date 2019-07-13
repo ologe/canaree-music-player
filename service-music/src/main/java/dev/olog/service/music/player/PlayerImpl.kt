@@ -4,7 +4,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dagger.Lazy
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.Noisy
@@ -25,7 +24,7 @@ import javax.inject.Inject
 internal class PlayerImpl @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val playerState: MusicServicePlaybackState,
-    private val noisy: Lazy<Noisy>,
+    private val noisy: Noisy,
     private val serviceLifecycle: ServiceLifecycleController,
     private val audioFocus : AudioFocusBehavior,
     private val player: CustomExoPlayer<PlayerMediaEntity>,
@@ -114,7 +113,7 @@ internal class PlayerImpl @Inject constructor(
         }
 
         playerState.toggleSkipToActions(playerModel.positionInQueue)
-        noisy.get().register()
+        noisy.register()
 
         serviceLifecycle.start()
     }
@@ -129,7 +128,7 @@ internal class PlayerImpl @Inject constructor(
         }
 
         serviceLifecycle.start()
-        noisy.get().register()
+        noisy.register()
     }
 
     override fun pause(stopService: Boolean, releaseFocus: Boolean) {
@@ -138,7 +137,7 @@ internal class PlayerImpl @Inject constructor(
         listeners.forEach {
             it.onStateChanged(playbackState)
         }
-        noisy.get().unregister()
+        noisy.unregister()
 
         if (releaseFocus){
             releaseFocus()

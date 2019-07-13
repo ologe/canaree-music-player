@@ -1,10 +1,8 @@
 package dev.olog.service.music.scrobbling
 
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.extensions.unsubscribe

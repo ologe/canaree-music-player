@@ -1,12 +1,16 @@
 package dev.olog.service.music
 
+import android.content.Context
 import android.media.AudioManager
 import android.view.KeyEvent
+import dev.olog.injection.dagger.ServiceContext
 import javax.inject.Inject
 
 class EventDispatcher @Inject constructor(
-    private val audioManager: AudioManager
+    @ServiceContext context: Context
 ) {
+
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     enum class Event {
         PLAY_PAUSE,

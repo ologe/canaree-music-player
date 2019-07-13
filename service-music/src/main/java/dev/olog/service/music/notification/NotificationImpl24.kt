@@ -1,12 +1,10 @@
 package dev.olog.service.music.notification
 
-import android.app.NotificationManager
 import android.app.Service
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
 import androidx.annotation.RequiresApi
-import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.legacy.getCachedBitmapOld
@@ -17,10 +15,9 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.N)
 open class NotificationImpl24 @Inject constructor(
     service: Service,
-    token: MediaSessionCompat.Token,
-    notificationManager: Lazy<NotificationManager>
+    mediaSession: MediaSessionCompat
 
-) : NotificationImpl21(service, token, notificationManager) {
+) : NotificationImpl21(service, mediaSession) {
 
     override fun startChronometer(bookmark: Long) {
         builder.setWhen(System.currentTimeMillis() - bookmark)

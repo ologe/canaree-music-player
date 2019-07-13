@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.support.v4.media.session.MediaSessionCompat
@@ -12,7 +13,6 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.legacy.getCachedBitmapOld
@@ -27,10 +27,12 @@ import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
-    private val token: MediaSessionCompat.Token,
-    protected val notificationManager: Lazy<NotificationManager>
-
+    private val mediaSession: MediaSessionCompat
 ) : INotification {
+
+    protected val notificationManager by lazy {
+        service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     protected var builder = NotificationCompat.Builder(service, INotification.CHANNEL_ID)
 
@@ -42,7 +44,7 @@ open class NotificationImpl21 @Inject constructor(
         }
 
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
-            .setMediaSession(token)
+            .setMediaSession(mediaSession.sessionToken)
             .setShowActionsInCompactView(1, 2, 3)
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
@@ -93,7 +95,7 @@ open class NotificationImpl21 @Inject constructor(
         updateFavorite(state.isFavorite)
 
         val notification = builder.build()
-        notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
+        notificationManager.notify(INotification.NOTIFICATION_ID, notification)
         return notification
     }
 
@@ -139,6 +141,6 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     override fun cancel() {
-        notificationManager.get().cancel(INotification.NOTIFICATION_ID)
+        notificationManager.cancel(INotification.NOTIFICATION_ID)
     }
 }

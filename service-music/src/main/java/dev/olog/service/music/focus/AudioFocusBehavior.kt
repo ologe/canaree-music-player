@@ -1,27 +1,34 @@
 package dev.olog.service.music.focus
 
+import android.content.Context
 import android.media.AudioManager
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
 import dagger.Lazy
+import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.model.FocusState
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.utils.assertMainThread
 import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
-    private val player: Lazy<Player>,
-    private val volume: IMaxAllowedPlayerVolume,
-    private val audioManager: Lazy<AudioManager> // keep it lazy to avoid circular dependency
+    @ServiceContext context: Context,
+    private val player: Lazy<Player>, // keep it lazy to avoid circular dependency
+    private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {
 
-    private val focusRequest by lazy { buildFocusRequest() }
+    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+    private val focusRequest by lazyFast { buildFocusRequest() }
     private var currentFocus = FocusState.NONE
 
     fun requestFocus(): Boolean {
+        assertMainThread()
+
         val focus = requestFocusInternal()
         currentFocus = when (focus) {
             AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> FocusState.GAIN
@@ -33,12 +40,14 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     fun abandonFocus() {
+        assertMainThread()
+
         currentFocus = FocusState.NONE
-        AudioManagerCompat.abandonAudioFocusRequest(audioManager.get(), focusRequest)
+        AudioManagerCompat.abandonAudioFocusRequest(audioManager, focusRequest)
     }
 
     private fun requestFocusInternal(): Int {
-        return AudioManagerCompat.requestAudioFocus(audioManager.get(), focusRequest)
+        return AudioManagerCompat.requestAudioFocus(audioManager, focusRequest)
     }
 
     private fun buildFocusRequest(): AudioFocusRequestCompat {
@@ -58,6 +67,7 @@ internal class AudioFocusBehavior @Inject constructor(
 
     override fun onAudioFocusChange(focusChange: Int) {
         assertMainThread()
+
         when (focusChange) {
             AudioManager.AUDIOFOCUS_GAIN -> {
                 player.get().setVolume(this.volume.normal())

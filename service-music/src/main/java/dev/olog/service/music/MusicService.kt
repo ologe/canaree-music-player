@@ -61,6 +61,8 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var alarmManager: AlarmManager
     @Inject
     internal lateinit var lastFmScrobbling: LastFmScrobbling
+    @Inject
+    internal lateinit var noisy: Noisy
 
     override fun onCreate() {
         inject()
@@ -75,6 +77,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             addObserver(playerMetadata)
             addObserver(notification)
             addObserver(lastFmScrobbling)
+            addObserver(noisy)
         }
     }
 

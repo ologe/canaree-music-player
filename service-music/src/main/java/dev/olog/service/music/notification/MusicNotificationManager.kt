@@ -4,12 +4,10 @@ import android.app.Notification
 import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.interfaces.INotification

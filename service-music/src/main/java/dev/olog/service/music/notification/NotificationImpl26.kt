@@ -7,31 +7,26 @@ import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import dagger.Lazy
 import dev.olog.service.music.R
-
 import dev.olog.service.music.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 class NotificationImpl26 @Inject constructor(
         service: Service,
-        token: MediaSessionCompat.Token,
-        notificationManager: Lazy<NotificationManager>
+        mediaSession: MediaSessionCompat
 
-) : NotificationImpl24(service, token, notificationManager) {
+) : NotificationImpl24(service, mediaSession) {
 
     override fun extendInitialization() {
         builder.setColorized(true)
 
-        if (!nowPlayingChannelExists()){
+        val nowPlayingChannelExists = notificationManager.getNotificationChannel(INotification.CHANNEL_ID) != null
+
+        if (!nowPlayingChannelExists){
             createChannel()
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun nowPlayingChannelExists() =
-            notificationManager.get().getNotificationChannel(INotification.CHANNEL_ID) != null
 
     private fun createChannel(){
         // create notification channel
@@ -43,6 +38,6 @@ class NotificationImpl26 @Inject constructor(
         channel.description = description
         channel.setShowBadge(false)
         channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
-        notificationManager.get().createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(channel)
     }
 }

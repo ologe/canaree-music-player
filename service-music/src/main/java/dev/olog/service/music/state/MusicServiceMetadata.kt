@@ -7,13 +7,11 @@ import android.content.SharedPreferences
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.image.provider.getBitmapAsync
 import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.putBoolean
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.PlayerLifecycle

@@ -1,7 +1,6 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
-import android.view.KeyEvent
 import androidx.core.math.MathUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
