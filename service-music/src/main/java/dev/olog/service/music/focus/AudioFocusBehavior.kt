@@ -2,6 +2,7 @@ package dev.olog.service.music.focus
 
 import android.content.Context
 import android.media.AudioManager
+import android.util.Log
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
@@ -11,6 +12,7 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.model.FocusState
 import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.extensions.throwNotHandled
 import dev.olog.shared.utils.assertMainThread
 import javax.inject.Inject
 
@@ -20,6 +22,11 @@ internal class AudioFocusBehavior @Inject constructor(
     private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {
+
+    companion object {
+        @JvmStatic
+        private val TAG = "SM:${this::class.java.simpleName}"
+    }
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -36,10 +43,14 @@ internal class AudioFocusBehavior @Inject constructor(
             AudioManager.AUDIOFOCUS_REQUEST_FAILED -> FocusState.NONE
             else -> throw IllegalStateException("audio focus response not handle with code $focus")
         }
-        return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+
+        return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED).also {
+            Log.v(TAG, "request focus, granted=$it")
+        }
     }
 
     fun abandonFocus() {
+        Log.v(TAG, "release focus")
         assertMainThread()
 
         currentFocus = FocusState.NONE
@@ -67,29 +78,67 @@ internal class AudioFocusBehavior @Inject constructor(
 
     override fun onAudioFocusChange(focusChange: Int) {
         assertMainThread()
+        onAudioFocusChangeInternal(AudioFocusType.get(focusChange))
+    }
 
-        when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN -> {
+    private fun onAudioFocusChangeInternal(focus: AudioFocusType){
+        Log.v(TAG, "on focus=$focus")
+        when (focus) {
+            AudioFocusType.GAIN -> {
                 player.get().setVolume(this.volume.normal())
                 if (currentFocus == FocusState.PLAY_WHEN_READY || currentFocus == FocusState.DELAYED) {
                     player.get().resume()
                 }
                 currentFocus = FocusState.GAIN
             }
-            AudioManager.AUDIOFOCUS_LOSS -> {
+            AudioFocusType.LOSS -> {
                 currentFocus = FocusState.NONE
                 player.get().pause(false, releaseFocus = true)
             }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+            AudioFocusType.LOSS_TRANSIENT -> {
                 if (player.get().isPlaying()) {
                     currentFocus = FocusState.PLAY_WHEN_READY
                 }
                 player.get().pause(false, currentFocus != FocusState.PLAY_WHEN_READY)
             }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+            AudioFocusType.LOSS_TRANSIENT_CAN_DUCK -> {
                 player.get().setVolume(this.volume.ducked())
             }
-
+            else -> {
+                Log.w(TAG, "not handled $focus")
+            }
         }
     }
+
+}
+
+private enum class AudioFocusType {
+    NONE,
+
+    GAIN,
+    GAIN_TRANSIENT,
+    GAIN_TRANSIENT_EXCLUSIVE,
+    GAIN_TRANSIENT_MAY_DUCK,
+
+    LOSS,
+    LOSS_TRANSIENT,
+    LOSS_TRANSIENT_CAN_DUCK;
+
+    companion object {
+        @JvmStatic
+        fun get(focus: Int): AudioFocusType {
+            return when (focus) {
+                AudioManager.AUDIOFOCUS_NONE -> NONE
+                AudioManager.AUDIOFOCUS_GAIN -> GAIN
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> GAIN_TRANSIENT
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE -> GAIN_TRANSIENT_EXCLUSIVE
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> GAIN_TRANSIENT_MAY_DUCK
+                AudioManager.AUDIOFOCUS_LOSS -> LOSS
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> LOSS_TRANSIENT
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> LOSS_TRANSIENT_CAN_DUCK
+                else -> throwNotHandled("focus=$focus")
+            }
+        }
+    }
+
 }

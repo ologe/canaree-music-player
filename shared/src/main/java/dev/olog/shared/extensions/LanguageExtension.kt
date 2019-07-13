@@ -5,6 +5,6 @@ inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThre
 }
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun throwNotHandled(message: String = ""): Nothing {
+inline fun throwNotHandled(message: String): Nothing {
     throw IllegalStateException("state not handled $message")
 }
