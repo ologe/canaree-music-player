@@ -41,7 +41,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            app:fontFamily="sans-serif-black"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <dev.olog.presentation.detail.widgets.SortButton
