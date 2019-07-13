@@ -2,7 +2,6 @@ package dev.olog.service.music
 
 import android.content.Context
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.lifecycle.Lifecycle
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
@@ -20,18 +19,16 @@ class MusicServiceMetadataTest {
     @get:Rule
     var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
 
-    private val lifecycle = mock<Lifecycle>()
     private val context = mock<Context>()
     private val mediaSession = mock<MediaSessionCompat>()
     private val playerLifecycle = mock<PlayerLifecycle>()
 
     private val musicServiceMetadata = MusicServiceMetadata(
-        lifecycle, context, mediaSession, playerLifecycle, mock()
+        context, mediaSession, playerLifecycle, mock()
     )
 
     @Test
     fun `test subscription`() {
-        verify(lifecycle).addObserver(musicServiceMetadata)
         verify(playerLifecycle).addListener(musicServiceMetadata)
     }
 
