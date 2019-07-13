@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
@@ -158,6 +159,9 @@ class MainActivity : MusicGlueActivity(),
             val topFragment = supportFragmentManager.getTopFragment()
 
             when {
+                topFragment is CanHandleOnBackPressed && topFragment.handleOnBackPressed()-> {
+                    return
+                }
                 topFragment is DrawsOnTop -> {
                     super.onBackPressed()
                     return
@@ -201,5 +205,11 @@ class MainActivity : MusicGlueActivity(),
 
     override fun navigate(page: BottomNavigationPage) {
         bottomNavigation.navigate(page)
+    }
+
+    fun restoreSlidingPanelHeight(){
+        // TODO check if has translation ??
+        bottomWrapper.animate().translationY(0f).setDuration(100)
+        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
     }
 }

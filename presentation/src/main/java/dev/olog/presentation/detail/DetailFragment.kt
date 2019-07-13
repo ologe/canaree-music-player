@@ -23,7 +23,9 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.utils.removeLightStatusBar
@@ -40,6 +42,7 @@ import kotlin.properties.Delegates
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
+    CanHandleOnBackPressed,
     IDragListener by DragListenerImpl() {
 
     companion object {
@@ -282,4 +285,9 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
+
+    override fun handleOnBackPressed(): Boolean {
+        (act as MainActivity).restoreSlidingPanelHeight()
+        return false
+    }
 }
