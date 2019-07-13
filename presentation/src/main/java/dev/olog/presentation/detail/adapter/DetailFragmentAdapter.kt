@@ -133,20 +133,11 @@ internal class DetailFragmentAdapter(
                 val sortText = holder.itemView.sort
                 val sortImage = holder.itemView.sortImage
 
+                val view = holder.itemView
                 viewModel.observeSorting()
                     .asFlowable()
                     .asLiveData()
-                    .subscribe(holder) { (sort, arranging) ->
-                        if (sort == SortType.CUSTOM) {
-                            sortImage.setImageResource(R.drawable.vd_remove)
-                        } else {
-                            if (arranging == SortArranging.ASCENDING) {
-                                sortImage.setImageResource(R.drawable.vd_arrow_down)
-                            } else {
-                                sortImage.setImageResource(R.drawable.vd_arrow_up)
-                            }
-                        }
-                    }
+                    .subscribe(holder, view.sortImage::update)
 
                 viewModel.showSortByTutorialIfNeverShown()
                     .observeOn(AndroidSchedulers.mainThread())

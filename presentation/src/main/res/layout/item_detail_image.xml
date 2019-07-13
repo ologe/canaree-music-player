@@ -77,6 +77,11 @@
                 android:ellipsize="end"
                 android:layout_marginStart="2dp"/>
 
+            <dev.olog.presentation.detail.widgets.BiographyView
+                android:id="@+id/biography"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

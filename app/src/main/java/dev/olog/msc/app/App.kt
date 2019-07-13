@@ -3,7 +3,6 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import androidx.preference.PreferenceManager
-import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

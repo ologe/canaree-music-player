@@ -40,20 +40,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
-            android:paddingBottom="16dp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
+            android:paddingBottom="12dp"
+            app:fontFamily="sans-serif-black"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
-        <ImageButton
+        <dev.olog.presentation.detail.widgets.SortButton
             android:id="@+id/sortImage"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="@+id/sort"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:src="@drawable/vd_arrow_up"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:tint="?colorPrimary"
             android:layout_marginEnd="12dp"/>
 

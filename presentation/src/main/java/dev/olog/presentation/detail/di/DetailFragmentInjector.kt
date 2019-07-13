@@ -7,13 +7,13 @@ import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.detail.DetailFragment
 
-@Module(subcomponents = arrayOf(DetailFragmentSubComponent::class))
+@Module(subcomponents = [DetailFragmentSubComponent::class])
 abstract class DetailFragmentInjector {
 
     @Binds
     @IntoMap
     @ClassKey(DetailFragment::class)
-    internal abstract fun injectorFactory(builder: DetailFragmentSubComponent.Builder)
+    internal abstract fun injectorFactory(builder: DetailFragmentSubComponent.Factory)
             : AndroidInjector.Factory<*>
 
 }

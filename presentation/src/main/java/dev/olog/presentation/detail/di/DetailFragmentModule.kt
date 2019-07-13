@@ -6,26 +6,28 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.core.MediaId
+import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.detail.DetailFragmentViewModel
-import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.shared.extensions.getArgument
 
-@Module(includes = [DetailFragmentModule.Bindings::class])
-internal class DetailFragmentModule(private val fragment: DetailFragment) {
+@Module
+internal abstract class DetailFragmentModule {
 
-    @Provides
-    internal fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(DetailFragment.ARGUMENTS_MEDIA_ID)!!
-        return MediaId.fromString(mediaId)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailFragmentViewModel::class)
+    abstract fun provideViewModel(viewModel: DetailFragmentViewModel): ViewModel
 
     @Module
-    internal interface Bindings {
+    companion object {
 
-        @Binds
-        @IntoMap
-        @ViewModelKey(DetailFragmentViewModel::class)
-        fun provideViewModel(viewModel: DetailFragmentViewModel): ViewModel
+        @JvmStatic
+        @Provides
+        internal fun provideMediaId(instance: DetailFragment): MediaId {
+            val mediaId = instance.getArgument<String>(DetailFragment.ARGUMENTS_MEDIA_ID)
+            return MediaId.fromString(mediaId)
+        }
 
     }
 

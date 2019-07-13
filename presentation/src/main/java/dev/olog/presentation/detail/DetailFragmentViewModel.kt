@@ -172,12 +172,11 @@ internal class DetailFragmentViewModel @Inject constructor(
             .addTo(subscriptions)
     }
 
-    fun observeSorting(): Observable<Pair<SortType, SortArranging>> {
+    fun observeSorting(): Observable<SortEntity> {
         return Observables.combineLatest(
             observeSortOrderUseCase(mediaId).asFlowable().toObservable(),
-            getSortArrangingUseCase.execute(),
-            { sort, arranging -> Pair(sort, arranging) }
-        )
+            getSortArrangingUseCase.execute()
+        ) { sort, arranging -> SortEntity(sort, arranging) }
     }
 
     fun showSortByTutorialIfNeverShown(): Completable {

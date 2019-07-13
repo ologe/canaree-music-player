@@ -1,25 +1,24 @@
 package dev.olog.presentation.detail.di
 
+import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.detail.DetailFragment
 
 
-@Subcomponent(modules = arrayOf(
+@Subcomponent(
+    modules = arrayOf(
         DetailFragmentModule::class
-))
+    )
+)
 @PerFragment
 internal interface DetailFragmentSubComponent : AndroidInjector<DetailFragment> {
 
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<DetailFragment>() {
+    @Subcomponent.Factory
+    interface Factory : AndroidInjector.Factory<DetailFragment> {
 
-        abstract fun detailModule(module: DetailFragmentModule): Builder
-
-        override fun seedInstance(instance: DetailFragment) {
-            detailModule(DetailFragmentModule(instance))
-        }
+        override fun create(@BindsInstance instance: DetailFragment): DetailFragmentSubComponent
     }
 
 }
