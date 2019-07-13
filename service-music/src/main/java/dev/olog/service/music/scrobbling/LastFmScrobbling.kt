@@ -19,7 +19,7 @@ internal class LastFmScrobbling @Inject constructor(
 
 ) : DefaultLifecycleObserver, PlayerLifecycle.Listener {
 
-    private val credendialsDisposable = observeLastFmUserCredentials.execute()
+    private val credentialsDisposable = observeLastFmUserCredentials.execute()
             .observeOn(Schedulers.io())
             .filter { it.username.isNotBlank() }
             .subscribe(lastFmService::tryAutenticate, Throwable::printStackTrace)
@@ -30,7 +30,7 @@ internal class LastFmScrobbling @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        credendialsDisposable.unsubscribe()
+        credentialsDisposable.unsubscribe()
         lastFmService.dispose()
     }
 
