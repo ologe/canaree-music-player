@@ -8,7 +8,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.presentation.R
 
-class SortButton(
+internal class SortButton(
     context: Context,
     attrs: AttributeSet
 ) : AppCompatImageButton(context, attrs) {
