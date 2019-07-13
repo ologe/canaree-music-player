@@ -1,5 +1,6 @@
 package dev.olog.data.repository.lastfm
 
+import android.util.Log
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.AppDatabase
@@ -13,6 +14,10 @@ internal class LastFmLocalArtist @Inject constructor(
 
 ) {
 
+    companion object {
+        private val TAG = "D:${LastFmLocalArtist::class.java.simpleName}"
+    }
+
     private val dao = appDatabase.lastFmDao()
 
     fun mustFetch(artistId: Long): Boolean {
@@ -25,12 +30,14 @@ internal class LastFmLocalArtist @Inject constructor(
     }
 
     fun cache(model: LastFmArtist) {
+        Log.v(TAG, "cache ${model.id}")
         assertBackgroundThread()
         val entity = model.toModel()
         dao.insertArtist(entity)
     }
 
     fun delete(artistId: Long) {
+        Log.v(TAG, "delete $artistId")
         assertBackgroundThread()
         dao.deleteArtist(artistId)
     }

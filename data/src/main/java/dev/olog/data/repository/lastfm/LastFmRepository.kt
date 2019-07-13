@@ -1,6 +1,7 @@
 package dev.olog.data.repository.lastfm
 
 import android.provider.MediaStore
+import android.util.Log
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
@@ -28,18 +29,27 @@ internal class LastFmRepository @Inject constructor(
 
 ) : LastFmGateway {
 
+    companion object {
+        private val TAG = "D:${LastFmRepository::class.java.simpleName}"
+    }
+
     // track
     override suspend fun mustFetchTrack(trackId: Id): Boolean {
         assertBackgroundThread()
-        return lastFmRepoTrack.mustFetch(trackId)
+        val mustFetch = lastFmRepoTrack.mustFetch(trackId)
+        Log.v(TAG, "must fetch track id=$trackId -> $mustFetch")
+        return mustFetch
     }
 
     override suspend fun getTrack(trackId: Id): LastFmTrack? {
+        Log.v(TAG, "get track id=$trackId")
         assertBackgroundThread()
         val cached = lastFmRepoTrack.getCached(trackId)
         if (cached != null) {
+            Log.v(TAG, "found in cache id=$trackId")
             return cached
         }
+        Log.v(TAG, "fetch id=$trackId")
 
         val song = songGateway.getByParam(trackId) ?: return null
         val trackTitle = TextUtils.addSpacesToDash(song.title)
@@ -71,20 +81,26 @@ internal class LastFmRepository @Inject constructor(
     // album
     override suspend fun mustFetchAlbum(albumId: Id): Boolean {
         assertBackgroundThread()
-        return lastFmRepoAlbum.mustFetch(albumId)
+        val mustFetch = lastFmRepoAlbum.mustFetch(albumId)
+        Log.v(TAG, "must fetch album id=$albumId -> $mustFetch")
+        return mustFetch
     }
 
     override suspend fun getAlbum(albumId: Id): LastFmAlbum? {
+        Log.v(TAG, "get album id=$albumId")
         assertBackgroundThread()
         val album = albumGateway.getByParam(albumId) ?: return null
         if (album.hasSameNameAsFolder) {
+            Log.v(TAG, "id=$albumId has same name as folder, skip")
             return null
         }
 
         val cached = lastFmRepoAlbum.getCached(albumId)
         if (cached != null) {
+            Log.v(TAG, "found in cache id=$album")
             return cached
         }
+        Log.v(TAG, "fetch id=$albumId")
 
         var result : LastFmAlbum? = null
         if (album.title != MediaStore.UNKNOWN_STRING){
@@ -113,15 +129,21 @@ internal class LastFmRepository @Inject constructor(
     // artist
     override suspend fun mustFetchArtist(artistId: Id): Boolean {
         assertBackgroundThread()
-        return lastFmRepoArtist.mustFetch(artistId)
+        val mustFetch = lastFmRepoArtist.mustFetch(artistId)
+        Log.v(TAG, "must fetch artist id=$artistId -> $mustFetch")
+        return mustFetch
     }
 
     override suspend fun getArtist(artistId: Id): LastFmArtist? {
+        Log.v(TAG, "get artist id=$artistId")
         assertBackgroundThread()
         val cached = lastFmRepoArtist.getCached(artistId)
         if (cached != null) {
+            Log.v(TAG, "found in cache id=$artistId")
             return cached
         }
+        Log.v(TAG, "fetch id=$artistId")
+
         val artist = artistGateway.getByParam(artistId) ?: return null
         var result = lastFmService.getArtistInfoAsync(artist.name).awaitRepeat()?.toDomain(artistId)
         if (result == null) {
