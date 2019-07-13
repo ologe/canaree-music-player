@@ -1,5 +1,6 @@
 package dev.olog.service.music
 
+import android.util.Log
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.EventDispatcher.Event
 import kotlinx.coroutines.*
@@ -13,6 +14,8 @@ internal class MediaButton @Inject internal constructor(
 ) : CoroutineScope by MainScope() {
 
     companion object {
+        @JvmStatic
+        private val TAG = "SM:${MediaButton::class.java.simpleName}"
         internal const val DELAY = 300L
         internal const val MAX_ALLOWED_CLICKS = 3
     }
@@ -22,6 +25,7 @@ internal class MediaButton @Inject internal constructor(
     private var job: Job? = null
 
     fun onHeatSetHookClick() {
+        Log.v(TAG, "onHeatSetHookClick")
         clicks++
 
         if (clicks <= MAX_ALLOWED_CLICKS) {
@@ -36,6 +40,8 @@ internal class MediaButton @Inject internal constructor(
     }
 
     private fun dispatchEvent(clicks: Int) {
+        Log.v(TAG, "dispatchEvent clicks=$clicks")
+
         when (clicks) {
             0 -> {
             }

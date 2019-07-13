@@ -11,6 +11,7 @@ import dev.olog.service.music.MusicService
 import dev.olog.service.music.R
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
+import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.extensions.asServicePendingIntent
 
 object NotificationActions {
@@ -20,7 +21,7 @@ object NotificationActions {
         return NotificationCompat.Action.Builder(
             icon,
             "Toggle favorite",
-            buildPendingIntent(context, MusicServiceAction.TOGGLE_FAVORITE.name)
+            buildPendingIntent(context, MusicServiceCustomAction.TOGGLE_FAVORITE.name)
         ).build()
     }
 
@@ -60,7 +61,7 @@ object NotificationActions {
         return NotificationCompat.Action.Builder(
             R.drawable.vd_replay,
             "Replay 10 seconds",
-            buildPendingIntent(context, MusicServiceAction.REPLAY_10.name)
+            buildPendingIntent(context, MusicServiceCustomAction.REPLAY_10.name)
         ).build()
     }
 
@@ -76,7 +77,7 @@ object NotificationActions {
         return NotificationCompat.Action.Builder(
             R.drawable.vd_forward_30,
             "Forward 30 seconds",
-            buildPendingIntent(context, MusicServiceAction.FORWARD_30.name)
+            buildPendingIntent(context, MusicServiceCustomAction.FORWARD_30.name)
         ).build()
     }
 

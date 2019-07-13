@@ -20,6 +20,7 @@ import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
+import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -118,14 +119,14 @@ abstract class MusicGlueActivity : BaseActivity(),
         val bundle = bundleOf(
             MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.PLAY_MOST_PLAYED.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.PLAY_MOST_PLAYED.name, bundle)
     }
 
     override fun playRecentlyAdded(mediaId: MediaId) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.PLAY_RECENTLY_ADDED.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.PLAY_RECENTLY_ADDED.name, bundle)
     }
 
     override fun skipToQueueItem(idInPlaylist: Int) {
@@ -133,8 +134,8 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun shuffle(mediaId: MediaId) {
-        transportControls()?.sendCustomAction(MusicServiceAction.SHUFFLE.name, bundleOf(
-            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.SHUFFLE.name, bundleOf(
+            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         ))
     }
 
@@ -168,32 +169,32 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     override fun swap(from: Int, to: Int) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_SWAP_FROM to from,
-            MusicServiceAction.ARGUMENT_SWAP_TO to to
+            MusicServiceCustomAction.ARGUMENT_SWAP_FROM to from,
+            MusicServiceCustomAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.SWAP.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.SWAP.name, bundle)
     }
 
     override fun swapRelative(from: Int, to: Int) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_SWAP_FROM to from,
-            MusicServiceAction.ARGUMENT_SWAP_TO to to
+            MusicServiceCustomAction.ARGUMENT_SWAP_FROM to from,
+            MusicServiceCustomAction.ARGUMENT_SWAP_TO to to
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.SWAP_RELATIVE.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.SWAP_RELATIVE.name, bundle)
     }
 
     override fun remove(position: Int) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_POSITION to position
+            MusicServiceCustomAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.REMOVE.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.REMOVE.name, bundle)
     }
 
     override fun removeRelative(position: Int) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_POSITION to position
+            MusicServiceCustomAction.ARGUMENT_POSITION to position
         )
-        transportControls()?.sendCustomAction(MusicServiceAction.REMOVE_RELATIVE.name, bundle)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.REMOVE_RELATIVE.name, bundle)
     }
 
     override fun addToPlayNext(mediaId: MediaId) {
@@ -215,18 +216,18 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun replayTenSeconds() {
-        transportControls()?.sendCustomAction(MusicServiceAction.REPLAY_10.name, null)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.REPLAY_10.name, null)
     }
 
     override fun forwardTenSeconds() {
-        transportControls()?.sendCustomAction(MusicServiceAction.FORWARD_10.name, null)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.FORWARD_10.name, null)
     }
 
     override fun replayThirtySeconds() {
-        transportControls()?.sendCustomAction(MusicServiceAction.REPLAY_30.name, null)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.REPLAY_30.name, null)
     }
 
     override fun forwardThirtySeconds() {
-        transportControls()?.sendCustomAction(MusicServiceAction.FORWARD_30.name, null)
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.FORWARD_30.name, null)
     }
 }

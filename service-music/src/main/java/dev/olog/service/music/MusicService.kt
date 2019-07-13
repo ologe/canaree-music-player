@@ -28,6 +28,7 @@ import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.shared.Classes
 import dev.olog.shared.MusicServiceAction
+import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +40,8 @@ import javax.inject.Inject
 class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     companion object {
-        const val TAG = "MusicService"
+        @JvmStatic
+        val TAG = "SM:${MusicService::class.java.simpleName}"
     }
 
     @Inject
@@ -129,7 +131,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleToggleFavorite() {
-        callback.onSetRating(null)
+        callback.onCustomAction(MusicServiceCustomAction.TOGGLE_FAVORITE.name, null)
     }
 
     override fun handleSleepTimerEnd(intent: Intent) {
@@ -150,19 +152,19 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleReplay10(intent: Intent) {
-        callback.onCustomAction(MusicServiceAction.REPLAY_10.name, null)
+        callback.onCustomAction(MusicServiceCustomAction.REPLAY_10.name, null)
     }
 
     override fun handleReplay30(intent: Intent) {
-        callback.onCustomAction(MusicServiceAction.REPLAY_30.name, null)
+        callback.onCustomAction(MusicServiceCustomAction.REPLAY_30.name, null)
     }
 
     override fun handleForward10(intent: Intent) {
-        callback.onCustomAction(MusicServiceAction.FORWARD_10.name, null)
+        callback.onCustomAction(MusicServiceCustomAction.FORWARD_10.name, null)
     }
 
     override fun handleForward30(intent: Intent) {
-        callback.onCustomAction(MusicServiceAction.FORWARD_30.name, null)
+        callback.onCustomAction(MusicServiceCustomAction.FORWARD_30.name, null)
     }
 
     private fun resetSleepTimer() {

@@ -9,8 +9,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import dev.olog.shared.Classes
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
+import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.utils.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -86,7 +86,7 @@ open class AppShortcutsImpl25(
 
     private fun createShuffleIntent(): Intent {
         val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
-        intent.action = MusicServiceAction.SHUFFLE.name
+        intent.action = MusicServiceCustomAction.SHUFFLE.name
         return intent
     }
 

@@ -21,7 +21,8 @@ internal class Noisy @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     companion object {
-        private val TAG = Noisy::class.java.simpleName
+        @JvmStatic
+        private val TAG = "SM:${Noisy::class.java.simpleName}"
     }
 
     private val noisyFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)

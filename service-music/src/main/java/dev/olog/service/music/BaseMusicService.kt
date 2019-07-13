@@ -2,7 +2,6 @@ package dev.olog.service.music
 
 import android.app.Service
 import android.content.Intent
-import android.os.Debug
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -13,8 +12,8 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.ServiceLifecycleController
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
+import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.PendingIntents
 import javax.inject.Inject
 
@@ -59,19 +58,24 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         }
 
         val musicServiceAction = MusicServiceAction.values().find { it.name == intent.action }
+        val musicServiceCustomAction = MusicServiceCustomAction.values().find { it.name == intent.action }
+
 
         when (musicServiceAction){
-            MusicServiceAction.SHUFFLE -> handleAppShortcutShuffle(intent)
             MusicServiceAction.PLAY -> handleAppShortcutPlay(intent)
             MusicServiceAction.PLAY_URI -> handlePlayFromUri(intent)
             MusicServiceAction.PLAY_PAUSE -> handlePlayPause(intent)
             MusicServiceAction.SKIP_NEXT -> handleSkipNext(intent)
             MusicServiceAction.SKIP_PREVIOUS -> handleSkipPrevious(intent)
-            MusicServiceAction.TOGGLE_FAVORITE -> handleToggleFavorite()
-            MusicServiceAction.FORWARD_10 -> handleForward10(intent)
-            MusicServiceAction.FORWARD_30 -> handleForward30(intent)
-            MusicServiceAction.REPLAY_10 -> handleReplay10(intent)
-            MusicServiceAction.REPLAY_30 -> handleReplay30(intent)
+        }
+
+        when (musicServiceCustomAction){
+            MusicServiceCustomAction.SHUFFLE -> handleAppShortcutShuffle(intent)
+            MusicServiceCustomAction.FORWARD_10 -> handleForward10(intent)
+            MusicServiceCustomAction.FORWARD_30 -> handleForward30(intent)
+            MusicServiceCustomAction.REPLAY_10 -> handleReplay10(intent)
+            MusicServiceCustomAction.REPLAY_30 -> handleReplay30(intent)
+            MusicServiceCustomAction.TOGGLE_FAVORITE -> handleToggleFavorite()
         }
 
         when (intent.action) {

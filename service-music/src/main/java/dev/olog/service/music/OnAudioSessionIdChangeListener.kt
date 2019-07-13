@@ -27,7 +27,8 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     CoroutineScope by MainScope() {
 
     companion object {
-        private val TAG = OnAudioSessionIdChangeListener::class.java.simpleName
+        @JvmStatic
+        private val TAG = "SM:${OnAudioSessionIdChangeListener::class.java.simpleName}"
         internal const val DELAY = 500L
     }
 

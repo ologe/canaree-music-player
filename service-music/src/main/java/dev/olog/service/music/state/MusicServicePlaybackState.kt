@@ -5,19 +5,22 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.R
 import dev.olog.service.music.model.PositionInQueue
+import dev.olog.service.music.model.SkipType
 import dev.olog.shared.Classes
 import dev.olog.shared.WidgetConstants
 import dev.olog.shared.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.extensions.throwNotHandled
 import javax.inject.Inject
 
 @PerService
-class MusicServicePlaybackState @Inject constructor(
+internal class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway
@@ -25,57 +28,62 @@ class MusicServicePlaybackState @Inject constructor(
 ) {
 
     companion object {
-        const val CUSTOM_ACTION_ADD_FAVORITE = "PlayerState.add.favorite"
-        const val CUSTOM_ACTION_SHUFFLE = "PlayerState.shuffle"
-        const val CUSTOM_ACTION_REPEAT = "PlayerState.repeat"
+        @JvmStatic
+        val TAG = "SM:${MusicServicePlaybackState::class.java.simpleName}"
+        @JvmStatic
+        val CUSTOM_ACTION_ADD_FAVORITE = "$TAG.add.favorite"
+        @JvmStatic
+        val CUSTOM_ACTION_SHUFFLE = "$TAG.shuffle"
+        @JvmStatic
+        val CUSTOM_ACTION_REPEAT = "$TAG.repeat"
     }
 
     private val appShortcuts = AppShortcuts.instance(context)
 
-    private val builder = PlaybackStateCompat.Builder()
-
-    init {
-        builder.setState(
+    private val builder = PlaybackStateCompat.Builder().apply {
+        setState(
             PlaybackStateCompat.STATE_PAUSED,
             musicPreferencesUseCase.getBookmark(),
             0f
-        ).setActions(getActions())
-            .addCustomAction(addToFavoriteAction())
-            .addCustomAction(repeatAction())
-            .addCustomAction(shuffleAction()) // TODO
+        )
+        setActions(getActions())
+        addCustomAction(addToFavoriteAction())
+        addCustomAction(repeatAction())
+        addCustomAction(shuffleAction()) // TODO
     }
 
     private fun addToFavoriteAction(): PlaybackStateCompat.CustomAction {
         val action =
             CUSTOM_ACTION_ADD_FAVORITE
         val name = "Add favorite"
-        return PlaybackStateCompat.CustomAction.Builder(action, name,
+        return PlaybackStateCompat.CustomAction.Builder(
+            action, name,
             R.drawable.vd_favorite
-        )
-            .build()
+        ).build()
     }
 
     private fun repeatAction(): PlaybackStateCompat.CustomAction {
         val action =
             CUSTOM_ACTION_REPEAT
         val name = "Repeat"
-        return PlaybackStateCompat.CustomAction.Builder(action, name,
+        return PlaybackStateCompat.CustomAction.Builder(
+            action, name,
             R.drawable.vd_repeat
-        )
-            .build()
+        ).build()
     }
 
     private fun shuffleAction(): PlaybackStateCompat.CustomAction {
         val action =
             CUSTOM_ACTION_SHUFFLE
         val name = "Shuffle"
-        return PlaybackStateCompat.CustomAction.Builder(action, name,
+        return PlaybackStateCompat.CustomAction.Builder(
+            action, name,
             R.drawable.vd_shuffle
-        )
-            .build()
+        ).build()
     }
 
     fun prepare(id: Long, bookmark: Long) {
+        Log.v(TAG, "prepare id=$id, bookmark=$bookmark")
         builder.setActiveQueueItemId(id)
         mediaSession.setPlaybackState(builder.build())
 
@@ -86,6 +94,8 @@ class MusicServicePlaybackState @Inject constructor(
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
     fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
+        Log.v(TAG, "update state=$state, bookmark=$bookmark, speed=$speed")
+
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
         if (isPlaying) {
@@ -112,6 +122,7 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     fun updatePlaybackSpeed(speed: Float) {
+        Log.v(TAG, "updatePlaybackSpeed speed=$speed")
         val currentState = mediaSession.controller?.playbackState
         if (currentState == null) {
             builder.setState(
@@ -120,14 +131,15 @@ class MusicServicePlaybackState @Inject constructor(
                 0f
             )
         } else {
-            val stateSpeed = if (currentState.state == PlaybackStateCompat.STATE_PLAYING) speed else 0f
+            val stateSpeed =
+                if (currentState.state == PlaybackStateCompat.STATE_PLAYING) speed else 0f
             builder.setState(currentState.state, currentState.position, stateSpeed)
         }
         mediaSession.setPlaybackState(builder.build())
     }
 
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {
-
+        Log.v(TAG, "toggleSkipToActions positionInQueue=$positionInQueue")
         when {
             positionInQueue === PositionInQueue.FIRST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
@@ -153,12 +165,17 @@ class MusicServicePlaybackState @Inject constructor(
 
     }
 
-    fun skipTo(toNext: Boolean) {
-        val state = if (toNext) {
-            PlaybackStateCompat.STATE_SKIPPING_TO_NEXT
-        } else {
-            PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
+    fun skipTo(skipType: SkipType) {
+        Log.v(TAG, "skipTo skipType=$skipType")
+
+        val state = when (skipType){
+            SkipType.SKIP_NEXT -> PlaybackStateCompat.STATE_SKIPPING_TO_NEXT
+            SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
+            SkipType.NONE,
+            SkipType.RESTART,
+            SkipType.TRACK_ENDED -> throwNotHandled("skip type=$skipType")
         }
+
         builder.setState(state, 0, 1f)
 
         mediaSession.setPlaybackState(builder.build())
@@ -181,6 +198,7 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
+        Log.v(TAG, "notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
@@ -196,6 +214,7 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
+        Log.v(TAG, "notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
@@ -211,11 +230,13 @@ class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun disablePlayShortcut() {
+        Log.v(TAG, "disablePlayShortcut")
         appShortcuts.disablePlay()
     }
 
 
     private fun enablePlayShortcut() {
+        Log.v(TAG, "enablePlayShortcut")
         appShortcuts.enablePlay()
     }
 

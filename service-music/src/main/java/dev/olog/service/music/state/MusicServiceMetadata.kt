@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.request.target.Target
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
-class MusicServiceMetadata @Inject constructor(
+internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: PlayerLifecycle,
@@ -40,6 +41,11 @@ class MusicServiceMetadata @Inject constructor(
 ) : PlayerLifecycle.Listener,
     DefaultLifecycleObserver,
     CoroutineScope by MainScope() {
+
+    companion object {
+        @JvmStatic
+        private val TAG = "SM:${MusicServiceMetadata::class.java.simpleName}"
+    }
 
     private val builder = MediaMetadataCompat.Builder()
 
@@ -68,6 +74,8 @@ class MusicServiceMetadata @Inject constructor(
     }
 
     private fun update(metadata: MetadataEntity) {
+        Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
+
         val entity = metadata.entity
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
@@ -96,6 +104,8 @@ class MusicServiceMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
+        Log.v(TAG, "notify widgets ${entity.title}")
+
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
