@@ -51,7 +51,7 @@ internal class MediaSessionCallback @Inject constructor(
         if (track != null) {
             player.prepare(track)
         }
-        Log.v(TAG, "onPrepare with track=$track")
+        Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
