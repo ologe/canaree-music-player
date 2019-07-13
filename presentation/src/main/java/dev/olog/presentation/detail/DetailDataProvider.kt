@@ -21,6 +21,7 @@ import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RE
 import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.combineLatest
+import dev.olog.shared.extensions.exhaustive
 import dev.olog.shared.extensions.mapListItem
 import dev.olog.shared.extensions.startWith
 import dev.olog.shared.utils.TextUtils
@@ -36,13 +37,11 @@ internal class DetailDataProvider @Inject constructor(
     private val headers: DetailFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val songGateway: SongGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
 
@@ -56,43 +55,51 @@ internal class DetailDataProvider @Inject constructor(
     private val resources = context.resources
 
 
-    fun observeHeader(mediaId: MediaId): Flow<DisplayableItem> = when (mediaId.category) {
-        MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).mapNotNull {
-            it?.toHeaderItem(
-                resources
+    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
+        val item = when (mediaId.category) {
+            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
+            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId).mapNotNull {
+                it?.toHeaderItem(
+                    resources
+                )
+            }
+            MediaIdCategory.HEADER,
+            MediaIdCategory.PLAYING_QUEUE,
+            MediaIdCategory.SONGS,
+            MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
+        }.exhaustive
+        return item.map {
+            listOf(
+                it,
+                headers.biography
             )
         }
-        MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-            it?.toHeaderItem(
-                resources
-            )
-        }
-        MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
-        MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-            it?.toHeaderItem(
-                resources
-            )
-        }
-        MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).mapNotNull {
-            it?.toHeaderItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-            it?.toHeaderItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
-        MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-            it?.toHeaderItem(
-                resources
-            )
-        }
-        MediaIdCategory.HEADER,
-        MediaIdCategory.PLAYING_QUEUE,
-        MediaIdCategory.SONGS,
-        MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
     fun observe(mediaId: MediaId): Flow<List<DisplayableItem>> {
@@ -123,9 +130,9 @@ internal class DetailDataProvider @Inject constructor(
             observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() }
         ) { header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists ->
             if (mediaId.isArtist) {
-                (siblings + mostPlayed + recentlyAdded + songList + relatedArtists).startWith(header)
+                header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists
             } else {
-                (mostPlayed + recentlyAdded + songList + relatedArtists + siblings).startWith(header)
+                header + mostPlayed + recentlyAdded + songList + relatedArtists + siblings
             }
         }
     }

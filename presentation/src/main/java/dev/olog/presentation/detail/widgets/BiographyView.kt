@@ -13,7 +13,7 @@ internal class BiographyView(
 ) : AppCompatTextView(context, attrs) {
 
     companion object {
-        private const val MIN_LINES = 3
+        private const val MIN_LINES = 2
     }
 
     private var isExpanded by Delegates.observable(false) { _, _, new ->
@@ -25,7 +25,7 @@ internal class BiographyView(
     }
 
     init {
-        maxLines = 3
+        maxLines = MIN_LINES
         ellipsize = TextUtils.TruncateAt.END
         isClickable = true
         isFocusable = true

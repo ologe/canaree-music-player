@@ -69,7 +69,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             dataProvider.observeHeader(mediaId)
                 .flowOn(Dispatchers.Default)
-                .collect { itemLiveData.value = it }
+                .collect { itemLiveData.value = it[0] }
         }
         // most played
         viewModelScope.launch {
