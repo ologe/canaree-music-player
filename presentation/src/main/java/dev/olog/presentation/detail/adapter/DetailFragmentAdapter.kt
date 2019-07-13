@@ -29,6 +29,7 @@ import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.subscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_image.view.*
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -119,6 +120,9 @@ internal class DetailFragmentAdapter(
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         super.onViewAttachedToWindow(holder)
+
+        val view = holder.itemView
+
         when (holder.itemViewType) {
             R.layout.item_detail_list_recently_added,
             R.layout.item_detail_list_most_played -> {
@@ -133,7 +137,6 @@ internal class DetailFragmentAdapter(
                 val sortText = holder.itemView.sort
                 val sortImage = holder.itemView.sortImage
 
-                val view = holder.itemView
                 viewModel.observeSorting()
                     .asFlowable()
                     .asLiveData()
@@ -142,6 +145,10 @@ internal class DetailFragmentAdapter(
                 viewModel.showSortByTutorialIfNeverShown()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
+            }
+            R.layout.item_detail_image -> {
+                viewModel.observeBiography()
+                    .subscribe(holder, view.biography::setText)
             }
         }
     }

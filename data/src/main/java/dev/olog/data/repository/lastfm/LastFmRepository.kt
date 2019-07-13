@@ -5,7 +5,7 @@ import android.util.Log
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.LastFmGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
@@ -57,12 +57,17 @@ internal class LastFmRepository @Inject constructor(
 
         var result: LastFmTrack? = null
         if (song.artist != MediaStore.UNKNOWN_STRING) { // search only if has artist
-            result = lastFmService.getTrackInfoAsync(trackTitle, trackArtist).awaitRepeat()?.toDomain(trackId)
+            result = lastFmService.getTrackInfoAsync(trackTitle, trackArtist)
+                .awaitRepeat()
+                ?.toDomain(trackId)
         }
         if (result == null) {
-            val searchTrack = lastFmService.searchTrackAsync(trackTitle, trackArtist).awaitRepeat()?.toDomain(trackId)
+            val searchTrack = lastFmService.searchTrackAsync(trackTitle, trackArtist)
+                .awaitRepeat()
+                ?.toDomain(trackId)
             if (searchTrack != null) {
-                result = lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist).awaitRepeat()
+                result = lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist)
+                    .awaitRepeat()
                     ?.toDomain(trackId)
             }
             if (result == null) {
@@ -102,15 +107,18 @@ internal class LastFmRepository @Inject constructor(
         }
         Log.v(TAG, "fetch id=$albumId")
 
-        var result : LastFmAlbum? = null
-        if (album.title != MediaStore.UNKNOWN_STRING){
-            result = lastFmService.getAlbumInfoAsync(album.title, album.artist).awaitRepeat()?.toDomain(albumId)
+        var result: LastFmAlbum? = null
+        if (album.title != MediaStore.UNKNOWN_STRING) {
+            result = lastFmService.getAlbumInfoAsync(album.title, album.artist).awaitRepeat()
+                ?.toDomain(albumId)
         }
 
         if (result == null) {
-            val searchAlbum = lastFmService.searchAlbumAsync(album.title).awaitRepeat()?.toDomain(albumId, album.artist)
+            val searchAlbum = lastFmService.searchAlbumAsync(album.title).awaitRepeat()
+                ?.toDomain(albumId, album.artist)
             if (searchAlbum != null) {
-                result = lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist).awaitRepeat()
+                result = lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist)
+                    .awaitRepeat()
                     ?.toDomain(albumId)
             }
             if (result == null) {

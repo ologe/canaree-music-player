@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
+import dev.olog.core.gateway.LastFmGateway
 import dev.olog.core.interactor.sort.*
 import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Completable
@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx2.asFlowable
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DetailFragmentViewModel @Inject constructor(
@@ -34,13 +35,12 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val observeSortOrderUseCase: ObserveDetailSortOrderUseCase,
     private val setSortArrangingUseCase: SetSortArrangingUseCase,
     private val getSortArrangingUseCase: GetSortArrangingUseCase,
-    private val getDetailSortDataUseCase: GetDetailSortDataUseCase
+    private val getDetailSortDataUseCase: GetDetailSortDataUseCase,
+    private val lastFmGateway: LastFmGateway
 
 ) : ViewModel() {
 
     companion object {
-        const val SONGS = "SONGS"
-
         const val NESTED_SPAN_COUNT = 4
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
@@ -61,6 +61,8 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
     private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
     private val songLiveData = MutableLiveData<List<DisplayableItem>>()
+
+    private val biographyLiveData = MutableLiveData<String>()
 
     init {
         // header
@@ -101,6 +103,18 @@ internal class DetailFragmentViewModel @Inject constructor(
                 .flowOn(Dispatchers.Default)
                 .collect { songLiveData.value = it }
         }
+
+        // biography
+        viewModelScope.launch(Dispatchers.IO) {
+            val biography = when {
+                mediaId.isArtist -> lastFmGateway.getArtist(mediaId.categoryId)?.wiki
+                mediaId.isAlbum -> lastFmGateway.getAlbum(mediaId.categoryId)?.wiki
+                else -> null
+            }
+            withContext(Dispatchers.Main){
+                biographyLiveData.value = biography
+            }
+        }
     }
 
     override fun onCleared() {
@@ -114,6 +128,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
     fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
+    fun observeBiography(): LiveData<String> = biographyLiveData
 
 //    private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>> {
 //        return Observables.combineLatest( TODO

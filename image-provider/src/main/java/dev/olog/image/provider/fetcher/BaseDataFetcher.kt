@@ -73,7 +73,6 @@ abstract class BaseDataFetcher(
                 }
                 callback.onLoadFailed(NoSuchElementException())
             } catch (ex: Exception){
-                ex.printStackTrace()
                 callback.onLoadFailed(ex)
             }
         }

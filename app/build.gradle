@@ -144,7 +144,7 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$rootProject.leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary"
 
-//    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
 
     // firebase
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
