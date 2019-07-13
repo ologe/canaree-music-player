@@ -3,19 +3,34 @@ package dev.olog.service.music.model
 import android.support.v4.media.session.PlaybackStateCompat
 import java.util.concurrent.TimeUnit
 
-data class MusicNotificationState (
-        var id: Long = -1,
-        var title: String = "",
-        var artist: String = "",
-        var album: String = "",
-        var isPlaying: Boolean = false,
-        var bookmark: Long = -1,
-        var duration: Long = -1,
-        var isFavorite: Boolean = false,
-        var isPodcast: Boolean = false
+sealed class Event {
+
+    data class Metadata(val entity: MediaEntity) : Event()
+    data class State(val state: PlaybackStateCompat) : Event()
+    data class Favorite(val favorite: Boolean) : Event()
+
+}
+
+/**
+ * Used to sync 3 different data sources,
+ * metadata, state and favorite
+ */
+data class MusicNotificationState(
+    var id: Long = -1,
+    var title: String = "",
+    var artist: String = "",
+    var album: String = "",
+    var isPlaying: Boolean = false,
+    var bookmark: Long = -1,
+    var duration: Long = -1,
+    var isFavorite: Boolean = false,
+    var isPodcast: Boolean = false
 ) {
 
-    private fun isValidState(): Boolean{
+    /**
+     * @return true if contains the minimal state for begin posted as a notification
+     */
+    private fun isValidState(): Boolean {
         return id != -1L &&
                 title.isNotBlank() &&
                 artist.isNotBlank() &&
@@ -54,7 +69,7 @@ data class MusicNotificationState (
                 this.isPodcast != metadata.isPodcast
     }
 
-    fun isDifferentState(state: PlaybackStateCompat): Boolean{
+    fun isDifferentState(state: PlaybackStateCompat): Boolean {
         val isPlaying = state.state == PlaybackStateCompat.STATE_PLAYING
         val bookmark = TimeUnit.MILLISECONDS.toSeconds(state.position)
         return this.isPlaying != isPlaying ||
