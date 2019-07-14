@@ -36,6 +36,8 @@ class CustomViewSwitcher(
         RIGHT
     }
 
+    private var animationFinished = true
+
     private var currentDirection by Delegates.observable(Direction.NONE) { _, old, new ->
         if (old == new) {
             return@observable
@@ -44,12 +46,12 @@ class CustomViewSwitcher(
         val inAnim = when (new){
             Direction.RIGHT -> R.anim.slide_in_right
             Direction.LEFT -> R.anim.slide_in_left
-            Direction.NONE -> android.R.anim.fade_in
+            Direction.NONE -> R.anim.fade_in
         }
         val outAnim = when (new){
             Direction.RIGHT -> R.anim.slide_out_left
             Direction.LEFT -> R.anim.slide_out_right
-            Direction.NONE -> android.R.anim.fade_out
+            Direction.NONE -> R.anim.fade_out
         }
         setInAnimation(context, inAnim)
         setOutAnimation(context, outAnim)
@@ -70,10 +72,10 @@ class CustomViewSwitcher(
     }
 
     private fun loadImageInternal(mediaId: MediaId){
+        animationFinished = false
         val nextImageView = (nextView as ViewGroup).findViewById(R.id.image) as ImageView
 
-        GlideApp.with(context).clear(nextImageView)
-
+        GlideApp.with(context).clear(this)
         GlideApp.with(context)
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
@@ -90,7 +92,10 @@ class CustomViewSwitcher(
         target: Target<Drawable>?,
         isFirstResource: Boolean
     ): Boolean {
-        transitionToNext()
+        if (!animationFinished){
+            animationFinished = true
+            transitionToNext()
+        }
         if (model is MediaId){
             presenter.onNextImage(CoverUtils.getGradient(context, model))
         }
@@ -104,7 +109,10 @@ class CustomViewSwitcher(
         dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
-        transitionToNext()
+        if (!animationFinished){
+            animationFinished = true
+            transitionToNext()
+        }
         presenter.onNextImage(resource)
         return false
     }
