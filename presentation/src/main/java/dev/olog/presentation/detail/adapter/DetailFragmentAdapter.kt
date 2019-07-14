@@ -3,6 +3,7 @@ package dev.olog.presentation.detail.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -146,8 +147,8 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
-                    .map { it.asHtml() }
-                    .subscribe(holder, view.biography::setText)
+                    .map { it?.asHtml() }
+                    .observe(holder, Observer { view.biography.text = it })
             }
         }
     }

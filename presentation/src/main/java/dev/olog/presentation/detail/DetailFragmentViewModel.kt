@@ -63,7 +63,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
     private val songLiveData = MutableLiveData<List<DisplayableItem>>()
 
-    private val biographyLiveData = MutableLiveData<String>()
+    private val biographyLiveData = MutableLiveData<String?>()
 
     init {
         // header
@@ -129,7 +129,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
     fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
-    fun observeBiography(): LiveData<String> = biographyLiveData
+    fun observeBiography(): LiveData<String?> = biographyLiveData
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         getDetailSortDataUseCase.execute(mediaId)
