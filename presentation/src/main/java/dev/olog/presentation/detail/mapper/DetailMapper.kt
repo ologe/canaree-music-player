@@ -7,24 +7,34 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.utils.TextUtils
+import dev.olog.presentation.model.DisplayableTrack
 
-internal fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
-    val songs = DisplayableItem.handleSongListSize(resources, songs)
-    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
-    if (albums.isNotBlank()) albums += TextUtils.MIDDLE_DOT_SPACED
-
-    return DisplayableItem(
-        R.layout.item_detail_related_artist,
-        getMediaId(),
-        this.name,
-        albums + songs
+internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_detail_related_artist,
+        mediaId = getMediaId(),
+        title = this.name,
+        subtitle = DisplayableItem.handleSongListSize(resources, songs)
     )
 }
 
-internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {
-    val viewType = when {
+internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableTrack {
+
+    return DisplayableTrack(
+        type = computeLayoutType(parentId, sortType),
+        mediaId = MediaId.playableItem(parentId, id),
+        title = this.title,
+        artist = artist,
+        album = album,
+        idInPlaylist = this.idInPlaylist
+    )
+}
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+    return when {
         parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
         (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
@@ -35,52 +45,40 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
         parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
         else -> R.layout.item_detail_song
     }
-
-    val subtitle = when {
-        parentId.isArtist || parentId.isPodcastArtist -> this.album
-        else -> this.artist
-    }
-
-    return DisplayableItem(
-        viewType,
-        MediaId.playableItem(parentId, id),
-        this.title,
-        subtitle,
-        true,
-        idInPlaylist = this.idInPlaylist.toLong()
-    )
 }
 
 internal fun Song.toMostPlayedDetailDisplayableItem(
     parentId: MediaId,
     position: Int
-): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_song_most_played,
-        MediaId.playableItem(parentId, id),
-        this.title,
-        this.artist,
-        true,
-        extra = bundleOf("position" to position)
+): DisplayableTrack {
+
+    return DisplayableTrack(
+        type = R.layout.item_detail_song_most_played,
+        mediaId = MediaId.playableItem(parentId, id),
+        title = this.title,
+        artist = this.artist,
+        album = this.album,
+        idInPlaylist = position
     )
 }
 
-internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_song_recent,
-        MediaId.playableItem(parentId, id),
-        this.title,
-        this.artist,
-        true
+internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
+    return DisplayableTrack(
+        type = R.layout.item_detail_song_recent,
+        mediaId = MediaId.playableItem(parentId, id),
+        title = this.title,
+        artist = this.artist,
+        album = this.album,
+        idInPlaylist = this.idInPlaylist
     )
 }
 
-internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        getMediaId(),
-        title,
-        resources.getQuantityString(
+internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_detail_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size
@@ -88,12 +86,12 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIt
     )
 }
 
-internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        getMediaId(),
-        title,
-        resources.getQuantityString(
+internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_detail_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size
@@ -101,12 +99,12 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
     )
 }
 
-internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        getMediaId(),
-        title,
-        resources.getQuantityString(
+internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_detail_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.songs,
             this.songs
@@ -114,12 +112,12 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableIte
     )
 }
 
-internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_detail_album,
-        getMediaId(),
-        name,
-        resources.getQuantityString(
+internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_detail_album,
+        mediaId = getMediaId(),
+        title = name,
+        subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size

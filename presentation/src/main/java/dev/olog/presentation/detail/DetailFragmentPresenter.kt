@@ -2,12 +2,12 @@ package dev.olog.presentation.detail
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.id
-import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.id
 import dev.olog.core.interactor.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.RemoveFromPlaylistUseCase
+import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.presentation.model.DisplayableTrack
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class DetailFragmentPresenter @Inject constructor(
 
 ) {
 
-    suspend fun removeFromPlaylist(item: DisplayableItem) {
+    suspend fun removeFromPlaylist(item: DisplayableTrack) {
         mediaId.assertPlaylist()
         val playlistId = mediaId.categoryId
         val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
@@ -30,7 +30,7 @@ class DetailFragmentPresenter @Inject constructor(
             ))
         } else {
             removeFromPlaylistUseCase(RemoveFromPlaylistUseCase.Input(
-                playlistId, item.idInPlaylist!!, playlistType
+                playlistId, item.idInPlaylist.toLong(), playlistType
             ))
         }
     }

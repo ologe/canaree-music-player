@@ -8,6 +8,7 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
@@ -16,7 +17,7 @@ class DetailMostPlayedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
-) : ObservableAdapter<DisplayableItem>(
+) : ObservableAdapter<DisplayableTrack>(
     lifecycle,
     DiffCallbackMostPlayed
 ) {
@@ -27,18 +28,17 @@ class DetailMostPlayedAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item, viewHolder.itemView)
+            navigator.toDialog(item.mediaId, viewHolder.itemView)
         }
 
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item, view)
+            navigator.toDialog(item.mediaId, view)
         }
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableTrack, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.position, position)
     }
 
     override fun onBindViewHolder(
@@ -47,30 +47,31 @@ class DetailMostPlayedAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            holder.itemView.index.text = (payloads[0] as Int + 1).toString()
+            val positionInList = (payloads[0] as Int + 1).toString()
+            holder.itemView.index.text = positionInList
         } else {
             super.onBindViewHolder(holder, position, payloads)
-
         }
     }
 
 }
 
-internal object DiffCallbackMostPlayed : DiffUtil.ItemCallback<DisplayableItem>() {
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+internal object DiffCallbackMostPlayed : DiffUtil.ItemCallback<DisplayableTrack>() {
+    override fun areItemsTheSame(oldItem: DisplayableTrack, newItem: DisplayableTrack): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
 
-    override fun areContentsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+    override fun areContentsTheSame(oldItem: DisplayableTrack, newItem: DisplayableTrack): Boolean {
         val sameTitle = oldItem.title == newItem.title
-        val sameSubtitle = oldItem.subtitle == newItem.subtitle
-        val sameIndex = oldItem.extra!!.getInt("position") == newItem.extra!!.getInt("position")
-        return sameTitle && sameSubtitle && sameIndex
+        val sameArtist = oldItem.artist == newItem.artist
+        val sameAlbum = oldItem.album == newItem.album
+        val sameIndex = oldItem.idInPlaylist == newItem.idInPlaylist
+        return sameTitle && sameArtist && sameAlbum && sameIndex
     }
 
-    override fun getChangePayload(oldItem: DisplayableItem, newItem: DisplayableItem): Any? {
-        if (oldItem.extra!!.getInt("position") != newItem.extra!!.getInt("position")) {
-            return newItem.extra!!.getInt("position")
+    override fun getChangePayload(oldItem: DisplayableTrack, newItem: DisplayableTrack): Any? {
+        if (oldItem.idInPlaylist != newItem.idInPlaylist) {
+            return newItem.idInPlaylist
         }
         return super.getChangePayload(oldItem, newItem)
     }

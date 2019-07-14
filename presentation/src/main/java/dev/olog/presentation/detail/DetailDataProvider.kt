@@ -16,7 +16,9 @@ import dev.olog.core.interactor.sort.ObserveDetailSortOrderUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.presentation.detail.mapper.*
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.shared.extensions.combineLatest
 import dev.olog.shared.extensions.exhaustive
 import dev.olog.shared.extensions.mapListItem
@@ -50,7 +52,7 @@ internal class DetailDataProvider @Inject constructor(
     private val resources = context.resources
 
 
-    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem2>> {
         val item = when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).mapNotNull {
                 it?.toHeaderItem(
@@ -97,10 +99,10 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
+    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem2>> {
         val songListFlow = observeSongListByParamUseCase(mediaId)
             .combineLatest(sortOrderUseCase(mediaId), filterFlow) { songList, order, filter ->
-                val result = songList.asSequence()
+                val result: MutableList<DisplayableItem2> = songList.asSequence()
                     .filter { it.title.contains(filter, true) ||
                             it.artist.contains(filter, true) ||
                             it.album.contains(filter, true)}
@@ -137,21 +139,21 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem2>> {
         return mostPlayedUseCase(mediaId).map {
             it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(mediaId, index) }
         }
     }
 
-    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem2>> {
         return recentlyAddedUseCase(mediaId).mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
     }
 
-    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem2>> {
         return relatedArtistsUseCase(mediaId).mapListItem { it.toRelatedArtist(resources) }
     }
 
-    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
+    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem2>> = when (mediaId.category) {
         MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).mapListItem {
             it.toDetailDisplayableItem(
                 resources
@@ -196,13 +198,14 @@ internal class DetailDataProvider @Inject constructor(
         else -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
-    private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem {
+    private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem2 {
         val songs = DisplayableItem.handleSongListSize(resources, songCount)
         val time = TimeUtils.formatMillis(context, duration)
 
-        return DisplayableItem(
-            R.layout.item_detail_song_footer, MediaId.headerId("duration footer"),
-            songs + TextUtils.MIDDLE_DOT_SPACED + time
+        return DisplayableHeader(
+            type = R.layout.item_detail_song_footer,
+            mediaId = MediaId.headerId("duration footer"),
+            title = songs + TextUtils.MIDDLE_DOT_SPACED + time
         )
     }
 

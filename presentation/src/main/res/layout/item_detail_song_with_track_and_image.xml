@@ -5,10 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <variable name="isCurrentSong" type="boolean"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
-        <variable name="trackIndex" type="String"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableTrack"/>
     </data>
 
     <FrameLayout
@@ -91,8 +88,7 @@
                     style="@style/Song.MainText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    app:setBoldIfTrue="@{isCurrentSong}" />
+                    android:layout_marginStart="16dp" />
 
                 <TextView
                     android:id="@+id/secondText"

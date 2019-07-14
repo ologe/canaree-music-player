@@ -3,16 +3,17 @@ package dev.olog.presentation.detail.mapper
 import android.content.res.Resources
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.utils.TextUtils
 
 
-internal fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
+internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
 
-    return DisplayableItem(
-        R.layout.item_detail_image,
-        getMediaId(),
-        title,
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = getMediaId(),
+        title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
@@ -21,58 +22,43 @@ internal fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
     )
 }
 
-internal fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
-    val listSize = if (this.size == -1) {
-        ""
-    } else {
-        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size)
-            .toLowerCase()
-    }
-
-    return DisplayableItem(
-        R.layout.item_detail_image,
-        getMediaId(),
-        title,
-        listSize
+internal fun Playlist.toHeaderItem(resources: Resources): DisplayableHeader {
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     )
 
 }
 
-internal fun Album.toHeaderItem(): DisplayableItem {
+internal fun Album.toHeaderItem(): DisplayableHeader {
 
-    return DisplayableItem(
-        R.layout.item_detail_image,
-        getMediaId(),
-        title,
-        this.artist
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = this.artist
     )
 }
 
-internal fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
-    val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
-    val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(
-            R.plurals.common_plurals_album,
-            this.albums,
-            this.albums
-        )}${TextUtils.MIDDLE_DOT_SPACED}"
-    }
+internal fun Artist.toHeaderItem(resources: Resources): DisplayableHeader {
 
-    return DisplayableItem(
-        R.layout.item_detail_image,
-        getMediaId(),
-        name,
-        "$albums$songs".toLowerCase()
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = getMediaId(),
+        title = name,
+        subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase()
     )
 }
 
-internal fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
+internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
 
-    return DisplayableItem(
-        R.layout.item_detail_image,
-        getMediaId(),
-        name,
-        resources.getQuantityString(
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = getMediaId(),
+        title = name,
+        subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
             this.size,
             this.size

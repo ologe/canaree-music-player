@@ -26,6 +26,7 @@ import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.main.MainActivity
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.utils.removeLightStatusBar
@@ -142,6 +143,7 @@ class DetailFragment : BaseFragment(),
             }
 
         viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
+            require(item is DisplayableHeader)
             headerText.text = item.title
         }
 

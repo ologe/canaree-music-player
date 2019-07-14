@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="dev.olog.presentation.model.DisplayableItem" />
+            type="dev.olog.presentation.model.DisplayableHeader" />
     </data>
 
     <LinearLayout

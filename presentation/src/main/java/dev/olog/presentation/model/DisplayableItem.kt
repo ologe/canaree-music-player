@@ -27,14 +27,6 @@ data class DisplayableItem(
                 .toLowerCase()
         }
 
-        fun handleAlbumListSize(resources: Resources, size: Int): String {
-            if (size <= 0) {
-                return ""
-            }
-            return resources.getQuantityString(R.plurals.common_plurals_album, size, size)
-                .toLowerCase()
-        }
-
     }
 
 }
@@ -70,6 +62,7 @@ data class DisplayableHeader(
     override val type: Int,
     override val mediaId: MediaId,
     val title: String,
+    val subtitle: String? = null,
     val visible: Boolean = true
 
 ) : DisplayableItem2(type, mediaId)

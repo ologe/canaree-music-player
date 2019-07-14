@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableHeader"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
             android:textSize="@dimen/item_header_sec_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"/>
+            android:visibility="@{item.visible ? View.VISIBLE : View.GONE }"/>
 
         <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/sep"

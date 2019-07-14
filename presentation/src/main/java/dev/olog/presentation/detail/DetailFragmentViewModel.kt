@@ -10,6 +10,9 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.LastFmGateway
 import dev.olog.core.interactor.sort.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.shared.extensions.mapListItem
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -56,12 +59,12 @@ internal class DetailFragmentViewModel @Inject constructor(
         filterChannel.offer(filter)
     }
 
-    private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
+    private val itemLiveData = MutableLiveData<DisplayableItem2>()
+    private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
+    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem2>>()
+    private val siblingsLiveData = MutableLiveData<List<DisplayableItem2>>()
+    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem2>>()
+    private val songLiveData = MutableLiveData<List<DisplayableItem2>>()
 
     private val biographyLiveData = MutableLiveData<String?>()
 
@@ -75,6 +78,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         // most played
         viewModelScope.launch {
             dataProvider.observeMostPlayed(mediaId)
+                .mapListItem { it as DisplayableTrack }
                 .flowOn(Dispatchers.Default)
                 .collect { mostPlayedLiveData.value = it }
         }
@@ -123,12 +127,12 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.cancel()
     }
 
-    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DisplayableItem>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
-    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
+    fun observeItem(): LiveData<DisplayableItem2> = itemLiveData
+    fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
+    fun observeRecentlyAdded(): LiveData<List<DisplayableItem2>> = recentlyAddedLiveData
+    fun observeRelatedArtists(): LiveData<List<DisplayableItem2>> = relatedArtistsLiveData
+    fun observeSiblings(): LiveData<List<DisplayableItem2>> = siblingsLiveData
+    fun observeSongs(): LiveData<List<DisplayableItem2>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
@@ -167,7 +171,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         presenter.moveInPlaylist(from, to)
     }
 
-    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
+    fun removeFromPlaylist(item: DisplayableItem2) = viewModelScope.launch(Dispatchers.Default) {
+        require(item is DisplayableTrack)
         presenter.removeFromPlaylist(item)
     }
 

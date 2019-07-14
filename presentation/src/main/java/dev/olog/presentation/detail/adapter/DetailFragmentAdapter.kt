@@ -20,7 +20,8 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
@@ -37,10 +38,11 @@ internal class DetailFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem),
-    TouchableAdapter {
+) : ObservableAdapter<DisplayableItem2>(
+    lifecycle, DisplayableItemDiffCallback2
+), TouchableAdapter {
 
-    private val headers by lazy { dataSet.indexOfFirst { it.isPlayable } }
+    private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -62,10 +64,10 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item, view)
+                    navigator.toDialog(item.mediaId, view)
                 }
 
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
@@ -161,7 +163,7 @@ internal class DetailFragmentAdapter(
         }
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem2, position: Int) {
         binding.setVariable(BR.item, item)
     }
 
