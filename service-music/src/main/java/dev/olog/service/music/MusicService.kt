@@ -86,8 +86,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     private fun setupMediaSession(){
         sessionToken = mediaSession.sessionToken
 
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS)
-
         mediaSession.setMediaButtonReceiver(buildMediaButtonReceiverPendingIntent())
         mediaSession.setSessionActivity(buildSessionActivityPendingIntent())
         mediaSession.setRatingType(RatingCompat.RATING_HEART)

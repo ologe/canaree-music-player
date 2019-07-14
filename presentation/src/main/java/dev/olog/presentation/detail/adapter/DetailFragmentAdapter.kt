@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.id
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -24,13 +22,11 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.extensions.asFlowable
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_image.view.*
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -40,9 +36,10 @@ internal class DetailFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(lifecycle, DiffCallbackDisplayableItem),
+    TouchableAdapter {
+
+    private val headers by lazy { dataSet.indexOfFirst { it.isPlayable } }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -149,6 +146,7 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()
+                    .map { it.asHtml() }
                     .subscribe(holder, view.biography::setText)
             }
         }
@@ -188,26 +186,35 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onClearView() {
+
     }
 
     override fun onMoved(from: Int, to: Int) {
-        notifyItemMoved(from ,to)
+        val realFrom = from - headers
+        val realTo = to - headers
+        dataSet.swap(from, to)
+        notifyItemMoved(realFrom, realTo)
+        viewModel.moveItemInPlaylist(from, to)
     }
 
-    //    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
-//
-//    override fun onSwipedRight(position: Int) {
-//        onSwipeRightAction.invoke(position)
-//        controller.remove(position)
-//        notifyItemRemoved(position)
-//    }
-//
-//    override val onSwipeRightAction = { position: Int ->
-//        controller.getItem(position)?.let { viewModel.removeFromPlaylist(it) } ?: Any()
-//    }
-//
-//    override val onSwipeLeftAction = { position: Int ->
-//        controller.getItem(position)?.let { mediaProvider.addToPlayNext(it.mediaId) } ?: Any()
-//    }
-//
+    override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
+        val realPosition = viewHolder.adapterPosition - headers
+        viewModel.removeFromPlaylist(getItem(realPosition)!!)
+    }
+
+    override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
+        dataSet.removeAt(viewHolder.adapterPosition)
+        notifyItemRemoved(viewHolder.adapterPosition)
+    }
+
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+        val item = getItem(viewHolder.adapterPosition)!!
+        mediaProvider.addToPlayNext(item.mediaId)
+    }
+
+    override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
+        notifyItemChanged(viewHolder.adapterPosition)
+    }
+
+
 }

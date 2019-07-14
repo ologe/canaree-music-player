@@ -1,8 +1,6 @@
 package dev.olog.presentation.main
 
-import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -18,7 +16,6 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.extensions.lazyFast
@@ -33,7 +30,7 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     private val mediaExposer by lazyFast { MediaExposer(this, this) }
 
-    fun connect(){
+    fun connect() {
         mediaExposer.connect()
     }
 
@@ -119,14 +116,20 @@ abstract class MusicGlueActivity : BaseActivity(),
         val bundle = bundleOf(
             MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.PLAY_MOST_PLAYED.name, bundle)
+        transportControls()?.sendCustomAction(
+            MusicServiceCustomAction.PLAY_MOST_PLAYED.name,
+            bundle
+        )
     }
 
     override fun playRecentlyAdded(mediaId: MediaId) {
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         )
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.PLAY_RECENTLY_ADDED.name, bundle)
+        transportControls()?.sendCustomAction(
+            MusicServiceCustomAction.PLAY_RECENTLY_ADDED.name,
+            bundle
+        )
     }
 
     override fun skipToQueueItem(idInPlaylist: Int) {
@@ -134,9 +137,11 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun shuffle(mediaId: MediaId) {
-        transportControls()?.sendCustomAction(MusicServiceCustomAction.SHUFFLE.name, bundleOf(
-            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
-        ))
+        transportControls()?.sendCustomAction(
+            MusicServiceCustomAction.SHUFFLE.name, bundleOf(
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+            )
+        )
     }
 
     override fun skipToNext() {
@@ -198,21 +203,14 @@ abstract class MusicGlueActivity : BaseActivity(),
     }
 
     override fun addToPlayNext(mediaId: MediaId) {
-        val trackId = "${mediaId.leaf!!}"
-        val item = MediaDescriptionCompat.Builder()
-            .setMediaId(trackId)
-            .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
-            .build()
-        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE)
-    }
+        transportControls()?.sendCustomAction(
+            MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,
+            bundleOf(
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.leaf!!),
+                MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast
+            )
 
-    override fun moveToPlayNext(mediaId: MediaId) {
-//        val trackId = "${mediaId.leaf!!}"
-//        val item = MediaDescriptionCompat.Builder()
-//                .setMediaId(trackId)
-//                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
-//                .build()
-//        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
+        )
     }
 
     override fun replayTenSeconds() {

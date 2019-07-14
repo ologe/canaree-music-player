@@ -3,7 +3,6 @@ package dev.olog.service.music
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
@@ -18,7 +17,7 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.shared.MusicConstants
+import dev.olog.shared.CustomScope
 import dev.olog.shared.MusicServiceCustomAction
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -37,7 +36,7 @@ internal class MediaSessionCallback @Inject constructor(
     private val playerState: MusicServicePlaybackState,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
-) : MediaSessionCompat.Callback() {
+) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope() {
 
     companion object {
         @JvmStatic
@@ -224,6 +223,26 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.REPLAY_10 -> player.replayTenSeconds()
             MusicServiceCustomAction.REPLAY_30 -> player.replayThirtySeconds()
             MusicServiceCustomAction.TOGGLE_FAVORITE -> onSetRating(null)
+            MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
+                launch {
+                    requireNotNull(extras)
+                    val mediaIds = extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+
+                    val position = queue.playLater(mediaIds.toList(), isPodcast)
+                    playerState.toggleSkipToActions(position)
+                }
+            }
+            MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
+                launch {
+                    requireNotNull(extras)
+                    val mediaIds = extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
+
+                    val position = queue.playNext(mediaIds.toList(), isPodcast)
+                    playerState.toggleSkipToActions(position)
+                }
+            }
         }
     }
 
@@ -266,47 +285,6 @@ internal class MediaSessionCallback @Inject constructor(
         }
 
         return true
-    }
-
-
-    /**
-    Play later
-     */
-    override fun onAddQueueItem(description: MediaDescriptionCompat) {
-        Log.v(TAG, "onAddQueueItem, item=$description")
-
-        val split = description.mediaId!!.split(",")
-        val position = queue.playLater(
-            split.map { it.trim().toLong() },
-            description.extras!!.getBoolean(MusicConstants.IS_PODCAST)
-        )
-        playerState.toggleSkipToActions(position)
-    }
-
-    /**
-    When [index] == [Int.MAX_VALUE] -> play next
-    When [index] == [Int.MAX_VALUE-1] -> move to play next
-     */
-    override fun onAddQueueItem(description: MediaDescriptionCompat, index: Int) {
-        Log.v(TAG, "onAddQueueItem, item=$description, index=$index")
-
-        when (index) {
-            Int.MAX_VALUE -> {
-                // play next
-                val split = description.mediaId!!.split(",")
-                val position = queue.playNext(
-                    split.map { it.trim().toLong() },
-                    description.extras!!.getBoolean(MusicConstants.IS_PODCAST)
-                )
-                playerState.toggleSkipToActions(position)
-            }
-//            Int.MAX_VALUE - 1 -> {
-//                // move to next
-//                val split = description.mediaId!!.split(",")
-//                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
-//                playerState.toggleSkipToActions(position)
-//            }
-        }
     }
 
     /**

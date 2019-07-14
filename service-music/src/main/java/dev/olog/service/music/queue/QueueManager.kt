@@ -320,7 +320,7 @@ internal class QueueManager @Inject constructor(
         queueImpl.onRepeatModeChanged()
     }
 
-    override fun playLater(
+    override suspend fun playLater(
         songIds: List<Long>,
         isPodcast: Boolean
     ): PositionInQueue {
@@ -333,7 +333,7 @@ internal class QueueManager @Inject constructor(
         }
     }
 
-    override fun playNext(
+    override suspend fun playNext(
         songIds: List<Long>,
         isPodcast: Boolean
     ): PositionInQueue {

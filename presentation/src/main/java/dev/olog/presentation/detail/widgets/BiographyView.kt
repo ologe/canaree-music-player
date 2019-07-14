@@ -2,6 +2,7 @@ package dev.olog.presentation.detail.widgets
 
 import android.content.Context
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
@@ -29,6 +30,7 @@ internal class BiographyView(
         ellipsize = TextUtils.TruncateAt.END
         isClickable = true
         isFocusable = true
+//        movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -36,7 +38,6 @@ internal class BiographyView(
             isExpanded = !isExpanded
             return true
         }
-
         return super.onTouchEvent(event)
     }
 

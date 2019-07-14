@@ -14,7 +14,7 @@ import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.asHtml
+import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.extensions.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 

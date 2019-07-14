@@ -1,4 +1,4 @@
-package dev.olog.msc.utils.k.extension
+package dev.olog.presentation.utils
 
 import android.text.Html
 import android.text.Spanned
