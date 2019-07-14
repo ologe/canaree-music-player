@@ -16,9 +16,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -49,10 +50,10 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    private val filterPublisher = BehaviorSubject.createDefault("")
+    private val filterChannel = ConflatedBroadcastChannel("")
 
     fun updateFilter(filter: String) {
-        filterPublisher.onNext(filter.toLowerCase())
+        filterChannel.offer(filter)
     }
 
     private val itemLiveData = MutableLiveData<DisplayableItem>()
@@ -99,7 +100,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(mediaId)
+            dataProvider.observe(mediaId, filterChannel.asFlow())
                 .flowOn(Dispatchers.Default)
                 .collect { songLiveData.value = it }
         }
@@ -129,21 +130,6 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String> = biographyLiveData
-
-//    private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>> {
-//        return Observables.combineLatest( TODO
-//            songObservable.debounceFirst(50, TimeUnit.MILLISECONDS).distinctUntilChanged(),
-//            filterPublisher.debounceFirst().distinctUntilChanged()
-//        ) { songs, filter ->
-//            if (filter.isBlank()) {
-//                songs
-//            } else {
-//                songs.filter {
-//                    it.title.toLowerCase().contains(filter) || it.subtitle?.toLowerCase()?.contains(filter) == true
-//                }
-//            }
-//        }.distinctUntilChanged()
-//    }
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         getDetailSortDataUseCase.execute(mediaId)

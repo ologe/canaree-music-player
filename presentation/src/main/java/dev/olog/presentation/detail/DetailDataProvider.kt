@@ -4,11 +4,8 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
@@ -23,11 +20,9 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.combineLatest
 import dev.olog.shared.extensions.exhaustive
 import dev.olog.shared.extensions.mapListItem
-import dev.olog.shared.extensions.startWith
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.TimeUtils
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combineLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
@@ -102,11 +97,16 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observe(mediaId: MediaId): Flow<List<DisplayableItem>> {
+    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
         val songListFlow = observeSongListByParamUseCase(mediaId)
-            .combineLatest(sortOrderUseCase(mediaId)) { songList: List<Song>, order: SortType ->
-                val result =
-                    songList.map { it.toDetailDisplayableItem(mediaId, order) }.toMutableList()
+            .combineLatest(sortOrderUseCase(mediaId), filterFlow) { songList, order, filter ->
+                val result = songList.asSequence()
+                    .filter { it.title.contains(filter, true) ||
+                            it.artist.contains(filter, true) ||
+                            it.album.contains(filter, true)}
+                    .map { it.toDetailDisplayableItem(mediaId, order) }
+                    .toMutableList()
+
                 val duration = songList.sumBy { it.duration.toInt() }
                 if (result.isNotEmpty()) {
                     result.addAll(0, headers.songs)
