@@ -9,7 +9,9 @@ import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
@@ -70,13 +72,13 @@ class PlayerFragmentViewModel @Inject constructor(
         currentTrackIdPublisher.onNext(trackId)
     }
 
-    val footerLoadMore = DisplayableItem(
-            R.layout.item_mini_queue_load_more,
-            MediaId.headerId("load more"),
-            ""
+    val footerLoadMore : DisplayableItem2 = DisplayableHeader(
+            type = R.layout.item_mini_queue_load_more,
+            mediaId = MediaId.headerId("load more"),
+            title = ""
     )
 
-    fun playerControls(): DisplayableItem {
+    fun playerControls(): DisplayableItem2 {
         val hasPlayerAppearance = context.hasPlayerAppearance()
         val id = when (hasPlayerAppearance.playerAppearance()) {
             PlayerAppearance.DEFAULT -> R.layout.player_layout_default
@@ -88,7 +90,11 @@ class PlayerFragmentViewModel @Inject constructor(
             PlayerAppearance.MINI -> R.layout.player_layout_mini
             else -> throw IllegalStateException("invalid theme")
         }
-        return DisplayableItem(id, MediaId.headerId("player controls id"), "")
+        return DisplayableHeader(
+            type = id,
+            mediaId = MediaId.headerId("player controls id"),
+            title = ""
+        )
     }
 
     val onFavoriteStateChanged: Observable<FavoriteEnum> = observeFavoriteAnimationUseCase.execute()

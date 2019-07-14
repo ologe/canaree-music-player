@@ -67,9 +67,9 @@
                     tools:src="@drawable/placeholder_folder"
                     app:imageSong="@{item.mediaId}"/>
 
-                <TextView
+                <dev.olog.presentation.widgets.FadeTextView
                     android:id="@+id/index"
-                    android:text="@{item.positionInList(currentIndex)}"
+                    android:text="@{item.relativePosition}"
                     tools:text="+1"
                     tools:layout_marginStart="8dp"
                     android:textStyle="bold"
@@ -85,7 +85,7 @@
                 <TextView
                     android:id="@+id/firstText"
                     app:layout_constraintTop_toTopOf="@+id/cover"
-                    app:layout_constraintStart_toEndOf="@+id/index"
+                    app:layout_constraintStart_toEndOf="@+id/cover"
                     app:layout_constraintBottom_toTopOf="@+id/secondText"
                     app:layout_constraintEnd_toStartOf="@+id/dragHandle"
                     android:text="@{item.title}"
@@ -93,7 +93,7 @@
                     style="@style/Song.MainText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="52dp"
                     app:setBoldIfTrue="@{item.isCurrentSong}" />
 
                 <TextView
@@ -102,7 +102,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/firstText"
                     app:layout_constraintEnd_toStartOf="@+id/dragHandle"
                     app:layout_constraintBottom_toBottomOf="@+id/cover"
-                    android:text="@{item.subtitle}"
+                    android:text="@{item.artist}"
                     tools:text="@tools:sample/lorem"
                     style="@style/Song.SecondaryText"
                     android:layout_width="0dp"

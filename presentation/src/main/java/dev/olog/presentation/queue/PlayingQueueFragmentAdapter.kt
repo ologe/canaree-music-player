@@ -25,8 +25,10 @@ class PlayingQueueFragmentAdapter(
     private val navigator: Navigator,
     private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableQueueSong>(lifecycle, DiffCallbackDisplayableSong),
-    TouchableAdapter {
+) : ObservableAdapter<DisplayableQueueSong>(
+    lifecycle,
+    DiffCallbackPlayingQueue
+), TouchableAdapter {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -44,13 +46,13 @@ class PlayingQueueFragmentAdapter(
         binding.setVariable(BR.item, item)
 
         val view = binding.root
-        val textColor = calculateTextColor(view.context, item.positionInList(position))
+        val textColor = calculateTextColor(view.context, item.relativePosition)
         binding.root.index.setTextColor(textColor)
     }
 
     private fun calculateTextColor(context: Context, positionInList: String): Int {
-        return if (positionInList.length > 1 && positionInList.startsWith("-"))
-            context.textColorSecondary() else context.textColorPrimary()
+        return if (positionInList.startsWith("-")) context.textColorSecondary()
+        else context.textColorPrimary()
     }
 
     override fun onBindViewHolder(
@@ -63,11 +65,13 @@ class PlayingQueueFragmentAdapter(
             for (currentPayload in payload) {
                 when (currentPayload) {
                     is Boolean -> BindingsAdapter.setBoldIfTrue(holder.itemView.firstText, currentPayload)
-                    is Int -> {
+                    is String -> {
                         val item = getItem(position)!!
-                        val textColor = calculateTextColor(holder.itemView.context, item.positionInList(position))
-                        holder.itemView.index.setTextColor(textColor)
-                        holder.itemView.index.text = item.positionInList(position)
+                        val textColor = calculateTextColor(
+                            holder.itemView.context,
+                            item.relativePosition
+                        )
+                        holder.itemView.index.updateText(currentPayload, textColor)
                     }
                 }
             }
@@ -98,7 +102,7 @@ class PlayingQueueFragmentAdapter(
 
 }
 
-object DiffCallbackDisplayableSong : DiffUtil.ItemCallback<DisplayableQueueSong>() {
+object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() {
     override fun areItemsTheSame(
         oldItem: DisplayableQueueSong,
         newItem: DisplayableQueueSong
@@ -110,22 +114,24 @@ object DiffCallbackDisplayableSong : DiffUtil.ItemCallback<DisplayableQueueSong>
         oldItem: DisplayableQueueSong,
         newItem: DisplayableQueueSong
     ): Boolean {
-        val sameTitle = oldItem.title == newItem.title
-        val sameSubtitle = oldItem.subtitle == newItem.subtitle
-        val sameIndex = oldItem.idInPlaylist == newItem.idInPlaylist
-        val isCurrentSong = oldItem.isCurrentSong == newItem.isCurrentSong
-        return sameTitle && sameSubtitle && sameIndex && isCurrentSong
+        return oldItem == newItem
     }
 
     override fun getChangePayload(
         oldItem: DisplayableQueueSong,
         newItem: DisplayableQueueSong
     ): Any? {
-        val payload = mutableListOf<Any>()
-        payload.add(newItem.idInPlaylist)
-        payload.add(newItem.isCurrentSong)
-        if (payload.isNotEmpty()) {
-            return payload
+        val mutableList = mutableListOf<Any>()
+        if (oldItem.relativePosition != newItem.relativePosition) {
+            mutableList.add(newItem.relativePosition)
+        }
+        if (!oldItem.isCurrentSong && newItem.isCurrentSong) {
+            mutableList.add(true)
+        } else if (oldItem.isCurrentSong && !newItem.isCurrentSong) {
+            mutableList.add(false)
+        }
+        if (mutableList.isNotEmpty()) {
+            return mutableList
         }
         return super.getChangePayload(oldItem, newItem)
     }

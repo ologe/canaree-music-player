@@ -10,14 +10,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
+import dev.olog.media.model.PlayerPlaybackState
+import dev.olog.media.model.PlayerState
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
@@ -25,9 +29,6 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
 import dev.olog.shared.extensions.*
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
-import dev.olog.media.MediaProvider
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
@@ -35,7 +36,6 @@ import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import java.lang.IllegalArgumentException
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
@@ -47,8 +47,9 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerApperanceAdaptiveBehavior: IPlayerApperanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
-    DiffCallbackDisplayableItem
+) : ObservableAdapter<DisplayableItem2>(
+    lifecycle,
+    DisplayableItemDiffCallback2
 ), TouchableAdapter {
 
     private val playerViewTypes = listOf(
@@ -65,13 +66,14 @@ internal class PlayerFragmentAdapter(
         when (viewType) {
             R.layout.item_mini_queue -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    mediaProvider.skipToQueueItem(item.idInPlaylist!!.toInt())
+                    require(item is DisplayableTrack)
+                    mediaProvider.skipToQueueItem(item.idInPlaylist)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item, view)
+                    navigator.toDialog(item.mediaId, view)
                 }
                 viewHolder.elevateAlbumOnTouch()
 
@@ -257,14 +259,15 @@ internal class PlayerFragmentAdapter(
                 .filter { it.isSkipTo }
                 .map { state -> state.state == PlayerState.SKIP_TO_NEXT }
                 .subscribe(holder) {
-                    animateSkipTo(view, it) }
+                    animateSkipTo(view, it)
+                }
 
             mediaProvider.observePlaybackState()
                 .filter { it.isPlayOrPause }
                 .distinctUntilChanged()
                 .map { it.state }
                 .subscribe(holder) { state ->
-                    when (state){
+                    when (state) {
                         PlayerState.PLAYING -> playAnimation(view)
                         PlayerState.PAUSED -> pauseAnimation(view)
                         else -> throw IllegalArgumentException("invalid state ${state}")
@@ -345,7 +348,7 @@ internal class PlayerFragmentAdapter(
         view.playPause.animationPause(isPanelExpanded)
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem2, position: Int) {
         binding.setVariable(BR.item, item)
     }
 
@@ -358,7 +361,7 @@ internal class PlayerFragmentAdapter(
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
         dataSet.swap(from, to)
-        notifyItemMoved(from ,to)
+        notifyItemMoved(from, to)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {

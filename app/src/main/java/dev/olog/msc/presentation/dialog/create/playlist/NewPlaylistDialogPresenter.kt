@@ -32,7 +32,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
 
     fun execute(playlistTitle: String) : Completable {
         if (mediaId.isPlayingQueue){
-            val playingQueue = playingQueueGateway.getAll().map { it.id }
+            val playingQueue = playingQueueGateway.getAll().map { it.song.id }
             insertCustomTrackListToPlaylist.execute(
                 InsertCustomTrackListRequest(
                     playlistTitle,

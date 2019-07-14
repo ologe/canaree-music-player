@@ -45,23 +45,24 @@ internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntit
 }
 
 internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
+    val song = this.song
     return MediaEntity(
-        this.id,
-        this.idInPlaylist,
-        MediaId.playableItem(parentMediaId, this.id),
-        this.artistId,
-        this.albumId,
-        this.title,
-        this.artist,
-        this.albumArtist,
-        this.album,
-        this.duration,
-        this.dateAdded,
-        this.path,
-        this.folder,
-        this.discNumber,
-        this.trackNumber,
-        this.isPodcast
+        song.id,
+        song.idInPlaylist,
+        this.mediaId,
+        song.artistId,
+        song.albumId,
+        song.title,
+        song.artist,
+        song.albumArtist,
+        song.album,
+        song.duration,
+        song.dateAdded,
+        song.path,
+        song.folder,
+        song.discNumber,
+        song.trackNumber,
+        song.isPodcast
     )
 }
 

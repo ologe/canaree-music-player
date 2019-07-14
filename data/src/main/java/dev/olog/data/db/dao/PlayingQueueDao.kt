@@ -13,10 +13,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
 import dev.olog.shared.utils.assertBackgroundThread
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
 import io.reactivex.Flowable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
@@ -59,7 +56,11 @@ internal abstract class PlayingQueueDao {
 
         for (playingQueueEntity in playingQueue) {
             val id = playingQueueEntity.songId
-            val fakeSongList = mappedSongList[id] ?: mappedPodcastList[id] ?: continue
+
+            val fakeSongList = mappedSongList[id]
+                ?: mappedPodcastList[id]
+                ?: continue
+
             val song = fakeSongList[0] // only one song
             val playingQueueSong = song.toPlayingQueueSong(
                 playingQueueEntity.idInPlaylist,
@@ -107,23 +108,11 @@ internal abstract class PlayingQueueDao {
     private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
             : PlayingQueueSong {
 
+        val parentMediaId = MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue)
+
         return PlayingQueueSong(
-            this.id,
-            idInPlaylist,
-            MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
-            this.artistId,
-            this.albumId,
-            this.title,
-            this.artist,
-            this.albumArtist,
-            this.album,
-            this.duration,
-            this.dateAdded,
-            this.path,
-            this.folder,
-            this.discNumber,
-            this.trackNumber,
-            this.isPodcast
+            this.copy(idInPlaylist = idInPlaylist),
+            MediaId.playableItem(parentMediaId, this.id)
         )
     }
 

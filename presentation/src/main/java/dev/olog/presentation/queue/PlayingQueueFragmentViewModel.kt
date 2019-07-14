@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
@@ -35,11 +34,8 @@ class PlayingQueueFragmentViewModel @Inject constructor(
             playingQueueGateway.observeAll().distinctUntilChanged()
                 .combineLatest(musicPreferencesUseCase.observeLastPositionInQueue().distinctUntilChanged())
                 { queue, positionInQueue ->
-                    queue.mapIndexed { index, item ->
-                        item.toDisplayableItem(
-                            index,
-                            positionInQueue
-                        )
+                    queue.map { item ->
+                        item.toDisplayableItem(positionInQueue)
                     }
                 }
                 .assertBackground()
@@ -53,18 +49,26 @@ class PlayingQueueFragmentViewModel @Inject constructor(
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data
 
     private fun PlayingQueueSong.toDisplayableItem(
-        position: Int,
         currentItemIndex: Int
     ): DisplayableQueueSong {
+        val song = this.song
 
+        val relativePosition = when {
+//            currentItemIndex == -1 -> "-"
+            song.idInPlaylist > currentItemIndex -> "+${song.idInPlaylist - currentItemIndex}"
+            song.idInPlaylist < currentItemIndex -> "${song.idInPlaylist - currentItemIndex}"
+            else -> "-"
+        }
 
         return DisplayableQueueSong(
-            R.layout.item_playing_queue,
-            getMediaId(),
-            title,
-            artist,
-            position,
-            position == currentItemIndex
+            type = R.layout.item_playing_queue,
+            mediaId = mediaId,
+            title = song.title,
+            artist = song.artist,
+            album = song.album,
+            idInPlaylist = song.idInPlaylist,
+            relativePosition = relativePosition,
+            isCurrentSong = song.idInPlaylist == currentItemIndex
         )
     }
 }

@@ -6,19 +6,10 @@ data class DisplayableQueueSong(
     override val type: Int,
     override val mediaId: MediaId,
     val title: String,
-    val subtitle: String,
+    val artist: String,
+    val album: String,
     val idInPlaylist: Int,
+    val relativePosition: String,
     val isCurrentSong: Boolean
 
-) : BaseModel {
-
-    fun positionInList(currentPosition: Int): String {
-        return when {
-            currentPosition == -1 -> "-"
-            idInPlaylist > currentPosition -> "+${idInPlaylist - currentPosition}"
-            idInPlaylist < currentPosition -> "${idInPlaylist - currentPosition}"
-            else -> "-"
-        }
-    }
-
-}
+) : BaseModel
