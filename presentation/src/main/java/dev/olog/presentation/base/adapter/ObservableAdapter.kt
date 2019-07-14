@@ -100,6 +100,8 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     override fun getItemCount(): Int = dataSet.size
 
+    fun lastIndex(): Int = dataSet.lastIndex
+
     override fun getItemViewType(position: Int): Int = dataSet[position].type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {

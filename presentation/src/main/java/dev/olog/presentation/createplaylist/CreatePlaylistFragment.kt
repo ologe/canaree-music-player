@@ -15,6 +15,7 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
@@ -186,15 +187,18 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         val position = when (letter) {
             TextUtils.MIDDLE_DOT -> -1
             "#" -> 0
-            "?" -> adapter.itemCount - 1
-            else -> adapter.indexOf {
-                if (it.title.isBlank()) false
-                else it.title[0].toUpperCase().toString() == letter
+            "?" -> adapter.lastIndex()
+            else -> adapter.indexOf { item ->
+                require(item is DisplayableTrack)
+                if (item.title.isBlank()) {
+                    return@indexOf false
+                }
+
+                return@indexOf item.title[0].toUpperCase().toString() == letter
             }
         }
         if (position != -1) {
-            val layoutManager =
-                list.layoutManager as LinearLayoutManager
+            val layoutManager = list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }

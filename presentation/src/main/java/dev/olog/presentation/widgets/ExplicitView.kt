@@ -3,7 +3,7 @@ package dev.olog.presentation.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.extensions.toggleVisibility
 import kotlinx.coroutines.*
 
@@ -14,7 +14,7 @@ class ExplicitView (
 
     private var job: Job? = null
 
-    fun onItemChanged(item: DisplayableItem){
+    fun onItemChanged(item: DisplayableTrack){
         // TODO check compuitation cost
         toggleVisibility(visible = false, gone = true)
 

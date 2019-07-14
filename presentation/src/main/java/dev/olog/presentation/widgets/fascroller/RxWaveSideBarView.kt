@@ -2,7 +2,10 @@ package dev.olog.presentation.widgets.fascroller
 
 import android.content.Context
 import android.util.AttributeSet
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.runOnMainThread
 
@@ -13,7 +16,7 @@ class RxWaveSideBarView(
 
     var scrollableLayoutId : Int = 0
 
-    fun onDataChanged(list: List<DisplayableItem>){
+    fun onDataChanged(list: List<DisplayableItem2>){
         updateLetters(generateLetters(list))
     }
 
@@ -21,14 +24,20 @@ class RxWaveSideBarView(
         this.listener = listener
     }
 
-    private fun generateLetters(data: List<DisplayableItem>): List<String> {
+    private fun generateLetters(data: List<DisplayableItem2>): List<String> {
         if (scrollableLayoutId == 0){
             throw IllegalStateException("provide a real layout id to filter")
         }
 
         val list = data.asSequence()
                 .filter { it.type == scrollableLayoutId }
-                .mapNotNull { it.title.firstOrNull()?.toUpperCase() }
+                .mapNotNull {
+                    when (it) {
+                        is DisplayableTrack -> it.title.firstOrNull()?.toUpperCase()
+                        is DisplayableAlbum -> it.title.firstOrNull()?.toUpperCase()
+                        else -> throw IllegalArgumentException("invalid type $it")
+                    }
+                }
                 .distinctBy { it }
                 .map { it.toString() }
                 .toList()

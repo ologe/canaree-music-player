@@ -7,15 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.presentation.model.SpecialThanksModel
+import dev.olog.presentation.model.*
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.ExplicitView
 import dev.olog.presentation.widgets.QuickActionView
@@ -123,9 +119,15 @@ object BindingsAdapter {
         view.setId(item.mediaId)
     }
 
+    @BindingAdapter("quickActionItem")
+    @JvmStatic
+    fun quickActionItem(view: QuickActionView, item: DisplayableAlbum){
+        view.setId(item.mediaId)
+    }
+
     @JvmStatic
     @BindingAdapter("explicit")
-    fun explicit(view: ExplicitView, item: DisplayableItem){
+    fun explicit(view: ExplicitView, item: DisplayableTrack){
         view.onItemChanged(item)
     }
 

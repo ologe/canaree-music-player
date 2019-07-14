@@ -4,7 +4,8 @@ import android.content.res.Resources
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 @PerFragment
@@ -12,23 +13,25 @@ class TabFragmentHeaders @Inject constructor(
         resources: Resources
 ) {
 
-    val allPlaylistHeader = DisplayableItem(
+    val allPlaylistHeader = DisplayableHeader(
         R.layout.item_tab_header,
-        MediaId.headerId("all playlist"), resources.getString(R.string.tab_all_playlists)
+        MediaId.headerId("all playlist"),
+        resources.getString(R.string.tab_all_playlists)
     )
 
-    val autoPlaylistHeader = DisplayableItem(
+    val autoPlaylistHeader = DisplayableHeader(
         R.layout.item_tab_header,
-        MediaId.headerId("auto playlist"), resources.getString(R.string.tab_auto_playlists)
+        MediaId.headerId("auto playlist"),
+        resources.getString(R.string.tab_auto_playlists)
     )
 
-    val shuffleHeader = DisplayableItem(
+    val shuffleHeader = DisplayableHeader(
         R.layout.item_tab_shuffle,
         MediaId.headerId("tab shuffle"), ""
     )
 
     val allAlbumsHeader = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("all albums"),
             resources.getString(R.string.tab_all_albums)
@@ -36,7 +39,7 @@ class TabFragmentHeaders @Inject constructor(
     )
 
     val allArtistsHeader = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("all artists"),
             resources.getString(R.string.tab_all_artists)
@@ -44,52 +47,48 @@ class TabFragmentHeaders @Inject constructor(
     )
 
     val lastPlayedAlbumHeaders = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("recent albums"),
             resources.getString(R.string.tab_recent_played)
         ),
-        DisplayableItem(
+        DisplayableNestedListPlaceholder(
             R.layout.item_tab_last_played_album_horizontal_list,
-            MediaId.headerId("horiz list album"),
-            ""
+            MediaId.headerId("horiz list album")
         )
     )
 
     val lastPlayedArtistHeaders = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header,
             MediaId.headerId("recent artists"),
             resources.getString(R.string.tab_recent_played)
         ),
-        DisplayableItem(
+        DisplayableNestedListPlaceholder(
             R.layout.item_tab_last_played_artist_horizontal_list,
-            MediaId.headerId("horiz list artist"),
-            ""
+            MediaId.headerId("horiz list artist")
         )
     )
 
     val recentlyAddedAlbumsHeaders = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header, MediaId.headerId("new albums"),
             resources.getStringArray(R.array.tab_new_items)[0]
         ),
-        DisplayableItem(
+        DisplayableNestedListPlaceholder(
             R.layout.item_tab_new_album_horizontal_list,
-            MediaId.headerId("horiz list new albums"),
-            ""
+            MediaId.headerId("horiz list new albums")
         )
     )
 
     val recentlyAddedArtistsHeaders = listOf(
-        DisplayableItem(
+        DisplayableHeader(
             R.layout.item_tab_header, MediaId.headerId("new artists"),
             resources.getStringArray(R.array.tab_new_items)[1]
         ),
-        DisplayableItem(
+        DisplayableNestedListPlaceholder(
             R.layout.item_tab_new_artist_horizontal_list,
-            MediaId.headerId("horiz list new artists"),
-            ""
+            MediaId.headerId("horiz list new artists")
         )
     )
 

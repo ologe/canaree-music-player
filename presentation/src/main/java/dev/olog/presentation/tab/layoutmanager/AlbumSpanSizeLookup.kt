@@ -3,12 +3,12 @@ package dev.olog.presentation.tab.layoutmanager
 import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.extensions.configuration
 
 class AlbumSpanSizeLookup(
         context: Context,
-        private val adapter: ObservableAdapter<DisplayableItem>
+        private val adapter: ObservableAdapter<BaseModel>
 
 ) : AbsSpanSizeLookup() {
 

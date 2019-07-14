@@ -6,8 +6,10 @@ import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
@@ -16,7 +18,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableAlbum
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
@@ -229,29 +233,35 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }
         }
         if (position != -1) {
-            val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
+            val layoutManager = list.layoutManager as GridLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
 
-    private fun getCurrentSorting(item: DisplayableItem): String {
+    // TODO observe in a viewmodel livedata the current sorting
+    private fun getCurrentSorting(item: DisplayableItem2): String {
         return when (category) {
             TabCategory.SONGS -> {
-                val sortOrder = viewModel.getAllTracksSortOrder()
+                require(item is DisplayableTrack)
+                val sortOrder = viewModel.getAllTracksSortOrder(MediaId.songId(-1))!!
                 when (sortOrder.type) {
-                    SortType.ARTIST -> item.subtitle!!
-                    SortType.ALBUM -> item.subtitle!!.substring(item.subtitle!!.indexOf(TextUtils.MIDDLE_DOT) + 1).trim()
+                    SortType.ARTIST -> item.artist
+                    SortType.ALBUM -> item.album
                     else -> item.title
                 }
             }
             TabCategory.ALBUMS -> {
+                require(item is DisplayableAlbum)
                 val sortOrder = viewModel.getAllAlbumsSortOrder()
                 when (sortOrder.type) {
                     SortType.TITLE -> item.title
-                    else -> item.subtitle!!
+                    else -> item.subtitle
                 }
             }
-            else -> item.title
+            else -> {
+                require(item is DisplayableAlbum)
+                item.title
+            }
         }
     }
 

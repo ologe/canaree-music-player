@@ -3,28 +3,28 @@ package dev.olog.presentation.createplaylist
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.InsertCustomTrackListRequest
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.createplaylist.mapper.toPlaylistTrack
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.PlaylistTrack
-import dev.olog.shared.extensions.*
-import dev.olog.shared.extensions.filter
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.shared.extensions.mapListItem
+import dev.olog.shared.extensions.toList
+import dev.olog.shared.extensions.toggle
 import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class CreatePlaylistFragmentViewModel @Inject constructor(
@@ -35,7 +35,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val data = MutableLiveData<List<DisplayableItem2>>()
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
@@ -76,13 +76,13 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         filterChannel.offer(filter)
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeData(): LiveData<List<DisplayableItem2>> = data
 
-    private fun getPlaylistTypeTracks(): Flow<List<PlaylistTrack>> = when (playlistType) {
-        PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll().mapListItem { it.toPlaylistTrack() }
-        PlaylistType.TRACK -> getAllSongsUseCase.observeAll().mapListItem { it.toPlaylistTrack() }
+    private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
+        PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
+        PlaylistType.TRACK -> getAllSongsUseCase.observeAll()
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
-    }.map { list -> list.sortedBy { it.title.toLowerCase() } }
+    }
 
     fun toggleItem(mediaId: MediaId) {
         val id = mediaId.resolveId

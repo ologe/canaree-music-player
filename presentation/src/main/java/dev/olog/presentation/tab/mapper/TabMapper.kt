@@ -3,11 +3,14 @@ package dev.olog.presentation.tab.mapper
 import android.content.res.Resources
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.utils.TextUtils
 
-internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
+internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem2 {
+    return DisplayableAlbum(
         R.layout.item_tab_album,
         getMediaId(),
         title,
@@ -15,9 +18,8 @@ internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem 
     )
 }
 
-internal fun Playlist.toAutoPlaylist(): DisplayableItem {
-
-    return DisplayableItem(
+internal fun Playlist.toAutoPlaylist(): DisplayableItem2 {
+    return DisplayableAlbum(
         R.layout.item_tab_auto_playlist,
         getMediaId(),
         title,
@@ -25,11 +27,11 @@ internal fun Playlist.toAutoPlaylist(): DisplayableItem {
     )
 }
 
-internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem2 {
 
     val size = DisplayableItem.handleSongListSize(resources, size)
 
-    return DisplayableItem(
+    return DisplayableAlbum(
         R.layout.item_tab_album,
         getMediaId(),
         title,
@@ -37,23 +39,20 @@ internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableIte
     )
 }
 
-internal fun Song.toTabDisplayableItem(): DisplayableItem {
-    val artist = this.artist
-    val album = this.album
-
-    return DisplayableItem(
+internal fun Song.toTabDisplayableItem(): DisplayableItem2 {
+    return DisplayableTrack(
         R.layout.item_tab_song,
         getMediaId(),
         title,
-        "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
-        true
+        artist,
+        album,
+        this.idInPlaylist
     )
 }
 
 
-
-internal fun Album.toTabDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
+internal fun Album.toTabDisplayableItem(): DisplayableItem2 {
+    return DisplayableAlbum(
         R.layout.item_tab_album,
         getMediaId(),
         title,
@@ -61,22 +60,20 @@ internal fun Album.toTabDisplayableItem(): DisplayableItem {
     )
 }
 
-internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem2 {
     val songs = DisplayableItem.handleSongListSize(resources, songs)
-    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
-    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
-    return DisplayableItem(
+    return DisplayableAlbum(
         R.layout.item_tab_artist,
         getMediaId(),
         name,
-        albums + songs
+        songs
     )
 }
 
 
-internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
+internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem2 {
+    return DisplayableAlbum(
         R.layout.item_tab_album,
         getMediaId(),
         name,
@@ -84,8 +81,8 @@ internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
     )
 }
 
-internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
+internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem2 {
+    return DisplayableAlbum(
         R.layout.item_tab_album_last_played,
         getMediaId(),
         title,
@@ -93,15 +90,13 @@ internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     )
 }
 
-internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem2 {
     val songs = DisplayableItem.handleSongListSize(resources, songs)
-    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
-    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
-    return DisplayableItem(
+    return DisplayableAlbum(
         R.layout.item_tab_artist_last_played,
         getMediaId(),
         name,
-        albums + songs
+        songs
     )
 }
