@@ -11,16 +11,19 @@ import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
+import dev.olog.shared.widgets.ColorDelegateImpl
+import dev.olog.shared.widgets.IColorDelegate
 import java.lang.IllegalStateException
 
 class ShuffleButton(
     context: Context,
     attrs: AttributeSet
-) : AppCompatImageButton(context, attrs) {
+) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private var enabledColor: Int
     private var shuffleMode = PlayerShuffleMode.NOT_SET
 
+    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
@@ -28,7 +31,8 @@ class ShuffleButton(
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
-            setColorFilter(getDefaultColor())
+            val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+            setColorFilter(defaultColor)
         }
     }
 
@@ -52,13 +56,12 @@ class ShuffleButton(
     }
 
     private fun enable() {
-        alpha = 1f
         animateAvd(enabledColor)
     }
 
     private fun disable() {
-        val color = getDefaultColor()
-        animateAvd(color)
+        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+        animateAvd(defaultColor)
     }
 
     private fun animateAvd(@ColorInt endColor: Int) {
@@ -73,19 +76,6 @@ class ShuffleButton(
             }
         })
         hideDrawable.start()
-    }
-
-    private fun getDefaultColor(): Int {
-        val playerAppearance = context.hasPlayerAppearance()
-        return when {
-            playerAppearance.isClean() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            playerAppearance.isFullscreen() -> Color.WHITE
-            isDarkMode -> {
-                alpha = .7f
-                context.textColorSecondary()
-            }
-            else -> context.colorControlNormal()
-        }
     }
 
 }

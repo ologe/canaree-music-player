@@ -1,13 +1,11 @@
 package dev.olog.shared.widgets
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.R
-import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.extensions.isDarkMode
 import dev.olog.shared.extensions.lazyFast
@@ -17,7 +15,7 @@ class AnimatedImageView(
     context: Context,
     attrs: AttributeSet
 
-) : AppCompatImageButton(context, attrs) {
+) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
 
@@ -38,11 +36,12 @@ class AnimatedImageView(
     }
 
     fun setDefaultColor() {
-        setColorFilter(getDefaultColor())
+        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+        setColorFilter(defaultColor)
     }
 
     fun useLightImage() {
-        setColorFilter(0xFF_F5F5F5.toInt())
+        setColorFilter(lightColor())
     }
 
     fun playAnimation() {
@@ -59,14 +58,6 @@ class AnimatedImageView(
 
         animator.cancel()
         animator.alpha(if (show) 1f else 0f)
-    }
-
-    private fun getDefaultColor(): Int {
-        return when {
-            playerAppearance.isClean() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            playerAppearance.isFullscreen() || isDarkMode -> Color.WHITE
-            else -> context.colorControlNormal()
-        }
     }
 
 }

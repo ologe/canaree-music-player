@@ -12,17 +12,20 @@ import dev.olog.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
+import dev.olog.shared.widgets.ColorDelegateImpl
+import dev.olog.shared.widgets.IColorDelegate
 import java.lang.IllegalStateException
 
 class RepeatButton(
     context: Context,
     attrs: AttributeSet
 
-) : AppCompatImageButton(context, attrs) {
+) : AppCompatImageButton(context, attrs), IColorDelegate by ColorDelegateImpl {
 
     private var enabledColor: Int
     private var repeatMode = PlayerRepeatMode.NOT_SET
 
+    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
@@ -30,7 +33,8 @@ class RepeatButton(
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
-            setColorFilter(getDefaultColor())
+            val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+            setColorFilter(defaultColor)
         }
     }
 
@@ -55,17 +59,15 @@ class RepeatButton(
     }
 
     private fun repeatNone() {
-        val color = getDefaultColor()
-        animateAvd(color, R.drawable.repeat_hide_one, R.drawable.repeat_show)
+        val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
+        animateAvd(defaultColor, R.drawable.repeat_hide_one, R.drawable.repeat_show)
     }
 
     private fun repeatOne() {
-        alpha = 1f
         animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
     }
 
     private fun repeatAll() {
-        alpha = 1f
         animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
     }
 
@@ -81,19 +83,6 @@ class RepeatButton(
             }
         })
         hideDrawable.start()
-    }
-
-    private fun getDefaultColor(): Int {
-        val playerAppearance = context.hasPlayerAppearance()
-        return when {
-            playerAppearance.isClean() && !isDarkMode -> 0xFF_8d91a6.toInt()
-            playerAppearance.isFullscreen() -> Color.WHITE
-            isDarkMode -> {
-                alpha = .7f
-                context.textColorSecondary()
-            }
-            else -> context.colorControlNormal()
-        }
     }
 
 }
