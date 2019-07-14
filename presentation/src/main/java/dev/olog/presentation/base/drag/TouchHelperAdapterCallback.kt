@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import kotlinx.android.synthetic.main.item_detail_song.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -20,6 +21,11 @@ class TouchHelperAdapterCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
 ), CoroutineScope by MainScope() {
+
+    companion object {
+        private val TAG = "P:${TouchHelperAdapterCallback::class.java.simpleName}"
+        private const val SWIPE_DURATION = DEFAULT_SWIPE_ANIMATION_DURATION.toLong()
+    }
 
     private val animationsController = TouchHelperAnimationController()
 
@@ -53,14 +59,14 @@ class TouchHelperAdapterCallback(
                 ItemTouchHelper.RIGHT -> {
                     launch {
                         adapter.onSwipedRight(viewHolder)
-                        delay(250)
+                        delay(SWIPE_DURATION)
                         adapter.afterSwipeRight(viewHolder)
                     }
                 }
                 ItemTouchHelper.LEFT -> {
                     launch {
                         adapter.onSwipedLeft(viewHolder)
-                        delay(250)
+                        delay(SWIPE_DURATION)
                         adapter.afterSwipeLeft(viewHolder)
                     }
                 }
@@ -78,7 +84,7 @@ class TouchHelperAdapterCallback(
         when (actionState) {
             ItemTouchHelper.ACTION_STATE_SWIPE -> {
                 val viewWidth = viewHolder.itemView.width
-                if (isCurrentlyActive && (abs(dX) > (viewWidth * 0.35f))) {
+                if (abs(dX) > (viewWidth * 0.35f)) {
                     animationsController.drawCircularReveal(viewHolder, dX)
                 } else if (abs(dX) < (viewWidth * 0.05f)) {
                     animationsController.setAnimationIdle()
@@ -89,7 +95,7 @@ class TouchHelperAdapterCallback(
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.findViewById(R.id.content), // TODO bad, find a way to cache
+                    viewHolder.itemView.content, // TODO bad, find a way to cache
                     dX,
                     dY,
                     actionState,

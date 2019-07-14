@@ -1,6 +1,7 @@
 package dev.olog.presentation.base.drag
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.BounceInterpolator
@@ -11,7 +12,11 @@ import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import kotlin.math.hypot
 
-class TouchHelperAnimationController {
+internal class TouchHelperAnimationController {
+
+    companion object {
+        private val TAG = "P:${TouchHelperAnimationController::class.java.simpleName}"
+    }
 
     enum class State {
         IDLE, SWIPE_LEFT, SWIPE_RIGHT, CIRCULAR_REVEAL
@@ -30,6 +35,7 @@ class TouchHelperAnimationController {
         viewHolder: RecyclerView.ViewHolder,
         dx: Float
     ) {
+        val oldState = state
         if (dx > 0) {
             if (state == State.SWIPE_RIGHT) {
                 return
