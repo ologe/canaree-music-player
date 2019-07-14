@@ -77,9 +77,7 @@ internal class QueueImpl @Inject constructor(
         require(list !== playingQueue)
 
         val safePosition = ensurePosition(list, position)
-        val idInPlaylist = list[safePosition].idInPlaylist
         currentSongPosition = safePosition
-        musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
     }
 
     fun publishMiniQueue(list: List<MediaEntity>, currentPosition: Int, immediate: Boolean){
@@ -191,7 +189,7 @@ internal class QueueImpl @Inject constructor(
         playingQueue.clear()
         playingQueue.addAll(copy)
 
-        val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
+        val currentIdInPlaylist = musicPreferencesUseCase.getLastPositionInQueue()
         val songPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
         if (songPosition != 0) {
             playingQueue.swap(0, songPosition)
@@ -210,7 +208,7 @@ internal class QueueImpl @Inject constructor(
         // todo proper sorting in detail
         playingQueue.sortBy { it.idInPlaylist }
 
-        val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
+        val currentIdInPlaylist = musicPreferencesUseCase.getLastPositionInQueue()
         val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
         updateCurrentSongPosition(playingQueue.toList(), newPosition)
         publishMiniQueue(playingQueue.toList(), newPosition, true)

@@ -9,10 +9,6 @@ interface MusicPreferencesGateway {
     fun getBookmark(): Long
     fun setBookmark(bookmark: Long)
 
-    fun getLastIdInPlaylist(): Int
-    fun setLastIdInPlaylist(idInPlaylist: Int)
-    fun observeLastIdInPlaylist(): Observable<Int>
-
     fun getRepeatMode(): Int
     fun setRepeatMode(repeatMode: Int)
 

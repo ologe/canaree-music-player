@@ -22,8 +22,6 @@ private const val BOOKMARK = "$TAG.bookmark"
 private const val SHUFFLE_MODE = "$TAG.mode.shuffle"
 private const val REPEAT_MODE = "$TAG.mode.repeat"
 
-private const val ID_IN_PLAYLIST = "$TAG.id.in.playlist"
-
 private const val SKIP_PREVIOUS = "$TAG.skip.previous"
 private const val SKIP_NEXT = "$TAG.skip.next"
 
@@ -50,18 +48,6 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun setBookmark(bookmark: Long) {
         preferences.edit { putLong(BOOKMARK, bookmark) }
-    }
-
-    override fun getLastIdInPlaylist(): Int {
-        return preferences.getInt(ID_IN_PLAYLIST, 0)
-    }
-
-    override fun setLastIdInPlaylist(idInPlaylist: Int) {
-        preferences.edit { putInt(ID_IN_PLAYLIST, idInPlaylist) }
-    }
-
-    override fun observeLastIdInPlaylist(): Observable<Int> {
-        return rxPreferences.getInteger(ID_IN_PLAYLIST).asObservable()
     }
 
     override fun getRepeatMode(): Int {
