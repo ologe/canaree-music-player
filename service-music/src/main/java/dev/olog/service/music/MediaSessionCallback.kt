@@ -166,7 +166,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
-        Log.v(TAG, "onSetRating rating=$action, extras=$extras")
+        Log.v(TAG, "onCustomAction action=$action, extras=$extras")
 
         when (MusicServiceCustomAction.valueOf(action)) {
             MusicServiceCustomAction.SHUFFLE -> {
