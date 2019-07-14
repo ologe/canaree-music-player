@@ -7,7 +7,6 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.shared.utils.TextUtils
 
 internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem2 {
     return DisplayableAlbum(
