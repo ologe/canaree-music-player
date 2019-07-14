@@ -3,14 +3,17 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.*
+import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableAlbum
+import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.CustomScope
 import dev.olog.shared.extensions.assertBackground
 import dev.olog.shared.extensions.combineLatest
@@ -47,7 +50,7 @@ class SearchDataProvider @Inject constructor(
         launch { queryChannel.send(query) }
     }
 
-    fun observe(): Flow<List<DisplayableItem>> {
+    fun observe(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow().switchMap { query ->
             if (query.isBlank()) {
                 getRecents()
@@ -57,50 +60,56 @@ class SearchDataProvider @Inject constructor(
         }.assertBackground()
     }
 
-    fun observeArtists(): Flow<List<DisplayableItem>> {
+    fun observeArtists(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow()
             .switchMap { getArtists(it) }
             .assertBackground()
     }
 
-    fun observeAlbums(): Flow<List<DisplayableItem>> {
+    fun observeAlbums(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow()
             .switchMap { getAlbums(it) }
             .assertBackground()
     }
 
-    fun observeGenres(): Flow<List<DisplayableItem>> {
+    fun observeGenres(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow()
             .switchMap { getGenres(it) }
             .assertBackground()
     }
 
-    fun observePlaylists(): Flow<List<DisplayableItem>> {
+    fun observePlaylists(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow()
             .switchMap { getPlaylists(it) }
             .assertBackground()
     }
 
-    fun observeFolders(): Flow<List<DisplayableItem>> {
+    fun observeFolders(): Flow<List<DisplayableItem2>> {
         return queryChannel.asFlow()
             .switchMap { getFolders(it) }
             .assertBackground()
     }
 
-    private fun getRecents(): Flow<List<DisplayableItem>> {
+    private fun getRecents(): Flow<List<DisplayableItem2>> {
         return recentSearchesGateway.getAll()
             .mapListItem { it.toSearchDisplayableItem(context) }
             .map { it.toMutableList() }
             .map {
                 if (it.isNotEmpty()) {
-                    it.add(DisplayableItem(R.layout.item_search_clear_recent, MediaId.headerId("clear recent"), ""))
+                    it.add(
+                        DisplayableHeader(
+                            type = R.layout.item_search_clear_recent,
+                            mediaId = MediaId.headerId("clear recent"),
+                            title = ""
+                        )
+                    )
                     it.addAll(0, searchHeaders.recents)
                 }
                 it
             }
     }
 
-    private fun getFiltered(query: String): Flow<List<DisplayableItem>> {
+    private fun getFiltered(query: String): Flow<List<DisplayableItem2>> {
         return getArtists(query).map { if (it.isNotEmpty()) searchHeaders.artistsHeaders(it.size) else it }
             .combineLatest(
                 getAlbums(query).map { if (it.isNotEmpty()) searchHeaders.albumsHeaders(it.size) else it },
@@ -113,7 +122,7 @@ class SearchDataProvider @Inject constructor(
             }
     }
 
-    private fun getSongs(query: String): Flow<List<DisplayableItem>> {
+    private fun getSongs(query: String): Flow<List<DisplayableItem2>> {
         return songGateway.observeAll().map {
             it.asSequence()
                 .filter {
@@ -138,10 +147,10 @@ class SearchDataProvider @Inject constructor(
         }
     }
 
-    private fun getAlbums(query: String): Flow<List<DisplayableItem>> {
+    private fun getAlbums(query: String): Flow<List<DisplayableItem2>> {
         return albumGateway.observeAll().map {
             if (query.isBlank()) {
-                return@map listOf<DisplayableItem>()
+                return@map listOf<DisplayableItem2>()
             }
             it.asSequence()
                 .filter {
@@ -152,7 +161,7 @@ class SearchDataProvider @Inject constructor(
         }.combineLatest(
             podcastAlbumGateway.observeAll().map {
                 if (query.isBlank()) {
-                    return@map listOf<DisplayableItem>()
+                    return@map listOf<DisplayableItem2>()
                 }
                 it.asSequence()
                     .filter {
@@ -162,14 +171,16 @@ class SearchDataProvider @Inject constructor(
                     .toList()
             }
         ) { track, podcast ->
-            (track + podcast).sortedBy { it.title }
+            (track + podcast)
+                .filterIsInstance<DisplayableAlbum>() // elsewhere the compiler does not recognise type
+                .sortedBy { it.title }
         }
     }
 
-    private fun getArtists(query: String): Flow<List<DisplayableItem>> {
+    private fun getArtists(query: String): Flow<List<DisplayableItem2>> {
         return artistGateway.observeAll().map {
             if (query.isBlank()) {
-                return@map listOf<DisplayableItem>()
+                return@map listOf<DisplayableItem2>()
             }
             it.asSequence()
                 .filter {
@@ -179,7 +190,7 @@ class SearchDataProvider @Inject constructor(
         }.combineLatest(
             podcastArtistGateway.observeAll().map {
                 if (query.isBlank()) {
-                    return@map listOf<DisplayableItem>()
+                    return@map listOf<DisplayableItem2>()
                 }
                 it.asSequence()
                     .filter {
@@ -188,14 +199,16 @@ class SearchDataProvider @Inject constructor(
                     .toList()
             }
         ) { track, podcast ->
-            (track + podcast).sortedBy { it.title }
+            (track + podcast)
+                .filterIsInstance<DisplayableAlbum>() // elsewhere the compiler does not recognise type
+                .sortedBy { it.title }
         }
     }
 
-    private fun getPlaylists(query: String): Flow<List<DisplayableItem>> {
+    private fun getPlaylists(query: String): Flow<List<DisplayableItem2>> {
         return playlistGateway2.observeAll().map {
             if (query.isBlank()) {
-                return@map listOf<DisplayableItem>()
+                return@map listOf<DisplayableItem2>()
             }
             it.asSequence()
                 .filter {
@@ -205,7 +218,7 @@ class SearchDataProvider @Inject constructor(
         }.combineLatest(
             podcastPlaylistGateway.observeAll().map {
                 if (query.isBlank()) {
-                    return@map listOf<DisplayableItem>()
+                    return@map listOf<DisplayableItem2>()
                 }
 
                 it.asSequence()
@@ -215,14 +228,16 @@ class SearchDataProvider @Inject constructor(
                     .toList()
             }
         ) { track, podcast ->
-            (track + podcast).sortedBy { it.title }
+            (track + podcast)
+                .filterIsInstance<DisplayableAlbum>() // elsewhere the compiler does not recognise type
+                .sortedBy { it.title }
         }
     }
 
-    private fun getGenres(query: String): Flow<List<DisplayableItem>> {
+    private fun getGenres(query: String): Flow<List<DisplayableItem2>> {
         return genreGateway.observeAll().map {
             if (query.isBlank()) {
-                return@map listOf<DisplayableItem>()
+                return@map listOf<DisplayableItem2>()
             }
             it.asSequence()
                 .filter {
@@ -232,10 +247,10 @@ class SearchDataProvider @Inject constructor(
         }
     }
 
-    private fun getFolders(query: String): Flow<List<DisplayableItem>> {
+    private fun getFolders(query: String): Flow<List<DisplayableItem2>> {
         return folderGateway.observeAll().map {
             if (query.isBlank()) {
-                return@map listOf<DisplayableItem>()
+                return@map listOf<DisplayableItem2>()
             }
             it.asSequence()
                 .filter {

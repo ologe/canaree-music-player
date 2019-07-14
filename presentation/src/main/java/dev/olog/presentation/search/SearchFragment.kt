@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
@@ -11,6 +12,8 @@ import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.presentation.base.drag.DragListenerImpl
+import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
@@ -24,7 +27,9 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment(), SetupNestedList {
+class SearchFragment : BaseFragment(),
+    SetupNestedList,
+    IDragListener by DragListenerImpl() {
 
     companion object {
         val TAG = SearchFragment::class.java.name
@@ -97,10 +102,7 @@ class SearchFragment : BaseFragment(), SetupNestedList {
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-//        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(list)
-//        adapter.touchHelper = touchHelper TODO
+        setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)

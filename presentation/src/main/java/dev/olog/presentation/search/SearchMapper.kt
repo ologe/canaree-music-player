@@ -5,9 +5,12 @@ import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableTrack
 
-internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
+internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem2 {
     val subtitle = when (this.itemType) {
         RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
@@ -33,66 +36,76 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
         else -> R.layout.item_search_recent
     }
 
-    return DisplayableItem(
-        layout,
-        this.mediaId,
-        this.title,
-        subtitle,
-        isPlayable
+    if (isPlayable){
+        return DisplayableTrack(
+            type = layout,
+            mediaId = this.mediaId,
+            title = this.title,
+            artist = subtitle,
+            album = "",
+            idInPlaylist = -1
+        )
+    }
+    return DisplayableAlbum(
+        type = layout,
+        mediaId = this.mediaId,
+        title = this.title,
+        subtitle = subtitle
     )
 }
 
-internal fun Song.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_song,
-        getMediaId(),
-        title,
-        artist,
-        true
+internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
+    return DisplayableTrack(
+        type = R.layout.item_search_song,
+        mediaId = getMediaId(),
+        title = title,
+        artist = artist,
+        album = album,
+        idInPlaylist = idInPlaylist
     )
 }
 
-internal fun Album.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        getMediaId(),
-        title,
-        artist
+internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_search_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = artist
     )
 }
 
-internal fun Artist.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_artist,
-        getMediaId(),
-        name,
-        null
+internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_search_artist,
+        mediaId = getMediaId(),
+        title = name,
+        subtitle = ""
     )
 }
 
-internal fun Playlist.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        getMediaId(),
-        title,
-        null
+internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_search_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = ""
     )
 }
 
-internal fun Genre.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        getMediaId(),
-        name,
-        null
+internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_search_album,
+        mediaId = getMediaId(),
+        title = name,
+        subtitle = ""
     )
 }
 
-internal fun Folder.toSearchDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_search_album,
-        getMediaId(),
-        title,
-        null
+internal fun Folder.toSearchDisplayableItem(): DisplayableAlbum {
+    return DisplayableAlbum(
+        type = R.layout.item_search_album,
+        mediaId = getMediaId(),
+        title = title,
+        subtitle = ""
     )
 }
