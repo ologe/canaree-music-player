@@ -38,14 +38,6 @@ inline fun View.setInvisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun View.setPaddingTop(padding: Int) {
-    setPadding(paddingLeft, padding, paddingRight, paddingBottom)
-}
-
-inline fun View.setPaddingBottom(padding: Int) {
-    setPadding(paddingLeft, paddingTop, paddingRight, padding)
-}
-
 inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }

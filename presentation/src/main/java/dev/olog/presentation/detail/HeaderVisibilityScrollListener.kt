@@ -1,6 +1,8 @@
 package dev.olog.presentation.detail
 
 import android.view.View
+import androidx.core.view.updatePadding
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -8,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 class HeaderVisibilityScrollListener(
         private val fragment: DetailFragment
 
-) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+) : RecyclerView.OnScrollListener() {
 
     private val toolbarHeight by lazyFast {
         val statusBarHeight = fragment.view!!.statusBar.height
@@ -17,7 +19,9 @@ class HeaderVisibilityScrollListener(
 
     private var textWrapper : View? = null
 
-    override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+    private val background by lazyFast { fragment.view!!.dynamicBackground }
+
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
 
@@ -29,6 +33,8 @@ class HeaderVisibilityScrollListener(
             }
             val bottom = child.bottom - textWrapper!!.height
             val needDarkLayout = bottom - toolbarHeight < 0
+
+            background.updatePadding(top = child.bottom)
 
             view.statusBar.toggleVisibility(needDarkLayout, false)
             toggleToolbarBackground(view.toolbar, needDarkLayout)

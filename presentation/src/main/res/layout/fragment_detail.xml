@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:windowBackground">
+    android:layout_height="match_parent">
 
     <dev.olog.presentation.widgets.parallax.ParallaxImageView
         android:id="@+id/cover"
@@ -57,6 +56,12 @@
             tools:text="Animal Ambition: An Untamed Desire to Win" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dynamicBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="?colorSurface" />
 
     <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
         android:id="@+id/list"

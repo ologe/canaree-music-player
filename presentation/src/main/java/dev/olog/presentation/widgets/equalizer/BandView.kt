@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.math.MathUtils
+import androidx.core.view.updatePadding
 import dev.olog.presentation.R
 import dev.olog.presentation.equalizer.EqHelper
 import dev.olog.presentation.equalizer.ResizeAnimation
@@ -78,7 +79,7 @@ class BandView (
         currentLevel.gravity = Gravity.CENTER_HORIZONTAL
         currentLevel.scaleX = 1.5f
         currentLevel.scaleY = 1.5f
-        currentLevel.setPaddingBottom(context.dip(2))
+        currentLevel.updatePadding(bottom = context.dip(2))
         currentLevel.setTextColor(context.textColorPrimary())
 
         addView(currentLevel)
