@@ -11,9 +11,9 @@ import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.interfaces.Queue
 import dev.olog.service.music.model.*
+import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
 import dev.olog.shared.extensions.swap
@@ -24,8 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.rx2.asFlowable
 import kotlinx.coroutines.rx2.asObservable
 import kotlinx.coroutines.withContext
-import java.text.Collator
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -44,12 +42,10 @@ internal class QueueManager @Inject constructor(
 
 ) : Queue {
 
-    private val collator by lazy {
-        Collator.getInstance(Locale.getDefault()).apply { strength = Collator.SECONDARY }
-    }
-
-    override suspend fun prepare(): PlayerMediaEntity? = withContext(Dispatchers.Default) {
-        val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
+    override suspend fun prepare(): PlayerMediaEntity? {
+        val playingQueue = withContext(Dispatchers.Default) {
+            playingQueueGateway.getAll().map { it.toMediaEntity() }
+        }
         queueImpl.updatePlayingQueueAndPersist(playingQueue)
 
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
@@ -58,9 +54,10 @@ internal class QueueManager @Inject constructor(
             0,
             playingQueue.lastIndex
         )
-        queueImpl.updateCurrentSongPosition(playingQueue, currentPosition, true)
+        queueImpl.updateCurrentSongPosition(playingQueue, currentPosition)
+        queueImpl.publishMiniQueue(playingQueue, currentPosition, true)
 
-        if (currentPosition in 0 until playingQueue.size) {
+        return if (currentPosition in 0 until playingQueue.size) {
             playingQueue[currentPosition].toPlayerMediaEntity(
                 queueImpl.computePositionInQueue(playingQueue, currentPosition),
                 getLastSessionBookmark(playingQueue[currentPosition])
@@ -130,7 +127,10 @@ internal class QueueManager @Inject constructor(
             .map { shuffleIfNeeded(songId).apply(it) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { getCurrentSongOnPlayFromId(songId).apply(it) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
+            .doOnSuccess { (list, position) ->
+                queueImpl.publishMiniQueue(list, position, false)
+                queueImpl.updateCurrentSongPosition(list, position)
+            }
             .map { (list, position) ->
                 val bookmark = getPodcastBookmarkOrDefault(list[position])
                 list[position].toPlayerMediaEntity(
@@ -150,7 +150,10 @@ internal class QueueManager @Inject constructor(
             .map { shuffleIfNeeded(songId).apply(it) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { getCurrentSongOnPlayFromId(songId).apply(it) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
+            .doOnSuccess { (list, position) ->
+                queueImpl.publishMiniQueue(list, position, false)
+                queueImpl.updateCurrentSongPosition(list, position)
+            }
             .map { (list, position) ->
                 val bookmark = getPodcastBookmarkOrDefault(list[position])
                 list[position].toPlayerMediaEntity(
@@ -170,7 +173,10 @@ internal class QueueManager @Inject constructor(
             .map { shuffleIfNeeded(songId).apply(it) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { getCurrentSongOnPlayFromId(songId).apply(it) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
+            .doOnSuccess { (list, position) ->
+                queueImpl.publishMiniQueue(list, position, false)
+                queueImpl.updateCurrentSongPosition(list, position)
+            }
             .map { (list, position) ->
                 val bookmark = getPodcastBookmarkOrDefault(list[position])
                 list[position].toPlayerMediaEntity(
@@ -192,7 +198,10 @@ internal class QueueManager @Inject constructor(
             .map { enhancedShuffle.shuffle(it.toMutableList()) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { Pair(it, 0) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
+            .doOnSuccess { (list, position) ->
+                queueImpl.publishMiniQueue(list, position, false)
+                queueImpl.updateCurrentSongPosition(list, position)
+            }
             .map { (list, position) ->
                 val bookmark = getPodcastBookmarkOrDefault(list[position])
                 list[position].toPlayerMediaEntity(
@@ -208,7 +217,10 @@ internal class QueueManager @Inject constructor(
             .map { it.toMediaEntity(0, MediaId.songId(it.id)) }
             .map { listOf(it) }
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
-            .doOnSuccess { list -> queueImpl.updateCurrentSongPosition(list, 0) }
+            .doOnSuccess { list ->
+                queueImpl.publishMiniQueue(list, 0, false)
+                queueImpl.updateCurrentSongPosition(list, 0)
+            }
             .map { list ->
                 val bookmark = getPodcastBookmarkOrDefault(list[0])
                 list[0].toPlayerMediaEntity(
@@ -252,7 +264,10 @@ internal class QueueManager @Inject constructor(
         return songList
             .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
             .map { Pair(it, 0) }
-            .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
+            .doOnSuccess { (list, position) ->
+                queueImpl.publishMiniQueue(list, position, false)
+                queueImpl.updateCurrentSongPosition(list, position)
+            }
             .map { (list, position) ->
                 val bookmark = getPodcastBookmarkOrDefault(list[position])
                 list[position].toPlayerMediaEntity(

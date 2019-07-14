@@ -1,8 +1,6 @@
 package dev.olog.service.music.queue
 
-import android.annotation.SuppressLint
 import androidx.annotation.CheckResult
-import androidx.annotation.MainThread
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
@@ -22,9 +20,6 @@ import dev.olog.shared.extensions.swap
 import dev.olog.shared.utils.assertBackgroundThread
 import dev.olog.shared.utils.assertMainThread
 import dev.olog.shared.utils.clamp
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
 import java.util.*
@@ -52,8 +47,8 @@ internal class QueueImpl @Inject constructor(
         musicPreferencesUseCase.setLastPositionInQueue(new)
     }
 
-    @MainThread
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
+        assertMainThread()
         playingQueue.clear()
         playingQueue.addAll(songList)
 
@@ -77,17 +72,21 @@ internal class QueueImpl @Inject constructor(
 
     fun updateCurrentSongPosition(
         list: List<MediaEntity>,
-        position: Int,
-        immediate: Boolean = false
+        position: Int
     ) {
-        val copy = list.toList()
+        require(list !== playingQueue)
 
-        val safePosition = ensurePosition(copy, position)
-        val idInPlaylist = copy[safePosition].idInPlaylist
+        val safePosition = ensurePosition(list, position)
+        val idInPlaylist = list[safePosition].idInPlaylist
         currentSongPosition = safePosition
         musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
+    }
 
-        var miniQueue = copy.asSequence()
+    fun publishMiniQueue(list: List<MediaEntity>, currentPosition: Int, immediate: Boolean){
+        require(list !== playingQueue)
+
+        val safePosition = ensurePosition(list, currentPosition)
+        var miniQueue = list.asSequence()
             .drop(safePosition + 1)
             .take(PlayingQueueGateway.MINI_QUEUE_SIZE)
             .toMutableList()
@@ -105,19 +104,19 @@ internal class QueueImpl @Inject constructor(
         val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist.toLong() == idInPlaylist }
         val safePosition = ensurePosition(playingQueue, positionToTest)
         val media = playingQueue[safePosition]
-        updateCurrentSongPosition(playingQueue, safePosition, true)
+        updateCurrentSongPosition(playingQueue.toList(), safePosition)
+        publishMiniQueue(playingQueue.toList(), safePosition, true)
 
         return media
     }
 
     @CheckResult
-    @MainThread
     fun getCurrentSong(): MediaEntity? {
+        assertBackgroundThread()
         return playingQueue.getOrNull(currentSongPosition)
     }
 
     @CheckResult
-    @MainThread
     fun getNextSong(trackEnded: Boolean): MediaEntity? {
         assertMainThread()
 
@@ -132,14 +131,14 @@ internal class QueueImpl @Inject constructor(
 
         if (isPositionValid(playingQueue, newPosition)) {
             val media = playingQueue[newPosition]
-            updateCurrentSongPosition(playingQueue, newPosition)
+            updateCurrentSongPosition(playingQueue.toList(), newPosition)
+            publishMiniQueue(playingQueue.toList(), newPosition, false)
             return media
         }
         return null
     }
 
     @CheckResult
-    @MainThread
     fun getPreviousSong(playerBookmark: Long): MediaEntity? {
         assertMainThread()
 
@@ -160,7 +159,8 @@ internal class QueueImpl @Inject constructor(
 
         if (isPositionValid(playingQueue, newPosition)) {
             val media = playingQueue[newPosition]
-            updateCurrentSongPosition(playingQueue, newPosition)
+            updateCurrentSongPosition(playingQueue.toList(), newPosition)
+            publishMiniQueue(playingQueue.toList(), newPosition, false)
             return media
         }
         return null
@@ -197,7 +197,8 @@ internal class QueueImpl @Inject constructor(
             playingQueue.swap(0, songPosition)
         }
 
-        updateCurrentSongPosition(playingQueue, 0, true)
+        updateCurrentSongPosition(playingQueue.toList(), 0)
+        publishMiniQueue(playingQueue.toList(), 0, true)
         // todo check if current song is first/last ecc and update ui
 
         persist(playingQueue)
@@ -211,7 +212,8 @@ internal class QueueImpl @Inject constructor(
 
         val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
-        updateCurrentSongPosition(playingQueue, newPosition, true)
+        updateCurrentSongPosition(playingQueue.toList(), newPosition)
+        publishMiniQueue(playingQueue.toList(), newPosition, true)
         // todo check if current song is first/last ecc and update ui
 
         persist(playingQueue)
@@ -252,14 +254,24 @@ internal class QueueImpl @Inject constructor(
             return
         }
 
+        val current = playingQueue[currentSongPosition]
+
         playingQueue.swap(from, to)
 
-        val currentInIdPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
-        val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentInIdPlaylist }
-        updateCurrentSongPosition(playingQueue, newPosition)
+        val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == current.idInPlaylist }
+
+        val queue = playingQueue.toMutableList()
+        playingQueue.clear()
+        playingQueue.addAll(queue.mapIndexed { index, mediaEntity -> mediaEntity.copy(idInPlaylist = index) })
+
+        updateCurrentSongPosition(playingQueue.toList(), newPosition)
         // todo check if current song is first/last ecc and update ui
 
-        persist(playingQueue)
+        launch {
+            delay(2000)
+            publishMiniQueue(playingQueue.toList(), newPosition, true)
+            persist(playingQueue)
+        }
     }
 
     fun handleSwapRelative(from: Int, to: Int) {

@@ -45,12 +45,14 @@ internal class MediaSessionCallback @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    override fun onPrepare() = runBlocking<Unit> {
-        val track = queue.prepare()
-        if (track != null) {
-            player.prepare(track)
+    override fun onPrepare() {
+        launch(Dispatchers.Main) {
+            val track = queue.prepare()
+            if (track != null) {
+                player.prepare(track)
+            }
+            Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
         }
-        Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
