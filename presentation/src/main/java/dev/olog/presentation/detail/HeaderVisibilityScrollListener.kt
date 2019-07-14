@@ -34,7 +34,8 @@ class HeaderVisibilityScrollListener(
             val bottom = child.bottom - textWrapper!!.height
             val needDarkLayout = bottom - toolbarHeight < 0
 
-            background.updatePadding(top = child.bottom)
+            background.translationY = child.bottom.toFloat()
+//            background.updatePadding(top = child.bottom)
 
             view.statusBar.toggleVisibility(needDarkLayout, false)
             toggleToolbarBackground(view.toolbar, needDarkLayout)
