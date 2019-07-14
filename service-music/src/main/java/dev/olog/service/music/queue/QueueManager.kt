@@ -58,7 +58,7 @@ internal class QueueManager @Inject constructor(
             0,
             playingQueue.lastIndex
         )
-        queueImpl.updateCurrentSongPosition(playingQueue, currentPosition)
+        queueImpl.updateCurrentSongPosition(playingQueue, currentPosition, true)
 
         if (currentPosition in 0 until playingQueue.size) {
             playingQueue[currentPosition].toPlayerMediaEntity(
