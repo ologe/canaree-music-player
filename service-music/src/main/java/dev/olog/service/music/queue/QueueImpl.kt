@@ -247,7 +247,6 @@ internal class QueueImpl @Inject constructor(
         return copy
     }
 
-    @MainThread
     fun handleSwap(from: Int, to: Int) {
         assertMainThread()
 
@@ -265,17 +264,15 @@ internal class QueueImpl @Inject constructor(
         persist(playingQueue)
     }
 
-    @MainThread
     fun handleSwapRelative(from: Int, to: Int) {
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }
 
-    @MainThread
-    fun handleRemove(position: Int): Boolean {
+    fun handleRemove(position: Int) {
         assertMainThread()
 
         if (position !in 0..playingQueue.lastIndex) {
-            return false
+            return
         }
 
         if (position >= 0 || position < playingQueue.size) {
@@ -287,13 +284,10 @@ internal class QueueImpl @Inject constructor(
             }
             persist(playingQueue)
         }
-        return playingQueue.isEmpty()
     }
 
-    @MainThread
-    fun handleRemoveRelative(position: Int): Boolean {
-        val realPosition = position + currentSongPosition + 1
-        return handleRemove(realPosition)
+    fun handleRemoveRelative(position: Int) {
+        handleRemove(position + currentSongPosition + 1)
     }
 
     fun computePositionInQueue(

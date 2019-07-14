@@ -272,12 +272,12 @@ internal class QueueManager @Inject constructor(
         queueImpl.handleSwapRelative(from, to)
     }
 
-    override fun handleRemove(position: Int): Boolean {
-        return queueImpl.handleRemove(position)
+    override fun handleRemove(position: Int) {
+        queueImpl.handleRemove(position)
     }
 
-    override fun handleRemoveRelative(position: Int): Boolean {
-        return queueImpl.handleRemoveRelative(position)
+    override fun handleRemoveRelative(position: Int) {
+        queueImpl.handleRemoveRelative(position)
     }
 
     override fun sort() {

@@ -36,14 +36,8 @@ internal interface Queue {
     fun handleSwap(from: Int, to: Int)
     fun handleSwapRelative(from: Int, to: Int)
 
-    /**
-     * returns true if remove from queue playing item
-     */
-    fun handleRemove(position: Int): Boolean
-    /**
-     * returns true if remove from queue playing item
-     */
-    fun handleRemoveRelative(position: Int): Boolean
+    fun handleRemove(position: Int)
+    fun handleRemoveRelative(position: Int)
 
     fun sort()
 

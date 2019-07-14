@@ -194,16 +194,12 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.REMOVE -> {
                 requireNotNull(extras)
                 val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                if (queue.handleRemove(position)) {
-                    onStop()
-                }
+                queue.handleRemove(position)
             }
             MusicServiceCustomAction.REMOVE_RELATIVE -> {
                 requireNotNull(extras)
                 val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION, -1)
-                if (queue.handleRemoveRelative(position)) {
-                    onStop()
-                }
+                queue.handleRemoveRelative(position)
             }
             MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
                 requireNotNull(extras)
