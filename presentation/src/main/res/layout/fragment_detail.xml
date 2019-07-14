@@ -25,6 +25,13 @@
         tools:src="@drawable/vd_album" />
 
     <View
+        android:id="@+id/dynamicBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorSurface"
+        android:translationY="400dp"/>
+
+    <View
         android:id="@+id/fade"
         android:layout_width="0dp"
         android:layout_height="120dp"
@@ -56,12 +63,6 @@
             tools:text="Animal Ambition: An Untamed Desire to Win" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/dynamicBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="?colorSurface" />
 
     <dev.olog.presentation.widgets.parallax.ParallaxRecyclerView
         android:id="@+id/list"
