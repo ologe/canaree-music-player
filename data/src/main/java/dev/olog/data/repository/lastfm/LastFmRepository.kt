@@ -65,7 +65,8 @@ internal class LastFmRepository @Inject constructor(
             val searchTrack = lastFmService.searchTrackAsync(trackTitle, trackArtist)
                 .awaitRepeat()
                 ?.toDomain(trackId)
-            if (searchTrack != null) {
+
+            if (searchTrack != null && searchTrack.title.isNotBlank() && searchTrack.artist.isNotBlank()) {
                 result = lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist)
                     .awaitRepeat()
                     ?.toDomain(trackId)
@@ -116,7 +117,8 @@ internal class LastFmRepository @Inject constructor(
         if (result == null) {
             val searchAlbum = lastFmService.searchAlbumAsync(album.title).awaitRepeat()
                 ?.toDomain(albumId, album.artist)
-            if (searchAlbum != null) {
+
+            if (searchAlbum != null && searchAlbum.title.isNotBlank() && searchAlbum.artist.isNotBlank()) {
                 result = lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist)
                     .awaitRepeat()
                     ?.toDomain(albumId)
