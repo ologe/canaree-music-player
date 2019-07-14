@@ -50,7 +50,7 @@ abstract class ObservableAdapter<T : BaseModel>(
                 assertBackgroundThread()
                 val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
                 yield()
-                val diff = DiffUtil.calculateDiff(diffCallback, false)
+                val diff = DiffUtil.calculateDiff(diffCallback, true)
                 yield()
                 withContext(Dispatchers.Main) {
                     updateDataSetInternal(list)
