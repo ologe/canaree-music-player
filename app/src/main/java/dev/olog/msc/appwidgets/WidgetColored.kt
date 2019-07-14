@@ -18,7 +18,7 @@ open class WidgetColored : BaseWidget() {
         context.getBitmapAsyncOld(MediaId.songId(metadata.id), IMAGE_SIZE) {
             val remote = remoteViews ?: RemoteViews(context.packageName, layoutId)
             remote.setTextViewText(R.id.title, metadata.title)
-            remote.setTextViewText(R.id.subtitle, DisplayableItem.adjustArtist(metadata.subtitle))
+            remote.setTextViewText(R.id.subtitle, metadata.subtitle)
 
             colorize(context, remote, it)
 

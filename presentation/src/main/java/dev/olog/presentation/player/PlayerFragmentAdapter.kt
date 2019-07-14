@@ -65,7 +65,7 @@ internal class PlayerFragmentAdapter(
         when (viewType) {
             R.layout.item_mini_queue -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    mediaProvider.skipToQueueItem(item.trackNumber.toInt())
+                    mediaProvider.skipToQueueItem(item.idInPlaylist!!.toInt())
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)

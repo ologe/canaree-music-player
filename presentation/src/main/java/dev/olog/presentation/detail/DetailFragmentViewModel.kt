@@ -167,10 +167,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         presenter.moveInPlaylist(from, to)
     }
 
-    fun removeFromPlaylist(item: DisplayableItem) {
+    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         presenter.removeFromPlaylist(item)
-            .subscribe({}, Throwable::printStackTrace)
-            .addTo(subscriptions)
     }
 
     fun observeSorting(): Observable<SortEntity> {

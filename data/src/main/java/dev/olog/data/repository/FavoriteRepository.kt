@@ -1,6 +1,5 @@
 package dev.olog.data.repository
 
-import android.annotation.SuppressLint
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
@@ -14,7 +13,6 @@ import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -99,30 +97,22 @@ internal class FavoriteRepository @Inject constructor(
             }
     }
 
-    override fun deleteSingle(type: FavoriteType, songId: Long): Completable {
-        return favoriteDao.removeFromFavorite(type, listOf(songId))
-            .andThen {
-                val id = favoriteStatePublisher.value?.songId ?: return@andThen
-                if (songId == id) {
-                    updateFavoriteState(
-                        FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
-                    )
-                }
-                it.onComplete()
-            }
+    override suspend fun deleteSingle(type: FavoriteType, songId: Long) {
+        favoriteDao.removeFromFavorite(type, listOf(songId))
+        val id = favoriteStatePublisher.value?.songId ?: return
+        if (songId == id) {
+            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
+        }
     }
 
-    override fun deleteGroup(type: FavoriteType, songListId: List<Long>): Completable {
-        return favoriteDao.removeFromFavorite(type, songListId)
-            .andThen {
-                val songId = favoriteStatePublisher.value?.songId ?: return@andThen
-                if (songListId.contains(songId)) {
-                    updateFavoriteState(
-                        FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
-                    )
-                }
-                it.onComplete()
-            }
+    override suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>) {
+        favoriteDao.removeFromFavorite(type, songListId)
+        val songId = favoriteStatePublisher.value?.songId ?: return
+        if (songListId.contains(songId)) {
+            updateFavoriteState(
+                FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
+            )
+        }
     }
 
     override fun deleteAll(type: FavoriteType): Completable {
@@ -140,33 +130,27 @@ internal class FavoriteRepository @Inject constructor(
         return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
     }
 
-    // leaks for very small amount of time
-    @SuppressLint("RxLeakedSubscription")
-    override fun toggleFavorite() {
+    override suspend fun toggleFavorite() {
+        assertBackgroundThread()
+
         val value = favoriteStatePublisher.value ?: return
         val id = value.songId
         val state = value.enum
         val type = value.favoriteType
-
-        var action: Completable? = null
 
         when (state) {
             FavoriteEnum.NOT_FAVORITE -> {
                 updateFavoriteState(
                     FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type)
                 )
-                action = favoriteDao.addToFavoriteSingle(type, id)
+                favoriteDao.addToFavoriteSingle(type, id)
             }
             FavoriteEnum.FAVORITE -> {
                 updateFavoriteState(
                     FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
                 )
-                action = favoriteDao.removeFromFavorite(type, listOf(id))
+                favoriteDao.removeFromFavorite(type, listOf(id))
             }
-            else -> Completable.complete()
         }
-
-        action?.subscribeOn(Schedulers.io())
-            ?.subscribe({}, Throwable::printStackTrace)
     }
 }

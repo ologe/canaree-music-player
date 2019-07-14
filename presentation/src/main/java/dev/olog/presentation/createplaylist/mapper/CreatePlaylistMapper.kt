@@ -11,7 +11,7 @@ internal fun PlaylistTrack.toDisplayableItem(): DisplayableItem {
         R.layout.item_choose_track,
         getMediaId(),
         this.title,
-        DisplayableItem.adjustArtist(this.artist),
+        this.artist,
         true
     )
 }

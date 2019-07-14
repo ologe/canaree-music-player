@@ -32,7 +32,7 @@ interface PlaylistOperations {
 
     fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
 
-    fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable
+    suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long)
 
     fun removeDuplicated(playlistId: Long): Completable
 }

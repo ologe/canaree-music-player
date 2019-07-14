@@ -47,7 +47,7 @@ internal fun Song.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_song,
         getMediaId(),
         title,
-        DisplayableItem.adjustArtist(artist),
+        artist,
         true
     )
 }
@@ -57,7 +57,7 @@ internal fun Album.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         getMediaId(),
         title,
-        DisplayableItem.adjustArtist(artist)
+        artist
     )
 }
 

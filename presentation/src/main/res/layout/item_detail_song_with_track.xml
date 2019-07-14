@@ -45,7 +45,7 @@
 
                 <TextView
                     android:id="@+id/index"
-                    android:text="@{item.trackNumber}"
+                    android:text="@{String.valueOf(item.idInPlaylist)}"
                     tools:text="100"
                     android:textStyle="bold"
                     android:textColor="?android:textColorPrimary"
@@ -73,13 +73,13 @@
 
                 <ImageButton
                     android:id="@+id/more"
-                    app:layout_constraintTop_toTopOf="@id/cover"
-                    app:layout_constraintBottom_toBottomOf="@id/cover"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:src="@drawable/vd_more"
                     android:padding="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/common_icon_size"
+                    android:layout_height="@dimen/common_icon_size"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless" />

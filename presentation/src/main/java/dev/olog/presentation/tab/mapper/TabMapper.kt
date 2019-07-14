@@ -38,8 +38,8 @@ internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableIte
 }
 
 internal fun Song.toTabDisplayableItem(): DisplayableItem {
-    val artist = DisplayableItem.adjustArtist(this.artist)
-    val album = DisplayableItem.adjustAlbum(this.album)
+    val artist = this.artist
+    val album = this.album
 
     return DisplayableItem(
         R.layout.item_tab_song,
@@ -57,7 +57,7 @@ internal fun Album.toTabDisplayableItem(): DisplayableItem {
         R.layout.item_tab_album,
         getMediaId(),
         title,
-        DisplayableItem.adjustArtist(artist)
+        artist
     )
 }
 
@@ -89,7 +89,7 @@ internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
         R.layout.item_tab_album_last_played,
         getMediaId(),
         title,
-        DisplayableItem.adjustArtist(artist)
+        artist
     )
 }
 

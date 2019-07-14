@@ -58,13 +58,13 @@ internal abstract class HistoryDao {
         DELETE FROM song_history
         WHERE id = :songId
     """)
-    abstract fun deleteSingle(songId: Long)
+    abstract suspend fun deleteSingle(songId: Long)
 
     @Query("""
         DELETE FROM podcast_song_history
         WHERE id = :podcastId
     """)
-    abstract fun deleteSinglePodcast(podcastId: Long)
+    abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
     fun getTracks(songGateway: SongGateway): List<Song> {
         assertBackgroundThread()

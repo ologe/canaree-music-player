@@ -41,10 +41,10 @@ internal abstract class FavoriteDao {
     abstract fun insertGroupPodcastImpl(item: List<FavoritePodcastEntity>)
 
     @Delete
-    abstract fun deleteGroupImpl(item: List<FavoriteEntity>)
+    abstract suspend fun deleteGroupImpl(item: List<FavoriteEntity>)
 
     @Delete
-    abstract fun deleteGroupPodcastImpl(item: List<FavoritePodcastEntity>)
+    abstract suspend fun deleteGroupPodcastImpl(item: List<FavoritePodcastEntity>)
 
     fun addToFavoriteSingle(type: FavoriteType, id: Long): Completable {
         return Completable.fromCallable {
@@ -66,13 +66,12 @@ internal abstract class FavoriteDao {
         }
     }
 
-    open fun removeFromFavorite(type: FavoriteType, songId: List<Long>): Completable {
-        return Completable.fromCallable {
-            if (type == FavoriteType.TRACK){
-                deleteGroupImpl(songId.map { FavoriteEntity(it) })
-            } else {
-                deleteGroupPodcastImpl(songId.map { FavoritePodcastEntity(it) })
-            }
+    @Transaction
+    open suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
+        if (type == FavoriteType.TRACK){
+            deleteGroupImpl(songId.map { FavoriteEntity(it) })
+        } else {
+            deleteGroupPodcastImpl(songId.map { FavoritePodcastEntity(it) })
         }
     }
 

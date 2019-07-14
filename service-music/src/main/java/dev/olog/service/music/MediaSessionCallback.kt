@@ -8,7 +8,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
 import dev.olog.core.MediaId
-import dev.olog.core.interactor.ToggleFavoriteUseCase
+import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.Queue
@@ -34,7 +34,7 @@ internal class MediaSessionCallback @Inject constructor(
     private val shuffleMode: MusicServiceShuffleMode,
     private val mediaButton: MediaButton,
     private val playerState: MusicServicePlaybackState,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val favoriteGateway: FavoriteGateway
 
 ) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope() {
 
@@ -162,7 +162,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
         Log.v(TAG, "onSetRating rating=$rating, extras=$extras")
-        toggleFavoriteUseCase.execute()
+        launch { favoriteGateway.toggleFavorite() }
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {

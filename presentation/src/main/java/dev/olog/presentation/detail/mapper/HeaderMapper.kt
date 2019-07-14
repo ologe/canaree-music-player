@@ -44,7 +44,7 @@ internal fun Album.toHeaderItem(): DisplayableItem {
         R.layout.item_detail_image,
         getMediaId(),
         title,
-        DisplayableItem.adjustArtist(this.artist)
+        this.artist
     )
 }
 

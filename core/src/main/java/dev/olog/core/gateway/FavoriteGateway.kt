@@ -20,8 +20,8 @@ interface FavoriteGateway {
     fun addSingle(type: FavoriteType, songId: Long): Completable
     fun addGroup(type: FavoriteType, songListId: List<Long>): Completable
 
-    fun deleteSingle(type: FavoriteType, songId: Long): Completable
-    fun deleteGroup(type: FavoriteType, songListId: List<Long>): Completable
+    suspend fun deleteSingle(type: FavoriteType, songId: Long)
+    suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>)
 
     fun deleteAll(type: FavoriteType): Completable
 
@@ -30,6 +30,6 @@ interface FavoriteGateway {
     fun observeToggleFavorite(): Observable<FavoriteEnum>
     fun updateFavoriteState(state: FavoriteStateEntity)
 
-    fun toggleFavorite()
+    suspend fun toggleFavorite()
 
 }

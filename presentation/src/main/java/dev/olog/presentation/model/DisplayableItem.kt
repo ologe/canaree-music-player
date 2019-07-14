@@ -11,7 +11,7 @@ data class DisplayableItem (
     val title: String,
     val subtitle: String? = null,
     val isPlayable: Boolean = false,
-    val trackNumber: String = "",
+    val idInPlaylist: Long? = null,
     val extra: Bundle? = null
 
 ) : BaseModel {
@@ -30,20 +30,6 @@ data class DisplayableItem (
                 return ""
             }
             return resources.getQuantityString(R.plurals.common_plurals_album, size, size).toLowerCase()
-        }
-
-        fun adjustArtist(data: String): String{
-//            if (data == AppConstants.UNKNOWN){ TODO maybe remove
-//                return AppConstants.UNKNOWN_ARTIST
-//            }
-            return data
-        }
-
-        fun adjustAlbum(data: String): String{
-//            if (data == AppConstants.UNKNOWN){ TODO maybe remove
-//                return AppConstants.UNKNOWN_ALBUM
-//            }
-            return data
         }
 
     }

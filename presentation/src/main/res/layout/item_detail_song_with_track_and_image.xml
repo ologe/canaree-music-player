@@ -67,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/index"
-                    android:text="@{item.trackNumber}"
+                    android:text="@{String.valueOf(item.idInPlaylist)}"
                     tools:text="1"
                     tools:layout_marginStart="8dp"
                     android:textStyle="bold"

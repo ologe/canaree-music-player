@@ -36,7 +36,7 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
         R.layout.item_recently_added,
         MediaId.playableItem(parentId, id),
         title,
-        DisplayableItem.adjustArtist(artist),
+        artist,
         true
     )
 }

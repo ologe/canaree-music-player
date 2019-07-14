@@ -19,19 +19,20 @@ class DetailFragmentPresenter @Inject constructor(
 
 ) {
 
-    fun removeFromPlaylist(item: DisplayableItem): Completable {
+    suspend fun removeFromPlaylist(item: DisplayableItem) {
         mediaId.assertPlaylist()
-        val playlistId = mediaId.resolveId
+        val playlistId = mediaId.categoryId
         val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
-            return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
+            removeFromPlaylistUseCase(RemoveFromPlaylistUseCase.Input(
                     playlistId, item.mediaId.leaf!!, playlistType
             ))
+        } else {
+            removeFromPlaylistUseCase(RemoveFromPlaylistUseCase.Input(
+                playlistId, item.idInPlaylist!!, playlistType
+            ))
         }
-        return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
-                playlistId, item.trackNumber.toLong(), playlistType
-        ))
     }
 
     fun moveInPlaylist(from: Int, to: Int){

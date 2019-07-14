@@ -66,7 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/firstText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/cover"
-                android:text="@{item.trackNumber}"
+                android:text="@{String.valueOf(item.idInPlaylist)}"
                 tools:text="56m"
                 style="@style/Song.SecondaryText"
                 android:layout_width="wrap_content"

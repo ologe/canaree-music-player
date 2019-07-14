@@ -37,14 +37,8 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
     }
 
     val subtitle = when {
-        parentId.isArtist || parentId.isPodcastArtist -> DisplayableItem.adjustAlbum(this.album)
-        else -> DisplayableItem.adjustArtist(this.artist)
-    }
-
-    val track = when {
-        parentId.isPlaylist || parentId.isPodcastPlaylist -> this.trackNumber.toString()
-        this.trackNumber == 0 -> "-"
-        else -> this.trackNumber.toString()
+        parentId.isArtist || parentId.isPodcastArtist -> this.album
+        else -> this.artist
     }
 
     return DisplayableItem(
@@ -53,7 +47,7 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
         this.title,
         subtitle,
         true,
-        track
+        idInPlaylist = this.idInPlaylist.toLong()
     )
 }
 
@@ -65,7 +59,7 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
         R.layout.item_detail_song_most_played,
         MediaId.playableItem(parentId, id),
         this.title,
-        DisplayableItem.adjustArtist(this.artist),
+        this.artist,
         true,
         extra = bundleOf("position" to position)
     )
@@ -76,7 +70,7 @@ internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableI
         R.layout.item_detail_song_recent,
         MediaId.playableItem(parentId, id),
         this.title,
-        DisplayableItem.adjustArtist(this.artist),
+        this.artist,
         true
     )
 }

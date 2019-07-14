@@ -40,7 +40,7 @@ class MiniPlayerFragment : BaseFragment(){
         }
         val (modelTitle, modelSubtitle) = presenter.getMetadata()
         title.text = modelTitle
-        artist.text = DisplayableItem.adjustArtist(modelSubtitle)
+        artist.text = modelSubtitle
 
         coverWrapper.toggleVisibility(requireContext().hasPlayerAppearance().isMini(), true)
         title.isSelected = true

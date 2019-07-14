@@ -13,6 +13,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.getLong
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -92,20 +93,21 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         }
     }
 
-    override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable {
+    override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
+        assertBackgroundThread()
+
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-            return removeFromAutoPlaylist(playlistId, idInPlaylist)
-        }
-        return Completable.fromCallable {
+            removeFromAutoPlaylist(playlistId, idInPlaylist)
+        } else {
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
             context.contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
         }
     }
 
-    private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
+    private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
             AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
-            AutoPlaylist.HISTORY.id -> Completable.fromCallable { historyDao.deleteSingle(songId) }
+            AutoPlaylist.HISTORY.id -> historyDao.deleteSingle(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }

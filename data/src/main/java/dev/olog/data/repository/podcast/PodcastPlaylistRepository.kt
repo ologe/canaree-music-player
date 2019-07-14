@@ -118,21 +118,17 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override fun removeSongFromPlaylist(playlistId: Id, idInPlaylist: Long): Completable {
+    override suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long) {
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             return removeFromAutoPlaylist(playlistId, idInPlaylist)
         }
-        return Completable.fromCallable { podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist) }
+        return podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist)
     }
 
-    private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
+    private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
             AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
-            AutoPlaylist.HISTORY.id -> Completable.fromCallable {
-                historyDao.deleteSinglePodcast(
-                    songId
-                )
-            }
+            AutoPlaylist.HISTORY.id -> historyDao.deleteSinglePodcast(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }

@@ -11,6 +11,6 @@ internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
         title,
         artist,
         isPlayable = true,
-        trackNumber = "$idInPlaylist"
+        idInPlaylist = idInPlaylist
     )
 }

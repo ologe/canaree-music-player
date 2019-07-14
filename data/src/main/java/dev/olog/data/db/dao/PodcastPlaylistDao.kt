@@ -78,7 +78,7 @@ internal abstract class PodcastPlaylistDao {
         DELETE FROM podcast_playlist_tracks
         WHERE playlistId = :playlistId AND id = :idInPlaylist
     """)
-    abstract fun deleteTrack(playlistId: Long, idInPlaylist: Long)
+    abstract suspend fun deleteTrack(playlistId: Long, idInPlaylist: Long)
 
     @Query("""
         DELETE FROM podcast_playlist_tracks WHERE playlistId = :id

@@ -21,7 +21,7 @@ interface PodcastPlaylistGateway :
 
     fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>): Completable
 
-    fun removeSongFromPlaylist(playlistId: Id, idInPlaylist: Long): Completable
+    suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long)
 
     fun removeDuplicated(playlistId: Id): Completable
 
