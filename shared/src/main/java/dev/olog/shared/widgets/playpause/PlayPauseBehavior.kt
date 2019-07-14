@@ -1,7 +1,10 @@
 package dev.olog.shared.widgets.playpause
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.R
 import dev.olog.shared.extensions.getAnimatedVectorDrawable
@@ -14,36 +17,55 @@ interface IPlayPauseBehavior {
 
 class PlayPauseBehaviorImpl(private val button: ImageButton): IPlayPauseBehavior {
 
+    companion object {
+        private val TAG = "P:${PlayPauseBehaviorImpl::class.java.simpleName}"
+    }
+
     private val context = button.context
 
     private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
     private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
+    private val playIcon = ContextCompat.getDrawable(context, R.drawable.vd_playpause_play)
+    private val pauseIcon = ContextCompat.getDrawable(context, R.drawable.vd_playpause_pause)
 
     init {
-        val drawableInt = R.drawable.vd_playpause_play
-        val drawable = ContextCompat.getDrawable(context, drawableInt)
-        button.setImageDrawable(drawable)
+        button.setImageDrawable(playIcon)
     }
 
     override fun animationPlay(animate: Boolean) {
-        if (animate){
+        val notSameDrawable = button.drawable !== pauseIcon
+        Log.v(TAG, "animation pause $animate, same drawable=${!notSameDrawable}")
+
+        if (animate && notSameDrawable){
             setAvd(playAnimation)
         } else {
-            button.setImageResource(R.drawable.vd_playpause_pause)
+            button.setImageDrawable(pauseIcon)
         }
     }
 
     override fun animationPause(animate: Boolean) {
-        if (animate){
+        val notSameDrawable = button.drawable !== playIcon
+        Log.v(TAG, "animation pause $animate, same drawable=${!notSameDrawable}")
+
+        if (animate && notSameDrawable){
             setAvd(pauseAnimation)
         } else {
-            button.setImageResource(R.drawable.vd_playpause_play)
+            button.setImageDrawable(playIcon)
         }
     }
 
     private fun setAvd(avd: AnimatedVectorDrawableCompat){
         button.setImageDrawable(avd)
         avd.start()
+        avd.registerAnimationCallback(object : Animatable2Compat.AnimationCallback(){
+            override fun onAnimationEnd(drawable: Drawable?) {
+                // force to set not animated drawable
+                when (drawable){
+                    playAnimation -> button.setImageResource(R.drawable.vd_playpause_pause)
+                    pauseAnimation -> button.setImageResource(R.drawable.vd_playpause_play)
+                }
+            }
+        })
     }
 
 }
