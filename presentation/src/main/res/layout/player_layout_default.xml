@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="@dimen/default_corner_radius"
-                android:stateListAnimator="@animator/elevate_on_activated">
+                android:stateListAnimator="@animator/elevate_on_activated"
+                app:cardElevation="0dp">
 
                 <dev.olog.shared.widgets.ForegroundImageView
                     android:id="@+id/image"
@@ -52,7 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="@dimen/default_corner_radius"
-                android:stateListAnimator="@animator/elevate_on_activated">
+                android:stateListAnimator="@animator/elevate_on_activated"
+                app:cardElevation="0dp">
 
                 <dev.olog.shared.widgets.ForegroundImageView
                     android:id="@id/image"
