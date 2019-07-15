@@ -48,6 +48,8 @@ class HeaderVisibilityScrollListener(
             toggleToolbarBackground(view.toolbar, true)
             view.headerText.toggleVisibility(true, false)
 
+            background.translationY = 0f
+
             fragment.hasLightStatusBarColor = true
         }
     }
