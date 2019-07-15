@@ -21,7 +21,6 @@ import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
 import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.utils.assertBackgroundThread
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -267,6 +266,11 @@ internal class MediaSessionCallback @Inject constructor(
                     val position = queue.playNext(mediaIds.toList(), isPodcast)
                     playerState.toggleSkipToActions(position)
                 }
+            }
+            MusicServiceCustomAction.MOVE_RELATIVE -> {
+                requireNotNull(extras)
+                val position = extras.getInt(MusicServiceCustomAction.ARGUMENT_POSITION)
+                queue.handleMoveRelative(position)
             }
         }
     }

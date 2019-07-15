@@ -202,6 +202,13 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.sendCustomAction(MusicServiceCustomAction.REMOVE_RELATIVE.name, bundle)
     }
 
+    override fun moveRelative(position: Int) {
+        val bundle = bundleOf(
+            MusicServiceCustomAction.ARGUMENT_POSITION to position
+        )
+        transportControls()?.sendCustomAction(MusicServiceCustomAction.MOVE_RELATIVE.name, bundle)
+    }
+
     override fun addToPlayNext(mediaId: MediaId) {
         transportControls()?.sendCustomAction(
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,

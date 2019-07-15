@@ -287,6 +287,20 @@ internal class QueueImpl @Inject constructor(
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }
 
+    /**
+     * moves the item so it can be played after current song
+     */
+    fun handleMoveRelative(position: Int) {
+        assertMainThread()
+        if (position !in 0..playingQueue.lastIndex) {
+            return
+        }
+        val item = playingQueue.removeAt(position + currentSongPosition + 1)
+        playingQueue.add(currentSongPosition + 1, item)
+        persist(playingQueue)
+        publishMiniQueue(playingQueue, currentSongPosition, true)
+    }
+
     fun handleRemove(position: Int) {
         assertMainThread()
 

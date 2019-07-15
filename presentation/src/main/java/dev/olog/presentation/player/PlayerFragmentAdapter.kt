@@ -375,4 +375,10 @@ internal class PlayerFragmentAdapter(
         notifyItemRemoved(viewHolder.adapterPosition)
     }
 
+    override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
+        val realPosition = viewHolder.adapterPosition - 1
+        mediaProvider.moveRelative(realPosition)
+        notifyItemChanged(viewHolder.adapterPosition)
+    }
+
 }

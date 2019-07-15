@@ -11,6 +11,8 @@ enum class MusicServiceCustomAction {
     REMOVE,
     REMOVE_RELATIVE, // position relative to current item
 
+    MOVE_RELATIVE,
+
     FORWARD_10,
     FORWARD_30,
     REPLAY_10,

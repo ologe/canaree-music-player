@@ -72,7 +72,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.setHasFixedSize(true)
         list.isNestedScrollingEnabled = false
 
-        setupDragListener(list, ItemTouchHelper.RIGHT/* or ItemTouchHelper.LEFT*/)
+        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar.alpha = statusBarAlpha

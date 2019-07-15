@@ -30,6 +30,7 @@ internal interface Queue {
 
     fun handleRemove(position: Int)
     fun handleRemoveRelative(position: Int)
+    fun handleMoveRelative(position: Int)
 
     fun sort()
     fun shuffle()
