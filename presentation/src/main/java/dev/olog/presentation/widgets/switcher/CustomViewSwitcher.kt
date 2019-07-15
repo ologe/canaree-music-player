@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ViewSwitcher
+import androidx.core.view.forEach
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -17,6 +17,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.shared.extensions.findChild
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
@@ -24,7 +25,7 @@ import kotlin.properties.Delegates
 class CustomViewSwitcher(
     context: Context,
     attrs: AttributeSet
-) : ViewSwitcher(context, attrs), RequestListener<Drawable> {
+) : MultiViewSwitcher(context, attrs), RequestListener<Drawable> {
 
     private var lastItem: MediaId? = null
 
@@ -73,9 +74,10 @@ class CustomViewSwitcher(
 
     private fun loadImageInternal(mediaId: MediaId){
         animationFinished = false
-        val nextImageView = (nextView as ViewGroup).findViewById(R.id.image) as ImageView
+        val nextView = (if(currentDirection == Direction.LEFT) getPreviousView() else getNextView()) as ViewGroup
+        val imageView = nextView.findChild { it is ImageView }!! as ImageView
 
-        GlideApp.with(context).clear(this)
+        GlideApp.with(context).clear(imageView)
         GlideApp.with(context)
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
@@ -83,7 +85,7 @@ class CustomViewSwitcher(
             .override(Target.SIZE_ORIGINAL)
             .onlyRetrieveFromCache(true)
             .listener(this)
-            .into(RippleTarget(nextImageView))
+            .into(RippleTarget(imageView))
     }
 
     override fun onLoadFailed(
@@ -127,7 +129,8 @@ class CustomViewSwitcher(
     fun observePaletteColors() = presenter.observePalette()
 
     fun setChildrenActivated(activated: Boolean) {
-        currentView.isActivated = activated
-        nextView.isActivated = activated
+        forEach {
+            isActivated = activated
+        }
     }
 }

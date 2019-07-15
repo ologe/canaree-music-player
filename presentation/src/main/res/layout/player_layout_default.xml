@@ -42,7 +42,6 @@
                 app:cardElevation="0dp">
 
                 <dev.olog.shared.widgets.ForegroundImageView
-                    android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:src="@drawable/placeholder_musical_note" />
@@ -57,7 +56,20 @@
                 app:cardElevation="0dp">
 
                 <dev.olog.shared.widgets.ForegroundImageView
-                    android:id="@id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@drawable/placeholder_musical_note" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="@dimen/default_corner_radius"
+                android:stateListAnimator="@animator/elevate_on_activated"
+                app:cardElevation="0dp">
+
+                <dev.olog.shared.widgets.ForegroundImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:src="@drawable/placeholder_musical_note" />
