@@ -11,7 +11,6 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.theme.PlayerAppearance
 import dev.olog.shared.theme.hasPlayerAppearance
@@ -72,13 +71,13 @@ class PlayerFragmentViewModel @Inject constructor(
         currentTrackIdPublisher.onNext(trackId)
     }
 
-    val footerLoadMore : DisplayableItem2 = DisplayableHeader(
+    val footerLoadMore : DisplayableItem = DisplayableHeader(
             type = R.layout.item_mini_queue_load_more,
             mediaId = MediaId.headerId("load more"),
             title = ""
     )
 
-    fun playerControls(): DisplayableItem2 {
+    fun playerControls(): DisplayableItem {
         val hasPlayerAppearance = context.hasPlayerAppearance()
         val id = when (hasPlayerAppearance.playerAppearance()) {
             PlayerAppearance.DEFAULT -> R.layout.player_layout_default

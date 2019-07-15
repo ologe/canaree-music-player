@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.runOnMainThread
@@ -16,7 +15,7 @@ class RxWaveSideBarView(
 
     var scrollableLayoutId : Int = 0
 
-    fun onDataChanged(list: List<DisplayableItem2>){
+    fun onDataChanged(list: List<DisplayableItem>){
         updateLetters(generateLetters(list))
     }
 
@@ -24,7 +23,7 @@ class RxWaveSideBarView(
         this.listener = listener
     }
 
-    private fun generateLetters(data: List<DisplayableItem2>): List<String> {
+    private fun generateLetters(data: List<DisplayableItem>): List<String> {
         if (scrollableLayoutId == 0){
             throw IllegalStateException("provide a real layout id to filter")
         }

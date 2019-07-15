@@ -3,17 +3,20 @@ package dev.olog.presentation.recentlyadded
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.core.MediaId
+import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.extensions.withArguments
+import dev.olog.presentation.base.drag.DragListenerImpl
+import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 
-class RecentlyAddedFragment : BaseFragment() {
+class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
         const val TAG = "RecentlyAddedFragment"
@@ -28,7 +31,10 @@ class RecentlyAddedFragment : BaseFragment() {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject lateinit var adapter: RecentlyAddedFragmentAdapter
+    @Inject lateinit var navigator: Navigator
+    private val adapter by lazyFast { RecentlyAddedFragmentAdapter(
+        lifecycle, navigator, act as MediaProvider, this
+    ) }
 
     private val viewModel by lazyFast {
         viewModelProvider<RecentlyAddedFragmentViewModel>(
@@ -38,16 +44,10 @@ class RecentlyAddedFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.adapter = adapter
-        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        list.layoutManager = LinearLayoutManager(context)
         list.setHasFixedSize(true)
 
-//        val callback = TouchHelperAdapterCallback(
-//            adapter,
-//            ItemTouchHelper.LEFT
-//        )
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(view.list)
-//        adapter.touchHelper = touchHelper
+        setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
 

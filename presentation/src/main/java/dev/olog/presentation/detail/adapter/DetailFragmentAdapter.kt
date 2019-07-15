@@ -20,7 +20,7 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
@@ -38,8 +38,8 @@ internal class DetailFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem2>(
-    lifecycle, DisplayableItemDiffCallback2
+) : ObservableAdapter<DisplayableItem>(
+    lifecycle, DiffCallbackDisplayableItem
 ), TouchableAdapter {
 
     private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
@@ -163,7 +163,7 @@ internal class DetailFragmentAdapter(
         }
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem2, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
     }
 

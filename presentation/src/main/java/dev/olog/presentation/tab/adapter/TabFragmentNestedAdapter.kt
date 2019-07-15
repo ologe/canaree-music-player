@@ -5,16 +5,16 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BR
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 
 internal class TabFragmentNestedAdapter(
     @FragmentLifecycle lifecycle: Lifecycle,
     private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableItem2>(
+) : ObservableAdapter<DisplayableItem>(
     lifecycle,
-    DisplayableItemDiffCallback2
+    DiffCallbackDisplayableItem
 ) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -27,7 +27,7 @@ internal class TabFragmentNestedAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem2, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
     }
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,9 +17,9 @@ internal class TabFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem2>>> = mutableMapOf()
+    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
 
-    suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem2>> {
+    suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
         return withContext(Dispatchers.Default) {
             var liveData = liveDataMap[category]
             if (liveData == null) {

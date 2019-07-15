@@ -15,7 +15,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.InsertCustomTrackListRequest
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.extensions.mapListItem
 import dev.olog.shared.extensions.toList
 import dev.olog.shared.extensions.toggle
@@ -35,7 +35,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem2>>()
+    private val data = MutableLiveData<List<DisplayableItem>>()
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
@@ -76,7 +76,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         filterChannel.offer(filter)
     }
 
-    fun observeData(): LiveData<List<DisplayableItem2>> = data
+    fun observeData(): LiveData<List<DisplayableItem>> = data
 
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()

@@ -19,7 +19,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
@@ -239,7 +239,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     // TODO observe in a viewmodel livedata the current sorting
-    private fun getCurrentSorting(item: DisplayableItem2): String {
+    private fun getCurrentSorting(item: DisplayableItem): String {
         return when (category) {
             TabCategory.SONGS -> {
                 require(item is DisplayableTrack)

@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
@@ -18,13 +18,13 @@ class DetailFragmentHeaders @Inject constructor(
         val RELATED_ARTISTS_SEE_ALL = MediaId.headerId("related artist header")
     }
 
-    val biography: DisplayableItem2 = DisplayableHeader(
+    val biography: DisplayableItem = DisplayableHeader(
         type = R.layout.item_detail_biography,
         mediaId = MediaId.headerId("biography"),
         title = ""
     )
 
-    val mostPlayed: List<DisplayableItem2> = listOf(
+    val mostPlayed: List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_detail_header,
             mediaId = MediaId.headerId("most played header"),
@@ -36,7 +36,7 @@ class DetailFragmentHeaders @Inject constructor(
         )
     )
 
-    fun relatedArtists(showSeeAll: Boolean): List<DisplayableItem2> = listOf(
+    fun relatedArtists(showSeeAll: Boolean): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_detail_header,
             mediaId = RELATED_ARTISTS_SEE_ALL,
@@ -49,7 +49,7 @@ class DetailFragmentHeaders @Inject constructor(
         )
     )
 
-    fun recent(listSize: Int, showSeeAll: Boolean): List<DisplayableItem2> = listOf(
+    fun recent(listSize: Int, showSeeAll: Boolean): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_detail_header_recently_added,
             mediaId = MediaId.headerId("recently added header"),
@@ -67,7 +67,7 @@ class DetailFragmentHeaders @Inject constructor(
         )
     )
 
-    fun albums(): List<DisplayableItem2> = listOf(
+    fun albums(): List<DisplayableItem> = listOf(
         albumHeader(),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_detail_list_albums,
@@ -75,7 +75,7 @@ class DetailFragmentHeaders @Inject constructor(
         )
     )
 
-    private fun albumHeader(): DisplayableItem2 {
+    private fun albumHeader(): DisplayableItem {
         return DisplayableHeader(
             type = R.layout.item_detail_header_albums,
             mediaId = MediaId.headerId("detail albums"),
@@ -83,13 +83,13 @@ class DetailFragmentHeaders @Inject constructor(
         )
     }
 
-    val shuffle: DisplayableItem2 = DisplayableHeader(
+    val shuffle: DisplayableItem = DisplayableHeader(
         type = R.layout.item_detail_shuffle,
         mediaId = MediaId.headerId("detail shuffle"),
         title = ""
     )
 
-    val songs: List<DisplayableItem2> = listOf(
+    val songs: List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_detail_header_all_song,
             mediaId = MediaId.headerId("detail songs header"),
@@ -99,7 +99,7 @@ class DetailFragmentHeaders @Inject constructor(
         shuffle
     )
 
-    val no_songs: DisplayableItem2 = DisplayableHeader(
+    val no_songs: DisplayableItem = DisplayableHeader(
         type = R.layout.item_detail_empty_state,
         mediaId = MediaId.headerId("detail empty state"),
         title = ""

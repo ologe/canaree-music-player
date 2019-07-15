@@ -6,7 +6,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class SearchFragmentHeaders @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    val recents: List<DisplayableItem2> = listOf(
+    val recents: List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_recent_header,
             mediaId = MediaId.headerId("recent searches header id"),
@@ -23,14 +23,14 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun songsHeaders(size: Int): DisplayableItem2 = DisplayableHeader(
+    fun songsHeaders(size: Int): DisplayableItem = DisplayableHeader(
         type = R.layout.item_search_header,
         mediaId = MediaId.headerId("songs header id"),
         title = context.getString(R.string.search_songs),
         subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
     )
 
-    fun albumsHeaders(size: Int): List<DisplayableItem2> = listOf(
+    fun albumsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("albums header id"),
@@ -43,7 +43,7 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun artistsHeaders(size: Int): List<DisplayableItem2> = listOf(
+    fun artistsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("artists header id"),
@@ -56,7 +56,7 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun foldersHeaders(size: Int): List<DisplayableItem2> = listOf(
+    fun foldersHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("folders header id"),
@@ -69,7 +69,7 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun playlistsHeaders(size: Int): List<DisplayableItem2> = listOf(
+    fun playlistsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("playlists header id"),
@@ -82,7 +82,7 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun genreHeaders(size: Int): List<DisplayableItem2> = listOf(
+    fun genreHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = MediaId.headerId("genres header id"),

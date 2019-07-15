@@ -29,7 +29,7 @@
             style="@style/QuickActionStyle"
             android:layout_width="@dimen/smallShuffleSize"
             android:layout_height="@dimen/smallShuffleSize"
-            app:quickActionItem="@{item}"
+            app:quickActionItem="@{item.mediaId}"
             app:layout_constraintEnd_toEndOf="@+id/cover"
             app:layout_constraintBottom_toBottomOf="@+id/cover"
             tools:src="@drawable/background_quick_action" />

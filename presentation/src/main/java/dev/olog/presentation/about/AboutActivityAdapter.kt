@@ -19,7 +19,8 @@ class AboutActivityAdapter(
     private val navigator: NavigatorAbout,
     private val presenter: AboutActivityPresenter
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
+) : ObservableAdapter<DisplayableItem>(
+    lifecycle,
     DiffCallbackDisplayableItem
 ) {
 

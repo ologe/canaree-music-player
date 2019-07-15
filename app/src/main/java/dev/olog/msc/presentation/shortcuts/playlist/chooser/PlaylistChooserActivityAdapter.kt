@@ -1,9 +1,8 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
-import android.app.Activity
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -11,15 +10,14 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.dagger.ActivityLifecycle
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import javax.inject.Inject
 
-class PlaylistChooserActivityAdapter @Inject constructor(
-    private val activity: Activity,
-    @ActivityLifecycle lifecycle: Lifecycle
+class PlaylistChooserActivityAdapter(
+    private val activity: FragmentActivity
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
+) : ObservableAdapter<DisplayableItem>(
+    activity.lifecycle,
     DiffCallbackDisplayableItem
 ) {
 
@@ -30,6 +28,8 @@ class PlaylistChooserActivityAdapter @Inject constructor(
     }
 
     private fun askConfirmation(item: DisplayableItem) {
+        require(item is DisplayableAlbum)
+
         AlertDialog.Builder(activity)
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))

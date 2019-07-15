@@ -7,7 +7,7 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
@@ -35,7 +35,7 @@ internal class TabDataProvider @Inject constructor(
 
     private val resources = context.resources
 
-    fun get(category: TabCategory): Flow<List<DisplayableItem2>> = when (category) {
+    fun get(category: TabCategory): Flow<List<DisplayableItem>> = when (category) {
         // songs
         TabCategory.FOLDERS -> folderGateway.observeAll().mapListItem { it.toTabDisplayableItem(resources) }
         TabCategory.PLAYLISTS -> getPlaylist()
@@ -64,7 +64,7 @@ internal class TabDataProvider @Inject constructor(
 
     // songs
 
-    private fun getPlaylist(): Flow<List<DisplayableItem2>> {
+    private fun getPlaylist(): Flow<List<DisplayableItem>> {
         return playlistGateway.observeAll().map { list ->
             list.asSequence().map { it.toTabDisplayableItem(resources) }
                 .toMutableList()
@@ -76,13 +76,13 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getAlbums(): Flow<List<DisplayableItem2>> {
+    private fun getAlbums(): Flow<List<DisplayableItem>> {
         return albumGateway.observeAll().mapListItem { it.toTabDisplayableItem() }
             .combineLatest(
                 albumGateway.observeRecentlyAdded(),
                 albumGateway.observeLastPlayed()
             ) { all, recentlyAdded, lastPlayed ->
-                val result = mutableListOf<DisplayableItem2>()
+                val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
@@ -90,13 +90,13 @@ internal class TabDataProvider @Inject constructor(
             }
     }
 
-    private fun getArtists(): Flow<List<DisplayableItem2>> {
+    private fun getArtists(): Flow<List<DisplayableItem>> {
         return artistGateway.observeAll().mapListItem { it.toTabDisplayableItem(resources) }
             .combineLatest(
                 artistGateway.observeRecentlyAdded(),
                 artistGateway.observeLastPlayed()
             ) { all, recentlyAdded, lastPlayed ->
-                val result = mutableListOf<DisplayableItem2>()
+                val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
@@ -105,7 +105,7 @@ internal class TabDataProvider @Inject constructor(
     }
 
     // podcasts
-    private fun getPodcastPlaylist(): Flow<List<DisplayableItem2>> {
+    private fun getPodcastPlaylist(): Flow<List<DisplayableItem>> {
         return podcastPlaylistGateway.observeAll().map { list ->
             list.asSequence().map { it.toTabDisplayableItem(resources) }
                 .toMutableList()
@@ -113,13 +113,13 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getPodcastAlbums(): Flow<List<DisplayableItem2>> {
+    private fun getPodcastAlbums(): Flow<List<DisplayableItem>> {
         return podcastAlbumGateway.observeAll().mapListItem { it.toTabDisplayableItem() }
             .combineLatest(
                 podcastAlbumGateway.observeRecentlyAdded(),
                 podcastAlbumGateway.observeLastPlayed()
             ) { all, recentlyAdded, lastPlayed ->
-                val result = mutableListOf<DisplayableItem2>()
+                val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
@@ -127,13 +127,13 @@ internal class TabDataProvider @Inject constructor(
             }
     }
 
-    private fun getPodcastArtists(): Flow<List<DisplayableItem2>> {
+    private fun getPodcastArtists(): Flow<List<DisplayableItem>> {
         return podcastArtistGateway.observeAll().mapListItem { it.toTabDisplayableItem(resources) }
             .combineLatest(
                 podcastArtistGateway.observeRecentlyAdded(),
                 podcastArtistGateway.observeLastPlayed()
             ) { all, recentlyAdded, lastPlayed ->
-                val result = mutableListOf<DisplayableItem2>()
+                val result = mutableListOf<DisplayableItem>()
                 result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
                     .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
                     .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }

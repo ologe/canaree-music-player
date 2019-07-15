@@ -20,7 +20,7 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
@@ -47,9 +47,9 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerApperanceAdaptiveBehavior: IPlayerApperanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem2>(
+) : ObservableAdapter<DisplayableItem>(
     lifecycle,
-    DisplayableItemDiffCallback2
+    DiffCallbackDisplayableItem
 ), TouchableAdapter {
 
     private val playerViewTypes = listOf(
@@ -348,7 +348,7 @@ internal class PlayerFragmentAdapter(
         view.playPause.animationPause(isPanelExpanded)
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem2, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
     }
 

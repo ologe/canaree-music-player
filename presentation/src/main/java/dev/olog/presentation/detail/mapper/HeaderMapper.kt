@@ -4,8 +4,6 @@ import android.content.res.Resources
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.utils.TextUtils
 
 
 internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {

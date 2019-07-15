@@ -1,38 +1,11 @@
 package dev.olog.presentation.model
 
 import android.content.res.Resources
-import android.os.Bundle
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.shared.utils.TextUtils
 
-data class DisplayableItem(
-    override val type: Int,
-    override val mediaId: MediaId,
-    val title: String,
-    val subtitle: String? = null,
-    val isPlayable: Boolean = false,
-    val idInPlaylist: Long? = null,
-    val extra: Bundle? = null
-
-) : BaseModel {
-
-    companion object {
-
-        fun handleSongListSize(resources: Resources, size: Int): String {
-            if (size <= 0) {
-                return ""
-            }
-            return resources.getQuantityString(R.plurals.common_plurals_song, size, size)
-                .toLowerCase()
-        }
-
-    }
-
-}
-
-
-sealed class DisplayableItem2(
+sealed class DisplayableItem(
     override val type: Int,
     override val mediaId: MediaId
 ) : BaseModel
@@ -45,7 +18,7 @@ data class DisplayableTrack(
     val album: String,
     val idInPlaylist: Int
 
-) : DisplayableItem2(type, mediaId) {
+) : DisplayableItem(type, mediaId) {
 
     val subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
 
@@ -56,7 +29,19 @@ data class DisplayableAlbum(
     override val mediaId: MediaId,
     val title: String,
     val subtitle: String
-) : DisplayableItem2(type, mediaId)
+) : DisplayableItem(type, mediaId) {
+
+    companion object {
+        fun readableSongCount(resources: Resources, size: Int): String {
+            if (size <= 0) {
+                return ""
+            }
+            return resources.getQuantityString(R.plurals.common_plurals_song, size, size)
+                .toLowerCase()
+        }
+    }
+
+}
 
 data class DisplayableHeader(
     override val type: Int,
@@ -65,10 +50,10 @@ data class DisplayableHeader(
     val subtitle: String? = null,
     val visible: Boolean = true
 
-) : DisplayableItem2(type, mediaId)
+) : DisplayableItem(type, mediaId)
 
 data class DisplayableNestedListPlaceholder(
     override val type: Int,
     override val mediaId: MediaId
 
-) : DisplayableItem2(type, mediaId)
+) : DisplayableItem(type, mediaId)

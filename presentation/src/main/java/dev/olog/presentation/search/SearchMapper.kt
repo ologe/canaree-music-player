@@ -7,10 +7,9 @@ import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.presentation.model.DisplayableTrack
 
-internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem2 {
+internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {
         RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)

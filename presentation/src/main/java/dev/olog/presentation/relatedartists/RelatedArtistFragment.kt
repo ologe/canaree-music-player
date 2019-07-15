@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import dev.olog.presentation.base.BaseFragment
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.viewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.act
-import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.extensions.withArguments
+import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 
-class RelatedArtistFragment: BaseFragment() {
+class RelatedArtistFragment : BaseFragment() {
 
     companion object {
         const val TAG = "RelatedArtistFragment"
@@ -24,13 +21,16 @@ class RelatedArtistFragment: BaseFragment() {
 
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
 
-    @Inject lateinit var adapter: RelatedArtistFragmentAdapter
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var navigator: Navigator
+    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
 
     private val viewModel by lazyFast {
         viewModelProvider<RelatedArtistFragmentViewModel>(

@@ -5,22 +5,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import javax.inject.Inject
 
 class PlaylistChooserActivity : BaseActivity() {
 
-    @Inject lateinit var presenter: PlaylistChooserActivityViewPresenter
-    @Inject lateinit var adapter: PlaylistChooserActivityAdapter
+    @Inject
+    lateinit var presenter: PlaylistChooserActivityViewPresenter
+    private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist_chooser)
 
         presenter.execute(resources)
-                .asLiveData()
-                .subscribe(this, adapter::updateDataSet)
+            .asLiveData()
+            .subscribe(this, adapter::updateDataSet)
 
         list.adapter = adapter
         list.layoutManager = GridLayoutManager(this, 2)

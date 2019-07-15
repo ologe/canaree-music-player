@@ -8,6 +8,7 @@ import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.extensions.asLiveData
 import dev.olog.shared.extensions.mapToList
 import kotlinx.coroutines.rx2.asFlowable
@@ -32,12 +33,13 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
 }
 
 private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_recently_added,
-        MediaId.playableItem(parentId, id),
-        title,
-        artist,
-        true
+    return DisplayableTrack(
+        type = R.layout.item_recently_added,
+        mediaId = MediaId.playableItem(parentId, id),
+        title = title,
+        artist = artist,
+        album = album,
+        idInPlaylist = idInPlaylist
     )
 }
 

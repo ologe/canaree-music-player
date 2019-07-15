@@ -11,7 +11,6 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
@@ -113,10 +112,6 @@ class NavigatorImpl @Inject internal constructor( // TODO
             CreatePlaylistFragment.newInstance(type),
             newTag
         )
-    }
-
-    override fun toDialog(item: DisplayableItem, anchor: View) {
-        toDialog(item.mediaId, anchor)
     }
 
     @SuppressLint("RxLeakedSubscription", "CheckResult")

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.pro.BillingState
 import dev.olog.presentation.pro.IBilling
@@ -31,74 +32,74 @@ class AboutActivityPresenter(
 
 
     private val data = listOf(
-        DisplayableItem(
-            R.layout.item_about,
-            AUTHOR_ID,
-            context.getString(R.string.about_author),
-            "Eugeniu Olog"
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = AUTHOR_ID,
+            title = context.getString(R.string.about_author),
+            subtitle = "Eugeniu Olog"
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            MediaId.headerId("version id"),
-            context.getString(R.string.about_version),
-            BuildConfig.VERSION_NAME
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = MediaId.headerId("version id"),
+            title = context.getString(R.string.about_version),
+            subtitle = BuildConfig.VERSION_NAME
         ),
 
-        DisplayableItem(
-            R.layout.item_about,
-            COMMUNITY,
-            context.getString(R.string.about_join_community),
-            context.getString(R.string.about_join_community_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = COMMUNITY,
+            title = context.getString(R.string.about_join_community),
+            subtitle = context.getString(R.string.about_join_community_description)
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            BETA,
-            context.getString(R.string.about_beta),
-            context.getString(R.string.about_beta_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = BETA,
+            title = context.getString(R.string.about_beta),
+            subtitle = context.getString(R.string.about_beta_description)
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            RATE_ID,
-            context.getString(R.string.about_support_rate),
-            context.getString(R.string.about_support_rate_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = RATE_ID,
+            title = context.getString(R.string.about_support_rate),
+            subtitle = context.getString(R.string.about_support_rate_description)
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            PRIVACY_POLICY,
-            context.getString(R.string.about_privacy_policy),
-            context.getString(R.string.about_privacy_policy_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = PRIVACY_POLICY,
+            title = context.getString(R.string.about_privacy_policy),
+            subtitle = context.getString(R.string.about_privacy_policy_description)
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            THIRD_SW_ID,
-            context.getString(R.string.about_third_sw),
-            context.getString(R.string.about_third_sw_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = THIRD_SW_ID,
+            title = context.getString(R.string.about_third_sw),
+            subtitle = context.getString(R.string.about_third_sw_description)
         ),
-        DisplayableItem(
-            R.layout.item_about,
-            SPECIAL_THANKS_ID,
-            context.getString(R.string.about_special_thanks_to),
-            context.getString(R.string.about_special_thanks_to_description)
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = SPECIAL_THANKS_ID,
+            title = context.getString(R.string.about_special_thanks_to),
+            subtitle = context.getString(R.string.about_special_thanks_to_description)
         )
     )
 
-    private val trial = DisplayableItem(
-        R.layout.item_about,
-        BUY_PRO,
-        context.getString(R.string.about_buy_pro),
-        context.getString(R.string.about_buy_pro_description_trial)
+    private val trial = DisplayableHeader(
+        type = R.layout.item_about,
+        mediaId = BUY_PRO,
+        title = context.getString(R.string.about_buy_pro),
+        subtitle = context.getString(R.string.about_buy_pro_description_trial)
     )
-    private val noPro = DisplayableItem(
-        R.layout.item_about,
-        BUY_PRO,
-        context.getString(R.string.about_buy_pro),
-        context.getString(R.string.about_buy_pro_description)
+    private val noPro = DisplayableHeader(
+        type = R.layout.item_about,
+        mediaId = BUY_PRO,
+        title = context.getString(R.string.about_buy_pro),
+        subtitle = context.getString(R.string.about_buy_pro_description)
     )
-    private val alreadyPro = DisplayableItem(
-        R.layout.item_about,
-        BUY_PRO,
-        context.getString(R.string.about_buy_pro),
-        context.getString(R.string.premium_already_premium)
+    private val alreadyPro = DisplayableHeader(
+        type = R.layout.item_about,
+        mediaId = BUY_PRO,
+        title = context.getString(R.string.about_buy_pro),
+        subtitle = context.getString(R.string.premium_already_premium)
     )
 
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
@@ -109,13 +110,14 @@ class AboutActivityPresenter(
 
     fun observeData(): LiveData<List<DisplayableItem>> {
         return billing.observeBillingsState().withLatestFrom(Observable.just(data),
-            BiFunction { state: BillingState, data: List<DisplayableItem> ->
+            BiFunction { state: BillingState, data: List<DisplayableHeader> ->
                 when {
                     state.isBought -> listOf(alreadyPro).plus(data)
                     state.isTrial -> listOf(trial).plus(data)
                     else -> listOf(noPro).plus(data)
                 }
-            }).asLiveData()
+            }).map { it.map { it as DisplayableItem } } // stupid compiler
+            .asLiveData()
     }
 
     fun buyPro() {

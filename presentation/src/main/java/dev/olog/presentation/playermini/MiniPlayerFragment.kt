@@ -9,7 +9,6 @@ import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded

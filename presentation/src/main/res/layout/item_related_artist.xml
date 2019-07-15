@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableAlbum"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             android:layout_height="@dimen/smallShuffleSize"
             app:layout_constraintBottom_toBottomOf="@+id/cover"
             app:layout_constraintEnd_toEndOf="@+id/cover"
-            app:quickActionItem="@{item}"
+            app:quickActionItem="@{item.mediaId}"
             tools:src="@drawable/background_quick_action" />
 
         <TextView

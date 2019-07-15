@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
-import dev.olog.presentation.model.DisplayableItem2
+import dev.olog.presentation.model.DisplayableItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -24,12 +24,12 @@ class SearchFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem2>>()
-    private val albumData = MutableLiveData<List<DisplayableItem2>>()
-    private val artistsData = MutableLiveData<List<DisplayableItem2>>()
-    private val genresData = MutableLiveData<List<DisplayableItem2>>()
-    private val playlistsData = MutableLiveData<List<DisplayableItem2>>()
-    private val foldersData = MutableLiveData<List<DisplayableItem2>>()
+    private val data = MutableLiveData<List<DisplayableItem>>()
+    private val albumData = MutableLiveData<List<DisplayableItem>>()
+    private val artistsData = MutableLiveData<List<DisplayableItem>>()
+    private val genresData = MutableLiveData<List<DisplayableItem>>()
+    private val playlistsData = MutableLiveData<List<DisplayableItem>>()
+    private val foldersData = MutableLiveData<List<DisplayableItem>>()
 
     init {
         // all
@@ -70,12 +70,12 @@ class SearchFragmentViewModel @Inject constructor(
         }
     }
 
-    fun observeData(): LiveData<List<DisplayableItem2>> = data
-    fun observeArtistsData(): LiveData<List<DisplayableItem2>> = artistsData
-    fun observeAlbumsData(): LiveData<List<DisplayableItem2>> = albumData
-    fun observeGenresData(): LiveData<List<DisplayableItem2>> = genresData
-    fun observePlaylistsData(): LiveData<List<DisplayableItem2>> = playlistsData
-    fun observeFoldersData(): LiveData<List<DisplayableItem2>> = foldersData
+    fun observeData(): LiveData<List<DisplayableItem>> = data
+    fun observeArtistsData(): LiveData<List<DisplayableItem>> = artistsData
+    fun observeAlbumsData(): LiveData<List<DisplayableItem>> = albumData
+    fun observeGenresData(): LiveData<List<DisplayableItem>> = genresData
+    fun observePlaylistsData(): LiveData<List<DisplayableItem>> = playlistsData
+    fun observeFoldersData(): LiveData<List<DisplayableItem>> = foldersData
 
     override fun onCleared() {
         viewModelScope.cancel()

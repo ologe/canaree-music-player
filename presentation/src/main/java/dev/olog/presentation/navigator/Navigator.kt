@@ -4,7 +4,6 @@ import android.view.View
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
-import dev.olog.presentation.model.DisplayableItem
 
 interface Navigator {
 
@@ -22,7 +21,6 @@ interface Navigator {
 
     fun toOfflineLyrics()
 
-    fun toDialog(item: DisplayableItem, anchor: View)
     fun toDialog(mediaId: MediaId, anchor: View)
 
     fun toMainPopup(anchor: View, category: MediaIdCategory?)

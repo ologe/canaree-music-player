@@ -1,14 +1,12 @@
 package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
-import androidx.core.os.bundleOf
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
@@ -16,7 +14,7 @@ internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
         type = R.layout.item_detail_related_artist,
         mediaId = getMediaId(),
         title = this.name,
-        subtitle = DisplayableItem.handleSongListSize(resources, songs)
+        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
     )
 }
 

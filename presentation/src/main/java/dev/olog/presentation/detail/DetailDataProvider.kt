@@ -16,9 +16,9 @@ import dev.olog.core.interactor.sort.ObserveDetailSortOrderUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.presentation.detail.mapper.*
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableItem2
 import dev.olog.shared.extensions.combineLatest
 import dev.olog.shared.extensions.exhaustive
 import dev.olog.shared.extensions.mapListItem
@@ -52,7 +52,7 @@ internal class DetailDataProvider @Inject constructor(
     private val resources = context.resources
 
 
-    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem2>> {
+    fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
         val item = when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).mapNotNull {
                 it?.toHeaderItem(
@@ -99,13 +99,15 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem2>> {
+    fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
         val songListFlow = observeSongListByParamUseCase(mediaId)
             .combineLatest(sortOrderUseCase(mediaId), filterFlow) { songList, order, filter ->
-                val result: MutableList<DisplayableItem2> = songList.asSequence()
-                    .filter { it.title.contains(filter, true) ||
-                            it.artist.contains(filter, true) ||
-                            it.album.contains(filter, true)}
+                val result: MutableList<DisplayableItem> = songList.asSequence()
+                    .filter {
+                        it.title.contains(filter, true) ||
+                                it.artist.contains(filter, true) ||
+                                it.album.contains(filter, true)
+                    }
                     .map { it.toDetailDisplayableItem(mediaId, order) }
                     .toMutableList()
 
@@ -139,21 +141,21 @@ internal class DetailDataProvider @Inject constructor(
         }
     }
 
-    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem2>> {
+    fun observeMostPlayed(mediaId: MediaId): Flow<List<DisplayableItem>> {
         return mostPlayedUseCase(mediaId).map {
             it.mapIndexed { index, song -> song.toMostPlayedDetailDisplayableItem(mediaId, index) }
         }
     }
 
-    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem2>> {
+    fun observeRecentlyAdded(mediaId: MediaId): Flow<List<DisplayableItem>> {
         return recentlyAddedUseCase(mediaId).mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
     }
 
-    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem2>> {
+    fun observeRelatedArtists(mediaId: MediaId): Flow<List<DisplayableItem>> {
         return relatedArtistsUseCase(mediaId).mapListItem { it.toRelatedArtist(resources) }
     }
 
-    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem2>> = when (mediaId.category) {
+    fun observeSiblings(mediaId: MediaId): Flow<List<DisplayableItem>> = when (mediaId.category) {
         MediaIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryValue).mapListItem {
             it.toDetailDisplayableItem(
                 resources
@@ -198,8 +200,8 @@ internal class DetailDataProvider @Inject constructor(
         else -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
-    private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem2 {
-        val songs = DisplayableItem.handleSongListSize(resources, songCount)
+    private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem {
+        val songs = DisplayableAlbum.readableSongCount(resources, songCount)
         val time = TimeUtils.formatMillis(context, duration)
 
         return DisplayableHeader(

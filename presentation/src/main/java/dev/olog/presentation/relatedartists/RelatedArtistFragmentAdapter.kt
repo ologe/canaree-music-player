@@ -4,16 +4,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.BR
 import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
-import javax.inject.Inject
 
-class RelatedArtistFragmentAdapter @Inject constructor(
-    @FragmentLifecycle lifecycle: Lifecycle,
+class RelatedArtistFragmentAdapter(
+    lifecycle: Lifecycle,
     private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableItem>(lifecycle,
+) : ObservableAdapter<DisplayableItem>(
+    lifecycle,
     DiffCallbackDisplayableItem
 ) {
 
@@ -23,7 +22,7 @@ class RelatedArtistFragmentAdapter @Inject constructor(
             navigator.toDetailFragment(item.mediaId)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item, viewHolder.itemView)
+            navigator.toDialog(item.mediaId, viewHolder.itemView)
         }
         viewHolder.elevateAlbumOnTouch()
     }
