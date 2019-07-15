@@ -76,7 +76,6 @@ class SuperCerealScrollHelper(
         return isPlayerTag(fragment.tag) || !hasFragmentOwnership(fragment.tag)
     }
 
-    // TODO check after migratin to viewpager 2
     private fun isViewPagerChildTag(tag: String?) = tag?.startsWith("android:switcher:") == true
 
     private fun hasFragmentOwnership(tag: String?) = tag?.startsWith("dev.olog") == true
