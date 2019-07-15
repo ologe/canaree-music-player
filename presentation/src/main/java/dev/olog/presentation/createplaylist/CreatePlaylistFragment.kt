@@ -16,7 +16,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.utils.ImeUtils
+import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils
@@ -104,7 +104,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         sidebar.setListener(letterTouchListener)
         fab.setOnClickListener { showCreateDialog() }
         back.setOnClickListener {
-            ImeUtils.hideIme(editText)
+            editText.hideIme()
             act.onBackPressed()
         }
         filterList.setOnClickListener {

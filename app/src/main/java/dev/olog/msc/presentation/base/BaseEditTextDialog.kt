@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.presentation.utils.ImeUtils
+import dev.olog.presentation.utils.showIme
 import dev.olog.shared.extensions.ctx
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.extensions.unsubscribe
@@ -71,7 +71,7 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
 
         hideKeyboardDisposable = Observable.timer(500, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ ImeUtils.showIme(editText) }, Throwable::printStackTrace)
+                .subscribe({ editText.showIme() }, Throwable::printStackTrace)
 
         return dialog
     }

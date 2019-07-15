@@ -18,7 +18,8 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
-import dev.olog.presentation.utils.ImeUtils
+import dev.olog.presentation.utils.hideIme
+import dev.olog.presentation.utils.showIme
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
@@ -161,7 +162,7 @@ class SearchFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        fab.setOnClickListener { ImeUtils.showIme(editText) }
+        fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
         more.setOnClickListener { navigator.toMainPopup(it, null) }
@@ -182,7 +183,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onStop() {
         super.onStop()
-        ImeUtils.hideIme(editText)
+        editText.hideIme()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

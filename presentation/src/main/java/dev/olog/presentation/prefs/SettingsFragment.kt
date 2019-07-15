@@ -24,6 +24,7 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.presentation.pro.HasBilling
+import dev.olog.presentation.utils.forEach
 import dev.olog.shared.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -76,7 +77,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
                 .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { isPremium ->
-                    forEach(preferenceScreen) { it.isEnabled = isPremium }
+                    preferenceScreen.forEach { it.isEnabled = isPremium }
 
                     if (!isPremium) {
                         val v = act.window.decorView.findViewById<View>(android.R.id.content)
