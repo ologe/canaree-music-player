@@ -82,7 +82,6 @@ class MiniPlayerFragment : BaseFragment(){
         media.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .distinctUntilChanged()
             .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
         presenter.skipToNextVisibility
