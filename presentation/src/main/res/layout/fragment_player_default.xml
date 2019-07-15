@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:id="@+id/list"
             android:overScrollMode="never"
-            tools:listitem="@layout/item_tab_song" />
+            tools:listitem="@layout/fragment_player_default"
+            tools:itemCount="1"/>
 
     </androidx.core.widget.NestedScrollView>
 

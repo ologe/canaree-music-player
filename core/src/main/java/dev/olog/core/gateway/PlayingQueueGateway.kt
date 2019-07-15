@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlayingQueueGateway {
 
     companion object {
-        const val MINI_QUEUE_SIZE = 50
+        const val MINI_QUEUE_SIZE = 25
     }
 
     fun observeAll(): Flow<List<PlayingQueueSong>>
