@@ -38,18 +38,15 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/Headline6"/>
 
-        <TextView
+        <ImageButton
             android:id="@+id/seeMore"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/sep"
-            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/detail_see_all"
-            android:textColor="?colorPrimary"
-            android:textSize="@dimen/item_header_sec_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{item.visible ? View.VISIBLE : View.GONE }"/>
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:visibility="@{item.visible ? View.VISIBLE : View.GONE }"
+            android:src="@drawable/vd_arrow_forward"/>
 
         <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/sep"

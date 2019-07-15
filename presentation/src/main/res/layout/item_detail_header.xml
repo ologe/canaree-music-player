@@ -29,18 +29,16 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/Headline6"/>
 
-        <TextView
+        <ImageButton
             android:id="@+id/seeMore"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
-            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/detail_see_all"
-            android:textColor="?colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:visibility="@{item.visible ? View.VISIBLE : View.GONE }"
-            tools:visibility="visible"/>
+            tools:visibility="visible"
+            android:src="@drawable/vd_arrow_forward"/>
 
         <dev.olog.shared.widgets.DottedSeparator
             app:layout_constraintTop_toBottomOf="@+id/title"
