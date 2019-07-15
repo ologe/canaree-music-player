@@ -25,13 +25,6 @@
         tools:src="@drawable/vd_album" />
 
     <View
-        android:id="@+id/dynamicBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?colorSurface"
-        android:translationY="400dp"/>
-
-    <View
         android:id="@+id/fade"
         android:layout_width="0dp"
         android:layout_height="120dp"
@@ -39,6 +32,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/dynamicBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorSurface"
+        android:translationY="400dp"/>
 
     <LinearLayout
         android:id="@+id/textWrapper"
