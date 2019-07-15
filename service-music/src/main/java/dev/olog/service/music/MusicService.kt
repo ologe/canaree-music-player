@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Intent
@@ -27,9 +26,7 @@ import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.shared.Classes
-import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.MusicServiceCustomAction
-import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,8 +56,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject
     internal lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
-    @Inject
-    internal lateinit var alarmManager: AlarmManager
     @Inject
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
@@ -167,7 +162,6 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
 
     private fun resetSleepTimer() {
         sleepTimerUseCase.reset()
-        alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
     override fun onGetRoot(

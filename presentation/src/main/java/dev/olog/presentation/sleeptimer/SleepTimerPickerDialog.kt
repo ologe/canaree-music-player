@@ -1,6 +1,5 @@
 package dev.olog.presentation.sleeptimer
 
-import android.app.AlarmManager
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.PendingIntents
 import dev.olog.shared.extensions.act
 import dev.olog.shared.extensions.toast
 import dev.olog.shared.utils.TimeUtils
@@ -28,7 +26,6 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
     private lateinit var fakeView: View
     private lateinit var okButton: Button
 
-    @Inject lateinit var alarmManager: AlarmManager
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,6 +42,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
         toggleButtons(sleepTime > 0)
 
+        // TODO check if works properly
         if (sleepTime > 0){
             countDownDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
                     .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
@@ -53,7 +51,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                     .subscribe({
                         setTimeInMilliseconds(it, true)
                     }, Throwable::printStackTrace, {
-                        resetPersistedValues()
+                        resetAlarmManager()
                         toggleButtons(false)
                     })
         }
@@ -71,7 +69,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                 setTimeInMilliseconds(0, true)
                 countDownDisposable?.dispose()
                 toggleButtons(false)
-                resetPersistedValues()
+                resetAlarmManager()
                 resetAlarmManager()
             } else {
                 // as ok button
@@ -122,34 +120,19 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
     }
 
     override fun onHmsPick(reference: Int, hours: Int, minutes: Int, seconds: Int) {
-        val sleep = TimeUtils.timeAsMillis(hours, minutes, seconds)
-        val currentTime = System.currentTimeMillis()
+        val sleepTime = TimeUtils.timeAsMillis(hours, minutes, seconds)
+        val sleepFrom = System.currentTimeMillis()
 
-        persistValues(currentTime, sleep)
-        setAlarmManager(hours, minutes, seconds)
-    }
-
-    private fun resetPersistedValues(){
-        persistValues(-1, -1)
-    }
-
-    private fun persistValues(sleepFrom: Long, sleepTime: Long){
-        sleepTimerUseCase.set(sleepFrom, sleepTime)
-    }
-
-    private fun resetAlarmManager(){
-        val intent = PendingIntents.stopMusicServiceIntent(context!!)
-        alarmManager.cancel(intent)
-    }
-
-    private fun setAlarmManager(hours: Int, minutes: Int, seconds: Int){
         val nextSleep = SystemClock.elapsedRealtime() +
                 TimeUnit.HOURS.toMillis(hours.toLong()) +
                 TimeUnit.MINUTES.toMillis(minutes.toLong()) +
                 TimeUnit.SECONDS.toMillis(seconds.toLong())
 
-        val intent = PendingIntents.stopMusicServiceIntent(context!!)
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextSleep, intent)
+        sleepTimerUseCase.set(sleepFrom, sleepTime, nextSleep)
+    }
+
+    private fun resetAlarmManager(){
+        sleepTimerUseCase.reset()
     }
 
 }

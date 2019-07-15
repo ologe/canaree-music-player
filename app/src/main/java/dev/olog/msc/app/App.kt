@@ -1,6 +1,5 @@
 package dev.olog.msc.app
 
-import android.app.AlarmManager
 import android.content.BroadcastReceiver
 import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
@@ -13,7 +12,6 @@ import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.shared.PendingIntents
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -23,9 +21,6 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
     internal lateinit var broadcastInjector: DispatchingAndroidInjector<BroadcastReceiver>
 
     private lateinit var appShortcuts: AppShortcuts
-
-    @Inject
-    lateinit var alarmManager: AlarmManager
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -59,7 +54,6 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
 
     private fun resetSleepTimer() {
         sleepTimerUseCase.reset()
-        alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
     private fun inject() {

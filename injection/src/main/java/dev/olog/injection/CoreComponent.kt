@@ -49,8 +49,6 @@ import javax.inject.Singleton
 @Singleton
 interface CoreComponent {
 
-    fun provideAlarmManager(): AlarmManager
-
     @ApplicationContext
     fun context(): Context
     fun resources(): Resources

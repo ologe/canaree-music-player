@@ -1,6 +1,5 @@
 package dev.olog.injection
 
-import android.app.AlarmManager
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
@@ -32,12 +31,6 @@ abstract class CoreModule {
         @JvmStatic
         fun provideConnectivityManager(instance: Application): ConnectivityManager {
             return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        }
-
-        @Provides
-        @JvmStatic
-        fun provideAlarmManager(instance: Application): AlarmManager {
-            return instance.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         }
     }
 
