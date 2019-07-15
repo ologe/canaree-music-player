@@ -6,7 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 
-abstract class BaseThemeUpdater(
+abstract class BaseThemeUpdater<T>(
     protected val context: Context,
     protected val prefs: SharedPreferences,
     protected val key: String
@@ -14,37 +14,28 @@ abstract class BaseThemeUpdater(
 ) : DefaultLifecycleObserver,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private var hasInit: Boolean = false
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-        tryInitialize()
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        tryInitialize()
+        prefs.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        hasInit = false
         prefs.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    private fun tryInitialize() {
-        if (!hasInit) {
-            prefs.registerOnSharedPreferenceChangeListener(this)
-            onPrefsChanged(true)
-            hasInit = true
-        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            this.key -> onPrefsChanged(false)
+            this.key -> onPrefsChanged()
         }
     }
 
-    protected abstract fun onPrefsChanged(forced: Boolean)
+    protected abstract fun onPrefsChanged()
+
+    protected abstract fun getValue(): T
 
 
 }

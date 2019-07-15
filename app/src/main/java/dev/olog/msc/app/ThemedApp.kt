@@ -1,15 +1,12 @@
 package dev.olog.msc.app
 
-import android.app.Activity
 import android.app.Application
-import android.os.Bundle
 import dev.olog.msc.theme.*
 import dev.olog.shared.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 
 abstract class ThemedApp : Application(),
-        Application.ActivityLifecycleCallbacks,
         HasPlayerAppearance,
         HasImmersive,
         HasImageShape,
@@ -29,35 +26,6 @@ abstract class ThemedApp : Application(),
 
     @Inject
     internal lateinit var quickActionListener: QuickActionListener
-
-    override fun onCreate() {
-        super.onCreate()
-        registerActivityLifecycleCallbacks(this)
-    }
-
-    override fun onActivityPaused(p0: Activity) {
-
-    }
-
-    override fun onActivityStarted(p0: Activity) {
-    }
-
-    override fun onActivityDestroyed(p0: Activity) {
-    }
-
-    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
-    }
-
-    override fun onActivityStopped(p0: Activity) {
-    }
-
-    override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-    }
-
-    override fun onActivityResumed(activity: Activity) {
-        darkModeListener.setCurrentActivity(activity)
-        immersiveModeListener.setCurrentActivity(activity)
-    }
 
     override fun playerAppearance(): PlayerAppearance {
         return playerAppearanceListener.playerAppearance

@@ -1,29 +1,29 @@
 package dev.olog.msc.theme
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.msc.ActivityLifecycleCallbacks
 import dev.olog.presentation.R
+import dev.olog.shared.delegates.mutableLazy
 import javax.inject.Inject
 
 internal class ImmersiveModeListener @Inject constructor(
     @ApplicationContext context: Context,
     prefs: SharedPreferences
-) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_immersive_key)) {
+) : BaseThemeUpdater<Boolean>(context, prefs, context.getString(R.string.prefs_immersive_key)),
+    ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
-    private var currentActivity: Activity? = null
+    var isImmersive by mutableLazy { getValue() }
+        private set
 
-    var isImmersive = false
-
-    override fun onPrefsChanged(forced: Boolean) {
-        isImmersive = prefs.getBoolean(key, false)
-        if (!forced) {
-            currentActivity?.recreate()
-        }
+    override fun onPrefsChanged() {
+        isImmersive = getValue()
+        currentActivity?.recreate()
     }
 
-    fun setCurrentActivity(activity: Activity) {
-        currentActivity = activity
+    override fun getValue(): Boolean {
+        return prefs.getBoolean(key, false)
     }
+
 }

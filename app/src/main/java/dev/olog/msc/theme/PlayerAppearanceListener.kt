@@ -4,19 +4,31 @@ import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.R
+import dev.olog.shared.delegates.mutableLazy
 import dev.olog.shared.theme.PlayerAppearance
 import javax.inject.Inject
 
 internal class PlayerAppearanceListener @Inject constructor(
     @ApplicationContext context: Context,
     prefs: SharedPreferences
-) : BaseThemeUpdater(context, prefs, context.getString(R.string.prefs_appearance_key)) {
+) : BaseThemeUpdater<PlayerAppearance>(
+    context,
+    prefs,
+    context.getString(R.string.prefs_appearance_key)
+) {
 
-    var playerAppearance = PlayerAppearance.DEFAULT
+    var playerAppearance by mutableLazy { getValue() }
+        private set
 
-    override fun onPrefsChanged(forced: Boolean) {
-        val value = prefs.getString(key, context.getString(R.string.prefs_appearance_entry_value_default))
-        playerAppearance =  when (value) {
+    override fun onPrefsChanged() {
+        playerAppearance = getValue()
+    }
+
+    override fun getValue(): PlayerAppearance {
+        val value =
+            prefs.getString(key, context.getString(R.string.prefs_appearance_entry_value_default))
+
+        return when (value) {
             context.getString(R.string.prefs_appearance_entry_value_default) -> PlayerAppearance.DEFAULT
             context.getString(R.string.prefs_appearance_entry_value_flat) -> PlayerAppearance.FLAT
             context.getString(R.string.prefs_appearance_entry_value_spotify) -> PlayerAppearance.SPOTIFY
@@ -27,4 +39,5 @@ internal class PlayerAppearanceListener @Inject constructor(
             else -> throw IllegalStateException("invalid theme=$value")
         }
     }
+
 }
