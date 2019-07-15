@@ -1,81 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableAlbum"/>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="dev.olog.presentation.model.DisplayableAlbum" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/root"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <dev.olog.shared.widgets.CircularImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/item_song_cover_size"
+            android:layout_height="@dimen/item_song_cover_size"
+            android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+            android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+            app:imageAlbum="@{item.mediaId}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_artist" />
 
-            <dev.olog.shared.widgets.CircularImageView
-                android:id="@+id/cover"
-                android:layout_width="@dimen/item_song_cover_size"
-                android:layout_height="@dimen/item_song_cover_size"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1"
-                app:imageAlbum="@{item.mediaId}"
-                tools:src="@drawable/placeholder_artist"
-                android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
+        <TextView
+            android:id="@+id/firstText"
+            style="@style/Song.MainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toTopOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/clear"
+            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            tools:text="@tools:sample/lorem" />
 
-            <TextView
-                android:id="@+id/firstText"
-                app:layout_constraintTop_toTopOf="@+id/cover"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintBottom_toTopOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/clear"
-                android:text="@{item.title}"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.MainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"/>
+        <TextView
+            android:id="@+id/secondText"
+            style="@style/Song.SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@{item.subtitle}"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toStartOf="@+id/clear"
+            app:layout_constraintStart_toStartOf="@+id/firstText"
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
+            tools:text="@tools:sample/lorem" />
 
-            <TextView
-                android:id="@+id/secondText"
-                app:layout_constraintTop_toBottomOf="@+id/firstText"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintBottom_toBottomOf="@+id/cover"
-                app:layout_constraintEnd_toStartOf="@+id/clear"
-                android:text="@{item.subtitle}"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.SecondaryText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"/>
+        <ImageButton
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12dp"
+            android:src="@drawable/vd_clear"
+            android:tint="@color/button_primary_tint"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cover" />
 
-            <ImageButton
-                android:id="@+id/clear"
-                app:layout_constraintTop_toTopOf="@+id/cover"
-                app:layout_constraintBottom_toBottomOf="@+id/cover"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:tint="@color/button_primary_tint"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/vd_clear"
-                android:padding="12dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
 
 </layout>

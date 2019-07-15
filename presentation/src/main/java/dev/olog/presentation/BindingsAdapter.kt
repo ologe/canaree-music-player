@@ -11,7 +11,6 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.model.SpecialThanksModel
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.ExplicitView
@@ -124,8 +123,8 @@ object BindingsAdapter {
 
     @JvmStatic
     @BindingAdapter("explicit")
-    fun explicit(view: ExplicitView, item: DisplayableTrack) {
-        view.onItemChanged(item)
+    fun explicit(view: ExplicitView, title: String) {
+        view.onItemChanged(title)
     }
 
 }

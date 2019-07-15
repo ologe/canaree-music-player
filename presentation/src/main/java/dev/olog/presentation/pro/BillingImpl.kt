@@ -100,9 +100,9 @@ class BillingImpl @Inject constructor(
     }
 
     override fun observeBillingsState(): Flow<BillingState> {
-        return premiumPublisher.combineLatest(trialPublisher.asFlow()) { premium, trial ->
+        return premiumPublisher.asFlow().combineLatest(trialPublisher.asFlow()) { premium, trial ->
             BillingState(trial, premium)
-        }.asObservable()
+        }
     }
 
     override fun getBillingsState(): BillingState {

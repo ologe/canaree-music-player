@@ -1,125 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableTrack"/>
+
+        <variable
+            name="item"
+            type="dev.olog.presentation.model.DisplayableTrack" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#e2e3e7">
+        android:layout_height="wrap_content">
 
-        <View
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="@android:color/holo_red_light"
-            android:visibility="invisible"/>
+        <include layout="@layout/layout_swipeable" />
 
-        <ImageView
-            android:id="@+id/deleteIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vd_delete"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
 
-        <ImageView
-            android:id="@+id/playNextIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vd_playlist_add"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            tools:tint="@color/dark_grey"/>
-
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?colorSurface"
             android:paddingStart="@dimen/detail_margin_horizontal"
-            android:paddingEnd="@dimen/detail_margin_horizontal"
-            android:background="?android:windowBackground">
+            android:paddingEnd="@dimen/detail_margin_horizontal">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/root"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <dev.olog.presentation.widgets.ShapeImageView
+                android:id="@+id/cover"
+                android:layout_width="@dimen/item_song_cover_size"
+                android:layout_height="@dimen/item_song_cover_size"
+                android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+                app:imageSong="@{item.mediaId}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder_folder" />
 
-                <dev.olog.presentation.widgets.ShapeImageView
-                    android:id="@+id/cover"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="@dimen/item_song_cover_size"
-                    android:layout_height="@dimen/item_song_cover_size"
-                    android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-                    android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
-                    tools:src="@drawable/placeholder_folder"
-                    app:imageSong="@{item.mediaId}"/>
+            <TextView
+                android:id="@+id/index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@{String.valueOf(item.idInPlaylist)}"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/firstText"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintTop_toTopOf="@+id/firstText"
+                tools:layout_marginStart="8dp"
+                tools:text="1" />
 
-                <TextView
-                    android:id="@+id/index"
-                    android:text="@{String.valueOf(item.idInPlaylist)}"
-                    tools:text="1"
-                    tools:layout_marginStart="8dp"
-                    android:textStyle="bold"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="@+id/firstText"
-                    app:layout_constraintBottom_toBottomOf="@+id/firstText"
-                    app:layout_constraintStart_toEndOf="@+id/cover"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"/>
+            <TextView
+                android:id="@+id/firstText"
+                style="@style/Song.MainText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{item.title}"
+                app:layout_constraintBottom_toTopOf="@+id/secondText"
+                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintStart_toEndOf="@+id/index"
+                app:layout_constraintTop_toTopOf="@+id/cover"
+                tools:text="@tools:sample/lorem" />
 
-                <TextView
-                    android:id="@+id/firstText"
-                    app:layout_constraintTop_toTopOf="@+id/cover"
-                    app:layout_constraintStart_toEndOf="@+id/index"
-                    app:layout_constraintBottom_toTopOf="@+id/secondText"
-                    app:layout_constraintEnd_toStartOf="@+id/more"
-                    android:text="@{item.title}"
-                    tools:text="@tools:sample/lorem"
-                    style="@style/Song.MainText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp" />
+            <TextView
+                android:id="@+id/secondText"
+                style="@style/Song.SecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="@{item.subtitle}"
+                app:layout_constraintBottom_toBottomOf="@+id/cover"
+                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintStart_toEndOf="@+id/explicit"
+                app:layout_constraintTop_toBottomOf="@+id/firstText"
+                app:layout_goneMarginStart="0dp"
+                tools:text="@tools:sample/lorem" />
 
-                <TextView
-                    android:id="@+id/secondText"
-                    app:layout_constraintStart_toStartOf="@+id/firstText"
-                    app:layout_constraintTop_toBottomOf="@+id/firstText"
-                    app:layout_constraintEnd_toStartOf="@+id/more"
-                    app:layout_constraintBottom_toBottomOf="@+id/cover"
-                    android:text="@{item.subtitle}"
-                    tools:text="@tools:sample/lorem"
-                    style="@style/Song.SecondaryText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp" />
+            <dev.olog.presentation.widgets.ExplicitView
+                android:id="@+id/explicit"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/vd_explicit"
+                app:explicit="@{item.title}"
+                app:layout_constraintBottom_toBottomOf="@id/secondText"
+                app:layout_constraintStart_toStartOf="@+id/firstText"
+                app:layout_constraintTop_toTopOf="@+id/secondText" />
 
-                <ImageButton
-                    android:id="@+id/more"
-                    app:layout_constraintTop_toTopOf="@id/cover"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/vd_more"
-                    android:padding="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless" />
+            <ImageButton
+                android:id="@+id/more"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="12dp"
+                android:src="@drawable/vd_more"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cover" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </FrameLayout>

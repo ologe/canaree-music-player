@@ -64,7 +64,7 @@ class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listener {
                     } else {
                         // error snackBar now shown
                         if (!isEqAvailable){
-                            snackBar = Snackbar.make(root, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
+                            snackBar = Snackbar.make(view, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
                             snackBar!!.show()
                         }
                     }

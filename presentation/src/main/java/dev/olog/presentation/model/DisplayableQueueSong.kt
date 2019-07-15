@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
 import dev.olog.core.MediaId
+import dev.olog.shared.utils.TextUtils
 
 data class DisplayableQueueSong(
     override val type: Int,
@@ -12,4 +13,8 @@ data class DisplayableQueueSong(
     val relativePosition: String,
     val isCurrentSong: Boolean
 
-) : BaseModel
+) : BaseModel {
+
+    val subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+
+}

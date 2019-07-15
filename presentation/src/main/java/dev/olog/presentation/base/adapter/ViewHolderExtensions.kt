@@ -55,7 +55,7 @@ fun RecyclerView.ViewHolder.elevateAlbumOnTouch() {
 }
 
 fun RecyclerView.ViewHolder.elevateSongOnTouch() {
-    val viewToAnimate = itemView.findViewById<View>(R.id.root)?.let { it } ?: itemView
+    val viewToAnimate = itemView
     itemView.setOnTouchListener(ScaleInOnTouch(viewToAnimate))
 }
 

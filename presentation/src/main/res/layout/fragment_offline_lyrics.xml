@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:elevation="20dp"
-    android:background="?android:windowBackground">
+    android:clipToPadding="false">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
