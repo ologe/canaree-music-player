@@ -29,7 +29,7 @@ android {
             minifyEnabled false
             multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+//            debuggable false
         }
     }
 
