@@ -164,9 +164,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
                     @Suppress("UNUSED_VARIABLE")
                     val disp = Completable.fromCallable {
                         GlideApp.get(ctx.applicationContext).clearDiskCache()
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles().forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles().forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()?.forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()?.forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles()?.forEach { it.delete() }
                     }.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe({
