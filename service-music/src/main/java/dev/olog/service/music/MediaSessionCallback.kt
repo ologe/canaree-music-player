@@ -12,6 +12,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.Queue
+import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
@@ -19,10 +20,8 @@ import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
 import dev.olog.shared.MusicServiceCustomAction
+import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -43,7 +42,7 @@ internal class MediaSessionCallback @Inject constructor(
         private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
     }
 
-    private val subscriptions = CompositeDisposable()
+    private var retrieveDataJob: Job? = null
 
     override fun onPrepare() {
         launch(Dispatchers.Main) {
@@ -55,17 +54,36 @@ internal class MediaSessionCallback @Inject constructor(
         }
     }
 
+    private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
+        retrieveDataJob?.cancel()
+        retrieveDataJob = launch {
+            assertBackgroundThread()
+            val entity = retrieve()
+            if (entity != null) {
+                withContext(Dispatchers.Main) {
+                    player.play(entity)
+                }
+            } else {
+                onEmptyQueue()
+            }
+        }
+    }
+
+    private fun onEmptyQueue() {
+        TODO()
+    }
+
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
         Log.v(TAG, "onPlayFromMediaId mediaId=$mediaId, extras=$extras")
 
-        when (val mediaId = MediaId.fromString(mediaId)) {
-            MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
-            else -> queue.handlePlayFromMediaId(mediaId, extras)
-        }.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.computation())
-            .doOnSubscribe { updatePodcastPosition() }
-            .subscribe(player::play, Throwable::printStackTrace)
-            .addTo(subscriptions)
+        retrieveAndPlay {
+            updatePodcastPosition()
+
+            when (val mediaId = MediaId.fromString(mediaId)) {
+                MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
+                else -> queue.handlePlayFromMediaId(mediaId)
+            }
+        }
     }
 
     override fun onPlay() {
@@ -76,22 +94,19 @@ internal class MediaSessionCallback @Inject constructor(
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         Log.v(TAG, "onPlayFromSearch query=$query, extras=$extras")
 
-        queue.handlePlayFromGoogleSearch(query, extras)
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updatePodcastPosition() }
-            .subscribe(player::play, Throwable::printStackTrace)
-            .addTo(subscriptions)
+        retrieveAndPlay {
+            updatePodcastPosition()
+            queue.handlePlayFromGoogleSearch(query, extras)
+        }
     }
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
         Log.v(TAG, "onPlayFromUri uri=$uri, extras=$extras")
 
-        queue.handlePlayFromUri(uri)
-            .doOnSubscribe { updatePodcastPosition() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(player::play, Throwable::printStackTrace)
-            .addTo(subscriptions)
+        retrieveAndPlay {
+            updatePodcastPosition()
+            queue.handlePlayFromUri(uri)
+        }
     }
 
     override fun onPause() {
@@ -116,7 +131,8 @@ internal class MediaSessionCallback @Inject constructor(
         updatePodcastPosition()
         queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
             val skipType =
-                if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS else SkipType.RESTART
+                if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS
+                else SkipType.RESTART
             player.playNext(metadata, skipType)
         }
     }
@@ -138,9 +154,13 @@ internal class MediaSessionCallback @Inject constructor(
             player.playNext(metadata, skipType)
         } else {
             val currentSong = queue.getPlayingSong()
-            player.play(currentSong)
-            player.pause(true)
-            player.seekTo(0L)
+            if (currentSong != null) {
+                player.play(currentSong)
+                player.pause(true)
+                player.seekTo(0L)
+            } else {
+                onEmptyQueue()
+            }
         }
     }
 
@@ -149,7 +169,11 @@ internal class MediaSessionCallback @Inject constructor(
 
         updatePodcastPosition()
         val mediaEntity = queue.handleSkipToQueueItem(id)
-        player.play(mediaEntity)
+        if (mediaEntity != null) {
+            player.play(mediaEntity)
+        } else {
+            onEmptyQueue()
+        }
     }
 
     override fun onSeekTo(pos: Long) {
@@ -174,11 +198,10 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.SHUFFLE -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                queue.handlePlayShuffle(MediaId.fromString(mediaId))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { updatePodcastPosition() }
-                    .subscribe(player::play, Throwable::printStackTrace)
-                    .addTo(subscriptions)
+                retrieveAndPlay {
+                    updatePodcastPosition()
+                    queue.handlePlayShuffle(MediaId.fromString(mediaId))
+                }
             }
             MusicServiceCustomAction.SWAP -> {
                 requireNotNull(extras)
@@ -205,20 +228,18 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.PLAY_RECENTLY_ADDED -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { updatePodcastPosition() }
-                    .subscribe(player::play, Throwable::printStackTrace)
-                    .addTo(subscriptions)
+                retrieveAndPlay {
+                    updatePodcastPosition()
+                    queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId))
+                }
             }
             MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
-                queue.handlePlayMostPlayed(MediaId.fromString(mediaId))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { updatePodcastPosition() }
-                    .subscribe(player::play, Throwable::printStackTrace)
-                    .addTo(subscriptions)
+                retrieveAndPlay {
+                    updatePodcastPosition()
+                    queue.handlePlayMostPlayed(MediaId.fromString(mediaId))
+                }
             }
             MusicServiceCustomAction.FORWARD_10 -> player.forwardTenSeconds()
             MusicServiceCustomAction.FORWARD_30 -> player.forwardThirtySeconds()
@@ -228,7 +249,8 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
                 launch {
                     requireNotNull(extras)
-                    val mediaIds = extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                    val mediaIds =
+                        extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
                     val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
                     val position = queue.playLater(mediaIds.toList(), isPodcast)
@@ -238,7 +260,8 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
                 launch {
                     requireNotNull(extras)
-                    val mediaIds = extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
+                    val mediaIds =
+                        extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
                     val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
                     val position = queue.playNext(mediaIds.toList(), isPodcast)

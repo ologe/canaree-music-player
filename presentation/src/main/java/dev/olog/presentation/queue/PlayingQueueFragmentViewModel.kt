@@ -10,11 +10,10 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.extensions.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combineLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,17 +24,24 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    fun getCurrentPosition() = musicPreferencesUseCase.getLastPositionInQueue()
-
     private val data = MutableLiveData<List<DisplayableQueueSong>>()
+
+    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
 
     init {
         viewModelScope.launch {
             playingQueueGateway.observeAll().distinctUntilChanged()
-                .combineLatest(musicPreferencesUseCase.observeLastPositionInQueue().distinctUntilChanged())
-                { queue, positionInQueue ->
-                    queue.map { item ->
-                        item.toDisplayableItem(positionInQueue)
+                .flowOn(Dispatchers.Default)
+                .collect { queueLiveData.offer(it) }
+        }
+
+        viewModelScope.launch {
+            queueLiveData.asFlow()
+                .combineLatest(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
+                { queue, idInPlaylist ->
+                    val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+                    queue.mapIndexed { index, item ->
+                        item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
                     }
                 }
                 .assertBackground()
@@ -48,17 +54,35 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data
 
+    fun recalculatePositionsAfterRemove(position: Int) =
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentList = queueLiveData.value.toMutableList()
+            currentList.removeAt(position)
+
+            queueLiveData.offer(currentList)
+        }
+
+    /**
+     * @param moves contains all the movements in the list
+     */
+    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
+        viewModelScope.launch(Dispatchers.Default) {
+            val currentList = queueLiveData.value
+            for ((from, to) in moves) {
+                currentList.swap(from, to)
+            }
+
+            queueLiveData.offer(currentList)
+        }
+
     private fun PlayingQueueSong.toDisplayableItem(
-        currentItemIndex: Int
+        currentPosition: Int,
+        currentPlayingIndex: Int,
+        currentPlayingIdInPlaylist: Int
     ): DisplayableQueueSong {
         val song = this.song
 
-        val relativePosition = when {
-//            currentItemIndex == -1 -> "-"
-            song.idInPlaylist > currentItemIndex -> "+${song.idInPlaylist - currentItemIndex}"
-            song.idInPlaylist < currentItemIndex -> "${song.idInPlaylist - currentItemIndex}"
-            else -> "-"
-        }
+        val relativePosition = computeRelativePosition(currentPosition, currentPlayingIndex)
 
         return DisplayableQueueSong(
             type = R.layout.item_playing_queue,
@@ -68,7 +92,19 @@ class PlayingQueueFragmentViewModel @Inject constructor(
             album = song.album,
             idInPlaylist = song.idInPlaylist,
             relativePosition = relativePosition,
-            isCurrentSong = song.idInPlaylist == currentItemIndex
+            isCurrentSong = song.idInPlaylist == currentPlayingIdInPlaylist
         )
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun computeRelativePosition(
+        currentPosition: Int,
+        currentPlayingIndex: Int
+    ): String {
+        return when {
+            currentPosition > currentPlayingIndex -> "+${currentPosition - currentPlayingIndex}"
+            currentPosition < currentPlayingIndex -> "${currentPosition - currentPlayingIndex}"
+            else -> "-"
+        }
     }
 }

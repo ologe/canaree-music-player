@@ -31,7 +31,7 @@ private const val LAST_ID = "$TAG.last.id"
 
 private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 
-private const val LAST_POSITION = "$TAG.last_position"
+private const val LAST_ID_IN_PLAYLIST = "$TAG.last_id_in_playlist_2"
 
 private const val MUSIC_VOLUME = "$TAG.music_volume"
 
@@ -162,19 +162,19 @@ class MusicPreferencesImpl @Inject constructor(
         return preferences.getFloat(PLAYBACK_SPEED, 1f)
     }
 
-    override fun setLastPositionInQueue(position: Int) {
+    override fun setLastIdInPlaylist(position: Int) {
         preferences.edit {
-            putInt(LAST_POSITION, position)
+            putInt(LAST_ID_IN_PLAYLIST, position)
         }
     }
 
-    override fun observeLastPositionInQueue(): Flow<Int> {
-        return preferences.observeKey(LAST_POSITION, -1)
+    override fun observeLastIdInPlaylist(): Flow<Int> {
+        return preferences.observeKey(LAST_ID_IN_PLAYLIST, -1)
             .assertBackground()
     }
 
-    override fun getLastPositionInQueue(): Int {
-        return preferences.getInt(LAST_POSITION, -1)
+    override fun getLastIdInPlaylist(): Int {
+        return preferences.getInt(LAST_ID_IN_PLAYLIST, -1)
     }
 
     override fun setVolume(volume: Int) {

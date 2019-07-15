@@ -7,18 +7,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
@@ -34,25 +30,23 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast {
+        act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory)
+    }
+    @Inject
+    lateinit var navigator: Navigator
+
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(
             lifecycle,
             act as MediaProvider,
             navigator,
-            this
+            this,
+            viewModel
         )
     }
-
-    @Inject
-    lateinit var navigator: Navigator
 
     private lateinit var layoutManager: LinearLayoutManager
-
-    private val viewModel by lazyFast {
-        act.viewModelProvider<PlayingQueueFragmentViewModel>(
-            viewModelFactory
-        )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         layoutManager = LinearLayoutManager(context!!)

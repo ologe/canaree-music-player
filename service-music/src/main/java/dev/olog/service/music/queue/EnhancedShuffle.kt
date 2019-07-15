@@ -46,7 +46,7 @@ internal class EnhancedShuffle @Inject constructor(
      *      1,2,3,4,5   // last played songs in reverse order
      * ]
      */
-    fun shuffle(list: MutableList<MediaEntity>): List<MediaEntity> {
+    fun shuffle(list: List<MediaEntity>): List<MediaEntity> {
         val halfListSize = list.size / 2
 
         val currentLastListened = lastListened.take(

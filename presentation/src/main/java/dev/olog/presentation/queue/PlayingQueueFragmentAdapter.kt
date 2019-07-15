@@ -23,12 +23,15 @@ class PlayingQueueFragmentAdapter(
     lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
-    private val dragListener: IDragListener
+    private val dragListener: IDragListener,
+    private val viewModel: PlayingQueueFragmentViewModel
 
 ) : ObservableAdapter<DisplayableQueueSong>(
     lifecycle,
     DiffCallbackPlayingQueue
 ), TouchableAdapter {
+
+    private val moves = mutableListOf<Pair<Int, Int>>()
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -89,6 +92,7 @@ class PlayingQueueFragmentAdapter(
         mediaProvider.swap(from, to)
         dataSet.swap(from, to)
         notifyItemMoved(from, to)
+        moves.add(from to to)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
@@ -96,8 +100,15 @@ class PlayingQueueFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        dataSet.removeAt(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
+        val position = viewHolder.adapterPosition
+        dataSet.removeAt(position)
+        notifyItemRemoved(position)
+        viewModel.recalculatePositionsAfterRemove(position)
+    }
+
+    override fun onClearView() {
+        viewModel.recalculatePositionsAfterMove(moves.toList())
+        moves.clear()
     }
 
 }

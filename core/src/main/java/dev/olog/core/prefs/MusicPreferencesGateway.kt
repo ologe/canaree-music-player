@@ -36,9 +36,9 @@ interface MusicPreferencesGateway {
     fun setPlaybackSpeed(speed: Float)
     fun getPlaybackSpeed(): Float
 
-    fun setLastPositionInQueue(position: Int)
-    fun observeLastPositionInQueue(): Flow<Int>
-    fun getLastPositionInQueue(): Int
+    fun setLastIdInPlaylist(position: Int)
+    fun observeLastIdInPlaylist(): Flow<Int>
+    fun getLastIdInPlaylist(): Int
 
     /**
      * volume from 0 to 100
