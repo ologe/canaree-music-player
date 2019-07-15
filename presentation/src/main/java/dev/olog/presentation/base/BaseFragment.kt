@@ -29,8 +29,8 @@ abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
         return (activity as HasSlidingPanel).getSlidingPanel()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         cancel()
     }
 
