@@ -6,7 +6,6 @@ import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
@@ -37,8 +36,6 @@ internal class MusicServicePlaybackState @Inject constructor(
         @JvmStatic
         val CUSTOM_ACTION_REPEAT = "$TAG.repeat"
     }
-
-    private val appShortcuts = AppShortcuts.instance(context)
 
     private val builder = PlaybackStateCompat.Builder().apply {
         setState(
@@ -96,12 +93,6 @@ internal class MusicServicePlaybackState @Inject constructor(
         Log.v(TAG, "update state=$state, bookmark=$bookmark, speed=$speed")
 
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
-
-        if (isPlaying) {
-            disablePlayShortcut()
-        } else {
-            enablePlayShortcut()
-        }
 
         builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
 
@@ -226,17 +217,6 @@ internal class MusicServicePlaybackState @Inject constructor(
 
             context.sendBroadcast(intent)
         }
-    }
-
-    private fun disablePlayShortcut() {
-        Log.v(TAG, "disablePlayShortcut")
-        appShortcuts.disablePlay()
-    }
-
-
-    private fun enablePlayShortcut() {
-        Log.v(TAG, "enablePlayShortcut")
-        appShortcuts.enablePlay()
     }
 
 }
