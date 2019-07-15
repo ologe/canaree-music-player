@@ -2,8 +2,9 @@ package dev.olog.presentation.player
 
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.pro.IBilling
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combineLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PlayerFragmentPresenter @Inject constructor(
@@ -11,9 +12,8 @@ class PlayerFragmentPresenter @Inject constructor(
     private val appPrefsUseCase: PresentationPreferencesGateway
 ) {
 
-    fun observePlayerControlsVisibility(): Observable<Boolean> {
-        return Observables.combineLatest(
-            billing.observeBillingsState().map { it.isPremiumEnabled() },
+    fun observePlayerControlsVisibility(): Flow<Boolean> {
+        return billing.observeBillingsState().map { it.isPremiumEnabled() }.combineLatest(
             appPrefsUseCase.observePlayerControlsVisibility()
         ) { premium, show -> premium && show }
     }

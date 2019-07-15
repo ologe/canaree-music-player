@@ -29,6 +29,9 @@ import dev.olog.shared.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {

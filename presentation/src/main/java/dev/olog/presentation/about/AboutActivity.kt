@@ -20,8 +20,10 @@ import javax.inject.Inject
 
 class AboutActivity : BaseActivity() {
 
-    @Inject lateinit var navigator: NavigatorAbout
-    @Inject lateinit var billing: IBilling
+    @Inject
+    lateinit var navigator: NavigatorAbout
+    @Inject
+    lateinit var billing: IBilling
     private val presenter by lazyFast {
         AboutActivityPresenter(
             applicationContext,
@@ -48,7 +50,7 @@ class AboutActivity : BaseActivity() {
         setInAnimation()
 
         presenter.observeData()
-                .subscribe(this, adapter::updateDataSet)
+            .subscribe(this, adapter::updateDataSet)
 
     }
 
@@ -70,32 +72,37 @@ class AboutActivity : BaseActivity() {
     override fun onBackPressed() {
         setOutAnimation()
         val stack = supportFragmentManager.backStackEntryCount
-        if (stack == 1){
+        if (stack == 1) {
             switcher?.setText(getString(R.string.about))
         }
 
         super.onBackPressed()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onCleared()
+    }
+
     private val factory = ViewSwitcher.ViewFactory {
         val textView = TextView(this@AboutActivity)
         textView.layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
+            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
         TextViewCompat.setTextAppearance(textView, R.style.Headline6)
         textView.gravity = Gravity.CENTER
         textView
     }
 
-    private fun setInAnimation(){
+    private fun setInAnimation() {
         setSwitcherAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom)
     }
 
-    private fun setOutAnimation(){
+    private fun setOutAnimation() {
         setSwitcherAnimation(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 
-    private fun setSwitcherAnimation(inAnimation: Int, outAnimation: Int){
+    private fun setSwitcherAnimation(inAnimation: Int, outAnimation: Int) {
         val inAnim = AnimationUtils.loadAnimation(this, inAnimation)
         val outAnim = AnimationUtils.loadAnimation(this, outAnimation)
         switcher?.inAnimation = inAnim

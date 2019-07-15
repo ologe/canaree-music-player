@@ -36,6 +36,7 @@ import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.coroutines.flow.filter
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,

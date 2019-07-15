@@ -8,16 +8,19 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.pro.BillingState
 import dev.olog.presentation.pro.IBilling
-import dev.olog.shared.extensions.asLiveData
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combineLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 
 class AboutActivityPresenter(
     context: Context,
     private val billing: IBilling
-) {
+) : CoroutineScope by MainScope() {
 
     companion object {
         val AUTHOR_ID = MediaId.headerId("author id")
@@ -105,20 +108,26 @@ class AboutActivityPresenter(
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 
     init {
-        dataLiveData.postValue(data)
+        launch {
+            billing.observeBillingsState()
+                .combineLatest(flowOf(data)) { state, data ->
+                    when {
+                        state.isBought -> listOf(alreadyPro).plus(data)
+                        state.isTrial -> listOf(trial).plus(data)
+                        else -> listOf(noPro).plus(data)
+                    }
+                }.flowOn(Dispatchers.Default)
+                .collect {
+                    dataLiveData.value = it
+                }
+        }
     }
 
-    fun observeData(): LiveData<List<DisplayableItem>> {
-        return billing.observeBillingsState().withLatestFrom(Observable.just(data),
-            BiFunction { state: BillingState, data: List<DisplayableHeader> ->
-                when {
-                    state.isBought -> listOf(alreadyPro).plus(data)
-                    state.isTrial -> listOf(trial).plus(data)
-                    else -> listOf(noPro).plus(data)
-                }
-            }).map { it.map { it as DisplayableItem } } // stupid compiler
-            .asLiveData()
+    fun onCleared(){
+        cancel()
     }
+
+    fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 
     fun buyPro() {
         if (!billing.getBillingsState().isPremiumStrict()) {
@@ -127,5 +136,4 @@ class AboutActivityPresenter(
             // TODO show toast with already purchased
         }
     }
-
 }

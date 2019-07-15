@@ -10,11 +10,9 @@ import dev.olog.core.interactor.ResetPreferencesUseCase
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.flowInterval
-import io.reactivex.Observable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.rx2.asObservable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -101,8 +99,8 @@ class BillingImpl @Inject constructor(
 //        return true
     }
 
-    override fun observeBillingsState(): Observable<BillingState> {
-        return premiumPublisher.asFlow().combineLatest(trialPublisher.asFlow()) { premium, trial ->
+    override fun observeBillingsState(): Flow<BillingState> {
+        return premiumPublisher.combineLatest(trialPublisher.asFlow()) { premium, trial ->
             BillingState(trial, premium)
         }.asObservable()
     }

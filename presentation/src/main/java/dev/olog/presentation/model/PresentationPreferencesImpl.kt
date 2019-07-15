@@ -265,9 +265,8 @@ class PresentationPreferencesImpl @Inject constructor(
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
     }
 
-    override fun observePlayerControlsVisibility(): Observable<Boolean> {
+    override fun observePlayerControlsVisibility(): Flow<Boolean> {
         return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
-            .asObservable()
     }
 
     override fun isAdaptiveColorEnabled(): Boolean {

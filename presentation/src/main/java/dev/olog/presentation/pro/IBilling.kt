@@ -1,10 +1,10 @@
 package dev.olog.presentation.pro
 
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface IBilling {
 
-    fun observeBillingsState(): Observable<BillingState>
+    fun observeBillingsState(): Flow<BillingState>
     fun getBillingsState(): BillingState
     fun purchasePremium()
 

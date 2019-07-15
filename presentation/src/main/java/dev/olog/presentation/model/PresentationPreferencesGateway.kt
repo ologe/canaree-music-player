@@ -34,7 +34,7 @@ interface PresentationPreferencesGateway {
 
     fun isAdaptiveColorEnabled(): Boolean
 
-    fun observePlayerControlsVisibility(): Observable<Boolean>
+    fun observePlayerControlsVisibility(): Flow<Boolean>
 
     fun setDefault()
 }
