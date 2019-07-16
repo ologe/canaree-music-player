@@ -24,7 +24,7 @@ abstract class BaseDataFetcher(
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 
     companion object {
-        private const val TIMEOUT = 2500
+        private const val TIMEOUT = 5000
 
         private var requestCounter = AtomicLong(1)
     }
@@ -56,26 +56,68 @@ abstract class BaseDataFetcher(
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         launch {
             try {
-                if (mustFetch()) {
-                    delayRequest()
-                    yield()
-                }
-                val image = execute(priority, callback)
-                yield()
-
-                if (image.isNotBlank() && networkSafeAction()){
-                    val urlFetcher = HttpUrlFetcher(
-                        GlideUrl(image),
-                        TIMEOUT
-                    )
-                    urlFetcher.loadData(priority, callback)
+                if (!mustFetch() && tryLocal(priority, callback)) {
                     return@launch
                 }
-                callback.onLoadFailed(NoSuchElementException())
-            } catch (ex: Exception){
+                if (tryRemote(priority, callback)) {
+                    return@launch
+                }
+
+                throw NoSuchElementException()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
                 callback.onLoadFailed(ex)
             }
         }
+    }
+
+    private suspend fun tryLocal(
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ): Boolean {
+        if (networkSafeAction()) {
+            // load local
+            val image = execute(priority, callback)
+            yield()
+            loadUrl(image, priority, callback)
+            return true
+        } else {
+            throw Exception("not allowed to make network request")
+        }
+    }
+
+    private suspend fun tryRemote(
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ): Boolean {
+        if (!networkSafeAction()) {
+            throw Exception("not allowed to make network request")
+        }
+        // delay
+        delayRequest()
+        yield()
+
+        // rest call to last fm
+        val image = execute(priority, callback)
+        yield()
+
+        if (image.isNotBlank()) {
+            loadUrl(image, priority, callback)
+            return true
+        }
+        return false
+    }
+
+    private fun loadUrl(
+        url: String,
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ) {
+        val urlFetcher = HttpUrlFetcher(
+            GlideUrl(url),
+            TIMEOUT
+        )
+        urlFetcher.loadData(priority, callback)
     }
 
     private suspend fun delayRequest() {
@@ -103,7 +145,10 @@ abstract class BaseDataFetcher(
         }
     }
 
-    protected abstract suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String
+    protected abstract suspend fun execute(
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>
+    ): String
 
     protected abstract suspend fun mustFetch(): Boolean
 
