@@ -74,8 +74,7 @@ class CustomViewSwitcher(
 
     private fun loadImageInternal(mediaId: MediaId){
         animationFinished = false
-        val nextView = (if(currentDirection == Direction.LEFT) getPreviousView() else getNextView()) as ViewGroup
-        val imageView = nextView.findChild { it is ImageView }!! as ImageView
+        val imageView = (if(currentDirection == Direction.LEFT) getPreviousView() else getNextView()) as ImageView
 
         GlideApp.with(context).clear(imageView)
         GlideApp.with(context)

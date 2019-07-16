@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dev.olog.presentation.widgets.switcher.CustomViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imageSwitcher"
     android:layout_width="match_parent"
@@ -10,46 +9,25 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <com.google.android.material.card.MaterialCardView
+    <dev.olog.presentation.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardCornerRadius="@dimen/default_corner_radius"
-        app:cardElevation="0dp">
+        android:elevation="0dp"/>
 
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
+    <dev.olog.presentation.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardCornerRadius="@dimen/default_corner_radius"
-        app:cardElevation="0dp">
+        android:elevation="0dp"/>
 
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
+    <dev.olog.presentation.widgets.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardCornerRadius="@dimen/default_corner_radius"
-        app:cardElevation="0dp">
-
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note" />
-
-    </com.google.android.material.card.MaterialCardView>
+        android:elevation="0dp"/>
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
