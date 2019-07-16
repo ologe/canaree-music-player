@@ -108,7 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
-<!--        wrapper is mandatory to avoid autoscroll collision with seekbar -->
+        <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
         <LinearLayout
             android:id="@+id/textWrapper"
             android:layout_height="wrap_content"
@@ -160,12 +160,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/vd_more"
-            android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
 
         <dev.olog.shared.widgets.DottedSeparator
