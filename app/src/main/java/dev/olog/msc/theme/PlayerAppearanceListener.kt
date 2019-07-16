@@ -3,6 +3,8 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
+import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.shared.R
 import dev.olog.shared.delegates.mutableLazy
 import dev.olog.shared.theme.PlayerAppearance
@@ -15,13 +17,14 @@ internal class PlayerAppearanceListener @Inject constructor(
     context,
     prefs,
     context.getString(R.string.prefs_appearance_key)
-) {
+), ActivityLifecycleCallbacks by CurrentActivityObserver(context) {
 
     var playerAppearance by mutableLazy { getValue() }
         private set
 
     override fun onPrefsChanged() {
         playerAppearance = getValue()
+        currentActivity?.recreate()
     }
 
     override fun getValue(): PlayerAppearance {
