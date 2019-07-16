@@ -21,7 +21,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorSurface"
+            android:background="?android:colorBackground"
             android:paddingStart="@dimen/detail_margin_horizontal"
             android:paddingEnd="@dimen/detail_margin_horizontal">
 
