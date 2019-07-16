@@ -1,6 +1,7 @@
 package dev.olog.presentation.prefs
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -34,7 +35,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
-class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
+class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         val TAG = SettingsFragment::class.java.name
@@ -94,6 +95,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
 
     override fun onResume() {
         super.onResume()
+        preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
         libraryCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
                     .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
@@ -146,6 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
 
     override fun onPause() {
         super.onPause()
+        preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
@@ -153,6 +157,14 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback {
         lastFmCredentials.onPreferenceClickListener = null
         accentColorChooser.onPreferenceClickListener = null
         resetTutorial.onPreferenceClickListener = null
+    }
+
+    override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
+        when (key){
+            getString(R.string.prefs_folder_tree_view_key),
+            getString(R.string.prefs_dark_mode_key),
+            getString(R.string.prefs_appearance_key) -> act.recreate()
+        }
     }
 
     private fun showDeleteAllCacheDialog(){
