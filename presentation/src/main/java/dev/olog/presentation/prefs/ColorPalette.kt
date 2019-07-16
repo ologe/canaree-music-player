@@ -1,11 +1,55 @@
 package dev.olog.presentation.prefs
 
 import android.graphics.Color
+import dev.olog.shared.utils.ColorUtils
 
 object ColorPalette {
 
     @JvmStatic
-    val ACCENT_COLORS = intArrayOf(
+    fun getAccentColors(isDarkMode: Boolean): IntArray {
+        if (isDarkMode) {
+            return ACCENT_COLORS_DESATURATED
+        }
+        return ACCENT_COLORS
+    }
+
+    @JvmStatic
+    fun getAccentColorsSub(isDarkMode: Boolean): Array<IntArray> {
+        if (isDarkMode) {
+            return ACCENT_COLORS_SUB_DESATURATED
+        }
+        return ACCENT_COLORS_SUB
+    }
+
+    fun getRealAccentSubColor(isDarkMode: Boolean, color: Int): Int {
+        if (!isDarkMode) {
+            return color
+        }
+        for (i in 0 until ACCENT_COLORS_SUB_DESATURATED.size){
+            for (j in 0 until ACCENT_COLORS_SUB_DESATURATED[i].size){
+                val currentColor = ACCENT_COLORS_SUB_DESATURATED[i][j]
+                if (currentColor == color){
+                    return ACCENT_COLORS_SUB[i][j]
+                }
+            }
+        }
+        throw IllegalStateException("found must be found above, is dark mode=$isDarkMode, color=$color")
+    }
+
+    @JvmStatic
+    private val ACCENT_COLORS_DESATURATED: IntArray by lazy {
+        ACCENT_COLORS.map { ColorUtils.desaturate(it) }.toIntArray()
+    }
+
+    @JvmStatic
+    private val ACCENT_COLORS_SUB_DESATURATED: Array<IntArray> by lazy {
+        ACCENT_COLORS_SUB.map { ints ->
+            ints.copyOf().map { ColorUtils.desaturate(it) }.toIntArray()
+        }.toTypedArray()
+    }
+
+    @JvmStatic
+    private val ACCENT_COLORS = intArrayOf(
         Color.parseColor("#FF1744"),
         Color.parseColor("#F50057"),
         Color.parseColor("#D500F9"),
@@ -25,7 +69,7 @@ object ColorPalette {
     )
 
     @JvmStatic
-    val ACCENT_COLORS_SUB = arrayOf(
+    private val ACCENT_COLORS_SUB = arrayOf(
         intArrayOf(
             Color.parseColor("#FF8A80"),
             Color.parseColor("#FF5252"),

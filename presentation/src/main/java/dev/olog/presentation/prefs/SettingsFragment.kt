@@ -134,8 +134,8 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
 
             MaterialDialog(act)
                     .colorChooser(
-                            colors = ColorPalette.ACCENT_COLORS,
-                            subColors = ColorPalette.ACCENT_COLORS_SUB,
+                            colors = ColorPalette.getAccentColors(ctx.isDarkMode()),
+                            subColors = ColorPalette.getAccentColorsSub(ctx.isDarkMode()),
                             initialSelection = prefs.getInt(key, defaultColor),
                             selection = this
                     ).show()
@@ -163,7 +163,9 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
         when (key){
             getString(R.string.prefs_library_categories_key),
             getString(R.string.prefs_podcast_library_categories_key),
-            getString(R.string.prefs_folder_tree_view_key) -> act.recreate()
+            getString(R.string.prefs_folder_tree_view_key) -> {
+                act.recreate()
+            }
         }
     }
 
@@ -199,11 +201,11 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
     }
 
     override fun invoke(dialog: MaterialDialog, color: Int) {
+        val realColor = ColorPalette.getRealAccentSubColor(ctx.isDarkMode(), color)
         val prefs = PreferenceManager.getDefaultSharedPreferences(act)
         val key = getString(R.string.prefs_color_accent_key)
         prefs.edit {
-            putInt(key, color)
+            putInt(key, realColor)
         }
-        act.recreate()
     }
 }
