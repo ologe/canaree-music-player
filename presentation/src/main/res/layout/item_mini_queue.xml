@@ -22,7 +22,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorSurface"
+            android:background="?android:colorBackground"
             android:paddingStart="@dimen/mini_queue_margin_start"
             android:paddingEnd="@dimen/mini_queue_margin_end">
 
