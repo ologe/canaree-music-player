@@ -12,7 +12,7 @@ object ColorUtils {
         val hsl = FloatArray(3)
         ColorUtils.colorToHSL(color, hsl)
         if (hsl[1] > MIN_SATURATION) {
-            hsl[1] = clamp(hsl[1] - amount, MIN_SATURATION, 1f)
+            hsl[1] = clamp(hsl[1] - amount, MIN_SATURATION - 0.1f, 1f)
         }
         return ColorUtils.HSLToColor(hsl)
     }
