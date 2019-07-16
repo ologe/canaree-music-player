@@ -8,29 +8,11 @@
     android:paddingStart="@dimen/player_toolbar_margin_start"
     android:paddingEnd="@dimen/player_toolbar_margin_end">
 
-    <TextView
-        android:id="@+id/nowPlaying"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
-        android:gravity="center"
-        android:stateListAnimator="@animator/now_playing"
-        android:text="@string/player_now_playing"
-        android:textAppearance="@style/Header.Main"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
         android:id="@+id/lyrics"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
         android:layout_gravity="end"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
         android:src="@drawable/vd_offline_lyrics"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,14 +23,19 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
         android:layout_gravity="end"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
         android:src="@drawable/vd_slow_motion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lyrics"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <dev.olog.presentation.widgets.VolumeChangerView
+        android:id="@+id/volume"
+        android:layout_gravity="end"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:src="@drawable/vd_volume_up"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playbackSpeed"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

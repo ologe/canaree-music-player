@@ -4,6 +4,7 @@
     <!--cover-->
     <dimen name="player_cover_margin_vertical">24dp</dimen>
     <dimen name="player_cover_margin_horizontal">64dp</dimen>
+    <dimen name="player_cover_margin_horizontal_spotify">64dp</dimen>
 
     <!--seekbar-->
     <dimen name="player_seekBar_padding_bottom">30dp</dimen>

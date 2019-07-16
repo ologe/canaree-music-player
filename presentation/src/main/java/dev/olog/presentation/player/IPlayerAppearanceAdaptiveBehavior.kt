@@ -1,14 +1,13 @@
 package dev.olog.presentation.player
 
 import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.shared.extensions.animateBackgroundColor
-import dev.olog.shared.extensions.animateTextColor
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.*
+import dev.olog.shared.palette.ColorUtil
 import dev.olog.shared.theme.PlayerAppearance
-import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 
 internal interface IPlayerAppearanceAdaptiveBehavior {
@@ -18,6 +17,7 @@ internal interface IPlayerAppearanceAdaptiveBehavior {
             PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
             PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
             PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
+            PlayerAppearance.SPOTIFY -> PlayerAppearanceBehaviorSpotify()
             else -> PlayerAppearanceBehaviorDefault()
         }
     }
@@ -25,7 +25,30 @@ internal interface IPlayerAppearanceAdaptiveBehavior {
     operator fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel)
 }
 
-internal class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
+internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
+
+    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+        val view = viewHolder.itemView
+
+        viewModel.observePaletteColors()
+            .map { it.accent }
+            .asLiveData()
+            .subscribe(viewHolder) { accent ->
+                val first = ColorUtil.shiftColor(accent, .4f)
+                val second = ColorUtil.shiftColor(accent, .1f)
+
+                val gradient = view.playerRoot.background as GradientDrawable
+                val defaultColor = view.context.colorBackground()
+                gradient.colors = intArrayOf(first, second, defaultColor)
+                view.playerRoot.background = gradient
+
+                view.shuffle.updateSelectedColor(accent)
+                view.repeat.updateSelectedColor(accent)
+            }
+    }
+}
+
+internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView

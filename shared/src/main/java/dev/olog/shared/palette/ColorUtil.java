@@ -28,13 +28,13 @@ public class ColorUtil {
         return palette.getVibrantColor(lightVibrant);
     }
 
-    @ColorInt
-    public static int shiftBackgroundColorForLightText(@ColorInt int backgroundColor) {
-        while (isColorLightSecondVersion(backgroundColor)) {
-            backgroundColor = darkenColor(backgroundColor);
-        }
-        return backgroundColor;
-    }
+//    @ColorInt
+//    public static int shiftBackgroundColorForLightText(@ColorInt int backgroundColor) {
+//        while (isColorLightSecondVersion(backgroundColor)) {
+//            backgroundColor = darkenColor(backgroundColor);
+//        }
+//        return backgroundColor;
+//    }
 
     /**
      * Returns the contrast ratio between {@code foreground} and {@code background}.

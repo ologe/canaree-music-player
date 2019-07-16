@@ -53,7 +53,7 @@ class PlayerFragmentViewModel @Inject constructor(
         .observeOn(Schedulers.io())
         .map {
             val hasPlayerAppearance = context.hasPlayerAppearance()
-            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
+            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
                 it
             } else {
                 InvalidPaletteColors

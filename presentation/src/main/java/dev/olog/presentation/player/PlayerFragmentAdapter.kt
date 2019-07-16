@@ -246,7 +246,7 @@ internal class PlayerFragmentAdapter(
         val playerAppearance = view.context.hasPlayerAppearance()
 
         presenter.observePlayerControlsVisibility()
-            .filter { !playerAppearance.isFullscreen() && !playerAppearance.isMini() }
+            .filter { !playerAppearance.isFullscreen() && !playerAppearance.isMini() && !playerAppearance.isSpotify() }
             .asLiveData()
             .subscribe(holder) { visible ->
                 view.previous.toggleVisibility(visible, true)

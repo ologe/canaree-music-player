@@ -5,20 +5,18 @@
     <dimen name="player_cover_margin_vertical">2dp</dimen>
     <dimen name="player_cover_margin_horizontal">16dp</dimen>
 
+    <dimen name="player_cover_margin_horizontal_spotify">16dp</dimen>
+
     <!--seekbar-->
     <dimen name="player_seekBar_padding_bottom">22dp</dimen>
     <dimen name="player_seekBar_padding_top">16dp</dimen>
     <dimen name="player_seekBar_padding_horizontal">36dp</dimen>
 
     <dimen name="player_seekBar_spotify_padding">12dp</dimen>
-    <dimen name="player_seekBar_spotify_margin_top">0dp</dimen>
 
     <!--durations-->
     <dimen name="player_bookmark_text_size">12dp</dimen>
     <dimen name="player_duration_margin_end">32dp</dimen>
-
-    <!--metadata-->
-    <dimen name="player_spotify_title_margin_top">8dp</dimen>
 
     <dimen name="player_title_margin_top">0dp</dimen>
     <dimen name="player_title_text_size">18dp</dimen>

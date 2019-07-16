@@ -22,9 +22,7 @@
         app:layout_constraintEnd_toStartOf="@+id/previous"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:elevation="2dp"
-        android:background="@null"/>
+        app:layout_constraintHorizontal_chainStyle="packed" />
 
     <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"
@@ -40,7 +38,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:clickable="true"
         android:focusable="true"
-        tools:visibility="gone"
         android:tint="@android:color/white"
         android:layout_marginStart="16dp"/>
 
@@ -57,11 +54,8 @@
         app:layout_constraintStart_toEndOf="@+id/previous"
         app:layout_constraintEnd_toStartOf="@+id/next"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        tools:visibility="gone"
         android:tint="@android:color/white" />
 
     <dev.olog.shared.widgets.AnimatedImageView
@@ -76,9 +70,6 @@
         app:layout_constraintStart_toEndOf="@+id/playPause"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
-        android:clickable="true"
-        android:focusable="true"
-        tools:visibility="gone"
         android:tint="@android:color/white"
         android:layout_marginEnd="16dp"/>
 
@@ -94,8 +85,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/next"
-        android:elevation="2dp"
-        android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:tint="@android:color/white"/>
 
@@ -107,12 +96,9 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay_30"
-        android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@null"
-        tools:visibility="gone"
         android:tint="@android:color/white"
         app:layout_constraintHorizontal_chainStyle="packed"/>
 
@@ -120,45 +106,30 @@
         android:id="@+id/replay"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/vd_replay"
-        android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/forward"
         app:layout_constraintStart_toEndOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="@+id/replay30"
-        android:background="@null"
-        tools:visibility="gone"
         android:tint="@android:color/white"/>
 
     <ImageButton
         android:id="@+id/forward"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/vd_forward"
-        android:padding="8dp"
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/replay"
         app:layout_constraintEnd_toStartOf="@+id/forward30"
-        android:background="@null"
-        tools:visibility="gone"
         android:tint="@android:color/white"/>
 
     <ImageButton
         android:id="@+id/forward30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/vd_forward_30"
-        android:padding="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/forward"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@null"
-        tools:visibility="gone"
         android:tint="@android:color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

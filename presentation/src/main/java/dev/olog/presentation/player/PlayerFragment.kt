@@ -74,7 +74,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        statusBar.alpha = statusBarAlpha
+        statusBar?.alpha = statusBarAlpha
 
         if (hasPlayerAppearance.isBigImage()) {
             val set = ConstraintSet()
@@ -124,6 +124,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini
+            PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
             else -> R.layout.fragment_player_default
         }
     }
