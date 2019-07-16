@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import dev.olog.presentation.R
+import dev.olog.presentation.main.CustomResources
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.theme.isImmersiveMode
 import javax.inject.Inject
@@ -35,6 +37,15 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFra
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         }
+    }
+
+    override fun getResources(): Resources {
+        val res = super.getResources()
+        if (customResources == null){
+            val isDarkMode = res.getBoolean(R.bool.is_dark_mode)
+            customResources = CustomResources(isDarkMode, res.assets, res.displayMetrics, res.configuration)
+        }
+        return customResources!!
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
