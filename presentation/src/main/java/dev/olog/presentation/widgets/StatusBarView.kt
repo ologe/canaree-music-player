@@ -15,8 +15,8 @@ class StatusBarView(
 ) : View(context, attrs) {
 
     companion object {
-        // for some reason (bug maybe), setOnApplyWindowInsetsListener is called only once for all views
-        // TODO can be a bug of current SDK
+        // workaround: caching value because when changing page in bottom navigation view
+        // setOnApplyWindowInsetsListener is not called
         var viewHeight = -1
     }
 
