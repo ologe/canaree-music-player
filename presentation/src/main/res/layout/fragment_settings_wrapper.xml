@@ -8,8 +8,7 @@
     <dev.olog.presentation.widgets.StatusBarView
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
-        android:elevation="@dimen/toolbar_elevation"
-        android:background="?android:attr/colorPrimaryDark"/>
+        android:elevation="@dimen/toolbar_elevation" />
 
     <FrameLayout
         android:id="@+id/toolbar"
@@ -21,7 +20,6 @@
         <ImageButton
             android:id="@+id/back"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:elevation="@dimen/toolbar_elevation" />
@@ -30,7 +28,7 @@
             android:id="@+id/header"
             android:text="@string/settings"
             android:gravity="center_vertical"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="48dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="@style/Header.Secondary"/>

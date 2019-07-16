@@ -9,25 +9,20 @@
     <dev.olog.presentation.widgets.StatusBarView
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
-        android:background="?android:attr/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"
-        android:background="?android:attr/colorPrimary"
+        android:background="?colorSurface"
         android:elevation="@dimen/toolbar_elevation">
 
 
         <ImageButton
             android:id="@+id/back"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/header"
@@ -36,7 +31,7 @@
             tools:fontFamily="sans-serif-black"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
             android:textAppearance="@style/Header.Secondary"/>
 
