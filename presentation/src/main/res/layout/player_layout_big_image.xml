@@ -65,7 +65,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/waveWrapper"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:max="@integer/common_high_number"
             android:elevation="12dp"
             android:alpha="0"/>
 

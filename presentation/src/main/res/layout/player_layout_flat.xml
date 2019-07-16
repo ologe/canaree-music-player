@@ -20,39 +20,24 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/toolbar" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/coverWrapper"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <include layout="@layout/layout_view_switcher"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/player_cover_margin_vertical"
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
-            android:clickable="false"
-            android:focusable="false"
-            app:cardCornerRadius="@dimen/default_corner_radius"
-            android:stateListAnimator="@animator/elevate_on_activated">
-
-            <dev.olog.presentation.widgets.PlayerImageView
-                android:id="@+id/bigCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:src="@drawable/placeholder_musical_note"
-                android:clickable="false"
-                android:focusable="false" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_marginEnd="@dimen/player_cover_margin_horizontal"/>
 
         <dev.olog.presentation.widgets.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
-            app:layout_constraintTop_toTopOf="@+id/coverWrapper"
+            app:layout_constraintTop_toTopOf="@+id/imageSwitcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/coverWrapper"
+            app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
@@ -67,7 +52,6 @@
             app:layout_constraintTop_toBottomOf="@+id/swipeableView"
             app:layout_constraintStart_toEndOf="@+id/bookmark"
             app:layout_constraintEnd_toStartOf="@+id/duration"
-            android:max="@integer/common_high_number"
             android:paddingBottom="18dp"
             android:paddingTop="18dp"
             tools:thumbTint="#64FFDA"

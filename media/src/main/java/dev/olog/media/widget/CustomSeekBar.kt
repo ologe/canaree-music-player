@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
+import dev.olog.media.R
 import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +20,10 @@ class CustomSeekBar(
     private var listener: OnSeekBarChangeListener? = null
 
     private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
+
+    init {
+        max = Int.MAX_VALUE
+    }
 
     fun setListener(
         onProgressChanged: (Int) -> Unit,

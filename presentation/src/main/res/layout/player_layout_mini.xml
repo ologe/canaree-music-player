@@ -122,7 +122,6 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:max="@integer/common_high_number"
             android:layout_marginTop="12dp"
             android:paddingBottom="@dimen/player_seekBar_padding_bottom"
             android:paddingTop="@dimen/player_seekBar_padding_bottom"

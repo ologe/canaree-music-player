@@ -69,7 +69,6 @@
             app:layout_constraintTop_toBottomOf="@+id/artist"
             app:layout_constraintStart_toEndOf="@+id/bookmark"
             app:layout_constraintEnd_toStartOf="@+id/duration"
-            android:max="@integer/common_high_number"
             android:paddingBottom="@dimen/player_seekBar_spotify_padding"
             android:paddingTop="@dimen/player_seekBar_spotify_padding"
             tools:progress="40"

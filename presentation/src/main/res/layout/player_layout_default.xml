@@ -18,65 +18,16 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/toolbar" />
 
-        <dev.olog.presentation.widgets.switcher.CustomViewSwitcher
-            android:id="@+id/imageSwitcher"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <include layout="@layout/layout_view_switcher"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/player_cover_margin_vertical"
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
-            android:clickable="false"
-            android:focusable="false"
-            android:inAnimation="@android:anim/fade_in"
-            android:outAnimation="@android:anim/fade_out">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="@dimen/default_corner_radius"
-                android:stateListAnimator="@animator/elevate_on_activated"
-                app:cardElevation="0dp">
-
-                <dev.olog.shared.widgets.ForegroundImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:src="@drawable/placeholder_musical_note" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="@dimen/default_corner_radius"
-                android:stateListAnimator="@animator/elevate_on_activated"
-                app:cardElevation="0dp">
-
-                <dev.olog.shared.widgets.ForegroundImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:src="@drawable/placeholder_musical_note" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="@dimen/default_corner_radius"
-                android:stateListAnimator="@animator/elevate_on_activated"
-                app:cardElevation="0dp">
-
-                <dev.olog.shared.widgets.ForegroundImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:src="@drawable/placeholder_musical_note" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
+            android:layout_marginEnd="@dimen/player_cover_margin_horizontal"/>
 
         <dev.olog.presentation.widgets.SwipeableView
             android:id="@+id/swipeableView"
@@ -99,7 +50,6 @@
             app:layout_constraintTop_toBottomOf="@+id/swipeableView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:max="@integer/common_high_number"
             android:paddingBottom="@dimen/player_seekBar_padding_bottom"
             android:paddingTop="@dimen/player_seekBar_padding_top"
             android:paddingStart="@dimen/player_seekBar_padding_horizontal"
@@ -177,6 +127,7 @@
                 android:textSize="@dimen/player_title_text_size"
                 android:textColor="?android:attr/textColorPrimary"
                 app:fontFamily="sans-serif-black"
+                tools:fontFamily="sans-serif-black"
                 android:layout_marginStart="@dimen/player_title_margin_horizontal"
                 android:clickable="false"
                 android:focusable="false"

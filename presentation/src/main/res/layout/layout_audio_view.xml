@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_gravity="bottom"
-        android:max="@integer/common_high_number"
+        android:max="999999999"
         tools:max="100"
         tools:progress="50"
         android:progressTint="@android:color/white"

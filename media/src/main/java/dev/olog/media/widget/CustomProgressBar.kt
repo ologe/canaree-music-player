@@ -15,6 +15,10 @@ class CustomProgressBar(
 
     private val delegate: IProgressDeletegate = ProgressDeletegate(this)
 
+    init {
+        max = Int.MAX_VALUE
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         stopAutoIncrement(0)

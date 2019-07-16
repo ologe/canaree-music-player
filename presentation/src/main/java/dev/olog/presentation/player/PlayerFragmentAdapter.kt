@@ -33,6 +33,7 @@ import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.widgets.AnimatedImageView
 import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
