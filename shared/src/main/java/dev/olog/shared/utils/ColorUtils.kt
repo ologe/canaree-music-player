@@ -4,12 +4,15 @@ import androidx.core.graphics.ColorUtils
 
 object ColorUtils {
 
+    // minimum saturation in color accents ~0.75f
+    const val MIN_SATURATION = 0.75f
+
     @Suppress("NOTHING_TO_INLINE")
-    inline fun desaturate(color: Int, amount: Float = .3f): Int {
+    inline fun desaturate(color: Int, amount: Float = .25f): Int {
         val hsl = FloatArray(3)
         ColorUtils.colorToHSL(color, hsl)
-        if (hsl[1] > .5f) {
-            hsl[1] = clamp(hsl[1] - amount, .5f, 1f)
+        if (hsl[1] > MIN_SATURATION) {
+            hsl[1] = clamp(hsl[1] - amount, MIN_SATURATION, 1f)
         }
         return ColorUtils.HSLToColor(hsl)
     }
