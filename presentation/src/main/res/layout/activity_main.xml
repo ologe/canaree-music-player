@@ -45,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:background="?colorSurface">
 
         <dev.olog.shared.widgets.DottedSeparator
             android:layout_width="match_parent"
@@ -60,7 +61,8 @@
             android:layout_gravity="bottom"
             app:elevation="0dp"
             app:itemIconSize="22dp"
-            app:menu="@menu/bottom_navigation" />
+            app:menu="@menu/bottom_navigation"
+            android:background="@android:color/transparent"/>
 
     </LinearLayout>
 
