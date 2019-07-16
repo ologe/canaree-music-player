@@ -168,12 +168,15 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
+        val playerAppearance = view.context.hasPlayerAppearance()
 
         val waveWrapper: AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
 
         view.findViewById<AnimatedImageView>(R.id.next)?.setDefaultColor()
         view.findViewById<AnimatedImageView>(R.id.previous)?.setDefaultColor()
-        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)?.setDefaultColor()
+        if (!playerAppearance.isSpotify()){
+            view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)?.setDefaultColor()
+        }
 
         mediaProvider.observeMetadata()
             .subscribe(holder) {
@@ -242,8 +245,6 @@ internal class PlayerFragmentAdapter(
         viewModel.skipToPreviousVisibility
             .asLiveData()
             .subscribe(holder, view.previous::updateVisibility)
-
-        val playerAppearance = view.context.hasPlayerAppearance()
 
         presenter.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen() && !playerAppearance.isMini() && !playerAppearance.isSpotify() }

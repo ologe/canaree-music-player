@@ -35,7 +35,7 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
             .asLiveData()
             .subscribe(viewHolder) { accent ->
                 val first = ColorUtil.shiftColor(accent, .4f)
-                val second = ColorUtil.shiftColor(accent, .1f)
+                val second = ColorUtil.shiftColor(accent, .13f)
 
                 val gradient = view.playerRoot.background as GradientDrawable
                 val defaultColor = view.context.colorBackground()
