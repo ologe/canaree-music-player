@@ -207,5 +207,6 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
         prefs.edit {
             putInt(key, realColor)
         }
+        act.recreate()
     }
 }
