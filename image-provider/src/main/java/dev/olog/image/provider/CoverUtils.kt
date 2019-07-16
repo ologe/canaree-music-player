@@ -67,10 +67,6 @@ object CoverUtils {
         val drawable = ContextCompat.getDrawable(context, drawableRes)!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
 
-        val icon = drawable.getDrawable(1) as Drawable
-
-        val iconColorOverride = ContextCompat.getColor(context, R.color.icon_override)
-        DrawableCompat.setTint(icon, iconColorOverride)
         if (!context.isDarkMode()) {
             // use custom color for light theme
             val pos = (position) % COLORS.size
