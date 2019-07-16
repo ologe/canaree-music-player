@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 
-internal interface IPlayerApperanceAdaptiveBehavior {
+internal interface IPlayerAppearanceAdaptiveBehavior {
 
     companion object {
-        fun get(appearance: PlayerAppearance): IPlayerApperanceAdaptiveBehavior = when (appearance){
+        fun get(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior = when (appearance){
             PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
             PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
             PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
@@ -25,7 +25,7 @@ internal interface IPlayerApperanceAdaptiveBehavior {
     operator fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel)
 }
 
-internal class PlayerAppearanceBehaviorDefault : IPlayerApperanceAdaptiveBehavior {
+internal class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView
@@ -46,7 +46,7 @@ internal class PlayerAppearanceBehaviorDefault : IPlayerApperanceAdaptiveBehavio
     }
 }
 
-internal class PlayerAppearanceBehaviorFlat : IPlayerApperanceAdaptiveBehavior {
+internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView
@@ -78,7 +78,7 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerApperanceAdaptiveBehavior {
     }
 }
 
-internal class PlayerAppearanceBehaviorFullscreen : IPlayerApperanceAdaptiveBehavior {
+internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView
@@ -103,7 +103,7 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerApperanceAdaptiveBeha
     }
 }
 
-internal class PlayerAppearanceBehaviorMini : IPlayerApperanceAdaptiveBehavior {
+internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior {
 
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView

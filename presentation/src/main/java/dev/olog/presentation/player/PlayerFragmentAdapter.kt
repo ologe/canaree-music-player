@@ -47,7 +47,7 @@ internal class PlayerFragmentAdapter(
     private val presenter: PlayerFragmentPresenter,
     private val musicPrefs: MusicPreferencesGateway,
     private val dragListener: IDragListener,
-    private val playerApperanceAdaptiveBehavior: IPlayerApperanceAdaptiveBehavior
+    private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
@@ -117,7 +117,7 @@ internal class PlayerFragmentAdapter(
 
             bindPlayerControls(holder, view)
 
-            playerApperanceAdaptiveBehavior(holder, viewModel)
+            playerAppearanceAdaptiveBehavior(holder, viewModel)
         }
     }
 

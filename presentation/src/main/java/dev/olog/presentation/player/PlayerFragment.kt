@@ -1,7 +1,6 @@
 package dev.olog.presentation.player
 
 import android.os.Bundle
-import android.support.v4.media.session.MediaSessionCompat
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -63,7 +62,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
             navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerApperanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = LinearLayoutManager(context)
