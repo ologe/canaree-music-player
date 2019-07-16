@@ -5,8 +5,9 @@
     <attr name="cleanSeekBarColor" format="reference|color"/>
     <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
 
-    <attr name="colorPrimaryTransparent" format="reference" />
+    <attr name="colorPrimaryTransparent" format="reference|color" />
     <attr name="colorSwipeBackground" format="reference|color"/>
+    <attr name="colorUnselectedButton" format="reference|color"/>
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -17,6 +18,7 @@
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
         <item name="colorSwipeBackground">@color/colorSwipeBackground</item>
+        <item name="colorUnselectedButton">@color/colorUnselectedButton</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
@@ -58,7 +60,7 @@
         <item name="tabMode">scrollable</item>
         <item name="tabGravity">center</item>
         <item name="tabSelectedTextColor">?colorAccent</item>
-        <item name="tabTextColor">?android:textColorSecondary</item>
+        <item name="tabTextColor">?colorUnselectedButton</item>
         <item name="tabIndicatorColor">?colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>

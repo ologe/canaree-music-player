@@ -5,6 +5,6 @@
         android:color="?colorAccent"/>
 
     <item android:state_checked="false"
-        android:color="?colorControlNormal"/>
+        android:color="?colorUnselectedButton"/>
 
 </selector>

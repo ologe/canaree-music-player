@@ -54,4 +54,6 @@
     <color name="progressTint">@color/colorControlNormal</color>
     <color name="progressBackgroundTint">@color/grey400</color>
 
+    <color name="colorUnselectedButton">@color/colorControlNormal</color>
+
 </resources>
