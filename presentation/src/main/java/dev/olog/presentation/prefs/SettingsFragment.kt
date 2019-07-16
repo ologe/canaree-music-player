@@ -163,9 +163,7 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
         when (key){
             getString(R.string.prefs_library_categories_key),
             getString(R.string.prefs_podcast_library_categories_key),
-            getString(R.string.prefs_folder_tree_view_key),
-            getString(R.string.prefs_dark_mode_key),
-            getString(R.string.prefs_appearance_key) -> act.recreate()
+            getString(R.string.prefs_folder_tree_view_key) -> act.recreate()
         }
     }
 
