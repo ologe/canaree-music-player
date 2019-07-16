@@ -11,6 +11,7 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.executor.GlideExecutor
+import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.DEFAULT
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
@@ -46,10 +47,11 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
+        val level = if (BuildConfig.DEBUG) DEFAULT else IGNORE
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
-            .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(IGNORE))
-            .setSourceExecutor(GlideExecutor.newSourceExecutor(IGNORE))
+            .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))
+            .setSourceExecutor(GlideExecutor.newSourceExecutor(level))
     }
 
     private fun defaultRequestOptions(context: Context): RequestOptions {
