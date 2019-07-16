@@ -73,8 +73,8 @@ class MiniPlayerFragment : BaseFragment(){
             .distinctUntilChanged()
             .subscribe(viewLifecycleOwner) { state ->
                 when (state){
-                    PlayerState.PLAYING -> playAnimation(true)
-                    PlayerState.PAUSED -> pauseAnimation(true)
+                    PlayerState.PLAYING -> playAnimation()
+                    PlayerState.PAUSED -> pauseAnimation()
                     else -> throw IllegalArgumentException("invalid state $state")
                 }
             }
@@ -119,12 +119,12 @@ class MiniPlayerFragment : BaseFragment(){
         outState.putBoolean(BUNDLE_IS_VISIBLE, getSlidingPanel().isCollapsed())
     }
 
-    private fun playAnimation(animate: Boolean) {
-        playPause.animationPlay(getSlidingPanel().isCollapsed() && animate)
+    private fun playAnimation() {
+        playPause.animationPlay(getSlidingPanel().isCollapsed())
     }
 
-    private fun pauseAnimation(animate: Boolean) {
-        playPause.animationPause(getSlidingPanel().isCollapsed() && animate)
+    private fun pauseAnimation() {
+        playPause.animationPause(getSlidingPanel().isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {

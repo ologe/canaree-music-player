@@ -37,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp" />
 
     <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"

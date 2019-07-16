@@ -256,27 +256,24 @@ internal class PlayerFragmentAdapter(
             }
 
 
-        if (playerAppearance.isFullscreen() || playerAppearance.isMini()) {
+        mediaProvider.observePlaybackState()
+            .filter { it.isSkipTo }
+            .map { it.state == PlayerState.SKIP_TO_NEXT }
+            .subscribe(holder) {
+                animateSkipTo(view, it)
+            }
 
-            mediaProvider.observePlaybackState()
-                .filter { it.isSkipTo }
-                .map { state -> state.state == PlayerState.SKIP_TO_NEXT }
-                .subscribe(holder) {
-                    animateSkipTo(view, it)
+        mediaProvider.observePlaybackState()
+            .filter { it.isPlayOrPause }
+            .map { it.state }
+            .distinctUntilChanged()
+            .subscribe(holder) { state ->
+                when (state) {
+                    PlayerState.PLAYING -> playAnimation(view)
+                    PlayerState.PAUSED -> pauseAnimation(view)
+                    else -> throw IllegalArgumentException("invalid state ${state}")
                 }
-
-            mediaProvider.observePlaybackState()
-                .filter { it.isPlayOrPause }
-                .distinctUntilChanged()
-                .map { it.state }
-                .subscribe(holder) { state ->
-                    when (state) {
-                        PlayerState.PLAYING -> playAnimation(view)
-                        PlayerState.PAUSED -> pauseAnimation(view)
-                        else -> throw IllegalArgumentException("invalid state ${state}")
-                    }
-                }
-        }
+            }
     }
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {
