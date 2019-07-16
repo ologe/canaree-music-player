@@ -3,7 +3,8 @@ package dev.olog.msc.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.ActivityLifecycleCallbacks
+import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
+import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
 import dev.olog.shared.delegates.mutableLazy
 import javax.inject.Inject

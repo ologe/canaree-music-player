@@ -1,4 +1,4 @@
-package dev.olog.msc
+package dev.olog.msc.theme.observer
 
 import android.app.Activity
 import android.app.Application
