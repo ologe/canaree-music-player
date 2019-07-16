@@ -270,7 +270,7 @@ class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun isAdaptiveColorEnabled(): Boolean {
-//        assertBackgroundThread() TODO
+        assertBackgroundThread()
         return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 

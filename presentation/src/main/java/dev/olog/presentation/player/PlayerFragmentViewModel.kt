@@ -18,6 +18,7 @@ import dev.olog.shared.widgets.adaptive.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -33,27 +34,33 @@ class PlayerFragmentViewModel @Inject constructor(
     private val processorPublisher = BehaviorSubject.create<ProcessorColors>()
     private val palettePublisher = BehaviorSubject.create<PaletteColors>()
 
+    // allow adaptive color on flat appearance
     fun observeProcessorColors(): Observable<ProcessorColors> = processorPublisher
-            .map {
-                if (presentationPrefs.isAdaptiveColorEnabled()) {
-                    it
-                } else {
-                    InvalidProcessColors
-                }
+        .observeOn(Schedulers.io())
+        .map {
+            val hasPlayerAppearance = context.hasPlayerAppearance()
+            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
+                it
+            } else {
+                InvalidProcessColors
             }
-            .filter { it is ValidProcessorColors }
-            .observeOn(AndroidSchedulers.mainThread())
+        }
+        .filter { it is ValidProcessorColors }
+        .observeOn(AndroidSchedulers.mainThread())
 
+    // allow adaptive color on flat appearance
     fun observePaletteColors(): Observable<PaletteColors> = palettePublisher
-            .map {
-                if (presentationPrefs.isAdaptiveColorEnabled()) {
-                    it
-                } else {
-                    InvalidPaletteColors
-                }
+        .observeOn(Schedulers.io())
+        .map {
+            val hasPlayerAppearance = context.hasPlayerAppearance()
+            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
+                it
+            } else {
+                InvalidPaletteColors
             }
-            .filter { it is ValidPaletteColors }
-            .observeOn(AndroidSchedulers.mainThread())
+        }
+        .filter { it is ValidPaletteColors }
+        .observeOn(AndroidSchedulers.mainThread())
 
     fun updateProcessorColors(palette: ProcessorColors) {
         processorPublisher.onNext(palette)
