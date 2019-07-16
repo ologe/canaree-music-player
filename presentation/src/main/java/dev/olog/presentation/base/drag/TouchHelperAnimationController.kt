@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
@@ -15,7 +16,8 @@ import kotlin.math.hypot
 internal class TouchHelperAnimationController {
 
     companion object {
-        private val TAG = "P:${TouchHelperAnimationController::class.java.simpleName}"
+        private const val DELETE_COLOR = 0xff_cf1721.toInt()
+        private const val PLAY_NEXT_COLOR = 0xff_364854.toInt()
     }
 
     enum class State {
@@ -28,14 +30,14 @@ internal class TouchHelperAnimationController {
         state = State.IDLE
     }
 
-    private val interpolator by lazyFast { DecelerateInterpolator() }
-    private val bounce by lazyFast { BounceInterpolator() }
+    private val decelerateInterpolator by lazyFast { DecelerateInterpolator() }
+    private val accelerateInterpolator by lazyFast { AccelerateInterpolator() }
+    private val bounceInterpolator by lazyFast { BounceInterpolator() }
 
     fun initializeSwipe(
         viewHolder: RecyclerView.ViewHolder,
         dx: Float
     ) {
-        val oldState = state
         if (dx > 0) {
             if (state == State.SWIPE_RIGHT) {
                 return
@@ -97,23 +99,24 @@ internal class TouchHelperAnimationController {
             0f, endRadius
         )
         background.setVisible()
-        anim.duration = 600
+        anim.duration = 400
+        anim.interpolator = accelerateInterpolator
         anim.start()
 
         mainIcon.setColorFilter(Color.WHITE)
-        background.setBackgroundColor(if (dx > 0) 0xff_ff4444.toInt() else 0xff_364854.toInt())
+        background.setBackgroundColor(if (dx > 0) DELETE_COLOR else PLAY_NEXT_COLOR)
 
         mainIcon.animate()
             .scaleX(1.2f)
             .scaleY(1.2f)
-            .setDuration(250)
-            .setInterpolator(interpolator)
+            .setDuration(200)
+            .setInterpolator(decelerateInterpolator)
             .withEndAction {
                 mainIcon.animate()
                     .scaleX(1f)
                     .scaleY(1f)
-                    .setDuration(250)
-                    .setInterpolator(bounce)
+                    .setDuration(200)
+                    .setInterpolator(bounceInterpolator)
             }
     }
 
