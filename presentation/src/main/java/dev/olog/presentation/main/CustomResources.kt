@@ -17,6 +17,13 @@ class CustomResources(
 
     private val cache = mutableMapOf<Int, ColorStateList>()
 
+    override fun getColor(id: Int, theme: Theme?): Int {
+        if (isDarkMode){
+            return desaturate(super.getColor(id, theme))
+        }
+        return super.getColor(id, theme)
+    }
+
     override fun getColorStateList(id: Int, theme: Theme?): ColorStateList {
         if (!isDarkMode){
             return super.getColorStateList(id, theme)
