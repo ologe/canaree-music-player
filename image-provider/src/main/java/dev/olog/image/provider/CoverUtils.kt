@@ -45,8 +45,8 @@ object CoverUtils {
     private val DESATURATED_COLORS by lazy {
         COLORS.map { original ->
             val ints = original.copyOf()
-            ints[0] = ColorUtils.desaturate(ints[0], amount = .3f)
-            ints[0] = ColorUtils.desaturate(ints[1], amount = .3f)
+            ints[0] = ColorUtils.desaturate(ints[1], amount = .25f)
+            ints[1] = ints[0]
             ints
         }
     }
