@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/phone"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         android:layout_marginTop="8dp"
         android:text="@string/splash_player_tutorial_2"
         android:layout_width="0dp"
@@ -53,6 +53,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/Body1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".4"
+        android:orientation="horizontal"/>
 
 <!--    lazy loading for image programatically-->
     <ImageView
