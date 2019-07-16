@@ -35,7 +35,7 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
 fun TrackSearch.toDomain(id: Long): LastFmTrack? {
     if (this.results?.trackmatches?.track?.isNotEmpty() == true) {
         val track = results!!.trackmatches!!.track?.get(0)!!
-        LastFmTrack(
+        return LastFmTrack(
             id,
             track.name ?: "",
             track.artist ?: "",
