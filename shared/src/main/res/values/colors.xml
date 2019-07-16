@@ -51,4 +51,7 @@
     <color name="transparent_white">#E6FFFFFF</color>
     <color name="transparent_black">#E6000000</color>
 
+    <color name="progressTint">@color/colorControlNormal</color>
+    <color name="progressBackgroundTint">@color/grey400</color>
+
 </resources>

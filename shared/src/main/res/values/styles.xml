@@ -94,9 +94,9 @@
 
 <!--    seekbar-->
     <style name="MaterialSeekBar" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressTint">?colorControlNormal</item>
-        <item name="android:thumbTint">?colorControlNormal</item>
-        <item name="android:progressBackgroundTint">@color/grey400</item>
+        <item name="android:progressTint">@color/progressTint</item>
+        <item name="android:thumbTint">@color/progressTint</item>
+        <item name="android:progressBackgroundTint">@color/progressBackgroundTint</item>
         <item name="android:thumb">@drawable/seekbar_thumb</item>
         <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
     </style>
