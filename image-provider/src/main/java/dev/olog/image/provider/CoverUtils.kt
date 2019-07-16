@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.shared.extensions.isDarkMode
+import dev.olog.shared.utils.ColorUtils
 import kotlin.math.abs
 
 object CoverUtils {
@@ -40,6 +42,15 @@ object CoverUtils {
             intArrayOf(0xFF_f7_9f_32.toInt(), 0xFF_fc_ca_1c.toInt())
     ).shuffled()
 
+    private val DESATURATED_COLORS by lazy {
+        COLORS.map { original ->
+            val ints = original.copyOf()
+            ints[0] = ColorUtils.desaturate(ints[0], amount = .3f)
+            ints[0] = ColorUtils.desaturate(ints[1], amount = .3f)
+            ints
+        }
+    }
+
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
         return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
     }
@@ -60,14 +71,13 @@ object CoverUtils {
 
         val iconColorOverride = ContextCompat.getColor(context, R.color.icon_override)
         DrawableCompat.setTint(icon, iconColorOverride)
-        val gradientColorOverride = ContextCompat.getColor(context, R.color.gradient_override)
-        if (gradientColorOverride == 0) {
+        if (!context.isDarkMode()) {
             // use custom color for light theme
             val pos = (position) % COLORS.size
             gradient.colors = COLORS[abs(pos)]
         } else {
-            // use light color for dark theme
-            gradient.colors = intArrayOf(gradientColorOverride, gradientColorOverride)
+            val pos = (position) % DESATURATED_COLORS.size
+            gradient.colors = DESATURATED_COLORS[abs(pos)]
         }
 
         return drawable
