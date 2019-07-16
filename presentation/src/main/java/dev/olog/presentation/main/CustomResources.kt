@@ -5,8 +5,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
-import androidx.core.graphics.ColorUtils
-import dev.olog.shared.utils.clamp
+import dev.olog.shared.utils.ColorUtils
 
 class CustomResources(
     private val isDarkMode: Boolean,
@@ -19,7 +18,7 @@ class CustomResources(
 
     override fun getColor(id: Int, theme: Theme?): Int {
         if (isDarkMode){
-            return desaturate(super.getColor(id, theme))
+            return ColorUtils.desaturate(super.getColor(id, theme))
         }
         return super.getColor(id, theme)
     }
@@ -66,19 +65,9 @@ class CustomResources(
     @Suppress("NOTHING_TO_INLINE")
     private inline fun desaturateGroup(colors: IntArray): IntArray{
         for (index in 0 until colors.size){
-            colors[index] = desaturate(colors[index])
+            colors[index] = ColorUtils.desaturate(colors[index])
         }
         return colors
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun desaturate(color: Int): Int {
-        val hsl = FloatArray(3)
-        ColorUtils.colorToHSL(color, hsl)
-        if (hsl[1] > .5f){
-            hsl[1] = clamp(hsl[1] - .3f, .5f, 1f)
-        }
-        return ColorUtils.HSLToColor(hsl)
     }
 
 }
