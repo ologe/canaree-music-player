@@ -58,7 +58,7 @@
         <item name="tabMode">scrollable</item>
         <item name="tabGravity">center</item>
         <item name="tabSelectedTextColor">?colorAccent</item>
-        <item name="tabTextColor">?colorControlNormal</item>
+        <item name="tabTextColor">?android:textColorSecondary</item>
         <item name="tabIndicatorColor">?colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
