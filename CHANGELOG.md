@@ -15,6 +15,7 @@
 - reduced mini queue items (because of performance problem with NestedScrollView), however jank is not
     completely disappeared
 - added volume controls to player fragment
+- made cover colored in dark mode
 
 ## 2.1.1
 - fixed all tracks sort order by date

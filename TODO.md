@@ -1,4 +1,6 @@
 ## TODO
+- desaturation not work on all components tab layout
+- player cover not showing in dark mode
 
 ### bug
 
