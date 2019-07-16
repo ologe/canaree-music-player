@@ -13,4 +13,7 @@
 
     <color name="searchBoxBackground">#303336</color>
 
+    <color name="progressTint">@color/colorControlNormal</color>
+    <color name="progressBackgroundTint">#38343E</color>
+
 </resources>
