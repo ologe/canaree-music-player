@@ -30,18 +30,32 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
 }
 
 fun TrackSearch.toDomain(id: Long): LastFmTrack? {
-    val track = this.results.trackmatches.track[0]
+    try {
+        val track = this.results.trackmatches.track[0]
 
-    return LastFmTrack(
-        id,
-        track.name ?: "",
-        track.artist ?: "",
-        "",
-        "",
-        "",
-        "",
-        ""
-    )
+        return LastFmTrack(
+            id,
+            track.name ?: "",
+            track.artist ?: "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        )
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+        return LastFmTrack(
+            id,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        )
+    }
 }
 
 fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
@@ -57,18 +71,30 @@ fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
 }
 
 fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
-    val results = this.results.albummatches.album
-    val bestArtist = FuzzySearch.extractOne(originalArtist, results.map { it.artist }).string
-    val best = results.first { it.artist == bestArtist }
+    try {
+        val results = this.results.albummatches.album
+        val bestArtist = FuzzySearch.extractOne(originalArtist, results.map { it.artist }).string
+        val best = results.first { it.artist == bestArtist }
 
-    return LastFmAlbum(
-        id,
-        best.name,
-        best.artist,
-        "",
-        "",
-        ""
-    )
+        return LastFmAlbum(
+            id,
+            best.name,
+            best.artist,
+            "",
+            "",
+            ""
+        )
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+        return LastFmAlbum(
+            id,
+            "",
+            "",
+            "",
+            "",
+            ""
+        )
+    }
 }
 
 fun ArtistInfo.toDomain(id: Long): LastFmArtist {
