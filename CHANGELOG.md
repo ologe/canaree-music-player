@@ -7,6 +7,14 @@
 - android auto
     - fixed not working
     - updated theme (not finished)
+- fixed playing queue drag and drop and index problems
+- fixed swipepable view swipe not always working
+- changed dark mode implementation
+    - from 4 to 3 following android Q dark mode 
+- removed widget with queue
+- reduced mini queue items (because of performance problem with NestedScrollView), however jank is not
+    completely disappeared
+- added volume controls to player fragment
 
 ## 2.1.1
 - fixed all tracks sort order by date
