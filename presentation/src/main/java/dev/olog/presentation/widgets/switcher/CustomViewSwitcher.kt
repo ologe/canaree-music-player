@@ -96,9 +96,10 @@ class CustomViewSwitcher(
         if (!animationFinished){
             animationFinished = true
             transitionToNext()
-        }
-        if (model is MediaId){
-            presenter.onNextImage(CoverUtils.getGradient(context, model))
+
+            if (model is MediaId){
+                presenter.onNextImage(CoverUtils.getGradient(context, model))
+            }
         }
         return false
     }
