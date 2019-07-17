@@ -75,22 +75,28 @@ class ShapeImageView @JvmOverloads constructor(
     }
 
     private fun getMask(): Bitmap? {
-        if (mask == null) {
-            mask = when (hasImageShape.getImageShape()) {
-                ImageShape.ROUND -> {
-                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
-                    val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
-                    drawable.cornerRadius = context.dipf(radius)
-                    drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
-                }
-                ImageShape.RECTANGLE -> {
-                    setLayerType(View.LAYER_TYPE_NONE, null)
-                    null
+        try {
+            if (mask == null) {
+                mask = when (hasImageShape.getImageShape()) {
+                    ImageShape.ROUND -> {
+                        setLayerType(View.LAYER_TYPE_HARDWARE, null)
+                        val drawable =
+                            ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
+                        drawable.cornerRadius = context.dipf(radius)
+                        drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
+                    }
+                    ImageShape.RECTANGLE -> {
+                        setLayerType(View.LAYER_TYPE_NONE, null)
+                        null
+                    }
                 }
             }
+            return mask
+        } catch (ex: Exception){
+            // TODO big image is throwing exception when changing song
+            ex.printStackTrace()
+            return null
         }
-        return mask
     }
 
 }

@@ -76,13 +76,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
 
-        if (hasPlayerAppearance.isBigImage()) {
-            val set = ConstraintSet()
-            set.clone(view as ConstraintLayout)
-            set.connect(list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-            set.applyTo(view)
-        }
-
         mediaProvider.observeQueue()
             .mapListItem { it.toDisplayableItem() }
             .map { queue ->

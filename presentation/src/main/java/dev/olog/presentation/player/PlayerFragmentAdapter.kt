@@ -27,7 +27,6 @@ import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.SwipeableView
-import dev.olog.presentation.widgets.audiowave.AudioWaveViewWrapper
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
@@ -170,8 +169,6 @@ internal class PlayerFragmentAdapter(
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
         val playerAppearance = view.context.hasPlayerAppearance()
 
-        val waveWrapper: AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
-
         view.findViewById<AnimatedImageView>(R.id.next)?.setDefaultColor()
         view.findViewById<AnimatedImageView>(R.id.previous)?.setDefaultColor()
         if (!playerAppearance.isSpotify()){
@@ -181,8 +178,6 @@ internal class PlayerFragmentAdapter(
         mediaProvider.observeMetadata()
             .subscribe(holder) {
                 viewModel.updateCurrentTrackId(it.id)
-                waveWrapper?.onTrackChanged(it.path)
-                waveWrapper?.updateMax(it.duration)
 
                 updateMetadata(view, it)
                 updateImage(view, it)
@@ -201,10 +196,6 @@ internal class PlayerFragmentAdapter(
 
         mediaProvider.observePlaybackState()
             .subscribe(holder) { view.seekBar.onStateChanged(it) }
-
-        view.seekBar.observeProgress()
-            .asLiveData()
-            .subscribe(holder) { waveWrapper?.updateProgress(it.toInt()) }
 
         mediaProvider.observeRepeat()
             .subscribe(holder, view.repeat::cycle)
