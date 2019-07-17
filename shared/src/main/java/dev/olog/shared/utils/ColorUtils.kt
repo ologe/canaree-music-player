@@ -1,5 +1,6 @@
 package dev.olog.shared.utils
 
+import android.graphics.Color
 import androidx.core.graphics.ColorUtils
 
 object ColorUtils {
@@ -9,6 +10,9 @@ object ColorUtils {
 
     @Suppress("NOTHING_TO_INLINE")
     inline fun desaturate(color: Int, amount: Float = .25f): Int {
+        if (color == Color.TRANSPARENT) {
+            return color
+        }
         val hsl = FloatArray(3)
         ColorUtils.colorToHSL(color, hsl)
         if (hsl[1] > MIN_SATURATION) {
