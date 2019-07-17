@@ -1,6 +1,6 @@
 ## TODO
-- desaturation not work on all components tab layout
-- player cover not showing in dark mode
+- desaturation not work on all components, like tab layout
+    - desaturation not removed completely in settings after switching from dark to light mode
 
 ### bug
 
