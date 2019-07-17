@@ -27,14 +27,14 @@ class RippleTarget(
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
             job?.cancel()
-            job = GlobalScope.launch {
+            job = launch {
                 withTimeout(500) { generateRipple(drawable) }
             }
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         job?.cancel()
     }
 
@@ -46,11 +46,12 @@ class RippleTarget(
         onGenerated(palette)
     }
 
-    private suspend fun generatePalette(bitmap: Bitmap) = suspendCoroutine<Palette?> { continuation ->
-        Palette.from(bitmap).clearFilters().generate {
-            continuation.resume(it)
+    private suspend fun generatePalette(bitmap: Bitmap) =
+        suspendCoroutine<Palette?> { continuation ->
+            Palette.from(bitmap).clearFilters().generate {
+                continuation.resume(it)
+            }
         }
-    }
 
     private fun onGenerated(palette: Palette?) {
         if (view is ForegroundImageView) {
