@@ -65,7 +65,6 @@ abstract class BaseDataFetcher(
 
                 throw NoSuchElementException()
             } catch (ex: Exception) {
-                ex.printStackTrace()
                 callback.onLoadFailed(ex)
             }
         }
