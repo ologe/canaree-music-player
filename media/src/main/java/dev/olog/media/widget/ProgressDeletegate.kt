@@ -3,6 +3,7 @@ package dev.olog.media.widget
 import android.widget.ProgressBar
 import dev.olog.shared.AppConstants
 import dev.olog.shared.flowInterval
+import dev.olog.shared.utils.isNougat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -36,9 +37,17 @@ class ProgressDeletegate(
                 .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
                 .flowOn(Dispatchers.IO)
                 .collect {
-                    progressBar.progress = it.toInt()
+                    setProgress(progressBar, it.toInt())
                     channel.send(it.toLong())
                 }
+        }
+    }
+
+    private fun setProgress(progressBar: ProgressBar, position: Int){
+        if (isNougat()){
+            progressBar.setProgress(position, true)
+        } else {
+            progressBar.progress = position
         }
     }
 
