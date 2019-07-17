@@ -2,34 +2,34 @@ package dev.olog.shared.utils
 
 import android.os.Build
 
-fun isLollipop_MR_1(): Boolean {
+inline fun isLollipop_MR_1(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
 }
 
-fun isMarshmallow(): Boolean {
+inline fun isMarshmallow(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }
 
-fun isNougat(): Boolean {
+inline fun isNougat(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 }
 
-fun isNougat_MR1(): Boolean {
+inline fun isNougat_MR1(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 }
 
-fun isOreo(): Boolean {
+inline fun isOreo(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 }
 
-fun isOreo_MR1(): Boolean {
+inline fun isOreo_MR1(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
 }
 
-fun isP(): Boolean {
+inline fun isP(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 }
 
-fun isQ(): Boolean {
+inline fun isQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 }
