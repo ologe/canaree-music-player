@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.library.LibraryFragment
@@ -17,7 +18,7 @@ import dev.olog.shared.extensions.findViewByIdNotRecursive
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
     input: Input.Full
-) : ScrollHelper(activity, input, true) {
+) : ScrollHelper(activity, input, true, BuildConfig.DEBUG, BuildConfig.DEBUG) {
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
         super.applyInsetsToList(fragment, list, toolbar, tabLayout)
