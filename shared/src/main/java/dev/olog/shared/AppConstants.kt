@@ -9,7 +9,7 @@ object AppConstants {
 
     const val NO_IMAGE = "NO_IMAGE"
 
-    const val PROGRESS_BAR_INTERVAL = 250L
+    const val PROGRESS_BAR_INTERVAL = 100L
 
     const val UNKNOWN = MediaStore.UNKNOWN_STRING
 

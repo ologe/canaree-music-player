@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
-fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
+inline fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
     arguments = bundleOf(*params)
     return this
 }

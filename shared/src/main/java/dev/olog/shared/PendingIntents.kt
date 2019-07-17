@@ -10,6 +10,7 @@ object PendingIntents {
     private const val TAG = "PendingIntents"
     const val ACTION_STOP_SLEEP_END = "$TAG.action.stop_sleep_timer"
 
+    @JvmStatic
     fun stopMusicServiceIntent(context: Context): PendingIntent {
         val intent = Intent(context, Class.forName(Classes.SERVICE_MUSIC))
         intent.action = ACTION_STOP_SLEEP_END

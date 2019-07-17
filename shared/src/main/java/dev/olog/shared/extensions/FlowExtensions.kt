@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.shared.extensions
 
 import androidx.lifecycle.LiveData
@@ -11,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx2.asFlowable
 
-fun <T : Any> Flow<T>.asLiveData(): LiveData<T> {
+inline fun <T : Any> Flow<T>.asLiveData(): LiveData<T> {
     // TODO using this way because it handles backpressuepr correctly, check
     // in the future in if provided and official way
     return LiveDataReactiveStreams.fromPublisher(this.asFlowable())
@@ -21,7 +23,7 @@ inline fun <T, R> Flow<List<T>>.mapListItem(crossinline mapper: (T) -> R): Flow<
     return this.map { it.map { mapper(it) } }
 }
 
-fun <T> Flow<T>.assertBackground(): Flow<T> {
+inline fun <T> Flow<T>.assertBackground(): Flow<T> {
     return flow {
         assertBackgroundThread()
         collect { emit(it) }

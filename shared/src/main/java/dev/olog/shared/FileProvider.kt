@@ -9,6 +9,7 @@ object FileProvider {
 
     private const val authority = "${BuildConfig.APPLICATION_ID}.fileprovider"
 
+    @JvmStatic
     fun getUriForFile(context: Context, file: File): Uri {
         return try {
             FileProvider.getUriForFile(context, authority, file)
@@ -18,7 +19,9 @@ object FileProvider {
         }
     }
 
-    fun getUriForPath(context: Context, path: String): Uri {
+    @Suppress("NOTHING_TO_INLINE")
+    @JvmStatic
+    inline fun getUriForPath(context: Context, path: String): Uri {
         return getUriForFile(context, File(path))
     }
 

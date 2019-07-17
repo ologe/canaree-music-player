@@ -11,7 +11,7 @@ fun <T> List<T>.swap(i: Int, j: Int): List<T> {
     return this
 }
 
-private fun <T> List<T>.isInBounds(index: Int): Boolean {
+private inline fun <T> List<T>.isInBounds(index: Int): Boolean {
     return index in 0..lastIndex
 }
 

@@ -33,7 +33,6 @@ class AnimatedImageView(
         avd = context.getAnimatedVectorDrawable(resId)
         setImageDrawable(avd)
         a.recycle()
-        background = null
     }
 
     fun setDefaultColor() {

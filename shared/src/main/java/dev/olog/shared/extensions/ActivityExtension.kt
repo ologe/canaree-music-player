@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
-fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+inline fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
             .beginTransaction()
             .func()
@@ -22,7 +22,7 @@ fun FragmentManager.getTopFragment(): Fragment? {
     return null
 }
 
-fun FragmentActivity.alertDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
+inline fun FragmentActivity.alertDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
     AlertDialog.Builder(this)
             .builder()
             .show()

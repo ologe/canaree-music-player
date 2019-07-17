@@ -12,7 +12,6 @@ object WidgetConstants {
     const val ARGUMENT_SONG_ID = "$TAG.ARGUMENT_SONG_ID"
     const val ARGUMENT_TITLE = "$TAG.ARGUMENT_TITLE"
     const val ARGUMENT_SUBTITLE = "$TAG.ARGUMENT_SUBTITLE"
-    const val ARGUMENT_IMAGE = "$TAG.ARGUMENT_IMAGE"
 
 //    arguments state
     const val ARGUMENT_IS_PLAYING = "$TAG.ARGUMENT_IS_PLAYING"

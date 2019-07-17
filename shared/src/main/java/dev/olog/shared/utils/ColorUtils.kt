@@ -9,6 +9,7 @@ object ColorUtils {
     const val MIN_SATURATION = 0.75f
 
     @Suppress("NOTHING_TO_INLINE")
+    @JvmStatic
     inline fun desaturate(color: Int, amount: Float = .25f): Int {
         if (color == Color.TRANSPARENT) {
             return color

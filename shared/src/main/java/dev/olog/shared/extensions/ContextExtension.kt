@@ -16,21 +16,21 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.R
 import dev.olog.shared.utils.isOreo
 
-fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
+inline fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!
 }
 
 //returns dip(dp) dimension value in pixels
-fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
-fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
-fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
+inline fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+inline fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
+inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
-fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
+inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
-fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
-fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
+inline fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
+inline fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
 
-fun Context.dpToPx(dp: Float): Int {
+inline fun Context.dpToPx(dp: Float): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
 }
 
@@ -61,51 +61,51 @@ fun Context.vibrate(time: Long){
     }
 }
 
-fun Context.scrimBackground(): Int {
+inline fun Context.scrimBackground(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
 }
 
-fun Context.textColorPrimary(): Int {
+inline fun Context.textColorPrimary(): Int {
     return themeAttributeToColor(android.R.attr.textColorPrimary)
 }
 
-fun Context.textColorSecondary(): Int {
+inline fun Context.textColorSecondary(): Int {
     return themeAttributeToColor(android.R.attr.textColorSecondary)
 }
 
-fun Context.colorSurface(): Int {
+inline fun Context.colorSurface(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorSurface)
 }
 
-fun Context.colorBackground():Int {
+inline fun Context.colorBackground():Int {
     return themeAttributeToColor(android.R.attr.colorBackground)
 }
 
-fun Context.colorPrimary(): Int {
+inline fun Context.colorPrimary(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorPrimary)
 }
 
-fun Context.colorAccent(): Int {
+inline fun Context.colorAccent(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorAccent)
 }
 
-fun Context.colorControlNormal(): Int {
+inline fun Context.colorControlNormal(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorControlNormal)
 }
 
-fun Context.colorPrimaryId(): Int {
+inline fun Context.colorPrimaryId(): Int {
     return themeAttributeToResId(com.google.android.material.R.attr.colorPrimary)
 }
 
-fun Context.isDarkMode(): Boolean {
+inline fun Context.isDarkMode(): Boolean {
     return resources.getBoolean(R.bool.is_dark_mode)
 }
 
-fun Context.colorSwipeBackground(): Int {
+inline fun Context.colorSwipeBackground(): Int {
     return themeAttributeToColor(R.attr.colorSwipeBackground)
 }
 
-private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
     val outValue = TypedValue()
     val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)

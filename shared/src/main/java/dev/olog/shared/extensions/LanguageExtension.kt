@@ -25,5 +25,5 @@ inline fun throwNotHandled(message: String): Nothing {
  *     is AnotherType -> //
  * }.exhaustive
  */
-val <T> T.exhaustive: T
+inline val <T> T.exhaustive: T
     get() = this
