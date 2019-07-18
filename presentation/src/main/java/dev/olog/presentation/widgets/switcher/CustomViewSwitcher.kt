@@ -120,6 +120,7 @@ class CustomViewSwitcher(
         target: Target<Drawable>?,
         isFirstResource: Boolean
     ): Boolean {
+        e?.printStackTrace()
         if (!animationFinished) {
             animationFinished = true
             transitionToNext()
