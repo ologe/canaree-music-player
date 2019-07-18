@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:id="@+id/list"
             android:overScrollMode="never"
-            tools:listitem="@layout/player_layout_default"
+            tools:listitem="@layout/player_layout_spotify"
             tools:itemCount="1"/>
 
     </androidx.core.widget.NestedScrollView>
