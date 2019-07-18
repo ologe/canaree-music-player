@@ -98,7 +98,8 @@
             layout="@layout/player_controls_default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintVertical_bias=".9"/>
+            app:layout_constraintVertical_bias=".9"
+            android:layout_marginTop="32dp" />
 
 <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
         <LinearLayout
@@ -109,7 +110,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             android:orientation="vertical"
-            android:layout_marginTop="64dp">
+            android:layout_marginTop="32dp">
 
             <!-- title -->
             <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
@@ -146,7 +147,6 @@
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:layout_marginStart="@dimen/player_title_margin_horizontal"
-                android:layout_marginTop="4dp"
                 android:layout_marginBottom="24dp"
                 android:clickable="false"
                 android:focusable="false"
