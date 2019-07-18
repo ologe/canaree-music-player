@@ -104,11 +104,9 @@ public class ForegroundImageView extends AppCompatImageView {
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
-        try {
-            if (foreground != null) {
-                foreground.draw(canvas);
-            }
-        } catch (Exception ignored){}
+        if (foreground != null) {
+            foreground.draw(canvas);
+        }
     }
 
     @Override

@@ -22,7 +22,9 @@ class CustomSeekBar(
     private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
 
     init {
-        max = Int.MAX_VALUE
+        if (!isInEditMode){
+            max = Int.MAX_VALUE
+        }
     }
 
     fun setListener(

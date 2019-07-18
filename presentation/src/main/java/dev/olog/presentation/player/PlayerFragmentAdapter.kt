@@ -30,12 +30,21 @@ import dev.olog.presentation.widgets.SwipeableView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils
-import dev.olog.shared.widgets.AnimatedImageView
-import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.*
+import kotlinx.android.synthetic.main.player_controls_default.view.repeat
+import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
+import kotlinx.android.synthetic.main.player_layout_big_image.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.artist
+import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
+import kotlinx.android.synthetic.main.player_layout_default.view.duration
+import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
+import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
+import kotlinx.android.synthetic.main.player_layout_default.view.title
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
+import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
+import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.flow.filter
 
 internal class PlayerFragmentAdapter(
@@ -57,7 +66,7 @@ internal class PlayerFragmentAdapter(
         R.layout.player_layout_default,
         R.layout.player_layout_spotify,
         R.layout.player_layout_flat,
-        R.layout.player_layout_big_image,
+        R.layout.player_layout_big_image_2,
         R.layout.player_layout_fullscreen,
         R.layout.player_layout_clean,
         R.layout.player_layout_mini
@@ -84,7 +93,7 @@ internal class PlayerFragmentAdapter(
             R.layout.player_layout_spotify,
             R.layout.player_layout_fullscreen,
             R.layout.player_layout_flat,
-            R.layout.player_layout_big_image,
+            R.layout.player_layout_big_image_2,
             R.layout.player_layout_clean,
             R.layout.player_layout_mini -> {
                 setupListeners(viewHolder)
@@ -93,7 +102,7 @@ internal class PlayerFragmentAdapter(
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
-                viewHolder.itemView.volume.musicPrefs = musicPrefs
+                viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
         }
 
@@ -169,12 +178,6 @@ internal class PlayerFragmentAdapter(
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
         val playerAppearance = view.context.hasPlayerAppearance()
 
-        view.findViewById<AnimatedImageView>(R.id.next)?.setDefaultColor()
-        view.findViewById<AnimatedImageView>(R.id.previous)?.setDefaultColor()
-        if (!playerAppearance.isSpotify()){
-            view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)?.setDefaultColor()
-        }
-
         mediaProvider.observeMetadata()
             .subscribe(holder) {
                 viewModel.updateCurrentTrackId(it.id)
@@ -183,10 +186,10 @@ internal class PlayerFragmentAdapter(
                 updateImage(view, it)
             }
 
-        view.volume.setOnClickListener {
+        view.volume?.setOnClickListener {
             (view.context as FragmentActivity).fragmentTransaction {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, PlayerVolumeFragment(), PlayerVolumeFragment.TAG)
+                add(android.R.id.content, PlayerVolumeFragment.newInstance(R.layout.player_volume), PlayerVolumeFragment.TAG)
                 addToBackStack(PlayerVolumeFragment.TAG)
             }
         }
@@ -238,7 +241,11 @@ internal class PlayerFragmentAdapter(
             .subscribe(holder, view.previous::updateVisibility)
 
         presenter.observePlayerControlsVisibility()
-            .filter { !playerAppearance.isFullscreen() && !playerAppearance.isMini() && !playerAppearance.isSpotify() }
+            .filter { !playerAppearance.isFullscreen()
+                    && !playerAppearance.isMini()
+                    && !playerAppearance.isSpotify()
+                    && !playerAppearance.isBigImage()
+            }
             .asLiveData()
             .subscribe(holder) { visible ->
                 view.previous.toggleVisibility(visible, true)
@@ -288,6 +295,7 @@ internal class PlayerFragmentAdapter(
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {
         view.imageSwitcher.loadImage(metadata)
+        view.blurBackground?.loadImage(metadata.mediaId)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {

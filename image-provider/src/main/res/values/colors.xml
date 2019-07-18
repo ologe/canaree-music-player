@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="placeholder_image_tint">#262626</color>
-    <color name="placeholder_background">@android:color/holo_red_light</color>
+    <color name="placeholder_background">@android:color/system_notification_accent_color</color>
 </resources>

@@ -118,6 +118,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini
             PlayerAppearance.SPOTIFY -> R.layout.fragment_player_spotify
+            PlayerAppearance.BIG_IMAGE -> R.layout.fragment_player_big_image
             else -> R.layout.fragment_player_default
         }
     }

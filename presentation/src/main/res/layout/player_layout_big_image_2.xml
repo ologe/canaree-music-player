@@ -11,7 +11,7 @@
         tools:background="@color/background"
         android:id="@+id/playerRoot">
 
-        <include layout="@layout/layout_view_switcher_square"
+        <include layout="@layout/layout_view_switcher"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

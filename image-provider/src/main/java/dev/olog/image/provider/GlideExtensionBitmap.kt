@@ -64,7 +64,6 @@ suspend fun Context.getCachedBitmap(
                 }
             }
         })
-
 }
 
 fun Context.getBitmapAsync(

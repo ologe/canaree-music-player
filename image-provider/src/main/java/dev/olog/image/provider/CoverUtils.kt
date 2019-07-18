@@ -63,6 +63,15 @@ object CoverUtils {
         )
     }
 
+    fun onlyGradient(context: Context, mediaId: MediaId): Drawable {
+        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.resolveSource))!!.mutate() as LayerDrawable
+        val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
+
+        val pos = (mediaId.resolveId.toInt()) % COLORS.size
+        gradient.colors = COLORS[abs(pos)]
+        return gradient
+    }
+
     private fun get(context: Context, position: Int, @DrawableRes drawableRes: Int): Drawable {
         val drawable = ContextCompat.getDrawable(context, drawableRes)!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable

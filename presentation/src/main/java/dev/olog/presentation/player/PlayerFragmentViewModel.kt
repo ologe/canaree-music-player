@@ -91,7 +91,7 @@ class PlayerFragmentViewModel @Inject constructor(
             PlayerAppearance.FLAT -> R.layout.player_layout_flat
             PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify
             PlayerAppearance.FULLSCREEN -> R.layout.player_layout_fullscreen
-            PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image
+            PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image_2
             PlayerAppearance.CLEAN -> R.layout.player_layout_clean
             PlayerAppearance.MINI -> R.layout.player_layout_mini
             else -> throw IllegalStateException("invalid theme")

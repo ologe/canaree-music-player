@@ -28,24 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/volumeDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/player_title_margin_horizontal"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/vd_volume_mute"
                 android:tint="?colorControlNormal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/volumeSlider"
                 app:layout_constraintBottom_toBottomOf="@+id/volumeSlider"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/volumeUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/vd_volume_up"
-                android:tint="?colorControlNormal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/volumeSlider"
                 app:layout_constraintBottom_toBottomOf="@+id/volumeSlider"/>
@@ -54,9 +53,9 @@
                 android:id="@+id/volumeSlider"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
+                android:paddingStart="8dp"
                 android:paddingTop="24dp"
-                android:paddingEnd="16dp"
+                android:paddingEnd="8dp"
                 android:paddingBottom="24dp"
                 app:layout_constraintEnd_toStartOf="@+id/volumeUp"
                 app:layout_constraintStart_toEndOf="@+id/volumeDown"

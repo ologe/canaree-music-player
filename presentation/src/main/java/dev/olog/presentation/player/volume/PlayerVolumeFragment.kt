@@ -10,6 +10,8 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.shared.extensions.act
+import dev.olog.shared.extensions.getArgument
+import dev.olog.shared.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 
@@ -17,16 +19,26 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
 
     companion object {
         val TAG = PlayerVolumeFragment::class.java.name
+        private val ARGUMENT_LAYOUT_ID = "$TAG.argument.layoutid"
+
+        @JvmStatic
+        fun newInstance(layoutId: Int): PlayerVolumeFragment {
+            return PlayerVolumeFragment().withArguments(
+                ARGUMENT_LAYOUT_ID to layoutId
+            )
+        }
     }
 
-    @Inject lateinit var musicPrefs: MusicPreferencesGateway
+    @Inject
+    lateinit var musicPrefs: MusicPreferencesGateway
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.player_volume, container, false)
+        val layoutId = arguments?.getInt(ARGUMENT_LAYOUT_ID) ?: R.layout.player_volume_no_background
+        return inflater.inflate(layoutId, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +59,7 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
     }
 
     override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {
-        if (fromUser){
+        if (fromUser) {
             musicPrefs.setVolume(progress)
         }
     }
