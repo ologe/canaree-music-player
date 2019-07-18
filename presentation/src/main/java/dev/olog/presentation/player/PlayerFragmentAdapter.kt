@@ -66,7 +66,7 @@ internal class PlayerFragmentAdapter(
         R.layout.player_layout_default,
         R.layout.player_layout_spotify,
         R.layout.player_layout_flat,
-        R.layout.player_layout_big_image_2,
+        R.layout.player_layout_big_image,
         R.layout.player_layout_fullscreen,
         R.layout.player_layout_clean,
         R.layout.player_layout_mini
@@ -93,7 +93,7 @@ internal class PlayerFragmentAdapter(
             R.layout.player_layout_spotify,
             R.layout.player_layout_fullscreen,
             R.layout.player_layout_flat,
-            R.layout.player_layout_big_image_2,
+            R.layout.player_layout_big_image,
             R.layout.player_layout_clean,
             R.layout.player_layout_mini -> {
                 setupListeners(viewHolder)
