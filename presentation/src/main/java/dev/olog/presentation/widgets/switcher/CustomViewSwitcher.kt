@@ -75,7 +75,9 @@ class CustomViewSwitcher(
     private fun loadImageInternal(mediaId: MediaId){
         animationFinished = false
 
-        GlideApp.with(context).clear(imageView)
+        val nextView = getNextView() as ImageView
+
+        GlideApp.with(context).clear(nextView)
         GlideApp.with(context)
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
@@ -83,7 +85,7 @@ class CustomViewSwitcher(
             .override(Target.SIZE_ORIGINAL)
             .onlyRetrieveFromCache(true)
             .listener(this)
-            .into(RippleTarget(getNextView() as ImageView))
+            .into(RippleTarget(nextView))
     }
 
     override fun onLoadFailed(
