@@ -5,6 +5,7 @@
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
+- fullscreen layout has problem with scrolling (see logs)
 
 ## features
 - use don't keep activities and add try to restore previous state
