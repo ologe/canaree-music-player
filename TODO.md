@@ -4,6 +4,7 @@
 - check material card view to view how to draw colored shadow 
 
 ### bug
+- big image layout has problems with loading images, and displaying text (unknown cause)
 
 ## features
 - use don't keep activities and add try to restore previous state
