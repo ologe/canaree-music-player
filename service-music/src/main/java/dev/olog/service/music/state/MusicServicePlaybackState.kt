@@ -102,11 +102,7 @@ internal class MusicServicePlaybackState @Inject constructor(
 
         notifyWidgetsOfStateChanged(isPlaying, bookmark)
 
-        try {
-            mediaSession.setPlaybackState(playbackState)
-        } catch (ignored: IllegalStateException) {
-            // random crash
-        }
+        mediaSession.setPlaybackState(playbackState)
 
         return playbackState
     }

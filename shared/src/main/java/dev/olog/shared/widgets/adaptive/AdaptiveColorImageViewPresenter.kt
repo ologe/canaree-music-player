@@ -85,9 +85,7 @@ class AdaptiveColorImageViewPresenter(
                     palettePublisher.onNext(ValidPaletteColors(it))
                 }, Throwable::printStackTrace)
         } catch (ex: Exception) {
-            if (ex !is IllegalArgumentException) {
-                ex.printStackTrace()
-            }
+            ex.printStackTrace()
         }
     }
 

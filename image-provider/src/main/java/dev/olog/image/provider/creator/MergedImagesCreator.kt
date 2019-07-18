@@ -35,6 +35,7 @@ internal object MergedImagesCreator {
                 itemId
             )
         } catch (ex: OutOfMemoryError) {
+            // TODO Romain Guy says it's bad
             return null
         }
     }

@@ -114,6 +114,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
             currentFile.onNext(current.parentFile)
             return true
         } catch (e: Exception){
+            e.printStackTrace()
             return false
         }
     }

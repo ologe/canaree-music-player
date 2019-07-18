@@ -7,6 +7,7 @@ fun Tag?.get(fieldKey: FieldKey): String {
     return try {
         this!!.getFirst(fieldKey)
     } catch (ex: Exception){
+        ex.printStackTrace()
         ""
     }
 }

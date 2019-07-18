@@ -39,14 +39,18 @@ class VirtualizerImpl @Inject constructor(
             val properties = equalizerPrefsUseCase.getVirtualizerSettings()
             val settings = Virtualizer.Settings(properties)
             virtualizer!!.properties = settings
-        } catch (ex: Exception){}
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
     }
 
     override fun release() {
         virtualizer?.let {
             try {
                 equalizerPrefsUseCase.saveVirtualizerSettings(it.properties.toString())
-            } catch (ex: Exception){}
+            } catch (ex: Exception){
+                ex.printStackTrace()
+            }
             use {
                 it.release()
             }

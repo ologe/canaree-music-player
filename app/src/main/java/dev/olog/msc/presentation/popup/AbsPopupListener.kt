@@ -71,6 +71,7 @@ abstract class AbsPopupListener(
                 activity.toast(R.string.song_not_shareable)
             }
         } catch (ex: Exception){
+            ex.printStackTrace()
             activity.toast(R.string.song_not_shareable)
         }
     }

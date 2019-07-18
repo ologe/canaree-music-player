@@ -70,7 +70,9 @@ class EqualizerImpl @Inject constructor(
             val properties = equalizerPrefsUseCase.getEqualizerSettings()
             val settings = Equalizer.Settings(properties)
             equalizer!!.properties = settings
-        } catch (ex: Exception){}
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -83,7 +85,9 @@ class EqualizerImpl @Inject constructor(
         equalizer?.let {
             try {
                 equalizerPrefsUseCase.saveEqualizerSettings(it.properties.toString())
-            } catch (ex: Exception){}
+            } catch (ex: Exception){
+                ex.printStackTrace()
+            }
             use {
                 it.release()
             }

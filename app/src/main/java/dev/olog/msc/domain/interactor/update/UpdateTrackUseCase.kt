@@ -29,7 +29,7 @@ class UpdateTrackUseCase @Inject constructor(
                 try {
                     tag.setEncoding("UTF-8")
                 } catch (ex: Exception){
-                    Crashlytics.logException(ex)
+                    ex.printStackTrace()
                 }
 
                 for (field in param.fields) {

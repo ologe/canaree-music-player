@@ -24,13 +24,6 @@ enum class MusicServiceCustomAction {
     TOGGLE_FAVORITE;
 
     companion object {
-//        fun valueOfOrNull(value: String): MusicServiceCustomAction? {
-//            return try {
-//                valueOf(value)
-//            } catch (ex: Exception) {
-//                return null
-//            }
-//        }
 
         val ARGUMENT_MEDIA_ID = "${MusicServiceCustomAction::class.java}.mediaid"
         val ARGUMENT_SWAP_FROM = "${MusicServiceCustomAction::class.java}.swap.from"

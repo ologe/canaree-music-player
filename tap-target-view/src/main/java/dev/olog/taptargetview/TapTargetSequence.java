@@ -198,6 +198,7 @@ public class TapTargetSequence {
         currentView = TapTargetView.showFor(dialog, tapTarget, tapTargetListener);
       }
     } catch (NoSuchElementException e) {
+      e.printStackTrace();
       currentView = null;
       // No more targets
       if (listener != null) {

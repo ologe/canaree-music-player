@@ -39,14 +39,18 @@ class BassBoostImpl @Inject constructor(
             val properties = equalizerPrefsUseCase.getBassBoostSettings()
             val settings = BassBoost.Settings(properties)
             bassBoost!!.properties = settings
-        } catch (ex: Exception){}
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
     }
 
     override fun release() {
         bassBoost?.let {
             try {
                 equalizerPrefsUseCase.saveBassBoostSettings(it.properties.toString())
-            } catch (ex: Exception){}
+            } catch (ex: Exception){
+                ex.printStackTrace()
+            }
             use {
                 it.release()
             }

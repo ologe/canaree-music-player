@@ -255,7 +255,9 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
             if (dotCenterX != null) {
                 selectedDotX = dotCenterX[currentPage];
             }
-        } catch (Exception ignored){}
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     private void resetState() {

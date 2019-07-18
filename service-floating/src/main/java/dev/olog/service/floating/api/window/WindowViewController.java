@@ -88,6 +88,7 @@ public class WindowViewController {
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
             mWindowManager.addView(view, params);
         } catch (IllegalStateException e) {
+            e.printStackTrace();
             // The view is already visible.
         }
     }
@@ -96,6 +97,7 @@ public class WindowViewController {
         try {
             mWindowManager.removeView(view);
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             // The View wasn't visible to begin with.
         }
     }

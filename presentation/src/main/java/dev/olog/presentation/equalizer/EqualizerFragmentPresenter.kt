@@ -16,7 +16,10 @@ class EqualizerFragmentPresenter @Inject constructor(
 
     fun getPresets() = try {
         equalizer.getPresets()
-    } catch (ex: Exception){ listOf("Error") }
+    } catch (ex: Exception){
+        ex.printStackTrace()
+        listOf("Error")
+    }
 
     fun getCurrentPreset() = equalizer.getCurrentPreset()
 
