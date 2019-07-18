@@ -12,8 +12,7 @@ class FullScreenConstraintLayout(
 ) : ConstraintLayout(context, attrs) {
 
     private val displayHeight: Int by lazyFast {
-        val metrics = (context as FragmentActivity).resources.displayMetrics
-        metrics.heightPixels + StatusBarView.viewHeight
+        (context as FragmentActivity).window.decorView.height
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
