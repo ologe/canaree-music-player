@@ -321,12 +321,7 @@ internal class PlayerFragmentAdapter(
         if (isPlaying || playbackState.isPaused) {
             view.nowPlaying?.isActivated = isPlaying
             val playerAppearance = view.context.hasPlayerAppearance()
-            if (playerAppearance.isClean()) {
-//                view.bigCover.isActivated = isPlaying TODO
-            } else {
-                // TODO
-                view.imageSwitcher.setChildrenActivated(isPlaying)
-            }
+            view.imageSwitcher.setChildrenActivated(isPlaying)
         }
     }
 

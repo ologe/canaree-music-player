@@ -5,9 +5,9 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.ViewTreeObserver
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import dev.olog.msc.R
 import dev.olog.presentation.widgets.BlurShadow
 import dev.olog.shared.extensions.dpToPx
@@ -64,24 +64,6 @@ class ShadowImageView @JvmOverloads constructor(
         }
     }
 
-    fun setImageResource(resId: Int, withShadow: Boolean) {
-        if (withShadow) {
-            setImageResource(resId)
-        } else {
-            background = null
-            super.setImageResource(resId)
-        }
-    }
-
-    fun setImageDrawable(drawable: Drawable?, withShadow: Boolean) {
-        if (withShadow) {
-            setImageDrawable(drawable)
-        } else {
-            background = null
-            super.setImageDrawable(drawable)
-        }
-    }
-
     override fun setImageDrawable(drawable: Drawable?) {
         if (!isInEditMode){
             setBlurShadow { super.setImageDrawable(drawable) }
@@ -94,21 +76,11 @@ class ShadowImageView @JvmOverloads constructor(
         super.setScaleType(ScaleType.CENTER_CROP)
     }
 
-    private fun setBlurShadow(setImage: () -> Unit = {}) {
+    private inline fun setBlurShadow(crossinline setImage: () -> Unit = {}) {
         background = null
-        if (height != 0 || measuredHeight != 0) {
+        doOnPreDraw {
             setImage()
             makeBlurShadow()
-        } else {
-            val preDrawListener = object : ViewTreeObserver.OnPreDrawListener {
-                override fun onPreDraw(): Boolean {
-                    viewTreeObserver.removeOnPreDrawListener(this)
-                    setImage()
-                    makeBlurShadow()
-                    return false
-                }
-            }
-            viewTreeObserver.addOnPreDrawListener(preDrawListener)
         }
     }
 

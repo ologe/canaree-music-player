@@ -9,25 +9,20 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.util.AttributeSet
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.target.Target
-import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
+import androidx.core.view.doOnPreDraw
 import dev.olog.presentation.R
-import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.shared.extensions.dpToPx
+import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
 import kotlin.properties.Delegates
 
-class PlayerShadowImageView @JvmOverloads constructor(
+class PlayerShadowImageView(
         context: Context,
-        attr: AttributeSet? = null
+        attr: AttributeSet
 
-) : PlayerImageView(context, attr) {
+) : AdaptiveColorImageView(context, attr) {
 
     companion object {
         private const val DEFAULT_RADIUS = 0.5f
@@ -63,18 +58,6 @@ class PlayerShadowImageView @JvmOverloads constructor(
         }
     }
 
-    override fun loadImage(mediaId: MediaId){
-
-        GlideApp.with(context).clear(this)
-
-        GlideApp.with(context)
-                .load(mediaId)
-                .placeholder(CoverUtils.getGradient(context, mediaId))
-                .priority(Priority.IMMEDIATE)
-                .override(Target.SIZE_ORIGINAL)
-                .into(RippleTarget(this))
-    }
-
     override fun setImageBitmap(bm: Bitmap?) {
         if (!isInEditMode){
             setBlurShadow { super.setImageDrawable(BitmapDrawable(resources, bm)) }
@@ -91,24 +74,6 @@ class PlayerShadowImageView @JvmOverloads constructor(
         }
     }
 
-    fun setImageResource(resId: Int, withShadow: Boolean) {
-        if (withShadow) {
-            setImageResource(resId)
-        } else {
-            background = null
-            super.setImageResource(resId)
-        }
-    }
-
-    fun setImageDrawable(drawable: Drawable?, withShadow: Boolean) {
-        if (withShadow) {
-            setImageDrawable(drawable)
-        } else {
-            background = null
-            super.setImageDrawable(drawable)
-        }
-    }
-
     override fun setImageDrawable(drawable: Drawable?) {
         if (!isInEditMode){
             setBlurShadow { super.setImageDrawable(drawable) }
@@ -121,25 +86,18 @@ class PlayerShadowImageView @JvmOverloads constructor(
         super.setScaleType(ScaleType.CENTER_CROP)
     }
 
-    private fun setBlurShadow(setImage: () -> Unit = {}) {
+    private inline fun setBlurShadow(crossinline setImage: () -> Unit = {}) {
         background = null
-        if (height != 0 || measuredHeight != 0) {
+        doOnPreDraw {
             setImage()
             makeBlurShadow()
-        } else {
-            val preDrawListener = object : ViewTreeObserver.OnPreDrawListener {
-                override fun onPreDraw(): Boolean {
-                    viewTreeObserver.removeOnPreDrawListener(this)
-                    setImage()
-                    makeBlurShadow()
-                    return false
-                }
-            }
-            viewTreeObserver.addOnPreDrawListener(preDrawListener)
         }
     }
 
     private fun makeBlurShadow() {
+        if (drawable == null){
+            return
+        }
         var radius = resources.getInteger(R.integer.radius).toFloat()
         radius *= 2 * radiusOffset
         val blur = BlurShadow.blur(
