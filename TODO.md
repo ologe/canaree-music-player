@@ -1,6 +1,7 @@
 ## TODO
 - desaturation not work on all components, like tab layout
     - desaturation not removed completely in settings after switching from dark to light mode
+- check material card view to view how to draw colored shadow 
 
 ### bug
 
