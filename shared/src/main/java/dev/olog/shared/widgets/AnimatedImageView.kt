@@ -34,7 +34,7 @@ class AnimatedImageView(
         setImageDrawable(avd)
         a.recycle()
 
-        if (!isInEditMode && (!playerAppearance.isSpotify() || !playerAppearance.isBigImage())){
+        if (!isInEditMode && (!playerAppearance.isSpotify() && !playerAppearance.isBigImage())){
             setDefaultColor()
         }
     }
