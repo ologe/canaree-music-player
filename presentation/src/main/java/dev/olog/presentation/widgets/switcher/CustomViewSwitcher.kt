@@ -3,7 +3,6 @@ package dev.olog.presentation.widgets.switcher
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.forEach
 import com.bumptech.glide.Priority
@@ -17,8 +16,8 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.shared.extensions.findChild
 import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
 
@@ -30,6 +29,7 @@ class CustomViewSwitcher(
     private var lastItem: MediaId? = null
 
     private val presenter by lazyFast { AdaptiveColorImageViewPresenter(context) }
+    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
 
     private enum class Direction {
         NONE,
@@ -44,22 +44,48 @@ class CustomViewSwitcher(
             return@observable
         }
 
-        val inAnim = when (new){
-            Direction.RIGHT -> R.anim.slide_in_right
-            Direction.LEFT -> R.anim.slide_in_left
+        val useExactPosition = playerAppearance.isBigImage() || playerAppearance.isFullscreen()
+
+        val inAnim = when (new) {
+            Direction.RIGHT -> {
+                if (useExactPosition) {
+                    R.anim.slide_in_right
+                } else {
+                    R.anim.slide_in_right_with_offset
+                }
+            }
+            Direction.LEFT -> {
+                if (useExactPosition) {
+                    R.anim.slide_in_left
+                } else {
+                    R.anim.slide_in_left_with_offset
+                }
+            }
             Direction.NONE -> R.anim.fade_in
         }
-        val outAnim = when (new){
-            Direction.RIGHT -> R.anim.slide_out_left
-            Direction.LEFT -> R.anim.slide_out_right
+        val outAnim = when (new) {
+            Direction.RIGHT -> {
+                if (useExactPosition) {
+                    R.anim.slide_out_left
+                } else {
+                    R.anim.slide_out_left_with_offset
+                }
+            }
+            Direction.LEFT -> {
+                if (useExactPosition) {
+                    R.anim.slide_out_right
+                } else {
+                    R.anim.slide_out_right_with_offset
+                }
+            }
             Direction.NONE -> R.anim.fade_out
         }
         setInAnimation(context, inAnim)
         setOutAnimation(context, outAnim)
     }
 
-    fun loadImage(metadata: PlayerMetadata){
-        if (lastItem == metadata.mediaId){
+    fun loadImage(metadata: PlayerMetadata) {
+        if (lastItem == metadata.mediaId) {
             return
         }
         lastItem = metadata.mediaId
@@ -72,7 +98,7 @@ class CustomViewSwitcher(
         loadImageInternal(metadata.mediaId)
     }
 
-    private fun loadImageInternal(mediaId: MediaId){
+    private fun loadImageInternal(mediaId: MediaId) {
         animationFinished = false
 
         val nextView = getNextView() as ImageView
@@ -94,11 +120,11 @@ class CustomViewSwitcher(
         target: Target<Drawable>?,
         isFirstResource: Boolean
     ): Boolean {
-        if (!animationFinished){
+        if (!animationFinished) {
             animationFinished = true
             transitionToNext()
 
-            if (model is MediaId){
+            if (model is MediaId) {
                 presenter.onNextImage(CoverUtils.getGradient(context, model))
             }
         }
@@ -112,7 +138,7 @@ class CustomViewSwitcher(
         dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
-        if (!animationFinished){
+        if (!animationFinished) {
             animationFinished = true
             transitionToNext()
         }
@@ -120,7 +146,7 @@ class CustomViewSwitcher(
         return false
     }
 
-    private fun transitionToNext() = when (currentDirection){
+    private fun transitionToNext() = when (currentDirection) {
         Direction.RIGHT -> showNext()
         Direction.LEFT -> showPrevious()
         Direction.NONE -> showNext()

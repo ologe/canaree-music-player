@@ -33,13 +33,9 @@ class AnimatedImageView(
         avd = context.getAnimatedVectorDrawable(resId)
         setImageDrawable(avd)
         a.recycle()
-
-        if (!isInEditMode && (!playerAppearance.isSpotify() && !playerAppearance.isBigImage())){
-            setDefaultColor()
-        }
     }
 
-    private fun setDefaultColor() {
+    fun setDefaultColor() {
         val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
         setColorFilter(defaultColor)
     }

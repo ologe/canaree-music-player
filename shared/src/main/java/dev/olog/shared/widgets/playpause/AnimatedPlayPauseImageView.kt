@@ -22,13 +22,7 @@ class AnimatedPlayPauseImageView(
 
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
-    init {
-        if (!isInEditMode && (!playerAppearance.isSpotify() && !playerAppearance.isBigImage())){
-            setDefaultColor()
-        }
-    }
-
-    private fun setDefaultColor() {
+    fun setDefaultColor() {
         val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
         setColorFilter(defaultColor)
     }

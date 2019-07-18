@@ -178,6 +178,12 @@ internal class PlayerFragmentAdapter(
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
         val playerAppearance = view.context.hasPlayerAppearance()
 
+        if (!playerAppearance.isSpotify() && !playerAppearance.isBigImage()){
+            view.next.setDefaultColor()
+            view.previous.setDefaultColor()
+            view.playPause.setDefaultColor()
+        }
+
         mediaProvider.observeMetadata()
             .subscribe(holder) {
                 viewModel.updateCurrentTrackId(it.id)

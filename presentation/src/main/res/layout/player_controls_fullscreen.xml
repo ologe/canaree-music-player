@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@android:color/darker_gray"
     android:paddingBottom="12dp"
     android:clipToPadding="false">
 
@@ -31,13 +30,10 @@
         android:background="@null"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/shuffle"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
-        android:clickable="true"
-        android:focusable="true"
         android:tint="@android:color/white"
         android:layout_marginStart="16dp"/>
 
@@ -65,7 +61,6 @@
         android:background="@null"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:padding="10dp"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/playPause"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
@@ -78,8 +73,6 @@
         android:id="@+id/repeat"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/vd_repeat"
         tools:src="@drawable/vd_repeat"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,8 +86,6 @@
         android:id="@+id/replay30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/vd_replay_30"
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintStart_toStartOf="parent"
