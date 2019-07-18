@@ -13,10 +13,7 @@ import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.HasImageShape
 import dev.olog.shared.theme.ImageShape
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 private const val DEFAULT_RADIUS = 5
 
@@ -55,7 +52,7 @@ class ShapeImageView @JvmOverloads constructor(
             return
         }
         val hasImageShape = context.applicationContext as HasImageShape
-        job = launch {
+        job = launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null
             }
