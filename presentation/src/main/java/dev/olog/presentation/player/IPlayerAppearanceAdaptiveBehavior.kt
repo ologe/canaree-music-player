@@ -1,7 +1,9 @@
 package dev.olog.presentation.player
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
+import androidx.core.graphics.ColorUtils
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.shared.extensions.*
 import dev.olog.shared.palette.ColorUtil
@@ -13,13 +15,14 @@ import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 internal interface IPlayerAppearanceAdaptiveBehavior {
 
     companion object {
-        fun get(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior = when (appearance){
-            PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
-            PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
-            PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
-            PlayerAppearance.SPOTIFY -> PlayerAppearanceBehaviorSpotify()
-            else -> PlayerAppearanceBehaviorDefault()
-        }
+        fun get(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior =
+            when (appearance) {
+                PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()
+                PlayerAppearance.FULLSCREEN -> PlayerAppearanceBehaviorFullscreen()
+                PlayerAppearance.MINI -> PlayerAppearanceBehaviorMini()
+                PlayerAppearance.SPOTIFY -> PlayerAppearanceBehaviorSpotify()
+                else -> PlayerAppearanceBehaviorDefault()
+            }
     }
 
     operator fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel)
@@ -34,8 +37,8 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
-                val first = ColorUtil.shiftColor(accent, .4f)
-                val second = ColorUtil.shiftColor(accent, .13f)
+                val first = makeFirstColor(view.context, accent)
+                val second = makeSecondColor(view.context, accent)
 
                 val gradient = view.playerRoot.background as GradientDrawable
                 val defaultColor = view.context.colorBackground()
@@ -46,6 +49,20 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
                 view.repeat.updateSelectedColor(accent)
             }
     }
+
+    private fun makeFirstColor(context: Context, color: Int): Int {
+        if (context.isDarkMode()){
+            return ColorUtil.shiftColor(color, .4f)
+        }
+        return ColorUtils.setAlphaComponent(ColorUtil.shiftColor(color, 2f), 100)
+    }
+    private fun makeSecondColor(context: Context, color: Int): Int {
+        if (context.isDarkMode()){
+            return ColorUtil.shiftColor(color, .13f)
+        }
+        return ColorUtils.setAlphaComponent(ColorUtil.shiftColor(color, 2f), 25)
+    }
+
 }
 
 internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
