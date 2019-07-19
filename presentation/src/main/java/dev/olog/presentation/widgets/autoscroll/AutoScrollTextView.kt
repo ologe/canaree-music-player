@@ -5,8 +5,7 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 
-open
-class AutoScrollTextView(
+open class AutoScrollTextView(
     context: Context,
     attrs: AttributeSet
 ) : AppCompatTextView(context, attrs) {

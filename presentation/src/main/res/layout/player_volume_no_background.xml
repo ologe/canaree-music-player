@@ -35,8 +35,7 @@
         app:layout_constraintStart_toEndOf="@+id/volumeDown"
         app:layout_constraintTop_toTopOf="parent"
         android:thumb="@drawable/seekbar_thumb_circle_big"
-        android:thumbTint="?colorAccent"
-        android:progressTint="?colorAccent"
+        android:thumbTint="@null"
         tools:max="100"
         tools:progress="90"/>
 

@@ -16,9 +16,9 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(
@@ -26,9 +26,13 @@ class CustomViewSwitcher(
     attrs: AttributeSet
 ) : MultiViewSwitcher(context, attrs), RequestListener<Drawable> {
 
+    companion object {
+        private val TAG = "P:${CustomViewSwitcher::class.java.simpleName}"
+    }
+
     private var lastItem: MediaId? = null
 
-    private val presenter by lazyFast { AdaptiveColorImageViewPresenter(context) }
+    private val adaptiveImageHelper by lazyFast { AdaptiveImageHelper(context) }
     private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
 
     private enum class Direction {
@@ -115,18 +119,20 @@ class CustomViewSwitcher(
     }
 
     override fun onLoadFailed(
-        e: GlideException?,
+            e: GlideException?,
         model: Any?,
         target: Target<Drawable>?,
         isFirstResource: Boolean
     ): Boolean {
         e?.printStackTrace()
+        e?.logRootCauses(TAG)
+
         if (!animationFinished) {
             animationFinished = true
             transitionToNext()
 
             if (model is MediaId) {
-                presenter.onNextImage(CoverUtils.getGradient(context, model))
+                adaptiveImageHelper.setImageDrawable(CoverUtils.getGradient(context, model))
             }
         }
         return false
@@ -143,7 +149,7 @@ class CustomViewSwitcher(
             animationFinished = true
             transitionToNext()
         }
-        presenter.onNextImage(resource)
+        adaptiveImageHelper.setImageDrawable(resource)
         return false
     }
 
@@ -153,8 +159,8 @@ class CustomViewSwitcher(
         Direction.NONE -> showNext()
     }
 
-    fun observeProcessorColors() = presenter.observeProcessorColors()
-    fun observePaletteColors() = presenter.observePalette()
+    fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
+    fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
 
     fun setChildrenActivated(activated: Boolean) {
         forEach {

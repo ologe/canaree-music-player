@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets
+package dev.olog.presentation.widgets.imageview
 
 import android.content.Context
 import android.graphics.*
@@ -15,15 +15,17 @@ import dev.olog.shared.theme.ImageShape
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 
-private const val DEFAULT_RADIUS = 5
-
-private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-
-class ShapeImageView @JvmOverloads constructor(
+open class ShapeImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 
 ) : ForegroundImageView(context, attrs), CoroutineScope by MainScope() {
+
+    companion object {
+        private const val DEFAULT_RADIUS = 5
+        @JvmStatic
+        private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+    }
 
     private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
 

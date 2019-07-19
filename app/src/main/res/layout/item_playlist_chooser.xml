@@ -17,7 +17,7 @@
         android:layout_margin="5dp"
         tools:background="@color/background">
 
-        <dev.olog.presentation.widgets.ShapeImageView
+        <dev.olog.presentation.widgets.imageview.ShapeImageView
             android:id="@+id/cover"
             app:imageAlbum="@{item.mediaId}"
             tools:src="@drawable/placeholder_album"

@@ -30,7 +30,7 @@
             android:paddingStart="@dimen/tab_margin_start"
             android:paddingEnd="@dimen/tab_margin_start">
 
-            <dev.olog.presentation.widgets.ShapeImageView
+            <dev.olog.presentation.widgets.imageview.ShapeImageView
                 android:id="@+id/cover"
                 android:layout_width="@dimen/item_song_cover_size"
                 android:layout_height="@dimen/item_song_cover_size"
@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/placeholder_folder" />
 
-            <dev.olog.presentation.widgets.FadeTextView
+            <dev.olog.presentation.widgets.textview.FadeTextView
                 android:id="@+id/index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 app:layout_goneMarginStart="0dp"
                 tools:text="@tools:sample/lorem" />
 
-            <dev.olog.presentation.widgets.ExplicitView
+            <dev.olog.presentation.widgets.textview.ExplicitView
                 android:id="@+id/explicit"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

@@ -7,8 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/playerRoot">
+        android:layout_height="match_parent">
 
         <include layout="@layout/layout_view_switcher_fullscreen"
             app:layout_constraintTop_toTopOf="parent"

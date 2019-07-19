@@ -54,7 +54,7 @@
                 tools:text="@tools:sample/lorem"
                 android:layout_marginStart="8dp"/>
 
-            <dev.olog.presentation.widgets.ExplicitView
+            <dev.olog.presentation.widgets.textview.ExplicitView
                 android:id="@+id/explicit"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

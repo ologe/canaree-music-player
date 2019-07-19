@@ -93,10 +93,8 @@ class GlideOriginalImageFetcher(
                     return ByteArrayInputStream(data)
                 }
             }
-        } catch (ex: ReadOnlyFileException) {
-        } catch (ex: InvalidAudioFrameException) {
-        } catch (ex: TagException) {
         } catch (ex: IOException) {
+            ex.printStackTrace()
         }
 
         val parent = File(path).parentFile

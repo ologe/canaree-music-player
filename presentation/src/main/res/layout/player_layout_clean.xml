@@ -7,7 +7,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/playerRoot"
         android:clipToPadding="false"
         android:clipChildren="false">
 
@@ -140,7 +139,7 @@
             app:layout_constraintTop_toBottomOf="@+id/innerRoot"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/more" />
+            app:layout_constraintBottom_toTopOf="@+id/volumeChangerFragment" />
 
         <ImageButton
             android:id="@+id/more"

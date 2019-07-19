@@ -6,7 +6,6 @@ import android.provider.MediaStore
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
@@ -26,8 +25,12 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.*
+import dev.olog.shared.AppConstants
+import dev.olog.shared.Classes
+import dev.olog.shared.FloatingWindowsConstants
+import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.*
+import dev.olog.shared.theme.hasPlayerAppearance
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -67,6 +70,12 @@ class MainActivity : MusicGlueActivity(),
 
         getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         bottomNavigation.presentationPrefs = presentationPrefs
+
+        if (hasPlayerAppearance().isMini()){
+            // TODO made a resource value
+            slidingPanelFade.parallax = 0
+            slidingPanel.setHeight(dip(300))
+        }
 
         scrollHelper = SuperCerealScrollHelper(
             this, Input.Full(

@@ -94,7 +94,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
-        <dev.olog.presentation.widgets.PlayerImageView
+        <dev.olog.presentation.widgets.imageview.PlayerImageView
             android:id="@+id/bigCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

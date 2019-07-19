@@ -10,6 +10,11 @@ import dev.olog.shared.palette.ColorUtil
 import dev.olog.shared.theme.PlayerAppearance
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
+import kotlinx.android.synthetic.main.player_layout_default.view.artist
+import kotlinx.android.synthetic.main.player_layout_default.view.more
+import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
+import kotlinx.android.synthetic.main.player_layout_default.view.title
+import kotlinx.android.synthetic.main.player_layout_spotify.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 
 internal interface IPlayerAppearanceAdaptiveBehavior {

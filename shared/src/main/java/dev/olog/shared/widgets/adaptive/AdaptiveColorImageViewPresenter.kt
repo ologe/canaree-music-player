@@ -8,6 +8,8 @@ import androidx.palette.graphics.Palette
 import dev.olog.shared.extensions.*
 import dev.olog.shared.palette.ColorUtil
 import dev.olog.shared.palette.ImageProcessor
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +18,6 @@ import java.util.concurrent.TimeUnit
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
-
 ) {
 
     private val defaultProcessorColors = ValidProcessorColors(
@@ -33,12 +34,12 @@ class AdaptiveColorImageViewPresenter(
     private var processorDisposable: Disposable? = null
     private var paletteDisposable: Disposable? = null
 
-    fun observeProcessorColors() = processorPalettePublisher
+    fun observeProcessorColors(): Observable<ProcessorColors> = processorPalettePublisher
         .subscribeOn(Schedulers.computation())
         .observeOn(Schedulers.computation())
         .debounce(200, TimeUnit.MILLISECONDS)
 
-    fun observePalette() = palettePublisher
+    fun observePalette(): Observable<PaletteColors> = palettePublisher
         .subscribeOn(Schedulers.computation())
         .observeOn(Schedulers.computation())
         .debounce(200, TimeUnit.MILLISECONDS)

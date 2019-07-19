@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import dev.olog.msc.R
-import dev.olog.presentation.widgets.BlurShadow
+import dev.olog.presentation.widgets.imageview.BlurShadow
 import dev.olog.shared.extensions.dpToPx
 import kotlin.properties.Delegates
 

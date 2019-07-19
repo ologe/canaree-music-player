@@ -41,6 +41,7 @@ import kotlinx.android.synthetic.main.player_layout_default.view.duration
 import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
 import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
 import kotlinx.android.synthetic.main.player_layout_default.view.title
+import kotlinx.android.synthetic.main.player_layout_mini.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
 import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
@@ -116,12 +117,14 @@ internal class PlayerFragmentAdapter(
         if (viewType in playerViewTypes) {
 
             val view = holder.itemView
-            view.imageSwitcher.observeProcessorColors()
-                .asLiveData()
-                .subscribe(holder, viewModel::updateProcessorColors)
-            view.imageSwitcher.observePaletteColors()
-                .asLiveData()
-                .subscribe(holder, viewModel::updatePaletteColors)
+            view.imageSwitcher?.let {
+                it.observeProcessorColors()
+                    .asLiveData()
+                    .subscribe(holder, viewModel::updateProcessorColors)
+                it.observePaletteColors()
+                    .asLiveData()
+                    .subscribe(holder, viewModel::updatePaletteColors)
+            }
 
             bindPlayerControls(holder, view)
 
@@ -275,13 +278,18 @@ internal class PlayerFragmentAdapter(
                 when (state) {
                     PlayerState.PLAYING -> playAnimation(view)
                     PlayerState.PAUSED -> pauseAnimation(view)
-                    else -> throw IllegalArgumentException("invalid state ${state}")
+                    else -> throw IllegalArgumentException("invalid state $state")
                 }
             }
     }
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {
-        view.title.text = metadata.title
+        if (view.context.hasPlayerAppearance().isFlat()){
+            // TODO all caps attribute is not working for some reason
+            view.title.text = metadata.title.toUpperCase()
+        } else {
+            view.title.text = metadata.title
+        }
         view.artist.text = metadata.artist
 
         val duration = metadata.duration
@@ -291,17 +299,19 @@ internal class PlayerFragmentAdapter(
         view.seekBar.max = duration.toInt()
 
         val isPodcast = metadata.isPodcast
-        val playerControlsRoot: ConstraintLayout = view.findViewById(R.id.playerControls)
-            ?: view.findViewById(R.id.playerRoot) as ConstraintLayout
-        playerControlsRoot.findViewById<View>(R.id.replay).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<View>(R.id.replay30).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
+        val playerControlsRoot = view.findViewById(R.id.playerControls) as ConstraintLayout
+
+        playerControlsRoot.replay.toggleVisibility(isPodcast, true)
+        playerControlsRoot.replay30.toggleVisibility(isPodcast, true)
+
+        playerControlsRoot.forward.toggleVisibility(isPodcast, true)
+        playerControlsRoot.forward30.toggleVisibility(isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {
-        view.imageSwitcher.loadImage(metadata)
+        view.imageSwitcher?.loadImage(metadata)
         view.blurBackground?.loadImage(metadata.mediaId)
+        view.cover?.loadImage(metadata.mediaId)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {
@@ -320,8 +330,7 @@ internal class PlayerFragmentAdapter(
 
         if (isPlaying || playbackState.isPaused) {
             view.nowPlaying?.isActivated = isPlaying
-            val playerAppearance = view.context.hasPlayerAppearance()
-            view.imageSwitcher.setChildrenActivated(isPlaying)
+            view.imageSwitcher?.setChildrenActivated(isPlaying)
         }
     }
 

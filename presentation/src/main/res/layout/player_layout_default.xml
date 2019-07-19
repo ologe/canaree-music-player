@@ -6,8 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/playerRoot">
+        android:layout_height="wrap_content">
 
         <include
             android:id="@+id/playerToolbar"

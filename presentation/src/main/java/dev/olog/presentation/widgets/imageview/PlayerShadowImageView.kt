@@ -1,19 +1,13 @@
-package dev.olog.presentation.widgets
+package dev.olog.presentation.widgets.imageview
 
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.util.AttributeSet
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import dev.olog.presentation.R
-import dev.olog.presentation.widgets.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.shared.extensions.dpToPx
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
 import kotlin.properties.Delegates
@@ -22,7 +16,7 @@ class PlayerShadowImageView(
         context: Context,
         attr: AttributeSet
 
-) : AdaptiveColorImageView(context, attr) {
+) : ShapeImageView(context, attr) {
 
     companion object {
         private const val DEFAULT_RADIUS = 0.5f
@@ -34,11 +28,11 @@ class PlayerShadowImageView(
         internal const val DOWNSCALE_FACTOR = 0.2f
     }
 
-    var radiusOffset by Delegates.vetoable(DEFAULT_RADIUS) { _, _, newValue ->
+    private var radiusOffset by Delegates.vetoable(DEFAULT_RADIUS) { _, _, newValue ->
         newValue > 0F || newValue <= 1
     }
 
-    var shadowColor = DEFAULT_COLOR
+    private var shadowColor = DEFAULT_COLOR
 
     init {
         if (!isInEditMode){
@@ -131,48 +125,3 @@ class PlayerShadowImageView(
 
 }
 
-object BlurShadow {
-
-    private var renderScript: RenderScript? = null
-
-    fun init(context: Context) {
-        if (renderScript == null)
-            renderScript = RenderScript.create(context)
-    }
-
-    fun blur(view: ImageView, width: Int, height: Int, radius: Float): Bitmap? {
-        val src = getBitmapForView(
-            view,
-            DOWNSCALE_FACTOR,
-            width,
-            height
-        ) ?: return null
-        val input = Allocation.createFromBitmap(renderScript, src)
-        val output = Allocation.createTyped(renderScript, input.type)
-        val script = ScriptIntrinsicBlur.create(
-            renderScript, Element.U8_4(
-                renderScript
-            ))
-        script.apply {
-            setRadius(radius)
-            setInput(input)
-            forEach(output)
-        }
-        output.copyTo(src)
-        return src
-    }
-
-    private fun getBitmapForView(view: ImageView, downscaleFactor: Float, width: Int, height: Int): Bitmap? {
-        val bitmap = Bitmap.createBitmap(
-                (width * downscaleFactor).toInt(),
-                (height * downscaleFactor).toInt(),
-                Bitmap.Config.ARGB_8888)
-
-        val canvas = Canvas(bitmap)
-        val matrix = Matrix()
-        matrix.preScale(downscaleFactor, downscaleFactor)
-        canvas.setMatrix(matrix)
-        view.draw(canvas)
-        return bitmap
-    }
-}

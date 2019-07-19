@@ -17,49 +17,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="@dimen/sliding_panel_peek">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/coverWrapper"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <dev.olog.presentation.widgets.imageview.PlayerImageView
+                android:id="@+id/cover"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                android:clickable="false"
-                android:focusable="false"
-                app:cardCornerRadius="@dimen/default_corner_radius"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:src="@drawable/placeholder_folder"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical">
+                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
 
-                <dev.olog.presentation.widgets.PlayerImageView
-                    android:id="@+id/bigCover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:src="@drawable/placeholder_folder" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
+            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
                 android:id="@+id/title"
                 tools:text="@tools:sample/lorem"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:fontFamily="sans-serif-black"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="15dp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/artist"
-                app:layout_constraintStart_toEndOf="@+id/coverWrapper"
+                app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintEnd_toStartOf="@+id/playbackSpeed"
                 android:layout_marginStart="@dimen/mini_player_margin_start"
                 android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLines="1"
                 style="@style/MiniPlayerText"
-                android:layout_marginBottom="2dp"
-                android:scrollHorizontally="true" />
+                android:layout_marginBottom="2dp" />
 
             <TextView
                 android:id="@+id/artist"

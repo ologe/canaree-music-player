@@ -10,14 +10,14 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.presentation.widgets.ShapeImageView
+    <dev.olog.presentation.widgets.imageview.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp" />
 
-    <dev.olog.presentation.widgets.ShapeImageView
+    <dev.olog.presentation.widgets.imageview.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
@@ -26,7 +26,7 @@
         app:imageViewCornerRadius="20"
         app:radiusOffset=".85"/>
 
-    <dev.olog.presentation.widgets.ShapeImageView
+    <dev.olog.presentation.widgets.imageview.ShapeImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"

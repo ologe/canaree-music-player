@@ -10,6 +10,7 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.extensions.dip
 import dev.olog.presentation.R
+import dev.olog.shared.delegates.mutableLazy
 import dev.olog.shared.extensions.scrimBackground
 
 class SlidingPanelFade(
@@ -20,7 +21,7 @@ class SlidingPanelFade(
     private val fragmentContainer by lazyFast {
         (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
     }
-    private val maxTranslation by lazyFast { context.dip(20) }
+    var parallax by mutableLazy { context.dip(20) }
 
     init {
         setBackgroundColor(context.scrimBackground())
@@ -41,7 +42,7 @@ class SlidingPanelFade(
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             alpha = clamp(slideOffset * 1.5f, 0f, 1f)
-            fragmentContainer.translationY = -(slideOffset * maxTranslation)
+            fragmentContainer.translationY = -(slideOffset * parallax)
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {

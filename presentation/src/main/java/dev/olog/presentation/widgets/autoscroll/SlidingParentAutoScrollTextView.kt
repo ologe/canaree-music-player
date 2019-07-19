@@ -29,8 +29,10 @@ class SlidingParentAutoScrollTextView(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removePanelSlideListener(listener)
-        parentList?.removeOnScrollListener(recyclerViewListener)
+        if (!isInEditMode){
+            slidingPanel.removePanelSlideListener(listener)
+            parentList?.removeOnScrollListener(recyclerViewListener)
+        }
     }
 
     private val recyclerViewListener = object : RecyclerView.OnScrollListener() {

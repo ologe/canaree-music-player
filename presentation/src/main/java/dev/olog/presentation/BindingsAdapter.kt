@@ -13,7 +13,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.model.SpecialThanksModel
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.presentation.widgets.ExplicitView
+import dev.olog.presentation.widgets.textview.ExplicitView
 import dev.olog.presentation.widgets.QuickActionView
 
 object BindingsAdapter {
