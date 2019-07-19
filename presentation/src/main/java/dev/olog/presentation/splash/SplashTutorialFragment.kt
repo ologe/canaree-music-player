@@ -11,11 +11,10 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.widgets.StoppingViewPager
-import dev.olog.presentation.widgets.SwipeableView
+import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.image.provider.CoverUtils
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.ctx

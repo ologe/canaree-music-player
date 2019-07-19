@@ -142,7 +142,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <dev.olog.presentation.widgets.SwipeableView
+                <dev.olog.presentation.widgets.swipeableview.SwipeableView
                     android:id="@+id/swipeableView"
                     android:elevation="20dp"
                     app:layout_constraintTop_toTopOf="@+id/coverWrapper"

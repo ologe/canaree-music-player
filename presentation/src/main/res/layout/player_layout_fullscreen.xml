@@ -30,9 +30,9 @@
             android:focusable="false"
             android:clipChildren="false">
 
-            <dev.olog.presentation.widgets.SwipeableView
+            <dev.olog.presentation.widgets.swipeableview.SwipeableView
                 android:id="@+id/swipeableView"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textWrapper"
@@ -40,7 +40,8 @@
                 android:layout_height="0dp"
                 android:clickable="true"
                 android:focusable="true"
-                tools:visibility="invisible"/>
+                app:debug="true"
+                app:skip_area_dimension="72dp"/>
 
             <include
                 android:id="@+id/playerToolbar"

@@ -19,7 +19,7 @@ open class ShapeImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 
-) : ForegroundImageView(context, attrs), CoroutineScope by MainScope() {
+) : ForegroundImageView(context, attrs) {
 
     companion object {
         private const val DEFAULT_RADIUS = 5
@@ -36,7 +36,7 @@ open class ShapeImageView @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
         radius = a.getInt(
             R.styleable.RoundedCornersImageView_imageViewCornerRadius,
             DEFAULT_RADIUS
@@ -54,7 +54,7 @@ open class ShapeImageView @JvmOverloads constructor(
             return
         }
         val hasImageShape = context.applicationContext as HasImageShape
-        job = launch(Dispatchers.Default) {
+        job = GlobalScope.launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null
             }

@@ -192,7 +192,7 @@
             android:tint="?attr/cleanButtonColor"
             android:layout_margin="16dp"/>
 
-        <dev.olog.presentation.widgets.SwipeableView
+        <dev.olog.presentation.widgets.swipeableview.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
             app:layout_constraintTop_toTopOf="@+id/innerRoot"
@@ -203,7 +203,8 @@
             android:layout_height="0dp"
             android:clickable="true"
             android:focusable="true"
-            tools:visibility="invisible" />
+            app:debug="true"
+            app:skip_area_dimension="92dp"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

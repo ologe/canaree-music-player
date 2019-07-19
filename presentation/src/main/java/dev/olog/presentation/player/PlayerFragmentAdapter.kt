@@ -26,7 +26,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.presentation.widgets.SwipeableView
+import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 import dev.olog.shared.utils.TextUtils

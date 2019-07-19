@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flowOn
 class VolumeChangerView(
     context: Context,
     attrs: AttributeSet
-) : AppCompatImageButton(context, attrs), CoroutineScope by MainScope() {
+) : AppCompatImageButton(context, attrs) {
 
     init {
         // TODO use lottie?? https://assets10.lottiefiles.com/datafiles/dPBsEmiWemqAzfE/data.json
@@ -38,12 +38,14 @@ class VolumeChangerView(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        job?.cancel()
+        if (!isInEditMode){
+            job?.cancel()
+        }
     }
 
     private fun startObserving() {
         job?.cancel()
-        job = launch {
+        job = GlobalScope.launch(Dispatchers.Main) {
             musicPrefs!!.observeVolume()
                 .flowOn(Dispatchers.Default)
                 .collect { updateImage(it) }
