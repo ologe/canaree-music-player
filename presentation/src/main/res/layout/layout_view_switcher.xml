@@ -15,7 +15,8 @@
         android:layout_height="match_parent"
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        android:elevation="0dp" />
+        android:elevation="0dp"
+        app:imageViewCornerRadius="10" />
 
     <dev.olog.presentation.widgets.imageview.ShapeImageView
         android:layout_width="match_parent"
@@ -23,8 +24,7 @@
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp"
-        app:imageViewCornerRadius="20"
-        app:radiusOffset=".85"/>
+        app:imageViewCornerRadius="10"/>
 
     <dev.olog.presentation.widgets.imageview.ShapeImageView
         android:layout_width="match_parent"
@@ -32,7 +32,6 @@
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
         android:elevation="0dp"
-        app:imageViewCornerRadius="20"
-        app:radiusOffset=".85"/>
+        app:imageViewCornerRadius="10"/>
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>

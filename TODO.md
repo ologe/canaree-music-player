@@ -6,6 +6,7 @@
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
 - fullscreen layout has problem with scrolling (see logs)
+- on measure in nested scroll view is called "every frame" when track is playing  
 
 ## features
 - use don't keep activities and add try to restore previous state

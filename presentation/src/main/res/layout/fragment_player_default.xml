@@ -10,10 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar" />
 
-    <androidx.core.widget.NestedScrollView
+    <dev.olog.presentation.widgets.SimpleNestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_height="match_parent"
@@ -23,6 +22,6 @@
             tools:listitem="@layout/player_layout_default"
             tools:itemCount="1"/>
 
-    </androidx.core.widget.NestedScrollView>
+    </dev.olog.presentation.widgets.SimpleNestedScrollView>
 
 </LinearLayout>

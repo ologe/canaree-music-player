@@ -16,7 +16,6 @@
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/scale_on_activated"
         android:elevation="0dp"
-        app:imageViewCornerRadius="20"
         app:radiusOffset=".85"/>
 
     <dev.olog.presentation.widgets.imageview.PlayerShadowImageView
@@ -25,7 +24,6 @@
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/scale_on_activated"
         android:elevation="0dp"
-        app:imageViewCornerRadius="20"
         app:radiusOffset=".85"/>
 
     <dev.olog.presentation.widgets.imageview.PlayerShadowImageView
@@ -34,7 +32,6 @@
         tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/scale_on_activated"
         android:elevation="0dp"
-        app:imageViewCornerRadius="20"
         app:radiusOffset=".85"/>
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
