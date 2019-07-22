@@ -24,6 +24,7 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
 import java.util.Set;
@@ -223,13 +224,14 @@ class FloatingTab extends FrameLayout {
         Log.d(TAG, "Docking to destination point: " + destinationCornerPosition);
 
         ObjectAnimator xAnimation = ObjectAnimator.ofFloat(this, "x", destinationCornerPosition.x);
-        xAnimation.setDuration(200);
+        xAnimation.setDuration(400);
         xAnimation.setInterpolator(new FastOutSlowInInterpolator());
         ObjectAnimator yAnimation = ObjectAnimator.ofFloat(this, "y", destinationCornerPosition.y);
-        yAnimation.setDuration(200);
+        yAnimation.setDuration(400);
         yAnimation.setInterpolator(new FastOutSlowInInterpolator());
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(xAnimation).with(yAnimation);
+        animatorSet.setInterpolator(new OvershootInterpolator(1.2f));
         animatorSet.start();
 
         animatorSet.addListener(new Animator.AnimatorListener() {
