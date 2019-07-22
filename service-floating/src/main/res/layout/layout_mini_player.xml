@@ -1,78 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bar"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="@dimen/offline_lyrics_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Wanksta"
+        android:fontFamily="sans-serif-black"
+        android:layout_marginEnd="100dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/offline_lyrics_artist_size"
+        tools:text="50 Cent"
+        android:layout_marginEnd="100dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="100dp">
+    <!-- seekbar -->
+    <dev.olog.media.widget.CustomSeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        tools:max="100"
+        tools:progress="40" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/offline_lyrics_title_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/edit"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Wanksta"
-                android:fontFamily="sans-serif-black"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:textColor="?attr/colorAccent"
-                android:textSize="@dimen/offline_lyrics_artist_size"
-                tools:text="50 Cent" />
-
-            <!-- seekbar -->
-            <dev.olog.media.widget.CustomSeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/header"
-                app:layout_constraintStart_toStartOf="@+id/header"
-                app:layout_constraintTop_toBottomOf="@+id/subHeader"
-                app:layout_constraintVertical_bias="1"
-                tools:max="100"
-                tools:progress="40" />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

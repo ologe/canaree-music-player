@@ -5,7 +5,7 @@
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?colorSurface"
-    android:elevation="2dp"
+    android:elevation="@dimen/toolbar_elevation"
     android:theme="@style/AppTheme">
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -28,16 +28,13 @@
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_refresh" />
 
-    <ProgressBar
+    <dev.olog.media.widget.CustomProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progressTint="?colorAccent"
+        android:layout_height="2dp"
+        style="@style/DefaultHorizontalProgressBar"
         tools:progress="40"
         tools:max="100"
-        android:max="100"
-        android:elevation="4dp"
         android:layout_gravity="bottom"/>
 
 </FrameLayout>

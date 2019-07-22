@@ -187,10 +187,10 @@
                 android:src="@drawable/vd_edit"
                 app:layout_constraintTop_toTopOf="@+id/wrapper"
                 app:layout_constraintBottom_toTopOf="@+id/wrapper"
-                android:translationX="-32dp"
                 app:fabSize="normal"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:layout_marginEnd="16dp"/>
 
             <View
                 android:id="@+id/fakeNext"
