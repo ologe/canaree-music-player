@@ -54,8 +54,9 @@
         android:id="@+id/statusBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
-        android:layout_height="@dimen/status_bar"
+        android:layout_height="24dp"
         android:elevation="@dimen/toolbar_elevation"
         android:background="?colorSurface"/>
 
@@ -114,7 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_choose_track" />
+        tools:listitem="@layout/item_create_playlist" />
 
     <dev.olog.presentation.widgets.fascroller.RxWaveSideBarView
         android:id="@+id/sidebar"

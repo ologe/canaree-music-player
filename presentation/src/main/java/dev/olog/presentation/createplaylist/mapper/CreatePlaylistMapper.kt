@@ -7,7 +7,7 @@ import dev.olog.presentation.model.DisplayableTrack
 
 internal fun Song.toDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(
-        R.layout.item_choose_track,
+        R.layout.item_create_playlist,
         getMediaId(),
         this.title,
         this.artist,

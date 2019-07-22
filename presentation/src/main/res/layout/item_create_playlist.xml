@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableHeader"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableTrack"/>
         <variable name="isChecked" type="boolean"/>
     </data>
 

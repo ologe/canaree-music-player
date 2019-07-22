@@ -64,7 +64,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         viewModel.observeSelectedCount()
             .subscribe(viewLifecycleOwner) { size ->
                 val text = when (size) {
-                    0 -> getString(R.string.playlist_tracks_chooser_no_tracks)
+                    0 -> getString(R.string.popup_new_playlist)
                     else -> resources.getQuantityString(
                         R.plurals.playlist_tracks_chooser_count,
                         size,
@@ -87,7 +87,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
         }
 
-        sidebar.scrollableLayoutId = R.layout.item_choose_track
+        sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
         launch {
             editText.afterTextChange()
