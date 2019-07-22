@@ -172,7 +172,7 @@
                             tools:text="50 Cent" />
 
                         <!-- seekbar -->
-                        <dev.olog.shared.widgets.progressbar.CustomSeekBar
+                        <dev.olog.media.widget.CustomSeekBar
                             android:id="@+id/seekBar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -192,15 +192,6 @@
                     </LinearLayout>
 
                 </com.google.android.material.bottomappbar.BottomAppBar>
-
-                <dev.olog.shared.widgets.BottomAppBarFab
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_anchor="@id/bar"
-                    android:clickable="false"
-                    android:focusable="false"
-                    app:backgroundTint="@android:color/transparent"
-                    app:elevation="0dp" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
