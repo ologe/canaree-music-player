@@ -50,6 +50,8 @@ import dev.olog.service.floating.R;
 class FloatingTab extends FrameLayout {
 
     private static final String TAG = "FloatingTab";
+    private static final long ANIMATION_DURATION = 400;
+    private static final long SHOW_DURATION = 300;
 
     @NonNull
     private final String mId;
@@ -101,9 +103,11 @@ class FloatingTab extends FrameLayout {
     public void appear(@Nullable final Runnable onAppeared) {
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0.0f, 1.0f);
-        scaleX.setDuration(250);
+        scaleX.setDuration(SHOW_DURATION);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0.0f, 1.0f);
-        scaleY.setDuration(250);
+        scaleY.setDuration(SHOW_DURATION);
+        animatorSet.setInterpolator(new OvershootInterpolator(2f));
+        animatorSet.setDuration(ANIMATION_DURATION);
         animatorSet.playTogether(scaleX, scaleY);
         animatorSet.start();
 
@@ -138,9 +142,9 @@ class FloatingTab extends FrameLayout {
     public void disappear(@Nullable final Runnable onDisappeared) {
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0.0f);
-        scaleX.setDuration(250);
+        scaleX.setDuration(SHOW_DURATION);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0.0f);
-        scaleY.setDuration(250);
+        scaleY.setDuration(SHOW_DURATION);
         animatorSet.playTogether(scaleX, scaleY);
         animatorSet.start();
 
@@ -224,10 +228,10 @@ class FloatingTab extends FrameLayout {
         Log.d(TAG, "Docking to destination point: " + destinationCornerPosition);
 
         ObjectAnimator xAnimation = ObjectAnimator.ofFloat(this, "x", destinationCornerPosition.x);
-        xAnimation.setDuration(400);
+        xAnimation.setDuration(ANIMATION_DURATION);
         xAnimation.setInterpolator(new FastOutSlowInInterpolator());
         ObjectAnimator yAnimation = ObjectAnimator.ofFloat(this, "y", destinationCornerPosition.y);
-        yAnimation.setDuration(400);
+        yAnimation.setDuration(ANIMATION_DURATION);
         yAnimation.setInterpolator(new FastOutSlowInInterpolator());
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(xAnimation).with(yAnimation);
