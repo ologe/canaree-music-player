@@ -14,7 +14,9 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
@@ -31,7 +33,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
+class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPressed {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
@@ -201,6 +203,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             val layoutManager = list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
+    }
+
+    override fun handleOnBackPressed(): Boolean {
+        (act as MainActivity).restoreSlidingPanelHeight()
+        return false
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
