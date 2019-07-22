@@ -22,10 +22,10 @@
         android:tint="@color/dark_grey"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/vd_cancel"
         android:background="@null"
-        android:padding="8dp"
+        android:padding="4dp"
         android:layout_gravity="center_horizontal|bottom"/>
 
 </merge>
