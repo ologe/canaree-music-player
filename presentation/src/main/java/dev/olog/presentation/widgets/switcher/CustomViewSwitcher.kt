@@ -3,6 +3,7 @@ package dev.olog.presentation.widgets.switcher
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.forEach
 import com.bumptech.glide.Priority
@@ -17,8 +18,10 @@ import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
+import dev.olog.shared.extensions.findChild
 import dev.olog.shared.extensions.lazyFast
 import dev.olog.shared.theme.hasPlayerAppearance
+import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(
@@ -105,9 +108,13 @@ class CustomViewSwitcher(
     private fun loadImageInternal(mediaId: MediaId) {
         animationFinished = false
 
-        val nextView = getNextView() as ImageView
+        val imageView = when (val next = getNextView()) {
+            is ImageView -> next
+            is ViewGroup -> next.findChild { it is ImageView }
+            else -> throw IllegalStateException()
+        } as ImageView
 
-        GlideApp.with(context).clear(nextView)
+        GlideApp.with(context).clear(imageView)
         GlideApp.with(context)
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
@@ -115,7 +122,7 @@ class CustomViewSwitcher(
             .override(Target.SIZE_ORIGINAL)
             .onlyRetrieveFromCache(true)
             .listener(this)
-            .into(RippleTarget(nextView))
+            .into(RippleTarget(imageView))
     }
 
     override fun onLoadFailed(

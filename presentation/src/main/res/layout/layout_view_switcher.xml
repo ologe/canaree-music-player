@@ -10,28 +10,46 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.presentation.widgets.imageview.ShapeImageView
+    <dev.olog.presentation.widgets.imageview.ShapeCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        android:elevation="0dp"
-        app:imageViewCornerRadius="10" />
+        app:cardElevation="0dp"
+        app:cardCornerRadius="10dp">
 
-    <dev.olog.presentation.widgets.imageview.ShapeImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:src="@drawable/placeholder_musical_note"
-        android:stateListAnimator="@animator/elevate_on_activated"
-        android:elevation="0dp"
-        app:imageViewCornerRadius="10"/>
+        <dev.olog.shared.widgets.ForegroundImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/placeholder_musical_note"/>
 
-    <dev.olog.presentation.widgets.imageview.ShapeImageView
+    </dev.olog.presentation.widgets.imageview.ShapeCardView>
+
+    <dev.olog.presentation.widgets.imageview.ShapeCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        android:elevation="0dp"
-        app:imageViewCornerRadius="10"/>
+        app:cardElevation="0dp"
+        app:cardCornerRadius="10dp">
+
+        <dev.olog.shared.widgets.ForegroundImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/placeholder_musical_note"/>
+
+    </dev.olog.presentation.widgets.imageview.ShapeCardView>
+
+    <dev.olog.presentation.widgets.imageview.ShapeCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stateListAnimator="@animator/elevate_on_activated"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="10dp">
+
+        <dev.olog.shared.widgets.ForegroundImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/placeholder_musical_note"/>
+
+    </dev.olog.presentation.widgets.imageview.ShapeCardView>
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>
