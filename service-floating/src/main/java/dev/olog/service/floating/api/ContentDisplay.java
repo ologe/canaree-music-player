@@ -157,7 +157,6 @@ class ContentDisplay extends RelativeLayout {
         if (null != mContent) {
             mContentView.addView(mContent.getView());
             mContentView.animate().cancel();
-            mContentView.setAlpha(0f);
             mContentView.animate().alpha(1f);
             mContent.onShown();
 
