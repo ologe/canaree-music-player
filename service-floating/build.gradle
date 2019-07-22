@@ -38,6 +38,8 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.recycler
 
+    implementation 'io.alterac.blurkit:blurkit:1.0.0'
+
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"

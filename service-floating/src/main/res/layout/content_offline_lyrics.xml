@@ -29,8 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:blk_fps="24"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="0dp"
