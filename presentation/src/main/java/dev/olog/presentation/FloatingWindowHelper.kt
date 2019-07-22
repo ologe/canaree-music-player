@@ -22,7 +22,7 @@ object FloatingWindowHelper {
         val billing = (activity as HasBilling).billing
         if (billing.getBillingsState().isPremiumEnabled()){
             if (hasOverlayPermission(activity)){
-                val intent = Intent(activity, Class.forName(Classes.SERVICE_MUSIC))
+                val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))
                 ContextCompat.startForegroundService(activity, intent)
             } else {
                 val intent = createIntentToRequestOverlayPermission(activity)
@@ -40,7 +40,7 @@ object FloatingWindowHelper {
         val billing = (activity as HasBilling).billing
 
         if (billing.getBillingsState().isPremiumEnabled() && hasOverlayPermission(activity)){
-            val intent = Intent(activity, Class.forName(Classes.SERVICE_MUSIC))
+            val intent = Intent(activity, Class.forName(Classes.SERVICE_FLOATING))
             ContextCompat.startForegroundService(activity, intent)
         }
     }

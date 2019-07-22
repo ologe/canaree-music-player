@@ -27,14 +27,9 @@ class FloatingWindowService : BaseFloatingService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        if (intent != null && intent.action != null) {
-            when (intent.action) {
-                ACTION_STOP -> {
-                    stopSelf()
-                    return Service.START_NOT_STICKY
-                }
-            }
+        if (intent?.action == ACTION_STOP){
+            stopSelf()
+            return Service.START_NOT_STICKY
         }
 
         return super.onStartCommand(intent, flags, startId)

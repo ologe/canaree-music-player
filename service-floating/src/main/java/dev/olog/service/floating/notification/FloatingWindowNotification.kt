@@ -61,9 +61,7 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     fun buildNotification(): Notification {
-        if (isOreo()) {
-            createChannel()
-        }
+        createChannel()
 
         return builder
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -76,8 +74,15 @@ class FloatingWindowNotification @Inject constructor(
             .build()
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
+        if (!isOreo()){
+            return
+        }
+        val nowPlayingChannelExists = notificationManager.getNotificationChannel(CHANNEL_ID) != null
+        if (nowPlayingChannelExists){
+            return
+        }
+
         // create notification channel
         val name = service.getString(R.string.floating_window_notification_channel_title)
         val description =
