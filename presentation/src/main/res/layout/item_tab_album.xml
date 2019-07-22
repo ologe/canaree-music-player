@@ -14,8 +14,7 @@
         tools:layout_width="150dp"
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_album_margin"
-        tools:background="@color/background">
+        android:layout_margin="@dimen/item_album_margin">
 
         <dev.olog.presentation.widgets.imageview.ShapeImageView
             android:id="@+id/cover"

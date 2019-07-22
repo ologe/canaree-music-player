@@ -20,6 +20,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import dev.olog.presentation.R
 import dev.olog.shared.extensions.colorAccent
+import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -75,7 +76,7 @@ class RxFastScroller @JvmOverloads constructor(
 
             try {
                 bubbleColor = context.colorAccent()
-                handleColor = ContextCompat.getColor(context, R.color.dark_grey) // TODO check
+                handleColor = context.colorControlNormal() // TODO check
                 textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
                 hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)
             } finally {

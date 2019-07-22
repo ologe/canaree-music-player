@@ -22,6 +22,7 @@ import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.AppConstants
 import dev.olog.shared.Classes
 import dev.olog.shared.extensions.asActivityPendingIntent
+import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
@@ -49,7 +50,7 @@ internal open class NotificationImpl21 @Inject constructor(
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setColor(ContextCompat.getColor(service, R.color.dark_grey))
+            .setColor(service.colorControlNormal())
             .setColorized(false)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(

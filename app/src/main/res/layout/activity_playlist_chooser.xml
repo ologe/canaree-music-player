@@ -2,39 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    tools:background="@color/background">
+    android:orientation="vertical">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
-        android:background="?android:attr/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
-        android:background="?android:attr/colorPrimary">
+        android:background="?colorSurface">
 
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp" />
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/headerText"
             android:text="@string/playlist_chooser_header"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
             android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp" />
+            android:layout_marginEnd="48dp"
+            style="@style/Header.Secondary"/>
 
     </FrameLayout>
 

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Divider">
-        <item name="android:background">@color/dark_grey</item>
+        <item name="android:background">?colorControlNormal</item>
         <item name="android:alpha">.1</item>
     </style>
 

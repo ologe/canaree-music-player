@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/AppTheme">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="?android:colorBackground"
+        app:cardBackgroundColor="?colorSurface"
         app:cardCornerRadius="@dimen/big_default_corner_radius"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -19,18 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="48dp"
-            android:background="@android:color/white"/>
+            android:background="?android:colorBackground"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/error"
             android:text="@string/floating_window_offline"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="48dp"
-            android:background="@color/background"
-            android:visibility="gone"/>
+            android:background="?android:colorBackground"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:fontFamily="sans-serif-black"
+            android:textColor="?android:textColorPrimary"/>
 
         <include
             layout="@layout/layout_toolbar"

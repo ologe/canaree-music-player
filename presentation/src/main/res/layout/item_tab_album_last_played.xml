@@ -11,8 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/item_tab_album_last_player_width"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        tools:background="@color/background">
+        android:layout_margin="5dp">
 
         <dev.olog.presentation.widgets.imageview.ShapeImageView
             android:id="@+id/cover"

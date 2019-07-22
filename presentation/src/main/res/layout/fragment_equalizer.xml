@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline"
-            app:pageIndicatorColor="@color/light_grey"
+            app:pageIndicatorColor="?colorControlNormal"
             tools:layout_height="10dp"
             tools:layout_width="10dp" />
 
@@ -73,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/eq_bar_top_margin"
-            android:background="@color/dark_grey"
+            android:background="?colorControlNormal"
             android:paddingStart="8dp"
             android:scaleX="1.05"
             app:layout_constraintBottom_toTopOf="@+id/band3"

@@ -31,7 +31,7 @@ fun View.animateBackgroundColor(to: Int) {
 
     val from = if (background != null && background is ColorDrawable) {
         (background as ColorDrawable).color
-    } else ContextCompat.getColor(context, R.color.background)
+    } else context.colorSurface()
     computeColors(from, to) { setBackgroundColor(it) }
 }
 

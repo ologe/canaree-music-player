@@ -12,7 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="?colorSurface"
         app:cardCornerRadius="@dimen/big_default_corner_radius"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"

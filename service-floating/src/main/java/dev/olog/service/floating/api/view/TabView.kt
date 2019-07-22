@@ -1,6 +1,7 @@
 package dev.olog.service.floating.api.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.service.floating.R
+import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.extensions.dip
 
 private const val DURATION = 250
@@ -25,7 +27,6 @@ class TabView(
         val size = context.dip(48)
         layoutParams = ViewGroup.LayoutParams(size, size)
         initialize(context)
-
     }
 
     private fun initialize(context: Context){
@@ -35,7 +36,7 @@ class TabView(
 
         val padding = context.dip(14)
         setPadding(padding, padding, padding, padding)
-        setColorFilter(ContextCompat.getColor(context, R.color.dark_grey))
+        setColorFilter(0xFF_262626.toInt())
     }
 
     fun setHidden(animate: Boolean){

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:shape="rectangle">
 
-    <tools:solid android:color="@color/dark_grey" />
+    <tools:solid android:color="?colorControlNormal" />
 
     <corners android:radius="@dimen/fastscroll_handle_radius" />
 

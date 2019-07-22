@@ -111,7 +111,7 @@ public class RadialKnob extends View {
         mBackgroundArcColor = ColorUtils.setAlphaComponent(mHighlightColor, (int) (255 * 0.5));
         mBackgroundArcColorDisabled = res.getColor(R.color.radial_knob_arc_bg_disabled);
 //        dividerColor = AppTheme.INSTANCE.isDarkTheme() ? Color.WHITE : ContextCompat.getColor(getContext(),  R.color.dark_grey);
-        dividerColor = ContextCompat.getColor(getContext(),  R.color.dark_grey);
+        dividerColor = ContextExtensionKt.colorControlNormal(getContext()); // TODO
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));

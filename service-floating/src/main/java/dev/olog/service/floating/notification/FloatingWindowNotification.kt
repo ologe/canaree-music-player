@@ -14,6 +14,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.extensions.asServicePendingIntent
+import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.extensions.unsubscribe
 import dev.olog.shared.utils.isOreo
 import io.reactivex.disposables.Disposable
@@ -69,7 +70,7 @@ class FloatingWindowNotification @Inject constructor(
             .setSmallIcon(R.drawable.vd_bird_singing)
             .setContentTitle(notificationTitle)
             .setContentText(service.getString(R.string.floating_window_notification_content_text))
-            .setColor(ContextCompat.getColor(service, R.color.dark_grey))
+            .setColor(service.colorControlNormal())
             .setContentIntent(createContentIntent())
             .build()
     }

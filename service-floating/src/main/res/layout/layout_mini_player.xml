@@ -69,8 +69,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/subHeader"
                 app:layout_constraintVertical_bias="1"
                 tools:max="100"
-                tools:progress="40"
-                tools:progressTint="@color/dark_grey" />
+                tools:progress="40" />
 
         </LinearLayout>
 

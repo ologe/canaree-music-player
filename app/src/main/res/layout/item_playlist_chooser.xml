@@ -14,8 +14,7 @@
         tools:layout_width="150dp"
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        tools:background="@color/background">
+        android:layout_margin="5dp">
 
         <dev.olog.presentation.widgets.imageview.ShapeImageView
             android:id="@+id/cover"

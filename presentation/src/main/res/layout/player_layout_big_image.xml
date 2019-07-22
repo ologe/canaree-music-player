@@ -7,8 +7,7 @@
     <dev.olog.presentation.widgets.FullScreenConstraintLayout
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@color/background">
+        android:layout_height="match_parent">
 
         <include layout="@layout/layout_view_switcher_square"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"

@@ -15,20 +15,6 @@
 
     <color name="searchBoxBackground">#f1f3f4</color>
 
-
-    <color name="light_grey">#AAA</color>
-    <color name="dark_grey">#262626</color>
-    <color name="grey400">#BDBDBD</color>
-    <color name="grey600">#757575</color>
-
-    <color name="background">@android:color/white</color>
-    <color name="background_accent">@color/dark_grey</color>
-
-    <color name="toolbar">#FAFAFA</color>
-
-    <!--<color name="item_selected">#FF1744</color>-->
-    <color name="item_selected">?colorAccent</color>
-
     <!-- Colors for the Hover menu itself -->
     <color name="hover_selector_color">@android:color/white</color>
     <!--<color name="hover_navigator_color">@android:color/white</color>-->
@@ -41,15 +27,11 @@
 
     <color name="mid_grey">#40606060</color>
 
-    <color name="background_mini_player">@color/background</color>
-
-    <color name="dark_dialog_background">#424242</color>
-
     <color name="transparent_white">#E6FFFFFF</color>
     <color name="transparent_black">#E6000000</color>
 
     <color name="progressTint">@color/colorControlNormal</color>
-    <color name="progressBackgroundTint">@color/grey400</color>
+    <color name="progressBackgroundTint">#BDBDBD</color>
 
     <color name="colorUnselectedButton">@color/colorControlNormal</color>
 

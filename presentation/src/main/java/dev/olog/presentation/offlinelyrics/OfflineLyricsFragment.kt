@@ -138,10 +138,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun searchLyrics() {
-        val toolbarColor = R.color.toolbar
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
-            .setToolbarColor(ContextCompat.getColor(ctx, toolbarColor))
+            .setToolbarColor(ctx.colorSurface())
             .build()
         CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
 

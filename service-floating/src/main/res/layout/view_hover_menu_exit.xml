@@ -19,7 +19,7 @@
         android:id="@+id/view_exit"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:tint="@color/dark_grey"
+        android:tint="#262626"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
