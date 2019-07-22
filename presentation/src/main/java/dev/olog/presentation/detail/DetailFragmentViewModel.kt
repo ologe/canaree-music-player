@@ -110,13 +110,17 @@ internal class DetailFragmentViewModel @Inject constructor(
 
         // biography
         viewModelScope.launch(Dispatchers.IO) {
-            val biography = when {
-                mediaId.isArtist -> lastFmGateway.getArtist(mediaId.categoryId)?.wiki
-                mediaId.isAlbum -> lastFmGateway.getAlbum(mediaId.categoryId)?.wiki
-                else -> null
-            }
-            withContext(Dispatchers.Main){
-                biographyLiveData.value = biography
+            try {
+                val biography = when {
+                    mediaId.isArtist -> lastFmGateway.getArtist(mediaId.categoryId)?.wiki
+                    mediaId.isAlbum -> lastFmGateway.getAlbum(mediaId.categoryId)?.wiki
+                    else -> null
+                }
+                withContext(Dispatchers.Main){
+                    biographyLiveData.value = biography
+                }
+            } catch (ex: NullPointerException){
+                ex.printStackTrace()
             }
         }
     }
