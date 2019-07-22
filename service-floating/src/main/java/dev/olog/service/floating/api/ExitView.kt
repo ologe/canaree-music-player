@@ -101,7 +101,7 @@ internal class ExitView constructor(
     }
 
     fun hide() {
-        pivotY = context.resources.displayMetrics.heightPixels.toFloat()
+        pivotY = context.resources.displayMetrics.heightPixels.toFloat() * 1.2f
 
         currentAnimation?.cancel()
         currentAnimation = AnimatorSet().apply {
