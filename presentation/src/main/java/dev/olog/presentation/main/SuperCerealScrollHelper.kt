@@ -57,6 +57,7 @@ class SuperCerealScrollHelper(
                 // search toolbar and tab layout in parent fragment
                 fragment.parentFragment?.view
             }
+            fragment.tag == SettingsFragment.TAG -> fragment.parentFragment?.view
             else -> fragment.view
         }
         return view?.findViewByIdNotRecursive(R.id.toolbar)
