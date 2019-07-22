@@ -125,7 +125,6 @@
         android:focusable="true"
         android:src="@drawable/vd_repeat"
         tools:src="@drawable/vd_repeat"
-        tools:tint="@color/button_secondary_tint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause" />

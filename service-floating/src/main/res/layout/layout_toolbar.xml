@@ -4,38 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/toolbar"
+    android:background="?colorSurface"
     android:elevation="2dp"
     android:theme="@style/AppTheme">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/navigateBack"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:padding="12dp"
-        android:src="@drawable/vd_back_arrow"
-        android:tint="@color/button_primary_tint"/>
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:src="@drawable/vd_back_arrow" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/navigateNext"
-        android:layout_width="48dp"
-        android:layout_marginStart="48dp"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_marginStart="@dimen/common_icon_size"
         android:layout_height="match_parent"
-        android:background="@null"
-        android:padding="12dp"
-        android:src="@drawable/vd_forward_arrow"
-        android:tint="@color/button_primary_tint"/>
+        android:src="@drawable/vd_forward_arrow" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/refresh"
         android:layout_gravity="end"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:padding="12dp"
-        android:src="@drawable/vd_refresh"
-        android:tint="@color/button_primary_tint"/>
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:src="@drawable/vd_refresh" />
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -85,7 +85,6 @@
                 android:focusable="true"
                 android:padding="12dp"
                 android:src="@drawable/vd_clear"
-                android:tint="@color/button_primary_tint"
                 app:layout_constraintBottom_toBottomOf="@+id/cover"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/cover" />
