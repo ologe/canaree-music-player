@@ -3,22 +3,16 @@ package dev.olog.service.floating
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ScrollView
-import android.widget.TextView
-import com.bumptech.glide.Priority
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dev.olog.core.MediaId
-import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.OnImageLoadingError
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.extensions.*
-import dev.olog.media.widget.CustomSeekBar
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.alterac.blurkit.BlurKit
+import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.rx2.collect
 
@@ -30,34 +24,18 @@ class OfflineLyricsContent(
 ) : Content() {
 
     private var lyricsJob: Job? = null
-    private var paletteDisposable: Disposable? = null
 
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
 
-    private val header = content.findViewById<TextView>(R.id.header)
-    private val subHeader = content.findViewById<TextView>(R.id.subHeader)
-    private val edit = content.findViewById<FloatingActionButton>(R.id.edit)
-    private val sync = content.findViewById<ImageButton>(R.id.sync)
-    private val lyricsText = content.findViewById<TextView>(R.id.text)
-    private val image = content.findViewById<AdaptiveColorImageView>(R.id.image)
-    private val emptyState = content.findViewById<TextView>(R.id.emptyState)
-    private val seekBar = content.findViewById<CustomSeekBar>(R.id.seekBar)
-    private val fakeNext = content.findViewById<View>(R.id.fakeNext)
-    private val fakePrev = content.findViewById<View>(R.id.fakePrev)
-    private val scrollView = content.findViewById<ScrollView>(R.id.scrollView)
-
-
-    private fun loadImage(mediaId: MediaId) {
-        GlideApp.with(context).clear(this.image)
-
-        val drawable = CoverUtils.getGradient(context, mediaId)
-
-        GlideApp.with(context)
-            .load(mediaId)
-            .placeholder(drawable)
-            .priority(Priority.IMMEDIATE)
-            .override(500)
-            .into(this.image)
+    private suspend fun loadImage(mediaId: MediaId) {
+        GlideApp.with(context).clear(content.image)
+        try {
+            val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
+            val blurred = BlurKit.getInstance().blur(original, 20)
+            content.image.setImageBitmap(blurred)
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
     }
 
     override fun getView(): View = content
@@ -66,12 +44,13 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         super.onShown()
-        edit.setOnClickListener {
+
+        content.edit.setOnClickListener {
             EditLyricsDialog.showForService(context, presenter.getOriginalLyrics()) { newLyrics ->
                 presenter.updateLyrics(newLyrics)
             }
         }
-        sync.setOnClickListener {
+        content.sync.setOnClickListener {
             dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog.showForService(
                 context,
                 presenter.getSyncAdjustement()
@@ -79,55 +58,53 @@ class OfflineLyricsContent(
                 presenter.updateSyncAdjustement(it)
             }
         }
-        fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
-        fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
-        scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
+        content.fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
+        content.fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
+        content.scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
 
-        paletteDisposable = image.observePaletteColors()
+        content.image.observePaletteColors()
             .map { it.accent }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                edit.animateBackgroundColor(it)
-                subHeader.animateTextColor(it)
-            }, Throwable::printStackTrace)
+            .asLiveData()
+            .subscribe(this, {
+                content.edit.animateBackgroundColor(it)
+                content.subHeader.animateTextColor(it)
+            })
 
         glueService.observeMetadata()
             .subscribe(this) {
                 presenter.updateCurrentTrackId(it.id)
-                loadImage(it.mediaId)
-                header.text = it.title
-                subHeader.text = it.artist
-                seekBar.max = it.duration.toInt()
+                GlobalScope.launch { loadImage(it.mediaId) }
+                content.header.text = it.title
+                content.subHeader.text = it.artist
+                content.seekBar.max = it.duration.toInt()
             }
 
         glueService.observePlaybackState()
-            .subscribe(this) { seekBar.onStateChanged(it) }
+            .subscribe(this) { content.seekBar.onStateChanged(it) }
 
         lyricsJob = GlobalScope.launch {
             presenter.observeLyrics()
-                .map { presenter.transformLyrics(context, seekBar.progress, it) }
+                .map { presenter.transformLyrics(context, content.seekBar.progress, it) }
                 .collect {
                     withContext(Dispatchers.Main) {
-                        emptyState.toggleVisibility(it.isEmpty(), true)
-                        lyricsText.text = it
+                        content.emptyState.toggleVisibility(it.isEmpty(), true)
+                        content.text.text = it
                     }
                 }
         }
 
-        seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
-            glueService.seekTo(seekBar.progress.toLong())
+        content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
+            glueService.seekTo(content.seekBar.progress.toLong())
         })
     }
 
     override fun onHidden() {
         super.onHidden()
-
-        paletteDisposable.unsubscribe()
-        edit.setOnClickListener(null)
-        sync.setOnClickListener(null)
-        fakeNext.setOnTouchListener(null)
-        fakePrev.setOnTouchListener(null)
-        scrollView.setOnTouchListener(null)
+        content.edit.setOnClickListener(null)
+        content.sync.setOnClickListener(null)
+        content.fakeNext.setOnTouchListener(null)
+        content.fakePrev.setOnTouchListener(null)
+        content.scrollView.setOnTouchListener(null)
 
         lyricsJob?.cancel()
     }

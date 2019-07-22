@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import com.bumptech.glide.util.Util.assertBackgroundThread
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import kotlinx.coroutines.yield
 import java.io.File
@@ -42,7 +43,7 @@ internal object MergedImagesCreator {
 
     private suspend fun getBitmap(context: Context, albumId: Long): Bitmap? {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, albumId.toString())
-        val bitmap = context.getCachedBitmap(mediaId, 500, withError = false)
+        val bitmap = context.getCachedBitmap(mediaId, 500, onError = OnImageLoadingError.None)
         yield()
         return bitmap
     }

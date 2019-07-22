@@ -1,211 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:theme="@style/AppTheme">
 
-    <dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
-        android:id="@+id/image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/placeholder_album" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="?android:colorBackground"
+        app:cardCornerRadius="@dimen/big_default_corner_radius"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp">
 
-    <io.alterac.blurkit.BlurLayout
-        android:id="@+id/blurLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#9000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/search"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size"
-        android:src="@drawable/vd_search"
-        android:tint="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/sync"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size"
-        android:src="@drawable/vd_sync"
-        android:tint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/emptyState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/offline_lyrics_empty"
-        android:textColor="@android:color/white"
-        android:textSize="25sp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="80dp"
-        android:fontFamily="sans-serif-black"
-        android:clickable="false"
-        android:focusable="false"/>
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingStart="8dp"
-        android:paddingTop="24dp"
-        android:paddingEnd="8dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
-        app:layout_constraintEnd_toStartOf="@+id/search"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="48dp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="start"
-            android:lineSpacingExtra="10dp"
-            tools:text="@tools:sample/lorem/random"
-            android:clickable="false"
-            android:focusable="false"
-            android:textColor="@android:color/white"/>
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-    </ScrollView>
+            <dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
+                android:id="@+id/image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder_album"
+                android:elevation="0dp"/>
 
-    <View
-        android:id="@+id/fade"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:background="@drawable/vd_fade"/>
+<!--            scrim-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#9000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/wrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?colorSurface">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/emptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offline_lyrics_empty"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="80dp"
+                android:fontFamily="sans-serif-black"
+                android:clickable="false"
+                android:focusable="false"/>
 
-        <dev.olog.shared.widgets.AutoScrollTextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/offline_lyrics_title_size"
-            app:layout_constraintEnd_toStartOf="@+id/edit"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Wanksta"
-            android:fontFamily="sans-serif-black"
-            android:layout_marginEnd="100dp"/>
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="32dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingStart="8dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="8dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
+                app:layout_constraintEnd_toStartOf="@+id/search"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="48dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/subHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="16dp"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:textColor="?attr/colorAccent"
-            android:textSize="@dimen/offline_lyrics_artist_size"
-            tools:text="50 Cent"
-            android:layout_marginEnd="100dp"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="start"
+                    android:lineSpacingExtra="10dp"
+                    tools:text="@tools:sample/lorem/random"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:textColor="@android:color/white"/>
 
-        <!-- seekbar -->
-        <dev.olog.media.widget.CustomSeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
-            tools:max="100"
-            tools:progress="40" />
+            </ScrollView>
 
-    </LinearLayout>
+            <View
+                android:id="@+id/fade"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:background="@drawable/vd_fade"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vd_edit"
-        app:layout_constraintTop_toTopOf="@+id/wrapper"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
-        android:translationX="-32dp"
-        app:fabSize="normal"
-        android:clickable="true"
-        android:focusable="true"/>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/search"
+                android:layout_width="@dimen/common_icon_size"
+                android:layout_height="@dimen/common_icon_size"
+                android:src="@drawable/vd_search"
+                android:tint="@android:color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <View
-        android:id="@+id/fakeNext"
-        android:layout_width="48dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sync"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="42dp"
-        tools:background="#8f00"/>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/sync"
+                android:layout_width="@dimen/common_icon_size"
+                android:layout_height="@dimen/common_icon_size"
+                android:src="@drawable/vd_sync"
+                android:tint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search" />
 
-    <View
-        android:id="@+id/fakePrev"
-        android:layout_width="48dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fakeNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fakeNext"
-        android:layout_marginBottom="24dp"
-        tools:background="#8f00"/>
+            <LinearLayout
+                android:id="@+id/wrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="?colorSurface">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <dev.olog.shared.widgets.AutoScrollTextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/offline_lyrics_title_size"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Wanksta"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginEnd="100dp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/subHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/offline_lyrics_artist_size"
+                    tools:text="50 Cent"
+                    android:layout_marginEnd="100dp"/>
+
+                <!-- seekbar -->
+                <dev.olog.media.widget.CustomSeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
+                    tools:max="100"
+                    tools:progress="40" />
+
+            </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vd_edit"
+                app:layout_constraintTop_toTopOf="@+id/wrapper"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
+                android:translationX="-32dp"
+                app:fabSize="normal"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <View
+                android:id="@+id/fakeNext"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="42dp"
+                tools:background="#8f00"/>
+
+            <View
+                android:id="@+id/fakePrev"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/fakeNext"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/fakeNext"
+                android:layout_marginBottom="24dp"
+                tools:background="#8f00"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

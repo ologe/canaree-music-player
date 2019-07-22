@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {

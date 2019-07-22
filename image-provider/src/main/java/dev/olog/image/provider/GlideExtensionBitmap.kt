@@ -12,19 +12,17 @@ import dev.olog.core.MediaId
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+sealed class OnImageLoadingError {
+    class Placeholder(val gradientOnly: Boolean) : OnImageLoadingError()
+    object None : OnImageLoadingError()
+}
+
 suspend fun Context.getCachedBitmap(
     mediaId: MediaId,
     size: Int = Target.SIZE_ORIGINAL,
     extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
-    withError: Boolean = true
+    onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
 ): Bitmap? = suspendCoroutine { continuation ->
-
-    val placeholder = CoverUtils.getGradient(this, mediaId)
-
-    val error = GlideApp.with(this)
-        .asBitmap()
-        .load(placeholder.toBitmap())
-        .extend(extension)
 
     GlideApp.with(this)
         .asBitmap()
@@ -44,26 +42,51 @@ suspend fun Context.getCachedBitmap(
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
-                if (withError) {
-                    error.into(object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            continuation.resume(resource)
-                        }
+                if (onError is OnImageLoadingError.Placeholder) {
+                    val placeholder: Drawable = if (onError.gradientOnly) {
+                        CoverUtils.onlyGradient(this@getCachedBitmap, mediaId)
+                    } else {
+                        CoverUtils.getGradient(this@getCachedBitmap, mediaId)
+                    }
+                    val bestSize = calculateBestSize(placeholder, size)
 
-                        override fun onLoadFailed(errorDrawable: Drawable?) {
-                            continuation.resume(null)
-                        }
+                    GlideApp.with(this@getCachedBitmap)
+                        .asBitmap()
+                        .load(placeholder.toBitmap(bestSize, bestSize))
+                        .extend(extension)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                continuation.resume(resource)
+                            }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            continuation.resume(null)
-                        }
-                    })
+                            override fun onLoadFailed(errorDrawable: Drawable?) {
+                                continuation.resume(null)
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                                continuation.resume(null)
+                            }
+                        })
 
                 } else {
                     continuation.resume(null)
                 }
             }
         })
+}
+
+private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
+    if (requestedSize != Target.SIZE_ORIGINAL){
+        return requestedSize
+    }
+
+    if (drawable.intrinsicHeight > 0 && drawable.intrinsicHeight > 0){
+        return drawable.intrinsicHeight
+    }
+    return 300 // random size
 }
 
 fun Context.getBitmapAsync(
