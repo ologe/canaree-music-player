@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.autoscroll
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.text.TextUtils

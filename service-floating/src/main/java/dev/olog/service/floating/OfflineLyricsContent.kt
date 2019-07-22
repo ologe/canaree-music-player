@@ -15,8 +15,8 @@ import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.extensions.*
-import dev.olog.shared.widgets.BlurImageView
 import dev.olog.media.widget.CustomSeekBar
+import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
@@ -39,12 +39,12 @@ class OfflineLyricsContent(
     private val edit = content.findViewById<FloatingActionButton>(R.id.edit)
     private val sync = content.findViewById<ImageButton>(R.id.sync)
     private val lyricsText = content.findViewById<TextView>(R.id.text)
-    private val image = content.findViewById<BlurImageView>(R.id.image)
+    private val image = content.findViewById<AdaptiveColorImageView>(R.id.image)
     private val emptyState = content.findViewById<TextView>(R.id.emptyState)
     private val seekBar = content.findViewById<CustomSeekBar>(R.id.seekBar)
     private val fakeNext = content.findViewById<View>(R.id.fakeNext)
     private val fakePrev = content.findViewById<View>(R.id.fakePrev)
-    private val scrollView = content.findViewById<ScrollView>(R.id.scrollBar)
+    private val scrollView = content.findViewById<ScrollView>(R.id.scrollView)
 
 
     private fun loadImage(mediaId: MediaId) {

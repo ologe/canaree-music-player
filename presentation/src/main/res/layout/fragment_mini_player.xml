@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_music_previous" />
 
-    <dev.olog.presentation.widgets.autoscroll.AutoScrollTextView
+    <dev.olog.shared.widgets.AutoScrollTextView
         android:id="@+id/title"
         style="@style/MiniPlayerText"
         android:layout_width="0dp"

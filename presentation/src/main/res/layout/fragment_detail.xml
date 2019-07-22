@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <dev.olog.presentation.widgets.autoscroll.AutoScrollTextView
+        <dev.olog.shared.widgets.AutoScrollTextView
             android:id="@+id/headerText"
             android:layout_width="0dp"
             android:layout_height="0dp"

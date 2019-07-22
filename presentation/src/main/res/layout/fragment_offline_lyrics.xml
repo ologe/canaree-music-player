@@ -120,7 +120,8 @@
             android:lineSpacingExtra="10dp"
             tools:text="@tools:sample/lorem/random"
             android:clickable="false"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:textColor="@android:color/white"/>
 
     </ScrollView>
 
@@ -143,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?colorSurface">
 
-        <dev.olog.presentation.widgets.autoscroll.AutoScrollTextView
+        <dev.olog.shared.widgets.AutoScrollTextView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
