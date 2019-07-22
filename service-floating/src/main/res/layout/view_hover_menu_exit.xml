@@ -15,15 +15,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/view_exit"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:tint="@color/dark_grey"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="32dp"
         android:src="@drawable/vd_cancel"
+        android:background="@null"
+        android:padding="8dp"
         android:layout_gravity="center_horizontal|bottom"/>
 
 </merge>

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/AppTheme">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -22,7 +22,7 @@
             android:layout_marginTop="48dp"
             android:background="@android:color/white"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/error"
             android:text="@string/floating_window_offline"
             android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:layout_height="48dp"
             android:layout_gravity="top"/>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 
