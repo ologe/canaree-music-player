@@ -5,7 +5,8 @@
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/toolbar"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:theme="@style/AppTheme">
 
     <ImageButton
         android:id="@+id/navigateBack"
