@@ -15,16 +15,14 @@
  */
 package dev.olog.service.floating.api
 
-import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import dev.olog.service.floating.R
-import dev.olog.shared.animation.doOnEnd
-import dev.olog.shared.animation.doOnStart
 import dev.olog.shared.extensions.setGone
 import dev.olog.shared.extensions.setVisible
 

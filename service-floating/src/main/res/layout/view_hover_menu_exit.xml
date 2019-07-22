@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:theme="@style/AppTheme">
 
-    <View
+    <dev.olog.service.floating.widget.AutoPivotView
         android:id="@+id/view_exit_gradient"
         android:layout_width="@dimen/exit_width"
         android:translationY="20dp"
@@ -13,7 +13,7 @@
         android:background="@drawable/gradient_exit"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/view_exit"
