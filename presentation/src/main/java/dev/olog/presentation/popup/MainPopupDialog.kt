@@ -1,6 +1,5 @@
-package dev.olog.msc.presentation.popup.main
+package dev.olog.presentation.popup
 
-import android.app.Activity
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -8,31 +7,31 @@ import android.view.View
 import android.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.BuildConfig
-import dev.olog.msc.R
-import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.presentation.BuildConfig
+import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.pro.IBilling
 import javax.inject.Inject
 
-
-private const val DEBUG_ID = -123
-private const val SAVE_AS_PLAYLIST_ID = -12345
-
 class MainPopupDialog @Inject constructor(
     private val billing: IBilling,
-    private val activityNavigator: Navigator,
-    private val navigator: MainPopupNavigator,
+    private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences
 
-){
+) {
 
-    fun show(activity: Activity, anchor: View, category: MediaIdCategory?){
-        val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
-        val layoutId = when (category){
+    companion object {
+        private const val DEBUG_ID = -123
+        private const val SAVE_AS_PLAYLIST_ID = -12345
+    }
+
+    fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
+        val popup = PopupMenu(anchor.context, anchor, Gravity.BOTTOM or Gravity.END)
+        val layoutId = when (category) {
             MediaIdCategory.ALBUMS -> R.menu.main_albums
             MediaIdCategory.SONGS -> R.menu.main_songs
             MediaIdCategory.ARTISTS -> R.menu.main_artists
@@ -40,37 +39,44 @@ class MainPopupDialog @Inject constructor(
         }
         popup.inflate(layoutId)
 
-        if (billing.getBillingsState().isPremiumStrict()){
+        if (billing.getBillingsState().isPremiumStrict()) {
             popup.menu.removeItem(R.id.premium)
         }
 
-        val sortModel = when(category){
+        val sortModel = when (category) {
             MediaIdCategory.ALBUMS -> initializeAlbumSort(popup.menu)
             MediaIdCategory.SONGS -> initializeTracksSort(popup.menu)
             MediaIdCategory.ARTISTS -> initializeArtistSort(popup.menu)
             else -> null
         }
 
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             popup.menu.add(Menu.NONE, DEBUG_ID, Menu.NONE, "configuration")
         }
 
-        if (category == MediaIdCategory.PLAYING_QUEUE){
-            popup.menu.add(Menu.NONE, SAVE_AS_PLAYLIST_ID, Menu.NONE, activity.getString(R.string.save_as_playlist))
+        if (category == MediaIdCategory.PLAYING_QUEUE) {
+            popup.menu.add(
+                Menu.NONE,
+                SAVE_AS_PLAYLIST_ID, Menu.NONE, anchor.context.getString(R.string.save_as_playlist)
+            )
         }
 
         popup.setOnMenuItemClickListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.premium -> billing.purchasePremium()
-                R.id.about -> navigator.toAboutActivity()
-                R.id.equalizer -> navigator.toEqualizer()
-                R.id.settings -> navigator.toSettingsActivity()
-                R.id.sleepTimer -> navigator.toSleepTimer()
-                R.id.share -> activityNavigator.toShareApp()
-                DEBUG_ID -> navigator.toDebugConfiguration()
-                SAVE_AS_PLAYLIST_ID -> activityNavigator.toCreatePlaylistDialog(MediaId.playingQueueId, -1, "")
+                R.id.about -> popupNavigator.toAboutActivity()
+                R.id.equalizer -> popupNavigator.toEqualizer()
+                R.id.settings -> popupNavigator.toSettingsActivity()
+                R.id.sleepTimer -> popupNavigator.toSleepTimer()
+                R.id.share -> navigator.toShareApp()
+                DEBUG_ID -> popupNavigator.toDebugConfiguration()
+                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
+                    MediaId.playingQueueId,
+                    -1,
+                    ""
+                )
                 else -> {
-                    when (category){
+                    when (category) {
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
                         MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
                         MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
@@ -85,12 +91,12 @@ class MainPopupDialog @Inject constructor(
 
     private fun initializeTracksSort(menu: Menu): SortEntity {
         val sort = gateway.getAllTracksSortOrder()
-        val item = when (sort.type){
+        val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
             SortType.ALBUM -> R.id.by_album
             SortType.ARTIST -> R.id.by_artist
             SortType.DURATION -> R.id.by_duration
-            SortType.RECENTLY_ADDED ->R.id.by_date
+            SortType.RECENTLY_ADDED -> R.id.by_date
             else -> throw IllegalStateException("invalid for tracks ${sort.type}")
         }
         val ascending = sort.arranging == SortArranging.ASCENDING
@@ -102,7 +108,7 @@ class MainPopupDialog @Inject constructor(
 
     private fun initializeAlbumSort(menu: Menu): SortEntity {
         val sort = gateway.getAllAlbumsSortOrder()
-        val item = when (sort.type){
+        val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
             SortType.ARTIST -> R.id.by_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
@@ -116,7 +122,7 @@ class MainPopupDialog @Inject constructor(
 
     private fun initializeArtistSort(menu: Menu): SortEntity {
         val sort = gateway.getAllArtistsSortOrder()
-        val item = when (sort.type){
+        val item = when (sort.type) {
             SortType.ARTIST -> R.id.by_artist
             SortType.ALBUM_ARTIST -> R.id.by_album_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
@@ -128,15 +134,16 @@ class MainPopupDialog @Inject constructor(
         return sort
     }
 
-    private fun handleAllSongsSorting(menuItem: MenuItem, sort: SortEntity){
+    private fun handleAllSongsSorting(menuItem: MenuItem, sort: SortEntity) {
         var model = sort
 
-        model = if (menuItem.itemId == R.id.arranging){
+        model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
-            val newArranging = if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
+            val newArranging =
+                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
             model.copy(arranging = newArranging)
         } else {
-            val newSortType = when (menuItem.itemId){
+            val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
                 R.id.by_artist -> SortType.ARTIST
                 R.id.by_album -> SortType.ALBUM
@@ -150,15 +157,16 @@ class MainPopupDialog @Inject constructor(
         gateway.setAllTracksSortOrder(model)
     }
 
-    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity){
+    private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity) {
         var model = sort
 
-        model = if (menuItem.itemId == R.id.arranging){
+        model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
-            val newArranging = if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
+            val newArranging =
+                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
             model.copy(arranging = newArranging)
         } else {
-            val newSortType = when (menuItem.itemId){
+            val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
                 R.id.by_artist -> SortType.ARTIST
                 else -> null
@@ -169,15 +177,16 @@ class MainPopupDialog @Inject constructor(
         gateway.setAllAlbumsSortOrder(model)
     }
 
-    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity){
+    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity) {
         var model = sort
 
-        model = if (menuItem.itemId == R.id.arranging){
+        model = if (menuItem.itemId == R.id.arranging) {
             val isAscending = !menuItem.isChecked
-            val newArranging = if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
+            val newArranging =
+                if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
             model.copy(arranging = newArranging)
         } else {
-            val newSortType = when (menuItem.itemId){
+            val newSortType = when (menuItem.itemId) {
                 R.id.by_artist -> SortType.ARTIST
                 R.id.by_album_artist -> SortType.ALBUM_ARTIST
                 else -> null

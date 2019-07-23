@@ -12,7 +12,7 @@ import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.prefs.SettingsFragmentWrapper
+import dev.olog.presentation.popup.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
@@ -21,9 +21,9 @@ import dev.olog.shared.extensions.fragmentTransaction
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor( // TODO
-    private val activity: AppCompatActivity
+    private val activity: AppCompatActivity,
+    private val mainPopup: MainPopupDialog
 //        private val popupFactory: PopupMenuFactory,
-//        private val mainPopup: Lazy<MainPopupDialog>,
 //        private val editItemDialogFactory: EditItemDialogFactory
 
 ) : DefaultLifecycleObserver, Navigator {
@@ -123,8 +123,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
-        superCerealTransition(activity, SettingsFragmentWrapper(), SettingsFragmentWrapper.TAG)
-//        mainPopup.get().show(activity, anchor, category)
+        mainPopup.show(anchor, this, category)
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
