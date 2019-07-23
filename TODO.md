@@ -1,7 +1,8 @@
 ## TODO
 - desaturation not work on all components, like tab layout
     - desaturation not removed completely in settings after switching from dark to light mode
-- check material card view to view how to draw colored shadow 
+- check material card view to view how to draw colored shadow
+- check mediastore insert/update/delete on Android Q 
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
