@@ -7,7 +7,7 @@ import java.io.File
 
 object FileProvider {
 
-    private const val authority = "${BuildConfig.APPLICATION_ID}.fileprovider"
+    private const val authority = "dev.olog.msc.fileprovider"
 
     @JvmStatic
     fun getUriForFile(context: Context, file: File): Uri {
