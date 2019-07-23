@@ -9,6 +9,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
+import java.lang.Exception
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -34,7 +36,11 @@ suspend fun Context.getCachedBitmap(
         .into(object : CustomTarget<Bitmap>() {
 
             override fun onLoadCleared(placeholder: Drawable?) {
-                continuation.resume(null)
+                try {
+                    continuation.resume(null)
+                } catch (ex: Exception){
+                    // already resumed
+                }
             }
 
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
@@ -67,7 +73,11 @@ suspend fun Context.getCachedBitmap(
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                continuation.resume(null)
+                                try {
+                                    continuation.resume(null)
+                                } catch (ex: Exception){
+                                    // already resumed
+                                }
                             }
                         })
 
@@ -88,6 +98,7 @@ private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
     }
     return 300 // random size
 }
+
 
 fun Context.getBitmapAsync(
     mediaId: MediaId,
