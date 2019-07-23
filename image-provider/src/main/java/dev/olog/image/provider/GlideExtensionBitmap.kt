@@ -19,6 +19,7 @@ sealed class OnImageLoadingError {
     object None : OnImageLoadingError()
 }
 
+// TODO improve
 suspend fun Context.getCachedBitmap(
     mediaId: MediaId,
     size: Int = Target.SIZE_ORIGINAL,
