@@ -1,5 +1,8 @@
 package dev.olog.shared.extensions
 
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+
 inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) {
     operation()
 }
@@ -27,3 +30,12 @@ inline fun throwNotHandled(message: String): Nothing {
  */
 inline val <T> T.exhaustive: T
     get() = this
+
+inline fun<T> Continuation<T?>.safeResume(item: T?){
+    try {
+        resume(item)
+    } catch (ex: Exception){
+        ex.printStackTrace()
+        // already resumed
+    }
+}

@@ -9,9 +9,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
+import dev.olog.shared.extensions.safeResume
 import java.lang.Exception
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 sealed class OnImageLoadingError {
@@ -37,15 +36,11 @@ suspend fun Context.getCachedBitmap(
         .into(object : CustomTarget<Bitmap>() {
 
             override fun onLoadCleared(placeholder: Drawable?) {
-                try {
-                    continuation.resume(null)
-                } catch (ex: Exception){
-                    // already resumed
-                }
+                continuation.safeResume(null)
             }
 
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                continuation.resume(resource)
+                continuation.safeResume(resource)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
@@ -66,16 +61,16 @@ suspend fun Context.getCachedBitmap(
                                 resource: Bitmap,
                                 transition: Transition<in Bitmap>?
                             ) {
-                                continuation.resume(resource)
+                                continuation.safeResume(resource)
                             }
 
                             override fun onLoadFailed(errorDrawable: Drawable?) {
-                                continuation.resume(null)
+                                continuation.safeResume(null)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
                                 try {
-                                    continuation.resume(null)
+                                    continuation.safeResume(null)
                                 } catch (ex: Exception){
                                     // already resumed
                                 }
@@ -83,7 +78,7 @@ suspend fun Context.getCachedBitmap(
                         })
 
                 } else {
-                    continuation.resume(null)
+                    continuation.safeResume(null)
                 }
             }
         })
