@@ -2,11 +2,17 @@
 - desaturation not work on all components, like tab layout
     - desaturation not removed completely in settings after switching from dark to light mode
 - check material card view to view how to draw colored shadow
-- check mediastore insert/update/delete on Android Q 
+- check mediastore insert/update/delete on Android Q
+- change grid span
+- swap last fm artist with deezer (https://developers.deezer.com/api/artist)
+- add custom equalizer preset
+- made sleep timer top and bottom curved
+- style transfer in override image (on demand module) 
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
-- player not scrolling properly   
+- player not scrolling properly
+- fix snackbar (buy premium) in setting fragment
 
 ## features
 - use don't keep activities and add try to restore previous state

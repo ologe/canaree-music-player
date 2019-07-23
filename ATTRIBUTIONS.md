@@ -1,3 +1,3 @@
-TODO 
+# ATTRIBUTIONS 
 
-## Library by Evgeny Filatov from the Noun Project -- for library image
+- Croller (https://github.com/harjot-oberai/Croller)
