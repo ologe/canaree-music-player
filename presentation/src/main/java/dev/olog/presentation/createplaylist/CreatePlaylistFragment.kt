@@ -133,7 +133,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
             .show(
                 positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
                     val text = it[0].editableText.toString()
-                    viewModel.savePlaylist(text)
+                    if (text.isNotBlank()){
+                        viewModel.savePlaylist(text)
+                    } else {
+                        false
+                    }
                 }
             )
     }
