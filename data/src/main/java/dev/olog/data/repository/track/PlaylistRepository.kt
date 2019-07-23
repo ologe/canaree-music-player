@@ -60,7 +60,7 @@ internal class PlaylistRepository @Inject constructor(
         val cursor = queries.getAll()
         val playlists = contentResolver.queryAll(cursor) { it.toPlaylist() }
         return playlists.map { playlist ->
-            // playerAppearance the size for every playlist
+            // get the size for every playlist
             val sizeQueryCursor = queries.countPlaylistSize(playlist.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
             playlist.copy(size = sizeQuery)

@@ -79,12 +79,9 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun createPlaylist(playlistName: String): Single<Long> {
-        return Single.fromCallable {
-            podcastPlaylistDao.createPlaylist(
-                PodcastPlaylistEntity(name = playlistName, size = 0)
-            )
-        }
+    override fun createPlaylist(playlistName: String): Long {
+        assertBackgroundThread()
+        return podcastPlaylistDao.createPlaylist(PodcastPlaylistEntity(name = playlistName, size = 0))
     }
 
     override fun renamePlaylist(playlistId: Id, newTitle: String): Completable {
@@ -105,17 +102,17 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return Completable.fromCallable { podcastPlaylistDao.clearPlaylist(playlistId) }
     }
 
-    override fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>): Completable {
-        return Completable.fromCallable {
-            var maxIdInPlaylist = podcastPlaylistDao.getPlaylistMaxId(playlistId).toLong()
-            val tracks = songIds.map {
-                PodcastPlaylistTrackEntity(
-                    playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
-                    podcastId = it
-                )
-            }
-            podcastPlaylistDao.insertTracks(tracks)
+    override fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
+        assertBackgroundThread()
+
+        var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
+        val tracks = songIds.map {
+            PodcastPlaylistTrackEntity(
+                playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
+                podcastId = it
+            )
         }
+        podcastPlaylistDao.insertTracks(tracks)
     }
 
     override suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long) {

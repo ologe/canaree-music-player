@@ -48,7 +48,7 @@ internal class GenreRepository @Inject constructor(
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
         return genres.map { genre ->
-            // playerAppearance the size for every genre
+            // get the size for every genre
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
             genre.copy(size = sizeQuery)

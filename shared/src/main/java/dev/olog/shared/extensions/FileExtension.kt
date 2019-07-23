@@ -19,7 +19,7 @@ private fun File.fileIsMimeType(mimeType: String?, mimeTypeMap: MimeTypeMap): Bo
     if (mimeType == null || mimeType == "*/*") {
         return true
     } else {
-        // playerAppearance the file mime type
+        // get the file mime type
         val filename = this.toURI().toString()
         val dotPos = filename.lastIndexOf('.')
         if (dotPos == -1) {

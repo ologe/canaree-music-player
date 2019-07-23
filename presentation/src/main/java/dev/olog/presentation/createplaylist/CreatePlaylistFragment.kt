@@ -1,19 +1,14 @@
 package dev.olog.presentation.createplaylist
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.main.MainActivity
@@ -22,15 +17,11 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.extensions.*
 import dev.olog.shared.utils.TextUtils
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPressed {
@@ -56,8 +47,6 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
 
     private var toast: Toast? = null
 
-    private var errorDisposable: Disposable? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.layoutManager = LinearLayoutManager(context)
         list.adapter = adapter
@@ -78,7 +67,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
             }
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner){
+            .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
                 sidebar.onDataChanged(it)
             }
@@ -131,56 +120,22 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
         filterList.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        toast?.cancel()
+    }
+
     private fun showCreateDialog() {
-        val builder = AlertDialog.Builder(act)
-            .setTitle(R.string.popup_new_playlist)
-            .setView(R.layout.layout_edit_text)
-            .setPositiveButton(R.string.popup_positive_ok, null)
-            .setNegativeButton(R.string.popup_negative_cancel, null)
-
-        val dialog = builder.show()
-
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
-        val clearButton = dialog.findViewById<View>(R.id.clear)!!
-        clearButton.setOnClickListener { editText.setText("") }
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val editTextString = editText.text.toString()
-            when {
-                editTextString.isBlank() -> showError(
-                    editTextLayout,
-                    R.string.popup_playlist_name_not_valid
-                )
-                else -> {
-                    viewModel.savePlaylist(editTextString)
-                        .subscribe({}, Throwable::printStackTrace)
-                    dialog.dismiss()
-                    act.onBackPressed()
+        TextViewDialog(act, getString(R.string.popup_new_playlist), null)
+            .addTextView(customizeWrapper = {
+                hint = getString(R.string.new_playlist_hint)
+            })
+            .show(
+                positiveAction = TextViewDialog.Action(getString(R.string.popup_positive_ok)) {
+                    val text = it[0].editableText.toString()
+                    viewModel.savePlaylist(text)
                 }
-            }
-        }
-
-        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener { dialog.dismiss() }
-
-        dialog.show()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        errorDisposable.unsubscribe()
-    }
-
-    private fun showError(editTextLayout: TextInputLayout, @StringRes errorStringId: Int) {
-        val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
-        editTextLayout.startAnimation(shake)
-        editTextLayout.error = getString(errorStringId)
-        editTextLayout.isErrorEnabled = true
-
-        errorDisposable.unsubscribe()
-        errorDisposable = Single.timer(2, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ editTextLayout.isErrorEnabled = false }, Throwable::printStackTrace)
+            )
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->

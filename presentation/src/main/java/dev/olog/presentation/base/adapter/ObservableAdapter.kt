@@ -28,6 +28,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     CoroutineScope by CustomScope() {
 
     protected val dataSet = mutableListOf<T>()
+    private var neverEmitted = true
 
     private val channel = BroadcastChannel<List<T>>(Channel.CONFLATED)
 
@@ -35,7 +36,8 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     fun observeData(skipInitialValue: Boolean): Flow<List<T>> {
         return flow {
-            if (!skipInitialValue) {
+            if (!skipInitialValue && !neverEmitted) {
+                // emit first only if has a valid value
                 emit(dataSet)
             }
             for (t in channel.openSubscription()) {
@@ -120,6 +122,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     private fun updateDataSetInternal(data: List<T>) {
         this.dataSet.clear()
         this.dataSet.addAll(data)
+        neverEmitted = false
     }
 
 }

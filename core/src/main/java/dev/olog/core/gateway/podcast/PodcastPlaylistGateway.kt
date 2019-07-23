@@ -3,7 +3,6 @@ package dev.olog.core.gateway.podcast
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.base.*
 import io.reactivex.Completable
-import io.reactivex.Single
 
 interface PodcastPlaylistGateway :
     BaseGateway<Playlist, Id>,
@@ -11,7 +10,7 @@ interface PodcastPlaylistGateway :
     HasSiblings<Playlist, Id>,
     HasRelatedArtists<Id> {
 
-    fun createPlaylist(playlistName: String): Single<Long>
+    fun createPlaylist(playlistName: String): Long
 
     fun renamePlaylist(playlistId: Id, newTitle: String): Completable
 
@@ -19,7 +18,7 @@ interface PodcastPlaylistGateway :
 
     fun clearPlaylist(playlistId: Id): Completable
 
-    fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>): Completable
+    fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>)
 
     suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long)
 

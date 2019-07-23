@@ -58,7 +58,7 @@ internal abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
-    abstract fun getPlaylistMaxId(playlistId: Long): Int
+    abstract fun getPlaylistMaxId(playlistId: Long): Int?
 
     @Insert
     abstract fun createPlaylist(playlist: PodcastPlaylistEntity): Long

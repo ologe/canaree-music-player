@@ -27,29 +27,31 @@ class AddToPlaylistUseCase @Inject constructor(
     override fun buildUseCaseObservable(param: Pair<Playlist, MediaId>): Completable {
         val (playlist, mediaId) = param
 
-        if (mediaId.isLeaf && mediaId.isPodcast){
-            return getPodcastUseCase.execute(mediaId)
-                    .firstOrError()
-                    .flatMapCompletable { podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
-        }
+        TODO()
 
-        if (mediaId.isLeaf) {
-            return getSongUseCase.execute(mediaId)
-                    .firstOrError()
-                    .flatMapCompletable { playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
-        }
-
-        return getSongListByParamUseCase(mediaId)
-                .asFlowable()
-                .firstOrError()
-                .mapToList { it.id }
-                .flatMapCompletable {
-                    if (mediaId.isAnyPodcast){
-                        podcastPlaylistGateway.addSongsToPlaylist(playlist.id, it)
-                    } else {
-                        playlistGateway.addSongsToPlaylist(playlist.id, it)
-                    }
-
-                }
+//        if (mediaId.isLeaf && mediaId.isPodcast){
+//            return getPodcastUseCase.execute(mediaId)
+//                    .firstOrError()
+//                    .flatMapCompletable { podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
+//        }
+//
+//        if (mediaId.isLeaf) {
+//            return getSongUseCase.execute(mediaId)
+//                    .firstOrError()
+//                    .flatMapCompletable { playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
+//        }
+//
+//        return getSongListByParamUseCase(mediaId)
+//                .asFlowable()
+//                .firstOrError()
+//                .mapToList { it.id }
+//                .flatMapCompletable {
+//                    if (mediaId.isAnyPodcast){
+//                        podcastPlaylistGateway.addSongsToPlaylist(playlist.id, it)
+//                    } else {
+//                        playlistGateway.addSongsToPlaylist(playlist.id, it)
+//                    }
+//
+//                }
     }
 }

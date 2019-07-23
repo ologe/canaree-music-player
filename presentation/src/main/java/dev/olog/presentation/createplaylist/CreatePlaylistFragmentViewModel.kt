@@ -25,6 +25,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CreatePlaylistFragmentViewModel @Inject constructor(
@@ -93,7 +94,6 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     fun toggleShowOnlyFiltered() {
         val onlyFiltered = showOnlyFiltered.value
         showOnlyFiltered.offer(!onlyFiltered)
-
     }
 
     fun isChecked(mediaId: MediaId): Boolean {
@@ -103,15 +103,17 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     fun observeSelectedCount(): LiveData<Int> = selectionCountLiveData
 
-    fun savePlaylist(playlistTitle: String): Completable {
+    suspend fun savePlaylist(playlistTitle: String): Boolean {
         if (selectedIds.isEmpty()) {
-            return Completable.error(IllegalStateException("empty list"))
+            throw IllegalStateException("not supposed to happen, save button must be invisible")
         }
-        return insertCustomTrackListToPlaylist.execute(
-            InsertCustomTrackListRequest(
-                playlistTitle, selectedIds.toList(), playlistType
+        withContext(Dispatchers.IO){
+            insertCustomTrackListToPlaylist(
+                InsertCustomTrackListRequest(playlistTitle, selectedIds.toList(), playlistType)
             )
-        )
+        }
+
+        return true
     }
 
 }

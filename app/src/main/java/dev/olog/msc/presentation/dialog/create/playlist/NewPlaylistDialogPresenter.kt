@@ -31,53 +31,54 @@ class NewPlaylistDialogPresenter @Inject constructor(
             .map { it.title.toLowerCase() }
 
     fun execute(playlistTitle: String) : Completable {
-        if (mediaId.isPlayingQueue){
-            val playingQueue = playingQueueGateway.getAll().map { it.song.id }
-            insertCustomTrackListToPlaylist.execute(
-                InsertCustomTrackListRequest(
-                    playlistTitle,
-                    playingQueue,
-                    playlistType
-                )
-            )
-        }
-
-        return if (mediaId.isLeaf && mediaId.isPodcast) {
-            getPodcastUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
-                    .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(
-                            InsertCustomTrackListRequest(
-                                playlistTitle,
-                                it,
-                                playlistType
-                            )
-                        )
-                    }
-        } else if (mediaId.isLeaf) {
-            getSongUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
-                    .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(
-                            InsertCustomTrackListRequest(
-                                playlistTitle,
-                                it,
-                                playlistType
-                            )
-                        )
-                    }
-        } else {
-            getSongListByParamUseCase(mediaId)
-                    .asFlowable()
-                    .firstOrError().mapToList { it.id }
-                    .flatMapCompletable {
-                        insertCustomTrackListToPlaylist.execute(
-                            InsertCustomTrackListRequest(
-                                playlistTitle,
-                                it,
-                                playlistType
-                            )
-                        )
-                    }
-        }
+        TODO()
+//        if (mediaId.isPlayingQueue){
+//            val playingQueue = playingQueueGateway.getAll().map { it.song.id }
+//            insertCustomTrackListToPlaylist.execute(
+//                InsertCustomTrackListRequest(
+//                    playlistTitle,
+//                    playingQueue,
+//                    playlistType
+//                )
+//            )
+//        }
+//
+//        return if (mediaId.isLeaf && mediaId.isPodcast) {
+//            getPodcastUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
+//                    .flatMapCompletable {
+//                        insertCustomTrackListToPlaylist.execute(
+//                            InsertCustomTrackListRequest(
+//                                playlistTitle,
+//                                it,
+//                                playlistType
+//                            )
+//                        )
+//                    }
+//        } else if (mediaId.isLeaf) {
+//            getSongUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
+//                    .flatMapCompletable {
+//                        insertCustomTrackListToPlaylist.execute(
+//                            InsertCustomTrackListRequest(
+//                                playlistTitle,
+//                                it,
+//                                playlistType
+//                            )
+//                        )
+//                    }
+//        } else {
+//            getSongListByParamUseCase(mediaId)
+//                    .asFlowable()
+//                    .firstOrError().mapToList { it.id }
+//                    .flatMapCompletable {
+//                        insertCustomTrackListToPlaylist.execute(
+//                            InsertCustomTrackListRequest(
+//                                playlistTitle,
+//                                it,
+//                                playlistType
+//                            )
+//                        )
+//                    }
+//        }
     }
 
     fun isStringValid(string: String): Boolean {
