@@ -1,20 +1,19 @@
 package dev.olog.presentation.equalizer
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class PresetPagerAdapter(
-    manager: FragmentManager,
-    private val presets: List<String>
+internal class PresetPagerAdapter(
+    fragment: Fragment,
+    private val presets: MutableList<String>
 
-) : FragmentPagerAdapter(manager) {
+) : FragmentStateAdapter(fragment) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItemCount(): Int = presets.size
+
+    override fun createFragment(position: Int): Fragment {
         return PresetFragment.newInstance(presets[position])
     }
-
-    override fun getCount(): Int = presets.size
 
 }
 

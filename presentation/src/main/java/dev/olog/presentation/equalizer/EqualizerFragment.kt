@@ -1,8 +1,8 @@
 package dev.olog.presentation.equalizer
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import androidx.viewpager2.widget.ViewPager2
 import dev.olog.injection.equalizer.IEqualizer
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
@@ -25,10 +25,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listene
     @Inject
     lateinit var presenter: EqualizerFragmentPresenter
     private val adapter by lazyFast {
-        PresetPagerAdapter(
-            childFragmentManager,
-            presenter.getPresets()
-        )
+        PresetPagerAdapter(this, presenter.getPresets().toMutableList())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +34,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listene
         if (presets.isNotEmpty()) {
             pager.adapter = adapter
             pager.currentItem = presenter.getCurrentPreset()
-            pageIndicator.setViewPager(pager)
+//            pageIndicator.setViewPager(pager) TODO
         }
 
         powerSwitch.isChecked = presenter.isEqualizerEnabled()
@@ -62,7 +59,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listene
         super.onResume()
         bassKnob.setOnProgressChangedListener(onBassKnobChangeListener)
         virtualizerKnob.setOnProgressChangedListener(onVirtualizerKnobChangeListener)
-        pager.addOnPageChangeListener(onPageChangeListener)
+        pager.registerOnPageChangeCallback(onPageChangeListener)
         presenter.addEqualizerListener(this)
 
         band1.setLevel = onBandLevelChange
@@ -82,7 +79,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listene
         super.onPause()
         bassKnob.setOnProgressChangedListener(null)
         virtualizerKnob.setOnProgressChangedListener(null)
-        pager.removeOnPageChangeListener(onPageChangeListener)
+        pager.unregisterOnPageChangeCallback(onPageChangeListener)
         presenter.removeEqualizerListener(this)
 
         band1.setLevel = null
@@ -102,12 +99,13 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listene
         presenter.setVirtualizerStrength(progress)
     }
 
-    private val onPageChangeListener =
-        object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-                presenter.setPreset(position % adapter.count)
-            }
+    private val onPageChangeListener = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            presenter.setPreset(position)
         }
+    }
+
+
 
     private val onBandLevelChange = { band: Int, level: Float ->
         presenter.setBandLevel(band, level)
