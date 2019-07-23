@@ -2,7 +2,6 @@
 <resources>
 
     <string name="equalizer_not_found">Equalizer not found</string>
-    <string name="equalizer_error">Sorry, for some reason equalizer is not working</string>
 
     <declare-styleable name="BandView">
         <attr name="bandIndex" format="integer"/>
@@ -17,17 +16,5 @@
 
     <dimen name="eq_bar_text_size">9dp</dimen>
     <dimen name="eq_bar_band_text_size">9dp</dimen>
-
-    <!--knob-->
-    <color name="radial_knob_arc_bg">#757575</color>
-    <color name="radial_knob_arc_bg_disabled">#6c6c6c</color>
-    <color name="highlight">?attr/colorAccent</color>
-
-    <dimen name="radial_text_size">16dp</dimen>
-    <dimen name="radial_knob_stroke">22dp</dimen>
-    <dimen name="radial_rect_padding">11dp</dimen>
-
-    <dimen name="knob_height">100dp</dimen>
-    <dimen name="knob_width">100dp</dimen>
 
 </resources>

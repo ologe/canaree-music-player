@@ -50,12 +50,12 @@ class EditArtistFragment : BaseEditItemFragment() {
         mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        RxTextView.afterTextChangeEvents(view.artist)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(artist)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
+                .subscribe(viewLifecycleOwner, okButton::setEnabled)
 
         viewModel.observeSongList()
                 .subscribe(viewLifecycleOwner) {

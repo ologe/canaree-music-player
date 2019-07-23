@@ -1,10 +1,8 @@
 package dev.olog.injection.equalizer
 
-import io.reactivex.Observable
-
 interface IEqualizer {
 
-    fun getBandLevel(band: Int) : Float
+    fun getBandLevel(band: Int): Float
 
     fun addListener(listener: Listener)
 
@@ -23,8 +21,6 @@ interface IEqualizer {
     fun onAudioSessionIdChanged(audioSessionId: Int)
 
     fun release()
-
-    fun isAvailable(): Observable<Boolean>
 
     interface Listener {
         fun onPresetChange(band: Int, level: Float)

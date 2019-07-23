@@ -67,12 +67,12 @@ class EditTrackFragment : BaseEditItemFragment() {
 //        })
     }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        RxTextView.afterTextChangeEvents(view.title)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(title)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
+                .subscribe(viewLifecycleOwner, okButton::setEnabled)
     }
 
     override fun onResume() {

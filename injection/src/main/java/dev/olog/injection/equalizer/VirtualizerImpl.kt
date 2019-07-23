@@ -5,73 +5,47 @@ import dev.olog.core.prefs.EqualizerPreferencesGateway
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(
-        private val equalizerPrefsUseCase: EqualizerPreferencesGateway
+    private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
 ) : IVirtualizer {
 
-    private var virtualizer : Virtualizer? = null
+    private var virtualizer: Virtualizer? = null
 
     override fun getStrength(): Int {
-        return useOrDefault({ virtualizer!!.roundedStrength.toInt() }, 0)
+        return virtualizer?.roundedStrength?.toInt() ?: 0
     }
 
     override fun setStrength(value: Int) {
-        use {
-            virtualizer!!.setStrength(value.toShort())
+        virtualizer?.setStrength(value.toShort())?.also {
+            val currentProperties = virtualizer?.properties?.toString()
+            if (!currentProperties.isNullOrBlank()) {
+                equalizerPrefsUseCase.saveVirtualizerSettings(currentProperties)
+            }
         }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        use {
-            virtualizer!!.enabled = enabled
-        }
+        virtualizer?.enabled = enabled
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
         release()
 
-        use {
-            virtualizer = Virtualizer(0, audioSessionId)
-            virtualizer!!.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-        }
-
         try {
-            val properties = equalizerPrefsUseCase.getVirtualizerSettings()
-            val settings = Virtualizer.Settings(properties)
-            virtualizer!!.properties = settings
-        } catch (ex: Exception){
+            virtualizer = Virtualizer(0, audioSessionId).apply {
+                enabled = equalizerPrefsUseCase.isEqualizerEnabled()
+                val lastProperties = equalizerPrefsUseCase.getVirtualizerSettings()
+                if (lastProperties.isNotBlank()) {
+                    properties = Virtualizer.Settings(lastProperties)
+                }
+            }
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }
 
     override fun release() {
-        virtualizer?.let {
-            try {
-                equalizerPrefsUseCase.saveVirtualizerSettings(it.properties.toString())
-            } catch (ex: Exception){
-                ex.printStackTrace()
-            }
-            use {
-                it.release()
-            }
-        }
-    }
-
-    private fun use(action: () -> Unit){
-        try {
-            action()
-        } catch (ex: Exception){
-            ex.printStackTrace()
-        }
-    }
-
-    private fun <T> useOrDefault(action: () -> T, default: T): T {
-        return try {
-            action()
-        } catch (ex: Exception){
-            ex.printStackTrace()
-            default
-        }
+        virtualizer?.release()
     }
 
 }

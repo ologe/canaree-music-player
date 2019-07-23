@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class PresetPagerAdapter(
     manager: FragmentManager,
-    private val presets: MutableList<String>
+    private val presets: List<String>
 
 ) : FragmentPagerAdapter(manager) {
 

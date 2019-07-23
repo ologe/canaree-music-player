@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.appcompat.view.ContextThemeWrapper
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 
-abstract class BaseBottomSheetFragment : DimBottomSheetDialogFragment() {
+abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -18,14 +18,13 @@ abstract class BaseBottomSheetFragment : DimBottomSheetDialogFragment() {
     }
 
     @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val themeWrapper = ContextThemeWrapper(activity, activity!!.theme)
-        val view = inflater.cloneInContext(themeWrapper).inflate(provideLayoutId(), container, false)
-        onViewBound(view, savedInstanceState)
-        return view
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(provideLayoutId(), container, false)
     }
-
-    protected open fun onViewBound(view: View, savedInstanceState: Bundle?) {}
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int

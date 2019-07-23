@@ -12,17 +12,17 @@ import dev.olog.presentation.sleeptimer.SleepTimerPickerDialog
 abstract class MainActivityFragmentsModule {
 
     @ContributesAndroidInjector
-    abstract fun provideMiniPlayer(): MiniPlayerFragment
+    internal abstract fun provideMiniPlayer(): MiniPlayerFragment
 
     @ContributesAndroidInjector
-    abstract fun provideEqualizerFragment(): EqualizerFragment
+    internal abstract fun provideEqualizerFragment(): EqualizerFragment
 
     @ContributesAndroidInjector
-    abstract fun provideSleepTimerDialog(): SleepTimerPickerDialog
+    internal abstract fun provideSleepTimerDialog(): SleepTimerPickerDialog
 
     @ContributesAndroidInjector
-    abstract fun provideOfflineLyricsFragment(): OfflineLyricsFragment
+    internal abstract fun provideOfflineLyricsFragment(): OfflineLyricsFragment
 
     @ContributesAndroidInjector
-    abstract fun provideCategoriesFragment(): LibraryFragment
+    internal abstract fun provideCategoriesFragment(): LibraryFragment
 }

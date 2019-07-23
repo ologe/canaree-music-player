@@ -43,12 +43,12 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
     @Inject lateinit var mediaId: MediaId
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        RxTextView.afterTextChangeEvents(view.album)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(album)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
+                .subscribe(viewLifecycleOwner, okButton::setEnabled)
 
         viewModel.observeSongList()
                 .subscribe(viewLifecycleOwner) {

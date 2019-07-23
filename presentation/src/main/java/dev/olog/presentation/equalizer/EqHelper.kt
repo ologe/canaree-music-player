@@ -1,6 +1,6 @@
 package dev.olog.presentation.equalizer
 
-object EqHelper {
+internal object EqHelper {
 
     val minDB = -15f
     val maxDB = 15f
