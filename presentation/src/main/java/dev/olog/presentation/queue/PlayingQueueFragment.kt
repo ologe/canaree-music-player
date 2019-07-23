@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
@@ -15,6 +16,9 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
@@ -46,10 +50,8 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         )
     }
 
-    private lateinit var layoutManager: LinearLayoutManager
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        val layoutManager = LinearLayoutManager(context!!)
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
@@ -63,17 +65,22 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             emptyStateText.toggleVisibility(it.isEmpty(), true)
         }
 
-//        launch {
-//            adapter.observeData(false)
-//                .filter { it.isNotEmpty() }
-//                .take(1)
-//                .collect {
-//                    layoutManager.scrollToPositionWithOffset(
-//                        viewModel.getCurrentPosition(),
-//                        ctx.dip(20)
-//                    )
-//                }
-//        }
+        launch {
+            adapter.observeData(false)
+                .take(1)
+                .map {
+                    val idInPlaylist = viewModel.getLastIdInPlaylist()
+                    it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+                }
+                .filter { it != RecyclerView.NO_POSITION } // filter only valid position
+                .flowOn(Dispatchers.Default)
+                .collect { position ->
+                    layoutManager.scrollToPositionWithOffset(
+                        position,
+                        ctx.dip(20)
+                    )
+                }
+        }
     }
 
     override fun onResume() {

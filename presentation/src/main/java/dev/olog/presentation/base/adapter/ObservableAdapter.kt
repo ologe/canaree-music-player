@@ -14,6 +14,7 @@ import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.CustomScope
 import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -28,7 +29,7 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     protected val dataSet = mutableListOf<T>()
 
-    private val channel = Channel<List<T>>(Channel.CONFLATED)
+    private val channel = BroadcastChannel<List<T>>(Channel.CONFLATED)
 
     fun getData(): List<T> = dataSet.toList()
 
@@ -37,7 +38,7 @@ abstract class ObservableAdapter<T : BaseModel>(
             if (!skipInitialValue) {
                 emit(dataSet)
             }
-            for (t in channel) {
+            for (t in channel.openSubscription()) {
                 emit(t)
             }
         }
@@ -46,7 +47,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     init {
         lifecycle.addObserver(this)
         launch {
-            for (list in channel) {
+            for (list in channel.openSubscription()) {
                 assertBackgroundThread()
                 val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
                 yield()

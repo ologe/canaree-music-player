@@ -24,6 +24,8 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
+    fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
+
     private val data = MutableLiveData<List<DisplayableQueueSong>>()
 
     private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
