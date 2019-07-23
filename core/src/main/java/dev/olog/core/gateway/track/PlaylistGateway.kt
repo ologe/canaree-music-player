@@ -25,7 +25,7 @@ interface PlaylistOperations {
 
     fun clearPlaylist(playlistId: Long): Completable
 
-    fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>)
+    suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>)
 
     fun insertSongToHistory(songId: Long): Completable
 
@@ -33,5 +33,5 @@ interface PlaylistOperations {
 
     suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long)
 
-    fun removeDuplicated(playlistId: Long): Completable
+    suspend fun removeDuplicated(playlistId: Long)
 }

@@ -14,6 +14,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.getLong
+import dev.olog.data.utils.handleRecoverableSecurityException
 import dev.olog.shared.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
@@ -42,7 +43,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return ContentUris.parseId(uri)
     }
 
-    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>){
+    override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>){
         assertBackgroundThread()
 
         val uri = Playlists.Members.getContentUri("external", playlistId)
@@ -70,8 +71,10 @@ internal class PlaylistRepositoryHelper @Inject constructor(
             arrayOf.add(values)
         }
 
-        context.contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
-        context.contentResolver.notifyChange(Playlists.EXTERNAL_CONTENT_URI, null)
+        handleRecoverableSecurityException {
+            context.contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+            context.contentResolver.notifyChange(Playlists.EXTERNAL_CONTENT_URI, null)
+        }
     }
 
     override fun deletePlaylist(playlistId: Long): Completable {
@@ -134,25 +137,23 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return Playlists.Members.moveItem(context.contentResolver, playlistId, from, to)
     }
 
-    override fun removeDuplicated(playlistId: Long) : Completable{
-        return Completable.fromCallable {
-            val uri = Playlists.Members.getContentUri("external", playlistId)
-            val cursor = context.contentResolver.query(uri, arrayOf(
-                    Playlists.Members._ID,
-                    Playlists.Members.AUDIO_ID
-            ), null, null, Playlists.Members.DEFAULT_SORT_ORDER)
+    override suspend fun removeDuplicated(playlistId: Long){
+        val uri = Playlists.Members.getContentUri("external", playlistId)
+        val cursor = context.contentResolver.query(uri, arrayOf(
+            Playlists.Members._ID,
+            Playlists.Members.AUDIO_ID
+        ), null, null, Playlists.Members.DEFAULT_SORT_ORDER)
 
-            val distinctTrackIds = mutableSetOf<Long>()
+        val distinctTrackIds = mutableSetOf<Long>()
 
-            while (cursor != null && cursor.moveToNext()) {
-                val trackId = cursor.getLong(Playlists.Members.AUDIO_ID)
-                distinctTrackIds.add(trackId)
-            }
-            cursor?.close()
-
-            context.contentResolver.delete(uri, null, null)
-            addSongsToPlaylist(playlistId, distinctTrackIds.toList())
+        while (cursor != null && cursor.moveToNext()) {
+            val trackId = cursor.getLong(Playlists.Members.AUDIO_ID)
+            distinctTrackIds.add(trackId)
         }
+        cursor?.close()
+
+        context.contentResolver.delete(uri, null, null)
+        addSongsToPlaylist(playlistId, distinctTrackIds.toList())
     }
 
     override fun insertSongToHistory(songId: Long): Completable {

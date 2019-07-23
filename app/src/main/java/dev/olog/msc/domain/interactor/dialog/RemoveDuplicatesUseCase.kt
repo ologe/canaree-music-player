@@ -17,10 +17,11 @@ class RemoveDuplicatesUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Completable {
-        val playlistId = mediaId.resolveId
-        if (mediaId.isPodcastPlaylist){
-            return podcastPlaylistGateway.removeDuplicated(playlistId)
-        }
-        return playlistGateway.removeDuplicated(playlistId)
+        TODO()
+//        val playlistId = mediaId.resolveId
+//        if (mediaId.isPodcastPlaylist){
+//            return podcastPlaylistGateway.removeDuplicated(playlistId)
+//        }
+//        return playlistGateway.removeDuplicated(playlistId)
     }
 }
