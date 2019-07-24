@@ -1,32 +1,25 @@
-package dev.olog.msc.domain.interactor.dialog
+package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.interactor.base.CompletableUseCaseWithParam
+import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
-import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.shared.extensions.mapToList
-import io.reactivex.Completable
-import kotlinx.coroutines.rx2.asFlowable
 import javax.inject.Inject
 
 class AddToPlaylistUseCase @Inject constructor(
-    scheduler: IoScheduler,
     private val playlistGateway: PlaylistGateway,
-    private val getSongUseCase: GetSongUseCase,
+    private val getSongUseCase: SongGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val getPodcastUseCase: GetPodcastUseCase,
+    private val getPodcastUseCase: PodcastGateway,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
-) : CompletableUseCaseWithParam<Pair<Playlist, MediaId>>(scheduler) {
+) {
 
-    override fun buildUseCaseObservable(param: Pair<Playlist, MediaId>): Completable {
-        val (playlist, mediaId) = param
-
+    operator fun invoke(playlist: Playlist, mediaId: MediaId) {
         TODO()
 
 //        if (mediaId.isLeaf && mediaId.isPodcast){

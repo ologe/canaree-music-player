@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup
+package dev.olog.presentation.popup.main
 
 import android.view.Gravity
 import android.view.Menu
@@ -51,7 +51,8 @@ class MainPopupDialog @Inject constructor(
         }
 
         if (BuildConfig.DEBUG) {
-            popup.menu.add(Menu.NONE, DEBUG_ID, Menu.NONE, "configuration")
+            popup.menu.add(Menu.NONE,
+                DEBUG_ID, Menu.NONE, "configuration")
         }
 
         if (category == MediaIdCategory.PLAYING_QUEUE) {
@@ -68,7 +69,6 @@ class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> popupNavigator.toEqualizer()
                 R.id.settings -> popupNavigator.toSettingsActivity()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
-                R.id.share -> navigator.toShareApp()
                 DEBUG_ID -> popupNavigator.toDebugConfiguration()
                 SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
                     MediaId.playingQueueId,

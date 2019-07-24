@@ -1,12 +1,12 @@
-package dev.olog.msc.presentation.popup.album
+package dev.olog.presentation.popup.album
 
 import android.view.View
-import dev.olog.msc.R
-import dev.olog.shared.AppConstants
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.R
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.shared.AppConstants
 
 class AlbumPopup(
     view: View,
@@ -14,10 +14,10 @@ class AlbumPopup(
     song: Song?,
     listener: AbsPopupListener
 
-) : AbsPopup(view)  {
+) : AbsPopup(view) {
 
     init {
-        if (song == null){
+        if (song == null) {
             inflate(R.menu.dialog_album)
         } else {
             inflate(R.menu.dialog_song)
@@ -27,14 +27,14 @@ class AlbumPopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (song == null){
-            if (album.artist == AppConstants.UNKNOWN){
+        if (song == null) {
+            if (album.artist == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewArtist)
             }
         } else {
             menu.removeItem(R.id.viewAlbum)
 
-            if (song.artist == AppConstants.UNKNOWN){
+            if (song.artist == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewArtist)
             }
         }

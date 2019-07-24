@@ -1,12 +1,12 @@
-package dev.olog.msc.domain.interactor.all
+package dev.olog.core.interactor
 
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
-class GetPlaylistsBlockingUseCase @Inject internal constructor(
+class GetPlaylistsUseCase @Inject internal constructor(
     private val playlistGateway: PlaylistGateway,
     private val podcastPlaylistgateway: PodcastPlaylistGateway
 

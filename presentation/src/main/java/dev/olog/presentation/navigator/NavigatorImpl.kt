@@ -1,6 +1,5 @@
 package dev.olog.presentation.navigator
 
-import android.annotation.SuppressLint
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -12,19 +11,24 @@ import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.popup.MainPopupDialog
+import dev.olog.presentation.popup.PopupMenuFactory
+import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.extensions.fragmentTransaction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor( // TODO
     private val activity: AppCompatActivity,
-    private val mainPopup: MainPopupDialog
-//        private val popupFactory: PopupMenuFactory,
-//        private val editItemDialogFactory: EditItemDialogFactory
+    private val mainPopup: MainPopupDialog,
+    private val popupFactory: PopupMenuFactory
+//    private val editItemDialogFactory: EditItemDialogFactory
 
 ) : DefaultLifecycleObserver, Navigator {
 
@@ -114,12 +118,15 @@ class NavigatorImpl @Inject internal constructor( // TODO
         )
     }
 
-    @SuppressLint("RxLeakedSubscription", "CheckResult")
     override fun toDialog(mediaId: MediaId, anchor: View) {
-//        if (allowed()) {
-//            popupFactory.create(anchor, mediaId) // TODO
-//                    .subscribe({ it.show() }, Throwable::printStackTrace)
-//        }
+        if (allowed()) {
+            GlobalScope.launch {
+                val popup = popupFactory.create(anchor, mediaId)
+                withContext(Dispatchers.Main){
+                    popup.show()
+                }
+            }
+        }
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
@@ -169,15 +176,5 @@ class NavigatorImpl @Inject internal constructor( // TODO
     override fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String) {
 //        val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
 //        fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
-    }
-
-    override fun toShareApp() {
-        // TODO delegate to app module
-//        val intent = AppInviteInvitation.IntentBuilder(activity.getString(R.string.share_app_title))
-//                .setMessage(activity.getString(R.string.share_app_message))
-//                .setDeepLink(Uri.parse("https://deveugeniuolog.wixsite.com/next"))
-//                .setAndroidMinimumVersionCode(Build.VERSION_CODES.LOLLIPOP)
-//                .build()
-//        activity.startActivityForResult(intent, MainActivity.INVITE_FRIEND_CODE)
     }
 }

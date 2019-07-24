@@ -1,24 +1,24 @@
-package dev.olog.msc.presentation.popup.genre
+package dev.olog.presentation.popup.genre
 
 import android.app.Activity
 import android.view.MenuItem
+import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
-import dev.olog.msc.R
-import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
+import dev.olog.core.interactor.AddToPlaylistUseCase
+import dev.olog.core.interactor.GetPlaylistsUseCase
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
 import javax.inject.Inject
 
 class GenrePopupListener @Inject constructor(
     private val activity: Activity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
-    getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
+    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
@@ -26,14 +26,14 @@ class GenrePopupListener @Inject constructor(
     private lateinit var genre: Genre
     private var song: Song? = null
 
-    fun setData(genre: Genre, song: Song?): GenrePopupListener{
+    fun setData(genre: Genre, song: Song?): GenrePopupListener {
         this.genre = genre
         this.song = song
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null){
+        if (song != null) {
             return MediaId.playableItem(genre.getMediaId(), song!!.id)
         } else {
             return genre.getMediaId()
@@ -45,7 +45,7 @@ class GenrePopupListener @Inject constructor(
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.size, genre.name)
 
-        when (itemId){
+        when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
@@ -58,38 +58,41 @@ class GenrePopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), genre.name)
+            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
+                getMediaId(),
+                genre.name
+            )
         }
 
         return true
     }
 
-    private fun toCreatePlaylist(){
-        if (song == null){
+    private fun toCreatePlaylist() {
+        if (song == null) {
             navigator.toCreatePlaylistDialog(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun playFromMediaId(){
+    private fun playFromMediaId() {
         mediaProvider.playFromMediaId(getMediaId(), null, null)
     }
 
-    private fun playShuffle(){
+    private fun playShuffle() {
         mediaProvider.shuffle(getMediaId(), null)
     }
 
-    private fun playLater(){
-        if (song == null){
+    private fun playLater() {
+        if (song == null) {
             navigator.toPlayLater(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toPlayLater(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun playNext(){
-        if (song == null){
+    private fun playNext() {
+        if (song == null) {
             navigator.toPlayNext(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toPlayNext(getMediaId(), -1, song!!.title)
@@ -97,16 +100,16 @@ class GenrePopupListener @Inject constructor(
     }
 
 
-    private fun addToFavorite(){
-        if (song == null){
+    private fun addToFavorite() {
+        if (song == null) {
             navigator.toAddToFavoriteDialog(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun delete(){
-        if (song == null){
+    private fun delete() {
+        if (song == null) {
             navigator.toDeleteDialog(getMediaId(), genre.size, genre.name)
         } else {
             navigator.toDeleteDialog(getMediaId(), -1, song!!.title)

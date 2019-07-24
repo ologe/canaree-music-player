@@ -1,31 +1,31 @@
-package dev.olog.msc.presentation.popup.song
+package dev.olog.presentation.popup.song
 
 import android.app.Activity
 import android.view.MenuItem
-import dev.olog.msc.R
-import dev.olog.core.entity.track.Song
-import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getAlbumMediaId
 import dev.olog.core.entity.track.getArtistMediaId
 import dev.olog.core.entity.track.getMediaId
+import dev.olog.core.interactor.AddToPlaylistUseCase
+import dev.olog.core.interactor.GetPlaylistsUseCase
+import dev.olog.presentation.R
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
 import javax.inject.Inject
 
 class SongPopupListener @Inject constructor(
     private val activity: Activity,
     private val navigator: Navigator,
-    getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
+    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var song: Song
 
-    fun setData(song: Song): SongPopupListener{
+    fun setData(song: Song): SongPopupListener {
         this.song = song
         return this
     }
@@ -39,7 +39,7 @@ class SongPopupListener @Inject constructor(
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, song.title)
 
-        when (itemId){
+        when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
             R.id.addToFavorite -> addToFavorite()
             R.id.playLater -> playLater()
@@ -56,23 +56,23 @@ class SongPopupListener @Inject constructor(
         return true
     }
 
-    private fun toCreatePlaylist(){
+    private fun toCreatePlaylist() {
         navigator.toCreatePlaylistDialog(getMediaId(), -1, song.title)
     }
 
-    private fun playLater(){
+    private fun playLater() {
         navigator.toPlayLater(getMediaId(), -1, song.title)
     }
 
-    private fun playNext(){
+    private fun playNext() {
         navigator.toPlayNext(getMediaId(), -1, song.title)
     }
 
-    private fun addToFavorite(){
+    private fun addToFavorite() {
         navigator.toAddToFavoriteDialog(getMediaId(), -1, song.title)
     }
 
-    private fun delete(){
+    private fun delete() {
         navigator.toDeleteDialog(getMediaId(), -1, song.title)
     }
 

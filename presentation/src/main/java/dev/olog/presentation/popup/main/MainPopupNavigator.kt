@@ -1,4 +1,4 @@
-package dev.olog.presentation.popup
+package dev.olog.presentation.popup.main
 
 import android.content.Intent
 import android.media.audiofx.AudioEffect

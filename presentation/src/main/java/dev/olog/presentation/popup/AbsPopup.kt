@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.popup
+package dev.olog.presentation.popup
 
 import android.content.Context
 import android.graphics.Typeface
@@ -8,8 +8,8 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
-import dev.olog.msc.R
 import dev.olog.core.entity.track.Playlist
+import dev.olog.presentation.R
 
 abstract class AbsPopup(
         view: View
@@ -33,7 +33,8 @@ abstract class AbsPopup(
         playlists.forEach { addToPlaylistSubMenu.add(Menu.NONE, it.id.toInt(), Menu.NONE, it.title) }
         val spannableString = SpannableString("${context.getString(R.string.popup_new_playlist)}..")
         spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, spannableString.length, 0)
-        addToPlaylistSubMenu.add(Menu.NONE, NEW_PLAYLIST_ID, Menu.NONE, spannableString)
+        addToPlaylistSubMenu.add(Menu.NONE,
+            NEW_PLAYLIST_ID, Menu.NONE, spannableString)
 
     }
 

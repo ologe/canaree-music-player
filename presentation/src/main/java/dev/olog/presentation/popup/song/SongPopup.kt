@@ -1,11 +1,11 @@
-package dev.olog.msc.presentation.popup.song
+package dev.olog.presentation.popup.song
 
 import android.view.View
-import dev.olog.msc.R
+import dev.olog.presentation.R
 import dev.olog.shared.AppConstants
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
 
 class SongPopup(
     view: View,

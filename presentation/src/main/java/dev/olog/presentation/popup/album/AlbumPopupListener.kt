@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.popup.album
+package dev.olog.presentation.popup.album
 
 import android.app.Activity
 import android.view.MenuItem
@@ -8,20 +8,20 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getArtistMediaId
 import dev.olog.core.entity.track.getMediaId
+import dev.olog.core.interactor.AddToPlaylistUseCase
+import dev.olog.core.interactor.GetPlaylistsUseCase
 import dev.olog.media.MediaProvider
-import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
 import javax.inject.Inject
 
 class AlbumPopupListener @Inject constructor(
     private val activity: Activity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
-    getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
+    getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
@@ -29,14 +29,14 @@ class AlbumPopupListener @Inject constructor(
     private lateinit var album: Album
     private var song: Song? = null
 
-    fun setData(album: Album, song: Song?): AlbumPopupListener{
+    fun setData(album: Album, song: Song?): AlbumPopupListener {
         this.album = album
         this.song = song
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null){
+        if (song != null) {
             return MediaId.playableItem(album.getMediaId(), song!!.id)
         } else {
             return album.getMediaId()
@@ -48,7 +48,7 @@ class AlbumPopupListener @Inject constructor(
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), album.songs, album.title)
 
-        when (itemId){
+        when (itemId) {
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
@@ -61,38 +61,41 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(getMediaId(), album.title)
+            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
+                getMediaId(),
+                album.title
+            )
         }
 
         return true
     }
 
-    private fun toCreatePlaylist(){
-        if (song == null){
+    private fun toCreatePlaylist() {
+        if (song == null) {
             navigator.toCreatePlaylistDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun playFromMediaId(){
+    private fun playFromMediaId() {
         mediaProvider.playFromMediaId(getMediaId(), null, null)
     }
 
-    private fun playShuffle(){
+    private fun playShuffle() {
         mediaProvider.shuffle(getMediaId(), null)
     }
 
-    private fun playLater(){
-        if (song == null){
+    private fun playLater() {
+        if (song == null) {
             navigator.toPlayLater(getMediaId(), album.songs, album.title)
         } else {
             navigator.toPlayLater(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun playNext(){
-        if (song == null){
+    private fun playNext() {
+        if (song == null) {
             navigator.toPlayNext(getMediaId(), album.songs, album.title)
         } else {
             navigator.toPlayNext(getMediaId(), -1, song!!.title)
@@ -100,23 +103,23 @@ class AlbumPopupListener @Inject constructor(
     }
 
 
-    private fun addToFavorite(){
-        if (song == null){
+    private fun addToFavorite() {
+        if (song == null) {
             navigator.toAddToFavoriteDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun delete(){
-        if (song == null){
+    private fun delete() {
+        if (song == null) {
             navigator.toDeleteDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun viewArtist(){
+    private fun viewArtist() {
         navigator.toDetailFragment(album.getArtistMediaId())
     }
 

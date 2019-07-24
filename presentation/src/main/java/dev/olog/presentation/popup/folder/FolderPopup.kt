@@ -1,15 +1,14 @@
-package dev.olog.msc.presentation.popup.folder
+package dev.olog.presentation.popup.folder
 
 import android.view.View
-import dev.olog.msc.R
-import dev.olog.shared.AppConstants
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.R
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.shared.AppConstants
 
-@Suppress("UNUSED_PARAMETER")
-class FolderPopup (
+class FolderPopup(
     view: View,
     folder: Folder,
     song: Song?,
@@ -19,7 +18,7 @@ class FolderPopup (
 
 
     init {
-        if (song == null){
+        if (song == null) {
             inflate(R.menu.dialog_folder)
         } else {
             inflate(R.menu.dialog_song)
@@ -29,11 +28,11 @@ class FolderPopup (
 
         setOnMenuItemClickListener(listener)
 
-        if (song != null){
-            if (song.artist == AppConstants.UNKNOWN){
+        if (song != null) {
+            if (song.artist == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewArtist)
             }
-            if (song.album == AppConstants.UNKNOWN){
+            if (song.album == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewAlbum)
             }
         }

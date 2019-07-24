@@ -1,14 +1,13 @@
-package dev.olog.msc.presentation.popup.genre
+package dev.olog.presentation.popup.genre
 
 import android.view.View
-import dev.olog.msc.R
-import dev.olog.shared.AppConstants
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
-import dev.olog.msc.presentation.popup.AbsPopup
-import dev.olog.msc.presentation.popup.AbsPopupListener
+import dev.olog.presentation.R
+import dev.olog.presentation.popup.AbsPopup
+import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.shared.AppConstants
 
-@Suppress("UNUSED_PARAMETER")
 class GenrePopup(
     view: View,
     genre: Genre,
@@ -18,7 +17,7 @@ class GenrePopup(
 ) : AbsPopup(view) {
 
     init {
-        if (song == null){
+        if (song == null) {
             inflate(R.menu.dialog_genre)
         } else {
             inflate(R.menu.dialog_song)
@@ -28,11 +27,11 @@ class GenrePopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (song != null){
-            if (song.artist == AppConstants.UNKNOWN){
+        if (song != null) {
+            if (song.artist == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewArtist)
             }
-            if (song.album == AppConstants.UNKNOWN){
+            if (song.album == AppConstants.UNKNOWN) {
                 menu.removeItem(R.id.viewAlbum)
             }
         }

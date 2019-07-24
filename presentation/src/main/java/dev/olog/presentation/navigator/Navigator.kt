@@ -42,7 +42,4 @@ interface Navigator {
     fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
     fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String)
-
-    fun toShareApp()
-
 }
