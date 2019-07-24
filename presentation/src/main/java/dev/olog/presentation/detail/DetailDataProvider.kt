@@ -12,7 +12,7 @@ import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.core.interactor.sort.ObserveDetailSortOrderUseCase
+import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.presentation.detail.mapper.*
@@ -45,7 +45,7 @@ internal class DetailDataProvider @Inject constructor(
     private val recentlyAddedUseCase: ObserveRecentlyAddedUseCase,
     private val mostPlayedUseCase: ObserveMostPlayedSongsUseCase,
     private val relatedArtistsUseCase: ObserveRelatedArtistsUseCase,
-    private val sortOrderUseCase: ObserveDetailSortOrderUseCase,
+    private val sortOrderUseCase: ObserveDetailSortUseCase,
     private val observeSongListByParamUseCase: ObserveSongListByParamUseCase
 ) {
 
@@ -108,7 +108,7 @@ internal class DetailDataProvider @Inject constructor(
                                 it.artist.contains(filter, true) ||
                                 it.album.contains(filter, true)
                     }
-                    .map { it.toDetailDisplayableItem(mediaId, order) }
+                    .map { it.toDetailDisplayableItem(mediaId, order.type) }
                     .toMutableList()
 
                 val duration = songList.sumBy { it.duration.toInt() }

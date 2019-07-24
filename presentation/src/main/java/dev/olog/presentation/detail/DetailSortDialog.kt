@@ -1,19 +1,19 @@
 package dev.olog.presentation.detail
 
-import android.content.Context
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
-import dev.olog.presentation.R
-import dev.olog.core.entity.sort.SortType
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.sort.SortType
+import dev.olog.presentation.R
 
 class DetailSortDialog {
 
-    fun show(context: Context, view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
+    fun show(view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
+        val context = view.context
         val popup = PopupMenu(context, view, Gravity.BOTTOM)
         popup.inflate(getLayout(mediaId))
 

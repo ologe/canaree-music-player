@@ -33,15 +33,15 @@ internal class TabFragmentViewModel @Inject constructor(
         if (mediaId.isAnyPodcast){
             return null
         }
-        return appPreferencesUseCase.getAllTracksSortOrder()
+        return appPreferencesUseCase.getAllTracksSort()
     }
 
     fun getAllAlbumsSortOrder(): SortEntity {
-        return appPreferencesUseCase.getAllAlbumsSortOrder()
+        return appPreferencesUseCase.getAllAlbumsSort()
     }
 
     fun getAllArtistsSortOrder(): SortEntity {
-        return appPreferencesUseCase.getAllArtistsSortOrder()
+        return appPreferencesUseCase.getAllArtistsSort()
     }
 
 //    fun observeAlbumSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {

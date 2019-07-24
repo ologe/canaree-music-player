@@ -92,7 +92,7 @@ internal class ArtistQueries(
             return "lower($ARTIST) COLLATE UNICODE"
         }
 
-        val (type, arranging) = sortPrefs.getAllArtistsSortOrder()
+        val (type, arranging) = sortPrefs.getAllArtistsSort()
         var sort = when (type) {
             SortType.ARTIST -> "lower($ARTIST)"
             SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"

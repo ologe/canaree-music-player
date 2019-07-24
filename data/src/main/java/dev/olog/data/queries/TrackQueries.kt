@@ -66,7 +66,7 @@ internal class TrackQueries(
             return "lower($TITLE) COLLATE UNICODE"
         }
 
-        val (type, arranging) = sortPrefs.getAllTracksSortOrder()
+        val (type, arranging) = sortPrefs.getAllTracksSort()
         var sort = when (type) {
             SortType.TITLE -> "lower($TITLE)"
             SortType.ARTIST -> "lower($ARTIST)"

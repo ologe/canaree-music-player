@@ -90,7 +90,7 @@ class MainPopupDialog @Inject constructor(
     }
 
     private fun initializeTracksSort(menu: Menu): SortEntity {
-        val sort = gateway.getAllTracksSortOrder()
+        val sort = gateway.getAllTracksSort()
         val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
             SortType.ALBUM -> R.id.by_album
@@ -107,7 +107,7 @@ class MainPopupDialog @Inject constructor(
     }
 
     private fun initializeAlbumSort(menu: Menu): SortEntity {
-        val sort = gateway.getAllAlbumsSortOrder()
+        val sort = gateway.getAllAlbumsSort()
         val item = when (sort.type) {
             SortType.TITLE -> R.id.by_title
             SortType.ARTIST -> R.id.by_artist
@@ -121,7 +121,7 @@ class MainPopupDialog @Inject constructor(
     }
 
     private fun initializeArtistSort(menu: Menu): SortEntity {
-        val sort = gateway.getAllArtistsSortOrder()
+        val sort = gateway.getAllArtistsSort()
         val item = when (sort.type) {
             SortType.ARTIST -> R.id.by_artist
             SortType.ALBUM_ARTIST -> R.id.by_album_artist
@@ -154,7 +154,7 @@ class MainPopupDialog @Inject constructor(
             model.copy(type = newSortType)
         }
 
-        gateway.setAllTracksSortOrder(model)
+        gateway.setAllTracksSort(model)
     }
 
     private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity) {
@@ -174,7 +174,7 @@ class MainPopupDialog @Inject constructor(
             model.copy(type = newSortType)
         }
 
-        gateway.setAllAlbumsSortOrder(model)
+        gateway.setAllAlbumsSort(model)
     }
 
     private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity) {
@@ -194,7 +194,7 @@ class MainPopupDialog @Inject constructor(
             model.copy(type = newSortType)
         }
 
-        gateway.setAllArtistsSortOrder(model)
+        gateway.setAllArtistsSort(model)
     }
 
 }

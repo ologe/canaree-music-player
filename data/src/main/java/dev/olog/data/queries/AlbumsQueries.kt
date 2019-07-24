@@ -96,7 +96,7 @@ internal class AlbumsQueries(
             return "lower($ALBUM) COLLATE UNICODE"
         }
 
-        val (type, arranging) = sortPrefs.getAllAlbumsSortOrder()
+        val (type, arranging) = sortPrefs.getAllAlbumsSort()
         var sort = when (type) {
             SortType.ALBUM -> "lower($ALBUM)"
             SortType.ARTIST -> "lower($ARTIST)"

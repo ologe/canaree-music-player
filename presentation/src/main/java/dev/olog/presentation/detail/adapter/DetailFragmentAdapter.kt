@@ -25,7 +25,10 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.extensions.*
+import dev.olog.shared.extensions.asLiveData
+import dev.olog.shared.extensions.map
+import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.extensions.swap
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
@@ -96,14 +99,10 @@ internal class DetailFragmentAdapter(
 
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, this) { _, _, view ->
-                    viewModel.observeSortOrder {
-                        DetailSortDialog().show(
-                            view.context,
-                            view,
-                            mediaId,
-                            it,
-                            viewModel::updateSortOrder
-                        )
+                    viewModel.observeSortOrder { currentSortType ->
+                        DetailSortDialog().show(view, mediaId, currentSortType) { newSortType ->
+                            viewModel.updateSortOrder(newSortType)
+                        }
                     }
                 }
                 viewHolder.setOnClickListener(R.id.sortImage, this) { _, _, _ ->
@@ -139,7 +138,6 @@ internal class DetailFragmentAdapter(
                 val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
-                    .asFlowable()
                     .asLiveData()
                     .subscribe(holder, view.sortImage::update)
 

@@ -3,6 +3,7 @@ package dev.olog.data.queries
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -39,8 +40,7 @@ abstract class BaseQueries(
 
     protected fun songListSortOrder(category: MediaIdCategory, default: String): String {
 
-        val type = getSortType(category)
-        val arranging = sortPrefs.getDetailSortArranging()
+        val (type, arranging) = getSortType(category)
         var sort = when (type) {
             SortType.TITLE -> "lower($TITLE)"
             SortType.ARTIST -> "lower($ARTIST)"
@@ -75,13 +75,13 @@ abstract class BaseQueries(
         return sort
     }
 
-    private fun getSortType(category: MediaIdCategory): SortType {
+    private fun getSortType(category: MediaIdCategory): SortEntity {
         return when (category) {
-            MediaIdCategory.FOLDERS -> sortPrefs.getDetailAlbumSortOrder()
-            MediaIdCategory.PLAYLISTS -> sortPrefs.getDetailPlaylistSortOrder()
-            MediaIdCategory.ALBUMS -> sortPrefs.getDetailAlbumSortOrder()
-            MediaIdCategory.ARTISTS -> sortPrefs.getDetailArtistSortOrder()
-            MediaIdCategory.GENRES -> sortPrefs.getDetailGenreSortOrder()
+            MediaIdCategory.FOLDERS -> sortPrefs.getDetailFolderSort()
+            MediaIdCategory.PLAYLISTS -> sortPrefs.getDetailPlaylistSort()
+            MediaIdCategory.ALBUMS -> sortPrefs.getDetailAlbumSort()
+            MediaIdCategory.ARTISTS -> sortPrefs.getDetailArtistSort()
+            MediaIdCategory.GENRES -> sortPrefs.getDetailFolderSort()
             else -> throw IllegalArgumentException("invalid category $category")
         }
     }

@@ -8,25 +8,19 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.LastFmGateway
-import dev.olog.core.interactor.sort.*
+import dev.olog.core.interactor.sort.GetDetailSortUseCase
+import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
+import dev.olog.core.interactor.sort.SetSortOrderUseCase
+import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.extensions.mapListItem
 import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.addTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx2.asFlowable
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -35,10 +29,9 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
-    private val observeSortOrderUseCase: ObserveDetailSortOrderUseCase,
-    private val setSortArrangingUseCase: SetSortArrangingUseCase,
-    private val getSortArrangingUseCase: GetSortArrangingUseCase,
-    private val getDetailSortDataUseCase: GetDetailSortDataUseCase,
+    private val getSortOrderUseCase: GetDetailSortUseCase,
+    private val observeSortOrderUseCase: ObserveDetailSortUseCase,
+    private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
     private val lastFmGateway: LastFmGateway
 
 ) : ViewModel() {
@@ -48,9 +41,6 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
-
-
-    private val subscriptions = CompositeDisposable()
 
     private val filterChannel = ConflatedBroadcastChannel("")
 
@@ -116,17 +106,16 @@ internal class DetailFragmentViewModel @Inject constructor(
                     mediaId.isAlbum -> lastFmGateway.getAlbum(mediaId.categoryId)?.wiki
                     else -> null
                 }
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     biographyLiveData.value = biography
                 }
-            } catch (ex: NullPointerException){
+            } catch (ex: NullPointerException) {
                 ex.printStackTrace()
             }
         }
     }
 
     override fun onCleared() {
-        subscriptions.clear()
         viewModelScope.cancel()
     }
 
@@ -139,35 +128,21 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeBiography(): LiveData<String?> = biographyLiveData
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
-        getDetailSortDataUseCase.execute(mediaId)
-            .subscribe(action, Throwable::printStackTrace)
-            .addTo(subscriptions)
+        val sortOrder = getSortOrderUseCase(mediaId)
+        action(sortOrder)
     }
 
     fun observeSortOrder(action: (SortType) -> Unit) {
-        observeSortOrderUseCase(mediaId)
-            .asFlowable().toObservable()
-            .firstOrError()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ action(it) }, Throwable::printStackTrace)
-            .addTo(subscriptions)
+        val sortEntity = getSortOrderUseCase(mediaId)
+        action(sortEntity.type)
     }
 
-    fun updateSortOrder(sortType: SortType) {
-        setSortOrderUseCase.execute(SetSortOrderRequestModel(mediaId, sortType))
-            .subscribe({ }, Throwable::printStackTrace)
-            .addTo(subscriptions)
+    fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
+        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
     }
 
     fun toggleSortArranging() {
-        observeSortOrderUseCase(mediaId)
-            .asFlowable().toObservable()
-            .firstOrError()
-            .filter { it != SortType.CUSTOM }
-            .flatMapCompletable { setSortArrangingUseCase.execute() }
-            .subscribe({ }, Throwable::printStackTrace)
-            .addTo(subscriptions)
-
+        toggleSortArrangingUseCase(mediaId.category)
     }
 
     fun moveItemInPlaylist(from: Int, to: Int) {
@@ -179,11 +154,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         presenter.removeFromPlaylist(item)
     }
 
-    fun observeSorting(): Observable<SortEntity> {
-        return Observables.combineLatest(
-            observeSortOrderUseCase(mediaId).asFlowable().toObservable(),
-            getSortArrangingUseCase.execute()
-        ) { sort, arranging -> SortEntity(sort, arranging) }
+    fun observeSorting(): Flow<SortEntity> {
+        return observeSortOrderUseCase(mediaId)
     }
 
     fun showSortByTutorialIfNeverShown(): Completable {

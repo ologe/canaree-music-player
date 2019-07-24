@@ -10,6 +10,7 @@ import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.*
 import dev.olog.data.prefs.*
+import dev.olog.data.prefs.sort.AppSortingImpl
 import javax.inject.Singleton
 
 @Module

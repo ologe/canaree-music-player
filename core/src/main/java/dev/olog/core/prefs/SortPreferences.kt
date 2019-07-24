@@ -1,44 +1,40 @@
 package dev.olog.core.prefs
 
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
-import io.reactivex.Completable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
-interface SortPreferences {
+interface SortPreferences: SortAll, SortDetail
 
-    fun getAllTracksSortOrder(): SortEntity
-    fun getAllAlbumsSortOrder(): SortEntity
-    fun getAllArtistsSortOrder(): SortEntity
+interface SortAll {
+    fun getAllTracksSort(): SortEntity
+    fun getAllAlbumsSort(): SortEntity
+    fun getAllArtistsSort(): SortEntity
 
-    fun observeAllTracksSortOrder(): Observable<SortEntity>
-    fun observeAllAlbumsSortOrder(): Observable<SortEntity>
-    fun observeAllArtistsSortOrder(): Observable<SortEntity>
+    fun setAllTracksSort(sortType: SortEntity)
+    fun setAllAlbumsSort(sortType: SortEntity)
+    fun setAllArtistsSort(sortType: SortEntity)
+}
 
-    fun setAllTracksSortOrder(sortType: SortEntity)
-    fun setAllAlbumsSortOrder(sortType: SortEntity)
-    fun setAllArtistsSortOrder(sortType: SortEntity)
+interface SortDetail {
+    fun observeDetailFolderSort() : Flow<SortEntity>
+    fun observeDetailPlaylistSort() : Flow<SortEntity>
+    fun observeDetailAlbumSort() : Flow<SortEntity>
+    fun observeDetailArtistSort() : Flow<SortEntity>
+    fun observeDetailGenreSort() : Flow<SortEntity>
 
-    fun observeDetailFolderSortOrder() : Observable<SortType>
-    fun observeDetailPlaylistSortOrder() : Observable<SortType>
-    fun observeDetailAlbumSortOrder() : Observable<SortType>
-    fun observeDetailArtistSortOrder() : Observable<SortType>
-    fun observeDetailGenreSortOrder() : Observable<SortType>
+    fun getDetailFolderSort() : SortEntity
+    fun getDetailPlaylistSort() : SortEntity
+    fun getDetailAlbumSort() : SortEntity
+    fun getDetailArtistSort() : SortEntity
+    fun getDetailGenreSort() : SortEntity
 
-    fun getDetailFolderSortOrder() : SortType
-    fun getDetailPlaylistSortOrder() : SortType
-    fun getDetailAlbumSortOrder() : SortType
-    fun getDetailArtistSortOrder() : SortType
-    fun getDetailGenreSortOrder() : SortType
+    fun setDetailFolderSort(sortType: SortType)
+    fun setDetailPlaylistSort(sortType: SortType)
+    fun setDetailAlbumSort(sortType: SortType)
+    fun setDetailArtistSort(sortType: SortType)
+    fun setDetailGenreSort(sortType: SortType)
 
-    fun setDetailFolderSortOrder(sortType: SortType) : Completable
-    fun setDetailPlaylistSortOrder(sortType: SortType) : Completable
-    fun setDetailAlbumSortOrder(sortType: SortType) : Completable
-    fun setDetailArtistSortOrder(sortType: SortType) : Completable
-    fun setDetailGenreSortOrder(sortType: SortType) : Completable
-
-    fun observeDetailSortArranging(): Observable<SortArranging>
-    fun getDetailSortArranging(): SortArranging
-    fun toggleSortArranging(): Completable
+    fun toggleDetailSortArranging(category: MediaIdCategory)
 }
