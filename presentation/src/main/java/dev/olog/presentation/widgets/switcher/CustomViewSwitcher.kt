@@ -136,7 +136,7 @@ class CustomViewSwitcher(
 
         if (!animationFinished) {
             animationFinished = true
-            transitionToNext()
+            showNext()
 
             if (model is MediaId) {
                 adaptiveImageHelper.setImageDrawable(CoverUtils.getGradient(context, model))
@@ -154,16 +154,10 @@ class CustomViewSwitcher(
     ): Boolean {
         if (!animationFinished) {
             animationFinished = true
-            transitionToNext()
+            showNext()
         }
         adaptiveImageHelper.setImageDrawable(resource)
         return false
-    }
-
-    private fun transitionToNext() = when (currentDirection) {
-        Direction.RIGHT -> showNext()
-        Direction.LEFT -> showPrevious()
-        Direction.NONE -> showNext()
     }
 
     fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
