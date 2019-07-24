@@ -4,13 +4,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import dev.olog.core.MediaId
 import dev.olog.presentation.R
-import dev.olog.shared.AppConstants
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
 import dev.olog.presentation.edit.UpdateResult
-import dev.olog.core.MediaId
+import dev.olog.shared.AppConstants
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.CoroutineScope
@@ -45,12 +45,8 @@ class EditArtistFragment : BaseEditItemFragment(), CoroutineScope by MainScope()
         )
     }
 
-    @Inject lateinit var mediaId: MediaId
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+    private val mediaId by lazyFast {
+        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

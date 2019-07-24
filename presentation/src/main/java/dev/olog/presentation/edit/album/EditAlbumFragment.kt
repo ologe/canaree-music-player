@@ -44,7 +44,9 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             viewModelFactory
         )
     }
-    @Inject lateinit var mediaId: MediaId
+    private val mediaId: MediaId by lazyFast {
+        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         launch {

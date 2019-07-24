@@ -3,15 +3,28 @@ package dev.olog.presentation.edit.di
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.album.EditAlbumFragmentViewModel
+import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.artist.EditArtistFragmentViewModel
+import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.edit.song.EditTrackFragmentViewModel
 
 
 @Module
 abstract class EditItemModule {
+
+    @ContributesAndroidInjector
+    internal abstract fun provideEditTrackFragment(): EditTrackFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun provideEditAlbumFragment(): EditAlbumFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun provideEditArtistFragment(): EditArtistFragment
 
     @Binds
     @IntoMap
