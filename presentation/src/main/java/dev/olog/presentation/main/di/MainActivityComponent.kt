@@ -8,6 +8,7 @@ import dev.olog.presentation.ViewModelModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
+import dev.olog.presentation.edit.di.EditItemModule
 import dev.olog.presentation.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
@@ -45,11 +46,9 @@ fun MainActivity.inject() {
         PlayingQueueFragmentInjector::class,
         CreatePlaylistFragmentInjector::class,
 
-        SettingsFragmentsModule::class
+        SettingsFragmentsModule::class,
 
-//        EditTrackFragmentInjector::class, TODO
-//        EditAlbumFragmentInjector::class,
-//        EditArtistFragmentInjector::class,
+        EditItemModule::class
 
         // dialogs
 //        AddFavoriteDialogInjector::class, TODO

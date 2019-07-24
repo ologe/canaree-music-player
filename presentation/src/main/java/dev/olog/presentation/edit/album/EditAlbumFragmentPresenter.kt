@@ -1,6 +1,5 @@
 package dev.olog.presentation.edit.album
 
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
@@ -12,7 +11,7 @@ import java.io.File
 import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
+//    private val mediaId: MediaId,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase
 
 ) {
@@ -21,10 +20,11 @@ class EditAlbumFragmentPresenter @Inject constructor(
     private lateinit var originalAlbum: DisplayableAlbum
 
     fun observeAlbum(): Single<DisplayableAlbum> {
-        if (mediaId.isPodcastAlbum){
-            return observePodcastAlbumInternal()
-        }
-        return observeAlbumInternal()
+        TODO()
+//        if (mediaId.isPodcastAlbum){
+//            return observePodcastAlbumInternal()
+//        }
+//        return observeAlbumInternal()
     }
 
     private fun observeAlbumInternal(): Single<DisplayableAlbum>{

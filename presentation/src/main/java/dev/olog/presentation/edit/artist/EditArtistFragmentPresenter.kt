@@ -1,6 +1,5 @@
 package dev.olog.presentation.edit.artist
 
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -10,7 +9,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class EditArtistFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
+//    private val mediaId: MediaId,
     private val getArtistUseCase: ArtistGateway,
     private val getPodcastArtistUseCase: PodcastArtistGateway,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase
@@ -21,10 +20,11 @@ class EditArtistFragmentPresenter @Inject constructor(
     lateinit var songList: List<Song>
 
     fun observeArtist(): Single<DisplayableArtist> {
-        if (mediaId.isPodcastArtist){
-            return getPodcastArtistInternal()
-        }
-        return getArtistInternal()
+        TODO()
+//        if (mediaId.isPodcastArtist){
+//            return getPodcastArtistInternal()
+//        }
+//        return getArtistInternal()
     }
 
     private fun getArtistInternal(): Single<DisplayableArtist>{

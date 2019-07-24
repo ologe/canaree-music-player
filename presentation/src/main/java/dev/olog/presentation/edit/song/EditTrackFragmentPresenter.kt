@@ -13,37 +13,39 @@ import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
 
 ) {
 
     fun getSong(): DisplayableSong {
-        if (mediaId.isPodcast) {
-            return observePodcastInternal()
-        }
-        return observeSongInternal()
+        TODO()
+//        if (mediaId.isPodcast) {
+//            return observePodcastInternal()
+//        }
+//        return observeSongInternal()
     }
 
     private fun observeSongInternal(): DisplayableSong {
-        val song = songGateway.getByParam(mediaId.leaf!!)!!
-        val displayableSong = song.copy(
-            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
-            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
-        ).toDisplayableSong()
-
-        return displayableSong
+        TODO()
+//        val song = songGateway.getByParam(mediaId.leaf!!)!!
+//        val displayableSong = song.copy(
+//            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
+//            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
+//        ).toDisplayableSong()
+//
+//        return displayableSong
     }
 
     private fun observePodcastInternal(): DisplayableSong {
-        val song = podcastGateway.getByParam(mediaId.leaf!!)!!
-        val displayableSong = song.copy(
-            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
-            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
-        ).toDisplayableSong()
-
-        return displayableSong
+        TODO()
+//        val song = podcastGateway.getByParam(mediaId.leaf!!)!!
+//        val displayableSong = song.copy(
+//            artist = if (song.artist == AppConstants.UNKNOWN) "" else song.artist,
+//            album = if (song.album == AppConstants.UNKNOWN) "" else song.album
+//        ).toDisplayableSong()
+//
+//        return displayableSong
     }
 
     fun fetchData(): LastFmTrack? {

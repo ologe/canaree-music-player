@@ -41,9 +41,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         )
     }
     private val editItemViewModel by lazyFast {
-        activity!!.viewModelProvider<EditItemViewModel>(
-            viewModelFactory
-        )
+        activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
