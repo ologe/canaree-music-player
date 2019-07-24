@@ -24,9 +24,7 @@ import dev.olog.shared.extensions.exhaustive
 import dev.olog.shared.extensions.mapListItem
 import dev.olog.shared.utils.TextUtils
 import dev.olog.shared.utils.TimeUtils
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class DetailDataProvider @Inject constructor(
@@ -100,27 +98,31 @@ internal class DetailDataProvider @Inject constructor(
     }
 
     fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
-        val songListFlow = observeSongListByParamUseCase(mediaId)
-            .combineLatest(sortOrderUseCase(mediaId), filterFlow) { songList, order, filter ->
-                val result: MutableList<DisplayableItem> = songList.asSequence()
-                    .filter {
-                        it.title.contains(filter, true) ||
-                                it.artist.contains(filter, true) ||
-                                it.album.contains(filter, true)
+        val songListFlow = sortOrderUseCase(mediaId)
+            .switchMap { order ->
+                observeSongListByParamUseCase(mediaId)
+                    .combineLatest(filterFlow) { songList, filter ->
+                        val result: MutableList<DisplayableItem> = songList.asSequence()
+                            .filter {
+                                it.title.contains(filter, true) ||
+                                        it.artist.contains(filter, true) ||
+                                        it.album.contains(filter, true)
+                            }
+                            .map { it.toDetailDisplayableItem(mediaId, order.type) }
+                            .toMutableList()
+
+                        val duration = songList.sumBy { it.duration.toInt() }
+                        if (result.isNotEmpty()) {
+                            result.addAll(0, headers.songs)
+                            result.add(createDurationFooter(result.size, duration))
+                        } else {
+                            result.add(headers.no_songs)
+                        }
+
+                        result
                     }
-                    .map { it.toDetailDisplayableItem(mediaId, order.type) }
-                    .toMutableList()
-
-                val duration = songList.sumBy { it.duration.toInt() }
-                if (result.isNotEmpty()) {
-                    result.addAll(0, headers.songs)
-                    result.add(createDurationFooter(result.size, duration))
-                } else {
-                    result.add(headers.no_songs)
-                }
-
-                result
             }
+
         return observeHeader(mediaId).combineLatest(
             observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
             observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
