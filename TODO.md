@@ -11,7 +11,6 @@
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
-- player not scrolling properly
 - fix snackbar (buy premium) in setting fragment
 
 ## features

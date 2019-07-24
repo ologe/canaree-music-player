@@ -69,7 +69,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
-        list.isNestedScrollingEnabled = false
 
         setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
