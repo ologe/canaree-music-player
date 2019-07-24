@@ -41,13 +41,6 @@ class SimpleNestedScrollView(
         }
     }
 
-//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        val time = measureTimeMillis {
-//            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//        }
-//        println("nested scroll view measured in $time")
-//    }
-
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         return isExpanded && list.canScrollVertically(-1)
     }
