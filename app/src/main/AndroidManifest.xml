@@ -97,7 +97,8 @@
         <activity android:name="dev.olog.presentation.about.AboutActivity" />
 
         <!--dummy shortcuts activity-->
-        <activity android:name="dev.olog.appshortcuts.ShortcutsActivity" />
+        <activity android:name="dev.olog.appshortcuts.ShortcutsActivity"
+            android:theme="@style/TransparentTheme"/>
 
         <!--app shortcust playlist chooser-->
         <activity android:name=".presentation.shortcuts.playlist.chooser.PlaylistChooserActivity" />
