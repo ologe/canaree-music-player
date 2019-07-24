@@ -4,6 +4,7 @@ import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -102,19 +103,23 @@ internal class DetailDataProvider @Inject constructor(
             .switchMap { order ->
                 observeSongListByParamUseCase(mediaId)
                     .combineLatest(filterFlow) { songList, filter ->
-                        val result: MutableList<DisplayableItem> = songList.asSequence()
+                        val filteredSongList: MutableList<Song> = songList.asSequence()
                             .filter {
                                 it.title.contains(filter, true) ||
                                         it.artist.contains(filter, true) ||
                                         it.album.contains(filter, true)
-                            }
+                            }.toMutableList()
+
+                        val songListDuration = filteredSongList.sumBy { it.duration.toInt() }
+                        val songListSize = filteredSongList.size
+
+                        val result: MutableList<DisplayableItem> = filteredSongList.asSequence()
                             .map { it.toDetailDisplayableItem(mediaId, order.type) }
                             .toMutableList()
 
-                        val duration = songList.sumBy { it.duration.toInt() }
                         if (result.isNotEmpty()) {
                             result.addAll(0, headers.songs)
-                            result.add(createDurationFooter(result.size, duration))
+                            result.add(createDurationFooter(songListSize, songListDuration))
                         } else {
                             result.add(headers.no_songs)
                         }
