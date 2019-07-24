@@ -24,6 +24,7 @@ dependencies {
     implementation project(':media')
     implementation project(':tap-target-view')
     implementation project(':offline-lyrics')
+    implementation project(':jaudiotagger')
 
     kapt lib_ui.data_binding
 

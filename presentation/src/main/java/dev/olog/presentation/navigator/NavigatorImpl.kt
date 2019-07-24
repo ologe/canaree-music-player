@@ -9,6 +9,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
+import dev.olog.presentation.edit.EditItemDialogFactory
+import dev.olog.presentation.edit.album.EditAlbumFragment
+import dev.olog.presentation.edit.artist.EditArtistFragment
+import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
@@ -27,8 +31,8 @@ import javax.inject.Inject
 class NavigatorImpl @Inject internal constructor( // TODO
     private val activity: AppCompatActivity,
     private val mainPopup: MainPopupDialog,
-    private val popupFactory: PopupMenuFactory
-//    private val editItemDialogFactory: EditItemDialogFactory
+    private val popupFactory: PopupMenuFactory,
+    private val editItemDialogFactory: EditItemDialogFactory
 
 ) : DefaultLifecycleObserver, Navigator {
 
@@ -84,29 +88,29 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toEditInfoFragment(mediaId: MediaId) {
-//        if (allowed()) {
-//            when {
-//                mediaId.isLeaf -> {
-//                    editItemDialogFactory.toEditTrack(mediaId) {
-//                        val instance = EditTrackFragment.newInstance(mediaId)
-//                        instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
-//                    }
-//                }
-//                mediaId.isAlbum || mediaId.isPodcastAlbum -> {
-//                    editItemDialogFactory.toEditAlbum(mediaId) {
-//                        val instance = EditAlbumFragment.newInstance(mediaId)
-//                        instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
-//                    }
-//                }
-//                mediaId.isArtist || mediaId.isPodcastArtist -> {
-//                    editItemDialogFactory.toEditArtist(mediaId) {
-//                        val instance = EditArtistFragment.newInstance(mediaId)
-//                        instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
-//                    }
-//                }
-//                else -> throw IllegalArgumentException("invalid media id $mediaId")
-//            }
-//        }
+        if (allowed()) {
+            when {
+                mediaId.isLeaf -> {
+                    editItemDialogFactory.toEditTrack(mediaId) {
+                        val instance = EditTrackFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
+                    }
+                }
+                mediaId.isAlbum || mediaId.isPodcastAlbum -> {
+                    editItemDialogFactory.toEditAlbum(mediaId) {
+                        val instance = EditAlbumFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
+                    }
+                }
+                mediaId.isArtist || mediaId.isPodcastArtist -> {
+                    editItemDialogFactory.toEditArtist(mediaId) {
+                        val instance = EditArtistFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
+                    }
+                }
+                else -> throw IllegalArgumentException("invalid media id $mediaId")
+            }
+        }
     }
 
     override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
@@ -122,7 +126,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
         if (allowed()) {
             GlobalScope.launch {
                 val popup = popupFactory.create(anchor, mediaId)
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     popup.show()
                 }
             }

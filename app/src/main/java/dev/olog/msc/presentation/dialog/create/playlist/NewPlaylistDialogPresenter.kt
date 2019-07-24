@@ -3,11 +3,9 @@ package dev.olog.msc.presentation.dialog.create.playlist
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.interactor.GetPlaylistsUseCase
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.core.interactor.GetPlaylistsUseCase
-import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
-import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -16,8 +14,6 @@ class NewPlaylistDialogPresenter @Inject constructor(
     playlists: GetPlaylistsUseCase,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
     private val getSongListByParamUseCase: ObserveSongListByParamUseCase,
-    private val getSongUseCase: GetSongUseCase,
-    private val getPodcastUseCase: GetPodcastUseCase,
     private val playingQueueGateway: PlayingQueueGateway
 
 ) {

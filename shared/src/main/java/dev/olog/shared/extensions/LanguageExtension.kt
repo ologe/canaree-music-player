@@ -31,10 +31,11 @@ inline fun throwNotHandled(message: String): Nothing {
 inline val <T> T.exhaustive: T
     get() = this
 
-inline fun<T> Continuation<T?>.safeResume(item: T?){
+@Suppress("NOTHING_TO_INLINE")
+inline fun <T> Continuation<T?>.safeResume(item: T?) {
     try {
         resume(item)
-    } catch (ex: Exception){
+    } catch (ex: Exception) {
         ex.printStackTrace()
         // already resumed
     }
