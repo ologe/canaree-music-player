@@ -31,7 +31,7 @@ class FolderTreeFragmentAdapter(
                         item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
                         else -> {
                             viewModel.createMediaId(item)?.let { mediaId ->
-                                mediaProvider.playFromMediaId(mediaId, null)
+                                mediaProvider.playFromMediaId(mediaId, null, null)
                             }
 
                         }

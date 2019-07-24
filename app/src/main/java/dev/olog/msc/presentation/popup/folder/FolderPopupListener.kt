@@ -75,7 +75,7 @@ class FolderPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId(){
-        mediaProvider.playFromMediaId(getMediaId())
+        mediaProvider.playFromMediaId(getMediaId(), null, null)
     }
 
     private fun playShuffle(){

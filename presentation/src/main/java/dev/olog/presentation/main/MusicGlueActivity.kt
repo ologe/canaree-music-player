@@ -103,8 +103,9 @@ abstract class MusicGlueActivity : BaseActivity(),
         return mediaController()?.transportControls
     }
 
-    override fun playFromMediaId(mediaId: MediaId, sort: SortEntity?) {
+    override fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?) {
         val bundle = bundleOf(
+            MusicServiceCustomAction.ARGUMENT_FILTER to filter,
             MusicServiceAction.ARGUMENT_SORT_TYPE to sort?.type?.name,
             MusicServiceAction.ARGUMENT_SORT_ARRANGING to sort?.arranging?.name
         )

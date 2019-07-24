@@ -70,7 +70,7 @@ class QuickActionView @JvmOverloads constructor(
     override fun onClick(v: View?) {
         val mediaProvider = context as MediaProvider
         when (hasQuickAction.getQuickAction()) {
-            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId)
+            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {
             }

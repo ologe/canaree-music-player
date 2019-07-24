@@ -16,7 +16,7 @@ internal interface Queue {
     fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
     fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity?
 
-    suspend fun handlePlayFromMediaId(mediaId: MediaId): PlayerMediaEntity?
+    suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity?
     suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity?
     suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity?
     suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity?

@@ -38,7 +38,7 @@ class SearchFragmentAdapter(
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    mediaProvider.playFromMediaId(item.mediaId)
+                    mediaProvider.playFromMediaId(item.mediaId, null, null)
                     viewModel.insertToRecent(item.mediaId)
 
                 }
@@ -60,7 +60,7 @@ class SearchFragmentAdapter(
             R.layout.item_search_recent_artist -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     if (item is DisplayableTrack) {
-                        mediaProvider.playFromMediaId(item.mediaId)
+                        mediaProvider.playFromMediaId(item.mediaId, null, null)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
                     }

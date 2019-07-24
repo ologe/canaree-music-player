@@ -83,7 +83,10 @@ internal class MediaSessionCallback @Inject constructor(
                     // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
                     queue.handlePlayShuffle(mediaId, null)
                 }
-                else -> queue.handlePlayFromMediaId(mediaId)
+                else -> {
+                    val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
+                    queue.handlePlayFromMediaId(mediaId, filter)
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ interface MediaProvider {
     // moved to a background thread
     fun observeQueue(): Flow<List<PlayerItem>>
 
-    fun playFromMediaId(mediaId: MediaId, sort: SortEntity? = null)
+    fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
     fun playMostPlayed(mediaId: MediaId)
     fun playRecentlyAdded(mediaId: MediaId)
 

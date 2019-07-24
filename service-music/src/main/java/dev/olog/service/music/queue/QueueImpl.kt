@@ -229,7 +229,6 @@ internal class QueueImpl @Inject constructor(
 
         val currentPlaying = playingQueue.getOrNull(currentSongPosition) ?: return
 
-        // todo proper sorting in detail
         playingQueue.sortBy { it.idInPlaylist }
 
         val newPosition =

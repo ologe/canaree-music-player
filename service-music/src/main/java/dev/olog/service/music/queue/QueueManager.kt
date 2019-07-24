@@ -3,6 +3,7 @@ package dev.olog.service.music.queue
 import android.net.Uri
 import android.os.Bundle
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
@@ -72,13 +73,15 @@ internal class QueueManager @Inject constructor(
 
     // TODO check what happens when playing a playlist song with multiple copies
     // TODO of the same song
-    override suspend fun handlePlayFromMediaId(mediaId: MediaId): PlayerMediaEntity? {
+    override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getSongListByParamUseCase(mediaId)
+        var songList = getSongListByParamUseCase(mediaId).asSequence()
+            .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .toList()
 
         if (shuffleMode.isEnabled()) {
             songList = shuffleAndSwap(songList, songId)
@@ -159,15 +162,7 @@ internal class QueueManager @Inject constructor(
         assertBackgroundThread()
 
         var songList = getSongListByParamUseCase(mediaId).asSequence()
-            .filter {
-                if (filter.isNullOrBlank()) {
-                    true
-                } else {
-                    it.title.contains(filter, true) ||
-                            it.artist.contains(filter, true) ||
-                            it.album.contains(filter, true)
-                }
-            }
+            .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
 
@@ -417,4 +412,17 @@ internal class QueueManager @Inject constructor(
             podcastPosition.set(mediaEntity.id, position)
         }
     }
+
+    private fun Sequence<Song>.filterSongList(filter: String?): Sequence<Song> {
+        return this.filter {
+            if (filter.isNullOrBlank()) {
+                true
+            } else {
+                it.title.contains(filter, true) ||
+                        it.artist.contains(filter, true) ||
+                        it.album.contains(filter, true)
+            }
+        }
+    }
+
 }

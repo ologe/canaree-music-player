@@ -63,7 +63,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_song_with_track_and_image -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     viewModel.detailSortDataUseCase(item.mediaId) {
-                        mediaProvider.playFromMediaId(item.mediaId, it)
+                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->

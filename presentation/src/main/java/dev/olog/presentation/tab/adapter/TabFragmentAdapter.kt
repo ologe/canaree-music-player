@@ -36,7 +36,7 @@ internal class TabFragmentAdapter(
             R.layout.item_tab_podcast -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     val sort = viewModel.getAllTracksSortOrder(item.mediaId)
-                    mediaProvider.playFromMediaId(item.mediaId, sort)
+                    mediaProvider.playFromMediaId(item.mediaId, null, sort)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item.mediaId, viewHolder.itemView)
