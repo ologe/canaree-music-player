@@ -136,10 +136,11 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.skipToQueueItem(idInPlaylist.toLong())
     }
 
-    override fun shuffle(mediaId: MediaId) {
+    override fun shuffle(mediaId: MediaId, filter: String?) {
         transportControls()?.sendCustomAction(
             MusicServiceCustomAction.SHUFFLE.name, bundleOf(
-                MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString(),
+                MusicServiceCustomAction.ARGUMENT_FILTER to filter
             )
         )
     }

@@ -155,11 +155,21 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override suspend fun handlePlayShuffle(mediaId: MediaId): PlayerMediaEntity? {
+    override suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        var songList = getSongListByParamUseCase(mediaId)
+        var songList = getSongListByParamUseCase(mediaId).asSequence()
+            .filter {
+                if (filter.isNullOrBlank()) {
+                    true
+                } else {
+                    it.title.contains(filter, true) ||
+                            it.artist.contains(filter, true) ||
+                            it.album.contains(filter, true)
+                }
+            }
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .toList()
 
         songList = shuffle(songList)
 

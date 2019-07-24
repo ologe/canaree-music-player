@@ -79,7 +79,10 @@ internal class MediaSessionCallback @Inject constructor(
             updatePodcastPosition()
 
             when (val mediaId = MediaId.fromString(mediaId)) {
-                MediaId.shuffleId() -> queue.handlePlayShuffle(mediaId)
+                MediaId.shuffleId() -> {
+                    // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
+                    queue.handlePlayShuffle(mediaId, null)
+                }
                 else -> queue.handlePlayFromMediaId(mediaId)
             }
         }
@@ -197,9 +200,10 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.SHUFFLE -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
+                val filter = extras.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
                 retrieveAndPlay {
                     updatePodcastPosition()
-                    queue.handlePlayShuffle(MediaId.fromString(mediaId))
+                    queue.handlePlayShuffle(MediaId.fromString(mediaId), filter)
                 }
             }
             MusicServiceCustomAction.SWAP -> {

@@ -71,7 +71,7 @@ class QuickActionView @JvmOverloads constructor(
         val mediaProvider = context as MediaProvider
         when (hasQuickAction.getQuickAction()) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId)
-            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId)
+            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {
             }
         }

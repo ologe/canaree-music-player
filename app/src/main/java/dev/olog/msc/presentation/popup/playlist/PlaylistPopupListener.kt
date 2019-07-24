@@ -94,7 +94,7 @@ class PlaylistPopupListener @Inject constructor(
         if (playlist.size == 0){
             activity.toast(R.string.common_empty_list)
         } else {
-            mediaProvider.shuffle(getMediaId())
+            mediaProvider.shuffle(getMediaId(), null)
         }
     }
 

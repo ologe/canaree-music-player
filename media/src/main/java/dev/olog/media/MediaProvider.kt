@@ -21,7 +21,7 @@ interface MediaProvider {
     fun playRecentlyAdded(mediaId: MediaId)
 
     fun skipToQueueItem(idInPlaylist: Int)
-    fun shuffle(mediaId: MediaId)
+    fun shuffle(mediaId: MediaId, filter: String?)
     fun skipToNext()
     fun skipToPrevious()
     fun playPause()

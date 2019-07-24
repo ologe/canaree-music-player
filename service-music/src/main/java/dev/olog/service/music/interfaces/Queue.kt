@@ -19,7 +19,7 @@ internal interface Queue {
     suspend fun handlePlayFromMediaId(mediaId: MediaId): PlayerMediaEntity?
     suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity?
     suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity?
-    suspend fun handlePlayShuffle(mediaId: MediaId): PlayerMediaEntity?
+    suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity?
     suspend fun handlePlayFromGoogleSearch(query: String, extras: Bundle): PlayerMediaEntity?
     suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity?
 

@@ -81,7 +81,7 @@ class ArtistPopupListener @Inject constructor(
     }
 
     private fun playShuffle(){
-        mediaProvider.shuffle(getMediaId())
+        mediaProvider.shuffle(getMediaId(), null)
     }
 
     private fun playLater(){

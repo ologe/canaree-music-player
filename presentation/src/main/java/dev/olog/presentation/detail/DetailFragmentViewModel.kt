@@ -48,6 +48,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         filterChannel.offer(filter)
     }
 
+    fun getFilter(): String = filterChannel.value
+
     private val itemLiveData = MutableLiveData<DisplayableItem>()
     private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
     private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
