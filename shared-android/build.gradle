@@ -32,5 +32,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycle"
 
-    implementation 'io.alterac.blurkit:blurkit:1.0.0'
+    implementation lib_ui.blur_kit
 }
