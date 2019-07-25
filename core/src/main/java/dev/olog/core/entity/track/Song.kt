@@ -15,7 +15,6 @@ data class Song(
     val duration: Long,
     val dateAdded: Long,
     val path: String,
-    val folder: String,
     val trackColumn: Int,
     val idInPlaylist: Int,
     val isPodcast: Boolean
@@ -40,9 +39,6 @@ data class Song(
 
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
-
-    val hasAlbumNameAsFolder: Boolean
-        get() = album == folderPath
 
 }
 

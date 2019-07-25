@@ -3,7 +3,6 @@ package dev.olog.core.interactor
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
-import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class InsertLastPlayedAlbumUseCase @Inject constructor(
@@ -13,7 +12,6 @@ class InsertLastPlayedAlbumUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(mediaId: MediaId) {
-        assertBackgroundThread()
         if (mediaId.isPodcastAlbum) {
             podcastGateway.addLastPlayed(mediaId.categoryValue.toLong())
         } else {

@@ -4,7 +4,6 @@ import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.utils.assertBackgroundThread
 import javax.inject.Inject
 
 class ResetPreferencesUseCase @Inject constructor(
@@ -15,7 +14,6 @@ class ResetPreferencesUseCase @Inject constructor(
 ) {
 
     fun execute() {
-        assertBackgroundThread()
         appPrefsUseCase.setDefault()
         musicPreferencesUseCase.setDefault()
         equalizerPrefsUseCase.setDefault()

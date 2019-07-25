@@ -42,7 +42,6 @@ fun Cursor.toSong(): Song {
         duration = duration,
         dateAdded = dateAdded,
         path = path,
-        folder = "", // TODO remove folder
         trackColumn = track,
         idInPlaylist = -1,
         isPodcast = isPodcast
