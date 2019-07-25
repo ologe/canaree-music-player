@@ -13,6 +13,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
 

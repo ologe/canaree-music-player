@@ -13,6 +13,7 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

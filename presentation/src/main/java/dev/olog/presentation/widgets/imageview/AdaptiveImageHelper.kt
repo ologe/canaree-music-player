@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import dev.olog.shared.android.extensions.layers
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.widgets.adaptive.AdaptiveColorImageViewPresenter
 
 internal class AdaptiveImageHelper(context: Context) {

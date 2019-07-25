@@ -11,8 +11,8 @@ import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.model.FocusState
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.extensions.throwNotHandled
+import dev.olog.shared.lazyFast
+import dev.olog.shared.throwNotHandled
 import dev.olog.shared.android.utils.assertMainThread
 import javax.inject.Inject
 

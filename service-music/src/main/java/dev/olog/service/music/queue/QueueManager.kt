@@ -18,7 +18,7 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.swap
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.android.utils.clamp

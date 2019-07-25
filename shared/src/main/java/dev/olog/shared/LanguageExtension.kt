@@ -1,4 +1,4 @@
-package dev.olog.shared.android.extensions
+package dev.olog.shared
 
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume

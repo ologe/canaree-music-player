@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.widgets.ColorDelegateImpl
 import dev.olog.shared.android.widgets.IColorDelegate
@@ -17,10 +17,10 @@ class AnimatedPlayPauseImageView(
     IPlayPauseBehavior,
     IColorDelegate by ColorDelegateImpl {
 
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
+    private val playerAppearance by dev.olog.shared.lazyFast { context.hasPlayerAppearance() }
     private val behavior = PlayPauseBehaviorImpl(this)
 
-    private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val isDarkMode by dev.olog.shared.lazyFast { context.isDarkMode() }
 
     fun setDefaultColor() {
         val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)

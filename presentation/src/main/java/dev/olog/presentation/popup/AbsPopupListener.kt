@@ -14,7 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

@@ -18,7 +18,7 @@ import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow

@@ -18,6 +18,8 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.startWith
+import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers

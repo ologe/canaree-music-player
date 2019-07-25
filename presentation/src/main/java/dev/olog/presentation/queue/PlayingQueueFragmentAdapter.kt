@@ -14,7 +14,7 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.swap
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*

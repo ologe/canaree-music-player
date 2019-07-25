@@ -12,6 +12,7 @@ import dev.olog.presentation.edit.UpdateAlbumInfo
 import dev.olog.presentation.edit.UpdateResult
 import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

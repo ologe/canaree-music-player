@@ -11,8 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.extensions.lazyFast
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.widgets.ColorDelegateImpl
 import dev.olog.shared.android.widgets.IColorDelegate

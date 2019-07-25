@@ -20,6 +20,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.shared.lazyFast
+import dev.olog.shared.mapListItem
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

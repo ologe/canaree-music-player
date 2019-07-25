@@ -15,7 +15,7 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.android.extensions.throwNotHandled
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 @PerService

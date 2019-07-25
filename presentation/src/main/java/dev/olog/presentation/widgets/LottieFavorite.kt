@@ -8,7 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 
 class LottieFavorite(

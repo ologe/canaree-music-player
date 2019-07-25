@@ -31,6 +31,7 @@ import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

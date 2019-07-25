@@ -21,6 +21,7 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce

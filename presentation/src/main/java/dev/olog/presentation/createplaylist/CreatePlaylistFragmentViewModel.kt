@@ -16,7 +16,7 @@ import dev.olog.core.interactor.InsertCustomTrackListRequest
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.extensions.mapListItem
+import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import kotlinx.coroutines.Dispatchers

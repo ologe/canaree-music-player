@@ -11,7 +11,7 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import javax.inject.Inject

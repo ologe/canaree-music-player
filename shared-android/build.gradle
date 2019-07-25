@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation project(':prefs-keys')
+    implementation project(':shared')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

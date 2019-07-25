@@ -12,6 +12,7 @@ import dev.olog.presentation.edit.UpdateArtistInfo
 import dev.olog.presentation.edit.UpdateResult
 import dev.olog.intents.AppConstants
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

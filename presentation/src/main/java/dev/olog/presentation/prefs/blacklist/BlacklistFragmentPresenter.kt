@@ -10,7 +10,7 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(

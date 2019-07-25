@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.shared.android.extensions.findChild
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.widgets.ForegroundImageView
 import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor

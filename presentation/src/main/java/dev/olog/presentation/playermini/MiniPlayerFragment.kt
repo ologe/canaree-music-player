@@ -14,6 +14,7 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter

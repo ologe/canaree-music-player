@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction

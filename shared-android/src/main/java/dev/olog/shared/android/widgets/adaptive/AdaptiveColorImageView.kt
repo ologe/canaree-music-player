@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.util.AttributeSet
 import dev.olog.shared.android.extensions.layers
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.widgets.ForegroundImageView
 
 open class AdaptiveColorImageView @JvmOverloads constructor(
@@ -15,7 +15,7 @@ open class AdaptiveColorImageView @JvmOverloads constructor(
 
 ) : ForegroundImageView(context, attr) {
 
-    private val presenter by lazyFast {
+    private val presenter by dev.olog.shared.lazyFast {
         AdaptiveColorImageViewPresenter(
             context
         )

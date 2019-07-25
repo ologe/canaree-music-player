@@ -9,6 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 

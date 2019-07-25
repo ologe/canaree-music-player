@@ -17,6 +17,7 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.utils.TextUtils
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce

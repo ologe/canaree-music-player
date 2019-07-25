@@ -1,4 +1,4 @@
-package dev.olog.shared.android
+package dev.olog.shared
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

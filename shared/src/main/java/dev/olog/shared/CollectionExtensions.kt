@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared.android.extensions
+package dev.olog.shared
 
 import java.util.*
 

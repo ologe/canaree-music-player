@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.android.widgets.ForegroundImageView

@@ -10,6 +10,7 @@ import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
 

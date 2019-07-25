@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlin.math.hypot
 
 internal class TouchHelperAnimationController {

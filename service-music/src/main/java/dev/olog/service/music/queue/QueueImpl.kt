@@ -13,7 +13,7 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.swap
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.android.utils.clamp

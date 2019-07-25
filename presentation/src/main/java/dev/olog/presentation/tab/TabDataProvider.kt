@@ -11,9 +11,10 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(
