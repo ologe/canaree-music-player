@@ -262,7 +262,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
                 app:layout_constraintEnd_toStartOf="@+id/okButton"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                style="@style/DefaultButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

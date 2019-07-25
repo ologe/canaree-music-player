@@ -1,9 +1,16 @@
 package dev.olog.presentation.edit.song
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.image.provider.fetcher.OriginalImageFetcher
+import dev.olog.presentation.edit.ImageType
 import dev.olog.shared.utils.NetworkUtils
+import kotlinx.coroutines.*
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
@@ -17,61 +24,70 @@ class EditTrackFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
+    private var fetchJob: Job? = null
+
+    private var newImage: String? = null
+
+    private val songLiveData = MutableLiveData<DisplayableSong>()
+
+    fun requestData(mediaId: MediaId) {
+        viewModelScope.launch {
+            val song = withContext(Dispatchers.IO) {
+                presenter.getSong(mediaId)
+            }
+            songLiveData.value = song
+        }
+    }
+
+    fun observeSong(): LiveData<DisplayableSong> = songLiveData
+    fun getSong(): DisplayableSong = songLiveData.value!!
+    fun getNewImage(): String? = newImage
+
+    override fun onCleared() {
+        fetchJob?.cancel()
+        viewModelScope.cancel()
+    }
+
     fun updateImage(image: String) {
-//        val oldValue = displayedSong.value
-//        val newValue = oldValue?.copy(image = image)
-//        displayedSong.postValue(newValue) TODO
+        newImage = image
     }
 
-    fun getNewImage(): String? {
-//        try {
-//            val albumId = getSong().albumId
-//            val original = ImagesFolderUtils.forAlbum(albumId)
-//            val current = displayedSong.value!!.image
-//            if (original == current){
-//                return null
-//            } else {
-//                return current
-//            }
-//        } catch (ex: KotlinNullPointerException){
-//            return null
-//        }
-        return "" // TODO
-    }
-
-    fun getSong(): DisplayableSong = presenter.getSong()
-
-    fun fetchSongInfo(): Boolean {
+    fun fetchSongInfo(mediaId: MediaId): Boolean {
         if (!NetworkUtils.isConnected(context)) {
             return false
         }
-
-//        fetchSongInfoDisposable.unsubscribe()
-//        fetchSongInfoDisposable = presenter.fetchData()
-//                .map { it.playerAppearance()!! }
-//                .subscribe({ newValue ->
-//                    val oldValue = displayedSong.value!!
-//                    displayedSong.postValue(oldValue.copy(
-//                            title = newValue.title,
-//                            artist = newValue.artist,
-//                            album = newValue.album
-//                    ))
-//                }, { throwable ->
-//                    throwable.printStackTrace()
-//                    Crashlytics.logException(throwable)
-//                    displayedSong.postValue(null)
-//                })
-
+        fetchJob?.cancel()
+        fetchJob = viewModelScope.launch {
+            try {
+                val lastFmTrack = withContext(Dispatchers.IO) {
+                    presenter.fetchData(mediaId.resolveId)
+                }
+                var currentSong = songLiveData.value!!
+                currentSong = currentSong.copy(
+                    title = lastFmTrack?.title ?: currentSong.track,
+                    artist = lastFmTrack?.artist ?: currentSong.artist,
+                    album = lastFmTrack?.album ?: currentSong.album
+                )
+                songLiveData.postValue(currentSong)
+            } catch (ex: Exception){
+                songLiveData.postValue(songLiveData.value)
+            }
+        }
         return true
     }
 
-    fun stopFetching() {
-//        fetchSongInfoDisposable.unsubscribe()
+    suspend fun loadOriginalImage(mediaId: MediaId): ImageType {
+        newImage = null
+
+        val data = presenter.fetchData(mediaId.resolveId)
+        if (data?.image != null){
+            return ImageType.String(data.image)
+        }
+        return ImageType.Stream(OriginalImageFetcher.loadImage(getSong().path))
     }
 
-    override fun onCleared() {
-//        getSongDisposable.unsubscribe()
-        stopFetching()
+    fun stopFetch() {
+        fetchJob?.cancel()
     }
 
 }

@@ -1,6 +1,5 @@
 package dev.olog.image.provider.fetcher
 
-import android.media.MediaMetadataRetriever
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -12,13 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
-import org.jaudiotagger.audio.mp3.MP3File
-import org.jaudiotagger.tag.TagException
-import java.io.*
-
-private val FALLBACKS = arrayOf("cover.jpg", "album.jpg", "folder.jpg", "cover.png", "album.png", "folder.png")
+import java.io.InputStream
 
 
 class GlideOriginalImageFetcher(
@@ -57,7 +50,7 @@ class GlideOriginalImageFetcher(
                 return@launch
             }
             try {
-                val stream = loadImage(itemPath)
+                val stream = OriginalImageFetcher.loadImage(itemPath)
                 callback.onDataReady(stream)
             } catch (ex: Exception) {
                 callback.onLoadFailed(ex)
@@ -65,48 +58,7 @@ class GlideOriginalImageFetcher(
         }
     }
 
-    private suspend fun loadImage(path: String): InputStream? {
-        val retriever = MediaMetadataRetriever()
-        yield()
-        return try {
-            retriever.setDataSource(path) // time consuming
-            yield()
-            val picture = retriever.embeddedPicture
-            yield()
-            if (picture != null) {
-                ByteArrayInputStream(picture)
-            } else {
-                fallback(path)
-            }
-        } finally {
-            retriever.release()
-        }
-    }
 
-    private suspend fun fallback(path: String): InputStream? {
-        try {
-            val mp3File = MP3File(path)
-            if (mp3File.hasID3v2Tag()) {
-                val art = mp3File.tag.firstArtwork
-                if (art != null) {
-                    val data = art.binaryData
-                    return ByteArrayInputStream(data)
-                }
-            }
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-        }
-
-        val parent = File(path).parentFile
-        for (fallback in FALLBACKS) {
-            yield()
-            val cover = File(parent, fallback)
-            if (cover.exists()) {
-                return FileInputStream(cover)
-            }
-        }
-        return null
-    }
 
     private fun getId(): Long {
         var trackId = -1L
