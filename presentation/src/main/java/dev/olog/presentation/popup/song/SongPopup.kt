@@ -2,7 +2,7 @@ package dev.olog.presentation.popup.song
 
 import android.view.View
 import dev.olog.presentation.R
-import dev.olog.shared.AppConstants
+import dev.olog.intents.AppConstants
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.presentation.R
-import dev.olog.shared.AppConstants
+import dev.olog.intents.AppConstants
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo

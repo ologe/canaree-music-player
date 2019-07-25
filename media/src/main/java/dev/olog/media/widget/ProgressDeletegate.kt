@@ -1,7 +1,7 @@
 package dev.olog.media.widget
 
 import android.widget.ProgressBar
-import dev.olog.shared.AppConstants
+import dev.olog.intents.AppConstants
 import dev.olog.shared.flowInterval
 import dev.olog.shared.utils.isNougat
 import kotlinx.coroutines.*

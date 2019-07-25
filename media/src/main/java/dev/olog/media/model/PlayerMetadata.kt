@@ -2,7 +2,7 @@ package dev.olog.media.model
 
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
-import dev.olog.shared.MusicConstants
+import dev.olog.intents.MusicConstants
 import dev.olog.shared.utils.TextUtils
 
 class PlayerMetadata(private val metadata: MediaMetadataCompat) {

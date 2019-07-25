@@ -16,8 +16,8 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.MusicServiceAction
-import dev.olog.shared.MusicServiceCustomAction
+import dev.olog.intents.MusicServiceAction
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.extensions.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

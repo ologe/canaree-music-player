@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.intents
 
 enum class MusicServiceCustomAction {
     SHUFFLE,
@@ -35,22 +35,4 @@ enum class MusicServiceCustomAction {
         val ARGUMENT_IS_PODCAST = "${MusicServiceCustomAction::class.java}.podcast"
     }
 
-}
-
-enum class MusicServiceAction {
-    PLAY,
-    PLAY_URI,
-    PLAY_PAUSE,
-
-    SKIP_NEXT,
-    SKIP_PREVIOUS;
-
-
-    companion object {
-        val ARGUMENT_MEDIA_ID = "${MusicServiceAction::class.java}.mediaid"
-
-        val ARGUMENT_SORT_TYPE = "${MusicServiceAction::class.java}.sort.type"
-        val ARGUMENT_SORT_ARRANGING = "${MusicServiceAction::class.java}.sort.arranging"
-
-    }
 }

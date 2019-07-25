@@ -25,10 +25,10 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.AppConstants
+import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.shared.FloatingWindowsConstants
-import dev.olog.shared.MusicServiceAction
+import dev.olog.intents.FloatingWindowsConstants
+import dev.olog.intents.MusicServiceAction
 import dev.olog.shared.extensions.*
 import dev.olog.shared.theme.hasPlayerAppearance
 import kotlinx.android.synthetic.main.activity_main.*

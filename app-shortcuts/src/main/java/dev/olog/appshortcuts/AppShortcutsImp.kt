@@ -9,8 +9,8 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.shared.CustomScope
-import dev.olog.shared.MusicServiceAction
-import dev.olog.shared.MusicServiceCustomAction
+import dev.olog.intents.MusicServiceAction
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.extensions.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

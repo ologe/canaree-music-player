@@ -13,8 +13,8 @@ import androidx.media.MediaBrowserServiceCompat
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.ServiceLifecycleController
-import dev.olog.shared.MusicServiceAction
-import dev.olog.shared.MusicServiceCustomAction
+import dev.olog.intents.MusicServiceAction
+import dev.olog.intents.MusicServiceCustomAction
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),

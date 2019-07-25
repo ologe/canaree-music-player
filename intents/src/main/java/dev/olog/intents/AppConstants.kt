@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.intents
 
 import android.provider.MediaStore
 

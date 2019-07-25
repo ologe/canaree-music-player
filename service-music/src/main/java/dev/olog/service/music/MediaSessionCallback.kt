@@ -19,7 +19,7 @@ import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.MusicServiceCustomAction
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.utils.assertBackgroundThread
 import kotlinx.coroutines.*
 import javax.inject.Inject

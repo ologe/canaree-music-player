@@ -10,7 +10,7 @@ import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
 import dev.olog.presentation.edit.UpdateResult
-import dev.olog.shared.AppConstants
+import dev.olog.intents.AppConstants
 import dev.olog.shared.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.CoroutineScope

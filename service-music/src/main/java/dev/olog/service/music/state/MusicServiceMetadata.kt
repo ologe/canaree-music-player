@@ -20,8 +20,8 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.intents.Classes
-import dev.olog.shared.MusicConstants
-import dev.olog.shared.WidgetConstants
+import dev.olog.intents.MusicConstants
+import dev.olog.intents.WidgetConstants
 import dev.olog.shared.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.observeKey
 import kotlinx.coroutines.CoroutineScope
