@@ -12,7 +12,7 @@
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
         android:visibility="gone"/>
 
-    <dev.olog.shared.android.widgets.AnimatedImageView
+    <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="24dp"
         android:tint="?android:textColorPrimary"/>
 
-    <dev.olog.shared.android.widgets.playpause.AnimatedPlayPauseImageView
+    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
@@ -42,7 +42,7 @@
         android:focusable="true"
         android:tint="?android:textColorPrimary" />
 
-    <dev.olog.shared.android.widgets.AnimatedImageView
+    <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"

@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import com.google.android.material.math.MathUtils
 import dev.olog.presentation.R
 import dev.olog.shared.clamp
-import dev.olog.shared.android.widgets.ForegroundImageView
+import dev.olog.shared.widgets.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = 10
 private const val MAX_ALPHA = 40 // .3f

@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Header" />
 
-        <dev.olog.shared.android.widgets.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginTop="8dp"

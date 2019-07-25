@@ -1,9 +1,8 @@
-package dev.olog.shared.android.widgets
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
-import dev.olog.shared.android.R
 
 class CircularImageView @JvmOverloads constructor(
         context: Context,

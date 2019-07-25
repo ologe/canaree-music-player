@@ -12,7 +12,7 @@ import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
-import dev.olog.shared.android.widgets.ForegroundImageView
+import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 
 open class ShapeImageView @JvmOverloads constructor(

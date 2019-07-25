@@ -213,7 +213,7 @@
             app:layout_constraintGuide_percent=".5"
             android:orientation="horizontal"/>
 
-        <dev.olog.shared.android.widgets.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/separator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

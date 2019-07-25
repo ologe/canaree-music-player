@@ -48,7 +48,7 @@
             android:visibility="@{item.visible ? View.VISIBLE : View.GONE }"
             android:src="@drawable/vd_arrow_forward"/>
 
-        <dev.olog.shared.android.widgets.DottedSeparator
+        <dev.olog.shared.widgets.DottedSeparator
             android:id="@+id/sep"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="parent"

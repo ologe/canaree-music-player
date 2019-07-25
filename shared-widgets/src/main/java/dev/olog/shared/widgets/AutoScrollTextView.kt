@@ -1,4 +1,4 @@
-package dev.olog.shared.android.widgets
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.text.TextUtils

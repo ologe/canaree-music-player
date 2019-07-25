@@ -33,5 +33,4 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycle"
 
     implementation 'io.alterac.blurkit:blurkit:1.0.0'
-
 }

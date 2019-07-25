@@ -13,8 +13,8 @@ import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.widgets.ColorDelegateImpl
-import dev.olog.shared.android.widgets.IColorDelegate
+import dev.olog.shared.widgets.ColorDelegateImpl
+import dev.olog.shared.widgets.IColorDelegate
 import java.lang.IllegalStateException
 
 class ShuffleButton(

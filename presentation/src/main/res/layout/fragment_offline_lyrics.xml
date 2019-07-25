@@ -144,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?colorSurface">
 
-        <dev.olog.shared.android.widgets.AutoScrollTextView
+        <dev.olog.shared.widgets.AutoScrollTextView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

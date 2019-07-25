@@ -1,4 +1,4 @@
-package dev.olog.shared.android.widgets;
+package dev.olog.shared.widgets;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import androidx.annotation.Nullable;
-
-import dev.olog.shared.android.R;
 
 public class DottedSeparator extends View {
 

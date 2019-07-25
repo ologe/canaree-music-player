@@ -1,4 +1,4 @@
-package dev.olog.shared.android.widgets.adaptive
+package dev.olog.shared.widgets.adaptive
 
 sealed class ProcessorColors(
     val background: Int,

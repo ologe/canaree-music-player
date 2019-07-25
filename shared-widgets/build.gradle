@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+apply from: '../base_module.gradle'
+
+android {
+    defaultConfig {
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+
+dependencies {
+    implementation project(':prefs-keys')
+    implementation project(':shared-android')
+    implementation project(':shared')
+
+    implementation lib_core.kotlin
+    implementation lib_core.coroutines
+    implementation lib_core.coroutines_rx
+    implementation lib_core.dagger
+    implementation lib_x.material
+    implementation lib_x.core_ktx
+    implementation lib_x.palette
+    implementation lib_x.constraint_layout
+    implementation lib_x.preference
+
+    implementation lib_x.lifecycle_rx
+    implementation lib_x.media
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+
+    implementation 'io.alterac.blurkit:blurkit:1.0.0'
+}

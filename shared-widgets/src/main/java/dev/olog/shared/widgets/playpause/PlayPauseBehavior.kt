@@ -1,4 +1,4 @@
-package dev.olog.shared.android.widgets.playpause
+package dev.olog.shared.widgets.playpause
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -6,7 +6,7 @@ import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import dev.olog.shared.android.R
+import dev.olog.shared.widgets.R
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 
 interface IPlayPauseBehavior {

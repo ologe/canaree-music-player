@@ -1,4 +1,4 @@
-package dev.olog.shared.android.widgets.playpause
+package dev.olog.shared.widgets.playpause
 
 import android.content.Context
 import android.util.AttributeSet
