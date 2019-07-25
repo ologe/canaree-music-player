@@ -1,4 +1,4 @@
-include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':tap-target-view', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':feature_stylize', ':intents'
+include ':app', ':injection', ':core', ':presentation', ':shared-android', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger', ':media', ':app-shortcuts', ':tap-target-view', ':service-music', ':service-floating', ':offline-lyrics', ':test-shared', ':feature_stylize', ':intents', ':shared'
 
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
 //gradle.ext.exoplayerModulePrefix = 'exoplayer-'
