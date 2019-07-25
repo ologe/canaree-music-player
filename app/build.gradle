@@ -65,7 +65,7 @@ dependencies {
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
-    implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':service-music')
     implementation project(':service-floating')
     implementation project(':offline-lyrics')

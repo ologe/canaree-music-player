@@ -11,7 +11,7 @@ android {
 
 dependencies {
     implementation project(':core')
-    implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':jaudiotagger')
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"

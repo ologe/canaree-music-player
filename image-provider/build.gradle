@@ -13,7 +13,7 @@ apply from: '../kapt.gradle'
 dependencies {
     implementation project(':jaudiotagger')
     implementation project(':core')
-    implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':injection')
     implementation project(':prefs-keys')
 

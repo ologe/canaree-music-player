@@ -19,7 +19,7 @@ dependencies {
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')
-    implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':prefs-keys')
     implementation project(':media')
     implementation project(':tap-target-view')
