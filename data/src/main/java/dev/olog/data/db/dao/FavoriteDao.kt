@@ -76,7 +76,7 @@ internal abstract class FavoriteDao {
     }
 
     @Query("SELECT songId FROM favorite_songs WHERE songId = :songId")
-    abstract fun isFavorite(songId: Long): FavoriteEntity?
+    abstract suspend fun isFavorite(songId: Long): FavoriteEntity?
 
     @Query("SELECT podcastId FROM favorite_podcast_songs WHERE podcastId = :podcastId")
     abstract fun isFavoritePodcast(podcastId: Long): FavoritePodcastEntity?

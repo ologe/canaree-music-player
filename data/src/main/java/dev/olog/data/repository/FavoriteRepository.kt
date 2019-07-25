@@ -12,7 +12,6 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -126,8 +125,8 @@ internal class FavoriteRepository @Inject constructor(
             }
     }
 
-    override fun isFavorite(type: FavoriteType, songId: Long): Single<Boolean> {
-        return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
+    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
+        return favoriteDao.isFavorite(songId) != null
     }
 
     override suspend fun toggleFavorite() {

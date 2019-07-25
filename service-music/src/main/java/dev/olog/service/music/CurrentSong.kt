@@ -15,13 +15,8 @@ import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.disposables.Disposable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
@@ -44,7 +39,7 @@ internal class CurrentSong @Inject constructor(
         private val TAG = "SM:${CurrentSong::class.java.simpleName}"
     }
 
-    private var isFavoriteDisposable: Disposable? = null
+    private var isFavoriteJob: Job? = null
 
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
@@ -67,14 +62,19 @@ internal class CurrentSong @Inject constructor(
                 insertMostPlayedUseCase(entity.mediaId)
 
                 Log.v(TAG, "insert to history ${entity.title}")
-                insertHistorySongUseCase(InsertHistorySongUseCase.Input(entity.id, entity.isPodcast))
+                insertHistorySongUseCase(
+                    InsertHistorySongUseCase.Input(
+                        entity.id,
+                        entity.isPodcast
+                    )
+                )
             }
         }
 
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        isFavoriteDisposable.unsubscribe()
+        isFavoriteJob?.cancel()
         cancel()
     }
 
@@ -92,21 +92,15 @@ internal class CurrentSong @Inject constructor(
     private fun updateFavorite(mediaEntity: MediaEntity) {
         Log.v(TAG, "updateFavorite ${mediaEntity.title}")
 
-        isFavoriteDisposable.unsubscribe()
-        val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
-        isFavoriteDisposable = isFavoriteSongUseCase
-            .execute(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
-            .map { if (it) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE }
-            .flatMapCompletable {
-                updateFavoriteStateUseCase.execute(
-                    FavoriteStateEntity(
-                        mediaEntity.id,
-                        it,
-                        type
-                    )
-                )
-            }
-            .subscribe({}, Throwable::printStackTrace)
+        isFavoriteJob?.cancel()
+        isFavoriteJob = launch {
+            val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
+            val isFavorite =
+                isFavoriteSongUseCase(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
+            val isFavoriteEnum =
+                if (isFavorite) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE
+            updateFavoriteStateUseCase(FavoriteStateEntity(mediaEntity.id, isFavoriteEnum, type))
+        }
     }
 
     private fun saveLastMetadata(entity: MediaEntity) {
