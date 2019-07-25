@@ -8,8 +8,8 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.observeKey
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.observeKey
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
@@ -83,10 +83,9 @@ class MusicPreferencesImpl @Inject constructor(
         return rxPreferences.getBoolean(SKIP_NEXT, true).asObservable()
     }
 
-    override fun isMidnightMode(): Observable<Boolean> {
+    override fun isMidnightMode(): Flow<Boolean> {
         val key = context.getString(R.string.prefs_midnight_mode_key)
-        return rxPreferences.getBoolean(key, false)
-                .asObservable()
+        return preferences.observeKey(key, false)
     }
 
     override fun getLastMetadata(): LastMetadata {

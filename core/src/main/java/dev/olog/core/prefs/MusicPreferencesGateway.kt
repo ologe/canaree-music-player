@@ -21,7 +21,7 @@ interface MusicPreferencesGateway {
     fun setSkipToNextVisibility(visible: Boolean)
     fun observeSkipToNextVisibility(): Observable<Boolean>
 
-    fun isMidnightMode() : Observable<Boolean>
+    fun isMidnightMode() : Flow<Boolean>
 
     fun getLastMetadata(): LastMetadata
     fun setLastMetadata(metadata: LastMetadata)
