@@ -2,25 +2,23 @@ package dev.olog.appshortcuts
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
-import dev.olog.shared.CustomScope
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.extensions.toast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class AppShortcutsImp(
     private val context: Context
 
-) : CoroutineScope by CustomScope() {
+) {
+
+    private var job: Job? = null
 
     init {
         ShortcutManagerCompat.removeAllDynamicShortcuts(context)
@@ -34,7 +32,7 @@ class AppShortcutsImp(
     fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-            launch {
+            job = GlobalScope.launch {
                 val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
@@ -59,11 +57,13 @@ class AppShortcutsImp(
     }
 
     private fun onAddedSuccess(context: Context) {
-        context.toast(R.string.app_shortcut_added_to_home_screen)
+        Toast.makeText(context, R.string.app_shortcut_added_to_home_screen, Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun onAddedNotSupported(context: Context) {
-        context.toast(R.string.app_shortcut_add_to_home_screen_not_supported)
+        Toast.makeText(context, R.string.app_shortcut_add_to_home_screen_not_supported, Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun search(): ShortcutInfoCompat {
