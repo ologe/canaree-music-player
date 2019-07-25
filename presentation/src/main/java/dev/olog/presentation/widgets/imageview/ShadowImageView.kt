@@ -81,8 +81,14 @@ class ShadowImageView @JvmOverloads constructor(
     }
 
     private inline fun setBlurShadow(crossinline setImage: () -> Unit = {}) {
-        background = null
-        doOnPreDraw {
+        if (width <= 0 || height <= 0){
+            doOnPreDraw {
+                background = null
+                setImage()
+                makeBlurShadow()
+            }
+        } else {
+            background = null
             setImage()
             makeBlurShadow()
         }
