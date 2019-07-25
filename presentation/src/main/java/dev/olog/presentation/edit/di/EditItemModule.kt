@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.album.EditAlbumFragmentViewModel
 import dev.olog.presentation.edit.artist.EditArtistFragment
@@ -25,6 +26,11 @@ abstract class EditItemModule {
 
     @ContributesAndroidInjector
     internal abstract fun provideEditArtistFragment(): EditArtistFragment
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditItemViewModel::class)
+    internal abstract fun provideItemViewModel(viewModel: EditItemViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -41,11 +41,6 @@ abstract class MainActivityModule {
     @Binds
     internal abstract fun provideMusicGlue(instance: MainActivity): MediaProvider
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(EditItemViewModel::class)
-//    internal abstract fun provideViewModel(viewModel: EditItemViewModel): ViewModel
-
     @Binds
     @PerActivity
     abstract fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator

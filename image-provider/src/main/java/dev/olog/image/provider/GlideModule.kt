@@ -63,7 +63,8 @@ class GlideModule : AppGlideModule() {
                 if (activityManager.isLowRamDevice)
                     DecodeFormat.PREFER_RGB_565 else DecodeFormat.PREFER_ARGB_8888
             ).disallowHardwareConfig()
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
+//            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .skipMemoryCache(true) // to allow image override
             .centerCrop()
     }
 
