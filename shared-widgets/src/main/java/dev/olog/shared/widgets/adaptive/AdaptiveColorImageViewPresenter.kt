@@ -8,12 +8,10 @@ import androidx.palette.graphics.Palette
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
@@ -27,23 +25,16 @@ class AdaptiveColorImageViewPresenter(
     private val defaultPaletteColors =
         ValidPaletteColors(context.colorAccent())
 
-    private val processorPalettePublisher =
-        BehaviorSubject.createDefault<ProcessorColors>(defaultProcessorColors)
-    private val palettePublisher =
-        BehaviorSubject.createDefault<PaletteColors>(defaultPaletteColors)
+    private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
+    private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
 
-    private var processorDisposable: Disposable? = null
-    private var paletteDisposable: Disposable? = null
+    private var processorJob: Job? = null
+    private var paletteJob: Job? = null
 
-    fun observeProcessorColors(): Observable<ProcessorColors> = processorPalettePublisher
-        .subscribeOn(Schedulers.computation())
-        .observeOn(Schedulers.computation())
-        .debounce(200, TimeUnit.MILLISECONDS)
+    fun observeProcessorColors(): Flow<ProcessorColors> = processorPalettePublisher
+        .asFlow()
 
-    fun observePalette(): Observable<PaletteColors> = palettePublisher
-        .subscribeOn(Schedulers.computation())
-        .observeOn(Schedulers.computation())
-        .debounce(200, TimeUnit.MILLISECONDS)
+    fun observePalette(): Flow<PaletteColors> = palettePublisher.asFlow()
 
     fun onNextImage(drawable: Drawable?) {
         try {
@@ -55,43 +46,35 @@ class AdaptiveColorImageViewPresenter(
 
     fun onNextImage(bitmap: Bitmap?) {
         try {
-            processorDisposable.unsubscribe()
-            paletteDisposable.unsubscribe()
+            processorJob?.cancel()
+            paletteJob?.cancel()
 
             if (bitmap == null) {
-                processorPalettePublisher.onNext(defaultProcessorColors)
-                palettePublisher.onNext(defaultPaletteColors)
+                processorPalettePublisher.offer(defaultProcessorColors)
+                palettePublisher.offer(defaultPaletteColors)
                 return
             }
 
-            processorDisposable =
-                Single.fromCallable { ImageProcessor(context).processImage(bitmap) }
-                    .subscribeOn(Schedulers.computation())
-                    .subscribe({
-                        processorPalettePublisher.onNext(
-                            ValidProcessorColors(
-                                it.background,
-                                it.primaryTextColor, it.secondaryTextColor
-                            )
-                        )
-                    }, Throwable::printStackTrace)
+            processorJob = GlobalScope.launch(Dispatchers.Default) {
+                val image = ImageProcessor(context).processImage(bitmap)
+                yield()
+                processorPalettePublisher.offer(
+                    ValidProcessorColors(image.background, image.primaryTextColor, image.secondaryTextColor)
+                )
+            }
 
-            paletteDisposable = Single.fromCallable {
-                Palette.from(bitmap)
+            paletteJob = GlobalScope.launch(Dispatchers.Default) {
+                val palette = Palette.from(bitmap)
                     .maximumColorCount(24)
                     .generate()
+                yield()
+                val accent = ColorUtil.getAccentColor(context, palette)
+                palettePublisher.offer(ValidPaletteColors(accent))
             }
-                .map { ColorUtil.getAccentColor(context, it) }
-                .subscribeOn(Schedulers.computation())
-                .subscribe({
-                    palettePublisher.onNext(
-                        ValidPaletteColors(
-                            it
-                        )
-                    )
-                }, Throwable::printStackTrace)
         } catch (ex: Exception) {
             ex.printStackTrace()
+            processorPalettePublisher.offer(defaultProcessorColors)
+            palettePublisher.offer(defaultPaletteColors)
         }
     }
 

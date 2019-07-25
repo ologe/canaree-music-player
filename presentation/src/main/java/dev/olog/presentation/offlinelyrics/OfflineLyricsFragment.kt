@@ -18,6 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
+import kotlinx.coroutines.flow.map
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
 import javax.inject.Inject
@@ -75,7 +76,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         view.image.observePaletteColors()
             .map { it.accent }
-            .observeOn(AndroidSchedulers.mainThread())
             .asLiveData()
             .subscribe(viewLifecycleOwner) { accent ->
                 subHeader.animateTextColor(accent)

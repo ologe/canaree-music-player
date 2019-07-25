@@ -14,6 +14,7 @@ import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx2.collect
 
 class OfflineLyricsContent(

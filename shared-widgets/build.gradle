@@ -25,7 +25,5 @@ dependencies {
     implementation lib_x.lifecycle_rx
     implementation lib_x.media
 
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-
     implementation 'io.alterac.blurkit:blurkit:1.0.0'
 }
