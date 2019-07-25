@@ -9,6 +9,7 @@ import ai.fritz.vision.styletransfer.FritzVisionStylePredictor
 import ai.fritz.vision.styletransfer.FritzVisionStylePredictorOptions
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Size
 import androidx.annotation.Keep
 import dev.olog.core.Stylizer
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +40,7 @@ class StylizerImpl(context: Context) : Stylizer {
         yield()
         return withContext(Dispatchers.IO){
             val fritzImage = FritzVisionImage.fromBitmap(bitmap)
-            predictor!!.predict(fritzImage).toBitmap()
+            predictor!!.predict(fritzImage).toBitmap(Size(bitmap.width, bitmap.height))
         }
     }
 }
