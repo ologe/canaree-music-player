@@ -19,8 +19,8 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackground
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged

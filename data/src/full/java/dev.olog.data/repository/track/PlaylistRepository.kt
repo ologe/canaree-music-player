@@ -29,8 +29,8 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackground
+import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import java.lang.IllegalStateException
 import javax.inject.Inject

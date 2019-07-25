@@ -3,7 +3,6 @@ package dev.olog.service.music.state
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
@@ -11,10 +10,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.getBitmapAsync
 import dev.olog.injection.dagger.PerService
 import dev.olog.media.putBoolean
-import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -23,7 +22,6 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.android.observeKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -36,7 +34,7 @@ internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: PlayerLifecycle,
-    private val sharedPrefs: SharedPreferences
+    private val musicPrefs: MusicPreferencesGateway
 
 ) : PlayerLifecycle.Listener,
     DefaultLifecycleObserver,
@@ -55,7 +53,7 @@ internal class MusicServiceMetadata @Inject constructor(
         playerLifecycle.addListener(this)
 
         launch {
-            sharedPrefs.observeKey(context.getString(R.string.prefs_lockscreen_artwork_key), false)
+            musicPrefs.observeShowLockscreenArtwork()
                 .collect { showLockScreenArtwork = it }
         }
     }

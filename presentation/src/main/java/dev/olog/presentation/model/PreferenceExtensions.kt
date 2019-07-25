@@ -1,4 +1,4 @@
-package dev.olog.shared.android
+package dev.olog.presentation.model
 
 import android.content.SharedPreferences
 import dev.olog.shared.android.extensions.assertBackground

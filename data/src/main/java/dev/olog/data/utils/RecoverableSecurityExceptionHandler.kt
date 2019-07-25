@@ -2,12 +2,13 @@ package dev.olog.data.utils
 
 import android.app.PendingIntent
 import android.app.RecoverableSecurityException
-import dev.olog.shared.android.utils.isQ
+import android.os.Build
 
 internal fun handleRecoverableSecurityException(action: () -> Unit) {
-    if (!isQ()) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
         return action()
     }
+    // handle android Q scoped storage
     try {
         action()
     } catch (ex: RecoverableSecurityException) {

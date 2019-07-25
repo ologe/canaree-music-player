@@ -9,7 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Observable
 import java.io.File
 import javax.inject.Inject
@@ -65,7 +65,6 @@ class AppPreferencesImpl @Inject constructor(
         setLastFmCredentials(UserCredentials("", ""))
         setDefaultFolderView()
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
-        setDefaultAccentColor()
         setDefaultLibraryAlbumArtistVisibility()
         setDefaultPodcastVisibility()
         setDefaultAdaptiveColors()
@@ -94,12 +93,6 @@ class AppPreferencesImpl @Inject constructor(
     private fun setDefaultPodcastVisibility() {
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
-        }
-    }
-
-    private fun setDefaultAccentColor() {
-        preferences.edit {
-            putInt(context.getString(R.string.prefs_color_accent_key), R.color.defaultColorAccent)
         }
     }
 

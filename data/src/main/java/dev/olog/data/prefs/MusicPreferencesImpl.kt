@@ -8,12 +8,13 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.observeKey
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.observeKey
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 private const val TAG = "MusicPreferences"
@@ -170,7 +171,7 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun observeLastIdInPlaylist(): Flow<Int> {
         return preferences.observeKey(LAST_ID_IN_PLAYLIST, -1)
-            .assertBackground()
+            .flowOn(Dispatchers.IO)
     }
 
     override fun getLastIdInPlaylist(): Int {
@@ -189,6 +190,11 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun observeVolume(): Flow<Int> {
         return preferences.observeKey(MUSIC_VOLUME, 100)
-            .assertBackground()
+            .flowOn(Dispatchers.IO)
+    }
+
+    override fun observeShowLockscreenArtwork(): Flow<Boolean> {
+        return preferences.observeKey(context.getString(R.string.prefs_lockscreen_artwork_key), false)
+            .flowOn(Dispatchers.IO)
     }
 }

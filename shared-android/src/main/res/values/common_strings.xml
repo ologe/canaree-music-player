@@ -19,12 +19,6 @@
 
     <string name="common_all_tracks">All tracks</string>
 
-    <string-array name="common_auto_playlists">
-        <item>@string/common_last_added</item>
-        <item>@string/common_favorites</item>
-        <item>@string/common_history</item>
-    </string-array>
-
     <string name="common_unknown_album">Unknown album</string>
     <string name="common_unknown_artist">Unknown artist</string>
 

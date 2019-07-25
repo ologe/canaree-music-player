@@ -8,8 +8,8 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.AppDatabase
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackground
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

@@ -15,9 +15,9 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.data.utils.assertBackground
 import dev.olog.shared.mapListItem
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged

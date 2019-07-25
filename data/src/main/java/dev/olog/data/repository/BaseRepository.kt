@@ -6,10 +6,10 @@ import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.data.DataObserver
+import dev.olog.data.utils.PermissionsUtils
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.Permissions
-import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.data.utils.assertBackground
+import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
@@ -36,7 +36,7 @@ internal abstract class BaseRepository<T, Param>(
             // small delay to make subclass initialization
             delay(50)
 
-            while (!Permissions.canReadStorage(context)) {
+            while (!PermissionsUtils.canReadStorage(context)) {
                 delay(300)
             }
 

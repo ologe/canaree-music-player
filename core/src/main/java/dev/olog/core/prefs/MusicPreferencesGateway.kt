@@ -47,4 +47,6 @@ interface MusicPreferencesGateway {
     fun getVolume(): Int
     fun observeVolume(): Flow<Int>
 
+    fun observeShowLockscreenArtwork(): Flow<Boolean>
+
 }
