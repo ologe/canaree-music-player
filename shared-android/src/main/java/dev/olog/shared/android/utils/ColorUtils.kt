@@ -2,7 +2,7 @@ package dev.olog.shared.android.utils
 
 import android.graphics.Color
 import androidx.core.graphics.ColorUtils
-import dev.olog.shared.clamp
+import androidx.core.math.MathUtils.clamp
 
 object ColorUtils {
 
