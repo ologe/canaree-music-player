@@ -50,7 +50,8 @@ android {
         noCompress "tflite"
     }
 
-    dynamicFeatures = [":feature_stylize"]
+    // TODO add on production, fritz triggers recompilation on gradle sync
+//    dynamicFeatures = [":feature_stylize"]
 }
 
 apply from: '../kapt.gradle'
