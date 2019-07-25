@@ -12,7 +12,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.R
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.WidgetConstants
 import dev.olog.shared.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.extensions.throwNotHandled

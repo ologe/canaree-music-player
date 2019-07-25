@@ -12,7 +12,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.legacy.getCachedBitmapOld
@@ -20,7 +19,7 @@ import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.AppConstants
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.extensions.asActivityPendingIntent
 import dev.olog.shared.extensions.colorControlNormal
 import dev.olog.shared.utils.assertBackgroundThread

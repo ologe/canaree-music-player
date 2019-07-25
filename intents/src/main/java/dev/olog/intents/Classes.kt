@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.intents
 
 object Classes {
     const val ACTIVITY_MAIN = "dev.olog.presentation.main.MainActivity"

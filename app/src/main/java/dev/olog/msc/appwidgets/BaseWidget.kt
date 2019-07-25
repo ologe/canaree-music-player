@@ -17,8 +17,7 @@ import dev.olog.shared.palette.ImageProcessorResult
 import dev.olog.shared.extensions.asServicePendingIntent
 import dev.olog.shared.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.AppConstants
-import dev.olog.shared.Classes
-import dev.olog.shared.MusicConstants
+import dev.olog.intents.Classes
 import dev.olog.shared.MusicServiceAction
 import javax.inject.Inject
 

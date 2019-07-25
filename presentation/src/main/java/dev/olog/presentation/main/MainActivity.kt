@@ -26,7 +26,7 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.shared.AppConstants
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.FloatingWindowsConstants
 import dev.olog.shared.MusicServiceAction
 import dev.olog.shared.extensions.*

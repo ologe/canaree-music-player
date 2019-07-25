@@ -69,6 +69,7 @@ dependencies {
     implementation project(':service-music')
     implementation project(':service-floating')
     implementation project(':offline-lyrics')
+    implementation project(':intents')
 
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"

@@ -11,7 +11,7 @@ import androidx.annotation.CheckResult
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import dev.olog.presentation.pro.HasBilling
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 
 object FloatingWindowHelper {
 

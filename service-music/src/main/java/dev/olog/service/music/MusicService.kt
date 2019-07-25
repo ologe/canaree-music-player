@@ -25,7 +25,7 @@ import dev.olog.service.music.helper.WearHelper
 import dev.olog.service.music.notification.MusicNotificationManager
 import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.MusicServiceCustomAction
 import dev.olog.shared.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope

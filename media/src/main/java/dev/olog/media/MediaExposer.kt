@@ -18,7 +18,7 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.Permissions
 import dev.olog.shared.extensions.distinctUntilChanged
 import dev.olog.shared.extensions.lazyFast

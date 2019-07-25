@@ -19,7 +19,7 @@ import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import dev.olog.shared.MusicConstants
 import dev.olog.shared.WidgetConstants
 import dev.olog.shared.extensions.getAppWidgetsIdsFor

@@ -5,6 +5,7 @@ dependencies {
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':shared')
+    implementation project(':intents')
 
     implementation lib_x.core
     implementation lib_x.core_ktx

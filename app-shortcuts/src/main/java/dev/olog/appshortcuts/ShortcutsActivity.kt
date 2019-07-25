@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 
 class ShortcutsActivity : AppCompatActivity() {
 

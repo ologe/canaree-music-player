@@ -6,7 +6,7 @@ import dev.olog.service.music.MusicService
 import dev.olog.msc.appwidgets.WidgetColored
 import dev.olog.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
-import dev.olog.shared.Classes
+import dev.olog.intents.Classes
 import org.junit.Assert
 import org.junit.Test
 
