@@ -4,7 +4,7 @@ import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.clamp
 import io.reactivex.Completable
 import javax.inject.Inject
 

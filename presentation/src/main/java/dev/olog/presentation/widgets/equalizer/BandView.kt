@@ -15,7 +15,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.equalizer.EqHelper
 import dev.olog.presentation.equalizer.ResizeAnimation
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.clamp
 
 class BandView (
         context: Context,

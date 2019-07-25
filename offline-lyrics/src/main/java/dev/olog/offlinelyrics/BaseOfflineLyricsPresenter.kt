@@ -12,9 +12,9 @@ import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.clamp
 import dev.olog.shared.android.extensions.dpToPx
-import dev.olog.shared.android.utils.indexOfClosest
+import dev.olog.shared.indexOfClosest
 import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -55,7 +55,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     fun transformLyrics(context: Context, bookmark: Int, lyrics: String): Spannable {
         val syncAdjustment = appPreferencesUseCase.getSyncAdjustment().toInt()
         val position =
-            clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
+            dev.olog.shared.clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
         return transformLyricsInternal(context, position, lyrics)
     }
 
@@ -103,7 +103,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 timeList.add(m + s)
             }
 
-            val closest = indexOfClosest(bookmark, timeList)
+            val closest = dev.olog.shared.indexOfClosest(bookmark, timeList)
 
             val result = SpannableStringBuilder()
             for (index in 0..notEmptyLines.lastIndex){

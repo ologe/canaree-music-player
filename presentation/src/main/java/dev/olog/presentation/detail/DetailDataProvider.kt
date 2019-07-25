@@ -23,7 +23,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.combineLatest
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mapListItem
-import dev.olog.shared.android.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import com.google.android.material.math.MathUtils
 import dev.olog.presentation.R
-import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.clamp
 import dev.olog.shared.android.widgets.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = 10

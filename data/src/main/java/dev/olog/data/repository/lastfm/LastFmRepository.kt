@@ -14,7 +14,7 @@ import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.awaitRepeat
-import dev.olog.shared.android.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
