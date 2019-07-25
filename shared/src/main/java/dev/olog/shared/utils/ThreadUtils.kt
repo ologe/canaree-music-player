@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.shared.utils
 
 import android.os.Handler

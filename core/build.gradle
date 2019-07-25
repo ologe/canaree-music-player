@@ -13,7 +13,6 @@ android {
 apply from: '../kapt.gradle'
 
 dependencies {
-    implementation project(':shared')
     implementation project(':jaudiotagger')
 
     implementation lib_core.dagger
