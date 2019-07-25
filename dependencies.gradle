@@ -20,6 +20,8 @@ ext {
 //
     room = '2.1.0'
 
+    last_fm_binding = '0.1.2'
+
     lib_core = [
             kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
             dagger                  : "com.google.dagger:dagger:$dagger",
@@ -73,7 +75,11 @@ ext {
             room_rx             : "androidx.room:room-rxjava2:$room",
             room_processor      : "androidx.room:room-compiler:$room",
 //            roomRx       : "androidx.room:room-rxjava2:$room",
-            roomTesting         : "androidx.room:room-testing:$room"
+            roomTesting         : "androidx.room:room-testing:$room",
+    ]
+
+    lib_utils = [
+            last_fm_binding: "de.u-mass:lastfm-java:$last_fm_binding",
     ]
 
 }

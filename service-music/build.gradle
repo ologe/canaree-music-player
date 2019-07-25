@@ -31,7 +31,6 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
     implementation project(':prefs-keys')
-    implementation project(':media')
     implementation project(':intents')
 
     implementation lib_core.coroutines
@@ -47,7 +46,7 @@ dependencies {
 
     implementation lib_ui.glide
 
-    implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
+    implementation lib_utils.last_fm_binding
 
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"

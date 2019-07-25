@@ -91,7 +91,6 @@ ext {
     fuzzywuzzy = '1.2.0'
     gson = '2.8.5'
     ok_http = '3.14.2'
-    last_fm_binding = '0.1.2'
     aes_crypto = '1.1.0'
 
     // reactive

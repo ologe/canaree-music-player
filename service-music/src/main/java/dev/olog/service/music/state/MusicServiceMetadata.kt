@@ -13,7 +13,6 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.getBitmapAsync
 import dev.olog.injection.dagger.PerService
-import dev.olog.media.putBoolean
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -21,6 +20,7 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
+import dev.olog.service.music.utils.putBoolean
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
