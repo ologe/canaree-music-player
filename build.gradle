@@ -39,6 +39,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+        maven { url "https://raw.github.com/fritzlabs/fritz-repository/master" } // fritz
     }
     gradle.projectsEvaluated { // TODO remove after coroutines became stable
         tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {

@@ -4,6 +4,7 @@ package dev.olog.presentation.edit
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
@@ -27,8 +29,8 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     private var progressDialog: ProgressDialog? = null
 
     @CallSuper
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         hideLoader()
     }
 
@@ -45,41 +47,26 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
             .into(image)
     }
 
-    protected fun loadImage(string: String, mediaId: MediaId) {
+    protected fun loadImage(any: Any?, mediaId: MediaId) {
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
         GlideApp.with(ctx).clear(image)
 
         GlideApp.with(ctx)
-            .load(string)
+            .load(any)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
             .into(image)
     }
 
-    protected fun loadImage(uri: Uri, mediaId: MediaId) {
-        val image = view!!.findViewById<ImageView>(R.id.cover)
-
-        GlideApp.with(ctx).clear(image)
-
-        GlideApp.with(ctx)
-            .load(uri)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .transition(withCrossFade(250))
-            .into(image)
-    }
-
-    protected fun loadImage(inputStream: InputStream?, mediaId: MediaId) {
-        val image = view!!.findViewById<ImageView>(R.id.cover)
-
-        GlideApp.with(ctx).clear(image)
-
-        GlideApp.with(ctx)
-            .load(inputStream)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .into(image)
+    protected fun getBitmap(any: Any?): Bitmap? {
+        return GlideApp.with(ctx)
+            .asBitmap()
+            .load(any)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .submit(500,500)
+            .get()
     }
 
     protected fun showLoader(@StringRes resId: Int) {
@@ -109,6 +96,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
                     0 -> openImagePicker()
                     1 -> restoreImage()
                     2 -> noImage()
+                    3 -> stylizeImage()
                 }
             }
             .show()
@@ -124,17 +112,17 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
         )
     }
 
+    protected abstract fun onImagePicked(uri: Uri)
     protected abstract fun restoreImage()
-
     protected abstract fun noImage()
+    protected open fun stylizeImage(){
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_CODE) {
             data?.data?.let { onImagePicked(it) } ?: Log.w("EditItem", "image not found")
         }
     }
-
-    protected abstract fun onImagePicked(uri: Uri)
 
     abstract fun onLoaderCancelled()
 

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Canaree</string>
+    <string name="title_feature_stylize">Stylize image</string>
 
 </resources>

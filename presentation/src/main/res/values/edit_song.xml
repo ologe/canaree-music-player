@@ -54,6 +54,7 @@
         <item>Pick an image</item>
         <item>Restore default</item>
         <item>No Image</item>
+        <item>Stylize image</item>
     </string-array>
 
 </resources>

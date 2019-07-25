@@ -42,6 +42,15 @@ android {
         disable 'MissingTranslation'
     }
 
+    packagingOptions {
+        exclude 'META-INF/core_release.kotlin_module'
+    }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
+
+    dynamicFeatures = [":feature_stylize"]
 }
 
 apply from: '../kapt.gradle'
@@ -74,6 +83,8 @@ dependencies {
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_ktx
     implementation lib_x.lifecycle_rx
+
+    implementation 'com.google.android.play:core:1.6.1'
 
     // support
     implementation "androidx.core:core:1.0.2"

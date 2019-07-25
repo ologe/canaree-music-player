@@ -1,8 +1,9 @@
 package dev.olog.msc.app
 
 import android.content.BroadcastReceiver
+import android.content.Context
 import androidx.preference.PreferenceManager
-import com.facebook.stetho.Stetho
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -44,7 +45,7 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
 //            LeakCanary.install(this)
-            Stetho.initializeWithDefaults(this)
+//            Stetho.initializeWithDefaults(this)
         }
     }
 
@@ -60,6 +61,12 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
         DaggerAppComponent.factory()
             .create(CoreComponent.coreComponent(this))
             .inject(this)
+    }
+
+    // enables dynamic module
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        SplitCompat.install(this)
     }
 
     override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> = broadcastInjector

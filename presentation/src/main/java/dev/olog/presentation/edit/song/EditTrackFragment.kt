@@ -4,7 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dev.olog.core.MediaId
+import dev.olog.core.Stylizer
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.*
 import dev.olog.shared.AppConstants
@@ -14,6 +17,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() {
 
@@ -131,8 +136,8 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     override fun restoreImage() {
         launch(Dispatchers.IO) {
             val imageType = viewModel.loadOriginalImage(mediaId)
-            withContext(Dispatchers.Main){
-                when (imageType){
+            withContext(Dispatchers.Main) {
+                when (imageType) {
                     is ImageType.String -> loadImage(imageType.url, mediaId)
                     is ImageType.Stream -> loadImage(imageType.stream, mediaId)
                 }
@@ -147,6 +152,47 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
 
     override fun onLoaderCancelled() {
         viewModel.stopFetch()
+    }
+
+    override fun stylizeImage() {
+        launch {
+            loadModule()?.let { stylizer ->
+                withContext(Dispatchers.IO){
+                    val imageType = viewModel.loadOriginalImage(mediaId)
+                    val bitmap = when (imageType) {
+                        is ImageType.String -> getBitmap(imageType.url)
+                        is ImageType.Stream -> getBitmap(imageType.stream)
+                    }
+                    bitmap?.let { b ->
+                        val stylizedBitmap = stylizer.stylize(b)
+                        withContext(Dispatchers.Main){
+                            loadImage(stylizedBitmap, mediaId)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun loadModule(): Stylizer? = suspendCoroutine { continuation ->
+        showLoader("Downloading stylize module")
+
+        val splitInstallManager = SplitInstallManagerFactory.create(requireContext())
+
+        val request = SplitInstallRequest.newBuilder()
+            .addModule("feature_stylize")
+            .build()
+//        SplitInstallErrorCode
+        splitInstallManager.startInstall(request)
+            .addOnSuccessListener { sessionId ->
+                hideLoader()
+                continuation.resume(Stylizer.loadClass(requireContext()))
+            }
+            .addOnFailureListener { ex ->
+                ex.printStackTrace()
+                hideLoader()
+                continuation.resume(null)
+            }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_track
