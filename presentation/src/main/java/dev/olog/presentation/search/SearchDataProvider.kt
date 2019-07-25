@@ -13,7 +13,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.CustomScope
+import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.android.extensions.combineLatest
 import dev.olog.shared.android.extensions.mapListItem

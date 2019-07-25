@@ -16,7 +16,7 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.shared.android.CustomScope
+import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState

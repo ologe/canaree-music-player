@@ -26,6 +26,7 @@ dependencies {
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
+    implementation project(':shared')
 
     kapt lib_ui.data_binding
 

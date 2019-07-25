@@ -15,7 +15,7 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.android.CustomScope
+import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.asFlowable
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.*

@@ -10,7 +10,7 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.shared.android.extensions.dip
 import dev.olog.presentation.R
-import dev.olog.shared.android.delegates.mutableLazy
+import dev.olog.shared.mutableLazy
 import dev.olog.shared.android.extensions.scrimBackground
 
 class SlidingPanelFade(

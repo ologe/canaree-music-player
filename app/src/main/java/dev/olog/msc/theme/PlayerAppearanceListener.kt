@@ -6,7 +6,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.msc.R
-import dev.olog.shared.android.delegates.mutableLazy
+import dev.olog.shared.mutableLazy
 import dev.olog.shared.android.theme.PlayerAppearance
 import javax.inject.Inject
 
