@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.theme.QuickAction
+import dev.olog.shared.android.theme.QuickAction
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 

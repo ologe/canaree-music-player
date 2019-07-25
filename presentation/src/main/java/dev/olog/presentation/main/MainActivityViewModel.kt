@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.Permissions
+import dev.olog.shared.android.Permissions
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor(

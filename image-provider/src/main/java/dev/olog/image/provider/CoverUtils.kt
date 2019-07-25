@@ -6,11 +6,10 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.extensions.isDarkMode
-import dev.olog.shared.utils.ColorUtils
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.utils.ColorUtils
 import kotlin.math.abs
 
 object CoverUtils {

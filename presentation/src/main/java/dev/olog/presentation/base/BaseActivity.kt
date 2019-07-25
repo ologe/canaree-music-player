@@ -12,7 +12,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import dev.olog.presentation.R
 import dev.olog.presentation.main.CustomResources
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.theme.isImmersiveMode
+import dev.olog.shared.android.theme.isImmersiveMode
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFragmentInjector {

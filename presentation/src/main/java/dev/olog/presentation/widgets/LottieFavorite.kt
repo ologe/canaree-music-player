@@ -7,9 +7,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.extensions.isDarkMode
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.theme.hasPlayerAppearance
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.theme.hasPlayerAppearance
 
 class LottieFavorite(
     context: Context,

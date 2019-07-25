@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
-import dev.olog.shared.extensions.fragmentTransaction
-import dev.olog.shared.extensions.isIntentSafe
-import dev.olog.shared.extensions.toast
-import dev.olog.shared.utils.PlayStoreUtils
+import dev.olog.shared.android.extensions.fragmentTransaction
+import dev.olog.shared.android.extensions.isIntentSafe
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.utils.PlayStoreUtils
 import javax.inject.Inject
 
 class NavigatorAboutImpl @Inject internal constructor(

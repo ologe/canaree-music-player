@@ -5,8 +5,8 @@ import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.colorAccent
-import dev.olog.shared.extensions.colorBackground
+import dev.olog.shared.android.extensions.colorAccent
+import dev.olog.shared.android.extensions.colorBackground
 import dev.olog.taptargetview.TapTarget
 import dev.olog.taptargetview.TapTargetSequence
 import dev.olog.taptargetview.TapTargetView

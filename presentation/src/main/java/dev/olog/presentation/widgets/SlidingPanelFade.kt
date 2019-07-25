@@ -7,11 +7,11 @@ import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.dip
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.dip
 import dev.olog.presentation.R
-import dev.olog.shared.delegates.mutableLazy
-import dev.olog.shared.extensions.scrimBackground
+import dev.olog.shared.android.delegates.mutableLazy
+import dev.olog.shared.android.extensions.scrimBackground
 
 class SlidingPanelFade(
         context: Context,

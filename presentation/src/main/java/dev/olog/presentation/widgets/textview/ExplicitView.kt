@@ -3,7 +3,7 @@ package dev.olog.presentation.widgets.textview
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.coroutines.*
 
 class ExplicitView(

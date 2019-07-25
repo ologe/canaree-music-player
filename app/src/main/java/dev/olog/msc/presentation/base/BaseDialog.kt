@@ -6,8 +6,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.extensions.act
-import dev.olog.shared.extensions.toast
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

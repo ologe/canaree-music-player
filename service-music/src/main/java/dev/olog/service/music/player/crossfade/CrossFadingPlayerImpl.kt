@@ -15,7 +15,7 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

@@ -10,7 +10,7 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*

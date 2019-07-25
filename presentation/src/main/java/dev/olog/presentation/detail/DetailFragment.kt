@@ -31,7 +31,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -63,7 +63,11 @@ class DetailFragment : BaseFragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast { viewModelProvider<DetailFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<DetailFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     private val mediaId by lazyFast {
         val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
@@ -95,7 +99,11 @@ class DetailFragment : BaseFragment(),
         )
     }
 
-    private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
+    private val recyclerOnScrollListener by lazyFast {
+        HeaderVisibilityScrollListener(
+            this
+        )
+    }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->

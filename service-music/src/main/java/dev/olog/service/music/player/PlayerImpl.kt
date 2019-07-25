@@ -13,8 +13,8 @@ import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.utils.clamp
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.android.extensions.unsubscribe
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn

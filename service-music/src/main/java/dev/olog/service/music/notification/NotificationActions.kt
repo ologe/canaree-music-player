@@ -10,7 +10,7 @@ import androidx.media.session.MediaButtonReceiver
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.R
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.asServicePendingIntent
 
 internal object NotificationActions {
 

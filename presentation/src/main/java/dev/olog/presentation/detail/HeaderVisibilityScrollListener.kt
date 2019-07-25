@@ -1,10 +1,9 @@
 package dev.olog.presentation.detail
 
 import android.view.View
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class HeaderVisibilityScrollListener(

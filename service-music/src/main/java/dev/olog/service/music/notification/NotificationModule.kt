@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
-import dev.olog.shared.utils.isNougat
-import dev.olog.shared.utils.isOreo
+import dev.olog.shared.android.utils.isNougat
+import dev.olog.shared.android.utils.isOreo
 
 @Module
 internal class NotificationModule {

@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.PurchasesUpdatedListener
-import dev.olog.shared.extensions.toast
+import dev.olog.shared.android.extensions.toast
 
 abstract class BillingConnection(
     protected val activity: FragmentActivity

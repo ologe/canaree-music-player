@@ -19,7 +19,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
-import dev.olog.shared.extensions.assertBackground
+import dev.olog.shared.android.extensions.assertBackground
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow

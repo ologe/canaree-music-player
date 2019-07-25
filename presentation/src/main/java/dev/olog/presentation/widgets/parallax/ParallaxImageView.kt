@@ -7,8 +7,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import com.google.android.material.math.MathUtils
 import dev.olog.presentation.R
-import dev.olog.shared.utils.clamp
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.shared.android.utils.clamp
+import dev.olog.shared.android.widgets.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = 10
 private const val MAX_ALPHA = 40 // .3f
@@ -54,7 +54,11 @@ class ParallaxImageView(
             return
         }
         if (drawable != null) {
-            val currentTranslationY = clamp(totalListTranslationY, 0, height) / parallax
+            val currentTranslationY = clamp(
+                totalListTranslationY,
+                0,
+                height
+            ) / parallax
             canvas.translate(translationX, -currentTranslationY.toFloat())
         }
     }

@@ -18,10 +18,10 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.extensions.swap
-import dev.olog.shared.utils.assertBackgroundThread
-import dev.olog.shared.utils.assertMainThread
-import dev.olog.shared.utils.clamp
+import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.android.utils.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.withContext
@@ -282,7 +282,11 @@ internal class QueueManager @Inject constructor(
         if (shuffleMode.isEnabled() || songId == -1L) {
             return 0
         } else {
-            return clamp(songList.indexOfFirst { it.id == songId }, 0, songList.lastIndex)
+            return clamp(
+                songList.indexOfFirst { it.id == songId },
+                0,
+                songList.lastIndex
+            )
         }
     }
 

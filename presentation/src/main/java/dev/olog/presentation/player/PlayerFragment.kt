@@ -2,8 +2,6 @@ package dev.olog.presentation.player
 
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,10 +16,10 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.extensions.*
-import dev.olog.shared.theme.PlayerAppearance
-import dev.olog.shared.theme.hasPlayerAppearance
-import dev.olog.shared.utils.isMarshmallow
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.theme.PlayerAppearance
+import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.utils.isMarshmallow
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

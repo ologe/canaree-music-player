@@ -9,7 +9,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.detail.DetailFragmentViewModel
-import dev.olog.shared.extensions.getArgument
+import dev.olog.shared.android.extensions.getArgument
 
 @Module
 internal abstract class DetailFragmentModule {

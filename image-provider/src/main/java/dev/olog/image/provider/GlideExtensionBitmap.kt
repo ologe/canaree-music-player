@@ -9,7 +9,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.shared.extensions.safeResume
+import dev.olog.shared.android.extensions.safeResume
 import java.lang.Exception
 import kotlin.coroutines.suspendCoroutine
 

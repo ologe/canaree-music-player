@@ -5,11 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.shared.extensions.*
-import dev.olog.shared.palette.ColorUtil
-import dev.olog.shared.theme.PlayerAppearance
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.palette.ColorUtil
+import dev.olog.shared.android.theme.PlayerAppearance
 import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist
 import kotlinx.android.synthetic.main.player_layout_default.view.more
 import kotlinx.android.synthetic.main.player_layout_default.view.seekBar

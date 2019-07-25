@@ -8,8 +8,8 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.dao.AppDatabase
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

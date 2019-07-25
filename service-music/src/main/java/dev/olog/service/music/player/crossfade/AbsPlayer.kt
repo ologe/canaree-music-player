@@ -17,8 +17,8 @@ import dev.olog.service.music.interfaces.CustomExoPlayer
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.SourceFactory
-import dev.olog.shared.extensions.toast
-import dev.olog.shared.utils.clamp
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.utils.clamp
 
 internal abstract class AbsPlayer<T>(
     private val context: Context,

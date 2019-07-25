@@ -3,8 +3,8 @@ package dev.olog.presentation.widgets.imageview
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.card.MaterialCardView
-import dev.olog.shared.theme.HasImageShape
-import dev.olog.shared.theme.ImageShape
+import dev.olog.shared.android.theme.HasImageShape
+import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job

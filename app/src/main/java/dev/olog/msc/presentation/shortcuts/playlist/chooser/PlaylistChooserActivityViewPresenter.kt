@@ -7,7 +7,7 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.msc.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.extensions.mapToList
+import dev.olog.shared.android.extensions.mapToList
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject

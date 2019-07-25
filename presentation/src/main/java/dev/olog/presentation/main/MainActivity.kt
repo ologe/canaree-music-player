@@ -29,8 +29,8 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
-import dev.olog.shared.extensions.*
-import dev.olog.shared.theme.hasPlayerAppearance
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -44,7 +44,11 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast { viewModelProvider<MainActivityViewModel>(factory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<MainActivityViewModel>(
+            factory
+        )
+    }
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself

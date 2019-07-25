@@ -19,9 +19,9 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.colorAccent
-import dev.olog.shared.extensions.colorControlNormal
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.colorAccent
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor

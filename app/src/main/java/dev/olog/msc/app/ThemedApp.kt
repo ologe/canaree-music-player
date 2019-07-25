@@ -2,15 +2,15 @@ package dev.olog.msc.app
 
 import android.app.Application
 import dev.olog.msc.theme.*
-import dev.olog.shared.theme.*
+import dev.olog.shared.android.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 
 abstract class ThemedApp : Application(),
-        HasPlayerAppearance,
-        HasImmersive,
-        HasImageShape,
-        HasQuickAction {
+    HasPlayerAppearance,
+    HasImmersive,
+    HasImageShape,
+    HasQuickAction {
 
     @Inject
     internal lateinit var darkModeListener: DarkModeListener

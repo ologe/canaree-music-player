@@ -2,8 +2,8 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.flowInterval
-import dev.olog.shared.utils.isNougat
+import dev.olog.shared.android.flowInterval
+import dev.olog.shared.android.utils.isNougat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -33,7 +33,10 @@ class ProgressDeletegate(
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
         incrementJob = launch {
-            flowInterval(AppConstants.PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS)
+            flowInterval(
+                AppConstants.PROGRESS_BAR_INTERVAL,
+                TimeUnit.MILLISECONDS
+            )
                 .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
                 .flowOn(Dispatchers.IO)
                 .collect {

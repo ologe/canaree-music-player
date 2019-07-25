@@ -5,10 +5,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.media.model.PlayerState
-import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.filter
-import dev.olog.shared.extensions.map
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.android.extensions.filter
+import dev.olog.shared.android.extensions.map
+import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 import kotlinx.android.synthetic.main.layout_mini_player.view.*
 

@@ -9,7 +9,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.image.provider.fetcher.OriginalImageFetcher
 import dev.olog.presentation.edit.ImageType
-import dev.olog.shared.utils.NetworkUtils
+import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject

@@ -8,8 +8,8 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.extensions.dipf
-import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.android.extensions.lazyFast
 import io.reactivex.Flowable
 
 class SwipeableView(
@@ -17,8 +17,18 @@ class SwipeableView(
     attrs: AttributeSet
 ) : View(context, attrs) {
 
-    private val helper by lazyFast { SwipeableViewHelper(this, skipAreaDimension) }
-    private val debugHelper by lazyFast { SwipeableViewDebug(this, skipAreaDimension) }
+    private val helper by lazyFast {
+        SwipeableViewHelper(
+            this,
+            skipAreaDimension
+        )
+    }
+    private val debugHelper by lazyFast {
+        SwipeableViewDebug(
+            this,
+            skipAreaDimension
+        )
+    }
 
     private var isTouchEnabled = true
 

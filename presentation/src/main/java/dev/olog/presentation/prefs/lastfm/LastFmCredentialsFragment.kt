@@ -12,7 +12,7 @@ import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.extensions.ctx
+import dev.olog.shared.android.extensions.ctx
 import javax.inject.Inject
 
 class LastFmCredentialsFragment : BaseDialogFragment() {

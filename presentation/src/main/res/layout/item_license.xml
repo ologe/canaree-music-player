@@ -45,7 +45,7 @@
             android:maxLines="10"
             android:ellipsize="end" />
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.shared.android.widgets.DottedSeparator
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="16dp"

@@ -14,8 +14,8 @@ import androidx.core.view.updatePadding
 import dev.olog.presentation.R
 import dev.olog.presentation.equalizer.EqHelper
 import dev.olog.presentation.equalizer.ResizeAnimation
-import dev.olog.shared.extensions.*
-import dev.olog.shared.utils.clamp
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.utils.clamp
 
 class BandView (
         context: Context,
@@ -165,7 +165,8 @@ class BandView (
     }
 
     private fun updateHeight(height: Int, animate: Boolean){
-        val targetHeight = clamp(height, topMargin / 2, getHeight() - topMargin / 2)
+        val targetHeight =
+            clamp(height, topMargin / 2, getHeight() - topMargin / 2)
 
         if (animate) {
             val resizeAnimation =

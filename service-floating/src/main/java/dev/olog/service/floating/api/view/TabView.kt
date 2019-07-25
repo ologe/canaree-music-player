@@ -1,7 +1,6 @@
 package dev.olog.service.floating.api.view
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.view.ViewGroup
@@ -9,8 +8,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.service.floating.R
-import dev.olog.shared.extensions.colorControlNormal
-import dev.olog.shared.extensions.dip
+import dev.olog.shared.android.extensions.dip
 
 private const val DURATION = 250
 

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.ctx
+import dev.olog.shared.android.extensions.ctx
 
 abstract class ListDialog : BaseDialogFragment() {
 

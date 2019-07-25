@@ -7,12 +7,12 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.shared.R
-import dev.olog.shared.extensions.dipf
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.theme.HasImageShape
-import dev.olog.shared.theme.ImageShape
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.theme.HasImageShape
+import dev.olog.shared.android.theme.ImageShape
+import dev.olog.shared.android.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 
 open class ShapeImageView @JvmOverloads constructor(

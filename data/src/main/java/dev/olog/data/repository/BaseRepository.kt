@@ -6,10 +6,10 @@ import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.data.DataObserver
-import dev.olog.shared.CustomScope
-import dev.olog.shared.Permissions
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.CustomScope
+import dev.olog.shared.android.Permissions
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay

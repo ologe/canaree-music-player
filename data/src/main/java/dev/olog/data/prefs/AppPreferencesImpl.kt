@@ -9,7 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.reactivex.Observable
 import java.io.File
 import javax.inject.Inject

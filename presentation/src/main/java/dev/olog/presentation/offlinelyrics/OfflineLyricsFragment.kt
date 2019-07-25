@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -14,7 +13,7 @@ import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*

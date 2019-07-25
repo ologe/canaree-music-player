@@ -26,7 +26,7 @@ import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.utils.forEach
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

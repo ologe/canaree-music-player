@@ -17,7 +17,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers

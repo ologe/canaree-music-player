@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.song.DisplayableSong
-import dev.olog.shared.extensions.toast
+import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext

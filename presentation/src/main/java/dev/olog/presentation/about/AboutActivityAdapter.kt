@@ -10,7 +10,7 @@ import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
-import dev.olog.shared.extensions.colorAccent
+import dev.olog.shared.android.extensions.colorAccent
 import kotlinx.android.synthetic.main.item_about.view.*
 
 

@@ -9,7 +9,7 @@ import com.android.billingclient.api.Purchase
 import dev.olog.core.interactor.ResetPreferencesUseCase
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.flowInterval
+import dev.olog.shared.android.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

@@ -40,7 +40,7 @@
             tools:visibility="visible"
             android:src="@drawable/vd_arrow_forward"/>
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.shared.android.widgets.DottedSeparator
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:layout_width="0dp"
             android:layout_height="2dp"

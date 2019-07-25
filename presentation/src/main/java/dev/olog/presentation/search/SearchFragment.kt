@@ -20,7 +20,7 @@ import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -43,7 +43,11 @@ class SearchFragment : BaseFragment(),
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast { viewModelProvider<SearchFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast {
+        viewModelProvider<SearchFragmentViewModel>(
+            viewModelFactory
+        )
+    }
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(

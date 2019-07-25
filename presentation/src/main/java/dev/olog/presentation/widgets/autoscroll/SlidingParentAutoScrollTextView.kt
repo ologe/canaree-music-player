@@ -6,9 +6,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.extensions.findParentByType
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.widgets.AutoScrollTextView
+import dev.olog.shared.android.extensions.findParentByType
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.widgets.AutoScrollTextView
 
 class SlidingParentAutoScrollTextView(
     context: Context,

@@ -17,8 +17,8 @@ import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.image.provider.CoverUtils
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.ctx
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 

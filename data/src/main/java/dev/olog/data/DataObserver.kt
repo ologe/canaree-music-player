@@ -3,7 +3,7 @@ package dev.olog.data
 import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
-import dev.olog.shared.CustomScope
+import dev.olog.shared.android.CustomScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

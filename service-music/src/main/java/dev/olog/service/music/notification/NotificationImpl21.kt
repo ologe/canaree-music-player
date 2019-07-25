@@ -20,9 +20,9 @@ import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.shared.extensions.asActivityPendingIntent
-import dev.olog.shared.extensions.colorControlNormal
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.asActivityPendingIntent
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(

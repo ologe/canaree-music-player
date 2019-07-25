@@ -7,7 +7,7 @@ import dev.olog.injection.equalizer.IEqualizer
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import javax.inject.Inject
 

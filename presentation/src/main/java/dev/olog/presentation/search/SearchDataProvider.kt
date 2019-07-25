@@ -13,11 +13,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.CustomScope
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.extensions.combineLatest
-import dev.olog.shared.extensions.mapListItem
-import dev.olog.shared.extensions.startWithIfNotEmpty
+import dev.olog.shared.android.CustomScope
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.combineLatest
+import dev.olog.shared.android.extensions.mapListItem
+import dev.olog.shared.android.extensions.startWithIfNotEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

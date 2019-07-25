@@ -19,9 +19,9 @@ import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
 import dev.olog.intents.Classes
-import dev.olog.shared.Permissions
-import dev.olog.shared.extensions.distinctUntilChanged
-import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.android.Permissions
+import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel

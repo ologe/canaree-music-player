@@ -12,7 +12,7 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -40,7 +40,11 @@ class LibraryFragment : BaseFragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val isPodcast by lazyFast { getArgument<Boolean>(IS_PODCAST) }
+    private val isPodcast by lazyFast {
+        getArgument<Boolean>(
+            IS_PODCAST
+        )
+    }
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(

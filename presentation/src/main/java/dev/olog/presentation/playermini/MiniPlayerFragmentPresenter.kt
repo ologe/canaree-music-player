@@ -1,9 +1,7 @@
 package dev.olog.presentation.playermini
 
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.extensions.asLiveData
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
+import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

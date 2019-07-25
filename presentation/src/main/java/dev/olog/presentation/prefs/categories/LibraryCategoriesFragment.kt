@@ -8,8 +8,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.withArguments
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.withArguments
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
@@ -32,7 +32,11 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
     }
 
-    private val category by lazyFast { MediaIdCategory.values()[arguments!!.getInt(TYPE)] }
+    private val category by lazyFast {
+        MediaIdCategory.values()[arguments!!.getInt(
+            TYPE
+        )]
+    }
 
     override fun setupBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
         val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_library_categories_title_podcasts

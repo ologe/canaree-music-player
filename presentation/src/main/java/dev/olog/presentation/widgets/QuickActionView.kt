@@ -7,10 +7,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.toggleVisibility
-import dev.olog.shared.theme.HasQuickAction
-import dev.olog.shared.theme.QuickAction
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.theme.HasQuickAction
+import dev.olog.shared.android.theme.QuickAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope

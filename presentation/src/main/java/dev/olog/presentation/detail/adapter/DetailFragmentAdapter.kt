@@ -25,10 +25,10 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.map
-import dev.olog.shared.extensions.subscribe
-import dev.olog.shared.extensions.swap
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.map
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.swap
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*

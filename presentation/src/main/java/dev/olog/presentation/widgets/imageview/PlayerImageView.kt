@@ -3,7 +3,6 @@ package dev.olog.presentation.widgets.imageview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.TransitionDrawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -12,10 +11,7 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.shared.extensions.layers
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
+import dev.olog.shared.android.extensions.lazyFast
 
 open class PlayerImageView @JvmOverloads constructor(
         context: Context,
@@ -23,7 +19,11 @@ open class PlayerImageView @JvmOverloads constructor(
 
 ) : ShapeImageView(context, attr) {
 
-    private val adaptiveImageHelper by lazyFast { AdaptiveImageHelper(context) }
+    private val adaptiveImageHelper by lazyFast {
+        AdaptiveImageHelper(
+            context
+        )
+    }
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)

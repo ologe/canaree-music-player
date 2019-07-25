@@ -5,7 +5,7 @@ import androidx.core.os.bundleOf
 import dev.olog.core.MediaId
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.extensions.mapListItem
+import dev.olog.shared.android.extensions.mapListItem
 import io.reactivex.Completable
 import io.reactivex.Single
 import kotlinx.coroutines.rx2.asFlowable

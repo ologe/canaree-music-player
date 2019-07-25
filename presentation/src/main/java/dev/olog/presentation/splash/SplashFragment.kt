@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
-import dev.olog.shared.Permissions
-import dev.olog.shared.extensions.alertDialog
-import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.android.Permissions
+import dev.olog.shared.android.extensions.alertDialog
+import dev.olog.shared.android.extensions.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : Fragment() {
@@ -22,7 +22,11 @@ class SplashFragment : Fragment() {
         val TAG = SplashFragment::class.java.name
     }
 
-    private val adapter by lazyFast { SplashFragmentViewPagerAdapter(childFragmentManager) }
+    private val adapter by lazyFast {
+        SplashFragmentViewPagerAdapter(
+            childFragmentManager
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

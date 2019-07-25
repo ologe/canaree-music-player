@@ -11,7 +11,7 @@ import dev.olog.core.Stylizer
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.*
 import dev.olog.intents.AppConstants
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect

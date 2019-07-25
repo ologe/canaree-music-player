@@ -13,7 +13,7 @@ import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
-import dev.olog.shared.extensions.findViewByIdNotRecursive
+import dev.olog.shared.android.extensions.findViewByIdNotRecursive
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,

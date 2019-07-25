@@ -1,11 +1,8 @@
 package dev.olog.service.floating.notification
 
-import android.annotation.TargetApi
 import android.app.*
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -13,10 +10,10 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
-import dev.olog.shared.extensions.asServicePendingIntent
-import dev.olog.shared.extensions.colorControlNormal
-import dev.olog.shared.extensions.unsubscribe
-import dev.olog.shared.utils.isOreo
+import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.unsubscribe
+import dev.olog.shared.android.utils.isOreo
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

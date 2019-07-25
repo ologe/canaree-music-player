@@ -48,7 +48,7 @@
         android:elevation="8dp"
         android:background="?colorSurface">
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.shared.android.widgets.DottedSeparator
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="16dp"

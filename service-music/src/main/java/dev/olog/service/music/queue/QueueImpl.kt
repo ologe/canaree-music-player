@@ -12,11 +12,11 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.shared.CustomScope
-import dev.olog.shared.extensions.swap
-import dev.olog.shared.utils.assertBackgroundThread
-import dev.olog.shared.utils.assertMainThread
-import dev.olog.shared.utils.clamp
+import dev.olog.shared.android.CustomScope
+import dev.olog.shared.android.extensions.swap
+import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.android.utils.clamp
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
 import java.util.*

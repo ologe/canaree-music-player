@@ -27,7 +27,7 @@ import dev.olog.service.music.scrobbling.LastFmScrobbling
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope

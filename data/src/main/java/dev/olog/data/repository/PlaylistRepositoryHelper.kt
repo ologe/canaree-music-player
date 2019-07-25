@@ -15,7 +15,7 @@ import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.handleRecoverableSecurityException
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

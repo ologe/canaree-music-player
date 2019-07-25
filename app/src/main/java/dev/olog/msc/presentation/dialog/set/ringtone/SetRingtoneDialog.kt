@@ -7,7 +7,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.msc.presentation.base.BaseDialog
 import dev.olog.core.MediaId
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.extensions.withArguments
+import dev.olog.shared.android.extensions.withArguments
 import io.reactivex.Completable
 import javax.inject.Inject
 

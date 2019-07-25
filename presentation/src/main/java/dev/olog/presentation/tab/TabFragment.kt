@@ -26,8 +26,8 @@ import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
-import dev.olog.shared.extensions.*
-import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.utils.TextUtils
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,10 +50,30 @@ class TabFragment : BaseFragment(), SetupNestedList {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val lastAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val lastArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val newAlbumsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
-    private val newArtistsAdapter by lazyFast { TabFragmentNestedAdapter(lifecycle, navigator) }
+    private val lastAlbumsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val lastArtistsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val newAlbumsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
+    private val newArtistsAdapter by lazyFast {
+        TabFragmentNestedAdapter(
+            lifecycle,
+            navigator
+        )
+    }
 
     private val viewModel by lazyFast {
         parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)

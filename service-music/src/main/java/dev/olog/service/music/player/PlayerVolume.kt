@@ -8,7 +8,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IDuckVolume
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.widget.RemoteViews
 import dev.olog.core.MediaId
 import dev.olog.msc.R
-import dev.olog.shared.palette.ImageProcessor
+import dev.olog.shared.android.palette.ImageProcessor
 import dev.olog.image.provider.legacy.getBitmapAsyncOld
 
 private const val IMAGE_SIZE = 300

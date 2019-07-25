@@ -8,8 +8,7 @@ import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.dpToPx
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
+import dev.olog.shared.android.extensions.dpToPx
 import kotlin.properties.Delegates
 
 class PlayerShadowImageView(

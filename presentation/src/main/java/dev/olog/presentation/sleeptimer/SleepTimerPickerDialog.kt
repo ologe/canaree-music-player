@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.act
-import dev.olog.shared.extensions.toast
-import dev.olog.shared.utils.TimeUtils
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.utils.TimeUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

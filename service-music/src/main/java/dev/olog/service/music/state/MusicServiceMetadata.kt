@@ -22,8 +22,8 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
-import dev.olog.shared.extensions.getAppWidgetsIdsFor
-import dev.olog.shared.observeKey
+import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.android.observeKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel

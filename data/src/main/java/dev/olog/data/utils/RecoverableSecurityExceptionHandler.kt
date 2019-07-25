@@ -2,8 +2,7 @@ package dev.olog.data.utils
 
 import android.app.PendingIntent
 import android.app.RecoverableSecurityException
-import android.content.Context
-import dev.olog.shared.utils.isQ
+import dev.olog.shared.android.utils.isQ
 
 internal fun handleRecoverableSecurityException(action: () -> Unit) {
     if (!isQ()) {

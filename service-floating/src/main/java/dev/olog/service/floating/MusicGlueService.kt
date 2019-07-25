@@ -16,8 +16,8 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.shared.CustomScope
-import dev.olog.shared.extensions.lazyFast
+import dev.olog.shared.android.CustomScope
+import dev.olog.shared.android.extensions.lazyFast
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +31,12 @@ class MusicGlueService @Inject constructor(
 
 ) : DefaultLifecycleObserver, OnConnectionChanged, CoroutineScope by CustomScope() {
 
-    private val mediaExposer by lazyFast { MediaExposer(context, this) }
+    private val mediaExposer by lazyFast {
+        MediaExposer(
+            context,
+            this
+        )
+    }
     private var mediaController: MediaControllerCompat? = null
 
     init {

@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.act
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.subscribe
 import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
@@ -21,7 +21,11 @@ class SpecialThanksFragment : Fragment() {
         const val TAG = "SpecialThanksFragment"
     }
 
-    private val presenter by lazyFast { SpecialThanksPresenter(act.applicationContext) }
+    private val presenter by lazyFast {
+        SpecialThanksPresenter(
+            act.applicationContext
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

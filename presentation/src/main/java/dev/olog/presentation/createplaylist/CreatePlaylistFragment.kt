@@ -15,8 +15,8 @@ import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
-import dev.olog.shared.extensions.*
-import dev.olog.shared.utils.TextUtils
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.utils.TextUtils
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -43,7 +43,12 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
     private val viewModel by lazyFast {
         viewModelProvider<CreatePlaylistFragmentViewModel>(viewModelFactory)
     }
-    private val adapter by lazyFast { CreatePlaylistFragmentAdapter(lifecycle, viewModel) }
+    private val adapter by lazyFast {
+        CreatePlaylistFragmentAdapter(
+            lifecycle,
+            viewModel
+        )
+    }
 
     private var toast: Toast? = null
 

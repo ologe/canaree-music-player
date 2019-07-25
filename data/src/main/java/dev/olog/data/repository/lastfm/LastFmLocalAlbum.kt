@@ -6,7 +6,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class LastFmLocalAlbum @Inject constructor(

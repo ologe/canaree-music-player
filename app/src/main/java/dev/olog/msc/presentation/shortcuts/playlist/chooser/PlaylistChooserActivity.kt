@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.shared.extensions.asLiveData
-import dev.olog.shared.extensions.lazyFast
-import dev.olog.shared.extensions.subscribe
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import javax.inject.Inject
 
@@ -14,7 +14,11 @@ class PlaylistChooserActivity : BaseActivity() {
 
     @Inject
     lateinit var presenter: PlaylistChooserActivityViewPresenter
-    private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
+    private val adapter by lazyFast {
+        PlaylistChooserActivityAdapter(
+            this
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

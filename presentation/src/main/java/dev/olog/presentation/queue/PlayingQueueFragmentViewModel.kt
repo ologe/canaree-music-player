@@ -9,8 +9,8 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.extensions.swap
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

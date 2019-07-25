@@ -6,8 +6,8 @@ import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.observeKey
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.observeKey
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.shared.theme.ImageShape
+import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import javax.inject.Inject
 

@@ -14,8 +14,8 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.CustomScope
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.CustomScope
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

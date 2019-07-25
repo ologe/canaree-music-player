@@ -1,7 +1,6 @@
 package dev.olog.presentation.prefs.categories
 
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
@@ -10,7 +9,7 @@ import dev.olog.presentation.base.adapter.setOnDragListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.shared.extensions.swap
+import dev.olog.shared.android.extensions.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job

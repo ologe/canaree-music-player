@@ -17,8 +17,8 @@ import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject

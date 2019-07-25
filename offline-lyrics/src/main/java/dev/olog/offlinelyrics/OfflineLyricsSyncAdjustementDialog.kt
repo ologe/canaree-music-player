@@ -6,7 +6,7 @@ import android.widget.EditText
 import androidx.core.text.isDigitsOnly
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.shared.extensions.toast
+import dev.olog.shared.android.extensions.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 

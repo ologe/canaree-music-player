@@ -4,7 +4,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.extensions.removeFirst
+import dev.olog.shared.android.extensions.removeFirst
 import javax.inject.Inject
 import kotlin.math.min
 

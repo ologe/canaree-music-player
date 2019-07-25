@@ -12,7 +12,7 @@ import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
-import dev.olog.shared.extensions.toast
+import dev.olog.shared.android.extensions.toast
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(

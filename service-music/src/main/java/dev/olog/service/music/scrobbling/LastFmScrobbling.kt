@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 

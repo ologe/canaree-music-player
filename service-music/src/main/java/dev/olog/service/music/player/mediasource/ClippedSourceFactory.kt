@@ -9,7 +9,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.SourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayerImpl
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

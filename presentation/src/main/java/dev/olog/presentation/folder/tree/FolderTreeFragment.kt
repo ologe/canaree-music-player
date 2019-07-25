@@ -9,7 +9,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
 

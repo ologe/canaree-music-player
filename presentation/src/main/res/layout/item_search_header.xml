@@ -43,7 +43,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp" />
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.shared.android.widgets.DottedSeparator
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

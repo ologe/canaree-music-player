@@ -1,7 +1,7 @@
 package dev.olog.presentation.prefs
 
 import android.graphics.Color
-import dev.olog.shared.utils.ColorUtils
+import dev.olog.shared.android.utils.ColorUtils
 
 object ColorPalette {
 

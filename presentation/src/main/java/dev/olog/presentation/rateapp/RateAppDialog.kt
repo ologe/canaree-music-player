@@ -9,9 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
-import dev.olog.shared.utils.PlayStoreUtils
+import dev.olog.shared.android.utils.PlayStoreUtils
 import dev.olog.presentation.dagger.ActivityLifecycle
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

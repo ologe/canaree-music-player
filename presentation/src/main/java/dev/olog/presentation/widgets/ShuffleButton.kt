@@ -1,7 +1,6 @@
 package dev.olog.presentation.widgets
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
@@ -9,10 +8,14 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.*
-import dev.olog.shared.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.ColorDelegateImpl
-import dev.olog.shared.widgets.IColorDelegate
+import dev.olog.shared.android.extensions.colorAccent
+import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.lazyFast
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.widgets.ColorDelegateImpl
+import dev.olog.shared.android.widgets.IColorDelegate
 import java.lang.IllegalStateException
 
 class ShuffleButton(

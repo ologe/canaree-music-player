@@ -13,14 +13,12 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.shared.extensions.ctx
-import java.io.InputStream
+import dev.olog.shared.android.extensions.ctx
 
 private const val PICK_IMAGE_CODE = 456
 

@@ -8,7 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
 
@@ -30,7 +30,12 @@ class RelatedArtistFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    private val adapter by lazyFast {
+        RelatedArtistFragmentAdapter(
+            lifecycle,
+            navigator
+        )
+    }
 
     private val viewModel by lazyFast {
         viewModelProvider<RelatedArtistFragmentViewModel>(

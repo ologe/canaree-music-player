@@ -13,9 +13,9 @@ import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.MusicService
 import dev.olog.presentation.main.MainActivity
-import dev.olog.shared.palette.ImageProcessorResult
-import dev.olog.shared.extensions.asServicePendingIntent
-import dev.olog.shared.extensions.getAppWidgetsIdsFor
+import dev.olog.shared.android.palette.ImageProcessorResult
+import dev.olog.shared.android.extensions.asServicePendingIntent
+import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction

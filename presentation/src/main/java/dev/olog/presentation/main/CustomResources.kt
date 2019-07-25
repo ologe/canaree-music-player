@@ -5,7 +5,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.util.DisplayMetrics
-import dev.olog.shared.utils.ColorUtils
+import dev.olog.shared.android.utils.ColorUtils
 
 class CustomResources(
     private val isDarkMode: Boolean,

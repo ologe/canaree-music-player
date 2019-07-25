@@ -13,9 +13,9 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.presentation.utils.showIme
-import dev.olog.shared.extensions.ctx
-import dev.olog.shared.extensions.toast
-import dev.olog.shared.extensions.unsubscribe
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

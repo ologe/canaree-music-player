@@ -12,7 +12,7 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideRequest
 import dev.olog.image.provider.extend
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 
 //TODO remove after migrating to coroutines
 fun Context.getCachedBitmapOld(

@@ -15,14 +15,12 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.extensions.mapListItem
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.mapListItem
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.reactivex.Completable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject

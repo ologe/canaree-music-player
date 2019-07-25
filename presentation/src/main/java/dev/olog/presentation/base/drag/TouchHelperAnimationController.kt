@@ -1,7 +1,6 @@
 package dev.olog.presentation.base.drag
 
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
@@ -10,7 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.extensions.*
+import dev.olog.shared.android.extensions.*
 import kotlin.math.hypot
 
 internal class TouchHelperAnimationController {

@@ -25,8 +25,8 @@ import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged

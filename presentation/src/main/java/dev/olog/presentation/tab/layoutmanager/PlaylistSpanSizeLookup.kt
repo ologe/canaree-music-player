@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab.layoutmanager
 
 import android.content.Context
-import dev.olog.shared.extensions.configuration
+import dev.olog.shared.android.extensions.configuration
 
 class PlaylistSpanSizeLookup(
         context: Context

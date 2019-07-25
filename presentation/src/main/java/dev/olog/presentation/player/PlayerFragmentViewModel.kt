@@ -12,9 +12,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.theme.PlayerAppearance
-import dev.olog.shared.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.*
+import dev.olog.shared.android.theme.PlayerAppearance
+import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.widgets.adaptive.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

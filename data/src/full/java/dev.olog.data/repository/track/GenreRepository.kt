@@ -23,8 +23,8 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import dev.olog.shared.extensions.assertBackground
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 

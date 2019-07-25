@@ -8,9 +8,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.extensions.lazyFast
-import kotlin.properties.Delegates
-import kotlin.system.measureTimeMillis
+import dev.olog.shared.android.extensions.lazyFast
 
 class SimpleNestedScrollView(
     context: Context,

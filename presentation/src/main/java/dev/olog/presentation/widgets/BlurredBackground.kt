@@ -9,7 +9,7 @@ import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.getCachedDrawable
-import dev.olog.shared.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
 
