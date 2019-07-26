@@ -13,10 +13,8 @@ import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
-import dev.olog.shared.android.extensions.unsubscribe
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
