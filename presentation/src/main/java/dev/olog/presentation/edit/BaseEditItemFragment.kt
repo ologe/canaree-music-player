@@ -14,7 +14,9 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
@@ -42,6 +44,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .override(500)
             .priority(Priority.IMMEDIATE)
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .into(image)
     }
 
@@ -54,15 +57,17 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
             .load(any)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .into(image)
     }
 
-    protected fun getBitmap(any: Any?): Bitmap? {
+    protected fun getBitmap(any: Any?, mediaId: MediaId): Bitmap? {
         return GlideApp.with(ctx)
             .asBitmap()
             .load(any)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .submit(500,500)
             .get()
     }

@@ -14,12 +14,7 @@ import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.data.repository.podcast.PodcastRepository
-import dev.olog.data.repository.track.AlbumRepository
-import dev.olog.data.repository.track.ArtistRepository
-import dev.olog.data.repository.track.FolderRepository
-import dev.olog.data.repository.track.GenreRepository
-import dev.olog.data.repository.track.PlaylistRepository
-import dev.olog.data.repository.track.SongRepository
+import dev.olog.data.repository.track.*
 import javax.inject.Singleton
 
 @Module
@@ -92,5 +87,9 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun provideUsedImageRepository(repository: UsedImageRepository): UsedImageGateway
+
+    @Binds
+    @Singleton
+    internal abstract fun provideImageVersion(repository: ImageVersionRepository): ImageVersionGateway
 
 }

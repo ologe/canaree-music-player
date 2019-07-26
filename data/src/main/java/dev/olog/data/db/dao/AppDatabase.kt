@@ -5,7 +5,8 @@ import androidx.room.RoomDatabase
 import dev.olog.data.db.entities.*
 
 
-@Database(entities = arrayOf(
+@Database(
+    entities = arrayOf(
         PlayingQueueEntity::class,
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
@@ -37,9 +38,12 @@ import dev.olog.data.db.entities.*
         PodcastPlaylistEntity::class,
         PodcastPlaylistTrackEntity::class,
 
-        PodcastPositionEntity::class
+        PodcastPositionEntity::class,
 
-), version = 17, exportSchema = true)
+        ImageVersion::class
+
+    ), version = 18, exportSchema = true
+)
 internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -56,12 +60,12 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun historyDao(): HistoryDao
 
-    abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
-    abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
-    abstract fun lastPlayedPodcastArtistDao() : LastPlayedPodcastArtistDao
-    abstract fun lastPlayedPodcastAlbumDao() : LastPlayedPodcastAlbumDao
+    abstract fun lastPlayedAlbumDao(): LastPlayedAlbumDao
+    abstract fun lastPlayedArtistDao(): LastPlayedArtistDao
+    abstract fun lastPlayedPodcastArtistDao(): LastPlayedPodcastArtistDao
+    abstract fun lastPlayedPodcastAlbumDao(): LastPlayedPodcastAlbumDao
 
-    abstract fun lastFmDao() : LastFmDao
+    abstract fun lastFmDao(): LastFmDao
 
     abstract fun offlineLyricsDao(): OfflineLyricsDao
 
@@ -70,4 +74,6 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
     abstract fun podcastPositionDao(): PodcastPositionDao
+
+    abstract fun imageVersionDao(): ImageVersionDao
 }

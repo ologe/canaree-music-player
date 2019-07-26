@@ -8,14 +8,16 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.lazyFast
 
 open class PlayerImageView @JvmOverloads constructor(
-        context: Context,
-        attr: AttributeSet? = null
+    context: Context,
+    attr: AttributeSet? = null
 
 ) : ShapeImageView(context, attr) {
 
@@ -27,14 +29,14 @@ open class PlayerImageView @JvmOverloads constructor(
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
-        if (!isInEditMode){
+        if (!isInEditMode) {
             adaptiveImageHelper.setImageBitmap(bm)
         }
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-        if (!isInEditMode){
+        if (!isInEditMode) {
             adaptiveImageHelper.setImageDrawable(drawable)
         }
     }
@@ -42,16 +44,17 @@ open class PlayerImageView @JvmOverloads constructor(
     fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
     fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
 
-    open fun loadImage(mediaId: MediaId){
+    open fun loadImage(mediaId: MediaId) {
 
         GlideApp.with(context).clear(this)
         GlideApp.with(context)
-                .load(mediaId)
-                .placeholder(CoverUtils.getGradient(context, mediaId))
-                .priority(Priority.IMMEDIATE)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .override(Target.SIZE_ORIGINAL)
-                .into(RippleTarget(this))
+            .load(mediaId)
+            .placeholder(CoverUtils.getGradient(context, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .override(Target.SIZE_ORIGINAL)
+            .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
+            .into(RippleTarget(this))
     }
 
 }

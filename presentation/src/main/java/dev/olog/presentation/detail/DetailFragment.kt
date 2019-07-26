@@ -13,7 +13,9 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -176,6 +178,7 @@ class DetailFragment : BaseFragment(),
             .priority(Priority.IMMEDIATE)
             .onlyRetrieveFromCache(true)
             .error(CoverUtils.getGradient(requireContext(), mediaId))
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,

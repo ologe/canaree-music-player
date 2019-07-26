@@ -161,8 +161,8 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
                 withContext(Dispatchers.IO){
                     val imageType = viewModel.loadOriginalImage(mediaId)
                     val bitmap = when (imageType) {
-                        is ImageType.String -> getBitmap(imageType.url)
-                        is ImageType.Stream -> getBitmap(imageType.stream)
+                        is ImageType.String -> getBitmap(imageType.url, mediaId) // TODO, bad first time triggers download
+                        is ImageType.Stream -> getBitmap(imageType.stream, mediaId)
                     }
                     bitmap?.let { b ->
                         val stylizedBitmap = stylizer.stylize(b)

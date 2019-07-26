@@ -29,9 +29,6 @@ class OfflineLyricsContent(
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
 
     private suspend fun loadImage(mediaId: MediaId) {
-        withContext(Dispatchers.Main){
-            GlideApp.with(context).clear(content.image)
-        }
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
             val blurred = BlurKit.getInstance().blur(original, 20)

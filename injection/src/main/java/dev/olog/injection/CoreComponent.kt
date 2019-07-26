@@ -88,6 +88,8 @@ interface CoreComponent {
     fun podcastAlbumGateway2(): PodcastAlbumGateway
     fun podcastArtistGateway2(): PodcastArtistGateway
 
+    fun imageVersionGateway(): ImageVersionGateway
+
     fun encrypter(): IEncrypter
 
     @Component.Factory

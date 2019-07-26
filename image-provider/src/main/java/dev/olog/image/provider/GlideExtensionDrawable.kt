@@ -1,14 +1,13 @@
 package dev.olog.image.provider
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.getImageVersionGateway
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -24,12 +23,14 @@ suspend fun Context.getCachedDrawable(
     val error = GlideApp.with(this)
         .load(placeholder)
         .extend(extension)
+        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
 
     GlideApp.with(this)
         .load(mediaId)
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
+        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Drawable>() {
 
@@ -61,37 +62,6 @@ suspend fun Context.getCachedDrawable(
                     continuation.resume(null)
                 }
             }
-        })
-}
-
-fun Context.getDrawableAsync(
-    mediaId: MediaId,
-    size: Int = Target.SIZE_ORIGINAL,
-    action: (Drawable) -> Unit
-) {
-
-    val placeholder = CoverUtils.getGradient(this, mediaId)
-
-    val error = GlideApp.with(this)
-        .load(placeholder.toBitmap())
-        .override(size)
-
-    GlideApp.with(this)
-        .load(mediaId)
-        .error(error)
-        .override(size)
-        .priority(Priority.IMMEDIATE)
-        .into(object : CustomTarget<Drawable>() {
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                action(resource)
-            }
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                errorDrawable?.let { action(it) }
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
         })
 }
 

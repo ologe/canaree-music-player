@@ -5,8 +5,9 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.image.provider.hasGlideSignature
+import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.song.DisplayableSong
 import dev.olog.shared.android.extensions.toast
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val presenter: EditItemPresenter
+    private val presenter: EditItemPresenter,
+    private val imageVersionGateway: ImageVersionGateway
 
 ) : ViewModel() {
 
@@ -32,7 +34,15 @@ class EditItemViewModel @Inject constructor(
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
         withContext(Dispatchers.IO) {
-            context.hasGlideSignature().increaseCurrentVersion()
+            val mediaIdCategory = if (data.originalSong.isPodcast) {
+                MediaIdCategory.PODCASTS
+            } else MediaIdCategory.SONGS
+            imageVersionGateway.increaseCurrentVersion(
+                MediaId.playableItem(
+                    MediaId.createCategoryValue(mediaIdCategory, ""),
+                    data.originalSong.id
+                )
+            )
             presenter.deleteTrack(data.originalSong.id)
             presenter.updateSingle(data)
         }
@@ -50,12 +60,12 @@ class EditItemViewModel @Inject constructor(
             data.year.isNotBlank() && !data.year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
         }
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             context.toast(R.string.edit_album_update_start)
         }
 
-        withContext(Dispatchers.IO){
-            context.hasGlideSignature().increaseCurrentVersion()
+        withContext(Dispatchers.IO) {
+            imageVersionGateway.increaseCurrentVersion(data.mediaId)
             presenter.deleteAlbum(data.mediaId)
             presenter.updateAlbum(data)
         }
@@ -71,12 +81,12 @@ class EditItemViewModel @Inject constructor(
             data.name.isBlank() -> return UpdateResult.EMPTY_TITLE
         }
 
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             context.toast(R.string.edit_artist_update_start)
         }
 
-        withContext(Dispatchers.IO){
-            context.hasGlideSignature().increaseCurrentVersion()
+        withContext(Dispatchers.IO) {
+            imageVersionGateway.increaseCurrentVersion(data.mediaId)
             presenter.deleteArtist(data.mediaId)
             presenter.updateArtist(data)
         }

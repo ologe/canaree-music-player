@@ -1,8 +1,8 @@
 package dev.olog.msc.app
 
 import android.app.Application
-import dev.olog.image.provider.HasGlideSignature
-import dev.olog.msc.GlideSignatureListener
+import dev.olog.core.gateway.HasImageVersionGateway
+import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.msc.theme.*
 import dev.olog.shared.android.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -13,7 +13,7 @@ abstract class ThemedApp : Application(),
     HasImmersive,
     HasImageShape,
     HasQuickAction,
-    HasGlideSignature /* put here for convenience */ {
+    HasImageVersionGateway {
 
     @Inject
     internal lateinit var darkModeListener: DarkModeListener
@@ -31,7 +31,7 @@ abstract class ThemedApp : Application(),
     internal lateinit var quickActionListener: QuickActionListener
 
     @Inject
-    internal lateinit var glideSignatureListener: GlideSignatureListener
+    internal lateinit var imageVersionGateway: ImageVersionGateway
 
     override fun playerAppearance(): PlayerAppearance {
         return playerAppearanceListener.playerAppearance
@@ -57,9 +57,5 @@ abstract class ThemedApp : Application(),
         return quickActionListener.quickActionPublisher.openSubscription()
     }
 
-    override fun getCurrentVersion() = glideSignatureListener.getCurrentVersion()
-
-    override fun increaseCurrentVersion() {
-        glideSignatureListener.increaseCurrentVersion()
-    }
+    override fun getImageVersionGateway(): ImageVersionGateway = imageVersionGateway
 }

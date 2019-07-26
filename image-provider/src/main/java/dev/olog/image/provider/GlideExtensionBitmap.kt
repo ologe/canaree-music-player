@@ -9,6 +9,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.shared.safeResume
 import java.lang.Exception
 import kotlin.coroutines.suspendCoroutine
@@ -26,12 +27,15 @@ suspend fun Context.getCachedBitmap(
     onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
 ): Bitmap? = suspendCoroutine { continuation ->
 
+
+
     GlideApp.with(this)
         .asBitmap()
         .load(mediaId)
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
+        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Bitmap>() {
 
@@ -56,6 +60,7 @@ suspend fun Context.getCachedBitmap(
                         .asBitmap()
                         .load(placeholder.toBitmap(bestSize, bestSize))
                         .extend(extension)
+                        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(
                                 resource: Bitmap,

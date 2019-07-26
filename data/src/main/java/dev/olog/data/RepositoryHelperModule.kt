@@ -17,10 +17,17 @@ class RepositoryHelperModule {
     @Singleton
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-            .addMigrations(MIGRATION_15_16, MIGRATION_16_17)
+            .addMigrations(
+                MIGRATION_15_16,
+                MIGRATION_16_17,
+                MIGRATION_17_18
+            )
             .build()
     }
 
+    /**
+     * drops last_fm_podcast tables and mini_queue
+     */
     private val MIGRATION_15_16 = object : Migration(15, 16) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("DROP TABLE last_fm_podcast")
@@ -30,6 +37,10 @@ class RepositoryHelperModule {
         }
     }
 
+    /**
+     * drop last_fm_track tables
+     * creates the same tables with mbid and wiki columns
+     */
     private val MIGRATION_16_17 = object : Migration(16, 17) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("DROP TABLE last_fm_track")
@@ -79,6 +90,18 @@ class RepositoryHelperModule {
             """
             )
             database.execSQL("CREATE  INDEX `index_last_fm_artist_id` ON last_fm_artist_v2 (`id`)")
+        }
+    }
+
+    /**
+     * creates image version table
+     */
+    private val MIGRATION_17_18 = object : Migration(17, 18){
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `image_version` (`hash` INTEGER NOT NULL, `version` INTEGER NOT NULL, PRIMARY KEY(`hash`))
+            """.trimIndent())
+            database.execSQL("CREATE  INDEX `index_image_version_hash` ON `image_version` (`hash`)")
         }
     }
 
