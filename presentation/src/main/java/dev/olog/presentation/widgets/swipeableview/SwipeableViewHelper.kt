@@ -5,9 +5,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import dev.olog.shared.android.extensions.findChild
+import dev.olog.presentation.R
+import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ForegroundImageView
 import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 import kotlin.math.abs
@@ -30,17 +30,14 @@ internal class SwipeableViewHelper(
 
     var swipeListener: SwipeableView.SwipeListener? = null
 
-    private val cover by lazyFast { findCover() }
+    private val viewSwitcher by lazyFast { findViewSwitcher() }
 
     private val isTouchingPublisher = PublishProcessor.create<Boolean>()
 
     private val touchSlop by lazy { ViewConfiguration.get(view.context).scaledTouchSlop }
 
-    private fun findCover(): ForegroundImageView? {
-        if (view.parent is ViewGroup) {
-            return (view.parent as ViewGroup).findChild { it is ForegroundImageView } as ForegroundImageView?
-        }
-        return null
+    private fun findViewSwitcher(): CustomViewSwitcher? {
+        return (view.parent as ViewGroup).findViewById(R.id.imageSwitcher)
     }
 
     fun onTouchDown(event: MotionEvent): Boolean {
@@ -120,10 +117,12 @@ internal class SwipeableViewHelper(
 
     @SuppressLint("Recycle")
     private fun requestRipple(event: MotionEvent) {
+        val switcher = viewSwitcher ?: return
         val downEvent = MotionEvent.obtain(event).apply { this.action = MotionEvent.ACTION_DOWN }
-        cover?.dispatchTouchEvent(downEvent)
+        val imageView = switcher.getImageView(switcher.currentView)
+        imageView.dispatchTouchEvent(downEvent)
         downEvent.recycle()
-        cover?.dispatchTouchEvent(event)
+        imageView.dispatchTouchEvent(event)
     }
 
     fun isTouching(): Flowable<Boolean> = isTouchingPublisher.distinctUntilChanged()

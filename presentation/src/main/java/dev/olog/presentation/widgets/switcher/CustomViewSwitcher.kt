@@ -3,6 +3,7 @@ package dev.olog.presentation.widgets.switcher
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.forEach
@@ -112,11 +113,7 @@ class CustomViewSwitcher(
     private fun loadImageInternal(mediaId: MediaId) {
         animationFinished = false
 
-        val imageView = when (val next = getNextView()) {
-            is ImageView -> next
-            is ViewGroup -> next.findChild { it is ImageView }
-            else -> throw IllegalStateException()
-        } as ImageView
+        val imageView = getImageView(getNextView())
 
         GlideApp.with(context).clear(imageView)
         GlideApp.with(context)
@@ -126,7 +123,15 @@ class CustomViewSwitcher(
             .override(Target.SIZE_ORIGINAL)
             .onlyRetrieveFromCache(true)
             .listener(this)
-            .into(RippleTarget(imageView))
+            .into(RippleTarget(imageView)) // TODO ripple not working
+    }
+
+    fun getImageView(parent: View): ImageView {
+        return when (parent) {
+            is ImageView -> parent
+            is ViewGroup -> parent.findChild { it is ImageView }
+            else -> throw IllegalStateException()
+        } as ImageView
     }
 
     override fun onLoadFailed(
