@@ -47,7 +47,7 @@ class EqualizerImpl @Inject constructor(
         return try {
             (0 until equalizer!!.numberOfPresets)
                 .map { equalizer!!.getPresetName(it.toShort()) }
-        } catch (ex: java.lang.Exception) {
+        } catch (ex: Throwable) {
             return emptyList()
         }
     }

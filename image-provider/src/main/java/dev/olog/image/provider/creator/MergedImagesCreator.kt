@@ -21,7 +21,7 @@ internal object MergedImagesCreator {
         for (id in albumsId) {
             try {
                 getBitmap(context, id)?.let { uris.add(IdWithBitmap(id, it)) }
-            } catch (ex: Exception){}
+            } catch (ex: Throwable){}
             if (uris.size == 9){
                 break
             }

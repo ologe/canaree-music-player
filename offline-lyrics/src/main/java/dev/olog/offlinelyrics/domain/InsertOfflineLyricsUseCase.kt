@@ -29,7 +29,7 @@ class InsertOfflineLyricsUseCase @Inject constructor(
         try {
             updateTrackMetadata(song.path, lyrics)
             updateFileIfAny(song.path, lyrics)
-        } catch (ex: Exception){
+        } catch (ex: Throwable){
             ex.printStackTrace()
         }
     }

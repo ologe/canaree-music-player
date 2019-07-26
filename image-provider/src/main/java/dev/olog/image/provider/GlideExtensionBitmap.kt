@@ -11,7 +11,6 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.shared.safeResume
-import java.lang.Exception
 import kotlin.coroutines.suspendCoroutine
 
 sealed class OnImageLoadingError {
@@ -76,7 +75,7 @@ suspend fun Context.getCachedBitmap(
                             override fun onLoadCleared(placeholder: Drawable?) {
                                 try {
                                     continuation.safeResume(null)
-                                } catch (ex: Exception){
+                                } catch (ex: Throwable){
                                     // already resumed
                                 }
                             }

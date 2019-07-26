@@ -13,7 +13,7 @@ object FileProvider {
     fun getUriForFile(context: Context, file: File): Uri {
         return try {
             FileProvider.getUriForFile(context, authority, file)
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             return Uri.EMPTY
         }

@@ -43,7 +43,7 @@ fun TrackSearch.toDomain(id: Long): LastFmTrack? {
             "",
             ""
         )
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         ex.printStackTrace()
         return LastFmTrack(
             id,
@@ -84,7 +84,7 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
             "",
             ""
         )
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         ex.printStackTrace()
         return LastFmAlbum(
             id,

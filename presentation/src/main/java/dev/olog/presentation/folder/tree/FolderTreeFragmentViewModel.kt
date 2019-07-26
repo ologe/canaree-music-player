@@ -10,21 +10,18 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.rx2.asObservable
 import java.io.File
 import javax.inject.Inject
 
@@ -115,7 +112,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         try {
             currentFile.onNext(current.parentFile)
             return true
-        } catch (e: Exception){
+        } catch (e: Throwable){
             e.printStackTrace()
             return false
         }

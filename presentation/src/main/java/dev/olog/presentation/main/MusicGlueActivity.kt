@@ -10,14 +10,14 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.intents.MusicServiceAction
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
 import dev.olog.media.MediaProvider
 import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -59,7 +59,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         try {
             registerMediaController(mediaBrowser.sessionToken, callback)
             mediaExposer.initialize(MediaControllerCompat.getMediaController(this))
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             onConnectedFailed(mediaBrowser, callback)
         }

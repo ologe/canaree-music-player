@@ -39,7 +39,7 @@ class VirtualizerImpl @Inject constructor(
                     properties = Virtualizer.Settings(lastProperties)
                 }
             }
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
         }
     }

@@ -25,7 +25,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
                 val song = songGateway.getByParam(param) ?: return@map lyrics
                 try {
                     getLyricsFromMetadata(song)
-                } catch (ex: Exception) {
+                } catch (ex: Throwable) {
                     lyrics
                 }
             }.flowOn(Dispatchers.IO)

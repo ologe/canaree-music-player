@@ -25,7 +25,7 @@ class BlurredBackground(
         job = GlobalScope.launch(Dispatchers.IO) {
             try {
                 loadImageInternal(mediaId)
-            } catch (ex: Exception){
+            } catch (ex: Throwable){
                 ex.printStackTrace()
             }
         }

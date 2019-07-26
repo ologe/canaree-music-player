@@ -5,7 +5,10 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.colorAccent
+import dev.olog.shared.android.extensions.colorBackground
+import dev.olog.shared.android.extensions.textColorPrimary
+import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*
@@ -39,7 +42,7 @@ class AdaptiveColorImageViewPresenter(
     fun onNextImage(drawable: Drawable?) {
         try {
             onNextImage(drawable?.toBitmap())
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
         }
     }
@@ -71,7 +74,7 @@ class AdaptiveColorImageViewPresenter(
                 val accent = ColorUtil.getAccentColor(context, palette)
                 palettePublisher.offer(ValidPaletteColors(accent))
             }
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             processorPalettePublisher.offer(defaultProcessorColors)
             palettePublisher.offer(defaultPaletteColors)

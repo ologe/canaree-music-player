@@ -26,14 +26,14 @@ class UpdateTrackUseCase @Inject constructor(
             val tag = audioFile.tagOrCreateAndSetDefault
             try {
                 tag.setEncoding("UTF-8")
-            } catch (ex: Exception) {
+            } catch (ex: Throwable) {
                 ex.printStackTrace()
             }
 
             for (field in param.fields) {
                 try {
                     tag.setField(field.key, field.value)
-                } catch (ex: Exception) {
+                } catch (ex: Throwable) {
                     ex.printStackTrace()
                 }
             }
@@ -49,7 +49,7 @@ class UpdateTrackUseCase @Inject constructor(
             val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
             intent.data = Uri.fromFile(File((param.path)))
             context.sendBroadcast(intent)
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
         }
     }

@@ -120,7 +120,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             }
 
             return result
-        } catch (ex: Exception){
+        } catch (ex: Throwable){
             ex.printStackTrace()
             val spannable = SpannableString(lyrics)
             spannable.setSpan(ForegroundColorSpan(Color.WHITE), 0, spannable.length,  Spanned.SPAN_INCLUSIVE_INCLUSIVE)

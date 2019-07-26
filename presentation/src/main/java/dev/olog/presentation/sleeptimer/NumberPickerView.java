@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import androidx.core.widget.ScrollerCompat;
+
 import dev.olog.presentation.R;
 
 class NumberPickerView extends View {
@@ -470,7 +471,7 @@ class NumberPickerView extends View {
                 if (mOnValueChangeListenerRaw != null) {
                     mOnValueChangeListenerRaw.onValueChangeRelativeToRaw(NumberPickerView.this, mPrevPickedIndex, currPickedIndex, mDisplayedValues);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

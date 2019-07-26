@@ -19,7 +19,7 @@ internal class EqualizerFragmentPresenter @Inject constructor(
 
     fun getPresets() = try {
         equalizer.getPresets()
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         ex.printStackTrace()
         listOf(context.getString(R.string.equalizer_not_found))
     }

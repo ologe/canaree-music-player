@@ -17,7 +17,7 @@ class AppViewModelFactory @Inject constructor(
         try {
             @Suppress("UNCHECKED_CAST")
             return creator.get() as T
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             throw RuntimeException(e)
         }
     }

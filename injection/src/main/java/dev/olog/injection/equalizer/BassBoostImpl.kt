@@ -39,7 +39,7 @@ class BassBoostImpl @Inject constructor(
                     properties = BassBoost.Settings(lastProperties)
                 }
             }
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
         }
     }

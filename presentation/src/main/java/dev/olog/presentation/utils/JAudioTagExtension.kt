@@ -6,7 +6,7 @@ import org.jaudiotagger.tag.Tag
 fun Tag?.get(fieldKey: FieldKey): String {
     return try {
         this!!.getFirst(fieldKey)
-    } catch (ex: Exception){
+    } catch (ex: Throwable){
         ex.printStackTrace()
         ""
     }

@@ -9,11 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
+import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 open class ShapeImageView @JvmOverloads constructor(
     context: Context,
@@ -91,7 +94,7 @@ open class ShapeImageView @JvmOverloads constructor(
                 }
             }
             return mask
-        } catch (ex: Exception){
+        } catch (ex: Throwable){
             // TODO big image is throwing exception when changing song
             ex.printStackTrace()
             return null

@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import dev.olog.core.MediaId
-import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
@@ -35,7 +34,7 @@ class OfflineLyricsContent(
             withContext(Dispatchers.Main){
                 content.image.setImageBitmap(blurred)
             }
-        } catch (ex: Exception){
+        } catch (ex: Throwable){
             ex.printStackTrace()
         }
     }

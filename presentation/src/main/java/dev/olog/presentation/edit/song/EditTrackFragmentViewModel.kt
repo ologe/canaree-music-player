@@ -69,7 +69,7 @@ class EditTrackFragmentViewModel @Inject constructor(
                     album = lastFmTrack?.album ?: currentSong.album
                 )
                 songLiveData.postValue(currentSong)
-            } catch (ex: Exception){
+            } catch (ex: Throwable){
                 songLiveData.postValue(songLiveData.value)
             }
         }

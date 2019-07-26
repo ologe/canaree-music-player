@@ -14,7 +14,7 @@ interface Stylizer {
                     stylizer = Class.forName("dev.olog.feature.stylize.StylizerImpl")
                         .getConstructor(Context::class.java)
                         .newInstance(context) as Stylizer
-                } catch (ex: Exception) {
+                } catch (ex: Throwable) {
                     ex.printStackTrace()
                 }
 

@@ -52,8 +52,12 @@ class GlideOriginalImageFetcher(
             try {
                 val stream = OriginalImageFetcher.loadImage(itemPath)
                 callback.onDataReady(stream)
-            } catch (ex: Exception) {
-                callback.onLoadFailed(ex)
+            } catch (ex: Throwable) {
+                if (ex is Exception){
+                    callback.onLoadFailed(ex)
+                } else {
+                    ex.printStackTrace()
+                }
             }
         }
     }

@@ -16,11 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import java.util.Arrays;
-
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.Arrays;
+
 import dev.olog.presentation.R;
 
 
@@ -255,7 +256,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
             if (dotCenterX != null) {
                 selectedDotX = dotCenterX[currentPage];
             }
-        } catch (Exception ex){
+        } catch (Throwable ex){
             ex.printStackTrace();
         }
     }

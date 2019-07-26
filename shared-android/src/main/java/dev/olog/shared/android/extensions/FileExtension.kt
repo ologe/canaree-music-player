@@ -56,7 +56,7 @@ private fun File.fileIsMimeType(mimeType: String?, mimeTypeMap: MimeTypeMap): Bo
 fun File.safeGetCanonicalPath(): String{
     try {
         return canonicalPath
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
         return absolutePath
     }
@@ -66,7 +66,7 @@ fun File.safeGetCanonicalPath(): String{
 fun File.safeGetCanonicalFile(): File{
     try {
         return canonicalFile
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
         return absoluteFile
     }

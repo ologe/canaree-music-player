@@ -39,7 +39,7 @@ fun Context.getCachedBitmapOld(
 
     return try {
         builder.submit().get()
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         if (withError) {
             error.submit().get()
         } else {

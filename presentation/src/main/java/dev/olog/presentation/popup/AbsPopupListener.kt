@@ -14,8 +14,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
-import dev.olog.shared.lazyFast
 import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ abstract class AbsPopupListener(
                         listSize,
                         title
                     )
-                } catch (ex: Exception){
+                } catch (ex: Throwable){
                     createErrorMessage(context)
                 }
             }
@@ -99,7 +99,7 @@ abstract class AbsPopupListener(
             } else {
                 activity.toast(R.string.song_not_shareable)
             }
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             activity.toast(R.string.song_not_shareable)
         }

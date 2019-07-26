@@ -42,7 +42,7 @@ class CustomResources(
             )
             cache[id] = stateList
             return stateList
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             return resolved
         }
