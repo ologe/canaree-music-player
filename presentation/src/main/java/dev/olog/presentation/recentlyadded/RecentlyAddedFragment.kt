@@ -5,14 +5,17 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import dev.olog.presentation.base.BaseFragment
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.viewModelProvider
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import javax.inject.Inject
@@ -26,13 +29,15 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
         fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject lateinit var navigator: Navigator
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
             lifecycle, navigator, act as MediaProvider, this
@@ -52,13 +57,14 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
         setupDragListener(list, ItemTouchHelper.LEFT)
 
-        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData().subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
-        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
-            val headersArray = resources.getStringArray(R.array.recently_added_header)
-            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-            this.header.text = header
-        }
+        viewModel.observeTitle()
+            .subscribe(viewLifecycleOwner) { itemTitle ->
+                val headersArray = resources.getStringArray(R.array.recently_added_header)
+                val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
+                this.header.text = header
+            }
     }
 
     override fun onResume() {

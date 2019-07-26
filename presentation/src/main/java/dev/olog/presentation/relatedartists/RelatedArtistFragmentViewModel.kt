@@ -2,7 +2,9 @@ package dev.olog.presentation.relatedartists
 
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.getMediaId
@@ -11,9 +13,12 @@ import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.mapToList
-import kotlinx.coroutines.rx2.asFlowable
+import dev.olog.shared.mapListItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModel @Inject constructor(
@@ -26,12 +31,29 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     val itemOrdinal = mediaId.category.ordinal
 
-    val data: LiveData<List<DisplayableItem>> = useCase(mediaId)
-        .asFlowable().toObservable()
-        .mapToList { it.toRelatedArtist(resources) }
-        .asLiveData()
+    private val liveData = MutableLiveData<List<DisplayableItem>>()
+    private val titleLiveData = MutableLiveData<String>()
 
-    val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
+    init {
+        viewModelScope.launch {
+            useCase(mediaId)
+                .mapListItem { it.toRelatedArtist(resources) }
+                .flowOn(Dispatchers.IO)
+                .collect { liveData.value = it }
+        }
+        viewModelScope.launch {
+            getItemTitleUseCase(mediaId)
+                .flowOn(Dispatchers.IO)
+                .collect { titleLiveData.value = it }
+        }
+    }
+
+    fun observeData(): LiveData<List<DisplayableItem>> = liveData
+    fun observeTitle(): LiveData<String> = titleLiveData
+
+    override fun onCleared() {
+        viewModelScope.cancel()
+    }
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         val songs =

@@ -8,7 +8,10 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.viewModelProvider
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import javax.inject.Inject
@@ -31,12 +34,7 @@ class RelatedArtistFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast {
-        RelatedArtistFragmentAdapter(
-            lifecycle,
-            navigator
-        )
-    }
+    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
 
     private val viewModel by lazyFast {
         viewModelProvider<RelatedArtistFragmentViewModel>(
@@ -49,13 +47,15 @@ class RelatedArtistFragment : BaseFragment() {
         list.adapter = adapter
         list.setHasFixedSize(true)
 
-        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.observeData()
+            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
-        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
-            val headersArray = resources.getStringArray(R.array.related_artists_header)
-            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-            this.header.text = header
-        }
+        viewModel.observeTitle()
+            .subscribe(viewLifecycleOwner) { itemTitle ->
+                val headersArray = resources.getStringArray(R.array.related_artists_header)
+                val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
+                this.header.text = header
+            }
     }
 
     override fun onResume() {

@@ -2,9 +2,6 @@
 
 package dev.olog.shared.android.extensions
 
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
 inline fun Disposable?.unsubscribe(){
@@ -13,12 +10,4 @@ inline fun Disposable?.unsubscribe(){
             dispose()
         }
     }
-}
-
-inline fun <T, R> Observable<List<T>>.mapToList(crossinline mapper: (T) -> R): Observable<List<R>> {
-    return this.map { it.map { mapper(it) } }
-}
-
-fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
-    return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
 }

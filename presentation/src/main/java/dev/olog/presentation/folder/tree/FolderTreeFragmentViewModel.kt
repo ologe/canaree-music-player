@@ -61,7 +61,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     fun observeFileName(): LiveData<File> = currentFile
             .asLiveData()
 
-    fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
+    fun observeChildrens(): LiveData<List<DisplayableFile>> = TODO()/*currentFile.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .flatMap { file ->
                 folderGateway.observeAll().asObservable().mapToList { it.path }.map { folderList ->
@@ -82,7 +82,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
                     }
                 }
             }
-            .asLiveData()
+            .asLiveData()*/
 
     private fun filterFolders(files: List<File>): List<DisplayableFile> {
         return files.asSequence()

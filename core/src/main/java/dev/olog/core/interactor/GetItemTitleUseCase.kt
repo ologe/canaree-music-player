@@ -1,7 +1,5 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.executor.IoScheduler
-import dev.olog.core.interactor.base.ObservableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
@@ -9,13 +7,13 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class GetItemTitleUseCase @Inject constructor(
-    schedulers: IoScheduler,
     private val getFolderUseCase: FolderGateway,
     private val getPlaylistUseCase: PlaylistGateway,
     private val getSongUseCase: SongGateway,
@@ -28,10 +26,10 @@ class GetItemTitleUseCase @Inject constructor(
     private val getPodcastAlbumUseCase: PodcastAlbumGateway,
     private val getPodcastArtistUseCase: PodcastArtistGateway
 
-) : ObservableUseCaseWithParam<String, MediaId>(schedulers) {
+) : FlowUseCaseWithParam<String, MediaId>() {
 
 
-    override fun buildUseCaseObservable(param: MediaId): Observable<String> {
+    override fun buildUseCase(param: MediaId): Flow<String> {
         return when (param.category){
             MediaIdCategory.FOLDERS -> getFolderUseCase.observeByParam(param.categoryValue).map { it?.title }
             MediaIdCategory.PLAYLISTS -> getPlaylistUseCase.observeByParam(param.categoryId).map { it?.title }
@@ -44,6 +42,7 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistUseCase.observeByParam(param.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbumUseCase.observeByParam(param.categoryId).map { it?.title }
             else -> throw IllegalArgumentException("invalid media category ${param.category}")
-        }.map { it!! }.asObservable()
+        }.map { it ?: "" }
     }
+
 }
