@@ -1,5 +1,8 @@
 package dev.olog.image.provider.fetcher
 
+import android.content.Context
+import android.net.Uri
+import android.webkit.URLUtil
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -7,10 +10,12 @@ import dev.olog.core.MediaId
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
+import dev.olog.intents.AppConstants
 import java.io.File
 import java.io.InputStream
 
 internal class GlideOverridenImageFetcher(
+    private val context: Context,
     private val mediaId: MediaId,
     private val usedImageGateway: UsedImageGateway,
     private val songGateway: SongGateway,
@@ -43,36 +48,40 @@ internal class GlideOverridenImageFetcher(
             }
             if (albumId != null) {
                 val albumImage = usedImageGateway.getForAlbum(albumId)
-                if (albumImage != null) {
-                    return File(albumImage).inputStream()
-                }
-
+                return open(albumImage)
             }
             return null
 
         } else {
-            return File(trackImage).inputStream()
+            return open(trackImage)
         }
     }
 
-    //
+
     private fun loadForAlbums(mediaId: MediaId): InputStream? {
         val albumImage = usedImageGateway.getForAlbum(mediaId.categoryId)
-        if (albumImage != null) {
-            return File(albumImage).inputStream()
-        }
-        return null
+        return open(albumImage)
     }
 
     private fun loadForArtist(mediaId: MediaId): InputStream? {
         val artistImage = usedImageGateway.getForArtist(mediaId.categoryId)
-        if (artistImage != null) {
-            return File(artistImage).inputStream()
+        return open(artistImage)
+    }
+
+    private fun open(image: String?): InputStream? {
+        if (image == null || image == AppConstants.NO_IMAGE){
+            return null
+        }
+        if (URLUtil.isContentUrl(image)){
+            return context.contentResolver.openInputStream(Uri.parse(image))
+        }
+        val file = File(image)
+        if (file.exists()){
+            return file.inputStream()
         }
         return null
     }
 
-    //
     override fun cleanup() {
 
     }
