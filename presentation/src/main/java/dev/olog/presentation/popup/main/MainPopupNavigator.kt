@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutActivity
-import dev.olog.presentation.debug.DebugConfigurationActivity
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
@@ -49,11 +48,6 @@ class MainPopupNavigator @Inject constructor(
         } else {
             activity.toast(R.string.equalizer_not_found)
         }
-    }
-
-    fun toDebugConfiguration() {
-        val intent = Intent(activity, DebugConfigurationActivity::class.java)
-        activity.startActivity(intent)
     }
 
     fun toSettingsActivity() {

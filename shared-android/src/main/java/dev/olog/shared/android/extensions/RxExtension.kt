@@ -2,7 +2,6 @@
 
 package dev.olog.shared.android.extensions
 
-import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -14,11 +13,6 @@ inline fun Disposable?.unsubscribe(){
             dispose()
         }
     }
-}
-
-inline fun <T> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
-        : Flowable<T> {
-    return this.toFlowable(backpressureStrategy)
 }
 
 inline fun <T, R> Observable<List<T>>.mapToList(crossinline mapper: (T) -> R): Observable<List<R>> {

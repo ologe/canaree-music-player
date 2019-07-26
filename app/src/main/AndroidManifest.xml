@@ -101,10 +101,7 @@
             android:theme="@style/TransparentTheme"/>
 
         <!--app shortcust playlist chooser-->
-        <activity android:name=".presentation.shortcuts.playlist.chooser.PlaylistChooserActivity" />
-
-        <!--debug configuration-->
-        <activity android:name="dev.olog.presentation.debug.DebugConfigurationActivity" />
+        <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
 
         <!--music service-->
         <service

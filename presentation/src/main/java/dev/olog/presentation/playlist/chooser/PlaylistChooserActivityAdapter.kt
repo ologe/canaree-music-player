@@ -1,11 +1,11 @@
-package dev.olog.msc.presentation.shortcuts.playlist.chooser
+package dev.olog.presentation.playlist.chooser
 
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.msc.BR
-import dev.olog.msc.R
+import dev.olog.presentation.BR
+import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter

@@ -19,6 +19,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
 import javax.inject.Inject
@@ -60,15 +61,16 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 seekBar.max = it.duration.toInt()
             }
 
-        presenter.observeLyrics()
-            .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
-            .map { text.precomputeText(it) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) {
-                emptyState.toggleVisibility(it.isEmpty(), true)
-                text.text = it
-            }
+        launch {
+            presenter.observeLyrics()
+                .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
+                .map { text.precomputeText(it) }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    emptyState.toggleVisibility(it.isEmpty(), true)
+                    text.text = it
+                }
+        }
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }

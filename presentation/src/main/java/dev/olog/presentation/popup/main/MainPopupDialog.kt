@@ -25,7 +25,6 @@ class MainPopupDialog @Inject constructor(
 ) {
 
     companion object {
-        private const val DEBUG_ID = -123
         private const val SAVE_AS_PLAYLIST_ID = -12345
     }
 
@@ -50,11 +49,6 @@ class MainPopupDialog @Inject constructor(
             else -> null
         }
 
-        if (BuildConfig.DEBUG) {
-            popup.menu.add(Menu.NONE,
-                DEBUG_ID, Menu.NONE, "configuration")
-        }
-
         if (category == MediaIdCategory.PLAYING_QUEUE) {
             popup.menu.add(
                 Menu.NONE,
@@ -69,7 +63,6 @@ class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> popupNavigator.toEqualizer()
                 R.id.settings -> popupNavigator.toSettingsActivity()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
-                DEBUG_ID -> popupNavigator.toDebugConfiguration()
                 SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
                     MediaId.playingQueueId,
                     -1,
