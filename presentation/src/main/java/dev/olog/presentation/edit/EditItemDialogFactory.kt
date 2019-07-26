@@ -41,6 +41,7 @@ class EditItemDialogFactory @Inject constructor(
                 action()
             }
         } catch (ex: Throwable) {
+            ex.printStackTrace()
             withContext(Dispatchers.Main) {
                 showError(ex)
             }
@@ -54,6 +55,7 @@ class EditItemDialogFactory @Inject constructor(
                 action()
             }
         } catch (ex: Throwable) {
+            ex.printStackTrace()
             withContext(Dispatchers.Main) {
                 showError(ex)
             }
