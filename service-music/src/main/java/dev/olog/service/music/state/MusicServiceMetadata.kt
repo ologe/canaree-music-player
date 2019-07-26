@@ -11,7 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.image.provider.getBitmapAsync
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
@@ -21,12 +21,10 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
+import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerService
@@ -38,7 +36,7 @@ internal class MusicServiceMetadata @Inject constructor(
 
 ) : PlayerLifecycle.Listener,
     DefaultLifecycleObserver,
-    CoroutineScope by MainScope() {
+    CoroutineScope by CustomScope() {
 
     companion object {
         @JvmStatic
@@ -74,29 +72,32 @@ internal class MusicServiceMetadata @Inject constructor(
     private fun update(metadata: MetadataEntity) {
         Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        val entity = metadata.entity
+        launch {
 
-        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
-            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
-            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
-            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
-            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
-            .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
-            .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
+            val entity = metadata.entity
+
+            builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
 //                .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image) TODO ??
 //                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
-            .putString(MusicConstants.PATH, entity.path)
-            .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
-            .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)
-            .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
+                .putString(MusicConstants.PATH, entity.path)
+                .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
+                .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)
+                .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
 
-        if (showLockScreenArtwork) {
-            context.getBitmapAsync(entity.mediaId, Target.SIZE_ORIGINAL) { bitmap ->
+            yield()
+
+            if (showLockScreenArtwork) {
+                val bitmap = context.getCachedBitmap(entity.mediaId, Target.SIZE_ORIGINAL)
+                yield()
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
-                mediaSession.setMetadata(builder.build())
             }
-        } else {
             mediaSession.setMetadata(builder.build())
         }
     }

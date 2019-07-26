@@ -95,39 +95,6 @@ private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
     return 300 // random size
 }
 
-
-fun Context.getBitmapAsync(
-    mediaId: MediaId,
-    size: Int = Target.SIZE_ORIGINAL,
-    action: (Bitmap) -> Unit
-) {
-
-    val placeholder = CoverUtils.getGradient(this, mediaId)
-
-    val error = GlideApp.with(this)
-        .asBitmap()
-        .load(placeholder.toBitmap())
-        .override(size)
-
-    GlideApp.with(this)
-        .asBitmap()
-        .load(mediaId)
-        .error(error)
-        .override(size)
-        .priority(Priority.IMMEDIATE)
-        .into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                action(resource)
-            }
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                errorDrawable?.let { action(it.toBitmap()) }
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
-}
-
 internal fun GlideRequest<Bitmap>.extend(func: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)?): GlideRequest<Bitmap> {
     if (func != null) {
         return this.func()

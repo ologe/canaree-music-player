@@ -13,6 +13,8 @@
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)
 - fix snackbar (buy premium) in setting fragment
+- check if show album art on lockscreen works
+- player image view not loading always download images (because of skip memory cache in glide module?)
 
 ## features
 - use don't keep activities and add try to restore previous state
