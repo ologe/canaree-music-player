@@ -42,13 +42,9 @@ class UpdateTrackUseCase @Inject constructor(
 
             if (param.id != null) {
                 gateway.setForTrack(param.id, param.image)
-                updateDataModified(param.id)
+                updateDataModified(param.id) // TODO image for some reasong is loading for another id
             }
 
-
-            val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-            intent.data = Uri.fromFile(File((param.path)))
-            context.sendBroadcast(intent)
         } catch (ex: Throwable) {
             ex.printStackTrace()
         }

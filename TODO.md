@@ -17,6 +17,8 @@
 - player image view not loading always download images (because of skip memory cache in glide module?)
 - floating window play button in search lyrics not alwaus working
 - playing queue drag and drop not working as intended
+- favorite not working
+- overide image is not working 
 
 ## features
 - use don't keep activities and add try to restore previous state

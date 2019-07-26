@@ -7,14 +7,12 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.intents.AppConstants
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
-import java.lang.Exception
 
 internal class GlideOverridenImageFetcher(
     private val context: Context,
@@ -27,24 +25,18 @@ internal class GlideOverridenImageFetcher(
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        val inputStream: InputStream?
         if (mediaId.isLeaf) {
-            inputStream = loadForSongs(mediaId)
+            loadForSongs(mediaId, callback)
         } else if (mediaId.isAlbum || mediaId.isPodcastAlbum) {
-            inputStream = loadForAlbums(mediaId)
+            loadForAlbums(mediaId, callback)
         } else if (mediaId.isArtist || mediaId.isPodcastArtist) {
-            inputStream = loadForArtist(mediaId)
+            loadForArtist(mediaId, callback)
         } else {
-            inputStream = null
-        }
-        if (inputStream == null){
             callback.onLoadFailed(Exception("no override image"))
-        } else {
-            callback.onDataReady(inputStream)
         }
     }
 
-    private fun loadForSongs(mediaId: MediaId): InputStream? {
+    private fun loadForSongs(mediaId: MediaId, callback: DataFetcher.DataCallback<in InputStream>) {
         val trackImage = usedImageGateway.getForTrack(mediaId.resolveId)
         if (trackImage == null) {
             val albumId = if (mediaId.isPodcast) {
@@ -54,41 +46,48 @@ internal class GlideOverridenImageFetcher(
             }
             if (albumId != null) {
                 val albumImage = usedImageGateway.getForAlbum(albumId)
-                return open(albumImage)
+                if (open(albumImage, callback)) {
+                    return
+                }
             }
-            return null
-
         } else {
-            return open(trackImage)
+            if (open(trackImage, callback)) {
+                return
+            }
         }
+        callback.onLoadFailed(Exception("no override image"))
     }
 
 
-    private fun loadForAlbums(mediaId: MediaId): InputStream? {
+    private fun loadForAlbums(mediaId: MediaId, callback: DataFetcher.DataCallback<in InputStream>) {
         val albumImage = usedImageGateway.getForAlbum(mediaId.categoryId)
-        return open(albumImage)
+        open(albumImage, callback)
     }
 
-    private fun loadForArtist(mediaId: MediaId): InputStream? {
+    private fun loadForArtist(mediaId: MediaId, callback: DataFetcher.DataCallback<in InputStream>) {
         val artistImage = usedImageGateway.getForArtist(mediaId.categoryId)
-        return open(artistImage)
+        open(artistImage, callback)
     }
 
-    private fun open(image: String?): InputStream? {
+    private fun open(image: String?, callback: DataFetcher.DataCallback<in InputStream>): Boolean  {
         if (image == null){
-            return null
+            callback.onLoadFailed(Exception("no override image"))
+            return true
         }
         if (image == AppConstants.NO_IMAGE){
-            return ByteArrayInputStream(byteArrayOf())
+            callback.onDataReady(null)
+            return true
         }
         if (URLUtil.isContentUrl(image)){
-            return context.contentResolver.openInputStream(Uri.parse(image))
+            callback.onDataReady(context.contentResolver.openInputStream(Uri.parse(image)))
+            return true
         }
         val file = File(image)
         if (file.exists()){
-            return file.inputStream()
+            callback.onDataReady(file.inputStream())
+            return true
         }
-        return null
+        return false
     }
 
     override fun cleanup() {
