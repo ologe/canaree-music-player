@@ -108,7 +108,7 @@ internal class SwipeableViewHelper(
                     swipeListener?.onRightEdgeClick()
                     return true
                 }
-                abs(xDown - xUp) < touchSlop -> {
+                abs(xDown - xUp) < touchSlop && abs(yDown - yUp) < touchSlop -> {
                     requestRipple(event)
                     swipeListener?.onClick()
                     return true
