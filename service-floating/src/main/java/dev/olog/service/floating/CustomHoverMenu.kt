@@ -5,14 +5,16 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -35,7 +37,7 @@ class CustomHoverMenu @Inject constructor(
     private val videoContent = VideoContent(lifecycle, context)
     private val offlineLyricsContent = OfflineLyricsContent(context, musicServiceBinder, offlineLyricsContentPresenter)
 
-    private val subscriptions = CompositeDisposable()
+    private var disposable: Job? = null
 
     private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {
@@ -50,17 +52,18 @@ class CustomHoverMenu @Inject constructor(
     }
 
     fun startObserving(){
-        musicPreferencesUseCase.observeLastMetadata()
+        disposable?.cancel()
+        disposable = GlobalScope.launch {
+            musicPreferencesUseCase.observeLastMetadata()
                 .filter { it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .collect {
                     item = it.description
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
+                }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        subscriptions.clear()
+        disposable?.cancel()
     }
 
     private val lyricsSection = Section(

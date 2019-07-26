@@ -25,7 +25,7 @@ interface MusicPreferencesGateway {
 
     fun getLastMetadata(): LastMetadata
     fun setLastMetadata(metadata: LastMetadata)
-    fun observeLastMetadata(): Observable<LastMetadata>
+    fun observeLastMetadata(): Flow<LastMetadata>
 
     fun setDefault()
 

@@ -12,9 +12,12 @@ import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.unsubscribe
 import dev.olog.shared.android.utils.isOreo
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "0xfff"
@@ -35,7 +38,7 @@ class FloatingWindowNotification @Inject constructor(
         service,
         CHANNEL_ID
     )
-    private var disposable: Disposable? = null
+    private var disposable: Job? = null
 
     private var notificationTitle = ""
 
@@ -45,17 +48,21 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable.unsubscribe()
+        disposable?.cancel()
     }
 
     fun startObserving() {
-        disposable = musicPreferencesUseCase.observeLastMetadata()
-            .filter { it.isNotEmpty() }
-            .subscribe({
-                notificationTitle = it.description
-                val notification = builder.setContentTitle(notificationTitle).build()
-                notificationManager.notify(NOTIFICATION_ID, notification)
-            }, Throwable::printStackTrace)
+        disposable?.cancel()
+        disposable = GlobalScope.launch {
+            // keeps playing song in sync
+            musicPreferencesUseCase.observeLastMetadata()
+                .filter { it.isNotEmpty() }
+                .collect {
+                    notificationTitle = it.description
+                    val notification = builder.setContentTitle(notificationTitle).build()
+                    notificationManager.notify(NOTIFICATION_ID, notification)
+                }
+        }
     }
 
     fun buildNotification(): Notification {

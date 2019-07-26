@@ -11,7 +11,6 @@ import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -105,9 +104,8 @@ class MusicPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun observeLastMetadata(): Observable<LastMetadata> {
-        return rxPreferences.getString(LAST_TITLE)
-                .asObservable()
+    override fun observeLastMetadata(): Flow<LastMetadata> {
+        return preferences.observeKey(LAST_TITLE, "")
                 .map { getLastMetadata() }
     }
 

@@ -1,12 +1,11 @@
 package dev.olog.core.gateway
 
 import dev.olog.core.entity.OfflineLyrics
-import io.reactivex.Completable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 interface OfflineLyricsGateway {
 
-    fun observeLyrics(id: Long): Observable<String>
-    fun saveLyrics(offlineLyrics: OfflineLyrics): Completable
+    fun observeLyrics(id: Long): Flow<String>
+    suspend fun saveLyrics(offlineLyrics: OfflineLyrics)
 
 }

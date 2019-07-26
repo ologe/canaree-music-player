@@ -14,8 +14,8 @@ import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.rx2.collect
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -91,10 +91,8 @@ class OfflineLyricsContent(
             presenter.observeLyrics()
                 .map { presenter.transformLyrics(context, content.seekBar.progress, it) }
                 .collect {
-                    withContext(Dispatchers.Main) {
-                        content.emptyState.toggleVisibility(it.isEmpty(), true)
-                        content.text.text = it
-                    }
+                    content.emptyState.toggleVisibility(it.isEmpty(), true)
+                    content.text.text = it
                 }
         }
 

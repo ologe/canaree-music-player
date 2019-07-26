@@ -12,15 +12,19 @@ import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.shared.clamp
 import dev.olog.shared.android.extensions.dpToPx
-import dev.olog.shared.indexOfClosest
 import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.Observable
+import dev.olog.shared.clamp
+import dev.olog.shared.flowInterval
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.combineLatest
+import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 abstract class BaseOfflineLyricsPresenter constructor(
@@ -30,36 +34,33 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
 ) {
 
-    private var lyricsDisposable: Disposable? = null
-    protected val currentTrackIdPublisher = BehaviorSubject.create<Long>()
+    private var lyricsDisposable: Job? = null
+    protected val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
 
     private var originalLyrics: String = ""
 
     fun updateCurrentTrackId(trackId: Long){
-        currentTrackIdPublisher.onNext(trackId)
+        currentTrackIdPublisher.offer(trackId)
     }
 
-    fun observeLyrics(): Observable<String> {
-        return Observables.combineLatest(
-                currentTrackIdPublisher.switchMap { id ->
-                    observeUseCase.execute(id)
-                }, Observable.interval(1, TimeUnit.SECONDS, Schedulers.io()).startWith(0)
-                ) { lyrics, _ ->
-                    this.originalLyrics = lyrics
-                    lyrics
-                }
+    fun observeLyrics(): Flow<String> {
+        return currentTrackIdPublisher.asFlow().switchMap { observeUseCase(it) }
+            .combineLatest(flowInterval(1, TimeUnit.SECONDS)) { lyrics, _ ->
+                this.originalLyrics = lyrics
+                lyrics
+            }
     }
 
     fun getOriginalLyrics() = originalLyrics
 
     fun transformLyrics(context: Context, bookmark: Int, lyrics: String): Spannable {
         val syncAdjustment = appPreferencesUseCase.getSyncAdjustment().toInt()
-        val position =
-            dev.olog.shared.clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
+        val position = clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
         return transformLyricsInternal(context, position, lyrics)
     }
 
     private fun transformLyricsInternal(context: Context, bookmark: Int, lyrics: String): Spannable {
+        // TODO recheck
         val lines = lyrics.split("\n")
 
         if (searchForSyncedLyrics(lines).take(10).count() == 0){
@@ -154,14 +155,13 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun updateLyrics(lyrics: String){
-        lyricsDisposable.unsubscribe()
-        lyricsDisposable = insertUseCase.execute(
-            OfflineLyrics(
-                currentTrackIdPublisher.value ?: -1,
-                lyrics
-            )
-        )
-                .subscribe({}, Throwable::printStackTrace)
+        if (currentTrackIdPublisher.valueOrNull == null){
+            return
+        }
+        lyricsDisposable?.cancel()
+        lyricsDisposable = GlobalScope.launch {
+            insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+        }
     }
 
 }

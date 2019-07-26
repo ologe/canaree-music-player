@@ -14,6 +14,6 @@ internal abstract class OfflineLyricsDao {
      abstract fun observeLyrics(trackId: Long): Flowable<List<OfflineLyricsEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     abstract fun saveLyrics(lyrics: OfflineLyricsEntity)
+     abstract suspend fun saveLyrics(lyrics: OfflineLyricsEntity)
 
 }
