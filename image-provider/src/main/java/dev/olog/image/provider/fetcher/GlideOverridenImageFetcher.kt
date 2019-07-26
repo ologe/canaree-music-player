@@ -11,8 +11,10 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.intents.AppConstants
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
+import java.lang.Exception
 
 internal class GlideOverridenImageFetcher(
     private val context: Context,
@@ -35,7 +37,11 @@ internal class GlideOverridenImageFetcher(
         } else {
             inputStream = null
         }
-        callback.onDataReady(inputStream)
+        if (inputStream == null){
+            callback.onLoadFailed(Exception("no override image"))
+        } else {
+            callback.onDataReady(inputStream)
+        }
     }
 
     private fun loadForSongs(mediaId: MediaId): InputStream? {
@@ -69,8 +75,11 @@ internal class GlideOverridenImageFetcher(
     }
 
     private fun open(image: String?): InputStream? {
-        if (image == null || image == AppConstants.NO_IMAGE){
+        if (image == null){
             return null
+        }
+        if (image == AppConstants.NO_IMAGE){
+            return ByteArrayInputStream(byteArrayOf())
         }
         if (URLUtil.isContentUrl(image)){
             return context.contentResolver.openInputStream(Uri.parse(image))
