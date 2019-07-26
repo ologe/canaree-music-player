@@ -41,6 +41,17 @@
             android:focusable="true"
             app:debug="true" />
 
+<!--        <fragment-->
+<!--            app:layout_constraintTop_toTopOf="@+id/imageSwitcher"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/imageSwitcher"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imageSwitcher"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            tools:layout="@layout/fragment_offline_lyrics_2"-->
+<!--            android:name="dev.olog.presentation.offlinelyrics2.OfflineLyricsFragment2"-->
+<!--            android:tag="dev.olog.presentation.offlinelyrics2.OfflineLyricsFragment2"/>-->
+
         <!-- seekbar -->
         <dev.olog.media.widget.CustomSeekBar
             android:id="@+id/seekBar"
