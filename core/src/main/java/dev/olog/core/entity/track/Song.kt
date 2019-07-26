@@ -14,6 +14,7 @@ data class Song(
     val album: String,
     val duration: Long,
     val dateAdded: Long,
+    val dateModified: Long,
     val path: String,
     val trackColumn: Int,
     val idInPlaylist: Int,

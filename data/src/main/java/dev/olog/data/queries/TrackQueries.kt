@@ -28,6 +28,7 @@ internal class TrackQueries(
                 $DATA, $YEAR,
                 $TRACK,
                 $DATE_ADDED,
+                $DATE_MODIFIED,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection()}
@@ -48,6 +49,7 @@ internal class TrackQueries(
                 $DATA, $YEAR,
                 $TRACK,
                 $DATE_ADDED,
+                $DATE_MODIFIED,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE $_ID = ? AND ${defaultSelection()}

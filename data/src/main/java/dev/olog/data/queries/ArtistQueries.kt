@@ -55,7 +55,7 @@ internal class ArtistQueries(
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
                 $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
                 $DURATION, $DATA, $YEAR,
-                $TRACK, $DATE_ADDED, $IS_PODCAST
+                $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSongSelection()} AND $ARTIST_ID = ?
             ORDER BY ${songListSortOrder(MediaIdCategory.ARTISTS, DEFAULT_SORT_ORDER)}
