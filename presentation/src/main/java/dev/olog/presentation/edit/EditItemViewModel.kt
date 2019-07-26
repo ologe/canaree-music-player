@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.image.provider.hasGlideSignature
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.song.DisplayableSong
 import dev.olog.shared.android.extensions.toast
@@ -31,7 +32,7 @@ class EditItemViewModel @Inject constructor(
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
         withContext(Dispatchers.IO) {
-
+            context.hasGlideSignature().increaseCurrentVersion()
             presenter.deleteTrack(data.originalSong.id)
             presenter.updateSingle(data)
         }
@@ -54,6 +55,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO){
+            context.hasGlideSignature().increaseCurrentVersion()
             presenter.deleteAlbum(data.mediaId)
             presenter.updateAlbum(data)
         }
@@ -74,6 +76,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO){
+            context.hasGlideSignature().increaseCurrentVersion()
             presenter.deleteArtist(data.mediaId)
             presenter.updateArtist(data)
         }

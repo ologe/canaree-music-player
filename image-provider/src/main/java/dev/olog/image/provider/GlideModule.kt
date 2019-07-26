@@ -57,14 +57,16 @@ class GlideModule : AppGlideModule() {
     private fun defaultRequestOptions(context: Context): RequestOptions {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
+        val hasGlideSignature = context.hasGlideSignature()
+
         return RequestOptions()
             // Prefer higher quality images unless we're on a low RAM device
             .format(
                 if (activityManager.isLowRamDevice)
                     DecodeFormat.PREFER_RGB_565 else DecodeFormat.PREFER_ARGB_8888
             ).disallowHardwareConfig()
-//            .diskCacheStrategy(DiskCacheStrategy.DATA)
-            .skipMemoryCache(true) // to allow image override
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .signature(CustomMediaStoreSignature(hasGlideSignature))
             .centerCrop()
     }
 

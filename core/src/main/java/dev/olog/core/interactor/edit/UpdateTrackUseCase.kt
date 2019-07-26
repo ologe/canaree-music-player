@@ -1,8 +1,11 @@
 package dev.olog.core.interactor.edit
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.BaseColumns
+import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.UsedImageGateway
 import org.jaudiotagger.audio.AudioFileIO
@@ -39,6 +42,7 @@ class UpdateTrackUseCase @Inject constructor(
 
             if (param.id != null) {
                 gateway.setForTrack(param.id, param.image)
+                updateDataModified(param.id)
             }
 
 
@@ -48,6 +52,14 @@ class UpdateTrackUseCase @Inject constructor(
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+    }
+
+    private fun updateDataModified(id: Long){
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val values = ContentValues(1).apply {
+            put(MediaStore.Audio.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
+        }
+        context.contentResolver.update(uri, values, "${BaseColumns._ID} = ?", arrayOf("$id"))
     }
 
     data class Data(

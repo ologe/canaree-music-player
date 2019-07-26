@@ -17,6 +17,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':injection')
     implementation project(':prefs-keys')
+    implementation project(':intents')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

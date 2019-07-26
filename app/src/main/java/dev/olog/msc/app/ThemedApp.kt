@@ -1,6 +1,8 @@
 package dev.olog.msc.app
 
 import android.app.Application
+import dev.olog.image.provider.HasGlideSignature
+import dev.olog.msc.GlideSignatureListener
 import dev.olog.msc.theme.*
 import dev.olog.shared.android.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -10,7 +12,8 @@ abstract class ThemedApp : Application(),
     HasPlayerAppearance,
     HasImmersive,
     HasImageShape,
-    HasQuickAction {
+    HasQuickAction,
+    HasGlideSignature /* put here for convenience */ {
 
     @Inject
     internal lateinit var darkModeListener: DarkModeListener
@@ -26,6 +29,9 @@ abstract class ThemedApp : Application(),
 
     @Inject
     internal lateinit var quickActionListener: QuickActionListener
+
+    @Inject
+    internal lateinit var glideSignatureListener: GlideSignatureListener
 
     override fun playerAppearance(): PlayerAppearance {
         return playerAppearanceListener.playerAppearance
@@ -49,5 +55,11 @@ abstract class ThemedApp : Application(),
 
     override fun observeQuickAction(): ReceiveChannel<QuickAction> {
         return quickActionListener.quickActionPublisher.openSubscription()
+    }
+
+    override fun getCurrentVersion() = glideSignatureListener.getCurrentVersion()
+
+    override fun increaseCurrentVersion() {
+        glideSignatureListener.increaseCurrentVersion()
     }
 }
