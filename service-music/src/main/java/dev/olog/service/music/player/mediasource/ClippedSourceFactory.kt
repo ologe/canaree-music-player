@@ -5,12 +5,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.SourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayerImpl
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,7 +23,8 @@ internal class ClippedSourceFactory @Inject constructor (
     musicPrefsUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver,
-    SourceFactory<CrossFadePlayerImpl.Model> {
+    SourceFactory<CrossFadePlayerImpl.Model>,
+    CoroutineScope by MainScope() {
 
     companion object {
         private val clipStart = TimeUnit.SECONDS.toMicros(2)
@@ -30,16 +34,17 @@ internal class ClippedSourceFactory @Inject constructor (
     // when gapless is on, clip mediaSource
     private var isGapless = false
 
-    private val isGaplessDisposable = musicPrefsUseCase.observeGapless()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ isGapless = it }, Throwable::printStackTrace)
-
     init {
         lifecycle.addObserver(this)
+
+        launch {
+            musicPrefsUseCase.observeGapless()
+                .collect { isGapless = it }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        isGaplessDisposable.unsubscribe()
+        cancel()
     }
 
 

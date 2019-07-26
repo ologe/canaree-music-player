@@ -15,7 +15,6 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.shared.android.extensions.unsubscribe
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -54,7 +53,6 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
                 .map { getDuration() - getBookmark() <= crossFadeTime }
                 .distinctUntilChanged()
                 .filter { it }
-                .flowOn(Dispatchers.IO)
                 .collect {
                     fadeOut(getDuration() - getBookmark())
                 }

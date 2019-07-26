@@ -5,8 +5,12 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.interactor.ObserveLastFmUserCredentials
 import dev.olog.service.music.interfaces.PlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class LastFmScrobbling @Inject constructor(
@@ -14,19 +18,22 @@ internal class LastFmScrobbling @Inject constructor(
     playerLifecycle: PlayerLifecycle,
     private val lastFmService: LastFmService
 
-) : DefaultLifecycleObserver, PlayerLifecycle.Listener {
-
-    private val credentialsDisposable = observeLastFmUserCredentials.execute()
-            .observeOn(Schedulers.io())
-            .filter { it.username.isNotBlank() }
-            .subscribe(lastFmService::tryAutenticate, Throwable::printStackTrace)
+) : DefaultLifecycleObserver,
+    PlayerLifecycle.Listener,
+    CoroutineScope by MainScope() {
 
     init {
         playerLifecycle.addListener(this)
+
+        launch {
+            observeLastFmUserCredentials()
+                .filter { it.username.isNotBlank() }
+                .collect { lastFmService::tryAutenticate }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        credentialsDisposable.unsubscribe()
+        cancel()
         lastFmService.dispose()
     }
 

@@ -20,6 +20,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
@@ -103,7 +104,7 @@ class PlayerFragmentViewModel @Inject constructor(
         )
     }
 
-    val onFavoriteStateChanged: Observable<FavoriteEnum> = observeFavoriteAnimationUseCase.execute()
+    val onFavoriteStateChanged: Flow<FavoriteEnum> = observeFavoriteAnimationUseCase()
 
     val skipToNextVisibility = musicPrefsUseCase
             .observeSkipToNextVisibility()

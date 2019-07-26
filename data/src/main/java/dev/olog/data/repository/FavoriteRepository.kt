@@ -11,9 +11,9 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
@@ -27,13 +27,14 @@ internal class FavoriteRepository @Inject constructor(
 
     private val favoriteDao = appDatabase.favoriteDao()
 
-    private val favoriteStatePublisher = BehaviorSubject.create<FavoriteStateEntity>()
+    private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
 
-    override fun observeToggleFavorite(): Observable<FavoriteEnum> =
-        favoriteStatePublisher.map { it.enum }
+    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
+        .asFlow()
+        .map { it.enum }
 
     override fun updateFavoriteState(state: FavoriteStateEntity) {
-        favoriteStatePublisher.onNext(state)
+        favoriteStatePublisher.offer(state)
     }
 
     override fun getTracks(): List<Song> {

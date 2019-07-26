@@ -7,7 +7,8 @@
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist)
 - add custom equalizer preset
 - made sleep timer top and bottom curved
-- style transfer in override image (on demand module) 
+- style transfer in override image (on demand module)
+- added check last fm authentication 
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)

@@ -40,13 +40,6 @@ internal class PlayerImpl @Inject constructor(
 
     private var currentSpeed = 1f
 
-    private val playbackSpeedDisposable = musicPrefsUseCase.observePlaybackSpeed()
-            .subscribe({
-                currentSpeed = it
-                player.setPlaybackSpeed(it)
-                playerState.updatePlaybackSpeed(it)
-            }, Throwable::printStackTrace)
-
     init {
         lifecycle.addObserver(this)
 
@@ -59,11 +52,19 @@ internal class PlayerImpl @Inject constructor(
                     player.setVolume(newVolume)
                 }
         }
+
+        launch {
+            musicPrefsUseCase.observePlaybackSpeed()
+                .collect {
+                    currentSpeed = it
+                    player.setPlaybackSpeed(it)
+                    playerState.updatePlaybackSpeed(it)
+                }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
-        playbackSpeedDisposable.unsubscribe()
         releaseFocus()
         cancel()
     }

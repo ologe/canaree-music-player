@@ -10,7 +10,10 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.observeKey
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
@@ -28,8 +31,8 @@ class AppPreferencesImpl @Inject constructor(
         private const val SLEEP_FROM = "$TAG.FROM_WHEN"
 
 
-        private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
-        private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
+        private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME_2"
+        private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD_2"
 
         private const val SYNC_ADJUSTMENT = "$TAG.SYNC_ADJUSTMENT"
 
@@ -165,14 +168,10 @@ class AppPreferencesImpl @Inject constructor(
     /*
         Must be encrypted
      */
-    override fun observeLastFmCredentials(): Observable<UserCredentials> {
-        return rxPreferences.getString(LAST_FM_USERNAME, "")
-            .asObservable()
-            .map {
-                UserCredentials(
-                    it,
-                    preferences.getString(LAST_FM_PASSWORD, "")!!
-                )
+    override fun observeLastFmCredentials(): Flow<UserCredentials> {
+        return preferences.observeKey(LAST_FM_USERNAME, "")
+            .map { username ->
+                UserCredentials(username, preferences.getString(LAST_FM_PASSWORD, "")!!)
             }
     }
 

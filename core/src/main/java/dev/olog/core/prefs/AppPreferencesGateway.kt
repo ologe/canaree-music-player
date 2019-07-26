@@ -1,8 +1,8 @@
 package dev.olog.core.prefs
 
 import dev.olog.core.entity.UserCredentials
-import io.reactivex.Completable
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface AppPreferencesGateway {
@@ -15,7 +15,7 @@ interface AppPreferencesGateway {
     fun canAutoCreateImages(): Boolean
 
     fun getLastFmCredentials(): UserCredentials
-    fun observeLastFmCredentials(): Observable<UserCredentials>
+    fun observeLastFmCredentials(): Flow<UserCredentials>
     fun setLastFmCredentials(user: UserCredentials)
 
     fun getSyncAdjustment(): Long

@@ -134,10 +134,8 @@ class MusicPreferencesImpl @Inject constructor(
                 .map { it * 1000 }
     }
 
-    override fun observeGapless(): Observable<Boolean> {
-        val key = context.getString(R.string.prefs_gapless_key)
-        return rxPreferences.getBoolean(key, false)
-                .asObservable()
+    override fun observeGapless(): Flow<Boolean> {
+        return preferences.observeKey(context.getString(R.string.prefs_gapless_key), false)
     }
 
     private fun setGapless(enabled: Boolean){
@@ -145,10 +143,8 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putBoolean(key, enabled) }
     }
 
-    override fun observePlaybackSpeed(): Observable<Float> {
-        return rxPreferences.getFloat(PLAYBACK_SPEED, 1f)
-                .asObservable()
-                .subscribeOn(Schedulers.io())
+    override fun observePlaybackSpeed(): Flow<Float> {
+        return preferences.observeKey(PLAYBACK_SPEED, 1f)
     }
 
     override fun setPlaybackSpeed(speed: Float) {

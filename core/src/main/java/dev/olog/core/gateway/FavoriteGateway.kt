@@ -5,7 +5,6 @@ import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Song
 import io.reactivex.Completable
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteGateway {
@@ -26,7 +25,7 @@ interface FavoriteGateway {
 
     suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean
 
-    fun observeToggleFavorite(): Observable<FavoriteEnum>
+    fun observeToggleFavorite(): Flow<FavoriteEnum>
     fun updateFavoriteState(state: FavoriteStateEntity)
 
     suspend fun toggleFavorite()

@@ -16,7 +16,6 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.extensions.asFlowable
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -24,7 +23,6 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.filter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 @PerService
@@ -93,9 +91,7 @@ internal class MusicNotificationManager @Inject constructor(
         }
 
         launch {
-            observeFavoriteUseCase.execute()
-                .asFlowable()
-                .asFlow()
+            observeFavoriteUseCase()
                 .map { it == FavoriteEnum.FAVORITE }
                 .collect { onNextFavorite(it) }
         }
