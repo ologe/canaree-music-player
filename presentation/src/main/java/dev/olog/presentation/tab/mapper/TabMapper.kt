@@ -42,7 +42,8 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = this.idInPlaylist
+        idInPlaylist = this.idInPlaylist,
+        dataModified = this.dateModified
     )
 }
 
