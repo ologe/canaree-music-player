@@ -13,9 +13,9 @@ internal class ImageVersionRepository @Inject constructor(
     private val dao = database.imageVersionDao()
 
     override fun getCurrentVersion(mediaId: MediaId): Int {
-        var version = dao.getVersion(mediaId.hashCode())
+        var version = dao.getVersion(mediaId.toString())
         if (version == null) {
-            version = ImageVersion(mediaId.hashCode(), 0)
+            version = ImageVersion(mediaId.toString(), 0)
             dao.insertVersion(version)
         }
         return version.version
@@ -23,6 +23,6 @@ internal class ImageVersionRepository @Inject constructor(
 
     override fun increaseCurrentVersion(mediaId: MediaId) {
         getCurrentVersion(mediaId) // populate if empty
-        dao.increaseVersion(mediaId.hashCode())
+        dao.increaseVersion(mediaId.toString())
     }
 }

@@ -12,10 +12,10 @@ abstract class ImageVersionDao {
         """
         SELECT * 
         FROM image_version
-        WHERE hash = :hash
+        WHERE mediaId = :mediaId
     """
     )
-    abstract fun getVersion(hash: Int): ImageVersion?
+    abstract fun getVersion(mediaId: String): ImageVersion?
 
     @Insert
     abstract fun insertVersion(version: ImageVersion)
@@ -24,9 +24,9 @@ abstract class ImageVersionDao {
         """
         UPDATE image_version
         SET version = version + 1
-        WHERE hash = :hash
+        WHERE mediaId = :mediaId
     """
     )
-    abstract fun increaseVersion(hash: Int)
+    abstract fun increaseVersion(mediaId: String)
 
 }
