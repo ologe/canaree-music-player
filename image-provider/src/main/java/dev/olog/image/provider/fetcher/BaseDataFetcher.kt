@@ -64,8 +64,12 @@ abstract class BaseDataFetcher(
                 }
 
                 throw NoSuchElementException()
-            } catch (ex: Exception) {
-                callback.onLoadFailed(ex)
+            } catch (ex: Throwable) {
+                if (ex is Exception){
+                    callback.onLoadFailed(ex)
+                } else {
+                    ex.printStackTrace()
+                }
             }
         }
     }
