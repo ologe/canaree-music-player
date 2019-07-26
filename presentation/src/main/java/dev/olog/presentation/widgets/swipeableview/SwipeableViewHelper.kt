@@ -3,6 +3,7 @@ package dev.olog.presentation.widgets.swipeableview
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.lazyFast
@@ -32,6 +33,8 @@ internal class SwipeableViewHelper(
     private val cover by lazyFast { findCover() }
 
     private val isTouchingPublisher = PublishProcessor.create<Boolean>()
+
+    private val touchSlop by lazy { ViewConfiguration.get(view.context).scaledTouchSlop }
 
     private fun findCover(): ForegroundImageView? {
         if (view.parent is ViewGroup) {
@@ -97,14 +100,20 @@ internal class SwipeableViewHelper(
 
         if (!swipedHorizontally && !swipedVertically) {
             when {
-                xDown.toInt() in 0..skipAreaDimension -> swipeListener?.onLeftEdgeClick()
-                xDown.toInt() in view.width - skipAreaDimension..view.width -> swipeListener?.onRightEdgeClick()
-                else -> {
+                xDown.toInt() in 0..skipAreaDimension -> {
+                    swipeListener?.onLeftEdgeClick()
+                    return true
+                }
+                xDown.toInt() in view.width - skipAreaDimension..view.width -> {
+                    swipeListener?.onRightEdgeClick()
+                    return true
+                }
+                abs(xDown - xUp) < touchSlop -> {
                     requestRipple(event)
                     swipeListener?.onClick()
+                    return true
                 }
             }
-            return true
         }
         return false
     }
