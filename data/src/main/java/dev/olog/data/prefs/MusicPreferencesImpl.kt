@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 private const val TAG = "MusicPreferences"
@@ -128,10 +129,8 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putInt(key, value) }
     }
 
-    override fun observeCrossFade(): Observable<Int> {
-        val key = context.getString(R.string.prefs_cross_fade_key)
-        return rxPreferences.getInteger(key, 0)
-                .asObservable()
+    override fun observeCrossFade(): Flow<Int> {
+        return preferences.observeKey(context.getString(R.string.prefs_cross_fade_key), 0)
                 .map { it * 1000 }
     }
 

@@ -29,7 +29,7 @@ interface MusicPreferencesGateway {
 
     fun setDefault()
 
-    fun observeCrossFade(): Observable<Int>
+    fun observeCrossFade(): Flow<Int>
     fun observeGapless(): Observable<Boolean>
 
     fun observePlaybackSpeed(): Observable<Float>

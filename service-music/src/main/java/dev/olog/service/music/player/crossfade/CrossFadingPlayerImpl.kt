@@ -7,19 +7,18 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
-import dev.olog.service.music.EventDispatcher.*
+import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
-import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import dev.olog.shared.flowInterval
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -33,32 +32,38 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ): AbsPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper {
+    ExoPlayerListenerWrapper,
+    CoroutineScope by MainScope() {
 
     private var isCurrentSongPodcast = false
 
-    private var fadeDisposable : Disposable? = null
+    private var fadeDisposable : Job? = null
 
     private var crossFadeTime = 0
-    private val crossFadeDurationDisposable = musicPreferencesUseCase
-            .observeCrossFade()
-            .subscribe({ crossFadeTime = it }, Throwable::printStackTrace)
-
-    private val timeDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
-            .filter { crossFadeTime > 0 } // crossFade enabled
-            .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
-            .filter { getDuration() > getBookmark() }
-            .map { getDuration() - getBookmark() <= crossFadeTime }
-            .distinctUntilChanged()
-            .filter { it }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
-
 
     init {
         player.addListener(this)
         player.playbackParameters = PlaybackParameters(1f, 1f, true)
         player.addAudioDebugListener(onAudioSessionIdChangeListener)
+
+        launch {
+            flowInterval(1, TimeUnit.SECONDS)
+                .filter { crossFadeTime > 0 } // crossFade enabled
+                .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
+                .filter { getDuration() > getBookmark() }
+                .map { getDuration() - getBookmark() <= crossFadeTime }
+                .distinctUntilChanged()
+                .filter { it }
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    fadeOut(getDuration() - getBookmark())
+                }
+        }
+
+        launch {
+            musicPreferencesUseCase.observeCrossFade()
+                .collect { crossFadeTime = it }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -66,8 +71,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         player.removeListener(this)
         player.removeAudioDebugListener(onAudioSessionIdChangeListener)
         cancelFade()
-        timeDisposable.unsubscribe()
-        crossFadeDurationDisposable.unsubscribe()
+        cancel()
     }
 
     override fun setPlaybackSpeed(speed: Float) {
@@ -140,13 +144,15 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         )
         player.volume = min
 
-        fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
+        fadeDisposable?.cancel()
+        fadeDisposable = launch {
+            flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume < max }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .collect {
                     val current = MathUtils.clamp(player.volume + delta, min, max)
                     player.volume = current
-                }, Throwable::printStackTrace)
+                }
+        }
     }
 
     private fun fadeOut(time: Long){
@@ -156,7 +162,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         }
 
 //        debug("fading out, was already fading?=$isFadingOut")
-        fadeDisposable.unsubscribe()
+        fadeDisposable?.cancel()
         requestNextSong()
 
         val (min, max, interval, delta) = CrossFadeInternals(
@@ -169,17 +175,19 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
             return
         }
 
-        fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
+        fadeDisposable = launch {
+            flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume > min }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .collect {
                     val current = MathUtils.clamp(player.volume - delta, min, max)
                     player.volume = current
-                }, Throwable::printStackTrace)
+                }
+        }
+
     }
 
     private fun cancelFade(){
-        fadeDisposable.unsubscribe()
+        fadeDisposable?.cancel()
     }
 
     private fun restoreDefaultVolume() {
