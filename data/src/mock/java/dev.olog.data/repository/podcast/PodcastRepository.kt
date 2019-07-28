@@ -6,7 +6,6 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.repository.MockData
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -15,12 +14,12 @@ class PodcastRepository @Inject constructor(
     songGateway: SongGateway
 ): PodcastGateway {
 
-    override fun deleteSingle(id: Id): Completable {
-        return Completable.complete()
+    override fun deleteSingle(id: Id) {
+
     }
 
-    override fun deleteGroup(podcastList: List<Song>): Completable {
-        return Completable.complete()
+    override suspend fun deleteGroup(podcastList: List<Song>) {
+
     }
 
     override fun getCurrentPosition(podcastId: Long, duration: Long): Long {

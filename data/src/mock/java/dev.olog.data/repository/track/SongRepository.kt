@@ -5,21 +5,20 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.repository.MockData
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class SongRepository @Inject constructor(
 
-): SongGateway {
+) : SongGateway {
 
-    override fun deleteSingle(id: Id): Completable {
-        return Completable.complete()
+    override suspend fun deleteSingle(id: Id) {
+
     }
 
-    override fun deleteGroup(ids: List<Song>): Completable {
-        return Completable.complete()
+    override suspend fun deleteGroup(ids: List<Song>) {
+
     }
 
     override fun getByUri(uri: Uri): Song? {

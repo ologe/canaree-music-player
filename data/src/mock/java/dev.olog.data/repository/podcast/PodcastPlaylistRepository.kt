@@ -7,7 +7,6 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.repository.MockData
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -18,16 +17,16 @@ class PodcastPlaylistRepository @Inject constructor(): PodcastPlaylistGateway {
         return 1
     }
 
-    override fun renamePlaylist(playlistId: Id, newTitle: String): Completable {
-        return Completable.complete()
+    override suspend fun renamePlaylist(playlistId: Id, newTitle: String) {
+
     }
 
-    override fun deletePlaylist(playlistId: Id): Completable {
-        return Completable.complete()
+    override suspend fun deletePlaylist(playlistId: Id) {
+
     }
 
-    override fun clearPlaylist(playlistId: Id): Completable {
-        return Completable.complete()
+    override suspend fun clearPlaylist(playlistId: Id) {
+
     }
 
     override fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
@@ -38,12 +37,12 @@ class PodcastPlaylistRepository @Inject constructor(): PodcastPlaylistGateway {
 
     }
 
-    override fun removeDuplicated(playlistId: Id): Completable {
-        return Completable.complete()
+    override suspend fun removeDuplicated(playlistId: Id) {
+
     }
 
-    override fun insertPodcastToHistory(podcastId: Id): Completable {
-        return Completable.complete()
+    override suspend fun insertPodcastToHistory(podcastId: Id) {
+
     }
 
     override fun getAll(): List<Playlist> {

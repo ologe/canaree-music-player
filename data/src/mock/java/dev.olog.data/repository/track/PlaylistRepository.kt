@@ -7,7 +7,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.data.repository.MockData
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -58,24 +57,24 @@ class PlaylistRepository @Inject constructor(): PlaylistGateway {
         return 1
     }
 
-    override fun renamePlaylist(playlistId: Long, newTitle: String): Completable {
-        return Completable.complete()
+    override suspend fun renamePlaylist(playlistId: Long, newTitle: String) {
+
     }
 
-    override fun deletePlaylist(playlistId: Long): Completable {
-        return Completable.complete()
+    override suspend fun deletePlaylist(playlistId: Long) {
+
     }
 
-    override fun clearPlaylist(playlistId: Long): Completable {
-        return Completable.complete()
+    override suspend fun clearPlaylist(playlistId: Long) {
+
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
 
     }
 
-    override fun insertSongToHistory(songId: Long): Completable {
-        return Completable.complete()
+    override suspend fun insertSongToHistory(songId: Long) {
+
     }
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
