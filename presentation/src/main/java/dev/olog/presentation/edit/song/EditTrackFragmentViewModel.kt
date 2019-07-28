@@ -7,11 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.track.Song
 import dev.olog.image.provider.fetcher.OriginalImageFetcher
 import dev.olog.presentation.edit.ImageType
+import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
+import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
@@ -28,19 +33,22 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     private var newImage: String? = null
 
-    private val songLiveData = MutableLiveData<DisplayableSong>()
+    private val songLiveData = MutableLiveData<Song>()
+    private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
 
-    fun requestData(mediaId: MediaId) {
-        viewModelScope.launch {
-            val song = withContext(Dispatchers.IO) {
-                presenter.getSong(mediaId)
-            }
-            songLiveData.value = song
+    fun requestData(mediaId: MediaId) = viewModelScope.launch {
+        val song = withContext(Dispatchers.IO) {
+            presenter.getSong(mediaId)
         }
+        songLiveData.value = song
+        displayableSongLiveData.value = song.toDisplayableSong()
     }
 
-    fun observeSong(): LiveData<DisplayableSong> = songLiveData
-    fun getSong(): DisplayableSong = songLiveData.value!!
+    fun observeData(): LiveData<DisplayableSong> = displayableSongLiveData
+
+    fun getDisplayableSong(): DisplayableSong = displayableSongLiveData.value!!
+    fun getOriginalSong(): Song = songLiveData.value!!
+
     fun getNewImage(): String? = newImage
 
     override fun onCleared() {
@@ -62,15 +70,15 @@ class EditTrackFragmentViewModel @Inject constructor(
                 val lastFmTrack = withContext(Dispatchers.IO) {
                     presenter.fetchData(mediaId.resolveId)
                 }
-                var currentSong = songLiveData.value!!
+                var currentSong = displayableSongLiveData.value!!
                 currentSong = currentSong.copy(
                     title = lastFmTrack?.title ?: currentSong.track,
                     artist = lastFmTrack?.artist ?: currentSong.artist,
                     album = lastFmTrack?.album ?: currentSong.album
                 )
-                songLiveData.postValue(currentSong)
+                displayableSongLiveData.postValue(currentSong)
             } catch (ex: Throwable){
-                songLiveData.postValue(songLiveData.value)
+                displayableSongLiveData.postValue(displayableSongLiveData.value)
             }
         }
         return true
@@ -83,11 +91,37 @@ class EditTrackFragmentViewModel @Inject constructor(
         if (data?.image != null){
             return ImageType.String(data.image)
         }
-        return ImageType.Stream(OriginalImageFetcher.loadImage(getSong().path))
+        return ImageType.Stream(OriginalImageFetcher.loadImage(getOriginalSong().path))
     }
 
     fun stopFetch() {
         fetchJob?.cancel()
+    }
+
+    private fun Song.toDisplayableSong(): DisplayableSong {
+        val file = File(path)
+        val audioFile = AudioFileIO.read(file)
+        val audioHeader = audioFile.audioHeader
+        val tag = audioFile.tagOrCreateAndSetDefault
+
+        return DisplayableSong(
+            id = this.id,
+            artistId = this.artistId,
+            albumId = this.albumId,
+            title = this.title,
+            artist = tag.safeGet(FieldKey.ARTIST),
+            albumArtist = tag.safeGet(FieldKey.ALBUM_ARTIST),
+            album = this.album,
+            genre = tag.safeGet(FieldKey.GENRE),
+            year = tag.safeGet(FieldKey.YEAR),
+            disc = tag.safeGet(FieldKey.DISC_NO),
+            track = tag.safeGet(FieldKey.TRACK),
+            path = this.path,
+            bitrate = audioHeader.bitRate + " kb/s",
+            format = audioHeader.format,
+            sampling = audioHeader.sampleRate + " Hz",
+            isPodcast = this.isPodcast
+        )
     }
 
 }

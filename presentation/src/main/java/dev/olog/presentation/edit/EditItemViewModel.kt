@@ -5,11 +5,9 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.ImageVersionGateway
+import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
-import dev.olog.presentation.edit.song.DisplayableSong
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -21,8 +19,7 @@ import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val presenter: EditItemPresenter,
-    private val imageVersionGateway: ImageVersionGateway
+    private val presenter: EditItemPresenter
 
 ) : ViewModel() {
 
@@ -34,15 +31,6 @@ class EditItemViewModel @Inject constructor(
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
         withContext(Dispatchers.IO) {
-            val mediaIdCategory = if (data.originalSong.isPodcast) {
-                MediaIdCategory.PODCASTS
-            } else MediaIdCategory.SONGS
-            imageVersionGateway.increaseCurrentVersion(
-                MediaId.playableItem(
-                    MediaId.createCategoryValue(mediaIdCategory, ""),
-                    data.originalSong.id
-                )
-            )
             presenter.deleteTrack(data.originalSong.id)
             presenter.updateSingle(data)
         }
@@ -65,7 +53,7 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO) {
-            imageVersionGateway.increaseCurrentVersion(data.mediaId)
+
             presenter.deleteAlbum(data.mediaId)
             presenter.updateAlbum(data)
         }
@@ -86,7 +74,6 @@ class EditItemViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.IO) {
-            imageVersionGateway.increaseCurrentVersion(data.mediaId)
             presenter.deleteArtist(data.mediaId)
             presenter.updateArtist(data)
         }
@@ -114,7 +101,7 @@ class EditItemViewModel @Inject constructor(
 }
 
 data class UpdateSongInfo(
-    val originalSong: DisplayableSong,
+    val originalSong: Song,
     val title: String,
     val artist: String,
     val albumArtist: String,
@@ -123,7 +110,8 @@ data class UpdateSongInfo(
     val year: String,
     val disc: String,
     val track: String,
-    val image: String?
+    val image: String?,
+    val isPodcast: Boolean
 )
 
 data class UpdateAlbumInfo(

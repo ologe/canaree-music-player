@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.album
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.presentation.utils.get
+import dev.olog.presentation.utils.safeGet
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -66,10 +66,10 @@ class EditAlbumFragmentPresenter @Inject constructor(
         return DisplayableAlbum(
             this.id,
             this.title,
-            tag.get(FieldKey.ARTIST),
-            tag.get(FieldKey.ALBUM_ARTIST),
-            tag.get(FieldKey.GENRE),
-            tag.get(FieldKey.YEAR)
+            tag.safeGet(FieldKey.ARTIST),
+            tag.safeGet(FieldKey.ALBUM_ARTIST),
+            tag.safeGet(FieldKey.GENRE),
+            tag.safeGet(FieldKey.YEAR)
         )
     }
 

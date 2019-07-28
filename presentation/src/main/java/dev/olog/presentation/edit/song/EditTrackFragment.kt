@@ -8,9 +8,9 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dev.olog.core.MediaId
 import dev.olog.core.Stylizer
+import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.*
-import dev.olog.intents.AppConstants
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_track.*
@@ -38,9 +38,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast {
-        viewModelProvider<EditTrackFragmentViewModel>(
-            viewModelFactory
-        )
+        viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory)
     }
     private val editItemViewModel by lazyFast {
         activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory)
@@ -64,7 +62,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
 
         loadImage(mediaId)
 
-        viewModel.observeSong().subscribe(viewLifecycleOwner) {
+        viewModel.observeData().subscribe(viewLifecycleOwner) {
             title.setText(it.title)
             artist.setText(it.artist)
             albumArtist.setText(it.albumArtist)
@@ -76,6 +74,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             bitrate.text = it.bitrate
             format.text = it.format
             sampling.text = it.sampling
+            podcast.isChecked = it.isPodcast
             hideLoader()
         }
     }
@@ -107,7 +106,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     private suspend fun trySave() {
         val result = editItemViewModel.updateSong(
             UpdateSongInfo(
-                viewModel.getSong(),
+                viewModel.getOriginalSong(),
                 title.extractText().trim(),
                 artist.extractText().trim(),
                 albumArtist.extractText().trim(),
@@ -116,7 +115,8 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
                 year.extractText().trim(),
                 disc.extractText().trim(),
                 trackNumber.extractText().trim(),
-                viewModel.getNewImage()
+                viewModel.getNewImage(),
+                podcast.isChecked
             )
         )
 
@@ -158,15 +158,18 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     override fun stylizeImage() {
         launch {
             loadModule()?.let { stylizer ->
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     val imageType = viewModel.loadOriginalImage(mediaId)
                     val bitmap = when (imageType) {
-                        is ImageType.String -> getBitmap(imageType.url, mediaId) // TODO, bad first time triggers download
+                        is ImageType.String -> getBitmap(
+                            imageType.url,
+                            mediaId
+                        ) // TODO, bad first time triggers download
                         is ImageType.Stream -> getBitmap(imageType.stream, mediaId)
                     }
                     bitmap?.let { b ->
                         val stylizedBitmap = stylizer.stylize(b)
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             loadImage(stylizedBitmap, mediaId)
                         }
                     }

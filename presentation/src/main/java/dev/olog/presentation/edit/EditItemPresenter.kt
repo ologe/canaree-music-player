@@ -1,6 +1,7 @@
 package dev.olog.presentation.edit
 
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.LastFmGateway
 import dev.olog.core.interactor.edit.UpdateMultipleTracksUseCase
 import dev.olog.core.interactor.edit.UpdateTrackUseCase
@@ -31,7 +32,7 @@ class EditItemPresenter @Inject constructor(
 
         return updateTrackUseCase(
             UpdateTrackUseCase.Data(
-                info.originalSong.id,
+                info.originalSong.getMediaId(),
                 info.originalSong.path,
                 info.image,
                 mapOf(
@@ -43,7 +44,8 @@ class EditItemPresenter @Inject constructor(
                     FieldKey.YEAR to info.year,
                     FieldKey.DISC_NO to info.disc,
                     FieldKey.TRACK to info.track
-                )
+                ),
+                info.isPodcast
             )
         )
     }
