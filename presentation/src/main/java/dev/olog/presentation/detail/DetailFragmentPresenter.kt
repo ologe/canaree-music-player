@@ -8,7 +8,6 @@ import dev.olog.core.interactor.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.DisplayableTrack
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
@@ -43,7 +42,7 @@ class DetailFragmentPresenter @Inject constructor(
         ))
     }
 
-    fun showSortByTutorialIfNeverShown(): Completable {
+    fun showSortByTutorialIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.sortByTutorial()
     }
 

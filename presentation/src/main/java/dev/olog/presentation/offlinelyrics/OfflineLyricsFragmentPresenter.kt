@@ -5,7 +5,6 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class OfflineLyricsFragmentPresenter @Inject constructor(
@@ -33,7 +32,7 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
         return result
     }
 
-    fun showAddLyricsIfNeverShown(): Completable {
+    fun showAddLyricsIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.lyricsTutorial()
     }
 

@@ -15,7 +15,6 @@ import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import io.reactivex.Completable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -160,7 +159,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         return observeSortOrderUseCase(mediaId)
     }
 
-    fun showSortByTutorialIfNeverShown(): Completable {
+    fun showSortByTutorialIfNeverShown(): Boolean {
         return presenter.showSortByTutorialIfNeverShown()
     }
 

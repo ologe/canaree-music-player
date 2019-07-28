@@ -3,12 +3,11 @@ package dev.olog.msc.presentation.dialog.play.later
 import android.content.Context
 import android.content.DialogInterface
 import android.support.v4.media.session.MediaControllerCompat
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialog
-import dev.olog.core.MediaId
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.withArguments
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class PlayLaterDialog : BaseDialog() {
@@ -60,7 +59,7 @@ class PlayLaterDialog : BaseDialog() {
         return context.getString(R.string.popup_error_message)
     }
 
-    override fun positiveAction(dialogInterface: DialogInterface, which: Int): Completable {
+    override fun positiveAction(dialogInterface: DialogInterface, which: Int) {
         val mediaController = MediaControllerCompat.getMediaController(activity!!)
         return presenter.execute(mediaController)
     }

@@ -2,7 +2,6 @@ package dev.olog.core.gateway.track
 
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.base.*
-import io.reactivex.Completable
 
 interface PlaylistGateway :
     BaseGateway<Playlist, Id>,

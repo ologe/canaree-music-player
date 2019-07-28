@@ -4,7 +4,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.interactor.GetPlaylistsUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class RenameDialogPresenter @Inject constructor(
@@ -19,7 +18,7 @@ class RenameDialogPresenter @Inject constructor(
         .map { it.title }
         .map { it.toLowerCase() }
 
-    fun execute(newTitle: String): Completable {
+    fun execute(newTitle: String) {
         TODO()
 //        return renameUseCase(mediaId, newTitle)
     }

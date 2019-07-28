@@ -14,11 +14,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_library.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class LibraryFragment : BaseFragment() {
@@ -53,8 +49,6 @@ class LibraryFragment : BaseFragment() {
         )
     }
 
-    private var floatingWindowTutorialDisposable: Disposable? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
@@ -67,6 +61,10 @@ class LibraryFragment : BaseFragment() {
         val unselectedView: TextView = if (!isPodcast) podcasts else tracks
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
+
+        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+            TutorialTapTarget.floatingWindow(floatingWindow)
+        }
     }
 
     override fun onResume() {
@@ -74,11 +72,6 @@ class LibraryFragment : BaseFragment() {
         viewPager.addOnPageChangeListener(onPageChangeListener)
         more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-
-        floatingWindowTutorialDisposable = presenter.showFloatingWindowTutorialIfNeverShown()
-            .delay(2, TimeUnit.SECONDS, Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ TutorialTapTarget.floatingWindow(floatingWindow) }, {})
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
         podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
@@ -89,7 +82,6 @@ class LibraryFragment : BaseFragment() {
         viewPager.removeOnPageChangeListener(onPageChangeListener)
         more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
-        floatingWindowTutorialDisposable.unsubscribe()
         tracks.setOnClickListener(null)
         podcasts.setOnClickListener(null)
     }

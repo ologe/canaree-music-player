@@ -1,11 +1,10 @@
 package dev.olog.msc.presentation.dialog.rename
 
 import android.content.Context
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseEditTextDialog
-import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.withArguments
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class RenameDialog : BaseEditTextDialog() {
@@ -51,7 +50,7 @@ class RenameDialog : BaseEditTextDialog() {
         }
     }
 
-    override fun positiveAction(currentValue: String): Completable {
+    override fun positiveAction(currentValue: String) {
         return presenter.execute(currentValue)
     }
 

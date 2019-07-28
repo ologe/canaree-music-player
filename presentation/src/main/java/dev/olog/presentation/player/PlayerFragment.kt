@@ -22,16 +22,11 @@ import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -52,8 +47,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     private lateinit var layoutManager: LinearLayoutManager
 
     private val mediaProvider by lazyFast { act as MediaProvider }
-
-    private var lyricsDisposable: Disposable? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,11 +98,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
     }
 
-    override fun onStop() {
-        super.onStop()
-        lyricsDisposable.unsubscribe()
-    }
-
     override fun provideLayoutId(): Int {
         val appearance = requireContext().hasPlayerAppearance()
         return when (appearance.playerAppearance()) {
@@ -134,13 +122,9 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                lyricsDisposable.unsubscribe()
-                lyricsDisposable = Completable.timer(50, TimeUnit.MILLISECONDS, Schedulers.io())
-                    .andThen(viewModel.showLyricsTutorialIfNeverShown())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ lyrics?.let { TutorialTapTarget.lyrics(it) } }, {})
-            } else {
-                lyricsDisposable.unsubscribe()
+                if (viewModel.showLyricsTutorialIfNeverShown()){
+                    lyrics?.let { TutorialTapTarget.lyrics(it) }
+                }
             }
         }
     }

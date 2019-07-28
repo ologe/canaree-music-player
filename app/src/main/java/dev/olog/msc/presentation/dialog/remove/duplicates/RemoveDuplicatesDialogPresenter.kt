@@ -1,8 +1,7 @@
 package dev.olog.msc.presentation.dialog.remove.duplicates
 
-import dev.olog.msc.domain.interactor.dialog.RemoveDuplicatesUseCase
 import dev.olog.core.MediaId
-import io.reactivex.Completable
+import dev.olog.msc.domain.interactor.dialog.RemoveDuplicatesUseCase
 import javax.inject.Inject
 
 class RemoveDuplicatesDialogPresenter @Inject constructor(
@@ -10,7 +9,7 @@ class RemoveDuplicatesDialogPresenter @Inject constructor(
     private val useCase: RemoveDuplicatesUseCase
 ) {
 
-    fun execute(): Completable {
+    fun execute() {
         TODO()
 //        return useCase(mediaId)
     }

@@ -56,8 +56,9 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
                 userName.text.toString(),
                 password.text.toString()
             )
-            val disp = updateLastFmUserCredentials.execute(user)
-                .subscribe({ dismiss() }, Throwable::printStackTrace)
+            TODO()
+//            val disp = updateLastFmUserCredentials(user)
+//                .subscribe({ dismiss() }, Throwable::printStackTrace)
         }
 
         return dialog

@@ -20,7 +20,6 @@ import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
 import dev.olog.data.utils.assertBackground
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -105,173 +104,164 @@ internal abstract class RecentSearchesDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertImpl(recent: RecentSearchesEntity)
+    abstract suspend fun insertImpl(recent: RecentSearchesEntity)
 
     @Delete
-    abstract fun deleteImpl(recentSearch: RecentSearchesEntity)
+    abstract suspend fun deleteImpl(recentSearch: RecentSearchesEntity)
 
     @Query("DELETE FROM recent_searches WHERE dataType = :dataType AND itemId = :itemId")
-    abstract fun deleteImpl(dataType: Int, itemId: Long)
+    abstract suspend fun deleteImpl(dataType: Int, itemId: Long)
 
     @Query("DELETE FROM recent_searches")
-    abstract fun deleteAllImpl()
+    abstract suspend fun deleteAllImpl()
 
-    open fun deleteSong(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(SONG, itemId) }
+    suspend fun deleteSong(itemId: Long) {
+        return deleteImpl(SONG, itemId)
     }
 
-    open fun deleteAlbum(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(ALBUM, itemId) }
+    suspend fun deleteAlbum(itemId: Long) {
+        deleteImpl(ALBUM, itemId)
     }
 
-    open fun deleteArtist(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(ARTIST, itemId) }
+    suspend fun deleteArtist(itemId: Long) {
+        deleteImpl(ARTIST, itemId)
     }
 
-    open fun deletePlaylist(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(PLAYLIST, itemId) }
+    suspend fun deletePlaylist(itemId: Long) {
+        deleteImpl(PLAYLIST, itemId)
     }
 
-    open fun deleteGenre(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(GENRE, itemId) }
+    suspend fun deleteGenre(itemId: Long) {
+        deleteImpl(GENRE, itemId)
     }
 
-    open fun deleteFolder(itemId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(FOLDER, itemId) }
+    suspend fun deleteFolder(itemId: Long) {
+        deleteImpl(FOLDER, itemId)
     }
 
-    open fun deletePodcast(podcastid: Long): Completable {
-        return Completable.fromCallable { deleteImpl(PODCAST, podcastid) }
+    suspend fun deletePodcast(podcastid: Long) {
+        deleteImpl(PODCAST, podcastid)
     }
 
-    open fun deletePodcastPlaylist(playlistId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(PODCAST_PLAYLIST, playlistId) }
+    suspend fun deletePodcastPlaylist(playlistId: Long) {
+        deleteImpl(PODCAST_PLAYLIST, playlistId)
     }
 
-    open fun deletePodcastArtist(artistId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(PODCAST_ARTIST, artistId) }
+    suspend fun deletePodcastArtist(artistId: Long) {
+        deleteImpl(PODCAST_ARTIST, artistId)
     }
 
-    open fun deletePodcastAlbum(albumId: Long): Completable {
-        return Completable.fromCallable { deleteImpl(PODCAST_ALBUM, albumId) }
+    suspend fun deletePodcastAlbum(albumId: Long) {
+        deleteImpl(PODCAST_ALBUM, albumId)
     }
 
-    open fun deleteAll(): Completable {
-        return Completable.fromCallable { deleteAllImpl() }
+    suspend fun deleteAll() {
+        deleteAllImpl()
     }
 
-    open fun insertSong(songId: Long): Completable {
-        return deleteSong(songId)
-            .andThen { insertImpl(RecentSearchesEntity(dataType = SONG, itemId = songId)) }
+    @Transaction
+    open suspend fun insertSong(songId: Long) {
+        deleteSong(songId)
+        insertImpl(RecentSearchesEntity(dataType = SONG, itemId = songId))
     }
 
-    open fun insertAlbum(albumId: Long): Completable {
-        return deleteAlbum(albumId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = ALBUM,
-                        itemId = albumId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertAlbum(albumId: Long) {
+        deleteAlbum(albumId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = ALBUM,
+                itemId = albumId
+            )
+        )
     }
 
-    open fun insertArtist(artistId: Long): Completable {
-        return deleteArtist(artistId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = ARTIST,
-                        itemId = artistId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertArtist(artistId: Long) {
+        deleteArtist(artistId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = ARTIST,
+                itemId = artistId
+            )
+        )
     }
 
-    open fun insertPlaylist(playlistId: Long): Completable {
-        return deletePlaylist(playlistId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = PLAYLIST,
-                        itemId = playlistId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertPlaylist(playlistId: Long) {
+        deletePlaylist(playlistId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = PLAYLIST,
+                itemId = playlistId
+            )
+        )
     }
 
-    open fun insertGenre(genreId: Long): Completable {
-        return deleteGenre(genreId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = GENRE,
-                        itemId = genreId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertGenre(genreId: Long) {
+        deleteGenre(genreId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = GENRE,
+                itemId = genreId
+            )
+        )
     }
 
-    open fun insertFolder(folderId: Long): Completable {
-        return deleteFolder(folderId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = FOLDER,
-                        itemId = folderId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertFolder(folderId: Long) {
+        deleteFolder(folderId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = FOLDER,
+                itemId = folderId
+            )
+        )
     }
 
-
-    open fun insertPodcast(podcastId: Long): Completable {
-        return deletePodcast(podcastId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = PODCAST,
-                        itemId = podcastId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertPodcast(podcastId: Long) {
+        deletePodcast(podcastId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = PODCAST,
+                itemId = podcastId
+            )
+        )
     }
 
-    open fun insertPodcastPlaylist(playlistId: Long): Completable {
-        return deletePodcastPlaylist(playlistId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = PODCAST_PLAYLIST,
-                        itemId = playlistId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertPodcastPlaylist(playlistId: Long) {
+        deletePodcastPlaylist(playlistId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = PODCAST_PLAYLIST,
+                itemId = playlistId
+            )
+        )
     }
 
-    open fun insertPodcastAlbum(albumId: Long): Completable {
-        return deletePodcastAlbum(albumId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = PODCAST_ALBUM,
-                        itemId = albumId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertPodcastAlbum(albumId: Long) {
+        deletePodcastAlbum(albumId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = PODCAST_ALBUM,
+                itemId = albumId
+            )
+        )
     }
 
-    open fun insertPodcastArtist(artistId: Long): Completable {
-        return deletePodcastArtist(artistId)
-            .andThen {
-                insertImpl(
-                    RecentSearchesEntity(
-                        dataType = PODCAST_ARTIST,
-                        itemId = artistId
-                    )
-                )
-            }
+    @Transaction
+    open suspend fun insertPodcastArtist(artistId: Long) {
+        deletePodcastArtist(artistId)
+        insertImpl(
+            RecentSearchesEntity(
+                dataType = PODCAST_ARTIST,
+                itemId = artistId
+            )
+        )
     }
 
     private fun songMapper(recentSearch: RecentSearchesEntity, song: Song?): SearchResult? {
@@ -301,7 +291,10 @@ internal abstract class RecentSearchesDao {
         )
     }
 
-    private fun playlistMapper(recentSearch: RecentSearchesEntity, playlist: Playlist?): SearchResult? {
+    private fun playlistMapper(
+        recentSearch: RecentSearchesEntity,
+        playlist: Playlist?
+    ): SearchResult? {
         if (playlist == null) {
             return null
         }

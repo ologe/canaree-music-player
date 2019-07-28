@@ -1,8 +1,7 @@
 package dev.olog.msc.presentation.dialog.delete
 
-import dev.olog.msc.domain.interactor.dialog.DeleteUseCase
 import dev.olog.core.MediaId
-import io.reactivex.Completable
+import dev.olog.msc.domain.interactor.dialog.DeleteUseCase
 import javax.inject.Inject
 
 class DeleteDialogPresenter @Inject constructor(
@@ -11,7 +10,7 @@ class DeleteDialogPresenter @Inject constructor(
 ) {
 
 
-    fun execute(): Completable {
+    fun execute() {
         TODO()
 //        return deleteUseCase(mediaId)
     }

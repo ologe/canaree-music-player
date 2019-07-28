@@ -6,7 +6,6 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.interactor.GetPlaylistsUseCase
 import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class NewPlaylistDialogPresenter @Inject constructor(
@@ -23,7 +22,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
     private val existingPlaylists = playlists.execute(playlistType)
             .map { it.title.toLowerCase() }
 
-    fun execute(playlistTitle: String) : Completable {
+    fun execute(playlistTitle: String) {
         TODO()
 //        if (mediaId.isPlayingQueue){
 //            val playingQueue = playingQueueGateway.getAll().map { it.song.id }

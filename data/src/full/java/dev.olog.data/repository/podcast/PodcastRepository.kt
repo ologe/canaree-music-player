@@ -21,7 +21,6 @@ import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File

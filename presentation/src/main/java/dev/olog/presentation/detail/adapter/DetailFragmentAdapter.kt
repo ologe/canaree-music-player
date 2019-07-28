@@ -141,9 +141,9 @@ internal class DetailFragmentAdapter(
                     .asLiveData()
                     .subscribe(holder, view.sortImage::update)
 
-                viewModel.showSortByTutorialIfNeverShown()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
+                if (viewModel.showSortByTutorialIfNeverShown()) {
+                    TutorialTapTarget.sortBy(sortText, sortImage)
+                }
             }
             R.layout.item_detail_biography -> {
                 viewModel.observeBiography()

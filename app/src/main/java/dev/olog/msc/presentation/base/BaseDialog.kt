@@ -7,14 +7,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.toast
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 
 abstract class BaseDialog : BaseDialogFragment() {
 
-    private var disposable: Disposable? = null
+//    private var disposable: Disposable? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -25,11 +21,11 @@ abstract class BaseDialog : BaseDialogFragment() {
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)
                 .setPositiveButton(positiveButtonMessage(application)) { dialog, which ->
-                    disposable = positiveAction(dialog, which)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnComplete { application.toast(successMessage(application)) }
-                            .doOnError { application.toast(failMessage(application)) }
-                            .subscribe({}, Throwable::printStackTrace)
+//                    disposable = positiveAction(dialog, which)
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .doOnComplete { application.toast(successMessage(application)) }
+//                            .doOnError { application.toast(failMessage(application)) }
+//                            .subscribe({}, Throwable::printStackTrace)
                 }
 
         return builder.show()
@@ -44,6 +40,6 @@ abstract class BaseDialog : BaseDialogFragment() {
     protected abstract fun successMessage(context: Context): CharSequence
     protected abstract fun failMessage(context: Context): CharSequence
 
-    protected abstract fun positiveAction(dialogInterface: DialogInterface, which: Int) : Completable
+    protected abstract fun positiveAction(dialogInterface: DialogInterface, which: Int)
 
 }

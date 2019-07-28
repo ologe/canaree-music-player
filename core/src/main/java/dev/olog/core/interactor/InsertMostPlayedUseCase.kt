@@ -5,8 +5,6 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import io.reactivex.Completable
-import kotlinx.coroutines.rx2.await
 import javax.inject.Inject
 
 class InsertMostPlayedUseCase @Inject constructor(
@@ -21,7 +19,7 @@ class InsertMostPlayedUseCase @Inject constructor(
             MediaIdCategory.FOLDERS -> folderGateway.insertMostPlayed(mediaId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
             MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(mediaId)
-            else -> Completable.complete().await()
+            else -> return
         }
     }
 

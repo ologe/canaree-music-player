@@ -4,7 +4,6 @@ import androidx.room.*
 import dev.olog.data.db.entities.FavoriteEntity
 import dev.olog.data.db.entities.FavoritePodcastEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao

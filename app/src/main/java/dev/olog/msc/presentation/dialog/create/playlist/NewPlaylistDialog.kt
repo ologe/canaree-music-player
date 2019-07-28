@@ -1,11 +1,10 @@
 package dev.olog.msc.presentation.dialog.create.playlist
 
 import android.content.Context
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseEditTextDialog
-import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.withArguments
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class NewPlaylistDialog : BaseEditTextDialog() {
@@ -45,7 +44,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     override fun errorMessageForInvalidForm(currentValue: String): Int = R.string.popup_playlist_name_already_exist
 
-    override fun positiveAction(currentValue: String): Completable {
+    override fun positiveAction(currentValue: String) {
         return presenter.execute(currentValue)
     }
 

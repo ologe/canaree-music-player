@@ -16,8 +16,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
 import dev.olog.shared.android.utils.isMarshmallow
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SetRingtoneDialogPresenter @Inject constructor(
@@ -28,18 +26,16 @@ class SetRingtoneDialogPresenter @Inject constructor(
 ) {
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun execute() : Completable {
+    fun execute() {
         if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(context)){
             return setRingtone()
         } else {
-            requestWritingSettingsPermission()
-            return Completable.never()
+            return requestWritingSettingsPermission()
         }
     }
 
-    private fun setRingtone(): Completable{
-        return Completable.fromCallable(this::writeSettings)
-                .subscribeOn(Schedulers.io())
+    private fun setRingtone(){
+        writeSettings()
     }
 
     @TargetApi(23)
@@ -48,11 +44,11 @@ class SetRingtoneDialogPresenter @Inject constructor(
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
+                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
                     val packageName = context.packageName
                     val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))
                     activity.startActivity(intent)
-                }).show()
+                }.show()
     }
 
     private fun writeSettings() : Boolean {

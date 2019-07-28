@@ -1,37 +1,36 @@
 package dev.olog.core.gateway
 
 import dev.olog.core.entity.SearchResult
-import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 
 interface RecentSearchesGateway {
 
     fun getAll() : Flow<List<SearchResult>>
 
-    fun insertSong(songId: Long): Completable
-    fun insertAlbum(albumId: Long): Completable
-    fun insertArtist(artistId: Long): Completable
-    fun insertPlaylist(playlistId: Long): Completable
-    fun insertGenre(genreId: Long): Completable
-    fun insertFolder(folderId: Long): Completable
+    suspend fun insertSong(songId: Long)
+    suspend fun insertAlbum(albumId: Long)
+    suspend fun insertArtist(artistId: Long)
+    suspend fun insertPlaylist(playlistId: Long)
+    suspend fun insertGenre(genreId: Long)
+    suspend fun insertFolder(folderId: Long)
 
-    fun insertPodcast(podcastId: Long): Completable
-    fun insertPodcastPlaylist(playlistid: Long): Completable
-    fun insertPodcastAlbum(albumId: Long): Completable
-    fun insertPodcastArtist(artistId: Long): Completable
+    suspend fun insertPodcast(podcastId: Long)
+    suspend fun insertPodcastPlaylist(playlistid: Long)
+    suspend fun insertPodcastAlbum(albumId: Long)
+    suspend fun insertPodcastArtist(artistId: Long)
 
-    fun deleteSong(itemId: Long): Completable
-    fun deleteAlbum(itemId: Long): Completable
-    fun deleteArtist(itemId: Long): Completable
-    fun deletePlaylist(itemId: Long): Completable
-    fun deleteFolder(itemId: Long): Completable
-    fun deleteGenre(itemId: Long): Completable
+    suspend fun deleteSong(itemId: Long)
+    suspend fun deleteAlbum(itemId: Long)
+    suspend fun deleteArtist(itemId: Long)
+    suspend fun deletePlaylist(itemId: Long)
+    suspend fun deleteFolder(itemId: Long)
+    suspend fun deleteGenre(itemId: Long)
 
-    fun deletePodcast(podcastId: Long): Completable
-    fun deletePodcastPlaylist(playlistId: Long): Completable
-    fun deletePodcastAlbum(albumId: Long): Completable
-    fun deletePodcastArtist(artistId: Long): Completable
+    suspend fun deletePodcast(podcastId: Long)
+    suspend fun deletePodcastPlaylist(playlistId: Long)
+    suspend fun deletePodcastAlbum(albumId: Long)
+    suspend fun deletePodcastArtist(artistId: Long)
 
-    fun deleteAll(): Completable
+    suspend fun deleteAll()
 
 }

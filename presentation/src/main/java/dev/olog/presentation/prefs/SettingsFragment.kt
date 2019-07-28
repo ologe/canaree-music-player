@@ -27,15 +27,16 @@ import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.utils.forEach
 import dev.olog.shared.android.extensions.*
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
-class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : PreferenceFragmentCompat(),
+    ColorCallback,
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    CoroutineScope by MainScope() {
 
     companion object {
         val TAG = SettingsFragment::class.java.name
@@ -173,22 +174,21 @@ class SettingsFragment : PreferenceFragmentCompat(), ColorCallback, SharedPrefer
         AlertDialog.Builder(ctx)
                 .setTitle(R.string.prefs_delete_cached_images_title)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                    GlideApp.get(ctx.applicationContext).clearMemory()
-                    @Suppress("UNUSED_VARIABLE")
-                    val disp = Completable.fromCallable {
-                        GlideApp.get(ctx.applicationContext).clearDiskCache()
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()?.forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()?.forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles()?.forEach { it.delete() }
-                    }.observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({
-                                ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
-                            }, Throwable::printStackTrace)
-                }
+                .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
                 .setNegativeButton(R.string.popup_negative_no, null)
                 .show()
+    }
+
+    private suspend fun clearGlideCache(){
+        GlideApp.get(ctx.applicationContext).clearMemory()
+
+        withContext(Dispatchers.IO){
+            GlideApp.get(ctx.applicationContext).clearDiskCache()
+            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()?.forEach { it.delete() }
+            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()?.forEach { it.delete() }
+            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles()?.forEach { it.delete() }
+        }
+        ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
     }
 
     private fun showResetTutorialDialog(){

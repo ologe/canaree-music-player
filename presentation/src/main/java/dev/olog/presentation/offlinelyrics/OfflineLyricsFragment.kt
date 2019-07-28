@@ -37,13 +37,13 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
-    private var tutorialDisposable: Disposable? = null
 
     private val mediaProvider by lazy { activity as MediaProvider }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tutorialDisposable = presenter.showAddLyricsIfNeverShown()
-            .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) }, {})
+        if (presenter.showAddLyricsIfNeverShown()) {
+            TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
+        }
 
         seekBar.setListener(onStopTouch = {
             mediaProvider.seekTo(seekBar.progress.toLong())
@@ -134,7 +134,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     override fun onStop() {
         super.onStop()
-        tutorialDisposable.unsubscribe()
         blurLayout.pauseBlur()
     }
 

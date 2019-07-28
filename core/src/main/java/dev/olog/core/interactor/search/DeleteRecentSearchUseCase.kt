@@ -1,20 +1,15 @@
 package dev.olog.core.interactor.search
 
-import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.interactor.base.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
-import io.reactivex.Completable
+import dev.olog.core.gateway.RecentSearchesGateway
 import javax.inject.Inject
 
 class DeleteRecentSearchUseCase @Inject constructor(
-    scheduler: IoScheduler,
     private val recentSearchesGateway: RecentSearchesGateway
 
-) : CompletableUseCaseWithParam<MediaId>(scheduler) {
+)  {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: MediaId): Completable {
+    suspend operator fun invoke(mediaId: MediaId) {
         val id = mediaId.resolveId
         return when {
             mediaId.isLeaf && !mediaId.isPodcast -> recentSearchesGateway.deleteSong(id)

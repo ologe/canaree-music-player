@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.dialog.clear.playlist
 
 import dev.olog.core.MediaId
 import dev.olog.msc.domain.interactor.dialog.ClearPlaylistUseCase
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class ClearPlaylistDialogPresenter @Inject constructor(
@@ -11,7 +10,7 @@ class ClearPlaylistDialogPresenter @Inject constructor(
 
 ) {
 
-    fun execute(): Completable {
+    fun execute() {
         TODO()
 //        return useCase(mediaId)
     }

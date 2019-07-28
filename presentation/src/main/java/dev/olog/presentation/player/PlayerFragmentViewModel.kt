@@ -15,7 +15,6 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -112,7 +111,7 @@ class PlayerFragmentViewModel @Inject constructor(
     val skipToPreviousVisibility = musicPrefsUseCase
             .observeSkipToPreviousVisibility()
 
-    fun showLyricsTutorialIfNeverShown(): Completable {
+    fun showLyricsTutorialIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.lyricsTutorial()
     }
 

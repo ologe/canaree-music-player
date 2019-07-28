@@ -5,7 +5,6 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.shared.clamp
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class LibraryFragmentPresenter @Inject constructor(
@@ -30,7 +29,7 @@ class LibraryFragmentPresenter @Inject constructor(
         }
     }
 
-    fun showFloatingWindowTutorialIfNeverShown(): Completable {
+    fun showFloatingWindowTutorialIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.floatingWindowTutorial()
     }
 
