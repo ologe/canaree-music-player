@@ -16,6 +16,7 @@ android {
     buildTypes {
         release {
             buildConfigField 'String', "FRITZ_KEY", fritz_key
+            proguardFiles 'proguard-rules-dynamic-features.pro'
         }
         debug {
             buildConfigField 'String', "FRITZ_KEY", fritz_key

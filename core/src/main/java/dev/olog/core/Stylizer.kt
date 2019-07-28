@@ -2,7 +2,9 @@ package dev.olog.core
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.annotation.Keep
 
+@Keep
 interface Stylizer {
 
     companion object {

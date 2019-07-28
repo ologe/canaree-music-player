@@ -105,3 +105,8 @@
   public static *** w(...);
   public static *** e(...);
 }
+
+
+# style transfer
+-keep class dev.olog.core.Stylizer
+-keep class dev.olog.feature.stylize.StylizerImpl

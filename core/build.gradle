@@ -16,4 +16,6 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_core.coroutines
+
+    implementation lib_x.annotations
 }
