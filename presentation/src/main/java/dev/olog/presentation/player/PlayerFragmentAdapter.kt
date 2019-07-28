@@ -1,8 +1,8 @@
 package dev.olog.presentation.player
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
@@ -300,7 +300,7 @@ internal class PlayerFragmentAdapter(
         view.seekBar.max = duration.toInt()
 
         val isPodcast = metadata.isPodcast
-        val playerControlsRoot = view.findViewById(R.id.playerControls) as ConstraintLayout
+        val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
         playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
     }
 
