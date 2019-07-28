@@ -301,12 +301,7 @@ internal class PlayerFragmentAdapter(
 
         val isPodcast = metadata.isPodcast
         val playerControlsRoot = view.findViewById(R.id.playerControls) as ConstraintLayout
-
-        playerControlsRoot.replay.toggleVisibility(isPodcast, true)
-        playerControlsRoot.replay30.toggleVisibility(isPodcast, true)
-
-        playerControlsRoot.forward.toggleVisibility(isPodcast, true)
-        playerControlsRoot.forward30.toggleVisibility(isPodcast, true)
+        playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {

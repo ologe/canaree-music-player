@@ -10,6 +10,7 @@
     tools:background="@android:color/black">
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/podcast_controls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
