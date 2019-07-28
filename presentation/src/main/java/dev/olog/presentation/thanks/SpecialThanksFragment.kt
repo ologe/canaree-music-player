@@ -42,10 +42,7 @@ class SpecialThanksFragment : Fragment() {
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
 
-        Single.just(presenter.data)
-            .toFlowable()
-            .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        adapter.updateDataSet(presenter.data)
     }
 
     override fun onResume() {

@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.android.extensions.subscribe
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
@@ -36,10 +33,7 @@ class LicensesFragment : Fragment() {
         view.list.adapter = adapter
         view.list.layoutManager = LinearLayoutManager(context)
 
-        Single.just(presenter.data)
-            .toFlowable()
-            .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        adapter.updateDataSet(presenter.data)
     }
 
     override fun onResume() {
