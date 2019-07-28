@@ -9,7 +9,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.image.provider.fetcher.OriginalImageFetcher
-import dev.olog.presentation.edit.ImageType
+import dev.olog.presentation.edit.model.LoadImageType
+import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
@@ -31,7 +32,7 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     private var fetchJob: Job? = null
 
-    private var newImage: String? = null
+    private var newImage: SaveImageType = SaveImageType.NotSet
 
     private val songLiveData = MutableLiveData<Song>()
     private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
@@ -46,17 +47,16 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<DisplayableSong> = displayableSongLiveData
 
-    fun getDisplayableSong(): DisplayableSong = displayableSongLiveData.value!!
     fun getOriginalSong(): Song = songLiveData.value!!
 
-    fun getNewImage(): String? = newImage
+    fun getNewImage(): SaveImageType = newImage
 
     override fun onCleared() {
         fetchJob?.cancel()
         viewModelScope.cancel()
     }
 
-    fun updateImage(image: String) {
+    fun updateImage(image: SaveImageType) {
         newImage = image
     }
 
@@ -84,14 +84,14 @@ class EditTrackFragmentViewModel @Inject constructor(
         return true
     }
 
-    suspend fun loadOriginalImage(mediaId: MediaId): ImageType {
-        newImage = null
+    suspend fun loadOriginalImage(mediaId: MediaId): LoadImageType {
+        newImage = SaveImageType.Original
 
         val data = presenter.fetchData(mediaId.resolveId)
         if (data?.image != null){
-            return ImageType.String(data.image)
+            return LoadImageType.String(data.image)
         }
-        return ImageType.Stream(OriginalImageFetcher.loadImage(getOriginalSong().path))
+        return LoadImageType.Stream(OriginalImageFetcher.loadImage(getOriginalSong().path))
     }
 
     fun stopFetch() {

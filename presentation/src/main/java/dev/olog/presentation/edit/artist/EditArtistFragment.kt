@@ -9,7 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
-import dev.olog.presentation.edit.UpdateResult
+import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.intents.AppConstants
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -77,20 +77,20 @@ class EditArtistFragment : BaseEditItemFragment(), CoroutineScope by MainScope()
         super.onResume()
         okButton.setOnClickListener {
             launch {
-                val result = editItemViewModel.updateArtist(
-                    UpdateArtistInfo(
-                        mediaId,
-                        artist.extractText().trim(),
-                        albumArtist.extractText().trim(),
-                        viewModel.getNewImage()
-                    )
-                )
-
-                when (result){
-                    UpdateResult.OK -> dismiss()
-                    UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
-                    else -> {}
-                }
+//                val result = editItemViewModel.updateArtist(
+//                    UpdateArtistInfo(
+//                        mediaId,
+//                        artist.extractText().trim(),
+//                        albumArtist.extractText().trim(),
+//                        viewModel.getNewImage()
+//                    )
+//                )
+//
+//                when (result){
+//                    UpdateResult.OK -> dismiss()
+//                    UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
+//                    else -> {}
+//                }
             }
         }
         cancelButton.setOnClickListener { dismiss() }

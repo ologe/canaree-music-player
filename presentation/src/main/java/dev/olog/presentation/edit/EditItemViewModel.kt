@@ -8,6 +8,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
+import dev.olog.presentation.edit.model.SaveImageType
+import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -110,7 +112,7 @@ data class UpdateSongInfo(
     val year: String,
     val disc: String,
     val track: String,
-    val image: String?,
+    val image: SaveImageType,
     val isPodcast: Boolean
 )
 
@@ -121,12 +123,12 @@ data class UpdateAlbumInfo(
     val albumArtist: String,
     val genre: String,
     val year: String,
-    val image: String?
+    val image: SaveImageType
 )
 
 data class UpdateArtistInfo(
     val mediaId: MediaId,
     val name: String,
     val albumArtist: String,
-    val image: String?
+    val image: SaveImageType
 )

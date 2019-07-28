@@ -3,8 +3,8 @@ package dev.olog.presentation.edit
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.LastFmGateway
-import dev.olog.core.interactor.edit.UpdateMultipleTracksUseCase
-import dev.olog.core.interactor.edit.UpdateTrackUseCase
+import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
+import dev.olog.presentation.edit.domain.UpdateTrackUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 

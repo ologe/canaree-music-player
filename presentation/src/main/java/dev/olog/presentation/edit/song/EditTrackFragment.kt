@@ -11,6 +11,9 @@ import dev.olog.core.Stylizer
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.*
+import dev.olog.presentation.edit.model.LoadImageType
+import dev.olog.presentation.edit.model.SaveImageType
+import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_track.*
@@ -130,7 +133,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     }
 
     override fun onImagePicked(uri: Uri) {
-        viewModel.updateImage(uri.toString())
+        viewModel.updateImage(SaveImageType.Url(uri.toString()))
         loadImage(uri, mediaId)
     }
 
@@ -139,15 +142,15 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             val imageType = viewModel.loadOriginalImage(mediaId)
             withContext(Dispatchers.Main) {
                 when (imageType) {
-                    is ImageType.String -> loadImage(imageType.url, mediaId)
-                    is ImageType.Stream -> loadImage(imageType.stream, mediaId)
+                    is LoadImageType.String -> loadImage(imageType.url, mediaId)
+                    is LoadImageType.Stream -> loadImage(imageType.stream, mediaId)
                 }
             }
         }
     }
 
     override fun noImage() {
-        viewModel.updateImage(AppConstants.NO_IMAGE)
+        viewModel.updateImage(SaveImageType.Url(AppConstants.NO_IMAGE))
         loadImage(Uri.EMPTY, mediaId)
     }
 
@@ -161,14 +164,15 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
                 withContext(Dispatchers.IO) {
                     val imageType = viewModel.loadOriginalImage(mediaId)
                     val bitmap = when (imageType) {
-                        is ImageType.String -> getBitmap(
+                        is LoadImageType.String -> getBitmap(
                             imageType.url,
                             mediaId
                         ) // TODO, bad first time triggers download
-                        is ImageType.Stream -> getBitmap(imageType.stream, mediaId)
+                        is LoadImageType.Stream -> getBitmap(imageType.stream, mediaId)
                     }
                     bitmap?.let { b ->
                         val stylizedBitmap = stylizer.stylize(b)
+                        viewModel.updateImage(SaveImageType.Stylized(b))
                         withContext(Dispatchers.Main) {
                             loadImage(stylizedBitmap, mediaId)
                         }

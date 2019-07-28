@@ -9,7 +9,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo
-import dev.olog.presentation.edit.UpdateResult
+import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -84,25 +84,25 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         super.onResume()
         okButton.setOnClickListener {
             launch {
-                val result = editItemViewModel.updateAlbum(
-                    UpdateAlbumInfo(
-                        mediaId,
-                        album.extractText().trim(),
-                        artist.extractText().trim(),
-                        albumArtist.extractText().trim(),
-                        genre.extractText().trim(),
-                        year.extractText().trim(),
-                        viewModel.getNewImage()
-                    )
-                )
-
-                when (result){
-                    UpdateResult.OK -> dismiss()
-                    UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
-                    UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
-                    UpdateResult.ILLEGAL_DISC_NUMBER,
-                    UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
-                }
+//                val result = editItemViewModel.updateAlbum(
+//                    UpdateAlbumInfo(
+//                        mediaId,
+//                        album.extractText().trim(),
+//                        artist.extractText().trim(),
+//                        albumArtist.extractText().trim(),
+//                        genre.extractText().trim(),
+//                        year.extractText().trim(),
+//                        viewModel.getNewImage()
+//                    )
+//                )
+//
+//                when (result){
+//                    UpdateResult.OK -> dismiss()
+//                    UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
+//                    UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
+//                    UpdateResult.ILLEGAL_DISC_NUMBER,
+//                    UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
+//                }
             }
         }
         cancelButton.setOnClickListener { dismiss() }
