@@ -31,7 +31,6 @@ class LottieFavorite(
             useWhiteIcon = useWhiteIcon || isDarkMode
 
             val icon = when {
-                playerAppearance.isClean() && !isDarkMode -> "favorite_gray"
                 useWhiteIcon -> "favorite_white"
                 else -> "favorite"
             }

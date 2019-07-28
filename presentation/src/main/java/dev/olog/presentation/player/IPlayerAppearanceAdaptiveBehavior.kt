@@ -127,10 +127,6 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
     override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
         val view = viewHolder.itemView
 
-        view.playPause.useLightImage()
-        view.next.useLightImage()
-        view.previous.useLightImage()
-
         viewModel.observePaletteColors()
             .map { it.accent }
             .asLiveData()

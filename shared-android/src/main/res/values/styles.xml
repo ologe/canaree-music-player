@@ -1,10 +1,5 @@
 <resources>
 
-    <attr name="cleanButtonColor" format="reference|color"/>
-    <attr name="cleanTitleColor" format="reference|color"/>
-    <attr name="cleanSeekBarColor" format="reference|color"/>
-    <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
-
     <attr name="colorPrimaryTransparent" format="reference|color" />
     <attr name="colorSwipeBackground" format="reference|color"/>
     <attr name="colorUnselectedButton" format="reference|color"/>
@@ -51,13 +46,6 @@
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
 <!--        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>-->
-
-
-<!--        for clean theme-->
-        <item name="cleanButtonColor">#8d91a6</item>
-        <item name="cleanTitleColor">#585858</item>
-        <item name="cleanSeekBarColor">#8d91a6</item>
-        <item name="cleanSeekBarBackgroundColor">#dbdee5</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme">

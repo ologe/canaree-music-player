@@ -39,10 +39,6 @@ class AnimatedImageView(
         setColorFilter(defaultColor)
     }
 
-    fun useLightImage() {
-        setColorFilter(lightColor())
-    }
-
     fun playAnimation() {
         stopPreviousAnimation()
         avd.start()

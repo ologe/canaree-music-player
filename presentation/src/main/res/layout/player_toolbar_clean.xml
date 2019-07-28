@@ -22,8 +22,7 @@
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginBottom="8dp"
-        android:rotation="90"
-        tools:tint="#8d91a6" />
+        android:rotation="90" />
 
     <dev.olog.presentation.widgets.LottieFavorite
         android:id="@+id/favorite"
@@ -45,7 +44,6 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        tools:tint="#8d91a6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lyrics"
         app:layout_constraintBottom_toBottomOf="@+id/more"/>
@@ -62,7 +60,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@+id/more"
         app:layout_constraintEnd_toStartOf="@+id/favorite"
-        app:layout_constraintStart_toEndOf="@+id/playbackSpeed"
-        tools:tint="#8d91a6"/>
+        app:layout_constraintStart_toEndOf="@+id/playbackSpeed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

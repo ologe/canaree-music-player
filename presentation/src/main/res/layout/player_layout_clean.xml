@@ -50,10 +50,7 @@
                 app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
                 app:layout_constraintTop_toBottomOf="@+id/textWrapper"
                 tools:max="100"
-                tools:progress="40"
-                android:progressTint="?attr/cleanSeekBarColor"
-                android:thumbTint="?attr/cleanSeekBarColor"
-                android:progressBackgroundTint="?attr/cleanSeekBarBackgroundColor"/>
+                tools:progress="40" />
 
             <!-- bookmark -->
             <TextView
@@ -70,13 +67,13 @@
                 android:scaleX=".9"
                 android:scaleY=".9"
                 android:textStyle="bold"
-                android:textColor="?attr/cleanButtonColor"/>
+                android:textColor="?android:textColorPrimary"/>
 
             <!-- duration -->
             <TextView
                 android:id="@+id/duration"
                 tools:text="2:57"
-                android:textColor="?attr/cleanButtonColor"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/player_bookmark_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="22dp"
-                    android:textColor="?attr/cleanTitleColor"
+                    android:textColor="?android:textColorPrimary"
                     android:clickable="false"
                     android:focusable="false"
                     android:gravity="center"
@@ -150,7 +147,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:rotation="90"
-            android:tint="?attr/cleanButtonColor"
             android:layout_marginEnd="36dp"/>
 
         <ImageButton
@@ -160,8 +156,7 @@
             android:src="@drawable/vd_offline_lyrics"
             app:layout_constraintStart_toEndOf="@+id/playbackSpeed"
             app:layout_constraintEnd_toStartOf="@+id/favorite"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
-            android:tint="?attr/cleanButtonColor"/>
+            app:layout_constraintBottom_toBottomOf="@+id/more" />
 
         <dev.olog.presentation.widgets.LottieFavorite
             android:id="@+id/favorite"
@@ -189,7 +184,6 @@
             android:src="@drawable/vd_slow_motion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:tint="?attr/cleanButtonColor"
             android:layout_margin="16dp"/>
 
         <dev.olog.presentation.widgets.swipeableview.SwipeableView

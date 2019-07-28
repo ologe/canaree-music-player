@@ -25,7 +25,6 @@ object ColorDelegateImpl : IColorDelegate {
         isDarkMode: Boolean
     ): Int {
         return when {
-            playerAppearance.isClean() && !isDarkMode -> 0xFF_8d91a6.toInt()
             playerAppearance.isFullscreen() || isDarkMode -> Color.WHITE
             else -> context.colorControlNormal()
         }
