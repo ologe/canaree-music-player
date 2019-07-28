@@ -7,7 +7,6 @@
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist)
 - add custom equalizer preset
 - made sleep timer top and bottom curved
-- style transfer in override image (on demand module)
 - added check last fm authentication 
 - re add podcast auto playlist
 
@@ -15,11 +14,8 @@
 - big image layout has problems with loading images, and displaying text (unknown cause)
 - fix snackbar (buy premium) in setting fragment
 - check if show album art on lockscreen works
-- player image view not loading always download images (because of skip memory cache in glide module?)
 - floating window play button in search lyrics not alwaus working
-- playing queue drag and drop not working as intended
-- favorite not working
-- overide image is not working 
+- playing queue drag and drop for some reasong is too fast 
 
 ## features
 - use don't keep activities and add try to restore previous state
