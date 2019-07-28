@@ -68,15 +68,13 @@ internal class SongRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun deleteSingle(id: Id): Completable {
-        return Completable.fromCallable { deleteInternal(id) }
+    override suspend fun deleteSingle(id: Id) {
+        return deleteInternal(id)
     }
 
-    override fun deleteGroup(ids: List<Song>): Completable {
-        return Completable.fromCallable {
-            for (id in ids) {
-                deleteInternal(id.id)
-            }
+    override suspend fun deleteGroup(ids: List<Song>) {
+        for (id in ids) {
+            deleteInternal(id.id)
         }
     }
 

@@ -9,7 +9,7 @@ class UpdateFavoriteStateUseCase @Inject constructor(
 
 ) {
 
-    operator fun invoke(param: FavoriteStateEntity) {
+    suspend operator fun invoke(param: FavoriteStateEntity) {
         return favoriteGateway.updateFavoriteState(param)
     }
 }

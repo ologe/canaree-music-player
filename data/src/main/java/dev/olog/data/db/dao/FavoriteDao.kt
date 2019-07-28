@@ -29,16 +29,16 @@ internal abstract class FavoriteDao {
     abstract fun deleteAllPodcasts()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertOneImpl(item: FavoriteEntity)
+    abstract suspend fun insertOneImpl(item: FavoriteEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertOnePodcastImpl(item: FavoritePodcastEntity)
+    abstract suspend fun insertOnePodcastImpl(item: FavoritePodcastEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertGroupImpl(item: List<FavoriteEntity>)
+    abstract suspend fun insertGroupImpl(item: List<FavoriteEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertGroupPodcastImpl(item: List<FavoritePodcastEntity>)
+    abstract suspend fun insertGroupPodcastImpl(item: List<FavoritePodcastEntity>)
 
     @Delete
     abstract suspend fun deleteGroupImpl(item: List<FavoriteEntity>)
@@ -46,27 +46,22 @@ internal abstract class FavoriteDao {
     @Delete
     abstract suspend fun deleteGroupPodcastImpl(item: List<FavoritePodcastEntity>)
 
-    fun addToFavoriteSingle(type: FavoriteType, id: Long): Completable {
-        return Completable.fromCallable {
-            if (type == FavoriteType.TRACK) {
-                insertOneImpl(FavoriteEntity(id))
-            } else {
-                insertOnePodcastImpl(FavoritePodcastEntity(id))
-            }
+    suspend fun addToFavoriteSingle(type: FavoriteType, id: Long) {
+        if (type == FavoriteType.TRACK) {
+            insertOneImpl(FavoriteEntity(id))
+        } else {
+            insertOnePodcastImpl(FavoritePodcastEntity(id))
         }
     }
 
-    fun addToFavorite(type: FavoriteType, songIds: List<Long>): Completable {
-        return Completable.fromCallable {
-            if (type == FavoriteType.TRACK) {
-                insertGroupImpl(songIds.map { FavoriteEntity(it) })
-            } else {
-                insertGroupPodcastImpl(songIds.map { FavoritePodcastEntity(it) })
-            }
+    suspend fun addToFavorite(type: FavoriteType, songIds: List<Long>) {
+        if (type == FavoriteType.TRACK) {
+            insertGroupImpl(songIds.map { FavoriteEntity(it) })
+        } else {
+            insertGroupPodcastImpl(songIds.map { FavoritePodcastEntity(it) })
         }
     }
 
-    @Transaction
     open suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
         if (type == FavoriteType.TRACK){
             deleteGroupImpl(songId.map { FavoriteEntity(it) })
@@ -79,6 +74,6 @@ internal abstract class FavoriteDao {
     abstract suspend fun isFavorite(songId: Long): FavoriteEntity?
 
     @Query("SELECT podcastId FROM favorite_podcast_songs WHERE podcastId = :podcastId")
-    abstract fun isFavoritePodcast(podcastId: Long): FavoritePodcastEntity?
+    abstract suspend fun isFavoritePodcast(podcastId: Long): FavoritePodcastEntity?
 
 }

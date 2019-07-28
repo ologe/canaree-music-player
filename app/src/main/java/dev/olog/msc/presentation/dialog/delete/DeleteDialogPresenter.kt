@@ -12,7 +12,8 @@ class DeleteDialogPresenter @Inject constructor(
 
 
     fun execute(): Completable {
-        return deleteUseCase.execute(mediaId)
+        TODO()
+//        return deleteUseCase(mediaId)
     }
 
 }

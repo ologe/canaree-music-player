@@ -11,7 +11,6 @@ import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -49,10 +48,10 @@ internal abstract class HistoryDao {
     internal abstract fun observeAllPodcastsImpl(): Flowable<List<PodcastHistoryEntity>>
 
     @Query("""DELETE FROM song_history""")
-    abstract fun deleteAll()
+    abstract suspend fun deleteAll()
 
     @Query("""DELETE FROM podcast_song_history""")
-    abstract fun deleteAllPodcasts()
+    abstract suspend fun deleteAllPodcasts()
 
     @Query("""
         DELETE FROM song_history
@@ -107,17 +106,17 @@ internal abstract class HistoryDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertImpl(entity: HistoryEntity)
+    internal abstract suspend fun insertImpl(entity: HistoryEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertPodcastImpl(entity: PodcastHistoryEntity)
+    internal abstract suspend fun insertPodcastImpl(entity: PodcastHistoryEntity)
 
-    fun insert(id: Long): Completable {
-        return Completable.fromCallable{ insertImpl(HistoryEntity(songId = id)) }
+    suspend fun insert(id: Long) {
+        insertImpl(HistoryEntity(songId = id))
     }
 
-    fun insertPodcasts(id: Long): Completable {
-        return Completable.fromCallable{ insertPodcastImpl(PodcastHistoryEntity(podcastId = id)) }
+    suspend fun insertPodcasts(id: Long) {
+        insertPodcastImpl(PodcastHistoryEntity(podcastId = id))
     }
 
 }

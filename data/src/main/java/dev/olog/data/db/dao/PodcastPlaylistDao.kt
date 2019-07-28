@@ -58,21 +58,21 @@ internal abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
-    abstract fun getPlaylistMaxId(playlistId: Long): Int?
+    abstract suspend fun getPlaylistMaxId(playlistId: Long): Int?
 
     @Insert
-    abstract fun createPlaylist(playlist: PodcastPlaylistEntity): Long
+    abstract suspend fun createPlaylist(playlist: PodcastPlaylistEntity): Long
 
     @Query("""
         UPDATE podcast_playlist SET name = :name WHERE id = :id
     """)
-    abstract fun renamePlaylist(id: Long, name: String)
+    abstract suspend fun renamePlaylist(id: Long, name: String)
 
     @Query("""DELETE FROM podcast_playlist WHERE id = :id""")
-    abstract fun deletePlaylist(id: Long)
+    abstract suspend fun deletePlaylist(id: Long)
 
     @Insert
-    abstract fun insertTracks(tracks: List<PodcastPlaylistTrackEntity>)
+    abstract suspend fun insertTracks(tracks: List<PodcastPlaylistTrackEntity>)
 
     @Query("""
         DELETE FROM podcast_playlist_tracks
@@ -83,7 +83,7 @@ internal abstract class PodcastPlaylistDao {
     @Query("""
         DELETE FROM podcast_playlist_tracks WHERE playlistId = :id
     """)
-    abstract fun clearPlaylist(id: Long)
+    abstract suspend fun clearPlaylist(id: Long)
 
     @Query("""
         DELETE FROM podcast_playlist_tracks
@@ -95,6 +95,6 @@ internal abstract class PodcastPlaylistDao {
             HAVING items > 1
         )
     """)
-    abstract fun removeDuplicated(id: Long)
+    abstract suspend fun removeDuplicated(id: Long)
 
 }

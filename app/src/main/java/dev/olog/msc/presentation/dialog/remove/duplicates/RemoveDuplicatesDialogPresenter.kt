@@ -11,7 +11,8 @@ class RemoveDuplicatesDialogPresenter @Inject constructor(
 ) {
 
     fun execute(): Completable {
-        return useCase.execute(mediaId)
+        TODO()
+//        return useCase(mediaId)
     }
 
 }

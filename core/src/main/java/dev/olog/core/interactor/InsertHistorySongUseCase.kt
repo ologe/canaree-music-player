@@ -1,8 +1,7 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import kotlinx.coroutines.rx2.await
+import dev.olog.core.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
 class InsertHistorySongUseCase @Inject constructor(
@@ -13,9 +12,9 @@ class InsertHistorySongUseCase @Inject constructor(
 
     suspend operator fun invoke(param: Input) {
         if (param.isPodcast) {
-            podcastGateway.insertPodcastToHistory(param.id).await()
+            podcastGateway.insertPodcastToHistory(param.id)
         } else {
-            playlistGateway.insertSongToHistory(param.id).await()
+            playlistGateway.insertSongToHistory(param.id)
         }
     }
 

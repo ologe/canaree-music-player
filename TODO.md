@@ -9,6 +9,7 @@
 - made sleep timer top and bottom curved
 - style transfer in override image (on demand module)
 - added check last fm authentication 
+- re add podcast auto playlist
 
 ### bug
 - big image layout has problems with loading images, and displaying text (unknown cause)

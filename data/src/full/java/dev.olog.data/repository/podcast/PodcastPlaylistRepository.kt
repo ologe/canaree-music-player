@@ -16,8 +16,8 @@ import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.assertBackground
-import dev.olog.shared.mapListItem
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.mapListItem
 import io.reactivex.Completable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -77,30 +77,30 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun createPlaylist(playlistName: String): Long {
+    override suspend fun createPlaylist(playlistName: String): Long {
         assertBackgroundThread()
         return podcastPlaylistDao.createPlaylist(PodcastPlaylistEntity(name = playlistName, size = 0))
     }
 
-    override fun renamePlaylist(playlistId: Id, newTitle: String): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.renamePlaylist(playlistId, newTitle) }
+    override suspend fun renamePlaylist(playlistId: Id, newTitle: String) {
+        return podcastPlaylistDao.renamePlaylist(playlistId, newTitle)
     }
 
-    override fun deletePlaylist(playlistId: Id): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.deletePlaylist(playlistId) }
+    override suspend fun deletePlaylist(playlistId: Id) {
+        return podcastPlaylistDao.deletePlaylist(playlistId)
     }
 
-    override fun clearPlaylist(playlistId: Id): Completable {
+    override suspend fun clearPlaylist(playlistId: Id) {
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             when (playlistId) {
                 AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
-                AutoPlaylist.HISTORY.id -> return Completable.fromCallable { historyDao.deleteAllPodcasts() }
+                AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
             }
         }
-        return Completable.fromCallable { podcastPlaylistDao.clearPlaylist(playlistId) }
+        return podcastPlaylistDao.clearPlaylist(playlistId)
     }
 
-    override fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
+    override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
         assertBackgroundThread()
 
         var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
@@ -128,11 +128,11 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override fun removeDuplicated(playlistId: Id): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.removeDuplicated(playlistId) }
+    override suspend fun removeDuplicated(playlistId: Id) {
+        podcastPlaylistDao.removeDuplicated(playlistId)
     }
 
-    override fun insertPodcastToHistory(podcastId: Id): Completable {
+    override suspend fun insertPodcastToHistory(podcastId: Id) {
         return historyDao.insertPodcasts(podcastId)
     }
 

@@ -1,27 +1,27 @@
 package dev.olog.msc.domain.interactor.dialog
 
 import dev.olog.core.MediaId
-import dev.olog.core.executor.IoScheduler
-import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.interactor.base.CompletableUseCaseWithParam
-import io.reactivex.Completable
+import dev.olog.core.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
 class RenameUseCase @Inject constructor(
-    scheduler: IoScheduler,
     private val playlistGateway: PlaylistGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway
 
-) : CompletableUseCaseWithParam<Pair<MediaId, String>>(scheduler) {
+) {
 
-
-    override fun buildUseCaseObservable(param: Pair<MediaId, String>): Completable {
-        val (mediaId, newTitle) = param
+    suspend operator fun invoke(mediaId: MediaId, newTitle: String) {
         return when {
-            mediaId.isPodcastPlaylist -> podcastPlaylistGateway.renamePlaylist(mediaId.categoryValue.toLong(), newTitle)
-            mediaId.isPlaylist -> playlistGateway.renamePlaylist(mediaId.categoryValue.toLong(), newTitle)
-            else -> Completable.error(IllegalArgumentException("not a folder nor a playlist, $mediaId"))
+            mediaId.isPodcastPlaylist -> podcastPlaylistGateway.renamePlaylist(
+                mediaId.categoryValue.toLong(),
+                newTitle
+            )
+            mediaId.isPlaylist -> playlistGateway.renamePlaylist(
+                mediaId.categoryValue.toLong(),
+                newTitle
+            )
+            else -> throw IllegalArgumentException("not a folder nor a playlist, $mediaId")
         }
     }
 }

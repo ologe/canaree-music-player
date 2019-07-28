@@ -17,17 +17,17 @@ interface PlaylistGateway :
 }
 
 interface PlaylistOperations {
-    fun createPlaylist(playlistName: String): Long
+    suspend fun createPlaylist(playlistName: String): Long
 
-    fun renamePlaylist(playlistId: Long, newTitle: String): Completable
+    suspend fun renamePlaylist(playlistId: Long, newTitle: String)
 
-    fun deletePlaylist(playlistId: Long): Completable
+    suspend fun deletePlaylist(playlistId: Long)
 
-    fun clearPlaylist(playlistId: Long): Completable
+    suspend fun clearPlaylist(playlistId: Long)
 
     suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>)
 
-    fun insertSongToHistory(songId: Long): Completable
+    suspend fun insertSongToHistory(songId: Long)
 
     fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
 

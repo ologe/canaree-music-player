@@ -13,11 +13,9 @@ import dev.olog.core.entity.id
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.handleRecoverableSecurityException
-import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
@@ -29,7 +27,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     private val historyDao = appDatabase.historyDao()
 
-    override fun createPlaylist(playlistName: String): Long {
+    override suspend fun createPlaylist(playlistName: String): Long {
         assertBackgroundThread()
 
         val added = System.currentTimeMillis()
@@ -77,23 +75,19 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         }
     }
 
-    override fun deletePlaylist(playlistId: Long): Completable {
-        return Completable.fromCallable {
-            context.contentResolver.delete(Playlists.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
-        }
+    override suspend fun deletePlaylist(playlistId: Long) {
+        context.contentResolver.delete(Playlists.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
     }
 
-    override fun clearPlaylist(playlistId: Long): Completable {
+    override suspend fun clearPlaylist(playlistId: Long) {
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             when (playlistId) {
                 AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
-                AutoPlaylist.HISTORY.id -> return Completable.fromCallable { historyDao.deleteAll() }
+                AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
             }
         }
-        return Completable.fromCallable {
-            val uri = Playlists.Members.getContentUri("external", playlistId)
-            context.contentResolver.delete(uri, null, null)
-        }
+        val uri = Playlists.Members.getContentUri("external", playlistId)
+        context.contentResolver.delete(uri, null, null)
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
@@ -115,22 +109,12 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         }
     }
 
-    override fun renamePlaylist(playlistId: Long, newTitle: String): Completable {
-        return Completable.create { e ->
+    override suspend fun renamePlaylist(playlistId: Long, newTitle: String) {
+        val values = ContentValues(1)
+        values.put(Playlists.NAME, newTitle)
 
-            val values = ContentValues(1)
-            values.put(Playlists.NAME, newTitle)
-
-            val rowsUpdated = context.contentResolver.update(Playlists.EXTERNAL_CONTENT_URI,
-                    values, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
-
-            if (rowsUpdated > 0) {
-                e.onComplete()
-            } else {
-                e.onError(Throwable("playlist name not updated"))
-            }
-
-        }.subscribeOn(Schedulers.io())
+        val rowsUpdated = context.contentResolver.update(Playlists.EXTERNAL_CONTENT_URI,
+            values, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
     }
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
@@ -156,7 +140,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         addSongsToPlaylist(playlistId, distinctTrackIds.toList())
     }
 
-    override fun insertSongToHistory(songId: Long): Completable {
+    override suspend fun insertSongToHistory(songId: Long) {
         return historyDao.insert(songId)
     }
 
