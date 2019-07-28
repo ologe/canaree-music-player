@@ -28,9 +28,9 @@ class StylizerImpl(context: Context) : Stylizer {
         .build()
 
     init {
-        Fritz.configure(context, BuildConfig.FRITZ_KEY)
-
-
+        if (!BuildConfig.DEBUG){
+            Fritz.configure(context, BuildConfig.FRITZ_KEY)
+        }
     }
 
     override suspend fun stylize(bitmap: Bitmap): Bitmap {
