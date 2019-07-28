@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
 import kotlinx.android.synthetic.main.player_layout_default.view.title
 import kotlinx.android.synthetic.main.player_layout_spotify.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
+import kotlinx.coroutines.flow.map
 
 internal interface IPlayerAppearanceAdaptiveBehavior {
 

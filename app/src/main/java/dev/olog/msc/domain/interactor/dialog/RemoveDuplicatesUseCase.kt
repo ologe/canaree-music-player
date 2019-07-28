@@ -1,7 +1,6 @@
 package dev.olog.msc.domain.interactor.dialog
 
 import dev.olog.core.MediaId
-import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import javax.inject.Inject

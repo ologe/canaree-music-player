@@ -5,7 +5,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import io.reactivex.Single
 import javax.inject.Inject
 
 class EditArtistFragmentPresenter @Inject constructor(
@@ -17,9 +16,9 @@ class EditArtistFragmentPresenter @Inject constructor(
 ) {
 
     private lateinit var originalArtist: DisplayableArtist
-    lateinit var songList: List<Song>
+//    lateinit var songList: List<Song>
 
-    fun observeArtist(): Single<DisplayableArtist> {
+    fun observeArtist(): DisplayableArtist {
         TODO()
 //        if (mediaId.isPodcastArtist){
 //            return getPodcastArtistInternal()
@@ -27,7 +26,7 @@ class EditArtistFragmentPresenter @Inject constructor(
 //        return getArtistInternal()
     }
 
-    private fun getArtistInternal(): Single<DisplayableArtist>{
+    private fun getArtistInternal(): DisplayableArtist{
         TODO()
 //        return getArtistUseCase.execute(mediaId)
 //                .firstOrError()
@@ -35,7 +34,7 @@ class EditArtistFragmentPresenter @Inject constructor(
 //                .doOnSuccess { originalArtist = it }
     }
 
-    private fun getPodcastArtistInternal(): Single<DisplayableArtist>{
+    private fun getPodcastArtistInternal(): DisplayableArtist{
         TODO()
 //        return getPodcastArtistUseCase.execute(mediaId)
 //                .firstOrError()
@@ -43,7 +42,7 @@ class EditArtistFragmentPresenter @Inject constructor(
 //                .doOnSuccess { originalArtist = it }
     }
 
-    fun getSongList(): Single<List<Song>> {
+    fun getSongList(): List<Song> {
         TODO()
 //        return getSongListByParamUseCase.execute(mediaId)
 //                .firstOrError()

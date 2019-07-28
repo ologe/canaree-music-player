@@ -1,6 +1,5 @@
 package dev.olog.presentation.model
 
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 
 interface PresentationPreferencesGateway {
@@ -27,8 +26,8 @@ interface PresentationPreferencesGateway {
     fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>
     fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
-    fun observeLibraryNewVisibility(): Observable<Boolean>
-    fun observeLibraryRecentPlayedVisibility(): Observable<Boolean>
+    fun observeLibraryNewVisibility(): Flow<Boolean>
+    fun observeLibraryRecentPlayedVisibility(): Flow<Boolean>
 
     fun canShowPodcastCategory(): Boolean
 

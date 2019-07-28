@@ -2,7 +2,6 @@ package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway

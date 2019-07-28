@@ -19,9 +19,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.startWithIfNotEmpty
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import java.io.File
 import javax.inject.Inject
 
@@ -38,11 +38,11 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())){
         override fun onChange(selfChange: Boolean) {
-            currentFile.onNext(currentFile.value!!)
+            currentFile.offer(currentFile.value)
         }
     }
 
-    private val currentFile = BehaviorSubject.createDefault(appPreferencesUseCase.getDefaultMusicFolder())
+    private val currentFile = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
     init {
         context.contentResolver.registerContentObserver(
@@ -56,6 +56,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     fun observeFileName(): LiveData<File> = currentFile
+        .asFlow()
             .asLiveData()
 
     fun observeChildrens(): LiveData<List<DisplayableFile>> = TODO()/*currentFile.subscribeOn(Schedulers.io())
@@ -100,7 +101,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     fun popFolder(): Boolean{
-        val current = currentFile.value!!
+        val current = currentFile.value
         if (current == File(File.separator)){
             return false
         }
@@ -110,7 +111,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
             return false
         }
         try {
-            currentFile.onNext(current.parentFile)
+            currentFile.offer(current.parentFile)
             return true
         } catch (e: Throwable){
             e.printStackTrace()
@@ -121,23 +122,24 @@ class FolderTreeFragmentViewModel @Inject constructor(
     fun goBack(){
         val file = currentFile.value!!
         if (!file.isStorageDir()){
-            currentFile.onNext(file.parentFile)
+            currentFile.offer(file.parentFile)
             return
         }
         val parent = file.parentFile
         if (parent.listFiles()?.isNotEmpty() == true){
-            currentFile.onNext(parent)
+            currentFile.offer(parent)
         }
     }
 
     fun nextFolder(file: File){
-        currentFile.onNext(file)
+        currentFile.offer(file)
     }
 
-    fun observeCurrentFolder(): Observable<Boolean> = Observables.combineLatest(
-            appPreferencesUseCase.observeDefaultMusicFolder(),
-            currentFile
-    ) { default, current -> default.safeGetCanonicalPath() == current.safeGetCanonicalPath() }
+    fun observeCurrentFolder(): Flow<Boolean> = TODO()
+//        Observables.combineLatest(
+//            appPreferencesUseCase.observeDefaultMusicFolder(),
+//            currentFile
+//    ) { default, current -> default.safeGetCanonicalPath() == current.safeGetCanonicalPath() }
 
     fun updateDefaultFolder(){
         val currentFolder = currentFile.value!!

@@ -1,7 +1,6 @@
 package dev.olog.core.prefs
 
 import dev.olog.core.entity.LastMetadata
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 
 interface MusicPreferencesGateway {
@@ -16,10 +15,10 @@ interface MusicPreferencesGateway {
     fun setShuffleMode(shuffleMode: Int)
 
     fun setSkipToPreviousVisibility(visible: Boolean)
-    fun observeSkipToPreviousVisibility(): Observable<Boolean>
+    fun observeSkipToPreviousVisibility(): Flow<Boolean>
 
     fun setSkipToNextVisibility(visible: Boolean)
-    fun observeSkipToNextVisibility(): Observable<Boolean>
+    fun observeSkipToNextVisibility(): Flow<Boolean>
 
     fun isMidnightMode() : Flow<Boolean>
 

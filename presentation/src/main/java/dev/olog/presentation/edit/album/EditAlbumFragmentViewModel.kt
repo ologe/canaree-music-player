@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.entity.track.Song
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
@@ -18,21 +16,21 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
     private val displayedAlbum = MutableLiveData<DisplayableAlbum>()
 
-    private var songListDisposable: Disposable? = null
-    private var albumDisposable: Disposable? = null
+//    private var songListDisposable: Disposable? = null
+//    private var albumDisposable: Disposable? = null
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
 
-        albumDisposable = presenter.observeAlbum()
-                .subscribe({
-                    displayedAlbum.postValue(it)
-                }, Throwable::printStackTrace)
-
-        songListDisposable = presenter.getSongList()
-                .subscribe({
-                    songListLiveData.postValue(it)
-                }, Throwable::printStackTrace)
+//        albumDisposable = presenter.observeAlbum()
+//                .subscribe({
+//                    displayedAlbum.postValue(it)
+//                }, Throwable::printStackTrace)
+//
+//        songListDisposable = presenter.getSongList()
+//                .subscribe({
+//                    songListLiveData.postValue(it)
+//                }, Throwable::printStackTrace)
     }
 
     fun updateImage(image: String){
@@ -62,7 +60,7 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
 
     override fun onCleared() {
-        songListDisposable.unsubscribe()
+//        songListDisposable.unsubscribe()
     }
 
 }

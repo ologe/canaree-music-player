@@ -1,6 +1,5 @@
 package dev.olog.injection
 
-import android.app.AlarmManager
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,8 +8,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.executor.ComputationScheduler
-import dev.olog.core.executor.IoScheduler
 import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -31,7 +28,6 @@ import javax.inject.Singleton
 @Component(
     modules = arrayOf(
         CoreModule::class,
-        SchedulersModule::class,
         LastFmModule::class,
 
 //        // data
@@ -73,9 +69,6 @@ interface CoreComponent {
     fun equalizer(): IEqualizer
     fun virtualizer(): IVirtualizer
     fun bassBoost(): IBassBoost
-
-    fun cpuDispatcher(): ComputationScheduler
-    fun ioDispatcher(): IoScheduler
 
     fun folderGateway2(): FolderGateway
     fun playlistGateway2(): PlaylistGateway

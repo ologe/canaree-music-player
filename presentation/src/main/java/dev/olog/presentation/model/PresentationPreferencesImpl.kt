@@ -7,10 +7,8 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.assertBackgroundThread
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class PresentationPreferencesImpl @Inject constructor(
@@ -245,19 +243,18 @@ class PresentationPreferencesImpl @Inject constructor(
         setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
     }
 
-    override fun observeLibraryNewVisibility(): Observable<Boolean> {
+    override fun observeLibraryNewVisibility(): Flow<Boolean> {
         return preferences.observeKey(
             context.getString(R.string.prefs_show_new_albums_artists_key),
             true
-        ).asObservable()
+        )
     }
 
-    override fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> {
+    override fun observeLibraryRecentPlayedVisibility(): Flow<Boolean> {
         return preferences.observeKey(
             (context.getString(R.string.prefs_show_recent_albums_artists_key)),
             true
         )
-            .asObservable()
     }
 
     override fun canShowPodcastCategory(): Boolean {

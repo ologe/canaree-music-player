@@ -10,7 +10,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.lazyFast
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 class SwipeableView(
     context: Context,
@@ -62,7 +62,7 @@ class SwipeableView(
         (context as HasSlidingPanel).getSlidingPanel().removePanelSlideListener(slidingPanelListener)
     }
 
-    fun isTouching(): Flowable<Boolean> = helper.isTouching()
+    fun isTouching(): Flow<Boolean> = helper.isTouching()
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isTouchEnabled){

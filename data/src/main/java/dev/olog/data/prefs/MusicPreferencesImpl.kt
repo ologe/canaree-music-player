@@ -3,14 +3,12 @@ package dev.olog.data.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
-import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -38,8 +36,7 @@ private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 class MusicPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences,
-    private val rxPreferences: RxSharedPreferences
+    private val preferences: SharedPreferences
 
 ): MusicPreferencesGateway {
 
@@ -71,16 +68,16 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putBoolean(SKIP_PREVIOUS, visible) }
     }
 
-    override fun observeSkipToPreviousVisibility(): Observable<Boolean> {
-        return rxPreferences.getBoolean(SKIP_PREVIOUS, true).asObservable()
+    override fun observeSkipToPreviousVisibility(): Flow<Boolean> {
+        return preferences.observeKey(SKIP_PREVIOUS, true)
     }
 
     override fun setSkipToNextVisibility(visible: Boolean) {
         preferences.edit { putBoolean(SKIP_NEXT, visible) }
     }
 
-    override fun observeSkipToNextVisibility(): Observable<Boolean> {
-        return rxPreferences.getBoolean(SKIP_NEXT, true).asObservable()
+    override fun observeSkipToNextVisibility(): Flow<Boolean> {
+        return preferences.observeKey(SKIP_NEXT, true)
     }
 
     override fun isMidnightMode(): Flow<Boolean> {

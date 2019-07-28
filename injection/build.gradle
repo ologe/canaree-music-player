@@ -31,8 +31,6 @@ dependencies {
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.appcompat
 
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-    implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "androidx.room:room-runtime:$rootProject.room"

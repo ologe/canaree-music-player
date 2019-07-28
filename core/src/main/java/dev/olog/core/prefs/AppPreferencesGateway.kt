@@ -1,7 +1,6 @@
 package dev.olog.core.prefs
 
 import dev.olog.core.entity.UserCredentials
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -21,7 +20,7 @@ interface AppPreferencesGateway {
     fun getSyncAdjustment(): Long
     fun setSyncAdjustment(value: Long)
 
-    fun observeDefaultMusicFolder(): Observable<File>
+    fun observeDefaultMusicFolder(): Flow<File>
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 

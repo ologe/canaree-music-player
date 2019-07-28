@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
-import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -19,8 +17,7 @@ import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences,
-    private val rxPreferences: RxSharedPreferences
+    private val preferences: SharedPreferences
 
 ) : AppPreferencesGateway {
 
@@ -207,9 +204,8 @@ class AppPreferencesImpl @Inject constructor(
         return startFolder.path
     }
 
-    override fun observeDefaultMusicFolder(): Observable<File> {
-        return rxPreferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())
-            .asObservable()
+    override fun observeDefaultMusicFolder(): Flow<File> {
+        return preferences.observeKey(DEFAULT_MUSIC_FOLDER, defaultFolder())
             .map { File(it) }
     }
 

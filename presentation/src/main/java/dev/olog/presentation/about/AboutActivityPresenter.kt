@@ -9,8 +9,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.pro.IBilling
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combineLatest

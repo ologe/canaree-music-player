@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.switcher.CustomViewSwitcher
 import dev.olog.shared.lazyFast
-import io.reactivex.Flowable
-import io.reactivex.processors.PublishProcessor
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlin.math.abs
 
 internal class SwipeableViewHelper(
@@ -32,7 +34,7 @@ internal class SwipeableViewHelper(
 
     private val viewSwitcher by lazyFast { findViewSwitcher() }
 
-    private val isTouchingPublisher = PublishProcessor.create<Boolean>()
+    private val isTouchingPublisher = ConflatedBroadcastChannel(false)
 
     private val touchSlop by lazy { ViewConfiguration.get(view.context).scaledTouchSlop }
 
@@ -42,19 +44,19 @@ internal class SwipeableViewHelper(
 
     fun onTouchDown(event: MotionEvent): Boolean {
         view.parent.requestDisallowInterceptTouchEvent(true)
-        isTouchingPublisher.onNext(true)
+        isTouchingPublisher.offer(true)
         return onActionDown(event)
     }
 
     fun onTouchMove(event: MotionEvent): Boolean{
         onActionMove(event)
-        isTouchingPublisher.onNext(true)
+        isTouchingPublisher.offer(true)
         return true
     }
 
     fun onTouchUp(event: MotionEvent): Boolean{
         view.parent.requestDisallowInterceptTouchEvent(false)
-        isTouchingPublisher.onNext(false)
+        isTouchingPublisher.offer(false)
         return onActionUp(event)
     }
 
@@ -125,7 +127,9 @@ internal class SwipeableViewHelper(
         imageView.dispatchTouchEvent(event)
     }
 
-    fun isTouching(): Flowable<Boolean> = isTouchingPublisher.distinctUntilChanged()
+    fun isTouching(): Flow<Boolean> = isTouchingPublisher
+        .asFlow()
+        .distinctUntilChanged()
 
 
 }

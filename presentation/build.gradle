@@ -33,7 +33,6 @@ dependencies {
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
-    implementation lib_core.coroutines_rx
     implementation lib_core.coroutines_android
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
@@ -60,8 +59,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$rootProject.dagger"
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
 
     implementation "com.afollestad.material-dialogs:core:$rootProject.material_dialogs"
     implementation "com.afollestad.material-dialogs:color:$rootProject.material_dialogs"

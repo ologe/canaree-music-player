@@ -4,7 +4,6 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.presentation.utils.safeGet
-import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
@@ -16,10 +15,10 @@ class EditAlbumFragmentPresenter @Inject constructor(
 
 ) {
 
-    lateinit var songList: List<Song>
+//    lateinit var songList: List<Song>
     private lateinit var originalAlbum: DisplayableAlbum
 
-    fun observeAlbum(): Single<DisplayableAlbum> {
+    fun observeAlbum(): DisplayableAlbum {
         TODO()
 //        if (mediaId.isPodcastAlbum){
 //            return observePodcastAlbumInternal()
@@ -27,7 +26,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 //        return observeAlbumInternal()
     }
 
-    private fun observeAlbumInternal(): Single<DisplayableAlbum>{
+    private fun observeAlbumInternal(): DisplayableAlbum{
         TODO()
 //        return getAlbumUseCase.execute(mediaId)
 //                .flatMap { original ->
@@ -38,7 +37,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 //                .doOnSuccess { originalAlbum = it }
     }
 
-    private fun observePodcastAlbumInternal(): Single<DisplayableAlbum>{
+    private fun observePodcastAlbumInternal(): DisplayableAlbum{
         TODO()
 //        return getPodcastAlbumUseCase.execute(mediaId)
 //                .flatMap { original ->
@@ -49,7 +48,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 //                .doOnSuccess { originalAlbum = it }
     }
 
-    fun getSongList(): Single<List<Song>> {
+    fun getSongList(): List<Song> {
         TODO()
 //        return getSongListByParamUseCase.execute(mediaId)
 //                .firstOrError()

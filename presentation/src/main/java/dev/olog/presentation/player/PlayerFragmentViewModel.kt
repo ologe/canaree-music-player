@@ -15,11 +15,10 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
@@ -31,12 +30,13 @@ class PlayerFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val processorPublisher = BehaviorSubject.create<ProcessorColors>()
-    private val palettePublisher = BehaviorSubject.create<PaletteColors>()
+    private val processorPublisher = BroadcastChannel<ProcessorColors>(Channel.CONFLATED)
+    private val palettePublisher = BroadcastChannel<PaletteColors>(Channel.CONFLATED)
+    private val currentTrackIdPublisher = BroadcastChannel<Long>(Channel.CONFLATED)
 
     // allow adaptive color on flat appearance
-    fun observeProcessorColors(): Observable<ProcessorColors> = processorPublisher
-        .observeOn(Schedulers.io())
+    fun observeProcessorColors(): Flow<ProcessorColors> = processorPublisher
+        .asFlow()
         .map {
             val hasPlayerAppearance = context.hasPlayerAppearance()
             if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
@@ -46,11 +46,11 @@ class PlayerFragmentViewModel @Inject constructor(
             }
         }
         .filter { it is ValidProcessorColors }
-        .observeOn(AndroidSchedulers.mainThread())
+        .flowOn(Dispatchers.Default)
 
     // allow adaptive color on flat appearance
-    fun observePaletteColors(): Observable<PaletteColors> = palettePublisher
-        .observeOn(Schedulers.io())
+    fun observePaletteColors(): Flow<PaletteColors> = palettePublisher
+        .asFlow()
         .map {
             val hasPlayerAppearance = context.hasPlayerAppearance()
             if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
@@ -60,22 +60,20 @@ class PlayerFragmentViewModel @Inject constructor(
             }
         }
         .filter { it is ValidPaletteColors }
-        .observeOn(AndroidSchedulers.mainThread())
+        .flowOn(Dispatchers.Default)
 
     fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.onNext(palette)
+        processorPublisher.offer(palette)
     }
 
     fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.onNext(palette)
+        palettePublisher.offer(palette)
     }
 
-    private val currentTrackIdPublisher = BehaviorSubject.create<Long>()
-
-    fun getCurrentTrackId() = currentTrackIdPublisher.value!!
+    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!! // TODO check
 
     fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.onNext(trackId)
+        currentTrackIdPublisher.offer(trackId)
     }
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(

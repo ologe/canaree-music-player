@@ -29,7 +29,6 @@ import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.swap
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 

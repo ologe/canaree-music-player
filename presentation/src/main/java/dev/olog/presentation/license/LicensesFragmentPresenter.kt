@@ -38,34 +38,6 @@ class LicensesFragmentPresenter (private val context: Context) {
         apache()
     )
 
-    private val RX_ANDROID = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("rxAndroid"),
-        "RxAndroid", "https://github.com/ReactiveX/RxAndroid",
-        apache()
-    )
-
-    private val RX_BINDING = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("rxBinding"),
-        "RxBinding", "https://github.com/JakeWharton/RxBinding",
-        apache()
-    )
-
-    private val RX_PREFERENCES = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("rxPreferences"),
-        "Rx Preferences", "https://github.com/f2prateek/rx-preferences",
-        apache()
-    )
-
-    private val RX_LINT = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("rxLint"),
-        "rxlint", "https://bitbucket.org/littlerobots/rxlint",
-        apache()
-    )
-
     private val SQL_BRITE = LicenseModel(
         R.layout.item_license,
         MediaId.headerId("sqlbrite"),
@@ -239,10 +211,6 @@ class LicensesFragmentPresenter (private val context: Context) {
             ANDROID_SUPPORT_LIBRARIES,
             DAGGER,
             RX_JAVA,
-            RX_ANDROID,
-            RX_PREFERENCES,
-            RX_BINDING,
-            RX_LINT,
             SQL_BRITE,
             SLIDING_PANEL,
             EXO_PLAYER,

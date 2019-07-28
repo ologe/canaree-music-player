@@ -12,23 +12,22 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
+import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.image.provider.CoverUtils
-import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.disposables.Disposable
+import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 
-class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
+class SplashTutorialFragment : Fragment(),
+    SwipeableView.SwipeListener {
 
     private var progressive = 0
 
     private lateinit var viewPager : StoppingViewPager
-
-    private var touchDisposable : Disposable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_tutorial, container, false)
@@ -37,6 +36,12 @@ class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
 
+        swipeableView.isTouching()
+            .asLiveData()
+            .subscribe(this) {
+                viewPager.isSwipeEnabled = !it
+            }
+
         loadPhoneImage(view)
         loadImage(progressive)
     }
@@ -44,14 +49,11 @@ class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
     override fun onResume() {
         super.onResume()
         swipeableView.setOnSwipeListener(this)
-        touchDisposable = swipeableView.isTouching()
-                .subscribe({ viewPager.isSwipeEnabled = !it }, Throwable::printStackTrace)
     }
 
     override fun onPause() {
         super.onPause()
         swipeableView.setOnSwipeListener(null)
-        touchDisposable.unsubscribe()
     }
 
     override fun onSwipedLeft() {

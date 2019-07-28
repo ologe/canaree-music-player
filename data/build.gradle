@@ -46,10 +46,8 @@ dependencies {
     implementation lib_x.core_ktx
     implementation lib_x.preference
 
-    // TODO rmeove
+    // TODO rmeove after room get receive channel/flow support
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
-    implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     // rename
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
     implementation "com.google.code.gson:gson:$rootProject.gson"

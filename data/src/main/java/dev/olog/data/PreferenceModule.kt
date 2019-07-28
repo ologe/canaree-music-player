@@ -3,7 +3,6 @@ package dev.olog.data
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -47,13 +46,6 @@ abstract class PreferenceModule {
         @Singleton
         internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)
-        }
-
-        @Provides
-        @JvmStatic
-        @Singleton
-        internal fun provideRxPreferences(preferences: SharedPreferences): RxSharedPreferences {
-            return RxSharedPreferences.create(preferences)
         }
     }
 

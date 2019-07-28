@@ -3,11 +3,9 @@
 package dev.olog.shared.android.extensions
 
 import androidx.lifecycle.*
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.rx2.asFlowable
+
 
 fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit) {
     this.observe(lifecycleOwner, Observer {
@@ -15,16 +13,6 @@ fun <T> LiveData<T>.subscribe(lifecycleOwner: LifecycleOwner, func: (T) -> Unit)
             func(it)
         }
     })
-}
-
-inline fun <T> Flowable<T>.asLiveData() : LiveData<T> {
-    return LiveDataReactiveStreams.fromPublisher(this)
-}
-
-inline fun <T> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
-        : LiveData<T> {
-
-    return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backpressureStrategy))
 }
 
 inline fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {

@@ -18,13 +18,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.unsubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.processors.PublishProcessor
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.*
+import java.lang.Runnable
 import java.util.concurrent.TimeUnit
 
 private const val BUBBLE_ANIMATION_DURATION = 100
@@ -34,12 +36,11 @@ private const val TRACK_SNAP_RANGE = 5
 private const val TEXT_THROTTLE = 100L
 private const val SCROLL_THROTTLE = 50L
 
-class RxFastScroller @JvmOverloads constructor(
+class RxFastScroller(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet
 
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
 
 
     interface SectionIndexer {
@@ -48,18 +49,14 @@ class RxFastScroller @JvmOverloads constructor(
 
     init {
         layout(context, attrs)
-        if (attrs == null){
-            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
-        } else {
-            layoutParams = generateLayoutParams(attrs)
-        }
+        layoutParams = generateLayoutParams(attrs)
     }
 
     private fun layout(context: Context, attrs: AttributeSet?) {
         View.inflate(context, R.layout.layout_fastscroller, this)
 
         clipChildren = false
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
 
         mBubbleView = findViewById<View>(R.id.fastscroll_bubble) as TextView
         mHandleView = findViewById<View>(R.id.fastscroll_handle) as ImageView
@@ -98,34 +95,34 @@ class RxFastScroller @JvmOverloads constructor(
     private var mSectionIndexer: SectionIndexer? = null
     private var mScrollbarAnimator: ViewPropertyAnimator? = null
     private var mBubbleAnimator: ViewPropertyAnimator? = null
-    private var mRecyclerView: androidx.recyclerview.widget.RecyclerView? = null
+    private var mRecyclerView: RecyclerView? = null
     private var mBubbleView: TextView? = null
     private var mHandleView: ImageView? = null
     private var mScrollbar: View? = null
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
 
-    private val bubbleTextPublisher = PublishProcessor.create<String>()
-    private val scrollPublisher = PublishProcessor.create<Int>()
-    private var bubbleTextDisposable : Disposable? = null
-    private var scrollDisposable : Disposable? = null
+    private val bubbleTextPublisher = ConflatedBroadcastChannel("")
+    private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
+    private var bubbleTextDisposable : Job? = null
+    private var scrollDisposable : Job? = null
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
-    private val mScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+    private val mScrollListener = object : RecyclerView.OnScrollListener() {
 
-        override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (!mHandleView!!.isSelected && isEnabled) {
                 setViewPositions(getScrollProportion(recyclerView))
             }
         }
 
-        override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
 
             if (isEnabled) {
                 when (newState) {
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> {
+                    RecyclerView.SCROLL_STATE_DRAGGING -> {
                         handler.removeCallbacks(mScrollbarHider)
                         cancelAnimation(mScrollbarAnimator)
 
@@ -134,7 +131,7 @@ class RxFastScroller @JvmOverloads constructor(
                         }
                     }
 
-                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView!!.isSelected) {
+                    RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView!!.isSelected) {
                         handler.postDelayed(mScrollbarHider, SCROLL_BAR_HIDE_DELAY.toLong())
                     }
                 }
@@ -209,7 +206,7 @@ class RxFastScroller @JvmOverloads constructor(
         showBubble = show
     }
 
-    fun attachRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
+    fun attachRecyclerView(recyclerView: RecyclerView) {
         mRecyclerView = recyclerView
 
 
@@ -223,35 +220,36 @@ class RxFastScroller @JvmOverloads constructor(
 
         if (!isInEditMode){
             if (showBubble){
-                bubbleTextDisposable = bubbleTextPublisher
-                        .onBackpressureLatest()
-                        .throttleLast(TEXT_THROTTLE, TimeUnit.MILLISECONDS)
-                        .distinctUntilChanged()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .map {
-                            when {
-                                it < "A" -> "#"
-                                it > "Z" -> "?"
-                                else -> it
-                            }
-                        }.subscribe({ mBubbleView!!.text = it }, Throwable::printStackTrace)
+                launch {
+                    bubbleTextDisposable = launch {
+                        bubbleTextPublisher.asFlow()
+                            .distinctUntilChanged()
+                            .flowOn(Dispatchers.Default)
+                            .map {
+                                when {
+                                    it < "A" -> "#"
+                                    it > "Z" -> "?"
+                                    else -> it
+                                }
+                            }.collect { mBubbleView!!.text = it }
+                    }
+                }
             }
 
-            scrollDisposable = scrollPublisher
-                    .onBackpressureLatest()
-                    .throttleLast(SCROLL_THROTTLE, TimeUnit.MILLISECONDS)
+            scrollDisposable = launch {
+                scrollPublisher.asFlow()
+                    .filter { it != RecyclerView.NO_POSITION }
                     .distinctUntilChanged()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ position ->
-                        mRecyclerView?.layoutManager?.scrollToPosition(position)
-                    }, Throwable::printStackTrace)
+                    .flowOn(Dispatchers.Default)
+                    .collect { mRecyclerView?.layoutManager?.scrollToPosition(it) }
+            }
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        bubbleTextDisposable.unsubscribe()
-        scrollDisposable.unsubscribe()
+        bubbleTextDisposable?.cancel()
+        scrollDisposable?.cancel()
     }
 
     fun detachRecyclerView() {
@@ -390,14 +388,14 @@ class RxFastScroller @JvmOverloads constructor(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            scrollPublisher.onNext(targetPos)
+            scrollPublisher.offer(targetPos)
 
             val letter = mSectionIndexer?.getSectionText(targetPos)
-            letter?.let { bubbleTextPublisher.onNext(it) }
+            letter?.let { bubbleTextPublisher.offer(it) }
         }
     }
 
-    private fun getScrollProportion(recyclerView: androidx.recyclerview.widget.RecyclerView): Float {
+    private fun getScrollProportion(recyclerView: RecyclerView): Float {
         val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
         val verticalScrollRange = recyclerView.computeVerticalScrollRange()
         val rangeDiff = (verticalScrollRange - mHeight).toFloat()
