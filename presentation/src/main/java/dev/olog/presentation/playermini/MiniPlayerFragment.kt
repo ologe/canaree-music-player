@@ -13,7 +13,6 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
@@ -42,9 +41,6 @@ class MiniPlayerFragment : BaseFragment(){
         title.text = modelTitle
         artist.text = modelSubtitle
 
-        coverWrapper.toggleVisibility(requireContext().hasPlayerAppearance().isMini(), true)
-        title.isSelected = true
-
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.title
@@ -53,7 +49,6 @@ class MiniPlayerFragment : BaseFragment(){
                         artist.text = it.artist
                     }
                     updateProgressBarMax(it.duration)
-                    updateImage(it.mediaId)
                 }
 
         media.observePlaybackState()
@@ -140,13 +135,6 @@ class MiniPlayerFragment : BaseFragment(){
 
     private fun updateProgressBarMax(max: Long) {
         progressBar.max = max.toInt()
-    }
-
-    private fun updateImage(mediaId: MediaId){
-        if (!requireContext().hasPlayerAppearance().isMini()){
-            return
-        }
-        bigCover.loadImage(mediaId)
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){

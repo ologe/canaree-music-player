@@ -55,7 +55,7 @@
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/artist"
         app:layout_constraintEnd_toStartOf="@+id/previous"
-        app:layout_constraintStart_toEndOf="@+id/coverWrapper"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/lorem"
         app:fontFamily="sans-serif-black"/>
@@ -77,30 +77,6 @@
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="@tools:sample/lorem" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/coverWrapper"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-        android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
-        android:clickable="false"
-        android:focusable="false"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <dev.olog.presentation.widgets.imageview.PlayerImageView
-            android:id="@+id/bigCover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_folder" />
-
-    </com.google.android.material.card.MaterialCardView>
 
     <dev.olog.media.widget.CustomProgressBar
         android:id="@+id/progressBar"
