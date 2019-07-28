@@ -16,6 +16,7 @@
     completely disappeared
 - added volume controls to player fragment
 - made cover colored in dark mode
+- added is_podcast override in edit track
 
 ## 2.1.1
 - fixed all tracks sort order by date
