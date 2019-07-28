@@ -75,7 +75,7 @@ class UpdateTrackUseCase @Inject constructor(
             bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
             bitmap.recycle()
             out.close()
-            gateway.setForTrack(id, dest.parent)
+            gateway.setForTrack(id, dest.path)
         }
     }
 
