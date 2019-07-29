@@ -119,14 +119,6 @@
             app:key="@string/prefs_player_controls_visibility_key"
             app:defaultValue="false" />
 
-        <MultiSelectListPreference
-            app:title="@string/prefs_detail_sections_title"
-            app:summary="@string/prefs_detail_sections_summary"
-            app:key="@string/prefs_detail_sections_key"
-            app:entries="@array/prefs_detail_sections_entries"
-            app:entryValues="@array/prefs_detail_sections_entry_values"
-            app:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
-
         <ListPreference
             app:title="@string/prefs_quick_action_title"
             app:summary="@string/prefs_quick_action_summary"

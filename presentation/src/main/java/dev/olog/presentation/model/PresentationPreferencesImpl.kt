@@ -101,20 +101,6 @@ class PresentationPreferencesImpl @Inject constructor(
         }
     }
 
-    override fun observeVisibleTabs(): Flow<BooleanArray> {
-        return preferences.observeKey<Set<String>>(
-            context.getString(R.string.prefs_detail_sections_key),
-            setOf()
-        )
-            .map {
-                booleanArrayOf(
-                    it.contains(context.getString(R.string.prefs_detail_section_entry_value_most_played)),
-                    it.contains(context.getString(R.string.prefs_detail_section_entry_value_recently_added)),
-                    it.contains(context.getString(R.string.prefs_detail_section_entry_value_related_artists))
-                )
-            }
-    }
-
     override fun getLibraryCategories(): List<LibraryCategoryBehavior> {
         return listOf(
             LibraryCategoryBehavior(

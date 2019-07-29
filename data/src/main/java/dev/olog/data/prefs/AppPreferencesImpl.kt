@@ -58,7 +58,6 @@ class AppPreferencesImpl @Inject constructor(
     override fun setDefault() {
         assertBackgroundThread()
         hideQuickAction()
-        setDefaultVisibleSections()
         hideClassicPlayerControls()
         setDefaultAutoDownloadImages()
         setDefaultTheme()
@@ -116,13 +115,6 @@ class AppPreferencesImpl @Inject constructor(
                 context.getString(R.string.prefs_quick_action_key),
                 context.getString(R.string.prefs_quick_action_entry_value_hide)
             )
-        }
-    }
-
-    private fun setDefaultVisibleSections() {
-        preferences.edit {
-            val default = context.resources.getStringArray(R.array.prefs_detail_sections_entry_values_default).toSet()
-            putStringSet(context.getString(R.string.prefs_detail_sections_key), default)
         }
     }
 

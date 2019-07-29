@@ -11,7 +11,6 @@ interface PresentationPreferencesGateway {
     fun setLibraryPage(page: LibraryPage)
 
     fun isFirstAccess(): Boolean
-    fun observeVisibleTabs(): Flow<BooleanArray>
 
     fun getViewPagerLibraryLastPage(): Int
     fun setViewPagerLibraryLastPage(lastPage: Int)
