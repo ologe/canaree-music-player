@@ -39,7 +39,7 @@ object EditLyricsDialog {
     }
 
     fun showForService(context: Context, currentText: String, updateFunc: (String) -> Unit) {
-        val builder = android.app.AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context, R.style.AppTheme)
             .setTitle(R.string.offline_lyrics_edit_title)
             .setView(R.layout.content_layout_edit_text)
             .setPositiveButton("OK", null) // TODO

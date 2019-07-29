@@ -39,7 +39,7 @@ object OfflineLyricsSyncAdjustementDialog {
 
     @JvmStatic
     fun showForService(ctx: Context, currentValue: String, positiveAction: (Long) -> Unit) {
-        val builder = android.app.AlertDialog.Builder(ctx) // TODO try with androidx dialog
+        val builder = MaterialAlertDialogBuilder(ctx, R.style.AppTheme)
             .setTitle(R.string.offline_lyrics_adjust_sync)
             .setView(R.layout.content_layout_edit_text)
             .setPositiveButton("OK", null) // TODO
