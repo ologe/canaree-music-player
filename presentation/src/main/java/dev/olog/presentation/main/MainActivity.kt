@@ -29,6 +29,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
+import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.lazyFast
@@ -198,17 +199,13 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun tryPopFolderBack(): Boolean {
-        // TODO wrong implementation, i think it pop folder back even if not seeing the fragment
         val categoriesFragment =
-            supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) ?: return false
-        val fragments = categoriesFragment.childFragmentManager.fragments
-        for (fragment in fragments) {
-            if (fragment is CanHandleOnBackPressed &&
-                fragment.viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED && // ensure fragment is visible
-                fragment.handleOnBackPressed()
-            ) {
-                return true
-            }
+            supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
+
+        if (categoriesFragment.isCurrentFragmentFolderTree()){
+            val folderTree = categoriesFragment.childFragmentManager.fragments
+                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
+            return folderTree?.handleOnBackPressed() == true
         }
         return false
     }
@@ -222,7 +219,6 @@ class MainActivity : MusicGlueActivity(),
     }
 
     fun restoreSlidingPanelHeight(){
-        // TODO check if has translation ??
         bottomWrapper.animate().translationY(0f).setDuration(100)
         getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
     }

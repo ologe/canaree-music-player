@@ -49,6 +49,11 @@ class LibraryFragment : BaseFragment() {
         )
     }
 
+    fun isCurrentFragmentFolderTree(): Boolean {
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == MediaIdCategory.FOLDERS &&
+                pagerAdapter.showFolderAsHierarchy()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
