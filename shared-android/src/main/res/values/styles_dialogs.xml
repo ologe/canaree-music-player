@@ -18,15 +18,15 @@
     </style>
 
     <style name="SmallShapeAppearance" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">cut</item>
+
     </style>
 
-    <style name="MediumShapeAppearance" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">cut</item>
+    <style name="MediumShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">12dp</item>
     </style>
 
-    <style name="LargeShapeAppearance" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">cut</item>
+    <style name="LargeShapeAppearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+
     </style>
     
 </resources>
