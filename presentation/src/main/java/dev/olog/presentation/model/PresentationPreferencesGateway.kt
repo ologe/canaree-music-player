@@ -29,8 +29,6 @@ interface PresentationPreferencesGateway {
     fun observeLibraryNewVisibility(): Flow<Boolean>
     fun observeLibraryRecentPlayedVisibility(): Flow<Boolean>
 
-    fun canShowPodcastCategory(): Boolean
-
     fun isAdaptiveColorEnabled(): Boolean
 
     fun observePlayerControlsVisibility(): Flow<Boolean>

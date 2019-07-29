@@ -66,7 +66,6 @@ class AppPreferencesImpl @Inject constructor(
         setDefaultFolderView()
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
         setDefaultLibraryAlbumArtistVisibility()
-        setDefaultPodcastVisibility()
         setDefaultAdaptiveColors()
         setDefaultLockscreenArtwork()
     }
@@ -87,12 +86,6 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
             putBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
-        }
-    }
-
-    private fun setDefaultPodcastVisibility() {
-        preferences.edit {
-            putBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
         }
     }
 

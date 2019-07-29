@@ -257,10 +257,6 @@ class PresentationPreferencesImpl @Inject constructor(
         )
     }
 
-    override fun canShowPodcastCategory(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
-    }
-
     override fun observePlayerControlsVisibility(): Flow<Boolean> {
         return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
     }
