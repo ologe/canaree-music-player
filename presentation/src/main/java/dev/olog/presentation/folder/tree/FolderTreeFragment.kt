@@ -49,6 +49,8 @@ class FolderTreeFragment : BaseFragment(),
             activity as MediaProvider,
             navigator
         )
+        fab.shrink(false)
+
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
         list.setHasFixedSize(true)
@@ -63,18 +65,37 @@ class FolderTreeFragment : BaseFragment(),
 
         viewModel.observeChildren()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.observeCurrentFolderIsDefaultFolder()
+            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
+                if (isDefaultFolder){
+                    fab.hide()
+                } else {
+                    fab.show()
+                }
+            }
     }
 
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
         list.addOnScrollListener(scrollListener)
+        fab.setOnClickListener { onFabClick() }
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
         list.removeOnScrollListener(scrollListener)
+        fab.setOnClickListener(null)
+    }
+
+    private fun onFabClick(){
+        if (!fab.isExtended){
+            fab.extend()
+            return
+        }
+        viewModel.updateDefaultFolder()
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {

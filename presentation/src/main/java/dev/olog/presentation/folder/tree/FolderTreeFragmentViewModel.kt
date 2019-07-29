@@ -19,7 +19,7 @@ import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.android.extensions.asLiveData
-import dev.olog.shared.clamp
+import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -43,6 +43,8 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val currentDirectory: ConflatedBroadcastChannel<File> =
         ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
+    private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
+
     private val currentDirectoryChildrenLiveData = MutableLiveData<List<DisplayableFile>>()
 
     init {
@@ -56,6 +58,11 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 .collect {
                     currentDirectoryChildrenLiveData.value = it
                 }
+        }
+        viewModelScope.launch {
+            currentDirectory.asFlow().combineLatest(appPreferencesUseCase.observeDefaultMusicFolder())
+            { current, default -> current.path == default.path }
+                .collect { isCurrentFolderDefaultFolder.value = it }
         }
     }
 
@@ -84,6 +91,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun observeChildren(): LiveData<List<DisplayableFile>> = currentDirectoryChildrenLiveData
     fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asFlow().asLiveData()
+    fun observeCurrentFolderIsDefaultFolder(): LiveData<Boolean> = isCurrentFolderDefaultFolder.distinctUntilChanged()
 
     fun popFolder(): Boolean {
         val current = currentDirectory.value
