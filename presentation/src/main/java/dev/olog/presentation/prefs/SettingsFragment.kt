@@ -27,6 +27,7 @@ import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.utils.forEach
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -57,6 +58,25 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
+    private val freeSettings: List<Preference> by lazyFast {
+        listOf(
+            // ui
+            findPreference<Preference>(getString(R.string.prefs_dark_mode_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_color_accent_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_show_recent_albums_artists_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_show_new_albums_artists_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_player_controls_visibility_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!,
+            // other
+            findPreference<Preference>(getString(R.string.prefs_lockscreen_artwork_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_last_fm_credentials_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_auto_download_images_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_auto_create_images_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_reset_tutorial_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_delete_cached_images_key))!!
+        )
+    }
+
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -64,22 +84,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories =
-            preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
-        podcastCategories =
-            preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))!!
+        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
+        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))!!
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))!!
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))!!
-        deleteCache =
-            preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
-        lastFmCredentials =
-            preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))!!
-        autoCreateImages =
-            preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
-        accentColorChooser =
-            preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
-        resetTutorial =
-            preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
+        deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
+        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))!!
+        autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
+        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
+        resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,7 +105,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .distinctUntilChanged()
             .asLiveData()
             .subscribe(viewLifecycleOwner) { isPremium ->
-                preferenceScreen.forEach { it.isEnabled = isPremium }
+                preferenceScreen.forEach {
+                    it.isEnabled = isPremium || freeSettings.contains(it)
+                }
 
                 if (!isPremium) {
                     val v = act.window.decorView.findViewById<View>(android.R.id.content)

@@ -17,6 +17,7 @@ dependencies {
     implementation lib_x.core_ktx
     implementation lib_x.palette
     implementation lib_x.constraint_layout
+    implementation lib_x.preference
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
