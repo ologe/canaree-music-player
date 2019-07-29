@@ -1,7 +1,6 @@
 ## TODO
 - desaturation not work on all components, like tab layout
     - desaturation not removed completely in settings after switching from dark to light mode
-- check material card view to view how to draw colored shadow
 - check mediastore insert/update/delete on Android Q
 - change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist)
