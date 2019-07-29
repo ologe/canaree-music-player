@@ -3,14 +3,18 @@ package dev.olog.presentation.folder.tree
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.viewModelProvider
+import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
@@ -58,24 +62,18 @@ class FolderTreeFragment : BaseFragment(),
 
         viewModel.observeChildren()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
-
-//        viewModel.observeCurrentFolder()
-//            .asLiveData()
-//            .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
-//                defaultFolder.toggleVisibility(!isInDefaultFolder, true)
-//            }
     }
 
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
-        defaultFolder.setOnClickListener { viewModel.updateDefaultFolder() }
+        list.addOnScrollListener(scrollListener)
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
-        defaultFolder.setOnClickListener(null)
+        list.removeOnScrollListener(scrollListener)
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {
@@ -84,6 +82,17 @@ class FolderTreeFragment : BaseFragment(),
 
     override fun handleOnBackPressed(): Boolean {
         return viewModel.popFolder()
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener(){
+
+        private val toolbarHeight by lazyFast { ctx.dimen(R.dimen.toolbar) }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val currentTranlationY = crumbsWrapper.translationY
+            val clampedTranslation = clamp(currentTranlationY - dy, -toolbarHeight.toFloat(), 0f)
+            crumbsWrapper.translationY = clampedTranslation
+        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_folder_tree

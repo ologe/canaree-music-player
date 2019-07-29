@@ -11,7 +11,7 @@ import android.widget.RelativeLayout
 import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.forEach
+import androidx.core.view.*
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -73,6 +73,20 @@ fun View.setWidth(@Px heightPx: Int) {
         is CoordinatorLayout.LayoutParams -> params.width = heightPx
         is ConstraintLayout.LayoutParams -> params.width = heightPx
     }
+    layoutParams = params
+}
+
+fun View.setMargin(
+    @Px left: Int = marginLeft,
+    @Px top: Int = marginTop,
+    @Px right: Int = marginRight,
+    @Px bottom: Int = marginBottom
+) {
+    val params = this.layoutParams as? ViewGroup.MarginLayoutParams ?: return
+    params.topMargin = top
+    params.leftMargin = left
+    params.rightMargin = right
+    params.bottomMargin = bottom
     layoutParams = params
 }
 

@@ -1,6 +1,7 @@
 package dev.olog.presentation.main
 
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -9,11 +10,13 @@ import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragment
+import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
+import dev.olog.shared.android.extensions.setMargin
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
@@ -25,6 +28,13 @@ class SuperCerealScrollHelper(
         if (fragment.tag?.startsWith(DetailFragment.TAG) == true){
             // apply only top padding
             list.updatePadding(top = 0)
+        }
+        if (fragment is FolderTreeFragment){
+            val crumbsWrapper = fragment.view!!.findViewById<View>(R.id.crumbsWrapper)
+            fragment.view!!.doOnPreDraw {
+                crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
+                list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
+            }
         }
     }
 

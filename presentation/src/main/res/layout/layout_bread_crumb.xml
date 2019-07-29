@@ -7,21 +7,16 @@
     android:minHeight="@dimen/tab"
     android:orientation="horizontal"
     android:paddingEnd="4dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="4dp"
     android:paddingStart="12dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:paddingEnd="8dp"
+        android:fontFamily="sans-serif-black"
         android:textAllCaps="true"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
-        tools:text="Storage"
-        tools:textColor="#000"
-        android:textStyle="bold"/>
+        tools:text="Storage" />
 
     <TextView
         android:layout_width="wrap_content"

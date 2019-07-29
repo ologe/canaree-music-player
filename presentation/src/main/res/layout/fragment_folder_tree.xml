@@ -7,38 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false">
 
-    <dev.olog.presentation.widgets.BreadCrumbLayout
-        android:id="@+id/bread_crumbs"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:paddingEnd="8dp"
-        android:paddingStart="60dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/defaultFolder"
-        android:text="@string/folder_set_default_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
-        app:layout_constraintBottom_toBottomOf="@+id/bread_crumbs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/ExtendedFloatingActionButton"
-        android:visibility="visible"/>
-
-    <dev.olog.shared.widgets.DottedSeparator
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
@@ -46,11 +14,11 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song"
-        android:paddingTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:paddingTop="@dimen/toolbar"/>
 
     <dev.olog.presentation.widgets.fascroller.RxFastScroller
         android:id="@+id/fastScroller"
@@ -59,7 +27,7 @@
         app:handleColor="?colorControlNormal"
         app:bubbleColor="?colorAccent"
         app:trackColor="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
+        app:layout_constraintTop_toBottomOf="@+id/crumbsWrapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
@@ -69,8 +37,7 @@
     <TextView
         android:id="@+id/emptyStateText"
         tools:text="No Folders"
-        android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,8 +45,37 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?android:textColorPrimary"
         android:layout_gravity="center"
+        app:fontFamily="sans-serif-black"
+        tools:fontFamily="sans-serif-black"
         android:visibility="gone"
         tools:visibility="visible"/>
+
+
+    <FrameLayout
+        android:id="@+id/crumbsWrapper"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/tab"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?android:colorBackground">
+
+        <dev.olog.presentation.widgets.BreadCrumbLayout
+            android:id="@+id/bread_crumbs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="8dp"
+            android:paddingStart="60dp" />
+
+        <dev.olog.shared.widgets.DottedSeparator
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

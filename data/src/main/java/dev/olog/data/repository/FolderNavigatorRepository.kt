@@ -8,9 +8,9 @@ import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
+import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.isAudioFile
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 internal class FolderNavigatorRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val blacklistGateway: BlacklistPreferences
+    private val blacklistGateway: BlacklistPreferences,
+    private val folderGateway: FolderGateway
 ) : FolderNavigatorGateway {
 
     override fun observeFolderChildren(file: File): Flow<List<FileType>> {
@@ -42,26 +43,22 @@ internal class FolderNavigatorRepository @Inject constructor(
     private fun queryFileChildren(file: File): List<FileType> {
         val blacklisted = blacklistGateway.getBlackList()
         val children = file.listFiles()
-            ?.filter { currentFile -> blacklisted.any { currentFile.path.startsWith(it) } }
+            ?.asSequence()
+            ?.filter { it.isDirectory && !it.name.startsWith(".") }
+            ?.filter { currentFile -> !blacklisted.any { currentFile.path.startsWith(it) } }
+            ?.toList()
             ?: return emptyList()
 
-        val (directories, files) = children.partition { it.isDirectory }
-
-        return sortFolders(directories) + sortTracks(files)
+        return sortFolders(children) + folderGateway
+            .getTrackListByParam(file.path)
+            .map { FileType.Track(it.title, it.path) }
     }
 
     private fun sortFolders(files: List<File>): List<FileType> {
         return files.asSequence()
-            .sortedBy { it.name }
+            .sortedBy { it.name.toLowerCase() }
             .map { FileType.Folder(it.name, it.path) }
             .toList()
-    }
-
-    private fun sortTracks(files: List<File>): List<FileType> {
-        return files.asSequence()
-            .filter { it.isAudioFile() }
-            .sortedBy { it.name }
-            .map { FileType.Track(it.name, it.path) }.toList()
     }
 
 }

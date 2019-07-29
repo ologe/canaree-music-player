@@ -64,13 +64,16 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
-        var indexOfFirstTrack = clamp(files.indexOfFirst { it is FileType.Track }, 0, Int.MAX_VALUE)
-        val folders = files.take(indexOfFirstTrack)
-            .map { (it as FileType.Folder).toDisplayableItem() }
+        val folders = files.asSequence()
+            .filterIsInstance(FileType.Folder::class.java)
+            .map { it.toDisplayableItem() }
+            .toList()
             .startWithIfNotEmpty(foldersHeader)
 
-        val tracks = files.drop(indexOfFirstTrack)
-            .map { (it as FileType.Track).toDisplayableItem() }
+        val tracks = files.asSequence()
+            .filterIsInstance(FileType.Track::class.java)
+            .map { it.toDisplayableItem() }
+            .toList()
             .startWithIfNotEmpty(tracksHeader)
 
         if (parent == Environment.getRootDirectory()) {
