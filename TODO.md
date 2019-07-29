@@ -19,12 +19,9 @@
 - playing queue drag and drop for some reasong is too fast 
 
 ## features
-- use don't keep activities and add try to restore previous state
-- add in search fragment a chip group that let you choose search categories
-- add add to favorite in android auto
+- add to favorite in android auto
 - check if can use custom icons in android auto
 - custom preset in equalizer
-- add a flag in update item that sets the track as podcast // overriding IS_PODCAST column
 - made lyrics sync for every track
 - settings to blur lockscreen image
 
@@ -36,10 +33,5 @@
 - since now album and artist has wiki, show it in detail
 
 ## Maybe
-- highlight playing song in every list
-- limit shuffle all to N (something like 500), and the let do the shuffle
-  algoritm  the rest when pressing shuffle again (like prioritize track not played first,
-  then added the rest)
 - try double tap to forward/replay?
 - whitelist
-- allow user to sync lyrics to song
