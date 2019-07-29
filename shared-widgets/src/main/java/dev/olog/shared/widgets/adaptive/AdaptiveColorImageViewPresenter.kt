@@ -40,44 +40,34 @@ class AdaptiveColorImageViewPresenter(
     fun observePalette(): Flow<PaletteColors> = palettePublisher.asFlow()
 
     fun onNextImage(drawable: Drawable?) {
-        try {
-            onNextImage(drawable?.toBitmap())
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
-        }
+        onNextImage(drawable?.toBitmap())
     }
 
     fun onNextImage(bitmap: Bitmap?) {
-        try {
-            processorJob?.cancel()
-            paletteJob?.cancel()
+        processorJob?.cancel()
+        paletteJob?.cancel()
 
-            if (bitmap == null) {
-                processorPalettePublisher.offer(defaultProcessorColors)
-                palettePublisher.offer(defaultPaletteColors)
-                return
-            }
-
-            processorJob = GlobalScope.launch(Dispatchers.Default) {
-                val image = ImageProcessor(context).processImage(bitmap)
-                yield()
-                processorPalettePublisher.offer(
-                    ValidProcessorColors(image.background, image.primaryTextColor, image.secondaryTextColor)
-                )
-            }
-
-            paletteJob = GlobalScope.launch(Dispatchers.Default) {
-                val palette = Palette.from(bitmap)
-                    .maximumColorCount(24)
-                    .generate()
-                yield()
-                val accent = ColorUtil.getAccentColor(context, palette)
-                palettePublisher.offer(ValidPaletteColors(accent))
-            }
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
+        if (bitmap == null) {
             processorPalettePublisher.offer(defaultProcessorColors)
             palettePublisher.offer(defaultPaletteColors)
+            return
+        }
+
+        processorJob = GlobalScope.launch(Dispatchers.Default) {
+            val image = ImageProcessor(context).processImage(bitmap)
+            yield()
+            processorPalettePublisher.offer(
+                ValidProcessorColors(image.background, image.primaryTextColor, image.secondaryTextColor)
+            )
+        }
+
+        paletteJob = GlobalScope.launch(Dispatchers.Default) {
+            val palette = Palette.from(bitmap)
+                .maximumColorCount(24)
+                .generate()
+            yield()
+            val accent = ColorUtil.getAccentColor(context, palette)
+            palettePublisher.offer(ValidPaletteColors(accent))
         }
     }
 
