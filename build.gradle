@@ -30,14 +30,6 @@ buildscript {
         // in the individual module build.gradle files
     }
 
-
-
-    
-    
-
-    
-
-
 }
 
 allprojects {
@@ -72,35 +64,16 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_28_3_0_0
+    versionCode = 999_29_3_0_0
     versionName = '3.0.0'
 
     // App dependencies
     androidX = '1.0.0'
     firebase = '17.0.1'
     firebase_in_app_mess = '17.0.3'
-    lifecycle = '2.0.0'
-    room = '2.0.0'
-    glide = '4.9.0'
-    sliding_panel = '3.4.0'
 //    lottie = '2.8.0'
     lottie = '3.0.0'
-    sql_brite = '3.2.0'
     billing = '1.2.2'
-    retrofit = '2.6.0'
-    fuzzywuzzy = '1.2.0'
-    gson = '2.8.5'
-    ok_http = '3.14.2'
-    aes_crypto = '1.1.0'
-
-    // reactive
-    rx_java = '2.2.8'
-    rx_android = '2.1.1'
-    rx_binding = '2.2.0'
-
-    rx_preferences = '2.0.0'
-    rx_kotlin = '2.3.0'
-    rx_lint = '1.7.0'
 
     custom_tabs = '2.0.0'
     material_dialogs = '2.8.1'

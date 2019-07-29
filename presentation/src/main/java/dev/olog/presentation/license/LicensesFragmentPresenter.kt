@@ -38,20 +38,6 @@ class LicensesFragmentPresenter (private val context: Context) {
         apache()
     )
 
-    private val SQL_BRITE = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("sqlbrite"),
-        "sqlbrite", "https://github.com/square/sqlbrite",
-        apache()
-    )
-
-    private val SLIDING_PANEL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("sliding panel"),
-        "Android Sliding Up Panel", "https://github.com/umano/AndroidSlidingUpPanel",
-        apache()
-    )
-
     private val EXO_PLAYER = LicenseModel(
         R.layout.item_license,
         MediaId.headerId("exo player"),
@@ -87,13 +73,6 @@ class LicensesFragmentPresenter (private val context: Context) {
         mit()
     )
 
-    private val ANDROID_KTX = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("android ktx"),
-        "Android KTX", "https://github.com/android/android-ktx",
-        apache()
-    )
-
     private val FUZZY_WUZZY = LicenseModel(
         R.layout.item_license,
         MediaId.headerId("fuzzywuzzy"),
@@ -127,13 +106,6 @@ class LicensesFragmentPresenter (private val context: Context) {
         MediaId.headerId("jaudiotagger"),
         "JAudiotagger", "http://www.jthink.net/jaudiotagger/",
         jAudioTagger()
-    )
-
-    private val OPTIONAL = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("optional"),
-        "support-optional", "https://github.com/dmstocking/support-optional",
-        apache()
     )
 
     private val TAP_TARGET_VIEW = LicenseModel(
@@ -178,13 +150,6 @@ class LicensesFragmentPresenter (private val context: Context) {
         apache()
     )
 
-    private val TRACEUR = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("traceur"),
-        "Traceur", "https://github.com/T-Spoon/Traceur",
-        apache()
-    )
-
     private val LIBAVCODEC = LicenseModel(
         R.layout.item_license,
         MediaId.headerId("libavcodec"),
@@ -211,27 +176,22 @@ class LicensesFragmentPresenter (private val context: Context) {
             ANDROID_SUPPORT_LIBRARIES,
             DAGGER,
             RX_JAVA,
-            SQL_BRITE,
-            SLIDING_PANEL,
             EXO_PLAYER,
             HOVER,
             LOTTIE,
             GLIDE,
             BETTER_PICKERS,
-            ANDROID_KTX,
             FUZZY_WUZZY,
             GSON,
             RETROFIT,
             OK_HTTP,
             J_AUDIO_TAGGER,
-            OPTIONAL,
             TAP_TARGET_VIEW,
             AES_CRYPTO,
             LAST_FM_BINDING,
             CUSTOM_TABS,
             LEAK_CANARY,
             MATERIAL_DIALOGS,
-            TRACEUR,
             LIBAVCODEC,
             LIBAVRESAMPLE,
             LIBAVUTIL

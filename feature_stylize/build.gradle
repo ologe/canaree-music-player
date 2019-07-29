@@ -53,7 +53,7 @@ dependencies {
     implementation lib_core.coroutines_android
 
 //    https://github.com/fritzlabs/fritz-repository/releases
-    implementation 'ai.fritz:core:3.7.0'
-    implementation 'ai.fritz:vision:3.7.0'
-    implementation 'ai.fritz:vision-style-painting-models:3.7.0'
+    implementation lib_ai.core
+    implementation lib_ai.vision
+    implementation lib_ai.style
 }

@@ -47,15 +47,15 @@ dependencies {
     implementation lib_x.preference
 
     // TODO rmeove after room get receive channel/flow support
-    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation lib_data.room_rx
     // rename
-    implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
-    implementation "com.google.code.gson:gson:$rootProject.gson"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
+    implementation lib_utils.fuzzy
+    implementation lib_network.gson
+    implementation lib_network.retrofit
+    implementation lib_network.retrofit_coroutines
+    implementation lib_network.retrofit_gson
+    implementation lib_network.ok_http
+    implementation lib_network.ok_http_interceptor
 
     implementation lib_data.sql_content_resolver
     implementation lib_data.room
