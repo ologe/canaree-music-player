@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dev.olog.presentation.widgets.switcher.CustomViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/imageSwitcher"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,46 +9,28 @@
     android:inAnimation="@android:anim/fade_in"
     android:outAnimation="@android:anim/fade_out">
 
-    <dev.olog.presentation.widgets.imageview.ShapeCardView
+    <dev.olog.presentation.widgets.imageview.ShadowImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="10dp">
+        android:elevation="0dp"
+        android:background="@android:color/white"/>
 
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note"/>
-
-    </dev.olog.presentation.widgets.imageview.ShapeCardView>
-
-    <dev.olog.presentation.widgets.imageview.ShapeCardView
+    <dev.olog.presentation.widgets.imageview.ShadowImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="10dp">
+        android:elevation="0dp"
+        android:background="@android:color/white"/>
 
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note"/>
-
-    </dev.olog.presentation.widgets.imageview.ShapeCardView>
-
-    <dev.olog.presentation.widgets.imageview.ShapeCardView
+    <dev.olog.presentation.widgets.imageview.ShadowImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:src="@drawable/placeholder_musical_note"
         android:stateListAnimator="@animator/elevate_on_activated"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="10dp">
-
-        <dev.olog.shared.widgets.ForegroundImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_musical_note"/>
-
-    </dev.olog.presentation.widgets.imageview.ShapeCardView>
+        android:elevation="0dp"
+        android:background="@android:color/white"/>
 
 </dev.olog.presentation.widgets.switcher.CustomViewSwitcher>

@@ -3,11 +3,14 @@ package dev.olog.presentation.widgets.imageview
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.google.android.material.shape.*
 import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
@@ -38,6 +41,10 @@ open class ShapeImageView @JvmOverloads constructor(
     private var mask: Bitmap? = null
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    private val cutCornerShapeModel: ShapeAppearanceModel
+    private val roundedShapeModel: ShapeAppearanceModel
+    private val squareShapeModel: ShapeAppearanceModel
+
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
         radius = a.getInt(
@@ -49,6 +56,14 @@ open class ShapeImageView @JvmOverloads constructor(
         clipToOutline = true
 
         paint.xfermode = X_FERMO_MODE
+
+        cutCornerShapeModel = ShapeAppearanceModel().apply {
+            setAllCorners(CutCornerTreatment(context.dipf(radius)))
+        }
+        roundedShapeModel = ShapeAppearanceModel().apply {
+            setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
+        }
+        squareShapeModel = ShapeAppearanceModel()
     }
 
     override fun onAttachedToWindow() {
@@ -56,6 +71,8 @@ open class ShapeImageView @JvmOverloads constructor(
         if (isInEditMode) {
             return
         }
+        setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
         val hasImageShape = context.applicationContext as HasImageShape
         job = GlobalScope.launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
@@ -79,20 +96,17 @@ open class ShapeImageView @JvmOverloads constructor(
     private fun getMask(): Bitmap? {
         if (mask == null) {
             mask = when (hasImageShape.getImageShape()) {
-                ImageShape.ROUND -> {
-                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
-                    val drawable =
-                        ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
-                    drawable.cornerRadius = context.dipf(radius)
-                    drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
-                }
-                ImageShape.RECTANGLE -> {
-                    setLayerType(View.LAYER_TYPE_NONE, null)
-                    null
-                }
+                ImageShape.ROUND -> buildMaskShape(roundedShapeModel)
+                ImageShape.CUT_CORNER -> buildMaskShape(cutCornerShapeModel)
+                ImageShape.RECTANGLE -> buildMaskShape(squareShapeModel)
             }
         }
         return mask
+    }
+
+    private fun buildMaskShape(shape: ShapeAppearanceModel): Bitmap{
+        val drawable = MaterialShapeDrawable(shape)
+        return drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
     }
 
 }

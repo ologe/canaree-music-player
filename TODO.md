@@ -30,6 +30,7 @@
 - fix player swipe
 - re-enable remix and explicit icons? try with precomputed text API -> only explicit, can't find a remix icon
 - since now album and artist has wiki, show it in detail
+- added cut corner image shape
 
 ## Maybe
 - try double tap to forward/replay?

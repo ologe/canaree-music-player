@@ -8,6 +8,6 @@ interface HasImageShape {
 }
 
 enum class ImageShape {
-    RECTANGLE, ROUND
+    RECTANGLE, ROUND, CUT_CORNER
 }
 

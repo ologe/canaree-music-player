@@ -18,6 +18,7 @@
     <!--icon shape-->
     <string name="prefs_icon_shape_square" translatable="false">square</string>
     <string name="prefs_icon_shape_rounded" translatable="false">round</string>
+    <string name="prefs_icon_shape_cut_corner" translatable="false">cut_corner</string>
 
     <!--quick action-->
     <string name="prefs_quick_action_entry_value_hide" translatable="false">hide</string>

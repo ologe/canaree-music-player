@@ -106,11 +106,13 @@
     <string-array name="prefs_icon_shape_entry_values">
         <item>@string/prefs_icon_shape_square</item>
         <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
     </string-array>
 
     <string-array name="prefs_icon_shape_entries">
         <item>@string/common_shape_square</item>
         <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_cut_corner</item>
     </string-array>
 
     <!--show player controls-->

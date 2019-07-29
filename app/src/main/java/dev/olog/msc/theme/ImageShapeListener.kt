@@ -27,6 +27,7 @@ internal class ImageShapeListener @Inject constructor(
         return when (value) {
             context.getString(R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
             context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
+            context.getString(R.string.prefs_icon_shape_cut_corner) -> ImageShape.CUT_CORNER
             else -> throw IllegalArgumentException("image shape not valid=$value")
         }
     }
