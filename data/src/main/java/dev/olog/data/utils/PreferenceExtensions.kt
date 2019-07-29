@@ -2,23 +2,24 @@ package dev.olog.data.utils
 
 import android.content.SharedPreferences
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.flowViaChannel
 import kotlin.coroutines.CoroutineContext
 
 inline fun <reified T> SharedPreferences.observeKey(key: String, default: T, dispatcher: CoroutineContext = Dispatchers.Default): Flow<T> {
-    val flow: Flow<T> = flowViaChannel { channel ->
-        channel.offer(getItem(key, default))
+    val flow: Flow<T> = channelFlow {
+        offer(getItem(key, default))
 
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
             if (key == k) {
-                channel.offer(getItem(key, default)!!)
+                offer(getItem(key, default)!!)
             }
         }
 
         registerOnSharedPreferenceChangeListener(listener)
-        channel.invokeOnClose { unregisterOnSharedPreferenceChangeListener(listener) }
+        awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
     }
     return flow
         .assertBackground()

@@ -7,15 +7,16 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
-import dev.olog.shared.CustomScope
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.CustomScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flowViaChannel
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
@@ -66,15 +67,15 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        val flow: Flow<R> = flowViaChannel { channel ->
+        val flow: Flow<R> = channelFlow {
 
-            if (!channel.isClosedForSend) {
-                channel.offer(action())
+            if (!isClosedForSend) {
+                offer(action())
             }
 
             val observer = DataObserver {
-                if (!channel.isClosedForSend) {
-                    channel.offer(action())
+                if (!isClosedForSend) {
+                    offer(action())
                 }
             }
 
@@ -83,7 +84,7 @@ internal abstract class BaseRepository<T, Param>(
                 contentUri.notifyForDescendants,
                 observer
             )
-            channel.invokeOnClose { contentResolver.unregisterContentObserver(observer) }
+            awaitClose { contentResolver.unregisterContentObserver(observer) }
         }
         return flow.assertBackground()
     }
