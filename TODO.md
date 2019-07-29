@@ -11,7 +11,8 @@
 - re add podcast auto playlist
 
 ### bug
-- big image layout has problems with loading images, and displaying text (unknown cause)
+- big image layout has problems with loading images 
+    (has problem on my device with android P beta, on emulator works fine, check on other phones)
 - fix snackbar (buy premium) in setting fragment
 - check if show album art on lockscreen works
 - floating window play button in search lyrics not alwaus working
