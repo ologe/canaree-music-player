@@ -54,6 +54,15 @@ class LibraryFragment : BaseFragment() {
                 pagerAdapter.showFolderAsHierarchy()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val transaction = childFragmentManager.beginTransaction()
+        for (fragment in childFragmentManager.fragments) {
+            transaction.remove(fragment)
+        }
+        transaction.commitNowAllowingStateLoss()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
