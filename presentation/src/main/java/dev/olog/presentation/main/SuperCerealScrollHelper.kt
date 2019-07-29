@@ -32,7 +32,7 @@ class SuperCerealScrollHelper(
         }
         if (fragment is FolderTreeFragment){
             val crumbsWrapper = fragment.view!!.findViewById<View>(R.id.crumbsWrapper)
-            if (crumbsWrapper.marginTop > 0){
+            if (crumbsWrapper.marginTop < 1){
 //                 margin not set yet
                 fragment.view!!.doOnPreDraw {
                     crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
