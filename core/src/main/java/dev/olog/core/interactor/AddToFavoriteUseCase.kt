@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.dialog
+package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.favorite.FavoriteType

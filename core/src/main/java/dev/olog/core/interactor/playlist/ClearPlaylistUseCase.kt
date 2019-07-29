@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.dialog
+package dev.olog.core.interactor.playlist
 
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
