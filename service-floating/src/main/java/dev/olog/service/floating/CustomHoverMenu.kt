@@ -10,10 +10,12 @@ import dev.olog.injection.dagger.ServiceContext
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import javax.inject.Inject
@@ -53,9 +55,10 @@ class CustomHoverMenu @Inject constructor(
 
     fun startObserving(){
         disposable?.cancel()
-        disposable = GlobalScope.launch {
+        disposable = GlobalScope.launch(Dispatchers.Main) {
             musicPreferencesUseCase.observeLastMetadata()
                 .filter { it.isNotEmpty() }
+                .flowOn(Dispatchers.Default)
                 .collect {
                     item = it.description
                 }
