@@ -49,21 +49,19 @@ dependencies {
     implementation lib_x.browser
     implementation lib_x.preference
     implementation lib_x.coordinator
-    implementation "com.android.billingclient:billing:$rootProject.billing"
-    implementation "com.airbnb.android:lottie:$rootProject.lottie"
+    implementation lib_x.billing
+    implementation lib_ui.lottie
 
-    implementation 'com.google.android.play:core:1.6.1'
+    implementation lib_x.play_core
 
+    implementation lib_core.dagger_android
+    implementation lib_core.dagger_android_support
+    kapt lib_core.dagger_android_processor
 
-    // TODO remove
-    implementation "com.google.dagger:dagger-android:$rootProject.dagger"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
-
-    implementation "com.afollestad.material-dialogs:core:$rootProject.material_dialogs"
-    implementation "com.afollestad.material-dialogs:color:$rootProject.material_dialogs"
+    implementation lib_ui.dialogs_core
+    implementation lib_ui.dialogs_color
     implementation lib_ui.blur_kit
-    implementation "saschpe.android:customtabs:$rootProject.custom_tabs"
+    implementation lib_ui.custom_tabs
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions

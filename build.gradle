@@ -67,20 +67,6 @@ ext {
     versionCode = 999_29_3_0_0
     versionName = '3.0.0'
 
-    // App dependencies
-    androidX = '1.0.0'
-    firebase = '17.0.1'
-    firebase_in_app_mess = '17.0.3'
-//    lottie = '2.8.0'
-    lottie = '3.0.0'
-    billing = '1.2.2'
-
-    custom_tabs = '2.0.0'
-    material_dialogs = '2.8.1'
-
-    // debug
-    leak_canary = '1.6.3'
-    crashlytics = '2.9.9'
 }
 
 apply from: 'dependencies.gradle'
