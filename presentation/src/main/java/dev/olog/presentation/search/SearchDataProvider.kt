@@ -13,16 +13,14 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.CustomScope
+import dev.olog.shared.*
 import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.combineLatest
-import dev.olog.shared.mapListItem
-import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.flatten
 
 class SearchDataProvider @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -116,9 +114,7 @@ class SearchDataProvider @Inject constructor(
                 getGenres(query).map { if (it.isNotEmpty()) searchHeaders.genreHeaders(it.size) else it },
                 getFolders(query).map { if (it.isNotEmpty()) searchHeaders.foldersHeaders(it.size) else it },
                 getSongs(query)
-            ) { artists, albums, playlists, genres, folders, songs ->
-                artists + albums + playlists + genres + folders + songs
-            }
+            ) { list -> list.toList().flatten() }
     }
 
     private fun getSongs(query: String): Flow<List<DisplayableItem>> {

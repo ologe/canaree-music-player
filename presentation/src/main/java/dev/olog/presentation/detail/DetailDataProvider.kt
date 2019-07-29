@@ -20,11 +20,11 @@ import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.combineLatest
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mapListItem
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
+import dev.olog.shared.component6
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -139,8 +139,11 @@ internal class DetailDataProvider @Inject constructor(
             },
             songListFlow,
             observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() }
-        ) { header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists ->
+        ) { array ->
+            val list = array.toList()
+            val (header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists) = list
             if (mediaId.isArtist) {
+
                 header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists
             } else {
                 header + mostPlayed + recentlyAdded + songList + relatedArtists + siblings

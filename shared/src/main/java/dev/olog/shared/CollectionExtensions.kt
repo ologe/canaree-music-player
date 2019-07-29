@@ -41,14 +41,6 @@ inline fun <T> List<T>.startWithIfNotEmpty(item: List<T>): List<T> {
     return this
 }
 
-inline fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
-    val result = mutableMapOf<K, MutableList<V>>()
-    for ((key, value) in this){
-        result[key] = value.toMutableList()
-    }
-    return result
-}
-
 fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any): MutableList<T> {
     if (predicate){
         this.action()
@@ -64,4 +56,22 @@ fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): Boolean {
         }
     }
     return false
+}
+
+operator fun<T> List<T>.component1() = get(0)
+operator fun<T> List<T>.component2() = get(1)
+operator fun<T> List<T>.component3() = get(2)
+operator fun<T> List<T>.component4() = get(3)
+operator fun<T> List<T>.component5() = get(4)
+operator fun<T> List<T>.component6() = get(5)
+operator fun<T> List<T>.component7() = get(6)
+operator fun<T> List<T>.component8() = get(7)
+operator fun<T> List<T>.component9() = get(8)
+
+fun <T> List<List<T>>.flatten(): List<T> {
+    val result = mutableListOf<T>()
+    for (list in this) {
+        result.addAll(list)
+    }
+    return result
 }
