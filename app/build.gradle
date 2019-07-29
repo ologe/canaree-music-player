@@ -85,6 +85,7 @@ dependencies {
     implementation lib_x.lifecycle_ktx
     implementation lib_x.lifecycle_rx
 
+    implementation lib_x.core_ktx
     implementation lib_x.play_core
     implementation lib_x.appcompat
     implementation lib_x.browser
@@ -98,6 +99,7 @@ dependencies {
     kapt lib_core.dagger_android_processor
 
     implementation lib_ui.blur_kit
+    implementation lib_ui.custom_tabs
 
     // debug
     debugImplementation lib_debug.leak_canary_debug
