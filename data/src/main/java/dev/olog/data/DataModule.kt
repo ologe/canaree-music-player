@@ -92,4 +92,8 @@ abstract class DataModule {
     @Singleton
     internal abstract fun provideImageVersion(repository: ImageVersionRepository): ImageVersionGateway
 
+    @Binds
+    @Singleton
+    internal abstract fun provideFolderNavigator(repository: FolderNavigatorRepository): FolderNavigatorGateway
+
 }

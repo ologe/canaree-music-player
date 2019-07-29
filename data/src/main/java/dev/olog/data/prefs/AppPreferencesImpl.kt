@@ -33,7 +33,7 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val SYNC_ADJUSTMENT = "$TAG.SYNC_ADJUSTMENT"
 
-        private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER"
+        private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER_2"
     }
 
     override fun resetSleepTimer() {
@@ -192,7 +192,7 @@ class AppPreferencesImpl @Inject constructor(
 
     private fun defaultFolder(): String {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-        var startFolder = File(File.separator)
+        var startFolder = Environment.getRootDirectory()
         if (musicDir.exists() && musicDir.isDirectory) {
             startFolder = musicDir
         } else {
@@ -201,7 +201,7 @@ class AppPreferencesImpl @Inject constructor(
                 startFolder = externalStorage
             }
         }
-        return startFolder.path
+        return startFolder.absolutePath
     }
 
     override fun observeDefaultMusicFolder(): Flow<File> {
@@ -215,7 +215,7 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setDefaultMusicFolder(file: File) {
         preferences.edit {
-            putString(DEFAULT_MUSIC_FOLDER, file.path)
+            putString(DEFAULT_MUSIC_FOLDER, file.absolutePath)
         }
     }
 

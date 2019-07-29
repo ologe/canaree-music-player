@@ -2,33 +2,37 @@ package dev.olog.presentation.folder.tree
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.database.ContentObserver
 import android.database.CursorIndexOutOfBoundsException
-import android.os.Handler
-import android.os.Looper
+import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.track.FolderGateway
+import dev.olog.core.entity.FileType
+import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.clamp
 import dev.olog.shared.startWithIfNotEmpty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
-    private val folderGateway: FolderGateway
+    private val gateway: FolderNavigatorGateway
 
 ) : ViewModel() {
 
@@ -36,114 +40,95 @@ class FolderTreeFragmentViewModel @Inject constructor(
         val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 
-    private val observer = object : ContentObserver(Handler(Looper.getMainLooper())){
-        override fun onChange(selfChange: Boolean) {
-            currentFile.offer(currentFile.value)
+    private val currentDirectory: ConflatedBroadcastChannel<File> =
+        ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
+
+    private val currentDirectoryChildrenLiveData = MutableLiveData<List<DisplayableFile>>()
+
+    init {
+        viewModelScope.launch {
+            currentDirectory.asFlow()
+                .switchMap { file ->
+                    gateway.observeFolderChildren(file)
+                        .map { addHeaders(file, it) }
+                }
+                .flowOn(Dispatchers.Default)
+                .collect {
+                    currentDirectoryChildrenLiveData.value = it
+                }
         }
     }
 
-    private val currentFile = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
-
-    init {
-        context.contentResolver.registerContentObserver(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                true,
-                observer)
-    }
-
     override fun onCleared() {
-        context.contentResolver.unregisterContentObserver(observer)
+        viewModelScope.cancel()
     }
 
-    fun observeFileName(): LiveData<File> = currentFile
-        .asFlow()
-            .asLiveData()
+    private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
+        var indexOfFirstTrack = clamp(files.indexOfFirst { it is FileType.Track }, 0, Int.MAX_VALUE)
+        val folders = files.take(indexOfFirstTrack)
+            .map { (it as FileType.Folder).toDisplayableItem() }
+            .startWithIfNotEmpty(foldersHeader)
 
-    fun observeChildrens(): LiveData<List<DisplayableFile>> = TODO()/*currentFile.subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .flatMap { file ->
-                folderGateway.observeAll().asObservable().mapToList { it.path }.map { folderList ->
-                    val children = file.listFiles()
-                            ?.filter { current -> folderList.firstOrNull { it.contains( current.path ) } != null || !current.isDirectory }
-                            ?: listOf()
+        val tracks = files.drop(indexOfFirstTrack)
+            .map { (it as FileType.Track).toDisplayableItem() }
+            .startWithIfNotEmpty(tracksHeader)
 
-                    val (directories, files) = children.partition { it.isDirectory }
-                    val sortedDirectory = filterFolders(directories)
-                    val sortedFiles = filterTracks(files)
-
-                    val displayableItems = sortedDirectory.plus(sortedFiles)
-
-                    if (file.path == "/"){
-                        displayableItems
-                    } else {
-                        displayableItems.startWith(backDisplableItem)
-                    }
-                }
-            }
-            .asLiveData()*/
-
-    private fun filterFolders(files: List<File>): List<DisplayableFile> {
-        return files.asSequence()
-                .filter { it.isDirectory }
-                .sortedBy { it.name }
-                .map { it.toDisplayableItem() }
-                .toList()
-                .startWithIfNotEmpty(foldersHeader)
+        if (parent == Environment.getRootDirectory()) {
+            return folders + tracks
+        }
+        return backDisplayableItem + folders + tracks
     }
 
-    private fun filterTracks(files: List<File>): List<DisplayableFile> {
-        return files.asSequence()
-                .filter { it.isAudioFile() }
-                .sortedBy { it.name }
-                .map { it.toDisplayableItem() }
-                .toList()
-                .startWithIfNotEmpty(tracksHeader)
-    }
+    fun observeChildren(): LiveData<List<DisplayableFile>> = currentDirectoryChildrenLiveData
+    fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asFlow().asLiveData()
 
-    fun popFolder(): Boolean{
-        val current = currentFile.value
-        if (current == File(File.separator)){
+    fun popFolder(): Boolean {
+        val current = currentDirectory.value
+        if (current == Environment.getRootDirectory()) {
+            // alredy in root dir
             return false
         }
 
         val parent = current.parentFile
-        if (parent?.listFiles() == null || parent.listFiles().isEmpty()){
+        if (parent?.listFiles()?.isEmpty() == true) {
+            // parent has not children
             return false
         }
+
         try {
-            currentFile.offer(current.parentFile)
+            currentDirectory.offer(current.parentFile!!)
             return true
-        } catch (e: Throwable){
+        } catch (e: Throwable) {
             e.printStackTrace()
             return false
         }
     }
 
-    fun goBack(){
-        val file = currentFile.value!!
-        if (!file.isStorageDir()){
-            currentFile.offer(file.parentFile)
-            return
-        }
-        val parent = file.parentFile
-        if (parent.listFiles()?.isNotEmpty() == true){
-            currentFile.offer(parent)
+    fun goBack() {
+        try {
+            val file = currentDirectory.value
+            if (file != Environment.getExternalStorageDirectory()) {
+                currentDirectory.offer(file.parentFile!!)
+                return
+            }
+            val parent = file.parentFile
+            if (parent?.listFiles()?.isNotEmpty() == true) {
+                currentDirectory.offer(parent)
+            }
+        } catch (ex: Throwable){
+            ex.printStackTrace()
         }
     }
 
-    fun nextFolder(file: File){
-        currentFile.offer(file)
+    fun nextFolder(file: File) {
+        require(file.isDirectory)
+        currentDirectory.offer(file)
     }
 
-    fun observeCurrentFolder(): Flow<Boolean> = TODO()
-//        Observables.combineLatest(
-//            appPreferencesUseCase.observeDefaultMusicFolder(),
-//            currentFile
-//    ) { default, current -> default.safeGetCanonicalPath() == current.safeGetCanonicalPath() }
-
-    fun updateDefaultFolder(){
-        val currentFolder = currentFile.value!!
-        appPreferencesUseCase.setDefaultMusicFolder(currentFolder.safeGetCanonicalFile())
+    fun updateDefaultFolder() {
+        val currentFolder = currentDirectory.value
+        require(currentFolder.isDirectory)
+        appPreferencesUseCase.setDefaultMusicFolder(currentFolder)
     }
 
     @SuppressLint("Recycle")
@@ -154,28 +139,29 @@ class FolderTreeFragmentViewModel @Inject constructor(
             val path = songPath.substring(0, songPath.lastIndexOf(File.separator))
             val folderMediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path)
 
-            context.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    arrayOf(BaseColumns._ID),
-                    "${MediaStore.Audio.AudioColumns.DATA} = ?",
-                    arrayOf(file.path), null)?.let { cursor ->
+            context.contentResolver.query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                arrayOf(BaseColumns._ID),
+                "${MediaStore.Audio.AudioColumns.DATA} = ?",
+                arrayOf(file.path), null
+            )?.let { cursor ->
 
                 cursor.moveToFirst()
                 val trackId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
                 cursor.close()
                 return MediaId.playableItem(folderMediaId, trackId)
             }
-        } catch (ex: CursorIndexOutOfBoundsException){
+        } catch (ex: CursorIndexOutOfBoundsException) {
             ex.printStackTrace()
         }
         return null
     }
 
-    private val backDisplableItem: List<DisplayableFile> = listOf(
+    private val backDisplayableItem: List<DisplayableFile> = listOf(
         DisplayableFile(
             R.layout.item_folder_tree_directory,
-                BACK_HEADER_ID,
+            BACK_HEADER_ID,
             "...",
-            null,
             null
         )
     )
@@ -184,7 +170,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
         R.layout.item_folder_tree_header,
         MediaId.headerId("folder header"),
         context.getString(R.string.common_folders),
-        null,
         null
     )
 
@@ -192,19 +177,25 @@ class FolderTreeFragmentViewModel @Inject constructor(
         R.layout.item_folder_tree_header,
         MediaId.headerId("track header"),
         context.getString(R.string.common_tracks),
-        null,
         null
     )
 
-    private fun File.toDisplayableItem(): DisplayableFile {
-        val isDirectory = this.isDirectory
-        val id = if (isDirectory) R.layout.item_folder_tree_directory else R.layout.item_folder_tree_track
+    private fun FileType.Track.toDisplayableItem(): DisplayableFile {
 
         return DisplayableFile(
-            type = id,
+            type = R.layout.item_folder_tree_track,
+            mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
+            title = this.title,
+            path = this.path
+        )
+    }
+
+    private fun FileType.Folder.toDisplayableItem(): DisplayableFile {
+
+        return DisplayableFile(
+            type = R.layout.item_folder_tree_directory,
             mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
             title = this.name,
-            subtitle = null,
             path = this.path
         )
     }

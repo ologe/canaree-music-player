@@ -9,7 +9,8 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.viewModelProvider
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import javax.inject.Inject
@@ -50,26 +51,19 @@ class FolderTreeFragment : BaseFragment(),
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-//        if (AppTheme.isDarkTheme()){ TODO
-//            bread_crumbs.setBackgroundColor(ctx.windowBackground())
-//        }
-//        if (AppTheme.isGrayMode()){
-//            bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
-//        }
-
-        viewModel.observeFileName()
+        viewModel.observeCurrentDirectoryFileName()
             .subscribe(viewLifecycleOwner) {
                 bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
             }
 
-        viewModel.observeChildrens()
+        viewModel.observeChildren()
             .subscribe(viewLifecycleOwner, adapter::updateDataSet)
 
-        viewModel.observeCurrentFolder()
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
-                defaultFolder.toggleVisibility(!isInDefaultFolder, true)
-            }
+//        viewModel.observeCurrentFolder()
+//            .asLiveData()
+//            .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
+//                defaultFolder.toggleVisibility(!isInDefaultFolder, true)
+//            }
     }
 
     override fun onResume() {
@@ -85,7 +79,7 @@ class FolderTreeFragment : BaseFragment(),
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {
-        viewModel.nextFolder(crumb.file.safeGetCanonicalFile())
+        viewModel.nextFolder(crumb.file.absoluteFile)
     }
 
     override fun handleOnBackPressed(): Boolean {

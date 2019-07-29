@@ -70,16 +70,17 @@ interface CoreComponent {
     fun virtualizer(): IVirtualizer
     fun bassBoost(): IBassBoost
 
-    fun folderGateway2(): FolderGateway
-    fun playlistGateway2(): PlaylistGateway
-    fun songGateway2(): SongGateway
-    fun albumGateway2(): AlbumGateway
-    fun artistGateway2(): ArtistGateway
-    fun genreGateway2(): GenreGateway
-    fun podcastPlaylistGateway2(): PodcastPlaylistGateway
-    fun podcastGateway2(): PodcastGateway
-    fun podcastAlbumGateway2(): PodcastAlbumGateway
-    fun podcastArtistGateway2(): PodcastArtistGateway
+    fun folderGateway(): FolderGateway
+    fun folderNavigatorGateway(): FolderNavigatorGateway
+    fun playlistGateway(): PlaylistGateway
+    fun songGateway(): SongGateway
+    fun albumGateway(): AlbumGateway
+    fun artistGateway(): ArtistGateway
+    fun genreGateway(): GenreGateway
+    fun podcastPlaylistGateway(): PodcastPlaylistGateway
+    fun podcastGateway(): PodcastGateway
+    fun podcastAlbumGateway(): PodcastAlbumGateway
+    fun podcastArtistGateway(): PodcastArtistGateway
 
     fun imageVersionGateway(): ImageVersionGateway
 

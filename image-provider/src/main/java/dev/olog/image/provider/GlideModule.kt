@@ -17,10 +17,11 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import dev.olog.core.MediaId
 import dev.olog.image.provider.di.inject
+import dev.olog.image.provider.loader.*
 import dev.olog.image.provider.loader.GlideLastFmImageLoader
-import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.loader.GlideOverridenImageLoader
+import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -75,8 +76,7 @@ class GlideModule : AppGlideModule() {
         registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
 //
-        // TODO check if has to be prepend or append
-//        registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory()) TODO
+        registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false
