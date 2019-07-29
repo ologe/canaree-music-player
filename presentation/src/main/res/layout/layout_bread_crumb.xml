@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical|start"
     android:minHeight="@dimen/tab"
-    android:orientation="horizontal"
-    android:paddingEnd="4dp"
-    android:paddingStart="12dp">
+    android:orientation="horizontal">
 
     <TextView
         android:layout_width="wrap_content"
