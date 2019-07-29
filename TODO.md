@@ -34,3 +34,4 @@
 ## Maybe
 - try double tap to forward/replay?
 - whitelist
+- enable premium with ads??
