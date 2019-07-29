@@ -3,6 +3,7 @@ package dev.olog.presentation.folder.tree
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -49,7 +50,7 @@ class FolderTreeFragment : BaseFragment(),
             navigator
         )
         list.adapter = adapter
-        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        list.layoutManager = LinearLayoutManager(context)
         list.setHasFixedSize(true)
 
         fastScroller.attachRecyclerView(list)

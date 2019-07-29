@@ -34,25 +34,6 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <TextView
-        android:id="@+id/emptyStateText"
-        tools:text="No Folders"
-        android:textSize="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="?android:textColorPrimary"
-        android:layout_gravity="center"
-        app:fontFamily="sans-serif-black"
-        tools:fontFamily="sans-serif-black"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
-
     <FrameLayout
         android:id="@+id/crumbsWrapper"
         android:layout_width="0dp"
