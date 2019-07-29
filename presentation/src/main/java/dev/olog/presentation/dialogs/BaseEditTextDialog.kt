@@ -1,114 +1,88 @@
 package dev.olog.presentation.dialogs
 
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.annotation.StringRes
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.msc.R
-import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.android.extensions.ctx
+import dev.olog.presentation.R
+import dev.olog.presentation.utils.showIme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-abstract class BaseEditTextDialog : BaseDialogFragment() {
+abstract class BaseEditTextDialog : BaseDialog() {
 
-//    private var hideKeyboardDisposable: Disposable? = null
-//    private var errorDisposable : Disposable? = null
+    private lateinit var editText: TextInputEditText
+    private lateinit var editTextLayout: TextInputLayout
 
-    private lateinit var clearButton : View
-    private lateinit var editText : TextInputEditText
+    private var errorJob: Job? = null
+    private var showJeyboardJob: Job? = null
 
-//    private var disposable: Disposable? = null
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        val application = activity!!.application
-
-        val builder = AlertDialog.Builder(ctx)
-                .setTitle(title())
-                .setView(R.layout.layout_edit_text)
-                .setNegativeButton(negativeButtonMessage(application), null)
-                .setPositiveButton(positiveButtonMessage(application), null)
-
-        val dialog = builder.show()
-
-        editText = dialog.findViewById(R.id.editText)!!
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
-        clearButton = dialog.findViewById(R.id.clear)!!
-
-        editText.setText(initialTextFieldValue())
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    val editTextString = editText.text.toString()
-
-                    if (editTextString.isBlank()){
-                        showError(editTextLayout, errorMessageForBlankForm())
-                    } else if (!isStringValid(editTextString)){
-                        showError(editTextLayout, errorMessageForInvalidForm(editTextString))
-                    } else {
-//                        disposable = positiveAction(editTextString)
-//                                .observeOn(AndroidSchedulers.mainThread())
-//                                .doOnComplete { application.toast(successMessage(application, editTextString)) }
-//                                .doOnError { application.toast(negativeMessage(application, editTextString)) }
-//                                .subscribe({}, Throwable::printStackTrace)
-                        dismiss()
-                    }
-                }
-
-//        hideKeyboardDisposable = Observable.timer(500, TimeUnit.MILLISECONDS, Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ editText.showIme() }, Throwable::printStackTrace)
-
-        return dialog
+    @CallSuper
+    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return builder.setView(R.layout.layout_edit_text)
     }
 
-    private fun showError(editTextLayout: TextInputLayout, @StringRes errorStringId: Int){
+    @CallSuper
+    override fun extendDialog(dialog: AlertDialog) {
+        editText = dialog.findViewById(R.id.editText)!!
+        editTextLayout = dialog.findViewById(R.id.editTextLayout)!!
+        setupEditText(editTextLayout, editText)
+
+        showJeyboardJob?.cancel()
+        showJeyboardJob = launch {
+            delay(500)
+            editText.showIme()
+        }
+    }
+
+    protected open fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {}
+
+    override fun positionButtonAction(context: Context) {
+        val string = editText.text.toString()
+        if (string.isBlank()) {
+            showError(provideMessageForBlank())
+        } else if (!isStringValid(string)) {
+            showError(provideMessageForInvalid())
+        } else {
+            launch(Dispatchers.Main) {
+                onItemValid(string)
+                dismiss()
+            }
+        }
+    }
+
+    protected abstract fun provideMessageForBlank(): String
+
+    protected open fun isStringValid(string: String): Boolean = true
+    protected open fun provideMessageForInvalid(): String {
+        return "Stub messsage"
+    }
+
+    protected abstract suspend fun onItemValid(string: String)
+
+
+    private fun showError(errorString: String) {
         val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
         editTextLayout.startAnimation(shake)
-        editTextLayout.error = getString(errorStringId)
+        editTextLayout.error = errorString
         editTextLayout.isErrorEnabled = true
 
-//        errorDisposable.unsubscribe()
-//        errorDisposable = Single.timer(2, TimeUnit.SECONDS, Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ editTextLayout.isErrorEnabled = false }, Throwable::printStackTrace)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        clearButton.setOnClickListener { editText.setText("") }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        clearButton.setOnClickListener(null)
+        errorJob?.cancel()
+        errorJob = launch(Dispatchers.Main) {
+            delay(2000)
+            editTextLayout.isErrorEnabled = false
+        }
     }
 
     override fun onStop() {
         super.onStop()
-//        hideKeyboardDisposable.unsubscribe()
-//        errorDisposable.unsubscribe()
+        showJeyboardJob?.cancel()
+        errorJob?.cancel()
     }
-
-    protected abstract fun title(): Int
-
-    protected abstract fun negativeButtonMessage(context: Context) : Int
-    protected abstract fun positiveButtonMessage(context: Context) : Int
-
-    protected abstract fun errorMessageForBlankForm() : Int
-    protected abstract fun errorMessageForInvalidForm(currentValue: String) : Int
-
-    protected abstract fun isStringValid(string: String): Boolean
-    protected abstract fun initialTextFieldValue(): String
-
-    protected abstract fun successMessage(context: Context, currentValue: String): CharSequence
-    protected abstract fun negativeMessage(context: Context, currentValue: String): CharSequence
-
-    protected abstract fun positiveAction(currentValue: String)
 
 
 }

@@ -1,13 +1,17 @@
 package dev.olog.presentation.dialogs.play.next
 
 import android.content.Context
-import android.content.DialogInterface
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.appcompat.app.AlertDialog
 import dev.olog.core.MediaId
-
+import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.lazyFast
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlayNextDialog : BaseDialog() {
@@ -28,40 +32,45 @@ class PlayNextDialog : BaseDialog() {
         }
     }
 
-    @Inject lateinit var mediaId: MediaId
-    @Inject @JvmField var listSize: Int = 0
-    @Inject lateinit var title: String
+    private val mediaId: MediaId by lazyFast {
+        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        MediaId.fromString(mediaId)
+    }
+    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
+    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+
     @Inject lateinit var presenter: PlayNextDialogPresenter
 
-    override fun title(context: Context): CharSequence {
-        return context.getString(R.string.popup_play_next)
+    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return builder.setTitle(R.string.popup_play_next)
+            .setMessage(createMessage().asHtml())
+            .setPositiveButton(R.string.popup_positive_ok, null)
+            .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    override fun message(context: Context): CharSequence {
-        return createMessage().asHtml()
-    }
-
-    override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_cancel
-    }
-
-    override fun positiveButtonMessage(context: Context): Int {
-        return R.string.popup_positive_ok
-    }
-
-    override fun successMessage(context: Context): CharSequence {
+    private fun successMessage(context: Context): String {
         return if (mediaId.isLeaf){
             context.getString(R.string.song_x_added_to_play_next, title)
         } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_next, listSize, listSize)
     }
 
-    override fun failMessage(context: Context): CharSequence {
+    private  fun failMessage(context: Context): String {
         return context.getString(R.string.popup_error_message)
     }
 
-    override fun positiveAction(dialogInterface: DialogInterface, which: Int) {
-        val mediaController = MediaControllerCompat.getMediaController(activity!!)
-        return presenter.execute(mediaController)
+    override fun positionButtonAction(context: Context) {
+        launch {
+            var message: String
+            try {
+                val mediaController = MediaControllerCompat.getMediaController(act)
+                presenter.execute(mediaController, mediaId)
+                message = successMessage(act)
+            } catch (ex: Exception) {
+                message = failMessage(act)
+            }
+            act.toast(message)
+            dismiss()
+        }
     }
 
     private fun createMessage() : String {

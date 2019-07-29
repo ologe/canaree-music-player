@@ -1,10 +1,17 @@
 package dev.olog.presentation.dialogs.playlist.create
 
 import android.content.Context
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dev.olog.core.MediaId
+import dev.olog.presentation.R
 
 import dev.olog.presentation.dialogs.BaseEditTextDialog
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 class NewPlaylistDialog : BaseEditTextDialog() {
@@ -26,33 +33,43 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     }
 
     @Inject lateinit var presenter: NewPlaylistDialogPresenter
-    @Inject @JvmField var listSize: Int = 0
-    @Inject lateinit var mediaId: MediaId
-    @Inject lateinit var title: String
 
-    override fun title(): Int = R.string.popup_new_playlist
+    private val mediaId: MediaId by lazyFast {
+        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        MediaId.fromString(mediaId)
+    }
+    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
+    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    override fun positiveButtonMessage(context: Context): Int {
-        return R.string.popup_positive_create
+    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return super.extendBuilder(builder)
+            .setTitle(R.string.popup_new_playlist)
+            .setPositiveButton(R.string.popup_positive_create, null)
+            .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_cancel
+    override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
+        editText.hint = getString(R.string.popup_new_playlist)
     }
 
-    override fun errorMessageForBlankForm(): Int = R.string.popup_playlist_name_not_valid
-
-    override fun errorMessageForInvalidForm(currentValue: String): Int = R.string.popup_playlist_name_already_exist
-
-    override fun positiveAction(currentValue: String) {
-        return presenter.execute(currentValue)
+    override fun provideMessageForBlank(): String {
+        return getString(R.string.popup_playlist_name_not_valid)
     }
 
-    override fun initialTextFieldValue(): String = ""
+    override suspend fun onItemValid(string: String) {
+        var message: String
+        try {
+            presenter.execute(mediaId, string)
+            message = successMessage(act, string).toString()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            message = getString(R.string.popup_error_message)
+        }
+        act.toast(message)
+    }
 
-    override fun isStringValid(string: String): Boolean = presenter.isStringValid(string)
 
-    override fun successMessage(context: Context, currentValue: String): CharSequence {
+    private fun successMessage(context: Context, currentValue: String): CharSequence {
         if (mediaId.isPlayingQueue){
             return context.getString(R.string.queue_saved_as_playlist, currentValue)
         }
@@ -61,9 +78,5 @@ class NewPlaylistDialog : BaseEditTextDialog() {
         }
         return context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
                 listSize, listSize, currentValue)
-    }
-
-    override fun negativeMessage(context: Context, currentValue: String): CharSequence {
-        return context.getString(R.string.popup_error_message)
     }
 }

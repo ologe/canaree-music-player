@@ -1,17 +1,17 @@
 package dev.olog.presentation.dialogs.playlist.duplicates
 
 import dev.olog.core.MediaId
-import dev.olog.msc.domain.interactor.dialog.RemoveDuplicatesUseCase
+import dev.olog.core.interactor.playlist.RemoveDuplicatesUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoveDuplicatesDialogPresenter @Inject constructor(
-    private val mediaId: MediaId,
     private val useCase: RemoveDuplicatesUseCase
 ) {
 
-    fun execute() {
-        TODO()
-//        return useCase(mediaId)
+    suspend fun execute(mediaId: MediaId) = withContext(Dispatchers.IO){
+        useCase(mediaId)
     }
 
 }

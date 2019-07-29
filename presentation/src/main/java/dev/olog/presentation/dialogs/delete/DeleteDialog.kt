@@ -1,13 +1,17 @@
 package dev.olog.presentation.dialogs.delete
 
 import android.content.Context
-import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-
+import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.lazyFast
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DeleteDialog: BaseDialog() {
@@ -28,42 +32,49 @@ class DeleteDialog: BaseDialog() {
         }
     }
 
-    @Inject @JvmField var listSize: Int = 0
-    @Inject lateinit var mediaId: MediaId
-    @Inject lateinit var title: String
+    private val mediaId: MediaId by lazyFast {
+        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        MediaId.fromString(mediaId)
+    }
+    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
+    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+
     @Inject lateinit var presenter: DeleteDialogPresenter
 
-    override fun title(context: Context): CharSequence {
-        return context.getString(R.string.popup_delete)
+    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return builder.setTitle(R.string.popup_delete)
+            .setMessage(createMessage().asHtml())
+            .setPositiveButton(R.string.popup_positive_delete, null)
+            .setNegativeButton(R.string.popup_negative_no, null)
     }
 
-    override fun message(context: Context): CharSequence {
-        return createMessage().asHtml()
-    }
-
-    override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_no
-    }
-
-    override fun positiveButtonMessage(context: Context): Int {
-        return R.string.popup_positive_delete
-    }
-
-    override fun successMessage(context: Context): CharSequence {
-        return when (mediaId.category) {
-            MediaIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
-            MediaIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
-            else -> context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
-                    listSize, listSize, title)
+    override fun positionButtonAction(context: Context) {
+        launch {
+            var message: String
+            try {
+                presenter.execute(mediaId)
+                message = successMessage(act)
+            } catch (ex: Exception) {
+                message = failMessage(act)
+            }
+            act.toast(message)
+            dismiss()
         }
     }
 
-    override fun failMessage(context: Context): CharSequence {
-        return context.getString(R.string.popup_error_message)
+    private fun successMessage(context: Context): String {
+        return when (mediaId.category) {
+            MediaIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
+            MediaIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
+            else -> context.resources.getQuantityString(
+                R.plurals.xx_songs_deleted_from_y,
+                listSize, listSize, title
+            )
+        }
     }
 
-    override fun positiveAction(dialogInterface: DialogInterface, which: Int) {
-        return presenter.execute()
+    private fun failMessage(context: Context): String {
+        return context.getString(R.string.popup_error_message)
     }
 
     private fun createMessage() : String {

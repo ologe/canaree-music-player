@@ -7,39 +7,39 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
-abstract class BaseDialog : BaseDialogFragment() {
+abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() {
 
-//    private var disposable: Disposable? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val application = activity!!.application
+        var builder = AlertDialog.Builder(act)
+        builder = extendBuilder(builder)
 
-        val builder = AlertDialog.Builder(act)
-                .setTitle(title(application))
-                .setMessage(message(application))
-                .setNegativeButton(negativeButtonMessage(application), null)
-                .setPositiveButton(positiveButtonMessage(application)) { dialog, which ->
-//                    disposable = positiveAction(dialog, which)
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .doOnComplete { application.toast(successMessage(application)) }
-//                            .doOnError { application.toast(failMessage(application)) }
-//                            .subscribe({}, Throwable::printStackTrace)
-                }
+        val dialog = builder.show()
+        extendDialog(dialog)
 
-        return builder.show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            positionButtonAction(act)
+        }
+
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+            negativeButtonAction(act)
+        }
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
+            neutralButtonAction(act)
+        }
+
+        return dialog
     }
 
-    protected abstract fun title(context: Context): CharSequence
-    protected abstract fun message(context: Context): CharSequence
+    protected abstract fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder
+    protected open fun extendDialog(dialog: AlertDialog) {}
 
-    protected abstract fun negativeButtonMessage(context: Context): Int
-    protected abstract fun positiveButtonMessage(context: Context): Int
-
-    protected abstract fun successMessage(context: Context): CharSequence
-    protected abstract fun failMessage(context: Context): CharSequence
-
-    protected abstract fun positiveAction(dialogInterface: DialogInterface, which: Int)
+    protected open fun positionButtonAction(context: Context) {}
+    protected open fun negativeButtonAction(context: Context) {}
+    protected open fun neutralButtonAction(context: Context) {}
 
 }

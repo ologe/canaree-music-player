@@ -40,9 +40,6 @@ abstract class DialogModule {
     abstract fun provideRenametDialog(): RenameDialog
 
     @ContributesAndroidInjector
-    abstract fun provideRenamePlaylistDialog(): RenameDialog
-
-    @ContributesAndroidInjector
     abstract fun provideSetRingtoneDialog(): SetRingtoneDialog
 
 }

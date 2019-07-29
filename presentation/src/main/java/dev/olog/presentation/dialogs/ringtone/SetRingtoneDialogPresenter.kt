@@ -3,65 +3,54 @@ package dev.olog.presentation.dialogs.ringtone
 import android.annotation.TargetApi
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
-
+import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetRingtoneDialogPresenter @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val activity: AppCompatActivity,
-    private val mediaId: MediaId
+class SetRingtoneDialogPresenter @Inject constructor() {
 
-) {
-
-    @TargetApi(Build.VERSION_CODES.M)
-    fun execute() {
-        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(context)){
-            return setRingtone()
+    suspend fun execute(activity: FragmentActivity, mediaId: MediaId) = withContext(Dispatchers.IO) {
+        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(activity)){
+            setRingtone(activity, mediaId)
         } else {
-            return requestWritingSettingsPermission()
+            requestWritingSettingsPermission(activity)
         }
     }
 
-    private fun setRingtone(){
-        writeSettings()
-    }
-
     @TargetApi(23)
-    private fun requestWritingSettingsPermission(){
+    private fun requestWritingSettingsPermission(activity: FragmentActivity){
         AlertDialog.Builder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                    val packageName = context.packageName
+                    val packageName = activity.packageName
                     val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))
                     activity.startActivity(intent)
                 }.show()
     }
 
-    private fun writeSettings() : Boolean {
+    private fun setRingtone(activity: FragmentActivity, mediaId: MediaId): Boolean{
         val songId = mediaId.leaf!!
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, songId)
 
-        val values = ContentValues(2)
+        val values = ContentValues(1)
         values.put(MediaStore.Audio.AudioColumns.IS_RINGTONE, "1")
 
-        context.contentResolver.update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                values, "${BaseColumns._ID} = ?", arrayOf("$songId"))
+        activity.contentResolver.update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            values, "${BaseColumns._ID} = ?", arrayOf("$songId"))
 
-        return Settings.System.putString(context.contentResolver, Settings.System.RINGTONE, uri.toString())
+        return Settings.System.putString(activity.contentResolver, Settings.System.RINGTONE, uri.toString())
     }
 
 }

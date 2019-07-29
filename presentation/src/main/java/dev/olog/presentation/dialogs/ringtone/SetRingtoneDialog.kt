@@ -1,13 +1,16 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
-import android.content.DialogInterface
-
-import dev.olog.intents.AppConstants
-import dev.olog.presentation.dialogs.BaseDialog
+import androidx.appcompat.app.AlertDialog
 import dev.olog.core.MediaId
+import dev.olog.intents.AppConstants
+import dev.olog.presentation.R
+import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SetRingtoneDialog : BaseDialog() {
@@ -29,33 +32,36 @@ class SetRingtoneDialog : BaseDialog() {
 
     @Inject lateinit var presenter: SetRingtoneDialogPresenter
 
-    override fun title(context: Context): CharSequence {
-        return context.getString(R.string.popup_set_as_ringtone)
+    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+        return builder.setTitle(R.string.popup_set_as_ringtone)
+            .setMessage(createMessage().asHtml())
+            .setPositiveButton(R.string.popup_positive_ok, null)
+            .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    override fun message(context: Context): CharSequence {
-        return createMessage().asHtml()
+    override fun positionButtonAction(context: Context) {
+        launch {
+            var message: String
+            try {
+                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
+                presenter.execute(act, mediaId)
+                message = successMessage(act)
+            } catch (ex: Exception) {
+                message = failMessage(act)
+            }
+            act.toast(message)
+            dismiss()
+
+        }
     }
 
-    override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_cancel
-    }
-
-    override fun positiveButtonMessage(context: Context): Int {
-        return R.string.popup_positive_ok
-    }
-
-    override fun successMessage(context: Context): CharSequence {
+    private fun successMessage(context: Context): String {
         val title = generateItemDescription()
         return context.getString(R.string.song_x_set_as_ringtone, title)
     }
 
-    override fun failMessage(context: Context): CharSequence {
+    private fun failMessage(context: Context): String {
         return context.getString(R.string.popup_error_message)
-    }
-
-    override fun positiveAction(dialogInterface: DialogInterface, which: Int) {
-        return presenter.execute()
     }
 
     private fun createMessage() : String{
