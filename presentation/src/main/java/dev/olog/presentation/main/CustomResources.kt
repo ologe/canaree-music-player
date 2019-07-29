@@ -48,22 +48,20 @@ class CustomResources(
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun ColorStateList.getStates(): Array<IntArray> {
+    @Suppress("UNCHECKED_CAST")
+    private fun ColorStateList.getStates(): Array<IntArray> {
         val method = ColorStateList::class.java.getMethod("getStates")
         method.isAccessible = true
         return method.invoke(this) as Array<IntArray>
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun ColorStateList.getColors(): IntArray {
+    private fun ColorStateList.getColors(): IntArray {
         val method = ColorStateList::class.java.getMethod("getColors")
         method.isAccessible = true
         return method.invoke(this) as IntArray
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun desaturateGroup(colors: IntArray): IntArray{
+    private fun desaturateGroup(colors: IntArray): IntArray{
         for (index in 0 until colors.size){
             colors[index] = ColorUtils.desaturate(colors[index])
         }
