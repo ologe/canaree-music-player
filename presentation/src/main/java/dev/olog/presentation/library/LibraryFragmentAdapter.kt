@@ -30,7 +30,7 @@ class LibraryFragmentAdapter(
         } else TabFragment.newInstance(category)
     }
 
-    private fun showFolderAsHierarchy(): Boolean {
+    fun showFolderAsHierarchy(): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         return prefs.getBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
     }

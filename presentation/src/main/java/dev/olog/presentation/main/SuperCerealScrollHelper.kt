@@ -2,6 +2,7 @@ package dev.olog.presentation.main
 
 import android.view.View
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.marginTop
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -31,9 +32,12 @@ class SuperCerealScrollHelper(
         }
         if (fragment is FolderTreeFragment){
             val crumbsWrapper = fragment.view!!.findViewById<View>(R.id.crumbsWrapper)
-            fragment.view!!.doOnPreDraw {
-                crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
-                list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
+            if (crumbsWrapper.marginTop > 0){
+//                 margin not set yet
+                fragment.view!!.doOnPreDraw {
+                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
+                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
+                }
             }
         }
     }

@@ -107,22 +107,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
     }
 
-    fun goBack() {
-        try {
-            val file = currentDirectory.value
-            if (file != Environment.getExternalStorageDirectory()) {
-                currentDirectory.offer(file.parentFile!!)
-                return
-            }
-            val parent = file.parentFile
-            if (parent?.listFiles()?.isNotEmpty() == true) {
-                currentDirectory.offer(parent)
-            }
-        } catch (ex: Throwable){
-            ex.printStackTrace()
-        }
-    }
-
     fun nextFolder(file: File) {
         require(file.isDirectory)
         currentDirectory.offer(file)
