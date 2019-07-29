@@ -22,13 +22,17 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
     override fun buildUseCase(param: Long): Flow<String> {
         return gateway.observeLyrics(param)
             .map { lyrics ->
-                val song = songGateway.getByParam(param) ?: return@map lyrics
-                try {
-                    getLyricsFromMetadata(song)
-                } catch (ex: Throwable) {
-                    lyrics
-                }
+                mapLyrics(param, lyrics)
             }.flowOn(Dispatchers.IO)
+    }
+
+    private fun mapLyrics(id: Long, lyrics: String): String {
+        val song = songGateway.getByParam(id) ?: return lyrics
+        try {
+            return getLyricsFromMetadata(song)
+        } catch (ex: Throwable) {
+            return lyrics
+        }
     }
 
     private fun getLyricsFromMetadata(song: Song): String {
