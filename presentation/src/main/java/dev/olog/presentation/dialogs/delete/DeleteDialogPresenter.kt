@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.delete
+package dev.olog.presentation.dialogs.delete
 
 import dev.olog.core.MediaId
 import dev.olog.msc.domain.interactor.dialog.DeleteUseCase

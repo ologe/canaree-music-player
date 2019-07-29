@@ -1,11 +1,11 @@
-package dev.olog.msc.presentation.dialog.add.favorite.di
+package dev.olog.presentation.dialogs.favorite.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
+import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 
 
 @Module(subcomponents = arrayOf(AddFavoriteDialogSubComponent::class))

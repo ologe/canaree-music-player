@@ -1,9 +1,9 @@
-package dev.olog.msc.presentation.dialog.rename
+package dev.olog.presentation.dialogs.playlist.rename
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseEditTextDialog
+
+import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.withArguments
 import javax.inject.Inject
 

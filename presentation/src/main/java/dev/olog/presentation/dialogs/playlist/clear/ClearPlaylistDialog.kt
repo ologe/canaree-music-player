@@ -1,24 +1,24 @@
-package dev.olog.msc.presentation.dialog.remove.duplicates
+package dev.olog.presentation.dialogs.playlist.clear
 
 import android.content.Context
 import android.content.DialogInterface
 import dev.olog.core.MediaId
-import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseDialog
+
+import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.withArguments
 import javax.inject.Inject
 
-class RemoveDuplicatesDialog: BaseDialog() {
+class ClearPlaylistDialog : BaseDialog() {
 
     companion object {
-        const val TAG = "RemoveDuplicatesDialog"
+        const val TAG = "ClearPlaylistDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, itemTitle: String): RemoveDuplicatesDialog {
-            return RemoveDuplicatesDialog().withArguments(
+        fun newInstance(mediaId: MediaId, itemTitle: String): ClearPlaylistDialog {
+            return ClearPlaylistDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
@@ -26,10 +26,10 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     @Inject lateinit var title: String
-    @Inject lateinit var presenter: RemoveDuplicatesDialogPresenter
+    @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
     override fun title(context: Context): CharSequence {
-        return context.getString(R.string.remove_duplicates_title)
+        return context.getString(R.string.popup_clear_playlist)
     }
 
     override fun message(context: Context): CharSequence {
@@ -37,15 +37,15 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_no
+        return R.string.popup_negative_cancel
     }
 
     override fun positiveButtonMessage(context: Context): Int {
-        return R.string.popup_positive_remove
+        return R.string.popup_positive_delete
     }
 
     override fun successMessage(context: Context): CharSequence {
-        return context.getString(R.string.remove_duplicates_success, title)
+        return context.getString(R.string.playlist_x_cleared, title)
     }
 
     override fun failMessage(context: Context): CharSequence {
@@ -57,7 +57,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_duplicates_message, title)
+        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
     }
 
 }

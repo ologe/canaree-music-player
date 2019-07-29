@@ -1,10 +1,10 @@
-package dev.olog.msc.presentation.dialog.add.favorite.di
+package dev.olog.presentation.dialogs.favorite.di
 
 import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
+import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.core.MediaId
 
 @Module

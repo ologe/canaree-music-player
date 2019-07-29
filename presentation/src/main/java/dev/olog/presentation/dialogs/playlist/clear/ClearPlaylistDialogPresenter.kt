@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.clear.playlist
+package dev.olog.presentation.dialogs.playlist.clear
 
 import dev.olog.core.MediaId
 import dev.olog.msc.domain.interactor.dialog.ClearPlaylistUseCase

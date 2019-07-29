@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.set.ringtone
+package dev.olog.presentation.dialogs.ringtone
 
 import android.annotation.TargetApi
 import android.content.ContentUris
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.msc.R
+
 import dev.olog.shared.android.utils.isMarshmallow
 import javax.inject.Inject
 

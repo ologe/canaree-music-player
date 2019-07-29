@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base
+package dev.olog.presentation.dialogs
 
 import android.app.Dialog
 import android.content.Context

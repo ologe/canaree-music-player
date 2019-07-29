@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.add.favorite
+package dev.olog.presentation.dialogs.favorite
 
 import dev.olog.core.MediaId
 import dev.olog.msc.domain.interactor.dialog.AddToFavoriteUseCase

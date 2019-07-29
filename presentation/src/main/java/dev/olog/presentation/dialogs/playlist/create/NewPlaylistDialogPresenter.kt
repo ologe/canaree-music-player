@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.create.playlist
+package dev.olog.presentation.dialogs.playlist.create
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType

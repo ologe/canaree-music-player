@@ -1,9 +1,9 @@
-package dev.olog.msc.presentation.dialog.add.favorite.di
+package dev.olog.presentation.dialogs.favorite.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
+import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 
 @Subcomponent(modules = arrayOf(
         AddFavoriteDialogModule::class
