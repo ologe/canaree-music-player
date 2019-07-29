@@ -3,8 +3,6 @@ package dev.olog.presentation.widgets.imageview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.TransitionDrawable
-import dev.olog.shared.android.extensions.layers
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 
@@ -21,16 +19,7 @@ internal class AdaptiveImageHelper(context: Context) {
     }
 
     fun setImageDrawable(drawable: Drawable?) {
-        if (drawable is TransitionDrawable){
-            if (drawable.numberOfLayers == 2){
-                presenter.onNextImage(drawable.layers[1])
-            } else {
-                presenter.onNextImage(drawable)
-            }
-
-        } else {
-            presenter.onNextImage(drawable)
-        }
+        presenter.onNextImage(drawable)
     }
 
     fun observeProcessorColors() = presenter.observeProcessorColors()

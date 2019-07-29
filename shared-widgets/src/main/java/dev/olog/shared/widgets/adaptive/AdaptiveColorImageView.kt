@@ -3,9 +3,7 @@ package dev.olog.shared.widgets.adaptive
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.TransitionDrawable
 import android.util.AttributeSet
-import dev.olog.shared.android.extensions.layers
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
 
@@ -34,16 +32,7 @@ open class AdaptiveColorImageView @JvmOverloads constructor(
             return
         }
 
-        if (drawable is TransitionDrawable){
-            if (drawable.numberOfLayers == 2){
-                presenter.onNextImage(drawable.layers[1])
-            } else {
-                presenter.onNextImage(drawable)
-            }
-
-        } else {
-            presenter.onNextImage(drawable)
-        }
+        presenter.onNextImage(drawable)
     }
 
     fun observeProcessorColors() = presenter.observeProcessorColors()

@@ -33,7 +33,6 @@ object BindingsAdapter {
 //                .load(AudioFileCover(item.path!!))
 //                .override(OVERRIDE_SMALL)
 //                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
-//                .transition(DrawableTransitionOptions.withCrossFade())
 //                .into(view) TODO move to glide module
     }
 
@@ -58,23 +57,19 @@ object BindingsAdapter {
         view: ImageView,
         mediaId: MediaId,
         override: Int,
-        priority: Priority = Priority.HIGH,
-        crossfade: Boolean = true
+        priority: Priority = Priority.HIGH
     ) {
 
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
-        var builder = GlideApp.with(context)
+        val builder = GlideApp.with(context)
             .load(mediaId)
             .override(override)
             .priority(priority)
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
-        if (crossfade) {
-            builder = builder.transition(DrawableTransitionOptions.withCrossFade())
-        }
         if (mediaId.isLeaf) {
             builder.into(view)
         } else {

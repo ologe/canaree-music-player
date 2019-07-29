@@ -51,7 +51,6 @@ open class PlayerImageView @JvmOverloads constructor(
             .load(mediaId)
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
-            .transition(DrawableTransitionOptions.withCrossFade())
             .override(Target.SIZE_ORIGINAL)
             .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
             .into(RippleTarget(this))
