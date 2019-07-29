@@ -1,16 +1,12 @@
-package dev.olog.presentation.widgets.imageview
+package dev.olog.presentation.widgets.imageview.shape
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.shape.*
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
@@ -55,7 +51,8 @@ open class ShapeImageView @JvmOverloads constructor(
 
         clipToOutline = true
 
-        paint.xfermode = X_FERMO_MODE
+        paint.xfermode =
+            X_FERMO_MODE
 
         cutCornerShapeModel = ShapeAppearanceModel().apply {
             setAllCorners(CutCornerTreatment(context.dipf(radius)))
@@ -64,6 +61,8 @@ open class ShapeImageView @JvmOverloads constructor(
             setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
         }
         squareShapeModel = ShapeAppearanceModel()
+
+        ShapeAppearanceModel()
     }
 
     override fun onAttachedToWindow() {

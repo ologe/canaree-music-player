@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import dev.olog.presentation.R
+import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.android.extensions.dpToPx
 import kotlin.properties.Delegates
 
