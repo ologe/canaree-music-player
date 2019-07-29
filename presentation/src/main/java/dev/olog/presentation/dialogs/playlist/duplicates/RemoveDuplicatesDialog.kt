@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.playlist.duplicates
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -34,7 +34,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
 
     private val itemTitle by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.remove_duplicates_title)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_remove, null)

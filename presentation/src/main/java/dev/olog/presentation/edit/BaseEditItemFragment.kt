@@ -10,9 +10,9 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
@@ -93,7 +93,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     }
 
     protected fun changeImage() {
-        AlertDialog.Builder(ctx)
+        MaterialAlertDialogBuilder(ctx)
             .setItems(R.array.edit_item_image_dialog) { _, which ->
                 when (which) {
                     0 -> openImagePicker()

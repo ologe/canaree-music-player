@@ -1,13 +1,14 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.provider.MediaStore
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BlacklistFragment : ListDialog() {
@@ -24,7 +25,7 @@ class BlacklistFragment : ListDialog() {
 
     private lateinit var adapter: BlacklistFragmentAdapter
 
-    override fun setupBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder
             .setTitle(R.string.prefs_blacklist_title)
             .setMessage(R.string.prefs_blacklist_description)

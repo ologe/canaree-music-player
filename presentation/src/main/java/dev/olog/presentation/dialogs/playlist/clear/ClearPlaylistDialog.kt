@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.playlist.clear
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -37,7 +37,7 @@ class ClearPlaylistDialog : BaseDialog() {
 
     @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_clear_playlist)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_delete, null)

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
@@ -22,7 +23,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
     private var showJeyboardJob: Job? = null
 
     @CallSuper
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setView(R.layout.layout_edit_text)
     }
 

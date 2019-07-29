@@ -2,7 +2,7 @@ package dev.olog.presentation.dialogs.play.later
 
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -41,7 +41,7 @@ class PlayLaterDialog : BaseDialog() {
 
     @Inject lateinit var presenter: PlayLaterDialogPresenter
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_play_later)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_ok, null)

@@ -1,12 +1,11 @@
 package dev.olog.presentation.dialogs.playlist.create
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
@@ -41,7 +40,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
     private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
             .setTitle(R.string.popup_new_playlist)
             .setPositiveButton(R.string.popup_positive_create, null)

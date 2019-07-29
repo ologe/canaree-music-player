@@ -1,12 +1,11 @@
 package dev.olog.presentation.dialogs.playlist.rename
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
-
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.getArgument
@@ -37,7 +36,7 @@ class RenameDialog : BaseEditTextDialog() {
     }
     private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
             .setTitle(R.string.popup_rename)
             .setPositiveButton(R.string.popup_positive_rename, null)

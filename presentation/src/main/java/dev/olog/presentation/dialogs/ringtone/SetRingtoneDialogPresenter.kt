@@ -8,8 +8,8 @@ import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
@@ -29,7 +29,7 @@ class SetRingtoneDialogPresenter @Inject constructor() {
 
     @TargetApi(23)
     private fun requestWritingSettingsPermission(activity: FragmentActivity){
-        AlertDialog.Builder(activity)
+        MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)

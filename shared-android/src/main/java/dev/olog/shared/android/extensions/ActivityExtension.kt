@@ -1,10 +1,10 @@
 package dev.olog.shared.android.extensions
 
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 inline fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
@@ -22,8 +22,8 @@ fun FragmentManager.getTopFragment(): Fragment? {
     return null
 }
 
-inline fun FragmentActivity.alertDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
-    AlertDialog.Builder(this)
+inline fun FragmentActivity.alertDialog(builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder){
+    MaterialAlertDialogBuilder(this)
             .builder()
             .show()
 }

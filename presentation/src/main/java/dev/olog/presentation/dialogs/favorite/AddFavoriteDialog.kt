@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -40,7 +40,7 @@ class AddFavoriteDialog : BaseDialog() {
 
     @Inject lateinit var presenter: AddFavoriteDialogPresenter
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_add_to_favorites)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_ok, null)

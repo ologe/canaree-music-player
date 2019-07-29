@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.widget.EditText
 import androidx.core.text.isDigitsOnly
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.shared.android.extensions.toast
@@ -12,7 +13,7 @@ object OfflineLyricsSyncAdjustementDialog {
 
     @JvmStatic
     fun show(ctx: Context, currentValue: String, positiveAction: (Long) -> Unit) {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(ctx)
+        val builder = MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.offline_lyrics_adjust_sync)
             .setView(R.layout.layout_edit_text_simple)
             .setPositiveButton("OK", null) // TODO

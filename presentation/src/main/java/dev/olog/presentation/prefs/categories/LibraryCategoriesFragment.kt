@@ -1,16 +1,16 @@
 package dev.olog.presentation.prefs.categories
 
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.lazyFast
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
@@ -39,7 +39,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         )]
     }
 
-    override fun setupBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_library_categories_title_podcasts
 
         return builder.setTitle(title)

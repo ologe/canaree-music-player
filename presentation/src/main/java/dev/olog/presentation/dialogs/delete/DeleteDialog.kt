@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.delete
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
@@ -41,7 +41,7 @@ class DeleteDialog: BaseDialog() {
 
     @Inject lateinit var presenter: DeleteDialogPresenter
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_delete)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_delete, null)

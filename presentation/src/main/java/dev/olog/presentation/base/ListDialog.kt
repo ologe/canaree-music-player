@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
@@ -33,7 +32,7 @@ abstract class ListDialog : BaseDialogFragment() {
         return dialog
     }
 
-    protected abstract fun setupBuilder(builder: AlertDialog.Builder):AlertDialog.Builder
+    protected abstract fun setupBuilder(builder: MaterialAlertDialogBuilder):MaterialAlertDialogBuilder
     protected abstract fun setupRecyclerView(list: RecyclerView)
 
     protected abstract fun positiveAction()

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -14,6 +13,7 @@ import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.core.MediaIdCategory
@@ -185,7 +185,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun showDeleteAllCacheDialog() {
-        AlertDialog.Builder(ctx)
+        MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
@@ -209,7 +209,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun showResetTutorialDialog() {
-        AlertDialog.Builder(ctx)
+        MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_reset_tutorial_title)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }

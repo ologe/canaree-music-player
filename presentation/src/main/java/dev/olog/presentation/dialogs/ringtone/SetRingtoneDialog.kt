@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
@@ -32,7 +32,7 @@ class SetRingtoneDialog : BaseDialog() {
 
     @Inject lateinit var presenter: SetRingtoneDialogPresenter
 
-    override fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder {
+    override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_set_as_ringtone)
             .setMessage(createMessage().asHtml())
             .setPositiveButton(R.string.popup_positive_ok, null)

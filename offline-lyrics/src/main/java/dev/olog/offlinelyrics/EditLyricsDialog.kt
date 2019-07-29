@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.View
 import android.widget.EditText
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit) {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context)
             .setTitle(R.string.offline_lyrics_edit_title)
             .setView(R.layout.layout_edit_text)
             .setPositiveButton("OK", null) // TODO

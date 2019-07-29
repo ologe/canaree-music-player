@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +16,7 @@ abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        var builder = AlertDialog.Builder(act)
+        var builder = MaterialAlertDialogBuilder(act)
         builder = extendBuilder(builder)
 
         val dialog = builder.show()
@@ -35,7 +36,7 @@ abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() 
         return dialog
     }
 
-    protected abstract fun extendBuilder(builder: AlertDialog.Builder): AlertDialog.Builder
+    protected abstract fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder
     protected open fun extendDialog(dialog: AlertDialog) {}
 
     protected open fun positionButtonAction(context: Context) {}

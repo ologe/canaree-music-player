@@ -1,8 +1,8 @@
 package dev.olog.presentation.playlist.chooser
 
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -30,7 +30,7 @@ class PlaylistChooserActivityAdapter(
     private fun askConfirmation(item: DisplayableItem) {
         require(item is DisplayableAlbum)
 
-        AlertDialog.Builder(activity)
+        MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
             .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
