@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
+import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R

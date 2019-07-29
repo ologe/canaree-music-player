@@ -4,8 +4,8 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.id
-import dev.olog.core.interactor.MoveItemInPlaylistUseCase
-import dev.olog.core.interactor.RemoveFromPlaylistUseCase
+import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
+import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.DisplayableTrack
 import javax.inject.Inject
@@ -24,11 +24,13 @@ class DetailFragmentPresenter @Inject constructor(
         val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
-            removeFromPlaylistUseCase(RemoveFromPlaylistUseCase.Input(
+            removeFromPlaylistUseCase(
+                RemoveFromPlaylistUseCase.Input(
                     playlistId, item.mediaId.leaf!!, playlistType
             ))
         } else {
-            removeFromPlaylistUseCase(RemoveFromPlaylistUseCase.Input(
+            removeFromPlaylistUseCase(
+                RemoveFromPlaylistUseCase.Input(
                 playlistId, item.idInPlaylist.toLong(), playlistType
             ))
         }
@@ -37,7 +39,8 @@ class DetailFragmentPresenter @Inject constructor(
     fun moveInPlaylist(from: Int, to: Int){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
-        moveItemInPlaylistUseCase.execute(MoveItemInPlaylistUseCase.Input(playlistId, from, to,
+        moveItemInPlaylistUseCase.execute(
+            MoveItemInPlaylistUseCase.Input(playlistId, from, to,
                 if (mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         ))
     }

@@ -5,8 +5,8 @@ import android.view.MenuItem
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
-import dev.olog.core.interactor.AddToPlaylistUseCase
-import dev.olog.core.interactor.GetPlaylistsUseCase
+import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
+import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator

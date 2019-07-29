@@ -9,6 +9,10 @@ import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.interactor.*
+import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
+import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
+import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
+import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.PlayerLifecycle

@@ -3,8 +3,8 @@ package dev.olog.presentation.dialogs.playlist.create
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.interactor.GetPlaylistsUseCase
-import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
+import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import javax.inject.Inject
 

@@ -8,8 +8,8 @@ import android.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
-import dev.olog.core.interactor.AddToPlaylistUseCase
-import dev.olog.core.interactor.GetPlaylistsUseCase
+import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
+import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml

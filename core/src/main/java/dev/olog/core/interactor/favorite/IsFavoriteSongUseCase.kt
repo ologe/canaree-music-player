@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.favorite
 
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway

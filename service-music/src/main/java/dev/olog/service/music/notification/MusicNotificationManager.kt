@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.interactor.ObserveFavoriteAnimationUseCase
+import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.PlayerLifecycle

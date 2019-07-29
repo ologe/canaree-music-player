@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.playlist
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist

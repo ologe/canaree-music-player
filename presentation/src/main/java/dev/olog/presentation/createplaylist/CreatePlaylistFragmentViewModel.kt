@@ -12,8 +12,8 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.InsertCustomTrackListRequest
-import dev.olog.core.interactor.InsertCustomTrackListToPlaylist
+import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
+import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
@@ -108,7 +108,11 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         }
         withContext(Dispatchers.IO){
             insertCustomTrackListToPlaylist(
-                InsertCustomTrackListRequest(playlistTitle, selectedIds.toList(), playlistType)
+                InsertCustomTrackListRequest(
+                    playlistTitle,
+                    selectedIds.toList(),
+                    playlistType
+                )
             )
         }
 

@@ -2,7 +2,7 @@ package dev.olog.presentation.dialogs.playlist.rename
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
-import dev.olog.core.interactor.GetPlaylistsUseCase
+import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
 import javax.inject.Inject
 

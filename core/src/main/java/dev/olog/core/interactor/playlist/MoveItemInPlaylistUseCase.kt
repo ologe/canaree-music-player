@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.playlist
 
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.entity.PlaylistType

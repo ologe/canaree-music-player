@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.lastplayed
 
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.track.ArtistGateway

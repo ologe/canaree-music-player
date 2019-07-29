@@ -8,8 +8,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.entity.track.getArtistMediaId
 import dev.olog.core.entity.track.getMediaId
-import dev.olog.core.interactor.AddToPlaylistUseCase
-import dev.olog.core.interactor.GetPlaylistsUseCase
+import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
+import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
