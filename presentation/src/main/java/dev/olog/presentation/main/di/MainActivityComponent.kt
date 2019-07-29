@@ -8,6 +8,7 @@ import dev.olog.presentation.ViewModelModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
+import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.edit.di.EditItemModule
 import dev.olog.presentation.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.presentation.main.MainActivity
@@ -48,18 +49,9 @@ fun MainActivity.inject() {
 
         SettingsFragmentsModule::class,
 
-        EditItemModule::class
+        EditItemModule::class,
 
-        // dialogs
-//        AddFavoriteDialogInjector::class, TODO
-//        PlayNextDialogInjector::class,
-//        PlayLaterDialogInjector::class,
-//        SetRingtoneDialogInjector::class,
-//        RenameDialogInjector::class,
-//        ClearPlaylistDialogInjector::class,
-//        DeleteDialogInjector::class,
-//        NewPlaylistDialogInjector::class,
-//        RemoveDuplicatesDialogInjector::class
+        DialogModule::class
     ), dependencies = [CoreComponent::class]
 )
 @PerActivity
