@@ -6,6 +6,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.theme.observer.ActivityLifecycleCallbacks
 import dev.olog.msc.theme.observer.CurrentActivityObserver
 import dev.olog.presentation.R
+import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.shared.mutableLazy
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ internal class ImmersiveModeListener @Inject constructor(
         private set
 
     override fun onPrefsChanged() {
+        StatusBarView.viewHeight = -1
         isImmersive = getValue()
         currentActivity?.recreate()
     }
