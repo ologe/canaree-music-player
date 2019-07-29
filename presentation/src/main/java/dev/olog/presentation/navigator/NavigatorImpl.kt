@@ -9,6 +9,15 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
+import dev.olog.presentation.dialogs.delete.DeleteDialog
+import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
+import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
+import dev.olog.presentation.dialogs.play.next.PlayNextDialog
+import dev.olog.presentation.dialogs.playlist.clear.ClearPlaylistDialog
+import dev.olog.presentation.dialogs.playlist.create.NewPlaylistDialog
+import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
+import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
+import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
 import dev.olog.presentation.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
@@ -138,47 +147,47 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
-//        val fragment = SetRingtoneDialog.newInstance(mediaId, title, artist)
-//        fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
+        val fragment = SetRingtoneDialog.newInstance(mediaId, title, artist)
+        fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 
     override fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-//        val fragment = AddFavoriteDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
+        val fragment = AddFavoriteDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
     override fun toPlayLater(mediaId: MediaId, listSize: Int, itemTitle: String) {
-//        val fragment = PlayLaterDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, PlayLaterDialog.TAG)
+        val fragment = PlayLaterDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, PlayLaterDialog.TAG)
     }
 
     override fun toPlayNext(mediaId: MediaId, listSize: Int, itemTitle: String) {
-//        val fragment = PlayNextDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, PlayNextDialog.TAG)
+        val fragment = PlayNextDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, PlayNextDialog.TAG)
     }
 
     override fun toRenameDialog(mediaId: MediaId, itemTitle: String) {
-//        val fragment = RenameDialog.newInstance(mediaId, itemTitle)
-//        fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
+        val fragment = RenameDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 
     override fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-//        val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
+        val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 
     override fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-//        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
+        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
     override fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String) {
-//        val fragment = ClearPlaylistDialog.newInstance(mediaId, itemTitle)
-//        fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
+        val fragment = ClearPlaylistDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
     }
 
     override fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String) {
-//        val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
-//        fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
+        val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
     }
 }
