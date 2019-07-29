@@ -19,6 +19,7 @@
 - added is_podcast override in edit track
 - added cut corner image shape
 - added image stylizer
+- made offline lyrics sync for track instead of being global
 
 ## 2.1.1
 - fixed all tracks sort order by date

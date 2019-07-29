@@ -8,6 +8,7 @@ import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
@@ -47,16 +48,20 @@ class OfflineLyricsContent(
         super.onShown()
 
         content.edit.setOnClickListener {
-            EditLyricsDialog.showForService(context, presenter.getOriginalLyrics()) { newLyrics ->
-                presenter.updateLyrics(newLyrics)
+            GlobalScope.launch(Dispatchers.Main) {
+                EditLyricsDialog.showForService(context, presenter.getLyrics()) { newLyrics ->
+                    presenter.updateLyrics(newLyrics)
+                }
             }
         }
         content.sync.setOnClickListener {
-            dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog.showForService(
-                context,
-                presenter.getSyncAdjustement()
-            ) {
-                presenter.updateSyncAdjustement(it)
+            GlobalScope.launch(Dispatchers.Main) {
+                OfflineLyricsSyncAdjustementDialog.showForService(
+                    context,
+                    presenter.getSyncAdjustment()
+                ) {
+                    presenter.updateSyncAdjustment(it)
+                }
             }
         }
         content.fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })

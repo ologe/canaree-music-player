@@ -3,6 +3,7 @@ package dev.olog.data.repository
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.entities.OfflineLyricsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,10 +15,11 @@ internal class OfflineLyricsRepository @Inject constructor(
 
 ) : OfflineLyricsGateway {
 
-    private val dao = appDatabase.offlineLyricsDao()
+    private val lyricsDao = appDatabase.offlineLyricsDao()
+    private val syncDao = appDatabase.lyricsSyncAdjustmentDao()
 
     override fun observeLyrics(id: Long): Flow<String> {
-        return dao.observeLyrics(id)
+        return lyricsDao.observeLyrics(id)
             .asFlow()
             .map {
                 if (it.isEmpty()) ""
@@ -26,6 +28,14 @@ internal class OfflineLyricsRepository @Inject constructor(
     }
 
     override suspend fun saveLyrics(offlineLyrics: OfflineLyrics) {
-        return dao.saveLyrics(OfflineLyricsEntity(offlineLyrics.trackId, offlineLyrics.lyrics))
+        return lyricsDao.saveLyrics(OfflineLyricsEntity(offlineLyrics.trackId, offlineLyrics.lyrics))
+    }
+
+    override fun getSyncAdjustment(id: Long): Long {
+        return syncDao.getSync(id)?.millis ?: 0L
+    }
+
+    override suspend fun setSyncAdjustment(id: Long, millis: Long) {
+        syncDao.setSync(LyricsSyncAdjustmentEntity(id, millis))
     }
 }

@@ -17,9 +17,6 @@ interface AppPreferencesGateway {
     fun observeLastFmCredentials(): Flow<UserCredentials>
     fun setLastFmCredentials(user: UserCredentials)
 
-    fun getSyncAdjustment(): Long
-    fun setSyncAdjustment(value: Long)
-
     fun observeDefaultMusicFolder(): Flow<File>
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)

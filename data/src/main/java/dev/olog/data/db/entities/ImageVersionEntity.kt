@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "image_version",
     indices = [(Index("mediaId"))]
 )
-data class ImageVersion(
+data class ImageVersionEntity(
     @PrimaryKey val mediaId: String,
     val version: Int
 )

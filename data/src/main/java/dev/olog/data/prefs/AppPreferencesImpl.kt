@@ -31,8 +31,6 @@ class AppPreferencesImpl @Inject constructor(
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME_2"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD_2"
 
-        private const val SYNC_ADJUSTMENT = "$TAG.SYNC_ADJUSTMENT"
-
         private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER_2"
     }
 
@@ -165,14 +163,6 @@ class AppPreferencesImpl @Inject constructor(
             putString(LAST_FM_USERNAME, user.username)
             putString(LAST_FM_PASSWORD, user.password)
         }
-    }
-
-    override fun getSyncAdjustment(): Long {
-        return preferences.getLong(SYNC_ADJUSTMENT, 0)
-    }
-
-    override fun setSyncAdjustment(value: Long) {
-        preferences.edit { putLong(SYNC_ADJUSTMENT, value) }
     }
 
     private fun defaultFolder(): String {

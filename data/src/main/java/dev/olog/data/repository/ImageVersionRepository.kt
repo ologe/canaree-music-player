@@ -3,7 +3,7 @@ package dev.olog.data.repository
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.data.db.dao.AppDatabase
-import dev.olog.data.db.entities.ImageVersion
+import dev.olog.data.db.entities.ImageVersionEntity
 import javax.inject.Inject
 
 internal class ImageVersionRepository @Inject constructor(
@@ -15,7 +15,7 @@ internal class ImageVersionRepository @Inject constructor(
     override fun getCurrentVersion(mediaId: MediaId): Int {
         var version = dao.getVersion(mediaId.toString())
         if (version == null) {
-            version = ImageVersion(mediaId.toString(), 0)
+            version = ImageVersionEntity(mediaId.toString(), 0)
             dao.insertVersion(version)
         }
         return version.version

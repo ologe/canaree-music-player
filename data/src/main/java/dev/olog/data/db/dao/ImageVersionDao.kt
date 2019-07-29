@@ -3,7 +3,7 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import dev.olog.data.db.entities.ImageVersion
+import dev.olog.data.db.entities.ImageVersionEntity
 
 @Dao
 abstract class ImageVersionDao {
@@ -15,10 +15,10 @@ abstract class ImageVersionDao {
         WHERE mediaId = :mediaId
     """
     )
-    abstract fun getVersion(mediaId: String): ImageVersion?
+    abstract fun getVersion(mediaId: String): ImageVersionEntity?
 
     @Insert
-    abstract fun insertVersion(version: ImageVersion)
+    abstract fun insertVersion(version: ImageVersionEntity)
 
     @Query(
         """

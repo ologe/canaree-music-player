@@ -20,7 +20,8 @@ class RepositoryHelperModule {
             .addMigrations(
                 MIGRATION_15_16,
                 MIGRATION_16_17,
-                MIGRATION_17_18
+                MIGRATION_17_18,
+                MIGRATION_18_19
             )
             .build()
     }
@@ -102,6 +103,20 @@ class RepositoryHelperModule {
                 CREATE TABLE IF NOT EXISTS `image_version` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, PRIMARY KEY(`mediaId`))
             """.trimIndent())
             database.execSQL("CREATE  INDEX `index_image_version_mediaId` ON `image_version` (`mediaId`)")
+        }
+    }
+
+    /**
+     * create lyrics sync adustment table
+     */
+    private val MIGRATION_18_19 = object : Migration(18, 19){
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `lyrics_sync_adjustment` (`id` INTEGER NOT NULL, `millis` INTEGER NOT NULL, PRIMARY KEY(`id`))
+            """.trimIndent())
+            database.execSQL("""
+                CREATE  INDEX `index_lyrics_sync_adjustment_id` ON `lyrics_sync_adjustment` (`id`)
+            """.trimIndent())
         }
     }
 

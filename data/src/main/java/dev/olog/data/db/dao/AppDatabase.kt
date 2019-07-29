@@ -40,9 +40,10 @@ import dev.olog.data.db.entities.*
 
         PodcastPositionEntity::class,
 
-        ImageVersion::class
+        ImageVersionEntity::class,
+        LyricsSyncAdjustmentEntity::class
 
-    ), version = 18, exportSchema = true
+    ), version = 19, exportSchema = true
 )
 internal abstract class AppDatabase : RoomDatabase() {
 
@@ -76,4 +77,5 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun podcastPositionDao(): PodcastPositionDao
 
     abstract fun imageVersionDao(): ImageVersionDao
+    abstract fun lyricsSyncAdjustmentDao(): LyricsSyncAdjustmentDao
 }

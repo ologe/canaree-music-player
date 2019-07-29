@@ -7,6 +7,8 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import dev.olog.offlinelyrics.NoScrollTouchListener
 import dev.olog.media.MediaProvider
+import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
@@ -17,6 +19,7 @@ import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
@@ -91,11 +94,10 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            dev.olog.offlinelyrics.EditLyricsDialog.show(
-                act,
-                presenter.getOriginalLyrics()
-            ) { newLyrics ->
-                presenter.updateLyrics(newLyrics)
+            launch {
+                EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
+                    presenter.updateLyrics(newLyrics)
+                }
             }
         }
         back.setOnClickListener { act.onBackPressed() }
@@ -107,11 +109,13 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
 
         sync.setOnClickListener { _ ->
-            dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog.show(
-                ctx,
-                presenter.getSyncAdjustement()
-            ) {
-                presenter.updateSyncAdjustement(it)
+            launch {
+                OfflineLyricsSyncAdjustementDialog.show(
+                    ctx,
+                    presenter.getSyncAdjustment()
+                ) {
+                    presenter.updateSyncAdjustment(it)
+                }
             }
         }
     }

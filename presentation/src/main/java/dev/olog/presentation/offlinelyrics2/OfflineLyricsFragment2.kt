@@ -35,19 +35,19 @@ class OfflineLyricsFragment2 : BaseFragment() {
             }
 
         launch {
-            presenter.observeLyrics()
-                .map {
-                    it.split("\n").map {
-                        LyricsModel(
-                            R.layout.item_offline_lyrics_2,
-                            MediaId.headerId(it),
-                            it,
-                            false
-                        )
-                    }
-                }
-                .flowOn(Dispatchers.Default)
-                .collect { adapter.updateDataSet(it) }
+//            presenter.observeLyrics()
+//                .map {
+//                    it.split("\n").map {
+//                        LyricsModel(
+//                            R.layout.item_offline_lyrics_2,
+//                            MediaId.headerId(it),
+//                            it,
+//                            false
+//                        )
+//                    }
+//                }
+//                .flowOn(Dispatchers.Default)
+//                .collect { adapter.updateDataSet(it) }
         }
     }
 
