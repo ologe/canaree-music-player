@@ -70,6 +70,7 @@ object BindingsAdapter {
             .priority(priority)
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
+            .transition(DrawableTransitionOptions.withCrossFade())
         if (mediaId.isLeaf) {
             builder.into(view)
         } else {
