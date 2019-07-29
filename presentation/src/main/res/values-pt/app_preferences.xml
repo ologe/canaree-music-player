@@ -81,9 +81,9 @@
     <string name="prefs_appearance_big_image">Imagem grande</string>
 
     <!-- dark mode -->
-    <string name="prefs_dark_mode_title">Tema</string>
-    <string name="prefs_dark_mode_light">Tema claro</string>
-    <string name="prefs_dark_mode_dark">Tema escuro</string>
+    <string name="prefs_dark_mode_title">Modo escuro</string>
+    <string name="prefs_dark_mode_light">Claro</string>
+    <string name="prefs_dark_mode_dark">Escuro</string>
 
     <!-- notch support -->
     <!-- Fuzzy -->

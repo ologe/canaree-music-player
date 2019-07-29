@@ -187,10 +187,10 @@
     </string-array>
 
     <!--dark mode-->
-    <string name="prefs_dark_mode_title">Theme</string>
+    <string name="prefs_dark_mode_title">Dark mode</string>
     <string name="prefs_dark_mode_follow_system">Follow system</string>
-    <string name="prefs_dark_mode_light">Light theme</string>
-    <string name="prefs_dark_mode_dark">Dark theme</string>
+    <string name="prefs_dark_mode_light">Light</string>
+    <string name="prefs_dark_mode_dark">Dark</string>
 
     <string-array name="prefs_dark_mode_entry_values">
         <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>

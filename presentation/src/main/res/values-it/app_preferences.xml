@@ -60,9 +60,9 @@
   <string name="prefs_appearance_fullscreen">Schermo intero</string>
   <string name="prefs_appearance_big_image">Immagine grande</string>
   <!--dark mode-->
-  <string name="prefs_dark_mode_title">Tema</string>
-  <string name="prefs_dark_mode_light">Tema chiaro</string>
-  <string name="prefs_dark_mode_dark">Tema scuro</string>
+  <string name="prefs_dark_mode_title">Modalità scura</string>
+  <string name="prefs_dark_mode_light">Chiaro</string>
+  <string name="prefs_dark_mode_dark">Scuro</string>
   <!--notch support-->
   <!--delete cached images-->
   <string name="prefs_delete_cached_images_title">Emimina cache</string>
