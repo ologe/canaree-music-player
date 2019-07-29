@@ -9,6 +9,17 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    buildTypes {
+        release {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+        debug {
+            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
+            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
+        }
+    }
+
     dataBinding.enabled = true
 }
 
@@ -62,6 +73,8 @@ dependencies {
     implementation lib_ui.dialogs_color
     implementation lib_ui.blur_kit
     implementation lib_ui.custom_tabs
+
+    implementation lib_utils.last_fm_binding
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions
