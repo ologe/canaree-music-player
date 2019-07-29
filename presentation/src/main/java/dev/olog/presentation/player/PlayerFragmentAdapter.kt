@@ -27,9 +27,9 @@ import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
+import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.TextUtils
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*

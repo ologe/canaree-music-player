@@ -3,8 +3,8 @@ package dev.olog.presentation.detail
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.MenuRes
+import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
