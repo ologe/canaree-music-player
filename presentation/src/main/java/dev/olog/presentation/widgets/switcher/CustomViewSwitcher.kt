@@ -129,7 +129,7 @@ class CustomViewSwitcher(
             .into(RippleTarget(imageView)) // TODO ripple not working
     }
 
-    fun getImageView(parent: View): ImageView {
+    fun getImageView(parent: View = currentView): ImageView {
         return when (parent) {
             is ImageView -> parent
             is ViewGroup -> parent.findChild { it is ImageView }

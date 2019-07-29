@@ -121,7 +121,7 @@ internal class SwipeableViewHelper(
     private fun requestRipple(event: MotionEvent) {
         val switcher = viewSwitcher ?: return
         val downEvent = MotionEvent.obtain(event).apply { this.action = MotionEvent.ACTION_DOWN }
-        val imageView = switcher.getImageView(switcher.currentView)
+        val imageView = switcher.getImageView()
         imageView.dispatchTouchEvent(downEvent)
         downEvent.recycle()
         imageView.dispatchTouchEvent(event)
