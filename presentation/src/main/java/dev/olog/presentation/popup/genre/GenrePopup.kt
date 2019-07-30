@@ -3,14 +3,14 @@ package dev.olog.presentation.popup.genre
 import android.view.View
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
+import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.intents.AppConstants
 
 class GenrePopup(
     view: View,
-    genre: Genre,
+    @Suppress("UNUSED_PARAMETER") genre: Genre,
     song: Song?,
     listener: AbsPopupListener
 

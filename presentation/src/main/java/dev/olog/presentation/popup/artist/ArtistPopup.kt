@@ -3,14 +3,14 @@ package dev.olog.presentation.popup.artist
 import android.view.View
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
+import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.intents.AppConstants
 
 class ArtistPopup(
     view: View,
-    artist: Artist,
+    @Suppress("UNUSED_PARAMETER") artist: Artist,
     song: Song?,
     listener: AbsPopupListener
 

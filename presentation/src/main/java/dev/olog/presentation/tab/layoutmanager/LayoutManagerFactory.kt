@@ -23,6 +23,7 @@ internal object LayoutManagerFactory {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun get(context: Context, category: TabCategory, adapter: TabFragmentAdapter): GridLayoutManager {
         val spanSizeLookup = createSpanSize(context, category, adapter as ObservableAdapter<BaseModel>)
         val layoutManager = GridLayoutManager(context, spanSizeLookup.getSpanSize())

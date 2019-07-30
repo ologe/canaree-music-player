@@ -25,7 +25,7 @@ internal class TabFragmentViewModel @Inject constructor(
             if (liveData == null) {
                 liveData = dataProvider.get(category).asLiveData()
             }
-            liveData!!
+            liveData
         }
     }
 

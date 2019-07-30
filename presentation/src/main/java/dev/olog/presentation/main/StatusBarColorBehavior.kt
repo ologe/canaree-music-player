@@ -54,7 +54,7 @@ class StatusBarColorBehavior @Inject constructor(
         if (fragment == null){
             activity.window.setLightStatusBar()
         } else {
-            if (slidingPanel?.state == BottomSheetBehavior.STATE_EXPANDED){
+            if (slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED){
                 activity.window.setLightStatusBar()
             } else {
                 fragment.adjustStatusBarColor()

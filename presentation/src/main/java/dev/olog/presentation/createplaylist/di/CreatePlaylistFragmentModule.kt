@@ -5,33 +5,29 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.dagger.ViewModelKey
-import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.createplaylist.CreatePlaylistFragmentViewModel
+import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.shared.android.extensions.getArgument
 
-@Module(includes = [CreatePlaylistFragmentModule.Binding::class])
-class CreatePlaylistFragmentModule(private val fragment: CreatePlaylistFragment) {
+@Module
+abstract class CreatePlaylistFragmentModule {
 
-    @Provides
-    @FragmentLifecycle
-    fun provideLifecycle() = fragment.lifecycle
-
-    @Provides
-    fun providePlaylistType(): PlaylistType {
-        val type = fragment.arguments!!.getInt(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)
-        return PlaylistType.values()[type]
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatePlaylistFragmentViewModel::class)
+    abstract fun provideViewModel(viewModel: CreatePlaylistFragmentViewModel): ViewModel
 
     @Module
-    interface Binding {
+    companion object {
 
-        @Binds
-        @IntoMap
-        @ViewModelKey(CreatePlaylistFragmentViewModel::class)
-        fun provideViewModel(viewModel: CreatePlaylistFragmentViewModel): ViewModel
-
+        @Provides
+        @JvmStatic
+        fun providePlaylistType(instance: CreatePlaylistFragment): PlaylistType {
+            val type = instance.getArgument<Int>(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)
+            return PlaylistType.values()[type]
+        }
     }
 
 }

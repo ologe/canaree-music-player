@@ -7,6 +7,8 @@ import android.content.res.Resources
 import android.util.DisplayMetrics
 import dev.olog.shared.android.utils.ColorUtils
 
+// TODO check after android Q documentation is available, docs says to use Context.createConfigurationContext
+@Suppress("DEPRECATION")
 class CustomResources(
     private val isDarkMode: Boolean,
     asset: AssetManager,

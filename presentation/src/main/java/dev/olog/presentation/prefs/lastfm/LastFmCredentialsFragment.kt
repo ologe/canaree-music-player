@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.olog.presentation.prefs.lastfm
 
 import android.app.Dialog

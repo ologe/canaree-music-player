@@ -1,9 +1,7 @@
 package dev.olog.presentation.prefs.blacklist
 
-import android.content.Context
 import android.os.Environment
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.track.FolderGateway
@@ -11,16 +9,16 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.lazyFast
+import java.util.*
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
-    @ApplicationContext private val context: Context,
     folderGateway: FolderGateway,
     private val appPreferencesUseCase: BlacklistPreferences
 ) {
 
     val data : List<BlacklistModel> by lazyFast {
-        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
+        val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase(Locale.getDefault()) }
         folderGateway.getAllBlacklistedIncluded().map { it.toDisplayableItem(blacklisted) }
     }
 
@@ -30,7 +28,7 @@ class BlacklistFragmentPresenter @Inject constructor(
             getMediaId(),
             this.title,
             this.path,
-            blacklisted.contains(this.path.toLowerCase())
+            blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
         )
     }
 
@@ -53,6 +51,7 @@ data class BlacklistModel(
 ) : BaseModel {
 
     companion object {
+        @Suppress("DEPRECATION")
         private val defaultStorageDir = Environment.getExternalStorageDirectory().path ?: "/storage/emulated/0/"
     }
 

@@ -4,7 +4,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
 import dev.olog.presentation.base.anim.ScaleInOnTouch
 import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 import dev.olog.presentation.base.drag.IDragListener
@@ -60,7 +59,7 @@ fun RecyclerView.ViewHolder.elevateSongOnTouch() {
 }
 
 fun RecyclerView.ViewHolder.setOnDragListener(dragHandleId: Int, dragListener: IDragListener) {
-    itemView.findViewById<View>(dragHandleId)?.setOnTouchListener { view, event ->
+    itemView.findViewById<View>(dragHandleId)?.setOnTouchListener { _, event ->
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 dragListener.onStartDrag(this)

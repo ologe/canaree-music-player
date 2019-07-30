@@ -3,14 +3,14 @@ package dev.olog.presentation.popup.folder
 import android.view.View
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
+import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.intents.AppConstants
 
 class FolderPopup(
     view: View,
-    folder: Folder,
+    @Suppress("UNUSED_PARAMETER") folder: Folder,
     song: Song?,
     listener: AbsPopupListener
 

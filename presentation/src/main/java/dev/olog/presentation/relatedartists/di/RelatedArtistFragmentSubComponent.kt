@@ -1,24 +1,19 @@
 package dev.olog.presentation.relatedartists.di
 
+import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 
-@Subcomponent(modules = arrayOf(
-        RelatedArtistFragmentModule::class
-))
+@Subcomponent(modules = [RelatedArtistFragmentModule::class])
 @PerFragment
 interface RelatedArtistFragmentSubComponent : AndroidInjector<RelatedArtistFragment> {
 
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<RelatedArtistFragment>() {
+    @Subcomponent.Factory
+    interface Builder : AndroidInjector.Factory<RelatedArtistFragment> {
 
-        abstract fun module(module: RelatedArtistFragmentModule): Builder
-
-        override fun seedInstance(instance: RelatedArtistFragment) {
-            module(RelatedArtistFragmentModule(instance))
-        }
+        override fun create(@BindsInstance instance: RelatedArtistFragment): AndroidInjector<RelatedArtistFragment>
     }
 
 }

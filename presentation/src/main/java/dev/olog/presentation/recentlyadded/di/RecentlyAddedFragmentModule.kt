@@ -1,39 +1,34 @@
 package dev.olog.presentation.recentlyadded.di
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import dev.olog.core.MediaId
 import dev.olog.presentation.dagger.ViewModelKey
-import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragmentViewModel
-import dev.olog.core.MediaId
+import dev.olog.shared.android.extensions.getArgument
 
-@Module(includes = [RecentlyAddedFragmentModule.Binding::class])
-class RecentlyAddedFragmentModule(
-        private val fragment: RecentlyAddedFragment
-) {
+@Module
+abstract class RecentlyAddedFragmentModule {
 
-    @Provides
-    @FragmentLifecycle
-    internal fun lifecycle(): Lifecycle = fragment.lifecycle
+    @Binds
+    @IntoMap
+    @ViewModelKey(RecentlyAddedFragmentViewModel::class)
+    abstract fun provideViewModel(factory: RecentlyAddedFragmentViewModel): ViewModel
 
-    @Provides
-    internal fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)!!
-        return MediaId.fromString(mediaId)
-    }
 
     @Module
-    interface Binding {
+    companion object {
 
-        @Binds
-        @IntoMap
-        @ViewModelKey(RecentlyAddedFragmentViewModel::class)
-        fun provideViewModel(factory: RecentlyAddedFragmentViewModel): ViewModel
+        @Provides
+        @JvmStatic
+        internal fun provideMediaId(instance: RecentlyAddedFragment): MediaId {
+            val mediaId = instance.getArgument<String>(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)
+            return MediaId.fromString(mediaId)
+        }
 
     }
 

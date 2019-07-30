@@ -11,6 +11,6 @@ data class DisplayableFile(
 ) : BaseModel {
 
     fun isFile(): Boolean = path != null
-    fun asFile(): File = File(path)
+    fun asFile(): File = File(path!!)
 
 }

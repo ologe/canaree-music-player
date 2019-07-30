@@ -58,6 +58,7 @@ class PlayingQueueFragmentAdapter(
         else context.textColorPrimary()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(
         holder: DataBoundViewHolder,
         position: Int,

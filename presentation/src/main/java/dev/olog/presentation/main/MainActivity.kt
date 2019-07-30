@@ -147,7 +147,7 @@ class MainActivity : MusicGlueActivity(),
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             Shortcuts.DETAIL -> {
-                val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)
+                val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                 val mediaId = MediaId.fromString(string)
                 navigator.toDetailFragment(mediaId)
             }

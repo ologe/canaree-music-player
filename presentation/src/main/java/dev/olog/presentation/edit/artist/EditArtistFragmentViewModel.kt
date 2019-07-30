@@ -7,6 +7,7 @@ import dev.olog.core.entity.track.Song
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
+@Suppress("UNUSED_PARAMETER", "unused")
 class EditArtistFragmentViewModel @Inject constructor(
         private val presenter: EditArtistFragmentPresenter
 

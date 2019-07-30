@@ -1,5 +1,6 @@
 package dev.olog.presentation.popup.main
 
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -72,6 +73,7 @@ class MainPopupDialog @Inject constructor(
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
                         MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
                         MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
+                        else -> Log.w("MainPopup", "not handled $category")
                     }
                 }
             }

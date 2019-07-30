@@ -1,6 +1,5 @@
 package dev.olog.presentation.folder.tree
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Environment
@@ -126,7 +125,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         appPreferencesUseCase.setDefaultMusicFolder(currentFolder)
     }
 
-    @SuppressLint("Recycle")
+    @Suppress("DEPRECATION")
     fun createMediaId(item: DisplayableFile): MediaId? {
         try {
             val file = item.asFile()
@@ -139,11 +138,9 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 arrayOf(BaseColumns._ID),
                 "${MediaStore.Audio.AudioColumns.DATA} = ?",
                 arrayOf(file.path), null
-            )?.let { cursor ->
-
+            )?.use { cursor ->
                 cursor.moveToFirst()
                 val trackId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
-                cursor.close()
                 return MediaId.playableItem(folderMediaId, trackId)
             }
         } catch (ex: CursorIndexOutOfBoundsException) {

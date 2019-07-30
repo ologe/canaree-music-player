@@ -86,22 +86,16 @@ class SearchFragmentViewModel @Inject constructor(
         dataProvider.updateQuery(newQuery.trim())
     }
 
-    fun insertToRecent(mediaId: MediaId) {
-//        insertRecentUse.execute(mediaId)
-//            .subscribe({}, Throwable::printStackTrace)
-//            .addTo(subscriptions)
+    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+        insertRecentUse(mediaId)
     }
 
-    fun deleteFromRecent(mediaId: MediaId) {
-//        deleteRecentSearchUseCase.execute(mediaId)
-//            .subscribe({}, Throwable::printStackTrace)
-//            .addTo(subscriptions)
+    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+        deleteRecentSearchUseCase(mediaId)
     }
 
-    fun clearRecentSearches() {
-//        clearRecentSearchesUseCase.execute()
-//            .subscribe({}, Throwable::printStackTrace)
-//            .addTo(subscriptions)
+    fun clearRecentSearches() = viewModelScope.launch(Dispatchers.IO) {
+        clearRecentSearchesUseCase()
     }
 
 }

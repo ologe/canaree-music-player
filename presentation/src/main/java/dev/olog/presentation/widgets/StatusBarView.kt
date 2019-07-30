@@ -32,7 +32,7 @@ class StatusBarView(
             return
         }
         if (viewHeight == -1){
-            setOnApplyWindowInsetsListener { v, insets ->
+            setOnApplyWindowInsetsListener { _, insets ->
                 val height = insets?.systemWindowInsetTop ?: 0
                 setHeight(height)
                 viewHeight = height

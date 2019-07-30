@@ -10,7 +10,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.Stylizer
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
-import dev.olog.presentation.edit.*
+import dev.olog.presentation.edit.BaseEditItemFragment
+import dev.olog.presentation.edit.EditItemViewModel
+import dev.olog.presentation.edit.UpdateSongInfo
 import dev.olog.presentation.edit.model.LoadImageType
 import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.edit.model.UpdateResult
@@ -192,7 +194,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             .build()
 //        SplitInstallErrorCode
         splitInstallManager.startInstall(request)
-            .addOnSuccessListener { sessionId ->
+            .addOnSuccessListener { _ ->
                 hideLoader()
                 continuation.resume(Stylizer.loadClass(requireContext()))
             }
