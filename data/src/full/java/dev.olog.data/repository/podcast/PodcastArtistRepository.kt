@@ -99,9 +99,9 @@ internal class PodcastArtistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeSiblings(id: Id): Flow<List<Artist>> {
+    override fun observeSiblings(param: Id): Flow<List<Artist>> {
         return observeAll()
-            .map { it.filter { it.id != id } }
+            .map { it.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }

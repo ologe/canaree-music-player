@@ -149,9 +149,9 @@ internal class PlaylistRepository @Inject constructor(
         )
     }
 
-    override fun observeSiblings(id: Id): Flow<List<Playlist>> {
+    override fun observeSiblings(param: Id): Flow<List<Playlist>> {
         return observeAll()
-            .map { it.filter { it.id != id } }
+            .map { it.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }

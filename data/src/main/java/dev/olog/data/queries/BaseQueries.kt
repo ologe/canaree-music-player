@@ -9,6 +9,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import java.util.concurrent.TimeUnit
 
+@Suppress("DEPRECATION")
 abstract class BaseQueries(
     protected val blacklistPrefs: BlacklistPreferences,
     protected val sortPrefs: SortPreferences,

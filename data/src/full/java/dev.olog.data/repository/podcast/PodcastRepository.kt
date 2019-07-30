@@ -68,8 +68,8 @@ internal class PodcastRepository @Inject constructor(
         return deleteInternal(id)
     }
 
-    override suspend fun deleteGroup(ids: List<Song>) {
-        for (id in ids) {
+    override suspend fun deleteGroup(podcastList: List<Song>) {
+        for (id in podcastList) {
             deleteInternal(id.id)
         }
     }

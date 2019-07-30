@@ -30,6 +30,7 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
+    kotlinOptions.allWarningsAsErrors = true
 }
 
 apply from: '../kapt.gradle'

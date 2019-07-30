@@ -9,6 +9,7 @@ import dev.olog.core.gateway.base.Path
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
+@Suppress("DEPRECATION")
 internal class FolderQueries(
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,

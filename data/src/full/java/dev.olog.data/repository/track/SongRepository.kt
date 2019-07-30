@@ -1,6 +1,5 @@
 package dev.olog.data.repository.track
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -8,7 +7,6 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.provider.MediaStore.Audio
 import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
@@ -21,12 +19,7 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.getLong
-import dev.olog.data.utils.getString
-import dev.olog.data.utils.queryAll
-import dev.olog.data.utils.queryOne
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -97,6 +90,7 @@ internal class SongRepository @Inject constructor(
         return getByParam(id)
     }
 
+    @Suppress("DEPRECATION")
     private fun getByUriInternal(uri: Uri): String? {
         if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
             when (uri.authority) {
@@ -116,7 +110,7 @@ internal class SongRepository @Inject constructor(
             }
         }
         if (songFile == null && uri.path != null) {
-            songFile = File(uri.path)
+            songFile = File(uri.path!!)
         }
 
         var songId: String? = null
@@ -124,12 +118,11 @@ internal class SongRepository @Inject constructor(
         if (songFile != null) {
             context.contentResolver.query(
                 Audio.Media.EXTERNAL_CONTENT_URI, arrayOf(BaseColumns._ID),
-                "${MediaStore.Audio.AudioColumns.DATA} = ?",
+                "${Audio.AudioColumns.DATA} = ?",
                 arrayOf(songFile!!.absolutePath), null
-            )?.let { cursor ->
+            )?.use { cursor ->
                 cursor.moveToFirst()
                 songId = "${cursor.getLong(BaseColumns._ID)}"
-                cursor.close()
             }
         }
 
@@ -137,17 +130,15 @@ internal class SongRepository @Inject constructor(
         return songId
     }
 
-    @SuppressLint("Recycle")
+    @Suppress("DEPRECATION")
     private fun getFilePathFromUri(uri: Uri): String? {
         var path: String? = null
         context.contentResolver.query(
             uri, arrayOf(Audio.Media.DATA),
             null, null, null
-        )?.let { cursor ->
+        )?.use { cursor ->
             cursor.moveToFirst()
-
             path = cursor.getString(Audio.Media.DATA)
-            cursor.close()
         }
         return path
     }

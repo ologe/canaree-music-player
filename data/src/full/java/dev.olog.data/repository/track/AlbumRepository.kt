@@ -103,13 +103,13 @@ internal class AlbumRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeSiblings(id: Id): Flow<List<Album>> {
+    override fun observeSiblings(param: Id): Flow<List<Album>> {
         return observeAll()
             .map {
-                val artistId = it.find { it.id == id }?.artistId ?: -1
+                val artistId = it.find { it.id == param }?.artistId ?: -1
                 it.asSequence()
                     .filter { it.artistId == artistId }
-                    .filter { it.id != id }
+                    .filter { it.id != param }
                     .toList()
             }
             .distinctUntilChanged()

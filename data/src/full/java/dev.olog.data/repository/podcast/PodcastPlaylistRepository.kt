@@ -1,7 +1,5 @@
 package dev.olog.data.repository.podcast
 
-import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.id
@@ -25,7 +23,6 @@ import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
-    @ApplicationContext context: Context,
     appDatabase: AppDatabase,
     private val favoriteGateway: FavoriteGateway
 ) : PodcastPlaylistGateway {
@@ -69,9 +66,9 @@ internal class PodcastPlaylistRepository @Inject constructor(
         TODO()
     }
 
-    override fun observeSiblings(id: Id): Flow<List<Playlist>> {
+    override fun observeSiblings(param: Id): Flow<List<Playlist>> {
         return observeAll()
-            .map { it.filter { it.id != id } }
+            .map { it.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }

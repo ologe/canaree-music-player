@@ -79,9 +79,9 @@ internal class GenreRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeSiblings(id: Id): Flow<List<Genre>> {
+    override fun observeSiblings(param: Id): Flow<List<Genre>> {
         return observeAll()
-            .map { it.filter { it.id != id } }
+            .map { it.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }
@@ -110,10 +110,10 @@ internal class GenreRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeRecentlyAdded(id: Id): Flow<List<Song>> {
+    override fun observeRecentlyAdded(path: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(id)
+            val cursor = queries.getRecentlyAdded(path)
             contentResolver.queryAll(cursor) { it.toSong() }
         }
     }

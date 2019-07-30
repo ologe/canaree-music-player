@@ -9,6 +9,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
+@Suppress("DEPRECATION")
 internal class GenreQueries(
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
@@ -26,17 +27,17 @@ internal class GenreQueries(
         return contentResolver.querySql(query)
     }
 
-    fun getById(id: Id): Cursor {
-
-        val query = """
-            SELECT $_ID, $NAME
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE $_ID = ?
-            ORDER BY $DEFAULT_SORT_ORDER
-        """
-
-        return contentResolver.querySql(query)
-    }
+//    fun getById(id: Id): Cursor {
+//
+//        val query = """
+//            SELECT $_ID, $NAME
+//            FROM $EXTERNAL_CONTENT_URI
+//            WHERE $_ID = ?
+//            ORDER BY $DEFAULT_SORT_ORDER
+//        """
+//
+//        return contentResolver.querySql(query)
+//    }
 
     fun countGenreSize(genreId: Id): Cursor {
         val query = """

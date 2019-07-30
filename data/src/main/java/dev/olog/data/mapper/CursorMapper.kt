@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.olog.data.mapper
 
 import android.database.Cursor

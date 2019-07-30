@@ -46,6 +46,7 @@ internal class FolderRepository @Inject constructor(
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }
 
+    @Suppress("DEPRECATION")
     private fun extractFolders(cursor: Cursor): List<Folder> {
         assertBackgroundThread()
         val pathList = context.contentResolver.queryAll(cursor) {
@@ -125,9 +126,9 @@ internal class FolderRepository @Inject constructor(
         )
     }
 
-    override fun observeSiblings(path: Path): Flow<List<Folder>> {
+    override fun observeSiblings(param: Path): Flow<List<Folder>> {
         return observeAll()
-            .map { it.filter { it.path != path } }
+            .map { it.filter { it.path != param } }
             .distinctUntilChanged()
             .assertBackground()
     }

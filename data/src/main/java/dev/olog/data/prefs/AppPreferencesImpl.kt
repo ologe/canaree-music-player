@@ -61,6 +61,7 @@ class AppPreferencesImpl @Inject constructor(
         setDefaultTheme()
         setLastFmCredentials(UserCredentials("", ""))
         setDefaultFolderView()
+        @Suppress("DEPRECATION")
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
         setDefaultLibraryAlbumArtistVisibility()
         setDefaultAdaptiveColors()
@@ -165,6 +166,7 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun defaultFolder(): String {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
         var startFolder = Environment.getRootDirectory()
@@ -185,7 +187,7 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun getDefaultMusicFolder(): File {
-        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder()))
+        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())!!)
     }
 
     override fun setDefaultMusicFolder(file: File) {

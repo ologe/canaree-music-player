@@ -10,6 +10,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
+@Suppress("DEPRECATION")
 internal class TrackQueries(
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,

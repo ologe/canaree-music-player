@@ -41,20 +41,22 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return ContentUris.parseId(uri)
     }
 
-    override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>){
+    override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
         assertBackgroundThread()
 
         val uri = Playlists.Members.getContentUri("external", playlistId)
 
-        val cursor = context.contentResolver.querySql("""
+        val cursor = context.contentResolver.querySql(
+            """
             SELECT ${Playlists.Members.PLAY_ORDER}
             FROM $uri
             ORDER BY ${Playlists.Members.PLAY_ORDER} DESC
             LIMIT 1
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         var lastPlayOrder = cursor.use {
-            if (it.moveToFirst()){
+            if (it.moveToFirst()) {
                 it.getInt(0) + 1
             } else {
                 1
@@ -76,7 +78,11 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun deletePlaylist(playlistId: Long) {
-        context.contentResolver.delete(Playlists.EXTERNAL_CONTENT_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
+        context.contentResolver.delete(
+            Playlists.EXTERNAL_CONTENT_URI,
+            "${BaseColumns._ID} = ?",
+            arrayOf("$playlistId")
+        )
     }
 
     override suspend fun clearPlaylist(playlistId: Long) {
@@ -97,7 +103,11 @@ internal class PlaylistRepositoryHelper @Inject constructor(
             removeFromAutoPlaylist(playlistId, idInPlaylist)
         } else {
             val uri = Playlists.Members.getContentUri("external", playlistId)
-            context.contentResolver.delete(uri, "${Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
+            context.contentResolver.delete(
+                uri,
+                "${Playlists.Members._ID} = ?",
+                arrayOf("$idInPlaylist")
+            )
         }
     }
 
@@ -110,23 +120,30 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun renamePlaylist(playlistId: Long, newTitle: String) {
-        val values = ContentValues(1)
-        values.put(Playlists.NAME, newTitle)
+        val values = ContentValues(1).apply {
+            put(Playlists.NAME, newTitle)
+        }
 
-        val rowsUpdated = context.contentResolver.update(Playlists.EXTERNAL_CONTENT_URI,
-            values, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
+        context.contentResolver.update(
+            Playlists.EXTERNAL_CONTENT_URI,
+            values,
+            "${BaseColumns._ID} = ?",
+            arrayOf("$playlistId")
+        )
     }
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
         return Playlists.Members.moveItem(context.contentResolver, playlistId, from, to)
     }
 
-    override suspend fun removeDuplicated(playlistId: Long){
+    override suspend fun removeDuplicated(playlistId: Long) {
         val uri = Playlists.Members.getContentUri("external", playlistId)
-        val cursor = context.contentResolver.query(uri, arrayOf(
-            Playlists.Members._ID,
-            Playlists.Members.AUDIO_ID
-        ), null, null, Playlists.Members.DEFAULT_SORT_ORDER)
+        val cursor = context.contentResolver.query(
+            uri, arrayOf(
+                Playlists.Members._ID,
+                Playlists.Members.AUDIO_ID
+            ), null, null, Playlists.Members.DEFAULT_SORT_ORDER
+        )
 
         val distinctTrackIds = mutableSetOf<Long>()
 

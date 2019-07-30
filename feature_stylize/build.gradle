@@ -42,6 +42,7 @@ android {
         preDexLibraries true
     }
 
+    kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {
