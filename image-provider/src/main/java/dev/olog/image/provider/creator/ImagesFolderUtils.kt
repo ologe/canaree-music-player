@@ -10,41 +10,6 @@ object ImagesFolderUtils {
     const val PLAYLIST = "playlist"
     const val GENRE = "genre"
 
-    fun isChoosedImage(image: String): Boolean {
-        return image.startsWith("content://com.android.providers.media.documents/document")
-    }
-
-    fun forFolder(context: Context, folderPath: String): String {
-        val normalizedPath = folderPath.replace(File.separator, "")
-        return getImageImpl(context, FOLDER, normalizedPath)
-    }
-
-    fun forPlaylist(context: Context, playlistId: Long): String {
-        return getImageImpl(context, PLAYLIST, playlistId.toString())
-    }
-
-    fun forGenre(context: Context, genreId: Long): String {
-        return getImageImpl(context, GENRE, genreId.toString())
-    }
-
-    private fun getImageImpl(context: Context, parent: String, child: String): String {
-        val folder = getImageFolderFor(context, parent)
-        return findImage(folder, child) ?: ""
-    }
-
-    private fun findImage(directory: File, childId: String): String? {
-        for (child in directory.listFiles()) {
-            val indexOfUnderscore = child.name.indexOf("_")
-            if (indexOfUnderscore != -1) {
-                val searchedName = child.name.substring(0, indexOfUnderscore)
-                if (searchedName == childId) {
-                    return child.path
-                }
-            }
-        }
-        return null
-    }
-
     fun getImageFolderFor(context: Context, entity: String): File {
         val folder = File("${context.applicationInfo.dataDir}${File.separator}$entity")
         if (!folder.exists()) {

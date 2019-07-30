@@ -54,7 +54,7 @@ internal object MergedImagesCreator {
         if (uris.isEmpty()) {
             // new requested image has no childs, delete old if exists
             imageDirectory.listFiles()
-                .firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
+                ?.firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
                 ?.delete()
             return null
         }
@@ -62,8 +62,8 @@ internal object MergedImagesCreator {
         val albumsId = uris.map { it.id }
 
         // search for old image
-        val oldImage = imageDirectory
-            .listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
+        val oldImage = imageDirectory.listFiles()
+            ?.firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
 
         if (oldImage != null) { // image found
             val fileImageName = oldImage.extractImageName()

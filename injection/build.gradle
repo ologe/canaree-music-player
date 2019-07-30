@@ -15,6 +15,9 @@ android {
             buildConfigField 'String', "AES_PASSWORD", aes_password
         }
     }
+
+    kotlinOptions.allWarningsAsErrors = true
+
 }
 
 apply from: '../kapt.gradle'
