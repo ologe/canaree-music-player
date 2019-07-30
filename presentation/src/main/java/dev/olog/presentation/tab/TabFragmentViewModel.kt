@@ -19,13 +19,14 @@ internal class TabFragmentViewModel @Inject constructor(
 
     private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
 
+    @Suppress("UNNECESSARY_NOT_NULL_ASSERTION") // kotlin compiler error
     suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
         return withContext(Dispatchers.Default) {
             var liveData = liveDataMap[category]
             if (liveData == null) {
                 liveData = dataProvider.get(category).asLiveData()
             }
-            liveData
+            liveData!!
         }
     }
 

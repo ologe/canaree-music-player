@@ -29,8 +29,8 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 if (appWidgetIds?.isNotEmpty() == true){
 
                     val id = intent.getLongExtra(WidgetConstants.ARGUMENT_SONG_ID, 0)
-                    val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)
-                    val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)
+                    val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)!!
+                    val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)!!
                     metadata =
                         WidgetMetadata(id, title, subtitle)
                     onMetadataChanged(context, metadata!!, appWidgetIds)

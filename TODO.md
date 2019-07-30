@@ -8,6 +8,7 @@
 - made sleep timer top and bottom curved
 - added check last fm authentication 
 - re add podcast auto playlist
+- try colored shadow in shape image view
 
 ### bug
 - big image layout has problems with loading images 
