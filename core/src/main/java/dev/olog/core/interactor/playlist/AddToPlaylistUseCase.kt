@@ -2,48 +2,34 @@ package dev.olog.core.interactor.playlist
 
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
+import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import javax.inject.Inject
 
 class AddToPlaylistUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
-    private val getSongUseCase: SongGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val getPodcastUseCase: PodcastGateway,
-    private val getSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
 
-    operator fun invoke(playlist: Playlist, mediaId: MediaId) {
-        TODO()
+    suspend operator fun invoke(playlist: Playlist, mediaId: MediaId) {
+        if (mediaId.isLeaf && mediaId.isPodcast) {
+            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId))
+            return
+        }
 
-//        if (mediaId.isLeaf && mediaId.isPodcast){
-//            return getPodcastUseCase.execute(mediaId)
-//                    .firstOrError()
-//                    .flatMapCompletable { podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
-//        }
-//
-//        if (mediaId.isLeaf) {
-//            return getSongUseCase.execute(mediaId)
-//                    .firstOrError()
-//                    .flatMapCompletable { playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId)) }
-//        }
-//
-//        return getSongListByParamUseCase(mediaId)
-//                .asFlowable()
-//                .firstOrError()
-//                .mapToList { it.id }
-//                .flatMapCompletable {
-//                    if (mediaId.isAnyPodcast){
-//                        podcastPlaylistGateway.addSongsToPlaylist(playlist.id, it)
-//                    } else {
-//                        playlistGateway.addSongsToPlaylist(playlist.id, it)
-//                    }
-//
-//                }
+        if (mediaId.isLeaf) {
+            playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId))
+            return
+        }
+
+        val songList = getSongListByParamUseCase(mediaId).map { it.id }
+        if (mediaId.isAnyPodcast) {
+            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, songList)
+        } else {
+            playlistGateway.addSongsToPlaylist(playlist.id, songList)
+        }
     }
 }

@@ -13,9 +13,9 @@ class ObserveDetailSortUseCase @Inject constructor(
 
 ) : FlowUseCaseWithParam<SortEntity, MediaId>() {
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<SortEntity> {
-        val category = mediaId.category
-        return when (category) {
+        return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> gateway.observeDetailFolderSort()
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> gateway.observeDetailPlaylistSort()

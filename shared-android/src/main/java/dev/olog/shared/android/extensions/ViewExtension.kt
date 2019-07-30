@@ -103,6 +103,7 @@ fun ViewGroup.findChild(filter: (View) -> Boolean): View? {
     return child
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T : View> View.findViewByIdNotRecursive(id: Int): T? {
     if (this is ViewGroup) {
         forEach { child ->

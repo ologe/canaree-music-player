@@ -20,6 +20,7 @@ class ObserveRelatedArtistsUseCase @Inject constructor(
 
 ) : FlowUseCaseWithParam<List<Artist>, MediaId>() {
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCase(mediaId: MediaId): Flow<List<Artist>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeRelatedArtists(mediaId.categoryValue)
