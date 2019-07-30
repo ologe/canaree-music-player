@@ -22,6 +22,7 @@ abstract class BillingConnection(
 
     protected val billingClient: BillingClient = BillingClient.newBuilder(activity)
         .setListener(this)
+        .enablePendingPurchases()
         .build()
 
     protected fun doOnConnected(func: (() -> Unit)?) {

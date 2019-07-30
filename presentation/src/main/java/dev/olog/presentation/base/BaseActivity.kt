@@ -4,13 +4,20 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
-import dagger.android.support.DaggerAppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dev.olog.presentation.R
 import dev.olog.presentation.main.CustomResources
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.theme.isImmersiveMode
+import javax.inject.Inject
 
-abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
+abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInjector {
+
+    @Inject
+    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private var customResources: Resources? = null
 
@@ -39,5 +46,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
         }
         return customResources!!
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
 }

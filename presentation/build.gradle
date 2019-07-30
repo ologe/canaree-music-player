@@ -22,7 +22,7 @@ android {
 
     dataBinding.enabled = true
 
-    kotlinOptions.allWarningsAsErrors = true
+//    kotlinOptions.allWarningsAsErrors = true
 
 }
 
