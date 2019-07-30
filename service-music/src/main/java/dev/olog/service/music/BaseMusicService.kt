@@ -77,7 +77,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             MusicServiceCustomAction.REPLAY_10 -> handleReplay10(intent)
             MusicServiceCustomAction.REPLAY_30 -> handleReplay30(intent)
             MusicServiceCustomAction.TOGGLE_FAVORITE -> handleToggleFavorite()
-            else -> throw IllegalArgumentException("invalid action $musicServiceCustomAction")
+            else -> {}
         }
 
         when (intent.action) {
