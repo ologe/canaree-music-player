@@ -18,6 +18,9 @@ android {
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
         }
     }
+
+    kotlinOptions.allWarningsAsErrors = true
+
 }
 
 apply from: '../kapt.gradle'

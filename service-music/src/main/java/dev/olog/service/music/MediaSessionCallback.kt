@@ -72,13 +72,13 @@ internal class MediaSessionCallback @Inject constructor(
         TODO()
     }
 
-    override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        Log.v(TAG, "onPlayFromMediaId mediaId=$mediaId, extras=$extras")
+    override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
+        Log.v(TAG, "onPlayFromMediaId mediaId=$stringMediaId, extras=$extras")
 
         retrieveAndPlay {
             updatePodcastPosition()
 
-            when (val mediaId = MediaId.fromString(mediaId)) {
+            when (val mediaId = MediaId.fromString(stringMediaId)) {
                 MediaId.shuffleId() -> {
                     // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
                     queue.handlePlayShuffle(mediaId, null)
@@ -303,9 +303,9 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
-        val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+        val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)!!
         Log.v(TAG, "onMediaButtonEvent, action=${event.action}, keycode=${event.keyCode}")
-        if (event.action == KeyEvent.ACTION_DOWN) { // TODO or maybe is better action up??
+        if (event.action == KeyEvent.ACTION_DOWN) {
 
             when (event.keyCode) {
                 KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> handlePlayPause()

@@ -69,7 +69,6 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {
-        val entity = playerModel.mediaEntity
         player.prepare(playerModel, playerModel.bookmark)
 
         playerState.prepare(playerModel.bookmark)

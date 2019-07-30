@@ -19,10 +19,7 @@ import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.channels.filter
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @PerService
@@ -66,28 +63,14 @@ internal class MusicNotificationManager @Inject constructor(
         playerLifecycle.addListener(playerListener)
 
         launch {
-            for (event in filterEvents(publisher)) {
-                Log.v(TAG, "on next event $event")
-
-                publishJob?.cancel()
-                when (event){
-                    is Event.Metadata -> {
-                        if (currentState.updateMetadata(event.entity)) {
-                            publishNotification(currentState.copy(), METADATA_PUBLISH_DELAY)
-                        }
+            publisher.consumeAsFlow()
+                .filter { event ->
+                    when (event) {
+                        is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
+                        is Event.State -> currentState.isDifferentState(event.state)
+                        is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
                     }
-                    is Event.State -> {
-                        if (currentState.updateState(event.state)){
-                            publishNotification(currentState.copy(), STATE_PUBLISH_DELAY)
-                        }
-                    }
-                    is Event.Favorite -> {
-                        if (currentState.updateFavorite(event.favorite)){
-                            publishNotification(currentState.copy(), FAVORITE_PUBLISH_DELAY)
-                        }
-                    }
-                }
-            }
+                }.collect { consumeEvent(it) }
         }
 
         launch {
@@ -97,12 +80,25 @@ internal class MusicNotificationManager @Inject constructor(
         }
     }
 
-    private fun filterEvents(channel: ReceiveChannel<Event>): ReceiveChannel<Event> {
-        return channel.filter { event ->
-            when (event){
-                is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
-                is Event.State -> currentState.isDifferentState(event.state)
-                is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
+    private fun consumeEvent(event: Event){
+        Log.v(TAG, "on next event $event")
+
+        publishJob?.cancel()
+        when (event){
+            is Event.Metadata -> {
+                if (currentState.updateMetadata(event.entity)) {
+                    publishNotification(currentState.copy(), METADATA_PUBLISH_DELAY)
+                }
+            }
+            is Event.State -> {
+                if (currentState.updateState(event.state)){
+                    publishNotification(currentState.copy(), STATE_PUBLISH_DELAY)
+                }
+            }
+            is Event.Favorite -> {
+                if (currentState.updateFavorite(event.favorite)){
+                    publishNotification(currentState.copy(), FAVORITE_PUBLISH_DELAY)
+                }
             }
         }
     }
