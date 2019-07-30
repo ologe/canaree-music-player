@@ -5,7 +5,10 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
-import com.google.android.material.shape.*
+import com.google.android.material.shape.CutCornerTreatment
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.RoundedCornerTreatment
+import com.google.android.material.shape.ShapeAppearanceModel
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.HasImageShape
@@ -61,8 +64,6 @@ open class ShapeImageView @JvmOverloads constructor(
             setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
         }
         squareShapeModel = ShapeAppearanceModel()
-
-        ShapeAppearanceModel()
     }
 
     override fun onAttachedToWindow() {
@@ -76,6 +77,7 @@ open class ShapeImageView @JvmOverloads constructor(
         job = GlobalScope.launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null
+                updateBackground(getShapeModel(imageShape))
             }
         }
     }
@@ -88,24 +90,39 @@ open class ShapeImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (!isInEditMode) {
-            getMask()?.let { canvas.drawBitmap(it, 0f, 0f, paint) }
+            getMask()?.let {
+                canvas.drawBitmap(it, 0f, 0f, paint)
+            }
         }
     }
 
     private fun getMask(): Bitmap? {
         if (mask == null) {
-            mask = when (hasImageShape.getImageShape()) {
-                ImageShape.ROUND -> buildMaskShape(roundedShapeModel)
-                ImageShape.CUT_CORNER -> buildMaskShape(cutCornerShapeModel)
-                ImageShape.RECTANGLE -> buildMaskShape(squareShapeModel)
-            }
+            mask = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
         }
         return mask
     }
 
-    private fun buildMaskShape(shape: ShapeAppearanceModel): Bitmap{
+    private fun getShapeModel(imageShape: ImageShape): ShapeAppearanceModel{
+        return when (imageShape) {
+            ImageShape.ROUND -> roundedShapeModel
+            ImageShape.CUT_CORNER -> cutCornerShapeModel
+            ImageShape.RECTANGLE -> squareShapeModel
+        }
+    }
+
+    private fun buildMaskShape(shape: ShapeAppearanceModel): Bitmap? {
+        if (width > 0 && height > 0){
+            val drawable = MaterialShapeDrawable(shape)
+            return drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
+        } else {
+            return null
+        }
+    }
+
+    private fun updateBackground(shape: ShapeAppearanceModel){
         val drawable = MaterialShapeDrawable(shape)
-        return drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
+        background = drawable
     }
 
 }
