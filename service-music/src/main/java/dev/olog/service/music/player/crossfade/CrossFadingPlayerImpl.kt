@@ -43,7 +43,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     init {
         player.addListener(this)
         player.playbackParameters = PlaybackParameters(1f, 1f, true)
-        player.addAudioDebugListener(onAudioSessionIdChangeListener)
+        player.addAudioListener(onAudioSessionIdChangeListener)
 
         launch {
             flowInterval(1, TimeUnit.SECONDS)
@@ -67,7 +67,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         player.removeListener(this)
-        player.removeAudioDebugListener(onAudioSessionIdChangeListener)
+        player.removeAudioListener(onAudioSessionIdChangeListener)
         cancelFade()
         cancel()
     }

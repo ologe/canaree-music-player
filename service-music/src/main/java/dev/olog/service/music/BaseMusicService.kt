@@ -15,6 +15,7 @@ import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.ServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -76,6 +77,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             MusicServiceCustomAction.REPLAY_10 -> handleReplay10(intent)
             MusicServiceCustomAction.REPLAY_30 -> handleReplay30(intent)
             MusicServiceCustomAction.TOGGLE_FAVORITE -> handleToggleFavorite()
+            else -> throw IllegalArgumentException("invalid action $musicServiceCustomAction")
         }
 
         when (intent.action) {

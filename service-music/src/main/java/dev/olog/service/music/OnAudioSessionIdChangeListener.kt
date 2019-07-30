@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.exoplayer2.Format
-import com.google.android.exoplayer2.audio.AudioRendererEventListener
-import com.google.android.exoplayer2.decoder.DecoderCounters
+import com.google.android.exoplayer2.audio.AudioListener
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.injection.equalizer.IBassBoost
@@ -22,7 +20,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     private val virtualizer: IVirtualizer,
     private val bassBoost: IBassBoost
 
-) : AudioRendererEventListener,
+) : AudioListener,
     DefaultLifecycleObserver,
     CoroutineScope by MainScope() {
 
@@ -64,24 +62,4 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         virtualizer.release()
         bassBoost.release()
     }
-
-    override fun onAudioSinkUnderrun(
-        bufferSize: Int,
-        bufferSizeMs: Long,
-        elapsedSinceLastFeedMs: Long
-    ) {
-    }
-
-    override fun onAudioEnabled(counters: DecoderCounters?) {}
-
-    override fun onAudioInputFormatChanged(format: Format?) {}
-
-    override fun onAudioDecoderInitialized(
-        decoderName: String?,
-        initializedTimestampMs: Long,
-        initializationDurationMs: Long
-    ) {
-    }
-
-    override fun onAudioDisabled(counters: DecoderCounters?) {}
 }

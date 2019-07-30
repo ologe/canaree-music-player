@@ -4,13 +4,20 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.track.Song
+import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
+import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
 import dev.olog.shared.swap
@@ -31,7 +38,9 @@ internal class QueueImpl @Inject constructor(
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val queueMediaSession: MediaSessionQueue,
-    private val enhancedShuffle: EnhancedShuffle
+    private val enhancedShuffle: EnhancedShuffle,
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
 
@@ -336,59 +345,63 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
-        TODO()
-//        assertBackgroundThread()
-//
-//        val queue = playingQueue.toList() // work on a copy
-//
-//        val songList: List<MediaEntity> = songIds.mapNotNull {
-//            val track: Song? = if (isPodcast) {
-//                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
-//                podcastGateway.getByParam(mediaId.categoryId)
-//            } else {
-//                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
-//                songGateway.getByParam(mediaId.categoryId)
-//            }
-//            track
-//        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
-//
-//        val newQueue = (queue + songList).mapIndexed { index, mediaEntity ->
-//            mediaEntity.copy(idInPlaylist = index)
-//        }
-//
-//        withContext(Dispatchers.Main) {
-//            onRepeatModeChanged() // not really but updates mini queue
-//        }
+        // TODO
+        assertBackgroundThread()
+
+        val queue = playingQueue.toList() // work on a copy
+
+        val songList: List<MediaEntity> = songIds.mapNotNull {
+            val track: Song? = if (isPodcast) {
+                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
+                podcastGateway.getByParam(mediaId.categoryId)
+            } else {
+                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
+                songGateway.getByParam(mediaId.categoryId)
+            }
+            track
+        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
+
+        val newQueue = (queue + songList).mapIndexed { index, mediaEntity ->
+            mediaEntity.copy(idInPlaylist = index)
+        }
+
+        updateState(newQueue, currentSongPosition, false, true)
+
+
+        withContext(Dispatchers.Main) {
+            onRepeatModeChanged() // not really but updates mini queue
+        }
     }
 
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
-        TODO()
-        // TODO not working
-//        assertBackgroundThread()
-//        val queue = playingQueue.toList() // work on a copy
+        // TODO
+        assertBackgroundThread()
+        val queue = playingQueue.toList() // work on a copy
 //
 //         | 0 | 1 | 2 | 3 | 4 | 5 |
-//        val before = queue.take(currentSongPosition)
-//        val after = queue.drop(currentSongPosition + 1)
-//
-//        val songList: List<MediaEntity> = songIds.mapNotNull {
-//            val track: Song? = if (isPodcast) {
-//                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
-//                podcastGateway.getByParam(mediaId.categoryId)
-//            } else {
-//                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
-//                songGateway.getByParam(mediaId.categoryId)
-//            }
-//            track
-//        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
-//
-//        val newQueue = (before + songList + after).mapIndexed { index, mediaEntity ->
-//            mediaEntity.copy(idInPlaylist = index)
-//        }
-//
-//        withContext(Dispatchers.Main) {
-//            onRepeatModeChanged() // not really but updates mini queue
-//        }
+        val before = queue.take(currentSongPosition)
+        val after = queue.drop(currentSongPosition + 1)
+
+        val songList: List<MediaEntity> = songIds.mapNotNull {
+            val track: Song? = if (isPodcast) {
+                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
+                podcastGateway.getByParam(mediaId.categoryId)
+            } else {
+                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
+                songGateway.getByParam(mediaId.categoryId)
+            }
+            track
+        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
+
+        val newQueue = (before + songList + after).mapIndexed { index, mediaEntity ->
+            mediaEntity.copy(idInPlaylist = index)
+        }
+
+        updateState(newQueue, currentSongPosition, false, true)
+
+        withContext(Dispatchers.Main) {
+            onRepeatModeChanged() // not really but updates mini queue
+        }
     }
 
 
