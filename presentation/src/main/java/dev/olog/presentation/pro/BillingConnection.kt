@@ -6,6 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dev.olog.shared.android.extensions.toast
 
@@ -30,11 +31,10 @@ abstract class BillingConnection(
         }
 
         billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(responseCode: Int) {
-
-                when (responseCode) {
-                    BillingClient.BillingResponse.OK -> isConnected = true
-                    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> activity.toast("Play store not found")
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                when (billingResult.responseCode) {
+                    BillingClient.BillingResponseCode.OK -> isConnected = true
+                    BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> activity.toast("Play store not found")
                 }
                 func?.invoke()
             }

@@ -17,7 +17,7 @@ ext {
     android_x_coordinator = '1.1.0-beta01'
     constraint_layout = '2.0.0-beta2'
     lifecycle = '2.1.0-beta01'
-    billing = '1.2.2'
+    billing = '2.0.1'
     play_core = '1.6.1'
 
 //    ui

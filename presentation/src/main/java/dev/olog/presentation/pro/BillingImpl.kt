@@ -1,11 +1,9 @@
 package dev.olog.presentation.pro
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.*
 import dev.olog.core.interactor.ResetPreferencesUseCase
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -78,19 +76,22 @@ class BillingImpl @Inject constructor(
 
     private fun checkPurchases() {
         val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (purchases.responseCode == BillingClient.BillingResponse.OK) {
+        if (purchases.responseCode == BillingClient.BillingResponseCode.OK) {
             isPremiumState = isProBought(purchases.purchasesList)
         }
     }
 
-    @SuppressLint("SwitchIntDef")
-    override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
-        when (responseCode) {
-            BillingClient.BillingResponse.OK -> {
+    override fun onPurchasesUpdated(
+        billingResult: BillingResult,
+        purchases: MutableList<Purchase>?
+    ) {
+        when (billingResult.responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
                 isPremiumState = isProBought(purchases)
             }
             // TODO add missing
-//            else -> Log.w("Billing", "billing response code=$responseCode")
+            else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +
+                    "error=${billingResult.debugMessage}")
         }
     }
 
@@ -114,12 +115,18 @@ class BillingImpl @Inject constructor(
 
     override fun purchasePremium() {
         doOnConnected {
-            val params = BillingFlowParams.newBuilder()
-                .setSku(PRO_VERSION_ID)
+            val params = SkuDetailsParams.newBuilder()
+            params.setSkusList(listOf(PRO_VERSION_ID))
                 .setType(BillingClient.SkuType.INAPP)
-                .build()
 
-            billingClient.launchBillingFlow(activity, params)
+            billingClient.querySkuDetailsAsync(params.build()) { result, skuDetailsList ->
+                if (result.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList?.isNotEmpty() == true) {
+                    val flowParams = BillingFlowParams.newBuilder()
+                        .setSkuDetails(skuDetailsList[0])
+                        .build()
+                    billingClient.launchBillingFlow(activity, flowParams)
+                }
+            }
         }
     }
 
