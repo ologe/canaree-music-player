@@ -3,6 +3,7 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
 
@@ -110,6 +111,7 @@ dependencies {
 
     // firebase
     implementation lib_analytics.core
+    implementation lib_analytics.perf
     implementation(lib_analytics.crashlytics) {
         transitive = true
     }

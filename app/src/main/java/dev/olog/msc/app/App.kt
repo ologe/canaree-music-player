@@ -1,6 +1,5 @@
 package dev.olog.msc.app
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
@@ -8,7 +7,7 @@ import com.google.android.play.core.splitcompat.SplitCompat
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasBroadcastReceiverInjector
+import dagger.android.HasAndroidInjector
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.injection.CoreComponent
@@ -17,12 +16,13 @@ import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
-class App : ThemedApp(), HasBroadcastReceiverInjector {
-
-    @Inject
-    internal lateinit var broadcastInjector: DispatchingAndroidInjector<BroadcastReceiver>
+class App : ThemedApp(), HasAndroidInjector {
 
     private lateinit var appShortcuts: AppShortcuts
+
+    @Inject
+    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -70,5 +70,5 @@ class App : ThemedApp(), HasBroadcastReceiverInjector {
         SplitCompat.install(this)
     }
 
-    override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> = broadcastInjector
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

@@ -45,7 +45,7 @@ class LastFmModule {
             val request = original.newBuilder()
                 .header("User-Agent", context.packageName)
                 .addHeader("Content-Type", "application/json; charset=utf-8")
-                .method(original.method(), original.body())
+                .method(original.method, original.body)
                 .build()
             it.proceed(request)
         }

@@ -4,21 +4,13 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.presentation.R
 import dev.olog.presentation.main.CustomResources
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.theme.isImmersiveMode
-import javax.inject.Inject
 
-abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFragmentInjector {
-
-    @Inject
-    internal lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
+abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
 
     private var customResources: Resources? = null
 
@@ -47,7 +39,5 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasSupportFra
         }
         return customResources!!
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 
 }

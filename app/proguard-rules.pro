@@ -42,11 +42,6 @@
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
 
--keep class com.google.android.material.textfield.TextInputLayout { *; }
-
-#sliding panel
--keep class android.support.design.stateful.ExtendableSavedState { *; }
-
 #glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
@@ -55,10 +50,20 @@
   public *;
 }
 
-# for retrofit
-# Retain generic type information for use by reflection by converters and adapters.
-# Retrofit does reflection on generic parameters and InnerClass is required to use Signature.
--keepattributes Signature, InnerClasses
+
+
+
+
+
+# RETROFIT
+
+
+# Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
+# EnclosingMethod is required to use InnerClasses.
+-keepattributes Signature, InnerClasses, EnclosingMethod
+
+# Retrofit does reflection on method and parameter annotations.
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
@@ -75,7 +80,18 @@
 -dontwarn kotlin.Unit
 
 # Top-level functions that can only be used by Kotlin.
--dontwarn retrofit2.-KotlinExtensions
+-dontwarn retrofit2.KotlinExtensions
+-dontwarn retrofit2.KotlinExtensions$*
+
+# With R8 full mode, it sees no subtypes of Retrofit interfaces since they are created with a Proxy
+# and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
+
+
+
+
+
 
 # OKHTTP
 # JSR 305 annotations are for embedding nullability information.
@@ -90,12 +106,20 @@
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
 
-#crashlytics
+
+
+
+
+
+# CRASHLYTICS
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
+
+
+
 
 # removes logging
 -assumenosideeffects class android.util.Log {
@@ -107,6 +131,8 @@
 }
 
 
-# style transfer
+
+
+# STYLE TRANFER MODULE (caused by reflection)
 -keep class dev.olog.core.Stylizer
 -keep class dev.olog.feature.stylize.StylizerImpl
