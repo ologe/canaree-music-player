@@ -15,10 +15,7 @@ import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 open class ShapeImageView @JvmOverloads constructor(
     context: Context,
@@ -120,7 +117,7 @@ open class ShapeImageView @JvmOverloads constructor(
         }
     }
 
-    private fun updateBackground(shape: ShapeAppearanceModel){
+    private suspend fun updateBackground(shape: ShapeAppearanceModel) = withContext(Dispatchers.Main){
         val drawable = MaterialShapeDrawable(shape)
         background = drawable
     }
