@@ -56,11 +56,13 @@ class LibraryFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val transaction = childFragmentManager.beginTransaction()
-        for (fragment in childFragmentManager.fragments) {
-            transaction.remove(fragment)
+        if (savedInstanceState != null){
+            val transaction = childFragmentManager.beginTransaction()
+            for (fragment in childFragmentManager.fragments) {
+                transaction.remove(fragment)
+            }
+            transaction.commitNowAllowingStateLoss()
         }
-        transaction.commitNowAllowingStateLoss()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
