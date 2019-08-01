@@ -76,6 +76,7 @@ class FloatingWindowNotification @Inject constructor(
             .setContentText(service.getString(R.string.floating_window_notification_content_text))
             .setColor(service.colorControlNormal())
             .setContentIntent(createContentIntent())
+            .setGroup("dev.olog.msc.FLOATING")
             .build()
     }
 

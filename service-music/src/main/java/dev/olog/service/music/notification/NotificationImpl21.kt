@@ -66,6 +66,7 @@ internal open class NotificationImpl21 @Inject constructor(
             .addAction(NotificationActions.skipPrevious(service, false))
             .addAction(NotificationActions.playPause(service, false))
             .addAction(NotificationActions.skipNext(service, false))
+            .setGroup("dev.olog.msc.MUSIC")
 
         extendInitialization()
 
