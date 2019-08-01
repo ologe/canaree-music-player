@@ -231,7 +231,7 @@ class MainActivity : MusicGlueActivity(),
             val adRequest = AdRequest.Builder().build()
             adView.loadAd(adRequest)
         } else {
-            adView.setHeight(0)
+            adView.setGone()
         }
     }
 }

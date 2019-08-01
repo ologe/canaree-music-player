@@ -11,7 +11,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="4dp"
+        app:layout_goneMarginBottom="0dp">
 
         <FrameLayout
             android:id="@+id/fragmentContainer"
@@ -86,8 +88,9 @@
         ads:adUnitId="@string/ab_mob_unity_id_bottom_navigation"
         android:clickable="true"
         android:focusable="true"
+        android:layout_marginTop="4dp"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"/>
+        ads:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
