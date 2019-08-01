@@ -6,6 +6,7 @@
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist)
 - made sleep timer top and bottom curved 
 - re add podcast auto playlist
+- add alpha to toolbar image button in detail fragment when scrolling up
 
 ### bug
 - big image layout has problems with loading images 
