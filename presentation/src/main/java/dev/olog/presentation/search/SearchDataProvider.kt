@@ -13,14 +13,14 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.*
+import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.mapListItem
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.flatten
 
 class SearchDataProvider @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -44,7 +44,7 @@ class SearchDataProvider @Inject constructor(
     private val queryChannel = ConflatedBroadcastChannel("")
 
     fun updateQuery(query: String) {
-        launch { queryChannel.send(query) }
+        queryChannel.offer(query)
     }
 
     fun observe(): Flow<List<DisplayableItem>> {
