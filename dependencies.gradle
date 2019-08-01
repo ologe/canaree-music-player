@@ -47,7 +47,7 @@ ext {
     stetho = '1.5.1'
 
 //    ai
-    fritz = '3.7.0'
+    fritz = '3.7.2'
 
 //    firebase
     firebase_core = '17.0.1'

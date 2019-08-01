@@ -25,11 +25,15 @@ android {
 
     buildTypes {
         release {
+            multiDexEnabled false
+
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
         }
         debug {
             applicationIdSuffix ".debug"
+            multiDexEnabled false
+
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
         }
