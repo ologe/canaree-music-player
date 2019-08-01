@@ -17,6 +17,8 @@
 - check if show album art on lockscreen works
 - floating window play button in search lyrics not alwaus working
 - playing queue drag and drop for some reasong is too fast 
+- audio is not paused on some devices (Huawei P30 lite)
+- notification are grouped on some devices (Huawei P30 lite)
 
 ## features
 - add to favorite in android auto
@@ -32,6 +34,8 @@
 - re-enable remix and explicit icons? try with precomputed text API -> only explicit, can't find a remix icon
 - since now album and artist has wiki, show it in detail
 - added cut corner image shape
+- added 10 band equalizer to android P and above
+- added custom eq preset to all versions
 
 ## Maybe
 - try double tap to forward/replay?
