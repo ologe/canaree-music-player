@@ -22,6 +22,7 @@ import dev.olog.image.provider.loader.GlideLastFmImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.loader.GlideOverridenImageLoader
 import dev.olog.image.provider.model.AudioFileCover
+import dev.olog.image.provider.model.OriginalImage
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -37,6 +38,9 @@ class GlideModule : AppGlideModule() {
     internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
     @Inject
     internal lateinit var overrideFactory: GlideOverridenImageLoader.Factory
+
+    @Inject
+    internal lateinit var originalOnlyFactory: GlideOriginalImageOnlyLoader.Factory
 
     private var injected = false
 
@@ -75,7 +79,8 @@ class GlideModule : AppGlideModule() {
         registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
-//
+
+        registry.append(OriginalImage::class.java, InputStream::class.java, originalOnlyFactory)
         registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
     }
 

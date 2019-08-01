@@ -1,5 +1,6 @@
 package dev.olog.presentation.edit.domain
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -36,8 +37,8 @@ class UpdateTrackUseCase @Inject constructor(
             val id = param.mediaId?.resolveId
 
             if (id != null) {
-                saveImage(id, param.image)
                 increaseImageVersion(param.mediaId)
+                saveImage(id, param.image)
                 updateMediaStore(id, param.isPodcast) // TODO image for some reasong is loading for another id
             }
 
@@ -70,7 +71,8 @@ class UpdateTrackUseCase @Inject constructor(
         }
         is SaveImageType.Stylized -> {
             val bitmap = image.bitmap
-            val dest = File(ImagesFolderUtils.SONG, "${id}_stylized.webp") // override
+            val folder = ImagesFolderUtils.getImageFolderFor(context, ImagesFolderUtils.SONG)
+            val dest = File(folder, "${id}_stylized.webp") // override
             val out = FileOutputStream(dest)
             bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
             bitmap.recycle()
@@ -80,7 +82,7 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     private fun updateMediaStore(id: Long, isPodcast: Boolean?) {
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
         val values = ContentValues(2).apply {
             isPodcast?.let {
                 put(MediaStore.Audio.Media.IS_PODCAST, it)

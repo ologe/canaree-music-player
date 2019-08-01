@@ -14,6 +14,8 @@ android {
 apply from: '../kapt.gradle'
 
 dependencies {
+    implementation lib_core.kotlin_reflect
+
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_core.coroutines

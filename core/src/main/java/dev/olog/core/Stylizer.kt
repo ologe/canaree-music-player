@@ -3,6 +3,13 @@ package dev.olog.core
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.Keep
+import dev.olog.core.entity.ImageStyle
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.suspendCoroutine
+import kotlin.reflect.full.callSuspend
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.functions
+import kotlin.reflect.jvm.kotlinFunction
 
 @Keep
 interface Stylizer {
@@ -23,8 +30,15 @@ interface Stylizer {
             }
             return stylizer!!
         }
+
+        suspend fun loadDialog(context: Context): ImageStyle? {
+            val dialogClass = Class.forName("dev.olog.feature.stylize.StyleChooserDialog").kotlin
+            return dialogClass.functions.find { it.name == "create" }!!
+                .callSuspend(dialogClass.createInstance(), context) as ImageStyle?
+        }
+
     }
 
-    suspend fun stylize(bitmap: Bitmap): Bitmap
+    suspend fun stylize(imageStyle: ImageStyle, bitmap: Bitmap): Bitmap
 
 }

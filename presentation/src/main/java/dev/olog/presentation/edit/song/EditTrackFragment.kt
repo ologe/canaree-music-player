@@ -1,13 +1,17 @@
 package dev.olog.presentation.edit.song
 
+import android.content.DialogInterface
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dev.olog.core.MediaId
 import dev.olog.core.Stylizer
+import dev.olog.image.provider.model.OriginalImage
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
@@ -140,15 +144,8 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     }
 
     override fun restoreImage() {
-        launch(Dispatchers.IO) {
-            val imageType = viewModel.loadOriginalImage(mediaId)
-            withContext(Dispatchers.Main) {
-                when (imageType) {
-                    is LoadImageType.String -> loadImage(imageType.url, mediaId)
-                    is LoadImageType.Stream -> loadImage(imageType.stream, mediaId)
-                }
-            }
-        }
+        viewModel.restoreOriginalImage()
+        loadImage(OriginalImage(mediaId), mediaId)
     }
 
     override fun noImage() {
@@ -164,22 +161,24 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         launch {
             loadModule()?.let { stylizer ->
                 withContext(Dispatchers.IO) {
-                    val imageType = viewModel.loadOriginalImage(mediaId)
-                    val bitmap = when (imageType) {
-                        is LoadImageType.String -> getBitmap(
-                            imageType.url,
-                            mediaId
-                        ) // TODO, bad first time triggers download
-                        is LoadImageType.Stream -> getBitmap(imageType.stream, mediaId)
-                    }
-                    bitmap?.let { b ->
-                        val stylizedBitmap = stylizer.stylize(b)
-                        viewModel.updateImage(SaveImageType.Stylized(b))
-                        withContext(Dispatchers.Main) {
-                            loadImage(stylizedBitmap, mediaId)
-                        }
+                    getBitmap(OriginalImage(mediaId), mediaId)?.let { bitmap ->
+                        stylizeImageInternal(bitmap)
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun stylizeImageInternal(bitmap: Bitmap){
+        val stylizer = Stylizer.loadClass(requireContext())
+        val style = withContext(Dispatchers.Main){
+            Stylizer.loadDialog(act)
+        }
+        if (style != null){
+            val stylizedBitmap = stylizer.stylize(style, bitmap)
+            viewModel.updateImage(SaveImageType.Stylized(stylizedBitmap))
+            withContext(Dispatchers.Main) {
+                loadImage(stylizedBitmap, mediaId)
             }
         }
     }
@@ -194,7 +193,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             .build()
 //        SplitInstallErrorCode
         splitInstallManager.startInstall(request)
-            .addOnSuccessListener { _ ->
+            .addOnCompleteListener { _ ->
                 hideLoader()
                 continuation.resume(Stylizer.loadClass(requireContext()))
             }

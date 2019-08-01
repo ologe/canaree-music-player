@@ -7,6 +7,8 @@
 - re add podcast auto playlist
 - add alpha to toolbar image button in detail fragment when scrolling up
 - fix stilyze image
+- add keep resource file in :feature-stylizer that keeps module title, and all the images
+- fix edit album & edit artist
 
 ### bug
 - big image layout has problems with loading images 
@@ -14,7 +16,7 @@
 - floating window play button in search lyrics not alwaus working
 - playing queue drag and drop for some reasong is too fast 
 - audio is not paused on some devices during a call (Huawei P30 lite)
-- in add preset in equalizer fragment, when pressing ok or cancel, the fragment is dismissed automatically
+- after creating 'new playlist' from + button, bottom navigation disappears
 
 ## features
 - add to favorite in android auto

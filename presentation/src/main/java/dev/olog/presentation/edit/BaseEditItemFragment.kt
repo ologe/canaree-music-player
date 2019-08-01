@@ -11,13 +11,13 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.model.OriginalImage
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
@@ -48,27 +48,51 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
             .into(image)
     }
 
-    protected fun loadImage(any: Any?, mediaId: MediaId) {
+    protected fun loadImage(originalImage: OriginalImage, mediaId: MediaId) {
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
         GlideApp.with(ctx).clear(image)
 
         GlideApp.with(ctx)
-            .load(any)
+            .load(originalImage)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
             .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .into(image)
     }
 
-    protected fun getBitmap(any: Any?, mediaId: MediaId): Bitmap? {
+    protected fun loadImage(bitmap: Bitmap, mediaId: MediaId) {
+        val image = view!!.findViewById<ImageView>(R.id.cover)
+
+        GlideApp.with(ctx).clear(image)
+
+        GlideApp.with(ctx)
+            .load(bitmap)
+            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
+            .into(image)
+    }
+
+    protected fun loadImage(uri: Uri, mediaId: MediaId) {
+        val image = view!!.findViewById<ImageView>(R.id.cover)
+
+        GlideApp.with(ctx).clear(image)
+
+        GlideApp.with(ctx)
+            .load(uri)
+            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
+            .into(image)
+    }
+
+    protected fun getBitmap(originalImage: OriginalImage, mediaId: MediaId): Bitmap? {
         return GlideApp.with(ctx)
             .asBitmap()
-            .load(any)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
+            .load(originalImage)
             .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
-            .submit(500,500)
+            .submit()
             .get()
     }
 

@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.image.provider.fetcher.OriginalImageFetcher
-import dev.olog.presentation.edit.model.LoadImageType
 import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
@@ -84,14 +82,8 @@ class EditTrackFragmentViewModel @Inject constructor(
         return true
     }
 
-    suspend fun loadOriginalImage(mediaId: MediaId): LoadImageType {
+    fun restoreOriginalImage() {
         newImage = SaveImageType.Original
-
-        val data = presenter.fetchData(mediaId.resolveId)
-        if (data?.image != null){
-            return LoadImageType.String(data.image)
-        }
-        return LoadImageType.Stream(OriginalImageFetcher.loadImage(getOriginalSong().path))
     }
 
     fun stopFetch() {
