@@ -53,7 +53,6 @@ dependencies {
     implementation lib_utils.fuzzy
     implementation lib_network.gson
     implementation lib_network.retrofit
-    implementation lib_network.retrofit_coroutines
     implementation lib_network.retrofit_gson
     implementation lib_network.ok_http
     implementation lib_network.ok_http_interceptor

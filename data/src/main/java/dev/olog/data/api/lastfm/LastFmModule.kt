@@ -1,7 +1,6 @@
 package dev.olog.data.api.lastfm
 
 import android.content.Context
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
@@ -57,7 +56,6 @@ class LastFmModule {
         return Retrofit.Builder()
             .baseUrl("http://ws.audioscrobbler.com/2.0/")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
     }

@@ -13,9 +13,9 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.utils.awaitRepeat
 import dev.olog.shared.TextUtils
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.networkCall
 import javax.inject.Inject
 
 internal class LastFmRepository @Inject constructor(
@@ -57,18 +57,15 @@ internal class LastFmRepository @Inject constructor(
 
         var result: LastFmTrack? = null
         if (song.artist != MediaStore.UNKNOWN_STRING) { // search only if has artist
-            result = lastFmService.getTrackInfoAsync(trackTitle, trackArtist)
-                .awaitRepeat()
+            result = networkCall { lastFmService.getTrackInfoAsync(trackTitle, trackArtist) }
                 ?.toDomain(trackId)
         }
         if (result == null) {
-            val searchTrack = lastFmService.searchTrackAsync(trackTitle, trackArtist)
-                .awaitRepeat()
+            val searchTrack = networkCall { lastFmService.searchTrackAsync(trackTitle, trackArtist) }
                 ?.toDomain(trackId)
 
             if (searchTrack != null && searchTrack.title.isNotBlank() && searchTrack.artist.isNotBlank()) {
-                result = lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist)
-                    .awaitRepeat()
+                result = networkCall { lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist) }
                     ?.toDomain(trackId)
             }
             if (result == null) {
@@ -110,17 +107,16 @@ internal class LastFmRepository @Inject constructor(
 
         var result: LastFmAlbum? = null
         if (album.title != MediaStore.UNKNOWN_STRING) {
-            result = lastFmService.getAlbumInfoAsync(album.title, album.artist).awaitRepeat()
+            result = networkCall { lastFmService.getAlbumInfoAsync(album.title, album.artist) }
                 ?.toDomain(albumId)
         }
 
         if (result == null) {
-            val searchAlbum = lastFmService.searchAlbumAsync(album.title).awaitRepeat()
+            val searchAlbum = networkCall { lastFmService.searchAlbumAsync(album.title) }
                 ?.toDomain(albumId, album.artist)
 
             if (searchAlbum != null && searchAlbum.title.isNotBlank() && searchAlbum.artist.isNotBlank()) {
-                result = lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist)
-                    .awaitRepeat()
+                result = networkCall { lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist) }
                     ?.toDomain(albumId)
             }
             if (result == null) {
@@ -155,7 +151,8 @@ internal class LastFmRepository @Inject constructor(
         Log.v(TAG, "fetch id=$artistId")
 
         val artist = artistGateway.getByParam(artistId) ?: return null
-        var result = lastFmService.getArtistInfoAsync(artist.name).awaitRepeat()?.toDomain(artistId)
+        var result = networkCall { lastFmService.getArtistInfoAsync(artist.name) }
+            ?.toDomain(artistId)
         if (result == null) {
             result = LastFmNulls.createNullArtist(artistId).toDomain()
         }

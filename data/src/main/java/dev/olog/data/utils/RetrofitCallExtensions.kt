@@ -1,17 +1,16 @@
 package dev.olog.data.utils
 
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 import retrofit2.Response
 
-internal suspend fun<T> Deferred<Response<T>>.awaitRepeat(repeatTimes: Int = 3): T? {
+internal suspend fun<T> networkCall(repeatTimes: Int = 3, call: suspend () -> Response<T>): T? {
     var errorCode : Int? = null
     var errorMessage : String? = null
 
     repeat(repeatTimes) { iteration ->
         delay(500L * iteration)
-        val result = this.await()
+        val result = call()
         if (result.isSuccessful) {
             return result.body()
         }

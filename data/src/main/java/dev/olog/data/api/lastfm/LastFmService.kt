@@ -24,49 +24,49 @@ private const val BASE_URL = "?api_key=${BuildConfig.LAST_FM_KEY}&format=json"
 interface LastFmService {
 
     @GET("$BASE_URL&method=track.getInfo")
-    fun getTrackInfoAsync(
+    suspend fun getTrackInfoAsync(
             @Query("track", encoded = true) track: String,
             @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1) @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT
-    ) : Deferred<Response<TrackInfo>>
+    ) : Response<TrackInfo>
 
     @GET("$BASE_URL&method=track.search")
-    fun searchTrackAsync(
+    suspend fun searchTrackAsync(
             @Query("track", encoded = true) track: String,
             @Query("artist", encoded = true) artist: String = "",
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Deferred<Response<TrackSearch>>
+    ): Response<TrackSearch>
 
     @GET("$BASE_URL&method=artist.getinfo")
-    fun getArtistInfoAsync(
+    suspend fun getArtistInfoAsync(
         @Query("artist", encoded = true) artist: String,
         @IntRange(from = 0, to = 1)
             @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT,
         @Query("lang") language: String = "en"
-    ): Deferred<Response<ArtistInfo>>
+    ): Response<ArtistInfo>
 
     @GET("$BASE_URL&method=artist.search")
-    fun searchArtistAsync(
+    suspend fun searchArtistAsync(
             @Query("artist", encoded = true) artist: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Deferred<Response<ArtistSearch>>
+    ): Response<ArtistSearch>
 
     @GET("$BASE_URL&method=album.getinfo")
-    fun getAlbumInfoAsync(
+    suspend fun getAlbumInfoAsync(
         @Query("album", encoded = true) album: String,
         @Query("artist", encoded = true) artist: String,
         @IntRange(from = 0, to = 1)
             @Query("autocorrect") autocorrect: Long= DEFAULT_AUTO_CORRECT,
         @Query("lang") language: String = "en"
-    ): Deferred<Response<AlbumInfo>>
+    ): Response<AlbumInfo>
 
     @GET("$BASE_URL&method=album.search")
-    fun searchAlbumAsync(
+    suspend fun searchAlbumAsync(
             @Query("album", encoded = true) album: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Deferred<Response<AlbumSearch>>
+    ): Response<AlbumSearch>
 
 }

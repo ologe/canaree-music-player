@@ -35,7 +35,6 @@ ext {
 //    network
     ok_http = '4.0.1'
     retrofit = '2.6.0'
-    retrofit_coroutines = '0.9.2' // TODO deprecated
     gson = '2.8.5'
 
 //    utils
@@ -133,7 +132,6 @@ ext {
             ok_http            : "com.squareup.okhttp3:okhttp:$ok_http",
             ok_http_interceptor: "com.squareup.okhttp3:logging-interceptor:$ok_http",
             retrofit           : "com.squareup.retrofit2:retrofit:$retrofit",
-            retrofit_coroutines: "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines",
             retrofit_gson      : "com.squareup.retrofit2:converter-gson:$retrofit",
             gson               : "com.google.code.gson:gson:$gson",
     ]
