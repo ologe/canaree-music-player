@@ -144,6 +144,9 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
                     } else {
                         false
                     }
+                }, dismissAction = {
+                    dismiss()
+                    act.onBackPressed()
                 }
             )
     }

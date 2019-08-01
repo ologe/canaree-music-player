@@ -92,7 +92,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
         bassKnob.setOnProgressChangedListener(onBassKnobChangeListener)
         virtualizerKnob.setOnProgressChangedListener(onVirtualizerKnobChangeListener)
 
-        setupBandListeners { BandListener(it) }
+        setupBandListeners { band -> BandListener(band) }
 
         powerSwitch.setOnCheckedChangeListener { _, isChecked ->
             val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
@@ -106,8 +106,8 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             TextViewDialog(ctx, "Save preset", null)
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
-                    presenter.addPreset(it[0].text.toString())
-                    true
+                    val title = it[0].text.toString()
+                    !title.isBlank() && presenter.addPreset(title)
                 }, neutralAction = TextViewDialog.Action("Cancel") { true })
         }
     }

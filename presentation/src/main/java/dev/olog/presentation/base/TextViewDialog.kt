@@ -1,6 +1,5 @@
 package dev.olog.presentation.base
 
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -65,7 +64,8 @@ class TextViewDialog(
     fun show(
         positiveAction: Action,
         negativeAction: Action? = null,
-        neutralAction: Action? = null
+        neutralAction: Action? = null,
+        dismissAction: AlertDialog.() -> Unit = { dismiss() }
     ) {
         val builder = MaterialAlertDialogBuilder(context).apply {
             setTitle(title)
@@ -76,7 +76,7 @@ class TextViewDialog(
             setView(container)
         }
         val dialog = builder.show()
-        dialog.setupListeners(positiveAction, negativeAction, neutralAction)
+        dialog.setupListeners(positiveAction, negativeAction, neutralAction, dismissAction)
         dialog.show()
 
         GlobalScope.launch(Dispatchers.Main) {
@@ -89,7 +89,8 @@ class TextViewDialog(
     private inline fun AlertDialog.setupListeners(
         positiveAction: Action,
         negativeAction: Action? = null,
-        neutralAction: Action? = null
+        neutralAction: Action? = null,
+        crossinline dismissAction: AlertDialog.() -> Unit = { dismiss() }
     ) {
         var job: Job? = null
 
@@ -97,7 +98,7 @@ class TextViewDialog(
             job?.cancel()
             job = GlobalScope.launch(Dispatchers.Main) {
                 if (positiveAction.action(textViews)) {
-                    dismiss(this@setupListeners)
+                    dismissAction()
                 }
             }
         }
@@ -106,7 +107,7 @@ class TextViewDialog(
                 job?.cancel()
                 job = GlobalScope.launch(Dispatchers.Main) {
                     if (negative.action(textViews)) {
-                        dismiss(this@setupListeners)
+                        dismissAction()
                     }
                 }
             }
@@ -116,17 +117,10 @@ class TextViewDialog(
                 job?.cancel()
                 job = GlobalScope.launch(Dispatchers.Main) {
                     if (neutral.action(textViews)) {
-                        dismiss(this@setupListeners)
+                        dismissAction()
                     }
                 }
             }
-        }
-    }
-
-    private fun dismiss(dialog: AlertDialog){
-        dialog.dismiss()
-        if (context is Activity){
-            context.onBackPressed()
         }
     }
 
