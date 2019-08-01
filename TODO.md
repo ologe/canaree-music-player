@@ -4,17 +4,12 @@
 - check mediastore insert/update/delete on Android Q
 - change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist)
-- add custom equalizer preset
-- made sleep timer top and bottom curved
-- added check last fm authentication 
+- made sleep timer top and bottom curved 
 - re add podcast auto playlist
-- try colored shadow in shape image view
 
 ### bug
 - big image layout has problems with loading images 
     (has problem on my device with android P beta, on emulator works fine, check on other phones)
-- fix snackbar (buy premium) in setting fragment
-- check if show album art on lockscreen works
 - floating window play button in search lyrics not alwaus working
 - playing queue drag and drop for some reasong is too fast 
 - audio is not paused on some devices (Huawei P30 lite)
@@ -36,6 +31,10 @@
 - added cut corner image shape
 - added 10 band equalizer to android P and above
 - added custom eq preset to all versions
+- added check last fm authentication
+- add custom equalizer preset
+- fix snackbar (buy premium) in setting fragment
+- check if show album art on lockscreen works (working on AOSP)
 
 ## Maybe
 - try double tap to forward/replay?
