@@ -40,11 +40,11 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
         powerSwitch.isChecked = presenter.isEqualizerEnabled()
 
         bassKnob.apply {
-            max = 100
+            max = 1000
             progress = presenter.getBassStrength()
         }
         virtualizerKnob.apply {
-            max = 100
+            max = 1000
             progress = presenter.getVirtualizerStrength()
         }
 

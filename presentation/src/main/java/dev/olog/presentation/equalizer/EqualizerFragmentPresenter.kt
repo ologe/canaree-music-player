@@ -60,16 +60,16 @@ internal class EqualizerFragmentPresenter @Inject constructor(
         equalizerPrefsUseCase.setEqualizerEnabled(enabled)
     }
 
-    fun getBassStrength(): Int = bassBoost.getStrength() / 10
+    fun getBassStrength(): Int = bassBoost.getStrength()
 
     fun setBassStrength(value: Int) {
-        bassBoost.setStrength(value * 10)
+        bassBoost.setStrength(value)
     }
 
-    fun getVirtualizerStrength(): Int = virtualizer.getStrength() / 10
+    fun getVirtualizerStrength(): Int = virtualizer.getStrength()
 
     fun setVirtualizerStrength(value: Int) {
-        virtualizer.setStrength(value * 10)
+        virtualizer.setStrength(value)
     }
 
     fun getBandStep(): Float {
