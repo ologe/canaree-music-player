@@ -29,7 +29,6 @@ import dev.olog.presentation.utils.forEach
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import javax.inject.Inject
@@ -98,6 +97,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO i think there a memory leak
+
         val billing = (act as HasBilling).billing
         billing.observeBillingsState()
             .map { it.isPremiumEnabled() }
@@ -117,6 +118,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         billing.observeBillingsState()
             .map { it.isPremiumStrict() }
+            .take(1)
             .asLiveData()
             .subscribe(viewLifecycleOwner) { isPremiumStrict ->
                 if (isPremiumStrict){
