@@ -97,87 +97,108 @@ internal class EqualizerRepository @Inject constructor(
         var id = 0L
         return listOf(
             // itunes presets
-            createPresetApi28(id++, "Flat",
+            createPresetApi28(
+                id++, "Flat",
                 0f, 0f, 0f, 0f, 0f,
                 0f, 0f, 0f, 0f, 0f
             ),
-            createPresetApi28(id++, "Acoustic",
+            createPresetApi28(
+                id++, "Acoustic",
                 5f, 5f, 4f, 1f, 1.5f,
                 1.5f, 3.5f, 4f, 3.5f, 2f
             ),
-            createPresetApi28(id++, "Bass Booster",
+            createPresetApi28(
+                id++, "Bass Booster",
                 5.5f, 4.5f, 4f, 2.75f, 1.5f,
                 0f, 0f, 0f, 0f, 0f
             ),
-            createPresetApi28(id++, "Bass Reducer",
+            createPresetApi28(
+                id++, "Bass Reducer",
                 -5.5f, -4.5f, -4f, -2.75f, -1.5f,
                 0f, 0f, 0f, 0f, 0f
             ),
-            createPresetApi28(id++, "Classical",
+            createPresetApi28(
+                id++, "Classical",
                 4.5f, 4f, 3f, 2.5f, -1.5f,
                 -1.5f, 0f, 2.5f, 3.5f, 4f
             ),
-            createPresetApi28(id++, "Dance",
+            createPresetApi28(
+                id++, "Dance",
                 4f, 7f, 5f, 0f, 2.5f,
                 3.5f, 5f, 4.5f, 3.5f, 0f
             ),
-            createPresetApi28(id++, "Deep",
+            createPresetApi28(
+                id++, "Deep",
                 4.5f, 3.5f, 2f, 1f, 3f,
                 2.5f, 1.5f, -2f, -3.5f, -4.5f
             ),
-            createPresetApi28(id++, "Electronic",
+            createPresetApi28(
+                id++, "Electronic",
                 4.5f, 4f, 1.5f, 0f, -1.8f,
                 2f, 1f, 1.5f, 4f, 5f
             ),
-            createPresetApi28(id++, "Hip-Hop",
+            createPresetApi28(
+                id++, "Hip-Hop",
                 5f, 4f, 1.5f, 3f, -1f,
                 -1f, 1.5f, -.5f, 2f, 3f
             ),
-            createPresetApi28(id++, "Jazz",
+            createPresetApi28(
+                id++, "Jazz",
                 4f, 3f, 1.5f, 2f, -1.5f,
                 -1.5f, 0f, 1.5f, 3f, 4f
             ),
-            createPresetApi28(id++, "Latin",
+            createPresetApi28(
+                id++, "Latin",
                 4.5f, 3f, 0f, 0f, -1.5f,
                 -1.5f, -1.5f, 0f, 3f, 4.5f
             ),
-            createPresetApi28(id++, "Loudness",
+            createPresetApi28(
+                id++, "Loudness",
                 6f, 4f, 0f, 0f, -2f,
                 0f, -1f, -4.5f, 5f, 1f
             ),
-            createPresetApi28(id++, "Lounge",
+            createPresetApi28(
+                id++, "Lounge",
                 -3f, -1.5f, -.5f, 1.5f, 4f,
                 2.5f, 0f, -1.5f, 2f, 1f
             ),
-            createPresetApi28(id++, "Piano",
+            createPresetApi28(
+                id++, "Piano",
                 3f, 2f, 0f, 2f, 3f,
                 1.5f, 4f, 3f, 3f, 4f
             ),
-            createPresetApi28(id++, "Pop",
+            createPresetApi28(
+                id++, "Pop",
                 -1.5f, -1f, 0f, 2f, 4f,
                 4f, 2f, 0f, -1f, -1.2f
             ),
-            createPresetApi28(id++, "R&B",
+            createPresetApi28(
+                id++, "R&B",
                 3f, 7.2f, 6f, 1.5f, -2f,
                 -1.5f, 2f, 2.5f, 2.5f, 3.5f
             ),
-            createPresetApi28(id++, "Rock",
+            createPresetApi28(
+                id++, "Rock",
                 4.8f, 4.2f, 3f, 1.5f, -.5f,
                 -1f, .5f, 2.5f, 3.5f, 4.5f
             ),
-            createPresetApi28(id++, "Small Speakers",
+            createPresetApi28(
+                id++, "Small Speakers",
                 5f, 4.5f, 4f, 1f, 2f,
                 1.5f, 3.5f, 4f, 3.5f, 2f
             ),
-            createPresetApi28(id++, "Spoken Word",
+            createPresetApi28(
+                id++, "Spoken Word",
                 -3.8f, -.5f, 0f, .8f, 3.5f,
                 4.5f, 4.5f, 4.5f, 2.8f, 0f
             ),
-            createPresetApi28(id++, "Treble Booster",
+            createPresetApi28(
+                id++, "Treble Booster",
                 0f, 0f, 0f, 0f, 0f,
                 1.5f, 2f, 4f, 4.5f, 5.2f
             ),
-            createPresetApi28(id, "Treble Reducer",
+            createPresetApi28(
+                id, "Treble Reducer",
                 0f, 0f, 0f, 0f, 0f,
                 -1.5f, -2f, -4f, -4.5f, -5.2f
             )
@@ -185,7 +206,49 @@ internal class EqualizerRepository @Inject constructor(
     }
 
     private fun createDefaultPresetsPre28(): List<EqualizerPresetEntity> {
-        return listOf()
+        var id = 0L
+        return listOf(
+            createPreset(
+                id++, "Normal",
+                3f, 0f, 0f, 0f, 3f
+            ),
+            createPreset(
+                id++, "Classical",
+                5f, 3f, -2f, 4f, 4f
+            ),
+            createPreset(
+                id++, "Dance",
+                6f, 0f, 2f, 4f, 1f
+            ),
+            createPreset(
+                id++, "Flat",
+                0f, 0f, 0f, 0f, 0f
+            ),
+            createPreset(
+                id++, "Folk",
+                3f, 0f, 0f, 2f, -1f
+            ),
+            createPreset(
+                id++, "Heavy Metal",
+                4f, 1f, 9f, 3f, 0f
+            ),
+            createPreset(
+                id++, "Hip Hop",
+                5f, 3f, 0f, 1f, 3f
+            ),
+            createPreset(
+                id++, "Jazz",
+                4f, 2f, -2f, 2f, 5f
+            ),
+            createPreset(
+                id++, "Pop",
+                -1f, 2f, 5f, 1f, -2f
+            ),
+            createPreset(
+                id, "Rock",
+                5f, 3f, -1f, 3f, 5f
+            )
+        )
     }
 
     private fun createPresetApi28(
@@ -214,6 +277,26 @@ internal class EqualizerRepository @Inject constructor(
                 EqualizerBandEntity(band4k, 4000f),
                 EqualizerBandEntity(band8k, 8000f),
                 EqualizerBandEntity(band16k, 16000f)
+            ), false
+        )
+    }
+
+    private fun createPreset(
+        id: Long,
+        title: String,
+        band60: Float,
+        band230: Float,
+        band910: Float,
+        band3600: Float,
+        band14000: Float
+    ): EqualizerPresetEntity {
+        return EqualizerPresetEntity(
+            id, title, listOf(
+                EqualizerBandEntity(band60, 60f),
+                EqualizerBandEntity(band230, 230f),
+                EqualizerBandEntity(band910, 910f),
+                EqualizerBandEntity(band3600, 3600f),
+                EqualizerBandEntity(band14000, 14000f)
             ), false
         )
     }

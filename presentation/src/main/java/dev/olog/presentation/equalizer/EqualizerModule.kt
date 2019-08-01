@@ -15,7 +15,7 @@ abstract class EqualizerModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(EqualizerFragmentPresenter::class)
-    internal abstract fun provideViewModel(viewModel: EqualizerFragmentPresenter): ViewModel
+    @ViewModelKey(EqualizerFragmentViewModel::class)
+    internal abstract fun provideEditFragmentViewModel(viewModel: EqualizerFragmentViewModel): ViewModel
 
 }

@@ -27,7 +27,7 @@ interface IEqualizer {
 
     fun getBandCount(): Int
     fun getBandLevel(band: Int): Float
-    fun getAllBandsLevel(): List<EqualizerBand>
+    fun getAllBandsCurrentLevel(): List<EqualizerBand>
     fun setBandLevel(band: Int, level: Float)
     fun getBandLimit(): Float
 

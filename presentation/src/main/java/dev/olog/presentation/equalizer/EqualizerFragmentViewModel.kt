@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class EqualizerFragmentPresenter @Inject constructor(
+internal class EqualizerFragmentViewModel @Inject constructor(
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,
     private val virtualizer: IVirtualizer,
@@ -90,7 +90,7 @@ internal class EqualizerFragmentPresenter @Inject constructor(
             id = -1,
             name = title,
             isCustom = true,
-            bands = equalizer.getAllBandsLevel()
+            bands = equalizer.getAllBandsCurrentLevel()
         )
         require(preset.bands.size == getBandCount())
         equalizerGateway.addPreset(preset)

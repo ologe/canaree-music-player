@@ -33,7 +33,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val presenter by lazyFast { act.viewModelProvider<EqualizerFragmentPresenter>(factory) }
+    private val presenter by lazyFast { act.viewModelProvider<EqualizerFragmentViewModel>(factory) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

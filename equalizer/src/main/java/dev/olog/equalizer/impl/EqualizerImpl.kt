@@ -1,97 +1,93 @@
 package dev.olog.equalizer.impl
 
-import android.media.audiofx.Equalizer
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.IEqualizer
-import kotlinx.coroutines.flow.Flow
+import dev.olog.equalizer.audioeffect.NormalizedEqualizer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
-    private val gateway: EqualizerGateway,
-    private val prefs: EqualizerPreferencesGateway
+    gateway: EqualizerGateway,
+    prefs: EqualizerPreferencesGateway
 
-) : IEqualizer {
+) : AbsEqualizer(gateway, prefs),
+    IEqualizer,
+    CoroutineScope by MainScope() {
 
     companion object {
         private const val BANDS = 5
+        private const val BAND_LIMIT = 15f
     }
 
-    private var equalizer: Equalizer? = null
+    private var equalizer: NormalizedEqualizer? = null
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        onDestroy()
+        launch {
+            release()
+            try {
+                equalizer = NormalizedEqualizer(0, audioSessionId).apply {
+                    enabled = prefs.isEqualizerEnabled()
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
 
-//        equalizer = Equalizer(0, audioSessionId).apply {
-//            enabled = prefs.isEqualizerEnabled()
-//            val lastProperties = prefs.getEqualizerSettings()
-//            if (lastProperties.isNotBlank()) {
-//                properties = Equalizer.Settings(lastProperties)
-//            }
-//        }
-    }
-
-    override fun getBandLevel(band: Int): Float {
-        return equalizer?.getBandLevel(band.toShort())?.toFloat() ?: 0f
-    }
-
-    override fun setBandLevel(band: Int, level: Float) {
-        equalizer?.setBandLevel(band.toShort(), level.toShort())?.also {
-            save()
         }
     }
 
+    private fun release() {
+        equalizer?.release()
+        equalizer = null
+    }
+
+    override fun onDestroy() {
+        release()
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        equalizer?.enabled = enabled
+        prefs.setEqualizerEnabled(enabled)
+    }
+
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
-//        equalizer?.usePreset(position.toShort())
-    }
-
-    override fun getPresets(): List<EqualizerPreset> {
-        TODO()
-//        return try {
-//            (0 until equalizer!!.numberOfPresets)
-//                .map { equalizer!!.getPresetName(it.toShort()) }
-//        } catch (ex: Throwable) {
-//            return emptyList()
-//        }
-    }
-
-    override suspend fun updateCurrentPresetIfCustom() {
-
-    }
-
-    override fun observeCurrentPreset(): Flow<EqualizerPreset> {
-        TODO()
-    }
-
-    override fun getCurrentPreset(): EqualizerPreset {
-        TODO()
-//        return equalizer?.currentPreset?.toInt() ?: 0
+        updateCurrentPresetIfCustom()
+        prefs.setCurrentPresetId(preset.id)
+        equalizer?.let {
+            updatePresetInternal(preset)
+        }
     }
 
     override fun getBandCount(): Int = BANDS
 
-    override fun setEnabled(enabled: Boolean) {
-        equalizer?.enabled = enabled
+    override fun getBandLevel(band: Int): Float {
+        return equalizer?.getBandLevel(band) ?: 0f
     }
 
-    override fun onDestroy() {
-        equalizer?.release()
+    override fun setBandLevel(band: Int, level: Float) {
+        equalizer?.setBandLevel(band, level)
     }
 
-    private fun save() {
-//        val currentProperties = equalizer?.properties?.toString()
-//        if (!currentProperties.isNullOrBlank()) {
-//            prefs.saveEqualizerSettings(currentProperties)
-//        }
+
+    override fun getBandLimit(): Float = BAND_LIMIT
+
+    override fun getAllBandsCurrentLevel(): List<EqualizerBand> {
+        val result = mutableListOf<EqualizerBand>()
+        for (bandIndex in 0 until BANDS) {
+            val gain = equalizer!!.getBandLevel(bandIndex)
+            val frequency = equalizer!!.getBandFrequency(bandIndex)
+            result.add(EqualizerBand(gain, frequency))
+        }
+        return result
     }
 
-    override fun getBandLimit(): Float {
-        TODO()
-    }
-
-    override fun getAllBandsLevel(): List<EqualizerBand> {
-        TODO()
+    private fun updatePresetInternal(preset: EqualizerPreset) {
+        preset.bands.forEachIndexed { index, equalizerBand ->
+            setBandLevel(index, equalizerBand.gain)
+        }
     }
 }
