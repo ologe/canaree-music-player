@@ -4,22 +4,18 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import dev.olog.shared.android.utils.assertMainThread
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.launch
 
-suspend fun EditText.afterTextChange(): Flow<String> {
+fun EditText.afterTextChange(): Flow<String> {
     assertMainThread()
     val channel = ConflatedBroadcastChannel<String>()
 
     val watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            GlobalScope.launch {
-                if (!channel.isClosedForSend) {
-                    channel.send(s!!.toString())
-                }
+            if (!channel.isClosedForSend) {
+                channel.offer(s!!.toString())
             }
         }
 

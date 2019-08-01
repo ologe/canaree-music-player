@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
+import dev.olog.intents.Classes
 import dev.olog.media.connection.IMediaConnectionCallback
 import dev.olog.media.connection.MusicServiceConnection
 import dev.olog.media.connection.MusicServiceConnectionState
@@ -18,7 +19,6 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.intents.Classes
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.lazyFast
@@ -128,7 +128,7 @@ class MediaExposer(
         }
         launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.send(result)
+            queuePublisher.offer(result)
         }
     }
 
