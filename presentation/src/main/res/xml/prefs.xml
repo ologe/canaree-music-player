@@ -2,6 +2,11 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <SwitchPreferenceCompat
+        app:title="Show ads to unlock premium features"
+        app:key="@string/premium_ad_key"
+        app:defaultValue="false"/>
+
     <PreferenceCategory
         app:title="@string/prefs_category_library">
 

@@ -29,4 +29,6 @@
     <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
     <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>
 
+    <string name="premium_ad_key" translatable="false">key_premium_ad</string>
+
 </resources>

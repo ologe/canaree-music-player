@@ -14,7 +14,7 @@
 - floating window play button in search lyrics not alwaus working
 - playing queue drag and drop for some reasong is too fast 
 - audio is not paused on some devices (Huawei P30 lite)
-- notification are grouped on some devices (Huawei P30 lite)
+- notification are grouped on some devices (Huawei P30 lite), try to set a group id to every notification type
 
 ## features
 - add to favorite in android auto

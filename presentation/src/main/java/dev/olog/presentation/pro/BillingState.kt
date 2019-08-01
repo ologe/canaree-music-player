@@ -2,13 +2,14 @@ package dev.olog.presentation.pro
 
 class BillingState(
     val isTrial: Boolean,
-    val isBought: Boolean
+    val isBought: Boolean,
+    val canShowAd: Boolean
 ) {
 
     fun isPremiumEnabled(): Boolean {
-        return isTrial || isBought
+        return isTrial || isBought || canShowAd
     }
 
-    fun isPremiumStrict() = isBought && !isTrial
+    fun isPremiumStrict() = isBought
 
 }

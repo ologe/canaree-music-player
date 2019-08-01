@@ -196,4 +196,11 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
+    override fun observeCanShowAds(): Flow<Boolean> {
+        return preferences.observeKey(context.getString(R.string.premium_ad_key), false)
+    }
+
+    override fun canShowAds(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.premium_ad_key), false)
+    }
 }

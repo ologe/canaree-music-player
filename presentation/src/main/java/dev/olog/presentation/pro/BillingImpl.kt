@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import dev.olog.core.interactor.ResetPreferencesUseCase
+import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.flowInterval
@@ -18,7 +19,8 @@ import kotlin.properties.Delegates
 class BillingImpl @Inject constructor(
     activity: AppCompatActivity,
     private val resetPreferencesUseCase: ResetPreferencesUseCase,
-    private val presentationPreferences: PresentationPreferencesGateway
+    private val presentationPreferences: PresentationPreferencesGateway,
+    private val prefsGateway: AppPreferencesGateway
 
 ) : BillingConnection(activity), IBilling, CoroutineScope by MainScope() {
 
@@ -27,22 +29,31 @@ class BillingImpl @Inject constructor(
         @JvmStatic
         private val DEFAULT_PREMIUM = BuildConfig.DEBUG
         private const val DEFAULT_TRIAL = false
+        private const val DEFAULT_SHOW_AD = false
         @JvmStatic
         private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
     }
 
     private val premiumPublisher = ConflatedBroadcastChannel(DEFAULT_PREMIUM)
     private val trialPublisher = ConflatedBroadcastChannel(DEFAULT_TRIAL)
+    private val showAdPublisher = ConflatedBroadcastChannel(DEFAULT_SHOW_AD)
 
     private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
-        launch { trialPublisher.send(new) }
+        trialPublisher.offer(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
     }
 
     private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
-        launch { premiumPublisher.send(new) }
+        premiumPublisher.offer(new)
+        if (!getBillingsState().isPremiumEnabled()) {
+            setDefault()
+        }
+    }
+
+    private var isShowAdState by Delegates.observable(DEFAULT_SHOW_AD) { _, _, new ->
+        showAdPublisher.offer(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
@@ -60,6 +71,14 @@ class BillingImpl @Inject constructor(
                     .takeWhile { it }
                     .collect { }
             }
+        }
+        launch {
+            prefsGateway.observeCanShowAds()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    isShowAdState = it
+                    showAdPublisher.offer(it)
+                }
         }
     }
 
@@ -101,15 +120,17 @@ class BillingImpl @Inject constructor(
     }
 
     override fun observeBillingsState(): Flow<BillingState> {
-        return premiumPublisher.asFlow().combineLatest(trialPublisher.asFlow()) { premium, trial ->
-            BillingState(trial, premium)
-        }
+        return premiumPublisher.asFlow().combineLatest(trialPublisher.asFlow(), showAdPublisher.asFlow())
+        { premium, trial, showAds ->
+            BillingState(trial, premium, showAds)
+        }.distinctUntilChanged()
     }
 
     override fun getBillingsState(): BillingState {
         return BillingState(
             isBought = premiumPublisher.value,
-            isTrial = trialPublisher.value
+            isTrial = trialPublisher.value,
+            canShowAd = showAdPublisher.value
         )
     }
 

@@ -101,8 +101,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val billing = (act as HasBilling).billing
         billing.observeBillingsState()
             .map { it.isPremiumEnabled() }
-            .take(2) // take current and after check values
-            .distinctUntilChanged()
+            .take(1)
             .asLiveData()
             .subscribe(viewLifecycleOwner) { isPremium ->
                 preferenceScreen.forEach {
@@ -113,6 +112,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     val v = act.window.decorView.findViewById<View>(android.R.id.content)
                     snackbar = Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
                         .setAction(R.string.prefs_not_premium_action) { billing.purchasePremium() }.apply { show() }
+                }
+            }
+
+        billing.observeBillingsState()
+            .map { it.isPremiumStrict() }
+            .asLiveData()
+            .subscribe(viewLifecycleOwner) { isPremiumStrict ->
+                if (isPremiumStrict){
+                    preferenceScreen.removePreference(findPreference(getString(R.string.premium_ad_key)))
                 }
             }
 
@@ -191,8 +199,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         when (key) {
-            getString(R.string.prefs_library_categories_key),
-            getString(R.string.prefs_podcast_library_categories_key),
+            getString(R.string.premium_ad_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
             }

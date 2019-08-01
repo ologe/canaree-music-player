@@ -5,11 +5,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
+import dev.olog.intents.AppConstants
+import dev.olog.intents.Classes
+import dev.olog.intents.FloatingWindowsConstants
+import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
+import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.main.di.inject
@@ -23,11 +30,6 @@ import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -72,6 +74,8 @@ class MainActivity : MusicGlueActivity(),
         inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        tryLoadAd()
 
         bottomNavigation.presentationPrefs = presentationPrefs
 
@@ -219,5 +223,15 @@ class MainActivity : MusicGlueActivity(),
     fun restoreSlidingPanelHeight(){
         bottomWrapper.animate().translationY(0f).setDuration(100)
         getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
+    }
+
+    private fun tryLoadAd(){
+        if (viewModel.canShowAds()){
+            MobileAds.initialize(this, getString(R.string.ad_mob_key))
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        } else {
+            adView.setHeight(0)
+        }
     }
 }
