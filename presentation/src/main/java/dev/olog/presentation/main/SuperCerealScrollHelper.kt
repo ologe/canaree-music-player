@@ -14,14 +14,14 @@ import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
-import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
+import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
 import dev.olog.shared.android.extensions.setMargin
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
-    input: Input.Full
+    input: ScrollType.Full
 ) : ScrollHelper(activity, input, true, BuildConfig.DEBUG, BuildConfig.DEBUG) {
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {

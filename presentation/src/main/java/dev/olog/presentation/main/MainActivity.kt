@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
@@ -23,13 +22,13 @@ import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.lazyFast
@@ -74,7 +73,6 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         bottomNavigation.presentationPrefs = presentationPrefs
 
         if (hasPlayerAppearance().isMini()){
@@ -84,9 +82,9 @@ class MainActivity : MusicGlueActivity(),
         }
 
         scrollHelper = SuperCerealScrollHelper(
-            this, Input.Full(
-                slidingPanel = getSlidingPanel() to dimen(R.dimen.sliding_panel_peek),
-                bottomNavigation = bottomWrapper to dimen(R.dimen.bottom_navigation_height),
+            this, ScrollType.Full(
+                slidingPanel = slidingPanel,
+                bottomNavigation = bottomWrapper,
                 toolbarHeight = dimen(R.dimen.toolbar),
                 tabLayoutHeight = dimen(R.dimen.tab)
             )
