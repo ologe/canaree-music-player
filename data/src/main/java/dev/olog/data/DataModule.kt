@@ -96,4 +96,8 @@ abstract class DataModule {
     @Singleton
     internal abstract fun provideFolderNavigator(repository: FolderNavigatorRepository): FolderNavigatorGateway
 
+    @Binds
+    @Singleton
+    internal abstract fun provideEqualzierRepository(repository: EqualizerRepository): EqualizerGateway
+
 }

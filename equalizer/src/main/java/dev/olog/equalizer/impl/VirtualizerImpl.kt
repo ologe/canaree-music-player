@@ -1,7 +1,8 @@
-package dev.olog.injection.equalizer
+package dev.olog.equalizer.impl
 
 import android.media.audiofx.Virtualizer
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.equalizer.IVirtualizer
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(
@@ -29,7 +30,7 @@ class VirtualizerImpl @Inject constructor(
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        release()
+        onDestroy()
 
         try {
             virtualizer = Virtualizer(0, audioSessionId).apply {
@@ -44,7 +45,7 @@ class VirtualizerImpl @Inject constructor(
         }
     }
 
-    override fun release() {
+    override fun onDestroy() {
         virtualizer?.release()
     }
 

@@ -3,18 +3,4 @@
 
     <string name="equalizer_not_found">Equalizer not found</string>
 
-    <declare-styleable name="BandView">
-        <attr name="bandIndex" format="integer"/>
-    </declare-styleable>
-
-    <dimen name="eq_bar_width">24dp</dimen>
-    <dimen name="eq_bar_top_margin">24dp</dimen>
-    <dimen name="separator_width">4dp</dimen>
-    <dimen name="eq_bar_elevation">4dp</dimen>
-
-    <item name="eq_guideline_percent" format="float" type="dimen">0.65</item>
-
-    <dimen name="eq_bar_text_size">9dp</dimen>
-    <dimen name="eq_bar_band_text_size">9dp</dimen>
-
 </resources>

@@ -1,7 +1,8 @@
-package dev.olog.injection.equalizer
+package dev.olog.equalizer.impl
 
 import android.media.audiofx.BassBoost
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.equalizer.IBassBoost
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
@@ -44,7 +45,7 @@ class BassBoostImpl @Inject constructor(
         }
     }
 
-    override fun release() {
+    override fun onDestroy() {
         bassBoost?.release()
     }
 

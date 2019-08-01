@@ -21,7 +21,8 @@ class RepositoryHelperModule {
                 MIGRATION_15_16,
                 MIGRATION_16_17,
                 MIGRATION_17_18,
-                MIGRATION_18_19
+                MIGRATION_18_19,
+                MIGRATION_19_20
             )
             .build()
     }
@@ -116,6 +117,17 @@ class RepositoryHelperModule {
             """.trimIndent())
             database.execSQL("""
                 CREATE  INDEX `index_lyrics_sync_adjustment_id` ON `lyrics_sync_adjustment` (`id`)
+            """.trimIndent())
+        }
+    }
+
+    private val MIGRATION_19_20 = object : Migration(19, 20){
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `equalizer_preset` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `bands` TEXT NOT NULL, `isCustom` INTEGER NOT NULL, PRIMARY KEY(`id`))
+            """.trimIndent())
+            database.execSQL("""
+                CREATE  INDEX `index_equalizer_preset_id` ON `equalizer_preset` (`id`)
             """.trimIndent())
         }
     }

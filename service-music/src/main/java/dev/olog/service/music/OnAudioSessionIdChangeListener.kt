@@ -7,9 +7,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.audio.AudioListener
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.injection.equalizer.IBassBoost
-import dev.olog.injection.equalizer.IEqualizer
-import dev.olog.injection.equalizer.IVirtualizer
+import dev.olog.equalizer.IBassBoost
+import dev.olog.equalizer.IEqualizer
+import dev.olog.equalizer.IVirtualizer
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -57,9 +57,9 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     fun release() {
-        Log.v(TAG, "release")
-        equalizer.release()
-        virtualizer.release()
-        bassBoost.release()
+        Log.v(TAG, "onDestroy")
+        equalizer.onDestroy()
+        virtualizer.onDestroy()
+        bassBoost.onDestroy()
     }
 }

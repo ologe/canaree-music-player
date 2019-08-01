@@ -19,10 +19,10 @@ import dev.olog.data.DataModule
 import dev.olog.data.PreferenceModule
 import dev.olog.data.RepositoryHelperModule
 import dev.olog.data.api.lastfm.LastFmModule
-import dev.olog.injection.equalizer.EqualizerModule
-import dev.olog.injection.equalizer.IBassBoost
-import dev.olog.injection.equalizer.IEqualizer
-import dev.olog.injection.equalizer.IVirtualizer
+import dev.olog.equalizer.EqualizerModule
+import dev.olog.equalizer.IBassBoost
+import dev.olog.equalizer.IEqualizer
+import dev.olog.equalizer.IVirtualizer
 import javax.inject.Singleton
 
 @Component(
@@ -35,11 +35,6 @@ import javax.inject.Singleton
         PreferenceModule::class,
         DataModule::class,
         EqualizerModule::class
-//
-//        // presentation
-//        AboutActivityInjector::class,
-//        PlaylistChooserActivityInjector::class
-
     )
 )
 @Singleton
@@ -83,6 +78,7 @@ interface CoreComponent {
     fun podcastArtistGateway(): PodcastArtistGateway
 
     fun imageVersionGateway(): ImageVersionGateway
+    fun equalizerGateway(): EqualizerGateway
 
     fun encrypter(): IEncrypter
 

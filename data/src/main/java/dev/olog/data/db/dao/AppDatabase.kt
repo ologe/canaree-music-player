@@ -2,6 +2,7 @@ package dev.olog.data.db.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import dev.olog.data.db.entities.*
 
 
@@ -41,10 +42,12 @@ import dev.olog.data.db.entities.*
         PodcastPositionEntity::class,
 
         ImageVersionEntity::class,
-        LyricsSyncAdjustmentEntity::class
+        LyricsSyncAdjustmentEntity::class,
+        EqualizerPresetEntity::class
 
-    ), version = 19, exportSchema = true
+    ), version = 20, exportSchema = true
 )
+@TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -78,4 +81,5 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun imageVersionDao(): ImageVersionDao
     abstract fun lyricsSyncAdjustmentDao(): LyricsSyncAdjustmentDao
+    abstract fun equalizerPresetsDao(): EqualizerPresetsDao
 }

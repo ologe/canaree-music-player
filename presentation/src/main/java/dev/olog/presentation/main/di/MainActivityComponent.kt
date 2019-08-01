@@ -10,6 +10,7 @@ import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.edit.di.EditItemModule
+import dev.olog.presentation.equalizer.EqualizerModule
 import dev.olog.presentation.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
@@ -46,6 +47,7 @@ fun MainActivity.inject() {
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
         CreatePlaylistFragmentInjector::class,
+        EqualizerModule::class,
 
         SettingsFragmentsModule::class,
 

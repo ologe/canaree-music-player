@@ -125,3 +125,11 @@ inline fun <reified T : View> View.findParentByType(): T? {
     }
     return null
 }
+
+fun<T> ViewGroup.map(action: (View) -> T): List<T> {
+    val result = mutableListOf<T>()
+    forEach {
+        result.add(action(it))
+    }
+    return result
+}

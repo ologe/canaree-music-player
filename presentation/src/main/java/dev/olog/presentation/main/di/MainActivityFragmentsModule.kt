@@ -16,9 +16,6 @@ abstract class MainActivityFragmentsModule {
     internal abstract fun provideMiniPlayer(): MiniPlayerFragment
 
     @ContributesAndroidInjector
-    internal abstract fun provideEqualizerFragment(): EqualizerFragment
-
-    @ContributesAndroidInjector
     internal abstract fun provideSleepTimerDialog(): SleepTimerPickerDialog
 
     @ContributesAndroidInjector

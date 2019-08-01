@@ -25,6 +25,8 @@ apply from: '../kapt.gradle'
 dependencies {
     implementation project(':core')
     implementation project(':data')
+    implementation project(':shared')
+    implementation project(':equalizer')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

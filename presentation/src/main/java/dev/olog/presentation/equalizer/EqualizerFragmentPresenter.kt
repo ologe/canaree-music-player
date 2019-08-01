@@ -1,34 +1,54 @@
 package dev.olog.presentation.equalizer
 
-import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dev.olog.core.entity.EqualizerPreset
+import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.injection.equalizer.IBassBoost
-import dev.olog.injection.equalizer.IEqualizer
-import dev.olog.injection.equalizer.IVirtualizer
-import dev.olog.presentation.R
+import dev.olog.equalizer.IBassBoost
+import dev.olog.equalizer.IEqualizer
+import dev.olog.equalizer.IVirtualizer
+import dev.olog.shared.android.utils.isP
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class EqualizerFragmentPresenter @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,
     private val virtualizer: IVirtualizer,
-    private val equalizerPrefsUseCase: EqualizerPreferencesGateway
-) {
+    private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
+    private val equalizerGateway: EqualizerGateway
+) : ViewModel() {
 
-    fun getPresets() = try {
-        equalizer.getPresets()
-    } catch (ex: Throwable) {
-        ex.printStackTrace()
-        listOf(context.getString(R.string.equalizer_not_found))
+    private val currentPresetLiveData = MutableLiveData<EqualizerPreset>()
+
+    init {
+        viewModelScope.launch {
+            equalizer.observeCurrentPreset()
+                .flowOn(Dispatchers.IO)
+                .collect { currentPresetLiveData.value = it }
+        }
     }
 
+    fun getBandLimit() = equalizer.getBandLimit()
     fun getCurrentPreset() = equalizer.getCurrentPreset()
+    fun getBandCount() = equalizer.getBandCount()
+    fun setCurrentPreset(preset: EqualizerPreset) = equalizer.setCurrentPreset(preset)
+    fun getPresets() = equalizer.getPresets()
+    fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
 
-    fun setPreset(position: Int) {
-        equalizer.setPreset(position)
+    override fun onCleared() {
+        viewModelScope.cancel()
     }
+
+    fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 
     fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()
 
@@ -37,12 +57,6 @@ internal class EqualizerFragmentPresenter @Inject constructor(
         virtualizer.setEnabled(enabled)
         bassBoost.setEnabled(enabled)
         equalizerPrefsUseCase.setEqualizerEnabled(enabled)
-    }
-
-    fun getBandLevel(band: Int): Float = equalizer.getBandLevel(band) / 100
-
-    fun setBandLevel(band: Int, level: Float) {
-        equalizer.setBandLevel(band, level * 100)
     }
 
     fun getBassStrength(): Int = bassBoost.getStrength() / 10
@@ -57,12 +71,28 @@ internal class EqualizerFragmentPresenter @Inject constructor(
         virtualizer.setStrength(value * 10)
     }
 
-    fun addEqualizerListener(listener: IEqualizer.Listener) {
-        equalizer.addListener(listener)
+    fun getBandStep(): Float {
+        if (isP()) {
+            return .1f
+        }
+        TODO()
     }
 
-    fun removeEqualizerListener(listener: IEqualizer.Listener) {
-        equalizer.removeListener(listener)
+    fun deleteCurrentPreset() = viewModelScope.launch(Dispatchers.IO) {
+        val currentPreset = currentPresetLiveData.value!!
+        equalizerPrefsUseCase.setCurrentPresetId(0)
+        equalizerGateway.deletePreset(currentPreset)
+    }
+
+    suspend fun saveCurrentPreset(title: String): Boolean = withContext(Dispatchers.IO){
+        val preset = EqualizerPreset(
+            id = -1,
+            name = title,
+            isCustom = true,
+            bands = equalizer.getAllBandsLevel()
+        )
+        equalizerGateway.saveCurrentPreset(preset)
+        true
     }
 
 }

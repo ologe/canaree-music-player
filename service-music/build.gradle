@@ -35,6 +35,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
     implementation project(':intents')
+    implementation project(':equalizer')
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android

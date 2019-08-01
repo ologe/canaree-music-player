@@ -1,6 +1,6 @@
-package dev.olog.injection.equalizer
+package dev.olog.equalizer
 
-interface IBassBoost {
+interface IVirtualizer {
 
     fun getStrength(): Int
     fun setStrength(value: Int)
@@ -9,6 +9,6 @@ interface IBassBoost {
 
     fun setEnabled(enabled: Boolean)
 
-    fun release()
+    fun onDestroy()
 
 }

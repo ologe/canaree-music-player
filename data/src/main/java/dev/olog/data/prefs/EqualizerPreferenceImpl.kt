@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.observeKey
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class EqualizerPreferenceImpl @Inject constructor(
@@ -16,7 +18,7 @@ class EqualizerPreferenceImpl @Inject constructor(
 
         private const val EQ_ENABLED = "$TAG.EQ_ENABLED"
 
-        private const val EQ_SETTINGS = "$TAG.EQ_SETTINGS"
+        private const val EQ_PRESET_ID = "$TAG.EQ_PRESET_ID"
         private const val BASS_BOOST_SETTINGS = "$TAG.BASS_BOOST_SETTINGS"
         private const val VIRTUALIZER_SETTINGS = "$TAG.VIRTUALIZER_SETTINGS"
     }
@@ -29,10 +31,6 @@ class EqualizerPreferenceImpl @Inject constructor(
         return preferences.edit { putBoolean(EQ_ENABLED, enabled) }
     }
 
-    override fun getEqualizerSettings(): String {
-        return preferences.getString(EQ_SETTINGS, "")!!
-    }
-
     override fun getVirtualizerSettings(): String {
         return preferences.getString(VIRTUALIZER_SETTINGS, "")!!
     }
@@ -41,8 +39,18 @@ class EqualizerPreferenceImpl @Inject constructor(
         return preferences.getString(BASS_BOOST_SETTINGS, "")!!
     }
 
-    override fun saveEqualizerSettings(settings: String) {
-        preferences.edit { putString(EQ_SETTINGS, settings) }
+    override fun getCurrentPresetId(): Long {
+        return preferences.getLong(EQ_PRESET_ID, 0L)
+    }
+
+    override fun observeCurrentPresetId(): Flow<Long> {
+        return preferences.observeKey(EQ_PRESET_ID, 0L)
+    }
+
+    override fun setCurrentPresetId(id: Long) {
+        preferences.edit {
+            putLong(EQ_PRESET_ID, id)
+        }
     }
 
     override fun saveBassBoostSettings(settings: String) {
@@ -56,6 +64,5 @@ class EqualizerPreferenceImpl @Inject constructor(
     override fun setDefault() {
         assertBackgroundThread()
         setEqualizerEnabled(false)
-
     }
 }
