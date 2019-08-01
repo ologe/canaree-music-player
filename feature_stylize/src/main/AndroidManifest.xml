@@ -5,7 +5,7 @@
 
     <dist:module
         dist:instant="false"
-        dist:title="Stylize">
+        dist:title="@string/title_feature_stylize">
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>
