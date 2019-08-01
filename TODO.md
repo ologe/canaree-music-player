@@ -13,8 +13,7 @@
 ### bug
 - big image layout has problems with loading images 
     (has problem on my device with android P beta, on emulator works fine, check on other phones)
-- floating window play button in search lyrics not alwaus working
-- playing queue drag and drop for some reasong is too fast 
+- floating window play button in search lyrics not always working 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - after creating 'new playlist' from + button, bottom navigation disappears
 

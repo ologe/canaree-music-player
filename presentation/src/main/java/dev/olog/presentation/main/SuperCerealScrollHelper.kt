@@ -14,6 +14,7 @@ import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.prefs.SettingsFragment
+import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.findViewByIdNotRecursive
@@ -86,6 +87,10 @@ class SuperCerealScrollHelper(
     }
 
     override fun skipFragment(fragment: Fragment): Boolean {
+        if (fragment.tag == PlayingQueueFragment.TAG){
+            // for some reason when drag and drop in queue fragment, the queue became crazy
+            return true
+        }
         if (isViewPagerChildTag(fragment.tag)){
             return false
         }
