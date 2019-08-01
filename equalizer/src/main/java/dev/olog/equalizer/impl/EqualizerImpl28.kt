@@ -68,7 +68,6 @@ internal class EqualizerImpl28 @Inject constructor(
 
     override fun onDestroy() {
         release()
-        // TODO save all temp configs
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -86,7 +85,8 @@ internal class EqualizerImpl28 @Inject constructor(
         return gateway.getCurrentPreset()
     }
 
-    override fun setCurrentPreset(preset: EqualizerPreset) {
+    override suspend fun setCurrentPreset(preset: EqualizerPreset) {
+        updateCurrentPresetIfCustom()
         prefs.setCurrentPresetId(preset.id)
         dynamicProcessing?.let {
             preset.bands.forEachIndexed { index, equalizerBand ->
@@ -97,6 +97,16 @@ internal class EqualizerImpl28 @Inject constructor(
         }
     }
 
+    override suspend fun updateCurrentPresetIfCustom() = withContext(Dispatchers.IO) {
+        var preset = gateway.getCurrentPreset()
+        if (preset.isCustom){
+            preset = preset.copy(
+                bands = getAllBandsLevel()
+            )
+            gateway.updatePreset(preset)
+        }
+    }
+
     override fun getBandCount(): Int = BANDS
 
     override fun getBandLevel(band: Int): Float {
@@ -104,19 +114,17 @@ internal class EqualizerImpl28 @Inject constructor(
     }
 
     override fun setBandLevel(band: Int, level: Float) {
-        dynamicProcessing?.getPostEqBandByChannelIndex(0, band)?.let { eq ->
+        dynamicProcessing?.getPreEqBandByChannelIndex(0, band)?.let { eq ->
             eq.gain = level
-            dynamicProcessing?.setPostEqBandAllChannelsTo(band, eq)
+            dynamicProcessing?.setPreEqBandAllChannelsTo(band, eq)
         }
     }
 
     override fun getAllBandsLevel(): List<EqualizerBand> {
         val result = mutableListOf<EqualizerBand>()
-        for (index in 0 until CHANNELS){
+        for (index in 0 until BANDS){
             val eqBand = dynamicProcessing!!.getPreEqBandByChannelIndex(0, index)
-            result.add(EqualizerBand(
-                eqBand.gain, eqBand.cutoffFrequency
-            ))
+            result.add(EqualizerBand(eqBand.gain, eqBand.cutoffFrequency))
         }
         return result
     }

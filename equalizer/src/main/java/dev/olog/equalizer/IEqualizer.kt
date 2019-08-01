@@ -22,7 +22,8 @@ interface IEqualizer {
     fun getPresets(): List<EqualizerPreset>
     fun observeCurrentPreset(): Flow<EqualizerPreset>
     fun getCurrentPreset(): EqualizerPreset
-    fun setCurrentPreset(preset: EqualizerPreset)
+    suspend fun setCurrentPreset(preset: EqualizerPreset)
+    suspend fun updateCurrentPresetIfCustom()
 
     fun getBandCount(): Int
     fun getBandLevel(band: Int): Float

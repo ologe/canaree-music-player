@@ -38,9 +38,10 @@ internal class EqualizerFragmentPresenter @Inject constructor(
     }
 
     fun getBandLimit() = equalizer.getBandLimit()
-    fun getCurrentPreset() = equalizer.getCurrentPreset()
     fun getBandCount() = equalizer.getBandCount()
-    fun setCurrentPreset(preset: EqualizerPreset) = equalizer.setCurrentPreset(preset)
+    fun setCurrentPreset(preset: EqualizerPreset) = viewModelScope.launch(Dispatchers.IO) {
+        equalizer.setCurrentPreset(preset)
+    }
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
 
@@ -84,15 +85,20 @@ internal class EqualizerFragmentPresenter @Inject constructor(
         equalizerGateway.deletePreset(currentPreset)
     }
 
-    suspend fun saveCurrentPreset(title: String): Boolean = withContext(Dispatchers.IO){
+    suspend fun addPreset(title: String): Boolean = withContext(Dispatchers.IO){
         val preset = EqualizerPreset(
             id = -1,
             name = title,
             isCustom = true,
             bands = equalizer.getAllBandsLevel()
         )
-        equalizerGateway.saveCurrentPreset(preset)
+        require(preset.bands.size == getBandCount())
+        equalizerGateway.addPreset(preset)
         true
+    }
+
+    fun updateCurrentPresetIfCustom() = viewModelScope.launch(Dispatchers.IO) {
+        equalizer.updateCurrentPresetIfCustom()
     }
 
 }

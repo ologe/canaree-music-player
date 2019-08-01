@@ -43,7 +43,7 @@ internal class EqualizerImpl @Inject constructor(
         }
     }
 
-    override fun setCurrentPreset(preset: EqualizerPreset) {
+    override suspend fun setCurrentPreset(preset: EqualizerPreset) {
 //        equalizer?.usePreset(position.toShort())
     }
 
@@ -57,6 +57,10 @@ internal class EqualizerImpl @Inject constructor(
 //        }
     }
 
+    override suspend fun updateCurrentPresetIfCustom() {
+
+    }
+
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
         TODO()
     }
@@ -66,7 +70,7 @@ internal class EqualizerImpl @Inject constructor(
 //        return equalizer?.currentPreset?.toInt() ?: 0
     }
 
-    override fun getBandCount(): Int = equalizer?.numberOfBands?.toInt() ?: BANDS
+    override fun getBandCount(): Int = BANDS
 
     override fun setEnabled(enabled: Boolean) {
         equalizer?.enabled = enabled

@@ -11,10 +11,7 @@ import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.android.extensions.viewModelProvider
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
@@ -35,7 +32,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val presenter by lazyFast { viewModelProvider<EqualizerFragmentPresenter>(factory) }
+    private val presenter by lazyFast { act.viewModelProvider<EqualizerFragmentPresenter>(factory) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -64,7 +61,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
                         step = presenter.getBandStep()
                         max = presenter.getBandLimit()
                         min = -presenter.getBandLimit()
-                        value = band.gain
+                        value = band.gain // todo animate
                     }
                     layout.frequency.text = band.displayableFrequency
                 }
@@ -81,6 +78,11 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             }
             bands.addView(layout)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.updateCurrentPresetIfCustom()
     }
 
     override fun onResume() {
@@ -102,7 +104,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             TextViewDialog(ctx, "Save preset", null)
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
-                    presenter.saveCurrentPreset(it[0].text.toString())
+                    presenter.addPreset(it[0].text.toString())
                     true
                 }, neutralAction = TextViewDialog.Action("Cancel") { true })
         }

@@ -52,13 +52,15 @@ internal class EqualizerRepository @Inject constructor(
             .distinctUntilChanged()
     }
 
-    override fun saveCurrentPreset(preset: EqualizerPreset) {
+    override suspend fun addPreset(preset: EqualizerPreset) {
+        require(preset.id == -1L)
+        require(preset.isCustom)
+
         val newId = getPresets().maxBy { it.id }!!.id + 1
-        saveCurrentPreset(preset.copy(id = newId))
-        prefs.setCurrentPresetId(newId)
+        dao.insertPreset(preset.toEntity().copy(id = newId))
     }
 
-    override suspend fun addPreset(preset: EqualizerPreset) {
+    override suspend fun updatePreset(preset: EqualizerPreset) {
         dao.insertPreset(preset.toEntity())
     }
 
@@ -92,89 +94,90 @@ internal class EqualizerRepository @Inject constructor(
     }
 
     private fun createDefaultPresetsApi28(): List<EqualizerPresetEntity> {
+        var id = 0L
         return listOf(
             // itunes presets
-            createPresetApi28(0, "Acoustic",
+            createPresetApi28(id++, "Flat",
+                0f, 0f, 0f, 0f, 0f,
+                0f, 0f, 0f, 0f, 0f
+            ),
+            createPresetApi28(id++, "Acoustic",
                 5f, 5f, 4f, 1f, 1.5f,
                 1.5f, 3.5f, 4f, 3.5f, 2f
             ),
-            createPresetApi28(1, "Bass Booster",
+            createPresetApi28(id++, "Bass Booster",
                 5.5f, 4.5f, 4f, 2.75f, 1.5f,
                 0f, 0f, 0f, 0f, 0f
             ),
-            createPresetApi28(3, "Bass Reducer",
+            createPresetApi28(id++, "Bass Reducer",
                 -5.5f, -4.5f, -4f, -2.75f, -1.5f,
                 0f, 0f, 0f, 0f, 0f
             ),
-            createPresetApi28(4, "Classical",
+            createPresetApi28(id++, "Classical",
                 4.5f, 4f, 3f, 2.5f, -1.5f,
                 -1.5f, 0f, 2.5f, 3.5f, 4f
             ),
-            createPresetApi28(5, "Dance",
+            createPresetApi28(id++, "Dance",
                 4f, 7f, 5f, 0f, 2.5f,
                 3.5f, 5f, 4.5f, 3.5f, 0f
             ),
-            createPresetApi28(6, "Deep",
+            createPresetApi28(id++, "Deep",
                 4.5f, 3.5f, 2f, 1f, 3f,
                 2.5f, 1.5f, -2f, -3.5f, -4.5f
             ),
-            createPresetApi28(7, "Electronic",
+            createPresetApi28(id++, "Electronic",
                 4.5f, 4f, 1.5f, 0f, -1.8f,
                 2f, 1f, 1.5f, 4f, 5f
             ),
-            createPresetApi28(8, "Flat",
-                0f, 0f, 0f, 0f, 0f,
-                0f, 0f, 0f, 0f, 0f
-            ),
-            createPresetApi28(9, "Hip-Hop",
+            createPresetApi28(id++, "Hip-Hop",
                 5f, 4f, 1.5f, 3f, -1f,
                 -1f, 1.5f, -.5f, 2f, 3f
             ),
-            createPresetApi28(10, "Jazz",
+            createPresetApi28(id++, "Jazz",
                 4f, 3f, 1.5f, 2f, -1.5f,
                 -1.5f, 0f, 1.5f, 3f, 4f
             ),
-            createPresetApi28(11, "Latin",
+            createPresetApi28(id++, "Latin",
                 4.5f, 3f, 0f, 0f, -1.5f,
                 -1.5f, -1.5f, 0f, 3f, 4.5f
             ),
-            createPresetApi28(12, "Loudness",
+            createPresetApi28(id++, "Loudness",
                 6f, 4f, 0f, 0f, -2f,
                 0f, -1f, -4.5f, 5f, 1f
             ),
-            createPresetApi28(13, "Lounge",
+            createPresetApi28(id++, "Lounge",
                 -3f, -1.5f, -.5f, 1.5f, 4f,
                 2.5f, 0f, -1.5f, 2f, 1f
             ),
-            createPresetApi28(14, "Piano",
+            createPresetApi28(id++, "Piano",
                 3f, 2f, 0f, 2f, 3f,
                 1.5f, 4f, 3f, 3f, 4f
             ),
-            createPresetApi28(15, "Pop",
+            createPresetApi28(id++, "Pop",
                 -1.5f, -1f, 0f, 2f, 4f,
                 4f, 2f, 0f, -1f, -1.2f
             ),
-            createPresetApi28(16, "R&B",
+            createPresetApi28(id++, "R&B",
                 3f, 7.2f, 6f, 1.5f, -2f,
                 -1.5f, 2f, 2.5f, 2.5f, 3.5f
             ),
-            createPresetApi28(17, "Rock",
+            createPresetApi28(id++, "Rock",
                 4.8f, 4.2f, 3f, 1.5f, -.5f,
                 -1f, .5f, 2.5f, 3.5f, 4.5f
             ),
-            createPresetApi28(18, "Small Speakers",
+            createPresetApi28(id++, "Small Speakers",
                 5f, 4.5f, 4f, 1f, 2f,
                 1.5f, 3.5f, 4f, 3.5f, 2f
             ),
-            createPresetApi28(19, "Spoken Word",
+            createPresetApi28(id++, "Spoken Word",
                 -3.8f, -.5f, 0f, .8f, 3.5f,
                 4.5f, 4.5f, 4.5f, 2.8f, 0f
             ),
-            createPresetApi28(20, "Treble Booster",
+            createPresetApi28(id++, "Treble Booster",
                 0f, 0f, 0f, 0f, 0f,
                 1.5f, 2f, 4f, 4.5f, 5.2f
             ),
-            createPresetApi28(21, "Treble Reducer",
+            createPresetApi28(id, "Treble Reducer",
                 0f, 0f, 0f, 0f, 0f,
                 -1.5f, -2f, -4f, -4.5f, -5.2f
             )
