@@ -22,6 +22,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
 
     companion object {
         const val TAG = "EqualizerFragment"
+        const val DEFAULT_BAR_ALPHA = .75f
 
         @JvmStatic
         fun newInstance(): EqualizerFragment {
@@ -63,6 +64,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
                         min = -presenter.getBandLimit()
                         value = band.gain // todo animate
                     }
+                    layout.seekbar.alpha = DEFAULT_BAR_ALPHA
                     layout.frequency.text = band.displayableFrequency
                 }
             }
@@ -150,15 +152,24 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     }
 
     inner class BandListener(private val band: Int) : BoxedVertical.OnValuesChangeListener {
-        override fun onStartTrackingTouch(seekbar: BoxedVertical) {
-
-        }
 
         override fun onPointsChanged(seekbar: BoxedVertical, value: Float) {
             presenter.setBandLevel(band, value)
         }
+        override fun onStartTrackingTouch(seekbar: BoxedVertical) {
+            seekbar.animate()
+                .setDuration(200)
+                .alpha(1f)
+                .scaleX(1.2f)
+                .scaleY(1.05f)
+        }
 
-        override fun onStopTrackingTouch(p0: BoxedVertical?) {
+        override fun onStopTrackingTouch(seekbar: BoxedVertical) {
+            seekbar.animate()
+                .setDuration(200)
+                .alpha(DEFAULT_BAR_ALPHA)
+                .scaleX(1f)
+                .scaleY(1f)
         }
     }
 
