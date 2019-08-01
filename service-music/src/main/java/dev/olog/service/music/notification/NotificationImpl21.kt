@@ -14,7 +14,7 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.legacy.getCachedBitmapOld
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
@@ -23,6 +23,7 @@ import dev.olog.intents.Classes
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.assertBackgroundThread
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(
@@ -79,7 +80,7 @@ internal open class NotificationImpl21 @Inject constructor(
     protected open fun stopChronometer(bookmark: Long) {
     }
 
-    override fun update(state: MusicNotificationState): Notification {
+    override suspend fun update(state: MusicNotificationState): Notification {
         assertBackgroundThread()
 
         createIfNeeded()
@@ -93,6 +94,8 @@ internal open class NotificationImpl21 @Inject constructor(
         updateMetadataImpl(state.id, spannableTitle, artist, album, state.isPodcast)
         updateState(state.isPlaying, state.bookmark - state.duration)
         updateFavorite(state.isFavorite)
+
+        yield()
 
         val notification = builder.build()
         notificationManager.notify(INotification.NOTIFICATION_ID, notification)
@@ -115,7 +118,7 @@ internal open class NotificationImpl21 @Inject constructor(
         builder.mActions[0] = NotificationActions.favorite(service, isFavorite)
     }
 
-    protected open fun updateMetadataImpl(
+    protected open suspend fun updateMetadataImpl(
         id: Long,
         title: SpannableString,
         artist: String,
@@ -127,7 +130,7 @@ internal open class NotificationImpl21 @Inject constructor(
 
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
         val mediaId = MediaId.playableItem(MediaId.createCategoryValue(category, ""), id)
-        val bitmap = service.getCachedBitmapOld(mediaId, INotification.IMAGE_SIZE)
+        val bitmap = service.getCachedBitmap(mediaId, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
             .setContentTitle(title)
             .setContentText(artist)

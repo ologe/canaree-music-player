@@ -80,7 +80,7 @@ internal class MusicNotificationManager @Inject constructor(
         }
     }
 
-    private fun consumeEvent(event: Event){
+    private suspend fun consumeEvent(event: Event){
         Log.v(TAG, "on next event $event")
 
         publishJob?.cancel()
@@ -103,7 +103,7 @@ internal class MusicNotificationManager @Inject constructor(
         }
     }
 
-    private fun publishNotification(state: MusicNotificationState, delay: Long) {
+    private suspend fun publishNotification(state: MusicNotificationState, delay: Long) {
         require(currentState !== state) // to avoid concurrency problems a copy is passed
 
         Log.v(TAG, "publish notification request with delay ${delay}ms, state=$state")
@@ -112,14 +112,14 @@ internal class MusicNotificationManager @Inject constructor(
             issueNotification(state)
         } else {
             // post delayed
-            publishJob = launch {
+            publishJob = GlobalScope.launch {
                 delay(delay)
                 issueNotification(state)
             }
         }
     }
 
-    private fun issueNotification(state: MusicNotificationState) {
+    private suspend fun issueNotification(state: MusicNotificationState) {
         Log.v(TAG, "issue notification")
         val notification = notificationImpl.update(state)
         if (state.isPlaying) {
