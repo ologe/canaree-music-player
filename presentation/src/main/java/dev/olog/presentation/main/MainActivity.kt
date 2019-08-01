@@ -221,8 +221,8 @@ class MainActivity : MusicGlueActivity(),
     }
 
     fun restoreSlidingPanelHeight(){
-        bottomWrapper.animate().translationY(0f).setDuration(100)
-        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
+        bottomWrapper.animate().translationY(0f).duration = 100
+        slidingPanel.animate().translationY(0f).duration = 100
     }
 
     private fun tryLoadAd(){
