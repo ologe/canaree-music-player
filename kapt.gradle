@@ -4,10 +4,5 @@ kapt {
 
     javacOptions {
         option("-Xmaxerrs", 500)
-        // dagger compiler options
-        option("-Adagger.fastInit=enabled")
-        option("-Adagger.formatGeneratedSource=disabled")
-//        option("-Adagger.fullBindingGraphValidation=ERROR")
-//        option("-Adagger.formatGeneratedSource=enabled")
     }
 }

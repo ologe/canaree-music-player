@@ -48,6 +48,13 @@ allprojects {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
+    afterEvaluate {
+        extensions.findByName('kapt')?.arguments {
+            arg("dagger.fastInit", "enabled")
+            arg("dagger.formatGeneratedSource", "disabled")
+//            arg("dagger.fullBindingGraphValidation", "ERROR")
+        }
+    }
 }
 
 task clean(type: Delete) {
