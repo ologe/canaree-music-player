@@ -67,6 +67,10 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
+        if (fragment.tag == PlayingQueueFragment.TAG){
+            // for some reason when drag and drop in queue fragment, the queue became crazy
+            return null
+        }
         val view : View? = when {
             isViewPagerChildTag(fragment.tag) -> {
                 // search toolbar and tab layout in parent fragment
@@ -87,10 +91,6 @@ class SuperCerealScrollHelper(
     }
 
     override fun skipFragment(fragment: Fragment): Boolean {
-        if (fragment.tag == PlayingQueueFragment.TAG){
-            // for some reason when drag and drop in queue fragment, the queue became crazy
-            return true
-        }
         if (isViewPagerChildTag(fragment.tag)){
             return false
         }
