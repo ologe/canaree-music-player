@@ -1,7 +1,7 @@
 package dev.olog.presentation.prefs
 
 import android.graphics.Color
-import dev.olog.shared.android.utils.ColorUtils
+import dev.olog.lib.ColorDesaturationUtils
 
 object ColorPalette {
 
@@ -38,13 +38,13 @@ object ColorPalette {
 
     @JvmStatic
     private val ACCENT_COLORS_DESATURATED: IntArray by lazy {
-        ACCENT_COLORS.map { ColorUtils.desaturate(it) }.toIntArray()
+        ACCENT_COLORS.map { ColorDesaturationUtils.desaturate(it, .25f, .75f) }.toIntArray()
     }
 
     @JvmStatic
     private val ACCENT_COLORS_SUB_DESATURATED: Array<IntArray> by lazy {
         ACCENT_COLORS_SUB.map { ints ->
-            ints.copyOf().map { ColorUtils.desaturate(it) }.toIntArray()
+            ints.copyOf().map { ColorDesaturationUtils.desaturate(it, 0.25f, 0.75f) }.toIntArray()
         }.toTypedArray()
     }
 

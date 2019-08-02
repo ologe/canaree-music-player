@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.presentation.R
-import dev.olog.presentation.main.CustomResources
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.theme.isImmersiveMode
 import javax.inject.Inject
@@ -42,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInj
         val res = super.getResources()
         if (customResources == null){
             val isDarkMode = res.getBoolean(R.bool.is_dark_mode)
-            customResources = CustomResources(isDarkMode, res.assets, res.displayMetrics, res.configuration)
+            customResources = DarkDesaturatedResources(isDarkMode, res)
         }
         return customResources!!
     }

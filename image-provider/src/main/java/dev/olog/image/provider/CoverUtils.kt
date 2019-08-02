@@ -8,8 +8,8 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.lib.ColorDesaturationUtils
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.utils.ColorUtils
 import kotlin.math.abs
 
 object CoverUtils {
@@ -44,7 +44,7 @@ object CoverUtils {
     private val DESATURATED_COLORS by lazy {
         COLORS.map { original ->
             val ints = original.copyOf()
-            ints[0] = ColorUtils.desaturate(ints[1], amount = .25f)
+            ints[0] = ColorDesaturationUtils.desaturate(ints[1], .25f, .75f)
             ints[1] = ints[0]
             ints
         }

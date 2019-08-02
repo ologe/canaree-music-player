@@ -27,6 +27,7 @@ ext {
     material_dialogs = '2.8.1'
     scroll_helper = '1.0.1'
     blur_kit = '1.0.0'
+    color_desaturation = '1.0'
 
 //    data
     room = '2.1.0'
@@ -114,6 +115,7 @@ ext {
             custom_tabs             : "saschpe.android:customtabs:$custom_tabs",
             dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
             dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
+            color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",
     ]
 
     lib_data = [
