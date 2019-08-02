@@ -47,6 +47,8 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
 
                 val gradient = view.playerRoot.background as GradientDrawable
                 val defaultColor = view.context.colorBackground()
+                // forcing orientation in code because android Q uses it own orientation coordinates
+                gradient.orientation = GradientDrawable.Orientation.TOP_BOTTOM
                 gradient.colors = intArrayOf(first, second, defaultColor)
                 view.playerRoot.background = gradient
 
