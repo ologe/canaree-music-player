@@ -12,8 +12,8 @@
 
     <color name="textColorPrimary">#2b2b2b</color>
     <color name="textColorSecondary">#7f7f7f</color>
-    <color name="textColorPrimaryDisabled">#39000000</color>
-    <color name="textColorSecondaryDisabled">#24000000</color>
+    <color name="textColorPrimaryDisabled">#BDBDBD</color>
+    <color name="textColorSecondaryDisabled">#BDBDBD</color>
 
     <color name="searchBoxBackground">#f1f3f4</color>
 

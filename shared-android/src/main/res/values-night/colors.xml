@@ -11,7 +11,7 @@
     <color name="textColorPrimary">#fff</color>
     <color name="textColorSecondary">#7f7f7f</color>
     <color name="textColorPrimaryDisabled">#4Dffffff</color>
-    <color name="textColorSecondaryDisabled">#b3ffffff</color>
+    <color name="textColorSecondaryDisabled">#4Dffffff</color>
 
     <color name="searchBoxBackground">#303336</color>
 
