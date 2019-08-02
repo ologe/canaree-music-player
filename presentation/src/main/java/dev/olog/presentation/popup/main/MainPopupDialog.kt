@@ -29,7 +29,7 @@ class MainPopupDialog @Inject constructor(
     }
 
     fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
-        val popup = PopupMenu(anchor.context, anchor, Gravity.BOTTOM or Gravity.END)
+        val popup = PopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
             MediaIdCategory.ALBUMS -> R.menu.main_albums
             MediaIdCategory.SONGS -> R.menu.main_songs

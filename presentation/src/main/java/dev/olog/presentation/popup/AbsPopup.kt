@@ -14,7 +14,7 @@ import dev.olog.presentation.R
 abstract class AbsPopup(
         view: View
 
-) : PopupMenu(view.context, view, Gravity.END or Gravity.BOTTOM) {
+) : PopupMenu(view.context, view) {
 
     companion object {
         const val NEW_PLAYLIST_ID = Int.MIN_VALUE

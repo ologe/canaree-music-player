@@ -15,6 +15,7 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="popupMenuStyle">@style/MaterialPopupMenu</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -25,7 +26,7 @@
         <item name="colorUnselectedButton">@color/colorUnselectedButton</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+<!--        <item name="android:textColorPrimary">@color/textColorPrimary</item>-->
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
 
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
@@ -47,7 +48,6 @@
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
-<!--        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>-->
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
@@ -186,6 +186,11 @@
 
     <style name="ChipTextAppearance" parent="TextAppearance.AppCompat.Body2">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="MaterialPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_background</item>
+        <item name="overlapAnchor">true</item>
     </style>
 
 </resources>
