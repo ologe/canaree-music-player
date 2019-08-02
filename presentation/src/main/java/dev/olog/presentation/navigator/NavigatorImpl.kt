@@ -4,6 +4,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
+import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
@@ -39,9 +40,9 @@ import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor( // TODO
     private val activity: AppCompatActivity,
-    private val mainPopup: MainPopupDialog,
-    private val popupFactory: PopupMenuFactory,
-    private val editItemDialogFactory: EditItemDialogFactory
+    private val mainPopup: Lazy<MainPopupDialog>,
+    private val popupFactory: Lazy<PopupMenuFactory>,
+    private val editItemDialogFactory: Lazy<EditItemDialogFactory>
 
 ) : DefaultLifecycleObserver, Navigator {
 
@@ -100,19 +101,19 @@ class NavigatorImpl @Inject internal constructor( // TODO
         if (allowed()) {
             when {
                 mediaId.isLeaf -> {
-                    editItemDialogFactory.toEditTrack(mediaId) {
+                    editItemDialogFactory.get().toEditTrack(mediaId) {
                         val instance = EditTrackFragment.newInstance(mediaId)
                         instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
                     }
                 }
                 mediaId.isAlbum || mediaId.isPodcastAlbum -> {
-                    editItemDialogFactory.toEditAlbum(mediaId) {
+                    editItemDialogFactory.get().toEditAlbum(mediaId) {
                         val instance = EditAlbumFragment.newInstance(mediaId)
                         instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
                     }
                 }
                 mediaId.isArtist || mediaId.isPodcastArtist -> {
-                    editItemDialogFactory.toEditArtist(mediaId) {
+                    editItemDialogFactory.get().toEditArtist(mediaId) {
                         val instance = EditArtistFragment.newInstance(mediaId)
                         instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
                     }
@@ -134,7 +135,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
     override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()) {
             GlobalScope.launch {
-                val popup = popupFactory.create(anchor, mediaId)
+                val popup = popupFactory.get().create(anchor, mediaId)
                 withContext(Dispatchers.Main) {
                     popup.show()
                 }
@@ -143,7 +144,7 @@ class NavigatorImpl @Inject internal constructor( // TODO
     }
 
     override fun toMainPopup(anchor: View, category: MediaIdCategory?) {
-        mainPopup.show(anchor, this, category)
+        mainPopup.get().show(anchor, this, category)
     }
 
     override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
