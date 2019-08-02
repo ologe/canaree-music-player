@@ -20,7 +20,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="colorControlNormal">@color/color_control_normal_selector</item>
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
         <item name="colorSwipeBackground">@color/colorSwipeBackground</item>
         <item name="colorUnselectedButton">@color/colorUnselectedButton</item>

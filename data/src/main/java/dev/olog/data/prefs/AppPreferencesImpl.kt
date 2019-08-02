@@ -55,23 +55,17 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setDefault() {
         assertBackgroundThread()
-        hideQuickAction()
-        hideClassicPlayerControls()
-        setDefaultAutoDownloadImages()
-        setDefaultTheme()
-        setLastFmCredentials(UserCredentials("", ""))
-        setDefaultFolderView()
+        // LIBRARY -> folder tree
         @Suppress("DEPRECATION")
         setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
-        setDefaultLibraryAlbumArtistVisibility()
-        setDefaultAdaptiveColors()
-        setDefaultLockscreenArtwork()
-    }
+        setDefaultFolderView()
 
-    private fun setDefaultLockscreenArtwork() {
-        preferences.edit {
-            putBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
-        }
+        // USER INTERFACE
+        setDefaultPlayerAppearance()
+        setDefaultAdaptiveColors()
+        setDefaultImmersive()
+        hideQuickAction()
+        setDefaultIconShape()
     }
 
     private fun setDefaultAdaptiveColors() {
@@ -80,10 +74,9 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    private fun setDefaultLibraryAlbumArtistVisibility() {
+    private fun setDefaultImmersive() {
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
-            putBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
+            putBoolean(context.getString(R.string.prefs_immersive_key), false)
         }
     }
 
@@ -98,40 +91,23 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
-    private fun setDefaultAutoDownloadImages() {
-        preferences.edit {
-            putString(
-                context.getString(R.string.prefs_auto_download_images_key),
-                context.getString(R.string.prefs_auto_download_images_entry_value_wifi)
-            )
-            putBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
-        }
-    }
-
     private fun hideQuickAction() {
         preferences.edit {
-            putString(
-                context.getString(R.string.prefs_quick_action_key),
-                context.getString(R.string.prefs_quick_action_entry_value_hide)
-            )
+            putString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
         }
     }
 
-    private fun hideClassicPlayerControls() {
+    private fun setDefaultIconShape() {
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_player_controls_visibility_key), false)
+            putString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
         }
     }
 
-    private fun setDefaultTheme() {
+    private fun setDefaultPlayerAppearance() {
         preferences.edit {
             putString(
                 context.getString(R.string.prefs_appearance_key),
                 context.getString(R.string.prefs_appearance_entry_value_default)
-            )
-            putString(
-                context.getString(R.string.prefs_dark_mode_key),
-                context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system)
             )
         }
     }

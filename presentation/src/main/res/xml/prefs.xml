@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <SwitchPreferenceCompat
         app:title="Show ads to unlock premium features"
         app:key="@string/premium_ad_key"
-        app:defaultValue="false"/>
+        app:defaultValue="false"
+        app:isPreferenceVisible="false"
+        tools:isPreferenceVisible="true"/>
 
     <PreferenceCategory
         app:title="@string/prefs_category_library">
@@ -13,24 +16,28 @@
         <Preference
             app:title="@string/prefs_library_categories_title"
             app:summary="@string/prefs_library_categories_summary"
-            app:key="@string/prefs_library_categories_key" />
+            app:key="@string/prefs_library_categories_key"
+            tools:enabled="false"/>
 
         <Preference
             app:title="@string/prefs_podcast_library_categories_title"
             app:summary="@string/prefs_podcast_library_categories_summary"
-            app:key="@string/prefs_podcast_library_categories_key" />
+            app:key="@string/prefs_podcast_library_categories_key"
+            tools:enabled="false"/>
 
         <Preference
             app:title="@string/prefs_blacklist_title"
             app:summary="@string/prefs_blacklist_summary"
-            app:key="@string/prefs_blacklist_key"/>
+            app:key="@string/prefs_blacklist_key"
+            tools:enabled="false"/>
 
         <SwitchPreferenceCompat
             app:title="@string/prefs_folder_tree_view_title"
             app:summaryOn="@string/prefs_folder_tree_view_summary_on"
             app:summaryOff="@string/prefs_folder_tree_view_summary_off"
             app:key="@string/prefs_folder_tree_view_key"
-            app:defaultValue="false"/>
+            app:defaultValue="false"
+            tools:enabled="false"/>
 
     </PreferenceCategory>
 

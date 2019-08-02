@@ -14,7 +14,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
@@ -45,8 +44,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     @Inject
     lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
 
-    private var snackbar: Snackbar? = null
-
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
     private lateinit var blacklist: Preference
@@ -57,22 +54,24 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
-    private val freeSettings: List<Preference> by lazyFast {
+    private val paidSettings: List<Preference> by lazyFast {
         listOf(
+            // library
+            findPreference<Preference>(getString(R.string.prefs_library_categories_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_podcast_library_categories_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_blacklist_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_folder_tree_view_key))!!,
+            //audio
+            findPreference<Preference>(getString(R.string.prefs_used_equalizer_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_midnight_mode_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_cross_fade_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_gapless_key))!!,
             // ui
-            findPreference<Preference>(getString(R.string.prefs_dark_mode_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_color_accent_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_show_recent_albums_artists_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_show_new_albums_artists_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_player_controls_visibility_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!,
-            // other
-            findPreference<Preference>(getString(R.string.prefs_lockscreen_artwork_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_last_fm_credentials_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_auto_download_images_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_auto_create_images_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_reset_tutorial_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_delete_cached_images_key))!!
+            findPreference<Preference>(getString(R.string.prefs_appearance_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_adaptive_colors_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_immersive_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_quick_action_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!
         )
     }
 
@@ -97,22 +96,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO i think there a memory leak
+        // TODO i think there a memory leak, random crash after block and unlock screen
 
         val billing = (act as HasBilling).billing
         billing.observeBillingsState()
             .map { it.isPremiumEnabled() }
-            .take(1)
             .asLiveData()
             .subscribe(viewLifecycleOwner) { isPremium ->
                 preferenceScreen.forEach {
-                    it.isEnabled = isPremium || freeSettings.contains(it)
-                }
-
-                if (!isPremium) {
-                    val v = act.window.decorView.findViewById<View>(android.R.id.content)
-                    snackbar = Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.prefs_not_premium_action) { billing.purchasePremium() }.apply { show() }
+                    it.isEnabled = isPremium || !paidSettings.contains(it)
                 }
             }
 
@@ -121,8 +113,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .take(1)
             .asLiveData()
             .subscribe(viewLifecycleOwner) { isPremiumStrict ->
-                if (isPremiumStrict){
-                    preferenceScreen.removePreference(findPreference(getString(R.string.premium_ad_key)))
+                if (!isPremiumStrict){
+                    findPreference<Preference>(getString(R.string.premium_ad_key))?.isVisible = true
                 }
             }
 
@@ -192,11 +184,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         lastFmCredentials.onPreferenceClickListener = null
         accentColorChooser.onPreferenceClickListener = null
         resetTutorial.onPreferenceClickListener = null
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        snackbar?.dismiss()
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
