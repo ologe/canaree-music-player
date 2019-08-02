@@ -115,7 +115,7 @@ class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null || BuildConfig.DEBUG
+        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null || DEFAULT_PREMIUM
 //        return true
     }
 
