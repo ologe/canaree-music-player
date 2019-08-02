@@ -27,6 +27,7 @@ internal class MusicServiceRepeatMode @Inject constructor(
 
     fun getState(): Int = musicPreferencesUseCase.getRepeatMode()
 
+    // TODO blocking io call, i think is the same in shuffle
     fun isRepeatNone(): Boolean = getState() == REPEAT_MODE_NONE
 
     fun isRepeatOne(): Boolean = getState() == REPEAT_MODE_ONE
