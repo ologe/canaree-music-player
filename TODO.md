@@ -9,6 +9,7 @@
 - fix stilyze image
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
+- reduce method count (opening dex file take a lot of time on on app startup)
 
 ### bug
 - big image layout has problems with loading images 
@@ -16,6 +17,9 @@
 - floating window play button in search lyrics not always working 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - after creating 'new playlist' from + button, bottom navigation disappears
+- detail is not displaying corretly track number
+- figure out how to change preference switch track disabled color
+- on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
 
 ## features
 - add to favorite in android auto
