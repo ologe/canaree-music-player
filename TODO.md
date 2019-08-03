@@ -1,12 +1,10 @@
 ## TODO
-- desaturation not work on all components, like tab layout
-    - desaturation not removed completely in settings after switching from dark to light mode
 - check mediastore insert/update/delete on Android Q
 - change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
 - re add podcast auto playlist
 - add alpha to toolbar image button in detail fragment when scrolling up
-- fix stilyze image
+- fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
 - reduce method count (opening dex file take a lot of time on on app startup)
