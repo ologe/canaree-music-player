@@ -5,7 +5,7 @@ import android.media.audiofx.AudioEffect
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
-import dev.olog.presentation.about.AboutActivity
+import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
@@ -20,8 +20,7 @@ class MainPopupNavigator @Inject constructor(
 ) {
 
     fun toAboutActivity() {
-        val intent = Intent(activity, AboutActivity::class.java)
-        activity.startActivity(intent)
+        superCerealTransition(activity, AboutFragment(), AboutFragment.TAG)
     }
 
     fun toEqualizer() {
@@ -36,7 +35,6 @@ class MainPopupNavigator @Inject constructor(
     }
 
     private fun toBuiltInEqualizer() {
-
         val instance = EqualizerFragment.newInstance()
         instance.show(activity.supportFragmentManager, EqualizerFragment.TAG)
     }

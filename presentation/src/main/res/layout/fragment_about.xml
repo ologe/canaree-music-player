@@ -32,7 +32,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textAppearance="@style/Header.Secondary"
-            android:text="@string/about_special_thanks_to"
+            android:text="@string/about"
             android:layout_marginStart="48dp"
             tools:fontFamily="sans-serif-black"/>
 
@@ -44,6 +44,6 @@
         android:layout_height="match_parent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        tools:listitem="@layout/item_special_thanks"/>
+        tools:listitem="@layout/item_about"/>
 
 </LinearLayout>

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.combineLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 
-class AboutActivityPresenter(
+class AboutFragmentPresenter(
     context: Context,
     private val billing: IBilling
 ) : CoroutineScope by MainScope() {

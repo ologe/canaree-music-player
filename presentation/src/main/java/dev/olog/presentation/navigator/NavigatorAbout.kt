@@ -10,8 +10,6 @@ interface NavigatorAbout {
 
     fun toPrivacyPolicy()
 
-//    fun toDeveloperProfile()
-
     fun joinCommunity()
 
     fun joinBeta()

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.act
-import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
 class LicensesFragment : Fragment() {
@@ -26,8 +26,7 @@ class LicensesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val presenter =
-            LicensesFragmentPresenter(act.applicationContext)
+        val presenter = LicensesFragmentPresenter(act.applicationContext)
         val adapter = LicensesFragmentAdapter(lifecycle)
 
         view.list.adapter = adapter
@@ -38,7 +37,12 @@ class LicensesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        act.switcher?.setText(getString(R.string.about_third_sw))
+        back.setOnClickListener { act.onBackPressed() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        back.setOnClickListener(null)
     }
 
 }

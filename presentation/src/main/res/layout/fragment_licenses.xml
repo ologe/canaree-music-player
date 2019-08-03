@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:clickable="true"
-    android:focusable="true" >
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <dev.olog.presentation.widgets.StatusBarView
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar"
+        android:elevation="@dimen/toolbar_elevation" />
+
+    <FrameLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="?colorSurface">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:src="@drawable/vd_back_arrow"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textAppearance="@style/Header.Secondary"
+            android:text="@string/about_third_sw"
+            android:layout_marginStart="48dp"
+            tools:fontFamily="sans-serif-black"/>
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:scrollbars="vertical" />
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
 
-</FrameLayout>
+</LinearLayout>

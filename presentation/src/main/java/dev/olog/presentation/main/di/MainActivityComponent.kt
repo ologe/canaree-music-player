@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dev.olog.injection.CoreComponent
 import dev.olog.presentation.ViewModelModule
+import dev.olog.presentation.about.di.AboutFragmentModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
@@ -52,6 +53,7 @@ fun MainActivity.inject() {
         SettingsFragmentsModule::class,
 
         EditItemModule::class,
+        AboutFragmentModule::class,
 
         DialogModule::class
     ), dependencies = [CoreComponent::class]

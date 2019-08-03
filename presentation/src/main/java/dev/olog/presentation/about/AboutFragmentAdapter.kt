@@ -14,10 +14,10 @@ import dev.olog.shared.android.extensions.colorAccent
 import kotlinx.android.synthetic.main.item_about.view.*
 
 
-class AboutActivityAdapter(
+class AboutFragmentAdapter(
     lifecycle: Lifecycle,
     private val navigator: NavigatorAbout,
-    private val presenter: AboutActivityPresenter
+    private val presenter: AboutFragmentPresenter
 
 ) : ObservableAdapter<DisplayableItem>(
     lifecycle,
@@ -27,19 +27,19 @@ class AboutActivityAdapter(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.mediaId) {
-                AboutActivityPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutActivityPresenter.RATE_ID -> navigator.toMarket()
-                AboutActivityPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutActivityPresenter.BUY_PRO -> presenter.buyPro()
-                AboutActivityPresenter.COMMUNITY -> navigator.joinCommunity()
-                AboutActivityPresenter.BETA -> navigator.joinBeta()
+                AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
+                AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
+                AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
+                AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
+                AboutFragmentPresenter.BUY_PRO -> presenter.buyPro()
+                AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
+                AboutFragmentPresenter.BETA -> navigator.joinBeta()
             }
         }
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        if (item.mediaId == AboutActivityPresenter.BUY_PRO) {
+        if (item.mediaId == AboutFragmentPresenter.BUY_PRO) {
             val view = binding.root
             view.title.setTextColor(ColorStateList.valueOf(view.context.colorAccent()))
         }

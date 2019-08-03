@@ -57,7 +57,12 @@ fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
     return topFragment
 }
 
-fun superCerealTransition(activity: FragmentActivity, fragment: Fragment, tag: String) {
+fun superCerealTransition(
+    activity: FragmentActivity,
+    fragment: Fragment,
+    tag: String,
+    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+) {
     if (!allowed()) {
         return
     }
@@ -66,7 +71,7 @@ fun superCerealTransition(activity: FragmentActivity, fragment: Fragment, tag: S
 
     activity.fragmentTransaction {
         setReorderingAllowed(true)
-        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        setTransition(transition)
         topFragment?.let { hide(it) }
         add(
             R.id.fragmentContainer,
