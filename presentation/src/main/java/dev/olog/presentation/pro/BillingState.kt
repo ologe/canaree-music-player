@@ -1,6 +1,6 @@
 package dev.olog.presentation.pro
 
-class BillingState(
+data class BillingState(
     val isTrial: Boolean,
     val isBought: Boolean,
     val canShowAd: Boolean

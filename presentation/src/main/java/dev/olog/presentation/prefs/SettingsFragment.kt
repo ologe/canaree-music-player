@@ -3,7 +3,6 @@ package dev.olog.presentation.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -28,8 +27,6 @@ import dev.olog.presentation.utils.forEach
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.take
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -91,33 +88,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
         accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // TODO i think there a memory leak, random crash after block and unlock screen
-
-        val billing = (act as HasBilling).billing
-        billing.observeBillingsState()
-            .map { it.isPremiumEnabled() }
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { isPremium ->
-                preferenceScreen.forEach {
-                    it.isEnabled = isPremium || !paidSettings.contains(it)
-                }
-            }
-
-        billing.observeBillingsState()
-            .map { it.isPremiumStrict() }
-            .take(1)
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { isPremiumStrict ->
-                if (!isPremiumStrict){
-                    findPreference<Preference>(getString(R.string.premium_ad_key))?.isVisible = true
-                }
-            }
-
+        val state = (act as HasBilling).billing.getBillingsState()
+        val premiumEnabled = state.isPremiumEnabled()
+        preferenceScreen.forEach {
+            it.isEnabled = premiumEnabled || !paidSettings.contains(it)
+        }
+        if (!state.isPremiumStrict()){
+            findPreference<Preference>(getString(R.string.premium_ad_key))?.isVisible = true
+        }
     }
 
     override fun onResume() {

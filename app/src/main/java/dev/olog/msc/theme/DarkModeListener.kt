@@ -23,7 +23,6 @@ internal class DarkModeListener @Inject constructor(
     override fun onPrefsChanged() {
         val darkMode = getValue()
         AppCompatDelegate.setDefaultNightMode(darkMode)
-        currentActivity?.recreate()
     }
 
     override fun getValue(): Int {
