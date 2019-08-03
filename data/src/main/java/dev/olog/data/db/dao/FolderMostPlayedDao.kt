@@ -1,5 +1,6 @@
 package dev.olog.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -7,14 +8,15 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
-import io.reactivex.Flowable
+import dev.olog.data.utils.asFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.flow.map
 
 @Dao
 internal abstract class FolderMostPlayedDao {
 
-    @Query("""
+    @Query(
+        """
         SELECT songId, count(*) as timesPlayed
         FROM most_played_folder
         WHERE folderPath = :folderPath
@@ -22,19 +24,21 @@ internal abstract class FolderMostPlayedDao {
         HAVING count(*) >= 5
         ORDER BY timesPlayed DESC
         LIMIT 10
-    """)
-    abstract fun query(folderPath: String): Flowable<List<SongMostTimesPlayedEntity>>
+    """
+    )
+    abstract fun query(folderPath: String): LiveData<List<SongMostTimesPlayedEntity>>
 
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)
 
     fun getAll(folderPath: String, songGateway2: SongGateway): Flow<List<Song>> {
         return this.query(folderPath)
-                .map { mostPlayed ->
-                    val songList = songGateway2.getAll()
-                    mostPlayed.sortedByDescending { it.timesPlayed }
-                            .mapNotNull { item -> songList.find { it.id == item.songId } }
-                }.asFlow()
+            .asFlow()
+            .map { mostPlayed ->
+                val songList = songGateway2.getAll()
+                mostPlayed.sortedByDescending { it.timesPlayed }
+                    .mapNotNull { item -> songList.find { it.id == item.songId } }
+            }
     }
 
 }

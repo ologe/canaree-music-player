@@ -16,11 +16,11 @@ import dev.olog.data.mapper.toAlbum
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
+import dev.olog.data.utils.asFlow
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastAlbumRepository @Inject constructor(

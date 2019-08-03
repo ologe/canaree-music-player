@@ -74,7 +74,6 @@ ext {
             coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
             coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
-            coroutines_rx           : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines",
     ]
 
     lib_x = [
@@ -98,7 +97,6 @@ ext {
             lifecycle_ktx       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel:$lifecycle",
-            lifecycle_rx        : "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle",
 
             play_core           : "com.google.android.play:core:$play_core",
             billing             : "com.android.billingclient:billing:$billing",
@@ -122,7 +120,6 @@ ext {
             sql_content_resolver: "com.github.ologe:android-content-resolver-SQL:$sql_content_resolver",
             room                : "androidx.room:room-runtime:$room",
             room_ktx            : "androidx.room:room-ktx:$room",
-            room_rx             : "androidx.room:room-rxjava2:$room",
             room_processor      : "androidx.room:room-compiler:$room",
             roomTesting         : "androidx.room:room-testing:$room",
     ]

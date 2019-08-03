@@ -1,10 +1,10 @@
 package dev.olog.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
+import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.data.db.entities.FavoriteEntity
 import dev.olog.data.db.entities.FavoritePodcastEntity
-import dev.olog.core.entity.favorite.FavoriteType
-import io.reactivex.Flowable
 
 @Dao
 internal abstract class FavoriteDao {
@@ -16,10 +16,10 @@ internal abstract class FavoriteDao {
     abstract fun getAllPodcastsImpl(): List<Long>
 
     @Query("SELECT songId FROM favorite_songs")
-    abstract fun observeAllTracksImpl(): Flowable<List<Long>>
+    abstract fun observeAllTracksImpl(): LiveData<List<Long>>
 
     @Query("SELECT podcastId FROM favorite_podcast_songs")
-    abstract fun observeAllPodcastsImpl(): Flowable<List<Long>>
+    abstract fun observeAllPodcastsImpl(): LiveData<List<Long>>
 
     @Query("DELETE FROM favorite_songs")
     abstract fun deleteTracks()

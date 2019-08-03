@@ -1,5 +1,6 @@
 package dev.olog.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import dev.olog.core.RecentSearchesTypes.ALBUM
 import dev.olog.core.RecentSearchesTypes.ARTIST
@@ -19,12 +20,11 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
+import dev.olog.data.utils.asFlow
 import dev.olog.data.utils.assertBackground
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 internal abstract class RecentSearchesDao {
@@ -36,7 +36,7 @@ internal abstract class RecentSearchesDao {
         LIMIT 50
     """
     )
-    abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
+    abstract fun getAllImpl(): LiveData<List<RecentSearchesEntity>>
 
     fun getAll(
         songList: SongGateway,

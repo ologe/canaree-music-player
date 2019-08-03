@@ -1,11 +1,11 @@
 package dev.olog.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import dev.olog.data.db.entities.LastPlayedPodcastArtistEntity
-import io.reactivex.Flowable
 
 @Dao
 internal abstract class LastPlayedPodcastArtistDao {
@@ -17,7 +17,7 @@ internal abstract class LastPlayedPodcastArtistDao {
         LIMIT 20
     """
     )
-    abstract fun getAll(): Flowable<List<LastPlayedPodcastArtistEntity>>
+    abstract fun getAll(): LiveData<List<LastPlayedPodcastArtistEntity>>
 
     @Insert
     internal abstract suspend fun insertImpl(entity: LastPlayedPodcastArtistEntity)

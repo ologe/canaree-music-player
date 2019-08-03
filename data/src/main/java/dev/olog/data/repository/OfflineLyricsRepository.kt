@@ -5,9 +5,9 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.entities.OfflineLyricsEntity
+import dev.olog.data.utils.asFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class OfflineLyricsRepository @Inject constructor(

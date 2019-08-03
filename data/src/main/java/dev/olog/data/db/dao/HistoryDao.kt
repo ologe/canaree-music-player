@@ -1,5 +1,6 @@
 package dev.olog.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,12 +10,11 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
+import dev.olog.data.utils.asFlow
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 internal abstract class HistoryDao {
@@ -38,14 +38,14 @@ internal abstract class HistoryDao {
         ORDER BY dateAdded
         DESC LIMIT 200
     """)
-    internal abstract fun observeAllTracksImpl(): Flowable<List<HistoryEntity>>
+    internal abstract fun observeAllTracksImpl(): LiveData<List<HistoryEntity>>
 
     @Query("""
         SELECT * FROM podcast_song_history
         ORDER BY dateAdded
         DESC LIMIT 200
     """)
-    internal abstract fun observeAllPodcastsImpl(): Flowable<List<PodcastHistoryEntity>>
+    internal abstract fun observeAllPodcastsImpl(): LiveData<List<PodcastHistoryEntity>>
 
     @Query("""DELETE FROM song_history""")
     abstract suspend fun deleteAll()
