@@ -21,7 +21,7 @@ class SlidingPanelFade(
     private val fragmentContainer by lazyFast {
         (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
     }
-    var parallax by mutableLazy { context.dip(20) }
+    var parallax = context.dip(20)
 
     init {
         setBackgroundColor(context.scrimBackground())
