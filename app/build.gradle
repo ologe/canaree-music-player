@@ -122,7 +122,6 @@ dependencies {
 
     // firebase
     implementation lib_analytics.core
-    implementation lib_analytics.perf
     implementation(lib_analytics.crashlytics) {
         transitive = true
     }

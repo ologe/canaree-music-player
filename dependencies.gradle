@@ -53,13 +53,11 @@ ext {
 //    firebase
     firebase_core = '17.0.1'
     firebase_crashlytics = '2.10.1'
-    firebase_perf = '18.0.1'
     firebase_ad = '18.1.1'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
-            perf       : "com.google.firebase:firebase-perf:$firebase_perf",
             ad         : "com.google.firebase:firebase-ads:$firebase_ad"
     ]
 
