@@ -14,7 +14,7 @@ android {
 apply from: '../kapt.gradle'
 
 dependencies {
-    implementation lib_core.kotlin_reflect
+    implementation project(':shared')
 
     implementation lib_core.dagger
     kapt lib_core.dagger_processor

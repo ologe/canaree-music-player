@@ -1,6 +1,8 @@
 package dev.olog.shared
 
+import java.lang.reflect.Method
 import kotlin.coroutines.Continuation
+import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 
 inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) {
@@ -40,3 +42,8 @@ inline fun <T> Continuation<T?>.safeResume(item: T?) {
         // already resumed
     }
 }
+
+suspend fun Method.invokeSuspend(obj: Any, vararg args: Any?): Any? =
+    suspendCoroutineUninterceptedOrReturn { cont ->
+        invoke(obj, *args, cont)
+    }

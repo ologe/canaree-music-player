@@ -65,7 +65,6 @@ ext {
 
     lib_core = [
             kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
-            kotlin_reflect          : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             dagger                  : "com.google.dagger:dagger:$dagger",
             dagger_processor        : "com.google.dagger:dagger-compiler:$dagger",
             dagger_android          : "com.google.dagger:dagger-android:$dagger",

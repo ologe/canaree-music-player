@@ -4,12 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.Keep
 import dev.olog.core.entity.ImageStyle
+import dev.olog.shared.invokeSuspend
 import kotlin.coroutines.Continuation
-import kotlin.coroutines.suspendCoroutine
-import kotlin.reflect.full.callSuspend
-import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.functions
-import kotlin.reflect.jvm.kotlinFunction
 
 @Keep
 interface Stylizer {
@@ -32,9 +28,9 @@ interface Stylizer {
         }
 
         suspend fun loadDialog(context: Context): ImageStyle? {
-            val dialogClass = Class.forName("dev.olog.feature.stylize.StyleChooserDialog").kotlin
-            return dialogClass.functions.find { it.name == "create" }!!
-                .callSuspend(dialogClass.createInstance(), context) as ImageStyle?
+            val dialogClass = Class.forName("dev.olog.feature.stylize.StyleChooserDialog")
+            val method = dialogClass.getMethod("create", Context::class.java, Continuation::class.java)
+            return method.invokeSuspend(dialogClass, context) as ImageStyle?
         }
 
     }
