@@ -18,17 +18,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
         }
 
         debug {
-            minifyEnabled false
-            multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            debuggable false
         }
     }
