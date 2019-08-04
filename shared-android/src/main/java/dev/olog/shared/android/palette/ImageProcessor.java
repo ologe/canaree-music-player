@@ -120,10 +120,9 @@ public class ImageProcessor {
                         LayoutDirection.RTL);
 
 
-        Triple<Integer, Integer, Integer> result = PaletteUtil.INSTANCE
-                .ensureColors(backgroundColor, foregroundColor);
+        Triple<Integer, Integer, Integer> result = PaletteUtil.ensureColors(backgroundColor, foregroundColor);
 
-        PaletteUtil.INSTANCE.ensureColors(backgroundColor, foregroundColor);
+        PaletteUtil.ensureColors(backgroundColor, foregroundColor);
         return new ImageProcessorResult(colorized, result.component1(),
                 result.component2(), result.component3());
     }
