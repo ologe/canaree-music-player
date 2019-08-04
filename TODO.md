@@ -18,6 +18,7 @@
 - detail is not displaying corretly track number
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
+- FlowLiveData in :data is not working as intended
 
 ## features
 - add to favorite in android auto

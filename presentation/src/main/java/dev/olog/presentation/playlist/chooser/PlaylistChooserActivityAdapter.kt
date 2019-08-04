@@ -45,7 +45,7 @@ class PlaylistChooserActivityAdapter(
         require(item is DisplayableAlbum)
 
         holder.view.apply {
-            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

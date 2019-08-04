@@ -37,7 +37,7 @@ class DetailMostPlayedAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
         holder.view.apply {
-            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }

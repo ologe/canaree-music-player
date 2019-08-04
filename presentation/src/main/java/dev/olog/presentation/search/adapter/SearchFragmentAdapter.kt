@@ -98,7 +98,7 @@ class SearchFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.view.apply {
-            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
@@ -107,7 +107,7 @@ class SearchFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.view.apply {
-            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }

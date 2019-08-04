@@ -33,7 +33,7 @@ class CreatePlaylistFragmentAdapter(
 
         holder.view.apply {
             selected.isChecked = viewModel.isChecked(item.mediaId)
-            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }

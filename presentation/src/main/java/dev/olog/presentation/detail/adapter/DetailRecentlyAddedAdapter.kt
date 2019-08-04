@@ -40,7 +40,7 @@ class DetailRecentlyAddedAdapter(
         require(item is DisplayableTrack)
 
         holder.view.apply {
-            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)

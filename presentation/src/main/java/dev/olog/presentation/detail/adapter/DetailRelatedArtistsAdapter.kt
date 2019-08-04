@@ -31,7 +31,7 @@ class DetailRelatedArtistsAdapter(
         require(item is DisplayableAlbum)
 
         holder.view.apply {
-            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             quickAction.setId(item.mediaId)

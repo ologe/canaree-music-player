@@ -58,10 +58,10 @@ class FolderTreeFragmentAdapter(
         }
         when (holder.itemViewType){
             R.layout.item_folder_tree_directory -> {
-                BindingsAdapter.loadDirImage(holder.view.cover, item)
+                BindingsAdapter.loadDirImage(holder.imageView!!, item)
             }
             R.layout.item_folder_tree_track -> {
-                BindingsAdapter.loadFile(holder.view.cover, item)
+                BindingsAdapter.loadFile(holder.imageView!!, item)
             }
         }
     }

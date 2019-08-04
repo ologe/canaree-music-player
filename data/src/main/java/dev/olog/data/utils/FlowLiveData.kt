@@ -2,32 +2,31 @@ package dev.olog.data.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 
-fun <T> LiveData<T>.asFlow(): Flow<T> = channelFlow {
-    runOnMainThread {
-        value?.let {
-            if (!isClosedForSend) {
-                offer(it)
-            }
-        }
+fun <T> LiveData<T>.asFlow(): Flow<T> {
+
+    val channel = ConflatedBroadcastChannel<T>()
+
+    if (!channel.isClosedForSend && value != null){
+        channel.offer(value!!)
     }
 
     val observer = Observer<T> {
-        runOnMainThread {
-            it?.let {
-                if (!isClosedForSend) {
-                    offer(it)
-                }
-            }
+        if (!channel.isClosedForSend && it != null){
+            channel.offer(it)
         }
     }
 
-    runOnMainThread { observeForever(observer) }
+    runOnMainThread {
+        observeForever(observer)
+    }
 
-    invokeOnClose {
+    channel.invokeOnClose {
         runOnMainThread { removeObserver(observer) }
     }
 
+    return channel.openSubscription().consumeAsFlow()
 }
