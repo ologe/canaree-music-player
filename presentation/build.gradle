@@ -26,8 +26,6 @@ android {
         }
     }
 
-    dataBinding.enabled = true
-
 //    kotlinOptions.allWarningsAsErrors = true
 
 }
@@ -49,8 +47,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
     implementation project(':equalizer')
-
-    kapt lib_ui.data_binding
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines

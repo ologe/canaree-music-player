@@ -1,16 +1,17 @@
 package dev.olog.presentation.recentlyadded
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 class RecentlyAddedFragmentAdapter(
     lifecycle: Lifecycle,
@@ -37,8 +38,15 @@ class RecentlyAddedFragmentAdapter(
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        require(item is DisplayableTrack)
+
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+            explicit.onItemChanged(item.title)
+        }
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

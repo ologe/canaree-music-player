@@ -1,10 +1,9 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableTrack
@@ -36,8 +35,12 @@ class DetailMostPlayedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableTrack, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+        }
     }
 
     override fun onBindViewHolder(

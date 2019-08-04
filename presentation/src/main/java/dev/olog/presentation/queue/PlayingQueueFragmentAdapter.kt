@@ -1,12 +1,10 @@
 package dev.olog.presentation.queue
 
 import android.content.Context
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -14,9 +12,9 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.shared.swap
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
+import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 class PlayingQueueFragmentAdapter(
@@ -45,12 +43,18 @@ class PlayingQueueFragmentAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableQueueSong, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            index.text = item.relativePosition
+            BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+            explicit.onItemChanged(item.title)
 
-        val view = binding.root
-        val textColor = calculateTextColor(view.context, item.relativePosition)
-        binding.root.index.setTextColor(textColor)
+            val textColor = calculateTextColor(context, item.relativePosition)
+            index.setTextColor(textColor)
+        }
     }
 
     private fun calculateTextColor(context: Context, positionInList: String): Int {

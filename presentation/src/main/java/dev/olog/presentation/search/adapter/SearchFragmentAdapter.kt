@@ -1,18 +1,24 @@
 package dev.olog.presentation.search.adapter
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.presentation.model.DisplayableAlbum
+import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
+import kotlinx.android.synthetic.main.item_search_album.view.cover
+import kotlinx.android.synthetic.main.item_search_album.view.firstText
+import kotlinx.android.synthetic.main.item_search_album.view.secondText
+import kotlinx.android.synthetic.main.item_search_header.view.*
+import kotlinx.android.synthetic.main.item_search_recent.view.*
 
 class SearchFragmentAdapter(
     lifecycle: Lifecycle,
@@ -82,8 +88,38 @@ class SearchFragmentAdapter(
         }
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        when (item){
+            is DisplayableTrack -> bindTrack(holder, item)
+            is DisplayableHeader -> bindHeader(holder, item)
+            is DisplayableAlbum -> bindAlbum(holder, item)
+        }
+    }
+
+    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+            explicit.onItemChanged(item.title)
+        }
+    }
+
+    private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
+        holder.view.apply {
+            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+        }
+    }
+
+    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
+        if (holder.itemViewType != R.layout.item_search_recent_header){
+            holder.view.apply {
+                title.text = item.title
+                subtitle.text = item.subtitle
+            }
+        }
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

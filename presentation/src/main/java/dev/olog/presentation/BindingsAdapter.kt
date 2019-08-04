@@ -3,8 +3,6 @@ package dev.olog.presentation
 import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
@@ -15,10 +13,7 @@ import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.model.SpecialThanksModel
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.presentation.widgets.QuickActionView
-import dev.olog.presentation.widgets.textview.ExplicitView
 
 object BindingsAdapter {
 
@@ -26,7 +21,6 @@ object BindingsAdapter {
     private const val OVERRIDE_MID = 400
 
     @JvmStatic
-    @BindingAdapter("fileTrackLoader")
     fun loadFile(view: ImageView, item: DisplayableFile) {
         val context = view.context
         GlideApp.with(context).clear(view)
@@ -39,7 +33,6 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("fileDirLoader")
     fun loadDirImage(view: ImageView, item: DisplayableFile) {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
         loadImageImpl(
@@ -75,7 +68,6 @@ object BindingsAdapter {
         }
     }
 
-    @BindingAdapter("imageSong")
     @JvmStatic
     fun loadSongImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
@@ -85,7 +77,6 @@ object BindingsAdapter {
         )
     }
 
-    @BindingAdapter("imageAlbum")
     @JvmStatic
     fun loadAlbumImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
@@ -96,31 +87,10 @@ object BindingsAdapter {
         )
     }
 
-    @BindingAdapter("imageSpecialThanks")
-    @JvmStatic
-    fun loadSongImage(view: ImageView, item: SpecialThanksModel) {
-        GlideApp.with(view)
-            .load(ContextCompat.getDrawable(view.context, item.image))
-            .into(view)
-    }
-
-    @BindingAdapter("setBoldIfTrue")
     @JvmStatic
     fun setBoldIfTrue(view: TextView, setBold: Boolean) {
         val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
         view.setTypeface(null, style)
-    }
-
-    @BindingAdapter("quickActionItem")
-    @JvmStatic
-    fun quickActionItem(view: QuickActionView, mediaId: MediaId) {
-        view.setId(mediaId)
-    }
-
-    @JvmStatic
-    @BindingAdapter("explicit")
-    fun explicit(view: ExplicitView, title: String) {
-        view.onItemChanged(title)
     }
 
 }

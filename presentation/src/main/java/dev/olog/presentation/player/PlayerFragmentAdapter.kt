@@ -3,7 +3,6 @@ package dev.olog.presentation.player
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -14,7 +13,7 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
@@ -31,6 +30,7 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.swap
+import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.repeat
@@ -307,7 +307,7 @@ internal class PlayerFragmentAdapter(
     private fun updateImage(view: View, metadata: PlayerMetadata) {
         view.imageSwitcher?.loadImage(metadata)
         view.blurBackground?.loadImage(metadata.mediaId)
-        view.cover?.loadImage(metadata.mediaId)
+        view.miniCover?.loadImage(metadata.mediaId)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {
@@ -353,8 +353,15 @@ internal class PlayerFragmentAdapter(
         view.playPause.animationPause(isPanelExpanded)
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        if (item is DisplayableTrack){
+            holder.view.apply {
+                BindingsAdapter.loadSongImage(cover, item.mediaId)
+                firstText.text = item.title
+                secondText.text = item.artist
+                explicit.onItemChanged(item.title)
+            }
+        }
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {

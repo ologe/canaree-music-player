@@ -1,12 +1,13 @@
 package dev.olog.presentation.search.adapter
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
+import kotlinx.android.synthetic.main.item_search_album.view.*
 
 class SearchFragmentNestedAdapter(
     lifecycle: Lifecycle,
@@ -29,8 +30,15 @@ class SearchFragmentNestedAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        require(item is DisplayableAlbum)
+
+        holder.view.apply {
+            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            quickAction.setId(item.mediaId)
+            firstText.text = item.title
+            secondText?.text = item.subtitle
+        }
     }
 
 }

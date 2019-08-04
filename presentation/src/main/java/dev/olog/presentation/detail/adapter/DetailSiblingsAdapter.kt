@@ -1,13 +1,14 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import kotlinx.android.synthetic.main.item_detail_album.view.*
 
-class DetailAlbumsAdapter(
+class DetailSiblingsAdapter(
     lifecycle: Lifecycle,
     private val navigator: Navigator
 
@@ -26,7 +27,13 @@ class DetailAlbumsAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        require(item is DisplayableAlbum)
+        holder.view.apply {
+            BindingsAdapter.loadAlbumImage(cover, item.mediaId)
+            quickAction.setId(item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+        }
     }
 }

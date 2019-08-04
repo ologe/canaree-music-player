@@ -1,13 +1,17 @@
 package dev.olog.presentation.detail.adapter
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import kotlinx.android.synthetic.main.item_detail_related_artist.view.cover
+import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
+import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
+import kotlinx.android.synthetic.main.item_detail_song_recent.view.*
 
 class DetailRecentlyAddedAdapter(
     lifecycle: Lifecycle,
@@ -32,8 +36,15 @@ class DetailRecentlyAddedAdapter(
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        require(item is DisplayableTrack)
+
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText.text = item.subtitle
+            explicit.onItemChanged(item.title)
+        }
     }
 
 }

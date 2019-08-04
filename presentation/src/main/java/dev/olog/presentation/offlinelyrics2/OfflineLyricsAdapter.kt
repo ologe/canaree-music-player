@@ -1,11 +1,10 @@
 package dev.olog.presentation.offlinelyrics2
 
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
-import dev.olog.presentation.BR
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
+import kotlinx.android.synthetic.main.item_offline_lyrics_2.view.*
 
 class OfflineLyricsAdapter(
     lifecycle: Lifecycle
@@ -15,8 +14,8 @@ class OfflineLyricsAdapter(
 
     }
 
-    override fun bind(binding: ViewDataBinding, item: LyricsModel, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: LyricsModel, position: Int) {
+        holder.view.content.text = item.content
     }
 }
 

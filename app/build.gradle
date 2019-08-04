@@ -3,7 +3,6 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
 
@@ -45,8 +44,6 @@ android {
         }
     }
 
-    dataBinding.enabled = true
-
 
     lintOptions {
         checkReleaseBuilds false
@@ -86,9 +83,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    // data binding
-    kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
-
     implementation lib_core.coroutines
 
     // google architecture components
@@ -118,13 +112,11 @@ dependencies {
     debugImplementation lib_debug.leak_canary_debug_fragments
     releaseImplementation lib_debug.leak_canary_release
 
-    implementation lib_debug.stetho
+//    debugImplementation lib_debug.stetho
 
     // firebase
     implementation lib_analytics.core
-    implementation(lib_analytics.crashlytics) {
-        transitive = true
-    }
+    implementation lib_analytics.crashlytics
 }
 
 // leave at bottom

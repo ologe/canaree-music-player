@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="#5000">
 
-    <data>
-        <variable
-            name="item"
-            type="dev.olog.presentation.offlinelyrics2.LyricsModel" />
-    </data>
-
-    <FrameLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="#5000">
+        android:fontFamily="sans-serif-black"
+        android:padding="12dp"
+        android:textColor="@color/transparent_white"
+        android:textSize="22dp"
+        tools:text="@tools:sample/lorem" />
 
-        <TextView
-            android:text="@{item.content}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="@tools:sample/lorem"
-            android:textSize="22dp"
-            android:textColor="@color/transparent_white"
-            android:padding="12dp"
-            android:fontFamily="sans-serif-black"/>
-
-    </FrameLayout>
-
-</layout>
+</FrameLayout>

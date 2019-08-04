@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="?android:attr/listPreferredItemHeight">
 
-    <data>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableHeader"/>
-    </data>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/title"
+        tools:text="Version"
+        android:textStyle="bold"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="?attr/selectableItemBackground"
-        android:minHeight="?android:attr/listPreferredItemHeight">
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/title"
-            android:text="@{item.title}"
-            tools:text="Version"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/subtitle"
+        tools:text="1.0"
+        android:textSize="14dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/subtitle"
-            android:text="@{item.subtitle}"
-            tools:text="1.0"
-            android:textSize="14dp"
-            android:textColor="?android:attr/textColorSecondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+</LinearLayout>
 
-    </LinearLayout>
-
-</layout>

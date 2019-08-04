@@ -1,7 +1,5 @@
 package dev.olog.presentation.prefs.categories
 
-import androidx.databinding.ViewDataBinding
-import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.SimpleAdapter
@@ -26,8 +24,11 @@ class LibraryCategoriesFragmentAdapter (
 
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
-    override fun bind(binding: ViewDataBinding, item: LibraryCategoryBehavior, position: Int) {
-        binding.setVariable(BR.item, dataSet[position])
+    override fun bind(holder: DataBoundViewHolder, item: LibraryCategoryBehavior, position: Int) {
+        holder.view.apply {
+            checkBox.text = item.asString(context)
+            checkBox.isChecked = item.visible
+        }
     }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {

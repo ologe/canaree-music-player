@@ -1,7 +1,7 @@
 package dev.olog.presentation.detail.adapter
 
 
-import androidx.databinding.ViewDataBinding
+import android.annotation.SuppressLint
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,7 +10,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.id
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BR
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
@@ -20,17 +20,26 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
+import kotlinx.android.synthetic.main.item_detail_header.view.*
+import kotlinx.android.synthetic.main.item_detail_header.view.title
+import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_song.view.cover
+import kotlinx.android.synthetic.main.item_detail_song.view.explicit
+import kotlinx.android.synthetic.main.item_detail_song.view.firstText
+import kotlinx.android.synthetic.main.item_detail_song.view.secondText
+import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailFragmentAdapter(
     lifecycle: Lifecycle,
@@ -160,8 +169,54 @@ internal class DetailFragmentAdapter(
         }
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        when (item){
+            is DisplayableTrack -> bindTrack(holder, item)
+            is DisplayableHeader -> bindHeader(holder, item)
+            is DisplayableNestedListPlaceholder -> {}
+            is DisplayableAlbum -> {}
+        }.exhaustive
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
+        holder.view.apply {
+            BindingsAdapter.loadSongImage(cover, item.mediaId)
+            firstText.text = item.title
+            secondText?.text = item.subtitle
+            explicit.onItemChanged(item.title)
+        }
+        when (holder.itemViewType){
+            R.layout.item_detail_song_most_played -> {
+                holder.view.index.text = "${item.idInPlaylist + 1}"
+            }
+            R.layout.item_detail_song_with_track,
+            R.layout.item_detail_song_with_track_and_image -> {
+                holder.view.index.text = "${item.idInPlaylist}"
+            }
+        }
+    }
+
+    private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
+        when (holder.itemViewType){
+            R.layout.item_detail_song_footer,
+            R.layout.item_detail_header,
+            R.layout.item_detail_header_albums,
+            R.layout.item_detail_header_recently_added,
+            R.layout.item_detail_image -> {
+                holder.view.apply {
+                    title.text = item.title
+                    subtitle?.text = item.subtitle
+                    seeMore?.toggleVisibility(item.visible, true)
+                }
+            }
+            R.layout.item_detail_header_all_song -> {
+                holder.view.apply {
+                    title.text = item.title
+                    sort.text = item.subtitle
+                }
+            }
+        }
     }
 
     val canSwipeRight: Boolean

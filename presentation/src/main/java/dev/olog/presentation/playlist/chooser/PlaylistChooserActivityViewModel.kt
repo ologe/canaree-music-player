@@ -45,7 +45,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
 
     private fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem {
         return DisplayableAlbum(
-            type = R.layout.item_tab_album,
+            type = R.layout.item_playlist_chooser,
             mediaId = getMediaId(),
             title = title,
             subtitle = DisplayableAlbum.readableSongCount(resources, size)

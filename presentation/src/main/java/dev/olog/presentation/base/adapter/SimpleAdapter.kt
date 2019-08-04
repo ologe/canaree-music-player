@@ -3,8 +3,6 @@ package dev.olog.presentation.base.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class SimpleAdapter<T>(
@@ -13,7 +11,7 @@ abstract class SimpleAdapter<T>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
+        val binding = inflater.inflate(viewType, parent, false)
         val viewHolder = DataBoundViewHolder(binding)
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
@@ -27,11 +25,10 @@ abstract class SimpleAdapter<T>(
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
         val item = dataSet[position]
-        bind(holder.binding, item, position)
-        holder.binding.executePendingBindings()
+        bind(holder, item, position)
     }
 
-    protected abstract fun bind(binding: ViewDataBinding, item: T, position: Int)
+    protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
     fun getItem(position: Int): T? {
         if (position in 0..dataSet.size) {

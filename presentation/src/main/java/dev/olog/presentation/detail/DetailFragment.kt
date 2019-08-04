@@ -87,7 +87,7 @@ class DetailFragment : BaseFragment(),
         DetailRelatedArtistsAdapter(lifecycle, navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailAlbumsAdapter(lifecycle, navigator)
+        DetailSiblingsAdapter(lifecycle, navigator)
     }
 
     private val adapter by lazyFast {

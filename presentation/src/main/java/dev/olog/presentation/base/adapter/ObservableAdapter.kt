@@ -3,8 +3,6 @@ package dev.olog.presentation.base.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -16,8 +14,7 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 abstract class ObservableAdapter<T : BaseModel>(
     lifecycle: Lifecycle,
@@ -48,18 +45,19 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     init {
         lifecycle.addObserver(this)
+
         launch {
-            for (list in channel.openSubscription()) {
-                assertBackgroundThread()
-                val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
-                yield()
-                val diff = DiffUtil.calculateDiff(diffCallback, true)
-                yield()
-                withContext(Dispatchers.Main) {
-                    updateDataSetInternal(list)
-                    diff.dispatchUpdatesTo(this@ObservableAdapter)
+            channel.asFlow()
+                .distinctUntilChanged()
+                .collect { list ->
+                    assertBackgroundThread()
+                    val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
+                    val diff = DiffUtil.calculateDiff(diffCallback, true)
+                    withContext(Dispatchers.Main) {
+                        updateDataSetInternal(list)
+                        diff.dispatchUpdatesTo(this@ObservableAdapter)
+                    }
                 }
-            }
         }
     }
 
@@ -93,8 +91,8 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(binding)
+        val view = inflater.inflate(viewType, parent, false)
+        val viewHolder = DataBoundViewHolder(view)
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
     }
@@ -109,11 +107,10 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
         val item = dataSet[position]
-        bind(holder.binding, item, position)
-        holder.binding.executePendingBindings()
+        bind(holder, item, position)
     }
 
-    protected abstract fun bind(binding: ViewDataBinding, item: T, position: Int)
+    protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
     fun updateDataSet(data: List<T>) {
         channel.offer(data)
