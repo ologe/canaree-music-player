@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class DetailFragment : BaseFragment(),
@@ -253,6 +254,7 @@ class DetailFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         list.addOnScrollListener(recyclerOnScrollListener)
+        list.addOnScrollListener(scrollListener)
         back.setOnClickListener { act.onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
         filter.setOnClickListener {
@@ -263,6 +265,7 @@ class DetailFragment : BaseFragment(),
     override fun onPause() {
         super.onPause()
         list.removeOnScrollListener(recyclerOnScrollListener)
+        list.removeOnScrollListener(scrollListener)
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)
@@ -305,5 +308,16 @@ class DetailFragment : BaseFragment(),
     override fun handleOnBackPressed(): Boolean {
         (act as MainActivity).restoreSlidingPanelHeight()
         return false
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val alpha = 1 - abs(toolbar.translationY) / toolbar.height
+            back.alpha = alpha
+            filter.alpha = alpha
+            more.alpha = alpha
+            searchWrapper.alpha = alpha
+            headerText.alpha = alpha
+        }
     }
 }

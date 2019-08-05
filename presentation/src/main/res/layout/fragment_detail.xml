@@ -148,7 +148,8 @@
             app:layout_constraintEnd_toStartOf="@+id/filter"
             app:layout_constraintStart_toEndOf="@+id/back"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="invisible">
+            tools:visibility="invisible"
+            android:translationX="-2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/SearchThemeLayout"
