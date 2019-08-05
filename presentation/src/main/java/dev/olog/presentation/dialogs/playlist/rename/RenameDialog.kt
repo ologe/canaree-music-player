@@ -21,6 +21,7 @@ class RenameDialog : BaseEditTextDialog() {
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
+        @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),

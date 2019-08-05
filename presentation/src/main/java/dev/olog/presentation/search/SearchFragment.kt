@@ -34,6 +34,7 @@ class SearchFragment : BaseFragment(),
     IDragListener by DragListenerImpl() {
 
     companion object {
+        @JvmStatic
         val TAG = SearchFragment::class.java.name
 
         @JvmStatic

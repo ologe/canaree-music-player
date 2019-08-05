@@ -50,7 +50,9 @@ class DetailFragment : BaseFragment(),
     IDragListener by DragListenerImpl() {
 
     companion object {
+        @JvmStatic
         val TAG = DetailFragment::class.java.name
+        @JvmStatic
         val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic

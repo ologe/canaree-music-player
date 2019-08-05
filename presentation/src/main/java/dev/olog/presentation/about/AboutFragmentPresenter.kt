@@ -21,13 +21,21 @@ class AboutFragmentPresenter(
 ) : CoroutineScope by MainScope() {
 
     companion object {
+        @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
+        @JvmStatic
         val THIRD_SW_ID = MediaId.headerId("third sw")
+        @JvmStatic
         val COMMUNITY = MediaId.headerId("community")
+        @JvmStatic
         val BETA = MediaId.headerId("beta")
+        @JvmStatic
         val SPECIAL_THANKS_ID = MediaId.headerId("special thanks to")
+        @JvmStatic
         val RATE_ID = MediaId.headerId("rate")
+        @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
+        @JvmStatic
         val BUY_PRO = MediaId.headerId("pro")
     }
 

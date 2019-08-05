@@ -30,6 +30,7 @@ internal class LastFmRepository @Inject constructor(
 ) : LastFmGateway {
 
     companion object {
+        @JvmStatic
         private val TAG = "D:${LastFmRepository::class.java.simpleName}"
     }
 

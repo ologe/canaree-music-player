@@ -90,6 +90,7 @@ interface CoreComponent {
     companion object {
         private var component: CoreComponent? = null
 
+        @JvmStatic
         fun coreComponent(application: Application): CoreComponent {
             if (component == null) {
                 component = DaggerCoreComponent.factory().create(application)

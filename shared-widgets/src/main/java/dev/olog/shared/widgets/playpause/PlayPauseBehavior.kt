@@ -19,6 +19,7 @@ class PlayPauseBehaviorImpl(private val button: ImageButton):
     IPlayPauseBehavior {
 
     companion object {
+        @JvmStatic
         private val TAG = "P:${PlayPauseBehaviorImpl::class.java.simpleName}"
     }
 

@@ -19,7 +19,6 @@ import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder

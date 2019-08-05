@@ -14,6 +14,7 @@ internal class LastFmLocalTrack @Inject constructor(
 ) {
 
     companion object {
+        @JvmStatic
         private val TAG = "D:${LastFmLocalTrack::class.java.simpleName}"
     }
 

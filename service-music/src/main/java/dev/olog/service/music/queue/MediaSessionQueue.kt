@@ -23,6 +23,7 @@ internal class MediaSessionQueue @Inject constructor(
     CoroutineScope by CustomScope() {
 
     companion object {
+        @JvmStatic
         private val TAG = "SM:${MediaSessionQueue::class.java.simpleName}"
         private const val DELAY = 1000L
     }

@@ -17,7 +17,9 @@ import javax.inject.Inject
 class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChangeListener {
 
     companion object {
+        @JvmStatic
         val TAG = PlayerVolumeFragment::class.java.name
+        @JvmStatic
         private val ARGUMENT_LAYOUT_ID = "$TAG.argument.layoutid"
 
         @JvmStatic

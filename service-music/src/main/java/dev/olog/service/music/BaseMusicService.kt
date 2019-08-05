@@ -15,7 +15,6 @@ import dev.olog.service.music.interfaces.Player
 import dev.olog.service.music.interfaces.ServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),

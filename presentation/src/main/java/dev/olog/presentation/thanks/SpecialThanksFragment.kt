@@ -11,7 +11,6 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_special_thanks.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
-import kotlinx.android.synthetic.main.fragment_special_thanks.view.back
 
 class SpecialThanksFragment : Fragment() {
 

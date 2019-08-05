@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.map
 internal interface IPlayerAppearanceAdaptiveBehavior {
 
     companion object {
+        @JvmStatic
         fun get(appearance: PlayerAppearance): IPlayerAppearanceAdaptiveBehavior =
             when (appearance) {
                 PlayerAppearance.FLAT -> PlayerAppearanceBehaviorFlat()

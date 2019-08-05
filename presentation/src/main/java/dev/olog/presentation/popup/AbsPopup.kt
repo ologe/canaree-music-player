@@ -20,12 +20,6 @@ abstract class AbsPopup(
         const val NEW_PLAYLIST_ID = Int.MIN_VALUE
     }
 
-    init {
-//        if (view.id == R.id.more){
-//            addRotateAnimation(view)
-//        }
-    }
-
     fun addPlaylistChooser(context: Context, playlists: List<Playlist>){
         val addToPlaylistMenuItem = menu.findItem(R.id.addToPlaylist)
         val addToPlaylistSubMenu = addToPlaylistMenuItem.subMenu
