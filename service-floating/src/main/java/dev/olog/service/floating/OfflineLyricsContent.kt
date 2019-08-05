@@ -15,6 +15,7 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class OfflineLyricsContent(
@@ -88,9 +89,10 @@ class OfflineLyricsContent(
         glueService.observePlaybackState()
             .subscribe(this) { content.seekBar.onStateChanged(it) }
 
-        lyricsJob = GlobalScope.launch {
+        lyricsJob = GlobalScope.launch(Dispatchers.Main) {
             presenter.observeLyrics()
                 .map { presenter.transformLyrics(context, content.seekBar.progress, it) }
+                .flowOn(Dispatchers.IO)
                 .collect {
                     content.emptyState.toggleVisibility(it.isEmpty(), true)
                     content.text.text = it
