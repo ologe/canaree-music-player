@@ -19,6 +19,11 @@ internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
 }
 
 internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableTrack {
+    val idInPlaylist = if (parentId.isPlaylist || parentId.isPodcastPlaylist){
+        this.idInPlaylist
+    } else {
+        this.trackNumber
+    }
 
     return DisplayableTrack(
         type = computeLayoutType(parentId, sortType),
@@ -26,7 +31,7 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
         title = this.title,
         artist = artist,
         album = album,
-        idInPlaylist = this.idInPlaylist,
+        idInPlaylist = idInPlaylist,
         dataModified = this.dateModified
     )
 }

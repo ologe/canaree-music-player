@@ -177,7 +177,6 @@ internal class DetailFragmentAdapter(
         }.exhaustive
     }
 
-    @SuppressLint("SetTextI18n")
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.view.apply {
             holder.imageView?.let {
@@ -189,11 +188,14 @@ internal class DetailFragmentAdapter(
         }
         when (holder.itemViewType){
             R.layout.item_detail_song_most_played -> {
-                holder.view.index.text = "${item.idInPlaylist + 1}"
+                holder.view.index.text = (item.idInPlaylist + 1).toString()
             }
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_track_and_image -> {
-                holder.view.index.text = "${item.idInPlaylist}"
+                val trackNumber = if (item.idInPlaylist < 1){
+                    "-"
+                } else item.idInPlaylist.toString()
+                holder.view.index.text = trackNumber
             }
         }
     }

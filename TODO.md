@@ -7,9 +7,9 @@
 - fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
-- reduce method count (opening dex file take a lot of time on on app startup)
 
 ## TOOD for methoud count reducing
+- reduce method count (opening dex file take a lot of time on on app startup)
 - remove last fm binding ~700 methods
 
 ### bug
@@ -18,10 +18,9 @@
 - floating window play button in search lyrics not always working 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - after creating 'new playlist' from + button, bottom navigation disappears
-- detail is not displaying corretly track number
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
-- FlowLiveData in :data is not working as intended
+- most played not working, probably because of flow.sinsle()
 
 ## features
 - add to favorite in android auto
