@@ -112,7 +112,10 @@ class SearchFragment : BaseFragment(),
         setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner) {
+                adapter.updateDataSet(it)
+                emptyStateText.toggleVisibility(it.isEmpty(), true)
+            }
 
         viewModel.observeAlbumsData()
             .subscribe(viewLifecycleOwner, albumAdapter::updateDataSet)

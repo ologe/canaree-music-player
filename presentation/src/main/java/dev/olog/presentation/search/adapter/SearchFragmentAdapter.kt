@@ -114,7 +114,7 @@ class SearchFragmentAdapter(
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        if (holder.itemViewType != R.layout.item_search_recent_header){
+        if (holder.itemViewType == R.layout.item_search_header){
             holder.view.apply {
                 title.text = item.title
                 subtitle.text = item.subtitle

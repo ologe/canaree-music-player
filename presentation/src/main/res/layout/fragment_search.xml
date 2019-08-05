@@ -58,7 +58,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/tabLayoutBackground"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -114,21 +114,6 @@
         tools:listitem="@layout/item_search_recent"
         tools:visibility="visible" />
 
-    <ImageButton
-        android:id="@+id/searchImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="@null"
-        android:clickable="false"
-        android:focusable="false"
-        android:src="@drawable/vd_search_big"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
     <TextView
         android:id="@+id/emptyStateText"
         android:layout_width="wrap_content"
@@ -142,7 +127,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:fontFamily="sans-serif-black"
+        tools:fontFamily="sans-serif-black" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
