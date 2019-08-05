@@ -11,8 +11,6 @@
 
 ## TOOD for methoud count reducing
 - remove last fm binding ~700 methods
-- removed jvmoverlaod when possibile
-- add jvm static to companion classes
 
 ### bug
 - big image layout has problems with loading images 
