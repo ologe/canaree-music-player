@@ -120,7 +120,7 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     override fun playMostPlayed(mediaId: MediaId) {
         val bundle = bundleOf(
-            MusicServiceAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
         )
         transportControls()?.sendCustomAction(
             MusicServiceCustomAction.PLAY_MOST_PLAYED.name,
