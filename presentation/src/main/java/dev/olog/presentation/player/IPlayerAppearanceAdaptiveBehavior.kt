@@ -45,12 +45,12 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
             .subscribe(viewHolder) { accent ->
                 val first = makeFirstColor(view.context, accent)
                 val second = makeSecondColor(view.context, accent)
+                val third = view.context.colorBackground()
 
-                val gradient = view.playerRoot.background as GradientDrawable
-                val defaultColor = view.context.colorBackground()
-                // forcing orientation in code because android Q uses it own orientation coordinates
-                gradient.orientation = GradientDrawable.Orientation.TOP_BOTTOM
-                gradient.colors = intArrayOf(first, second, defaultColor)
+                val gradient = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    intArrayOf(first, second, third)
+                )
                 view.playerRoot.background = gradient
 
                 view.shuffle.updateSelectedColor(accent)

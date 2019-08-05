@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_height="match_parent"
-    android:background="@drawable/player_spotify_background"
     android:id="@+id/playerRoot">
 
     <dev.olog.presentation.widgets.StatusBarView
