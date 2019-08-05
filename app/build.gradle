@@ -121,3 +121,4 @@ dependencies {
 
 // leave at bottom
 apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.getkeepsafe.dexcount'
