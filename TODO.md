@@ -18,7 +18,7 @@
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
 - most played not working, probably because of flow.sinsle()
-- default cover not showing music icon in notification
+- allow more scroll in scroll helper, because sometimes bottomsheet hides list content
 
 ## features
 - add to favorite in android auto
