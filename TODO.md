@@ -3,7 +3,6 @@
 - change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
 - re add podcast auto playlist
-- add alpha to toolbar image button in detail fragment when scrolling up
 - fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
@@ -13,14 +12,13 @@
 - remove last fm binding ~700 methods
 
 ### bug
-- big image layout has problems with loading images 
-    (has problem on my device with android P beta, on emulator works fine, check on other phones)
 - floating window play button in search lyrics not always working 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - after creating 'new playlist' from + button, bottom navigation disappears
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
 - most played not working, probably because of flow.sinsle()
+- default cover not showing music icon in notification
 
 ## features
 - add to favorite in android auto
