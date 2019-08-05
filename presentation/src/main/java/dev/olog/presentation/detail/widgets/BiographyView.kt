@@ -30,12 +30,12 @@ internal class BiographyView(
         ellipsize = TextUtils.TruncateAt.END
         isClickable = true
         isFocusable = true
-//        movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.actionMasked == MotionEvent.ACTION_UP) {
-            isExpanded = !isExpanded
+        if (event.actionMasked == MotionEvent.ACTION_UP && !isExpanded) {
+            isExpanded = true
+            movementMethod = LinkMovementMethod.getInstance()
             return true
         }
         return super.onTouchEvent(event)
