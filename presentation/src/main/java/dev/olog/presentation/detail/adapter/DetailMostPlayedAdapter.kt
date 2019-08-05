@@ -40,6 +40,8 @@ class DetailMostPlayedAdapter(
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
+            index.text = (item.idInPlaylist + 1).toString()
+            explicit.onItemChanged(item.title)
         }
     }
 

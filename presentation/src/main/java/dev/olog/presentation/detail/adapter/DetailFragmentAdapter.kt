@@ -187,9 +187,6 @@ internal class DetailFragmentAdapter(
             explicit.onItemChanged(item.title)
         }
         when (holder.itemViewType){
-            R.layout.item_detail_song_most_played -> {
-                holder.view.index.text = (item.idInPlaylist + 1).toString()
-            }
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_track_and_image -> {
                 val trackNumber = if (item.idInPlaylist < 1){
