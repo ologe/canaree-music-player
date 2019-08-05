@@ -325,13 +325,13 @@ internal class QueueManager @Inject constructor(
     }
 
 
-    private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {
+    private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Long = withContext(Dispatchers.Default) {
         if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            return clamp(bookmark, 0L, mediaEntity.duration)
+            clamp(bookmark, 0L, mediaEntity.duration)
         } else {
             val bookmark = musicPreferencesUseCase.getBookmark().toInt()
-            return clamp(bookmark.toLong(), 0L, mediaEntity.duration)
+            clamp(bookmark.toLong(), 0L, mediaEntity.duration)
         }
     }
 
