@@ -19,31 +19,35 @@ import kotlinx.coroutines.reactive.flow.asFlow
 @Dao
 internal abstract class HistoryDao {
 
+    companion object {
+        private const val HISTORY_LIMIT = 100
+    }
+
     @Query("""
         SELECT * FROM song_history
         ORDER BY dateAdded
-        DESC LIMIT 200
+        DESC LIMIT $HISTORY_LIMIT
     """)
     internal abstract fun getAllTracksImpl(): List<HistoryEntity>
 
     @Query("""
         SELECT * FROM podcast_song_history
         ORDER BY dateAdded
-        DESC LIMIT 200
+        DESC LIMIT $HISTORY_LIMIT
     """)
     internal abstract fun getAllPodcastsImpl(): List<PodcastHistoryEntity>
 
     @Query("""
         SELECT * FROM song_history
         ORDER BY dateAdded
-        DESC LIMIT 200
+        DESC LIMIT $HISTORY_LIMIT
     """)
     internal abstract fun observeAllTracksImpl(): Flowable<List<HistoryEntity>>
 
     @Query("""
         SELECT * FROM podcast_song_history
         ORDER BY dateAdded
-        DESC LIMIT 200
+        DESC LIMIT $HISTORY_LIMIT
     """)
     internal abstract fun observeAllPodcastsImpl(): Flowable<List<PodcastHistoryEntity>>
 

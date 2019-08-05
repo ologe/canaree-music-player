@@ -30,10 +30,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -70,10 +67,19 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun getByParam(param: Id): Playlist? {
         assertBackgroundThread()
-        return channel.valueOrNull?.find { it.id == param }
+        val all = if (AutoPlaylist.isAutoPlaylist(param)){
+            getAllAutoPlaylists()
+        } else {
+            channel.value
+        }
+        return all.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Playlist?> {
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return flow { emit(getByParam(param)) }
+        }
+
         return channel.asFlow()
             .map { it.find { it.id == param } }
             .distinctUntilChanged()

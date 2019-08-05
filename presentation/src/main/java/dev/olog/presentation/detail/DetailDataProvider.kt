@@ -20,11 +20,11 @@ import dev.olog.presentation.detail.mapper.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.exhaustive
-import dev.olog.shared.mapListItem
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.component6
+import dev.olog.shared.exhaustive
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -53,38 +53,22 @@ internal class DetailDataProvider @Inject constructor(
 
     fun observeHeader(mediaId: MediaId): Flow<List<DisplayableItem>> {
         val item = when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
-            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
-            MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId).mapNotNull { it?.toHeaderItem() }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId).mapNotNull {
-                it?.toHeaderItem(
-                    resources
-                )
-            }
+            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem() }
+            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem(resources) }
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem() }
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
+                .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,
             MediaIdCategory.SONGS,
