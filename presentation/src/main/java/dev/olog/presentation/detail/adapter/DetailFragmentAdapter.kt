@@ -1,7 +1,6 @@
 package dev.olog.presentation.detail.adapter
 
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
 import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_song.view.cover
 import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
