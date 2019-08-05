@@ -289,7 +289,7 @@ internal class QueueManager @Inject constructor(
         }
     }
 
-    override fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity? {
+    override suspend fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity? {
         assertMainThread()
 
         val mediaEntity = queueImpl.getSongById(idInPlaylist.toInt()) ?: return null
@@ -299,7 +299,7 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity? {
+    override suspend fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getNextSong(trackEnded) ?: return null
         return mediaEntity.toPlayerMediaEntity(
             queueImpl.currentPositionInQueue(),
@@ -307,7 +307,7 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
+    override suspend fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity?.toPlayerMediaEntity(
@@ -316,7 +316,7 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override fun getPlayingSong(): PlayerMediaEntity? {
+    override suspend fun getPlayingSong(): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getCurrentSong() ?: return null
         return mediaEntity.toPlayerMediaEntity(
             queueImpl.currentPositionInQueue(),
@@ -335,15 +335,15 @@ internal class QueueManager @Inject constructor(
         }
     }
 
-    private fun getPodcastBookmarkOrDefault(
+    private suspend fun getPodcastBookmarkOrDefault(
         mediaEntity: MediaEntity?,
         default: Long = 0L
-    ): Long {
+    ): Long = withContext(Dispatchers.Default) {
         if (mediaEntity?.isPodcast == true) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            return clamp(bookmark, 0L, mediaEntity.duration)
+            clamp(bookmark, 0L, mediaEntity.duration)
         } else {
-            return default
+            default
         }
     }
 

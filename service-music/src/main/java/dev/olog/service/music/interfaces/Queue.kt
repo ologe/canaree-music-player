@@ -12,9 +12,9 @@ internal interface Queue {
 
     suspend fun prepare(): PlayerMediaEntity?
 
-    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
-    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
-    fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity?
+    suspend fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
+    suspend fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
+    suspend fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity?
 
     suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity?
     suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity?
@@ -23,7 +23,7 @@ internal interface Queue {
     suspend fun handlePlayFromGoogleSearch(query: String, extras: Bundle): PlayerMediaEntity?
     suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity?
 
-    fun getPlayingSong(): PlayerMediaEntity?
+    suspend fun getPlayingSong(): PlayerMediaEntity?
 
     fun handleSwap(from: Int, to: Int)
     fun handleSwapRelative(from: Int, to: Int)

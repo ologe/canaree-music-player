@@ -131,14 +131,16 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        Log.v(TAG, "onSkipToPrevious")
+        launch(Dispatchers.Main) {
+            Log.v(TAG, "onSkipToPrevious")
 
-        updatePodcastPosition()
-        queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
-            val skipType =
-                if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS
-                else SkipType.RESTART
-            player.playNext(metadata, skipType)
+            updatePodcastPosition()
+            queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
+                val skipType =
+                    if (player.getBookmark() < SKIP_TO_PREVIOUS_THRESHOLD) SkipType.SKIP_PREVIOUS
+                    else SkipType.RESTART
+                player.playNext(metadata, skipType)
+            }
         }
     }
 
@@ -150,7 +152,7 @@ internal class MediaSessionCallback @Inject constructor(
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
-    private fun onSkipToNext(trackEnded: Boolean) {
+    private fun onSkipToNext(trackEnded: Boolean) = launch(Dispatchers.Main) {
         Log.v(TAG, "onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
@@ -170,14 +172,16 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        Log.v(TAG, "onSkipToQueueItem id=$id")
+        launch(Dispatchers.Main) {
+            Log.v(TAG, "onSkipToQueueItem id=$id")
 
-        updatePodcastPosition()
-        val mediaEntity = queue.handleSkipToQueueItem(id)
-        if (mediaEntity != null) {
-            player.play(mediaEntity)
-        } else {
-            onEmptyQueue()
+            updatePodcastPosition()
+            val mediaEntity = queue.handleSkipToQueueItem(id)
+            if (mediaEntity != null) {
+                player.play(mediaEntity)
+            } else {
+                onEmptyQueue()
+            }
         }
     }
 
