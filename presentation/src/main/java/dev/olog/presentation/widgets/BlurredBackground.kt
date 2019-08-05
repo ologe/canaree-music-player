@@ -9,7 +9,9 @@ import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.getCachedDrawable
+import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
 
@@ -19,6 +21,14 @@ class BlurredBackground(
 ) : AppCompatImageView(context, attrs) {
 
     private var job: Job? = null
+
+    companion object {
+        private const val LIGHT_MODE_SIZE = 250
+        private const val DARK_MODE_SIZE = 175
+        private const val BLUR_RADIUS = 25
+    }
+
+    private val isDarkMode by lazyFast { context.isDarkMode() }
 
     fun loadImage(mediaId: MediaId) {
         job?.cancel()
@@ -35,14 +45,16 @@ class BlurredBackground(
 
         assertBackgroundThread()
 
-        val drawable = context.getCachedDrawable(mediaId, 100) ?: return
+        val size = if (isDarkMode) DARK_MODE_SIZE else LIGHT_MODE_SIZE
+
+        val drawable = context.getCachedDrawable(mediaId, size) ?: return
         val bitmap = if (drawable is LayerDrawable){
-            CoverUtils.onlyGradient(context, mediaId).toBitmap(100, 100)
+            CoverUtils.onlyGradient(context, mediaId).toBitmap(size, size)
         } else {
             drawable.toBitmap()
         }
         yield()
-        val blurred = BlurKit.getInstance().blur(bitmap, 25).toDrawable(resources)
+        val blurred = BlurKit.getInstance().blur(bitmap, BLUR_RADIUS).toDrawable(resources)
         yield()
         withContext(Dispatchers.Main) {
             background = blurred
