@@ -6,16 +6,12 @@ import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 
 sealed class DisplayableItem(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId
 ) : BaseModel
 
 class DisplayableTrack(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,
@@ -65,9 +61,7 @@ class DisplayableTrack(
 }
 
 class DisplayableAlbum(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,
@@ -112,9 +106,7 @@ class DisplayableAlbum(
 }
 
 class DisplayableHeader(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,
@@ -152,9 +144,7 @@ class DisplayableHeader(
 
 
 class DisplayableNestedListPlaceholder(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId
 ) : DisplayableItem(type, mediaId) {
 

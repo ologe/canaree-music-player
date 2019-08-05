@@ -42,9 +42,7 @@ class BlacklistFragmentPresenter @Inject constructor(
 }
 
 class BlacklistModel(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,

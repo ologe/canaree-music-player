@@ -4,9 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.shared.TextUtils
 
 class DisplayableQueueSong(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,

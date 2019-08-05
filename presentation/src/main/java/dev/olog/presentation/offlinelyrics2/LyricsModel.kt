@@ -4,9 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.model.BaseModel
 
 class LyricsModel(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val content: String,

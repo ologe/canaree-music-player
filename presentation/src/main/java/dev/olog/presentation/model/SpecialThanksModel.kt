@@ -3,9 +3,7 @@ package dev.olog.presentation.model
 import dev.olog.core.MediaId
 
 class SpecialThanksModel(
-    @JvmField
     override val type: Int,
-    @JvmField
     override val mediaId: MediaId,
     @JvmField
     val title: String,
