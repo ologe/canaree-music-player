@@ -12,9 +12,9 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dpToPx
 import kotlin.properties.Delegates
 
-class ShadowImageView @JvmOverloads constructor(
+class ShadowImageView(
         context: Context,
-        attr: AttributeSet? = null
+        attr: AttributeSet
 
 ) : AppCompatImageView(context, attr) {
 

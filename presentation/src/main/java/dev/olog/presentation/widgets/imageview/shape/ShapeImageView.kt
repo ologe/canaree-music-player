@@ -17,9 +17,9 @@ import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 
-open class ShapeImageView @JvmOverloads constructor(
+open class ShapeImageView(
     context: Context,
-    attrs: AttributeSet? = null
+    attrs: AttributeSet
 
 ) : ForegroundImageView(context, attrs) {
 

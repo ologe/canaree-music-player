@@ -14,11 +14,10 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import dev.olog.presentation.R
 
-class ScrollHmsPicker @JvmOverloads constructor(
+class ScrollHmsPicker (
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+        attrs: AttributeSet
+) : LinearLayout(context, attrs) {
     private val pickerHours: NumberPickerView
     private val textHours: TextView
     private val pickerMinutes: NumberPickerView

@@ -15,9 +15,9 @@ import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
 
-open class PlayerImageView @JvmOverloads constructor(
+open class PlayerImageView (
     context: Context,
-    attr: AttributeSet? = null
+    attr: AttributeSet
 
 ) : ShapeImageView(context, attr) {
 

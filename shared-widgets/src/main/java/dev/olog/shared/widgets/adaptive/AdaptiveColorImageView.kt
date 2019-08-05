@@ -7,9 +7,9 @@ import android.util.AttributeSet
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
 
-open class AdaptiveColorImageView @JvmOverloads constructor(
+open class AdaptiveColorImageView(
         context: Context,
-        attr: AttributeSet? = null
+        attr: AttributeSet
 
 ) : ForegroundImageView(context, attr) {
 

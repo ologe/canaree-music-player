@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 
-class StoppingViewPager @JvmOverloads constructor(
+class StoppingViewPager (
         context: Context,
-        attrs: AttributeSet? = null
+        attrs: AttributeSet
 
 ) : androidx.viewpager.widget.ViewPager(context, attrs) {
 
