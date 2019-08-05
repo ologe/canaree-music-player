@@ -21,17 +21,19 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toPlaylist
-import dev.olog.data.mapper.toSong
+import dev.olog.data.mapper.toPlaylistSong
 import dev.olog.data.queries.PlaylistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.data.utils.queryAll
-import dev.olog.data.utils.queryCountRow
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import kotlinx.coroutines.flow.*
-import java.lang.IllegalStateException
+import dev.olog.data.utils.queryAll
+import dev.olog.data.utils.queryCountRow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -84,7 +86,7 @@ internal class PlaylistRepository @Inject constructor(
             return getAutoPlaylistsTracks(param)
         }
         val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toSong() }
+        return contentResolver.queryAll(cursor) { it.toPlaylistSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {

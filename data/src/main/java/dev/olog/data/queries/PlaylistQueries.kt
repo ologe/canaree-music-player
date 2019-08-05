@@ -64,9 +64,8 @@ internal class PlaylistQueries(
     }
 
     fun getSongList(playlistId: Id): Cursor {
-
         val query = """
-            SELECT ${Members._ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
+            SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
                 ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
                 ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
                 ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
