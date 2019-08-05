@@ -35,6 +35,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     CoroutineScope by MainScope() {
 
     companion object {
+        @JvmStatic
         val TAG = SettingsFragment::class.java.name
     }
 
