@@ -7,7 +7,6 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
-import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
@@ -362,7 +361,7 @@ internal class QueueImpl @Inject constructor(
         }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
 
         val newQueue = (queue + songList).mapIndexed { index, mediaEntity ->
-            mediaEntity.copy(idInPlaylist = index)
+            mediaEntity.withIdInPlaylist(index)
         }
 
         updateState(newQueue, currentSongPosition, false, true)
@@ -394,7 +393,7 @@ internal class QueueImpl @Inject constructor(
         }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
 
         val newQueue = (before + songList + after).mapIndexed { index, mediaEntity ->
-            mediaEntity.copy(idInPlaylist = index)
+            mediaEntity.withIdInPlaylist(index)
         }
 
         updateState(newQueue, currentSongPosition, false, true)

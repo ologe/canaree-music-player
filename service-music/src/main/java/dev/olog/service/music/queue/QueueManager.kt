@@ -4,7 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
-import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway

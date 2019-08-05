@@ -8,11 +8,13 @@ enum class AutoPlaylist {
     HISTORY;
 
     companion object {
+        @JvmStatic
         fun isAutoPlaylist(id: Id): Boolean {
             return values().find { it.id == id } != null
         }
     }
-}
 
-val AutoPlaylist.id: Long
-    get() = this.hashCode().toLong()
+    val id: Long
+        get() = this.hashCode().toLong()
+
+}

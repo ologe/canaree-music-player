@@ -135,7 +135,7 @@ class MainPopupDialog @Inject constructor(
             val isAscending = !menuItem.isChecked
             val newArranging =
                 if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            model.copy(arranging = newArranging)
+            SortEntity(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
@@ -145,7 +145,7 @@ class MainPopupDialog @Inject constructor(
                 R.id.by_date -> SortType.RECENTLY_ADDED
                 else -> null
             } ?: return
-            model.copy(type = newSortType)
+            SortEntity(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllTracksSort(model)
@@ -158,14 +158,14 @@ class MainPopupDialog @Inject constructor(
             val isAscending = !menuItem.isChecked
             val newArranging =
                 if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            model.copy(arranging = newArranging)
+            SortEntity(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_title -> SortType.TITLE
                 R.id.by_artist -> SortType.ARTIST
                 else -> null
             } ?: return
-            model.copy(type = newSortType)
+            SortEntity(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllAlbumsSort(model)
@@ -178,14 +178,14 @@ class MainPopupDialog @Inject constructor(
             val isAscending = !menuItem.isChecked
             val newArranging =
                 if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
-            model.copy(arranging = newArranging)
+            SortEntity(type = model.type, arranging = newArranging)
         } else {
             val newSortType = when (menuItem.itemId) {
                 R.id.by_artist -> SortType.ARTIST
                 R.id.by_album_artist -> SortType.ALBUM_ARTIST
                 else -> null
             } ?: return
-            model.copy(type = newSortType)
+            SortEntity(type = newSortType, arranging = model.arranging)
         }
 
         gateway.setAllArtistsSort(model)

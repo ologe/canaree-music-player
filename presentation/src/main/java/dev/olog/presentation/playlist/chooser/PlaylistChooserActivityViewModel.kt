@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.getMediaId
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum

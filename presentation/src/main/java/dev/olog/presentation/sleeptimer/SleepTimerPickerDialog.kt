@@ -43,7 +43,9 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
         okButton = view.findViewById(R.id.button_ok)
 
-        val (sleepFrom, sleepTime) = sleepTimerUseCase.getLast()
+        val sleepModel = sleepTimerUseCase.getLast()
+        val sleepTime = sleepModel.sleepTime
+        val sleepFrom = sleepModel.fromWhen
 
         setTimeInMilliseconds(sleepTime - (System.currentTimeMillis() - sleepFrom), false)
 

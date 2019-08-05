@@ -37,9 +37,9 @@ class MiniPlayerFragment : BaseFragment(){
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
-        val (modelTitle, modelSubtitle) = presenter.getMetadata()
-        title.text = modelTitle
-        artist.text = modelSubtitle
+        val lastMetadata = presenter.getMetadata()
+        title.text = lastMetadata.title
+        artist.text = lastMetadata.subtitle
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {

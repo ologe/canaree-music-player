@@ -69,8 +69,8 @@ internal class TrackQueries(
             return "lower($TITLE) COLLATE UNICODE"
         }
 
-        val (type, arranging) = sortPrefs.getAllTracksSort()
-        var sort = when (type) {
+        val sortEntity = sortPrefs.getAllTracksSort()
+        var sort = when (sortEntity.type) {
             SortType.TITLE -> "lower($TITLE)"
             SortType.ARTIST -> "lower($ARTIST)"
             SortType.ALBUM -> "lower($ALBUM)"
@@ -82,15 +82,15 @@ internal class TrackQueries(
 
         sort += " COLLATE UNICODE "
 
-        if (type == SortType.RECENTLY_ADDED) {
+        if (sortEntity.type == SortType.RECENTLY_ADDED) {
             // recently added order works in reverse
-            if (arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == SortArranging.ASCENDING) {
                 sort += " DESC"
             } else {
                 sort += " ASC"
             }
         } else {
-            if (arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == SortArranging.ASCENDING) {
                 sort += " ASC"
             } else {
                 sort += " DESC"

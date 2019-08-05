@@ -94,10 +94,9 @@ class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun setLastMetadata(metadata: LastMetadata) {
-        val (title, subtitle) = metadata
         preferences.edit {
-            putString(LAST_TITLE, title)
-            putString(LAST_SUBTITLE, subtitle)
+            putString(LAST_TITLE, metadata.title)
+            putString(LAST_SUBTITLE, metadata.subtitle)
         }
     }
 

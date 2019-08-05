@@ -1,26 +1,29 @@
 package dev.olog.core.interactor.playlist
 
-import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.gateway.track.PlaylistGateway
 import javax.inject.Inject
 
 class MoveItemInPlaylistUseCase @Inject constructor(
-        private val playlistGateway: PlaylistGateway
+    private val playlistGateway: PlaylistGateway
 ) {
 
     fun execute(input: Input): Boolean {
-        val (playlistId, from, to, type) = input
-        if (type == PlaylistType.PODCAST) {
+        if (input.type == PlaylistType.PODCAST) {
             return false
         }
-        return playlistGateway.moveItem(playlistId, from, to)
+        return playlistGateway.moveItem(input.playlistId, input.from, input.to)
     }
 
-    data class Input(
-            val playlistId: Long,
-            val from: Int,
-            val to: Int,
-            val type: PlaylistType
+    class Input(
+        @JvmField
+        val playlistId: Long,
+        @JvmField
+        val from: Int,
+        @JvmField
+        val to: Int,
+        @JvmField
+        val type: PlaylistType
     )
 
 }

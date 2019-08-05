@@ -9,6 +9,11 @@
 - fix edit album & edit artist
 - reduce method count (opening dex file take a lot of time on on app startup)
 
+## TOOD for methoud count reducing
+- remove last fm binding ~700 methods
+- removed jvmoverlaod when possibile
+- add jvm static to companion classes
+
 ### bug
 - big image layout has problems with loading images 
     (has problem on my device with android P beta, on emulator works fine, check on other phones)

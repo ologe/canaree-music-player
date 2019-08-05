@@ -94,12 +94,11 @@ internal abstract class PlayingQueueDao {
 
         deleteAllImpl()
         val result = list.map {
-            val (mediaId, songId, idInPlaylist) = it
             PlayingQueueEntity(
-                songId = songId,
-                category = mediaId.category.toString(),
-                categoryValue = mediaId.categoryValue,
-                idInPlaylist = idInPlaylist
+                songId = it.songId,
+                category = it.mediaId.category.toString(),
+                categoryValue = it.mediaId.categoryValue,
+                idInPlaylist = it.idInPlaylist
             )
         }
         insertAllImpl(result)

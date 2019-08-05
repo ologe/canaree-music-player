@@ -6,8 +6,10 @@ import dev.olog.core.gateway.ImageVersionGateway
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 
-data class CustomMediaStoreSignature(
+class CustomMediaStoreSignature(
+    @JvmField
     private val mediaId: MediaId,
+    @JvmField
     private val versionGateway: ImageVersionGateway
 ) : Key {
 

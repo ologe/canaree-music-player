@@ -8,8 +8,8 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -21,11 +21,14 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.queryAll
-import dev.olog.data.utils.queryCountRow
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import kotlinx.coroutines.flow.*
+import dev.olog.data.utils.queryAll
+import dev.olog.data.utils.queryCountRow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
@@ -51,7 +54,7 @@ internal class GenreRepository @Inject constructor(
             // get the size for every genre
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            genre.copy(size = sizeQuery)
+            genre.withSongs(sizeQuery)
         }
     }
 
@@ -124,7 +127,7 @@ internal class GenreRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.copy(songs = list.size)
+                artist.withSongs(list.size)
             }
     }
 }

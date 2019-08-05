@@ -87,17 +87,17 @@ internal class MusicNotificationManager @Inject constructor(
         when (event){
             is Event.Metadata -> {
                 if (currentState.updateMetadata(event.entity)) {
-                    publishNotification(currentState.copy(), METADATA_PUBLISH_DELAY)
+                    publishNotification(currentState.deepCopy(), METADATA_PUBLISH_DELAY)
                 }
             }
             is Event.State -> {
                 if (currentState.updateState(event.state)){
-                    publishNotification(currentState.copy(), STATE_PUBLISH_DELAY)
+                    publishNotification(currentState.deepCopy(), STATE_PUBLISH_DELAY)
                 }
             }
             is Event.Favorite -> {
                 if (currentState.updateFavorite(event.favorite)){
-                    publishNotification(currentState.copy(), FAVORITE_PUBLISH_DELAY)
+                    publishNotification(currentState.deepCopy(), FAVORITE_PUBLISH_DELAY)
                 }
             }
         }

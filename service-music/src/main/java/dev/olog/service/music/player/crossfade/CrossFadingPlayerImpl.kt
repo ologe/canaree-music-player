@@ -14,6 +14,7 @@ import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
@@ -30,13 +31,13 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-): AbsPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume),
+) : AbsPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume),
     ExoPlayerListenerWrapper,
     CoroutineScope by MainScope() {
 
     private var isCurrentSongPodcast = false
 
-    private var fadeDisposable : Job? = null
+    private var fadeDisposable: Job? = null
 
     private var crossFadeTime = 0
 
@@ -80,7 +81,8 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
         isCurrentSongPodcast = mediaEntity.mediaEntity.isPodcast
         cancelFade()
-        val updatedModel = mediaEntity.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
+        val updatedModel =
+            mediaEntity.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
         super.play(updatedModel, hasFocus, isTrackEnded)
         //        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
         if (isTrackEnded && crossFadeTime > 0 && !isCurrentSongPodcast) {
@@ -115,7 +117,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         super.setVolume(volume)
     }
 
-    fun stop(){
+    fun stop() {
 //        debug("stop")
         player.stop()
         cancelFade()
@@ -126,7 +128,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         when (playbackState) {
             Player.STATE_ENDED -> {
                 stop()
-                if (crossFadeTime == 0){
+                if (crossFadeTime == 0) {
                     requestNextSong()
                 }
             }
@@ -153,9 +155,9 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         }
     }
 
-    private fun fadeOut(time: Long){
+    private fun fadeOut(time: Long) {
         val state = player.playbackState
-        if (state == Player.STATE_IDLE || state == Player.STATE_ENDED){
+        if (state == Player.STATE_IDLE || state == Player.STATE_ENDED) {
             return
         }
 
@@ -169,7 +171,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         )
         player.volume = max
 
-        if (isCurrentSongPodcast){
+        if (isCurrentSongPodcast) {
             return
         }
 
@@ -184,7 +186,7 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
 
     }
 
-    private fun cancelFade(){
+    private fun cancelFade() {
         fadeDisposable?.cancel()
     }
 
@@ -192,13 +194,16 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         player.volume = volume.getMaxAllowedVolume()
     }
 
-    private fun requestNextSong(){
+    private fun requestNextSong() {
         eventDispatcher.dispatchEvent(Event.TRACK_ENDED)
     }
 
-    data class Model(
-        val playerMediaEntity: dev.olog.service.music.model.PlayerMediaEntity,
+    class Model(
+        @JvmField
+        val playerMediaEntity: PlayerMediaEntity,
+        @JvmField
         private val trackEnded: Boolean,
+        @JvmField
         private val crossFadeTime: Int
     ) {
 
@@ -209,12 +214,42 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         val isTrackEnded: Boolean = trackEnded && isCrossFadeOn
         val isGoodIdeaToClip = crossFadeTime >= 5000
 
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Model
+
+            if (playerMediaEntity != other.playerMediaEntity) return false
+            if (trackEnded != other.trackEnded) return false
+            if (crossFadeTime != other.crossFadeTime) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = playerMediaEntity.hashCode()
+            result = 31 * result + trackEnded.hashCode()
+            result = 31 * result + crossFadeTime
+            return result
+        }
+
+        fun copy(
+            playerMediaEntity: PlayerMediaEntity = this.playerMediaEntity,
+            trackEnded: Boolean = this.trackEnded,
+            crossFadeTime: Int = this.crossFadeTime
+        ) : Model {
+            return Model(
+                playerMediaEntity, trackEnded, crossFadeTime
+            )
+        }
+
     }
 
     private class CrossFadeInternals(duration: Int, maxVolumeAllowed: Float) {
 
         val min: Float = 0f
-        val max: Float= maxVolumeAllowed
+        val max: Float = maxVolumeAllowed
         val interval: Long = 200L
         private val times: Long = duration / interval
         val delta: Float = Math.abs(max - min) / times

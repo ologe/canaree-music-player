@@ -14,7 +14,9 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
     companion object {
         @JvmStatic
         private var metadata : WidgetMetadata? = null
+        @JvmStatic
         private var state : WidgetState? = null
+        @JvmStatic
         private var actions: WidgetActions? = null
     }
 

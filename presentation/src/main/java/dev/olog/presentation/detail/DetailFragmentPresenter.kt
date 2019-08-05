@@ -3,7 +3,6 @@ package dev.olog.presentation.detail
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.PlaylistType
-import dev.olog.core.entity.id
 import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.core.prefs.TutorialPreferenceGateway

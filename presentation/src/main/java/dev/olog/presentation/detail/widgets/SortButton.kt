@@ -14,11 +14,10 @@ internal class SortButton(
 ) : AppCompatImageButton(context, attrs) {
 
     fun update(sortEntity: SortEntity) {
-        val (sort, arranging) = sortEntity
-        if (sort == SortType.CUSTOM) {
+        if (sortEntity.type == SortType.CUSTOM) {
             setImageResource(R.drawable.vd_remove)
         } else {
-            if (arranging == SortArranging.ASCENDING) {
+            if (sortEntity.arranging == SortArranging.ASCENDING) {
                 setImageResource(R.drawable.vd_arrow_down)
             } else {
                 setImageResource(R.drawable.vd_arrow_up)

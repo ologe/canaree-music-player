@@ -42,9 +42,12 @@ class UpdateMultipleTracksUseCase @Inject constructor(
 
     }
 
-    data class Data(
+    class Data(
+        @JvmField
         val mediaId: MediaId,
+        @JvmField
         val image: SaveImageType,
+        @JvmField
         val fields: Map<FieldKey, String>
     )
 

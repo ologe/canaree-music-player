@@ -4,14 +4,17 @@ import android.content.Context
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 
-data class LibraryCategoryBehavior(
+class LibraryCategoryBehavior(
+    @JvmField
     val category: MediaIdCategory,
+    @JvmField
     var visible: Boolean,
+    @JvmField
     var order: Int
 ) {
 
     fun asString(context: Context): String {
-        val stringId = when (category){
+        val stringId = when (category) {
             MediaIdCategory.FOLDERS -> R.string.category_folders
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> R.string.category_playlists
@@ -26,6 +29,27 @@ data class LibraryCategoryBehavior(
         }
         return context.getString(stringId)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as LibraryCategoryBehavior
+
+        if (category != other.category) return false
+        if (visible != other.visible) return false
+        if (order != other.order) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = category.hashCode()
+        result = 31 * result + visible.hashCode()
+        result = 31 * result + order
+        return result
+    }
+
 
 }
 

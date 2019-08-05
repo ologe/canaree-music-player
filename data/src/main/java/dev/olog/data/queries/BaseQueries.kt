@@ -41,31 +41,31 @@ abstract class BaseQueries(
 
     protected fun songListSortOrder(category: MediaIdCategory, default: String): String {
 
-        val (type, arranging) = getSortType(category)
-        var sort = when (type) {
+        val sortEntity = getSortType(category)
+        var sort = when (sortEntity.type) {
             SortType.TITLE -> "lower($TITLE)"
             SortType.ARTIST -> "lower($ARTIST)"
             SortType.ALBUM -> "lower($ALBUM)"
             SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
             SortType.RECENTLY_ADDED -> DATE_ADDED // DESC
             SortType.DURATION -> DURATION
-            SortType.TRACK_NUMBER -> "$discNumberProjection $arranging, $trackNumberProjection $arranging, $TITLE"
+            SortType.TRACK_NUMBER -> "$discNumberProjection ${sortEntity.arranging}, $trackNumberProjection ${sortEntity.arranging}, $TITLE"
             SortType.CUSTOM -> default
             else -> "lower($TITLE)"
         }
 
-        if (type == SortType.CUSTOM) {
+        if (sortEntity.type == SortType.CUSTOM) {
             return sort
         }
 
         sort += " COLLATE UNICODE "
 
-        if (arranging == SortArranging.ASCENDING && type == SortType.RECENTLY_ADDED) {
+        if (sortEntity.arranging == SortArranging.ASCENDING && sortEntity.type == SortType.RECENTLY_ADDED) {
             // recently added works in reverse
             sort += " DESC"
         }
-        if (arranging == SortArranging.DESCENDING) {
-            if (type == SortType.RECENTLY_ADDED) {
+        if (sortEntity.arranging == SortArranging.DESCENDING) {
+            if (sortEntity.type == SortType.RECENTLY_ADDED) {
                 // recently added works in reverse
                 sort += " ASC"
             } else {

@@ -44,7 +44,7 @@ internal class AlbumRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val album = list[0]
-                album.copy(songs = list.size)
+                album.withSongs(list.size)
             }
     }
 

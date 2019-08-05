@@ -106,11 +106,16 @@ class UpdateTrackUseCase @Inject constructor(
         imageVersionGateway.increaseCurrentVersion(mediaId)
     }
 
-    data class Data(
+    class Data(
+        @JvmField
         val mediaId: MediaId?,
+        @JvmField
         val path: String,
+        @JvmField
         val image: SaveImageType,
+        @JvmField
         val fields: Map<FieldKey, String>,
+        @JvmField
         val isPodcast: Boolean?
     )
 

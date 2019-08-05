@@ -2,7 +2,6 @@ package dev.olog.data.repository.podcast
 
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song

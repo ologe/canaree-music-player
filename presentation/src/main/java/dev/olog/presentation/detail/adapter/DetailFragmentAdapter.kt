@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.id
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -181,7 +180,9 @@ internal class DetailFragmentAdapter(
     @SuppressLint("SetTextI18n")
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.view.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            holder.imageView?.let {
+                BindingsAdapter.loadSongImage(it, item.mediaId)
+            }
             firstText.text = item.title
             secondText?.text = item.subtitle
             explicit.onItemChanged(item.title)

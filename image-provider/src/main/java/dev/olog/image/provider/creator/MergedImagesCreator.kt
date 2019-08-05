@@ -13,7 +13,12 @@ import java.io.FileOutputStream
 
 internal object MergedImagesCreator {
 
-    suspend fun makeImages(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String): File? {
+    suspend fun makeImages(
+        context: Context,
+        albumIdList: List<Long>,
+        parentFolder: String,
+        itemId: String
+    ): File? {
         assertBackgroundThread()
 
         val albumsId = albumIdList.distinctBy { it }
@@ -21,8 +26,9 @@ internal object MergedImagesCreator {
         for (id in albumsId) {
             try {
                 getBitmap(context, id)?.let { uris.add(IdWithBitmap(id, it)) }
-            } catch (ex: Throwable){}
-            if (uris.size == 9){
+            } catch (ex: Throwable) {
+            }
+            if (uris.size == 9) {
                 break
             }
         }
@@ -48,7 +54,12 @@ internal object MergedImagesCreator {
         return bitmap
     }
 
-    private suspend fun doCreate(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String): File? {
+    private suspend fun doCreate(
+        context: Context,
+        uris: List<IdWithBitmap>,
+        parentFolder: String,
+        itemId: String
+    ): File? {
         val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
 
         if (uris.isEmpty()) {
@@ -125,7 +136,9 @@ internal object MergedImagesCreator {
 
 }
 
-data class IdWithBitmap(
+class IdWithBitmap(
+    @JvmField
     val id: Long,
+    @JvmField
     val bitmap: Bitmap
 )

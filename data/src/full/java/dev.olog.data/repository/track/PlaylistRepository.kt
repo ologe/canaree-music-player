@@ -6,7 +6,6 @@ import android.provider.MediaStore
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.id
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -63,7 +62,7 @@ internal class PlaylistRepository @Inject constructor(
             // get the size for every playlist
             val sizeQueryCursor = queries.countPlaylistSize(playlist.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            playlist.copy(size = sizeQuery)
+            playlist.withSongs(sizeQuery)
         }
     }
 
@@ -169,7 +168,7 @@ internal class PlaylistRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.copy(songs = list.size)
+                artist.withSongs(list.size)
             }
     }
 }

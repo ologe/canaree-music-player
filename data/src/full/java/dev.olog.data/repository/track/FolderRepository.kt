@@ -154,7 +154,7 @@ internal class FolderRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.copy(songs = list.size)
+                artist.withSongs(list.size)
             }
     }
 }

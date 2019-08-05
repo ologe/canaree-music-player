@@ -6,24 +6,80 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "podcast_playlist")
-data class PodcastPlaylistEntity(
-        @PrimaryKey(autoGenerate = true) val id: Long = 0,
-        val name: String,
-        val size: Int
-)
+class PodcastPlaylistEntity(
+    @PrimaryKey(autoGenerate = true)
+    @JvmField
+    val id: Long = 0,
+    @JvmField
+    val name: String,
+    @JvmField
+    val size: Int
+) {
 
-@Entity(tableName = "podcast_playlist_tracks",
-        indices = [Index("playlistId")],
-        foreignKeys = [
-            ForeignKey(
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PodcastPlaylistEntity
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (size != other.size) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + size
+        return result
+    }
+}
+
+@Entity(
+    tableName = "podcast_playlist_tracks",
+    indices = [Index("playlistId")],
+    foreignKeys = [
+        ForeignKey(
             entity = PodcastPlaylistEntity::class,
             parentColumns = ["id"],
             childColumns = ["playlistId"],
-            onDelete = ForeignKey.CASCADE)
-        ])
-data class PodcastPlaylistTrackEntity(
-        @PrimaryKey(autoGenerate = true) val id: Long = 0,
-        val idInPlaylist: Long,
-        val podcastId: Long,
-        val playlistId: Long
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
+class PodcastPlaylistTrackEntity(
+    @PrimaryKey(autoGenerate = true)
+    @JvmField
+    val id: Long = 0,
+    @JvmField
+    val idInPlaylist: Long,
+    @JvmField
+    val podcastId: Long,
+    @JvmField
+    val playlistId: Long
+) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PodcastPlaylistTrackEntity
+
+        if (id != other.id) return false
+        if (idInPlaylist != other.idInPlaylist) return false
+        if (podcastId != other.podcastId) return false
+        if (playlistId != other.playlistId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + idInPlaylist.hashCode()
+        result = 31 * result + podcastId.hashCode()
+        result = 31 * result + playlistId.hashCode()
+        return result
+    }
+}
