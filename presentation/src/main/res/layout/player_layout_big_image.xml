@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:background="@android:color/holo_red_light"
         android:alpha=".4"
-        android:src="#cfff" />
+        android:src="?colorBackgroundTransparent" />
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar

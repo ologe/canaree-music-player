@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorBackground">#121212</color>
+    <color name="colorBackgroundTransparent">#cc121212</color>
 
     <color name="colorSurface">#222326</color>
     <color name="colorControlNormal">#F5F5F5</color>

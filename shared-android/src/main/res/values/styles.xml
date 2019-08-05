@@ -4,6 +4,8 @@
     <attr name="colorSwipeBackground" format="reference|color"/>
     <attr name="colorUnselectedButton" format="reference|color"/>
 
+    <attr name="colorBackgroundTransparent" format="reference|color"/>
+
     <style name="TransparentTheme" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -17,6 +19,7 @@
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="popupMenuStyle">@style/MaterialPopupMenu</item>
         <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorBackgroundTransparent">@color/colorBackgroundTransparent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorSurface</item>

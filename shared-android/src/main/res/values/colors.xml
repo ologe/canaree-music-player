@@ -2,6 +2,7 @@
 <resources>
 
     <color name="colorBackground">@android:color/white</color>
+    <color name="colorBackgroundTransparent">#cfff</color>
     <color name="colorPrimary">@color/defaultColorAccent</color>
     <color name="colorAccent">@color/defaultColorAccent</color>
     <color name="colorSurface">@android:color/white</color>
