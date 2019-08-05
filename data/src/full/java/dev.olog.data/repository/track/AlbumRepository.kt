@@ -6,9 +6,9 @@ import android.provider.MediaStore
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.base.HasLastPlayed
 import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
@@ -17,11 +17,11 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.asFlow
-import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class AlbumRepository @Inject constructor(

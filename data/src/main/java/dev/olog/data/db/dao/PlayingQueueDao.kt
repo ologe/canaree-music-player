@@ -1,6 +1,5 @@
 package dev.olog.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,10 +12,11 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
-import dev.olog.data.utils.asFlow
 import dev.olog.data.utils.assertBackgroundThread
+import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 internal abstract class PlayingQueueDao {
@@ -35,7 +35,7 @@ internal abstract class PlayingQueueDao {
         ORDER BY progressive
     """
     )
-    abstract fun observeAllImpl(): LiveData<List<PlayingQueueEntity>>
+    abstract fun observeAllImpl(): Flowable<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
     abstract fun deleteAllImpl()

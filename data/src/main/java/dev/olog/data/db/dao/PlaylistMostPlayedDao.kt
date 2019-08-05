@@ -1,6 +1,5 @@
 package dev.olog.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -8,9 +7,10 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
-import dev.olog.data.utils.asFlow
+import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 internal abstract class PlaylistMostPlayedDao {
@@ -26,7 +26,7 @@ internal abstract class PlaylistMostPlayedDao {
         LIMIT 10
     """
     )
-    abstract fun query(playlistId: Long): LiveData<List<SongMostTimesPlayedEntity>>
+    abstract fun query(playlistId: Long): Flowable<List<SongMostTimesPlayedEntity>>
 
     @Insert
     abstract fun insertOne(item: PlaylistMostPlayedEntity)

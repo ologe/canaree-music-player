@@ -12,13 +12,13 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.utils.asFlow
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
@@ -51,6 +51,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     override fun observeByParam(param: Id): Flow<Playlist?> {
         return podcastPlaylistDao.observePlaylistById(param)
+            .map { it }
             .asFlow()
             .distinctUntilChanged()
             .map { it?.toDomain() }

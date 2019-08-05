@@ -1,11 +1,11 @@
 package dev.olog.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import io.reactivex.Flowable
 
 @Dao
 internal abstract class PodcastPlaylistDao {
@@ -24,7 +24,7 @@ internal abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun observeAllPlaylists(): LiveData<List<PodcastPlaylistEntity>>
+    abstract fun observeAllPlaylists(): Flowable<List<PodcastPlaylistEntity>>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -42,7 +42,7 @@ internal abstract class PodcastPlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun observePlaylistById(id: Long): LiveData<PodcastPlaylistEntity?>
+    abstract fun observePlaylistById(id: Long): Flowable<PodcastPlaylistEntity?>
 
     @Query("""
         SELECT tracks.*
@@ -50,7 +50,7 @@ internal abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
-    abstract fun getPlaylistTracks(playlistId: Long): LiveData<List<PodcastPlaylistTrackEntity>>
+    abstract fun getPlaylistTracks(playlistId: Long): Flowable<List<PodcastPlaylistTrackEntity>>
 
     @Query("""
         SELECT max(idInPlaylist)

@@ -1,8 +1,8 @@
 package dev.olog.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import dev.olog.data.db.entities.EqualizerPresetEntity
+import io.reactivex.Flowable
 
 @Dao
 internal abstract class EqualizerPresetsDao {
@@ -30,7 +30,7 @@ internal abstract class EqualizerPresetsDao {
         WHERE id = :id
     """
     )
-    abstract fun observePresetById(id: Long): LiveData<EqualizerPresetEntity>
+    abstract fun observePresetById(id: Long): Flowable<EqualizerPresetEntity>
 
     @Delete
     abstract suspend fun deletePreset(preset: EqualizerPresetEntity)

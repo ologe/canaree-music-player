@@ -8,7 +8,6 @@ import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
-import dev.olog.data.utils.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
