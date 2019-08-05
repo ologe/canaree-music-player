@@ -65,7 +65,6 @@
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabUnboundedRipple">true</item>
         <item name="tabTextAppearance">@style/MaterialTabLayout.TextAppearance</item>
-        <item name="tabBackground">?colorSurface</item>
     </style>
 
     <style name="MaterialTabLayout.TextAppearance" parent="TextAppearance.MaterialComponents.Button">

@@ -68,15 +68,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <FrameLayout
+        android:id="@+id/tabLayoutBackground"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
-        android:background="?colorSurface"
-        android:elevation="@dimen/toolbar_elevation"
+        android:background="?attr/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"/>
+
+    </FrameLayout>
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
@@ -103,12 +111,13 @@
         android:layout_gravity="center"
         android:text="@string/category_no_tab_visible"
         android:textSize="20dp"
+        android:textColor="?android:textColorPrimary"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
