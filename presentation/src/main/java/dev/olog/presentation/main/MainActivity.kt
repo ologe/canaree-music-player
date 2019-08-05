@@ -226,12 +226,16 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun tryLoadAd(){
+        val heightToAdd: Int
         if (viewModel.canShowAds()){
             MobileAds.initialize(this, getString(R.string.ad_mob_key))
             val adRequest = AdRequest.Builder().build()
             adView.loadAd(adRequest)
+            heightToAdd = dip(52)
         } else {
             adView.setGone()
+            heightToAdd = dip(2)
         }
+        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek_plus_navigation) + heightToAdd
     }
 }
