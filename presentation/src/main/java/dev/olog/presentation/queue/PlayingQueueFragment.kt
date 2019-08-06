@@ -14,6 +14,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
@@ -52,7 +53,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val layoutManager = LinearLayoutManager(context!!)
+        val layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)

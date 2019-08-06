@@ -2,10 +2,12 @@ package dev.olog.presentation.tab.layoutmanager
 
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.model.BaseModel
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
+import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 
 internal object LayoutManagerFactory {
 
@@ -24,9 +26,9 @@ internal object LayoutManagerFactory {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun get(context: Context, category: TabCategory, adapter: TabFragmentAdapter): GridLayoutManager {
-        val spanSizeLookup = createSpanSize(context, category, adapter as ObservableAdapter<BaseModel>)
-        val layoutManager = GridLayoutManager(context, spanSizeLookup.getSpanSize())
+    fun get(recyclerView: RecyclerView, category: TabCategory, adapter: TabFragmentAdapter): GridLayoutManager {
+        val spanSizeLookup = createSpanSize(recyclerView.context, category, adapter as ObservableAdapter<BaseModel>)
+        val layoutManager = OverScrollGridLayoutManager(recyclerView, spanSizeLookup.getSpanSize())
         layoutManager.spanSizeLookup = spanSizeLookup
         return layoutManager
     }

@@ -109,7 +109,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val gridLayoutManager = LayoutManagerFactory.get(act, category, adapter)
+        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter)
         list.layoutManager = gridLayoutManager
         list.adapter = adapter
         list.setHasFixedSize(true)

@@ -20,6 +20,7 @@ import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -103,7 +104,7 @@ class SearchFragment : BaseFragment(),
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setRecycledViewPool(recycledViewPool)

@@ -25,7 +25,7 @@ ext {
     lottie = '3.0.0'
     custom_tabs = '2.0.0'
     material_dialogs = '2.8.1'
-    scroll_helper = '1.0.3'
+    scroll_helper = '1.1.0-alpha02'
     blur_kit = '1.0.0'
     color_desaturation = '1.0.1'
 

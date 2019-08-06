@@ -16,6 +16,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
@@ -58,7 +59,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)
