@@ -16,8 +16,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class BillingImpl @Inject constructor(
+internal class BillingImpl @Inject constructor(
     activity: AppCompatActivity,
+    private val billingPrefs: BillingPreferences,
     private val resetPreferencesUseCase: ResetPreferencesUseCase,
     private val presentationPreferences: PresentationPreferencesGateway,
     private val prefsGateway: AppPreferencesGateway
@@ -26,33 +27,34 @@ class BillingImpl @Inject constructor(
 
     companion object {
         private const val PRO_VERSION_ID = "pro_version"
-        @JvmStatic
-        private val DEFAULT_PREMIUM = false
-        private const val DEFAULT_TRIAL = false
-        private const val DEFAULT_SHOW_AD = false
+
         @JvmStatic
         private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
     }
 
-    private val premiumPublisher = ConflatedBroadcastChannel(DEFAULT_PREMIUM)
-    private val trialPublisher = ConflatedBroadcastChannel(DEFAULT_TRIAL)
-    private val showAdPublisher = ConflatedBroadcastChannel(DEFAULT_SHOW_AD)
+    private val lastPremium = billingPrefs.getLastPremium()
+    private val lastTrial = billingPrefs.getLastTrial()
+    private val lastShowAd = billingPrefs.getLastShowAd()
 
-    private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
-        trialPublisher.offer(new)
-        if (!getBillingsState().isPremiumEnabled()) {
-            setDefault()
-        }
-    }
+    private val premiumPublisher = ConflatedBroadcastChannel(lastPremium)
+    private val trialPublisher = ConflatedBroadcastChannel(lastTrial)
+    private val showAdPublisher = ConflatedBroadcastChannel(lastShowAd)
 
-    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
+    private var isPremiumState by Delegates.observable(lastPremium) { _, _, new ->
         premiumPublisher.offer(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
     }
 
-    private var isShowAdState by Delegates.observable(DEFAULT_SHOW_AD) { _, _, new ->
+    private var isTrialState by Delegates.observable(lastTrial) { _, _, new ->
+        trialPublisher.offer(new)
+        if (!getBillingsState().isPremiumEnabled()) {
+            setDefault()
+        }
+    }
+
+    private var isShowAdState by Delegates.observable(lastShowAd) { _, _, new ->
         showAdPublisher.offer(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
@@ -90,6 +92,9 @@ class BillingImpl @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
+        billingPrefs.setLastPremium(isPremiumState)
+        billingPrefs.setLastTrial(isTrialState)
+        billingPrefs.setLastShowAd(isShowAdState)
         cancel()
     }
 
@@ -115,7 +120,7 @@ class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null || DEFAULT_PREMIUM
+        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null || BillingPreferences.DEFAULT_PREMIUM
 //        return true
     }
 

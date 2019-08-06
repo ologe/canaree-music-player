@@ -47,7 +47,7 @@ abstract class MainActivityModule {
 
     @Binds
     @PerActivity
-    abstract fun provideBilling(impl: BillingImpl): IBilling
+    internal abstract fun provideBilling(impl: BillingImpl): IBilling
 
     @Binds
     @IntoMap

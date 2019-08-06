@@ -6,6 +6,7 @@
 - fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
+- check if buy premium works
 
 ## TOOD for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)

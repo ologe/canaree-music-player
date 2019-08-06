@@ -10,7 +10,7 @@ import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dev.olog.shared.android.extensions.toast
 
-abstract class BillingConnection(
+internal abstract class BillingConnection(
     protected val activity: FragmentActivity
 ) : PurchasesUpdatedListener, DefaultLifecycleObserver {
 
