@@ -124,7 +124,6 @@ fun Cursor.toArtist(): Artist {
         name = artist,
         albumArtist = albumArtist,
         songs = 0,
-        albums = 0,
         isPodcast = isPodcast
     )
 }
