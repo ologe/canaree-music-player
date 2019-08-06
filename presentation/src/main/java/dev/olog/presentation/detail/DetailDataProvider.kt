@@ -74,11 +74,11 @@ internal class DetailDataProvider @Inject constructor(
             MediaIdCategory.SONGS,
             MediaIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
         }.exhaustive
-        return item.map {
+        return item.map { header ->
             listOf(
-                it,
-                headers.biography
-            )
+                header,
+                headers.biography(mediaId)
+            ).mapNotNull { it }
         }
     }
 

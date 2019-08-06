@@ -18,11 +18,16 @@ class DetailFragmentHeaders @Inject constructor(
         val RELATED_ARTISTS_SEE_ALL = MediaId.headerId("related artist header")
     }
 
-    val biography: DisplayableItem = DisplayableHeader(
-        type = R.layout.item_detail_biography,
-        mediaId = MediaId.headerId("biography"),
-        title = ""
-    )
+    fun biography(mediaId: MediaId): DisplayableItem? {
+        if (mediaId.isArtist || mediaId.isAlbum){
+            return DisplayableHeader(
+                type = R.layout.item_detail_biography,
+                mediaId = MediaId.headerId("biography"),
+                title = ""
+            )
+        }
+        return null
+    }
 
     val mostPlayed: List<DisplayableItem> = listOf(
         DisplayableHeader(
