@@ -68,23 +68,15 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/tabLayoutBackground"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
-        android:background="?attr/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:elevation="@dimen/toolbar_elevation">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"/>
-
-    </FrameLayout>
+        android:background="?colorSurface"
+        android:elevation="@dimen/toolbar_elevation"/>
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"

@@ -61,7 +61,7 @@
         android:background="?colorSurface"/>
 
     <FrameLayout
-        android:id="@+id/tabLayoutBackground"
+        android:id="@+id/tabLayout"
         android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

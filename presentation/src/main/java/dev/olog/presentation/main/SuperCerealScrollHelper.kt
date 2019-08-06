@@ -64,7 +64,7 @@ class SuperCerealScrollHelper(
             }
             else -> fragment.view
         }
-        return view?.findViewByIdNotRecursive(R.id.tabLayoutBackground)
+        return view?.findViewByIdNotRecursive(R.id.tabLayout)
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
