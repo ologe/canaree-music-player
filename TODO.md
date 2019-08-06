@@ -1,13 +1,9 @@
 ## TODO
 - check mediastore insert/update/delete on Android Q
-- change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
-- fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
-- check if buy premium works
-- check drag and drop in detail
 
-## TOOD for methoud count reducing
+## TODO for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
 - remove last fm binding ~700 methods
 
@@ -18,8 +14,12 @@
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
 - crashes when there are no tracks
 - edit info image override not working as intended
+- fix stilyze image (dynamic module crashes)
+- check if buy premium works
+- check drag and drop in detail
 
 ## features
+- change grid span
 - add to favorite in android auto
 - check if can use custom icons in android auto
 - custom preset in equalizer
