@@ -7,6 +7,7 @@
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - fix edit album & edit artist
 - check if buy premium works
+- check drag and drop in detail
 
 ## TOOD for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
@@ -17,6 +18,7 @@
 - after creating 'new playlist' from + button, bottom navigation disappears
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
+- crashes when there are no tracks
 
 ## features
 - add to favorite in android auto
