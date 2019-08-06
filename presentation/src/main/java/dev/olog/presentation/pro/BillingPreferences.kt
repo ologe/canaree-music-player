@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import javax.inject.Inject
 
@@ -20,7 +21,6 @@ internal class BillingPreferences @Inject constructor(
 
         private const val LAST_PREMIUM = "LAST_PREMIUM"
         private const val LAST_TRIAL = "LAST_TRIAL"
-        private const val LAST_SHOW_AD = "LAST_SHOW_AD"
     }
 
     fun getLastPremium(): Boolean {
