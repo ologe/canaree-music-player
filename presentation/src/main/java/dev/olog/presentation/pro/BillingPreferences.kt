@@ -1,11 +1,14 @@
 package dev.olog.presentation.pro
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.presentation.BuildConfig
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.presentation.R
 import javax.inject.Inject
 
 internal class BillingPreferences @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val prefs: SharedPreferences
 ) {
 
@@ -41,13 +44,7 @@ internal class BillingPreferences @Inject constructor(
     }
 
     fun getLastShowAd(): Boolean {
-        return prefs.getBoolean(LAST_SHOW_AD, DEFAULT_SHOW_AD)
-    }
-
-    fun setLastShowAd(enabled: Boolean){
-        prefs.edit {
-            putBoolean(LAST_SHOW_AD, enabled)
-        }
+        return prefs.getBoolean(context.getString(R.string.premium_ad_key), DEFAULT_SHOW_AD)
     }
 
 }

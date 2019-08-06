@@ -42,6 +42,7 @@ internal class BillingImpl @Inject constructor(
 
     private var isPremiumState by Delegates.observable(lastPremium) { _, _, new ->
         premiumPublisher.offer(new)
+        billingPrefs.setLastPremium(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
@@ -49,6 +50,7 @@ internal class BillingImpl @Inject constructor(
 
     private var isTrialState by Delegates.observable(lastTrial) { _, _, new ->
         trialPublisher.offer(new)
+        billingPrefs.setLastTrial(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
@@ -94,7 +96,6 @@ internal class BillingImpl @Inject constructor(
         super.onDestroy(owner)
         billingPrefs.setLastPremium(isPremiumState)
         billingPrefs.setLastTrial(isTrialState)
-        billingPrefs.setLastShowAd(isShowAdState)
         cancel()
     }
 
