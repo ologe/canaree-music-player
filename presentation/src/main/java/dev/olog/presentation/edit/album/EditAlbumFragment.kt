@@ -4,13 +4,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import dev.olog.presentation.R
+import dev.olog.core.MediaId
+import dev.olog.image.provider.model.OriginalImage
 import dev.olog.intents.AppConstants
+import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo
+import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.core.MediaId
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
@@ -36,17 +38,18 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast {
-        viewModelProvider<EditAlbumFragmentViewModel>(
-            viewModelFactory
-        )
+        viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory)
     }
     private val editItemViewModel by lazyFast {
-        activity!!.viewModelProvider<EditItemViewModel>(
-            viewModelFactory
-        )
+        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
     }
     private val mediaId: MediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.requestData(mediaId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,54 +59,24 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
                 .collect { okButton.isEnabled = it }
         }
 
-        viewModel.observeSongList()
-                .subscribe(viewLifecycleOwner) {
-                    val size = it.size
-                    val text = resources.getQuantityString(
-                            R.plurals.edit_item_xx_tracks_will_be_updated, size, size)
-                    albumsUpdated.text =  text
-                }
+        loadImage(mediaId)
 
-//        viewModel.observeData().observe(viewLifecycleOwner, Observer {
-//            when (it){
-//                null -> ctx.toast(R.string.edit_song_info_not_found)
-//                else -> {
-//                    album.setText(it.title)
-//                    artist.setText(it.artist)
-//                    albumArtist.setText(it.albumArtist)
-//                    year.setText(it.year)
-//                    genre.setText(it.genre)
-//                    setImage(MediaId.albumId(it.id)) TODO
-//                }
-//            }
-//            hideLoader()
-//        })
+        viewModel.observeData().subscribe(viewLifecycleOwner) {
+            album.setText(it.title)
+            artist.setText(it.artist)
+            albumArtist.setText(it.albumArtist)
+            year.setText(it.year)
+            genre.setText(it.genre)
+            val text = resources.getQuantityString(
+                R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
+            albumsUpdated.text =  text
+        }
     }
 
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            launch {
-//                val result = editItemViewModel.updateAlbum(
-//                    UpdateAlbumInfo(
-//                        mediaId,
-//                        album.extractText().trim(),
-//                        artist.extractText().trim(),
-//                        albumArtist.extractText().trim(),
-//                        genre.extractText().trim(),
-//                        year.extractText().trim(),
-//                        viewModel.getNewImage()
-//                    )
-//                )
-//
-//                when (result){
-//                    UpdateResult.OK -> dismiss()
-//                    UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
-//                    UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
-//                    UpdateResult.ILLEGAL_DISC_NUMBER,
-//                    UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
-//                }
-            }
+            launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
         picker.setOnClickListener { changeImage() }
@@ -116,22 +89,47 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         picker.setOnClickListener(null)
     }
 
-    override fun restoreImage() {
-//        val albumId = viewModel.getAlbum().id
-//        val uri = ImagesFolderUtils.forAlbum(albumId)
-//        viewModel.updateImage(uri) TODO
+    private suspend fun trySave(){
+        val result = editItemViewModel.updateAlbum(
+            UpdateAlbumInfo(
+                mediaId,
+                album.extractText().trim(),
+                artist.extractText().trim(),
+                albumArtist.extractText().trim(),
+                genre.extractText().trim(),
+                year.extractText().trim(),
+                viewModel.getNewImage()
+            )
+        )
+
+        when (result){
+            UpdateResult.OK -> dismiss()
+            UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
+            UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
+            UpdateResult.ILLEGAL_DISC_NUMBER,
+            UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
+        }
     }
 
     override fun onImagePicked(uri: Uri) {
-        viewModel.updateImage(uri.toString())
+        viewModel.updateImage(SaveImageType.Url(uri.toString()))
+        loadImage(uri, mediaId)
+    }
+
+    override fun restoreImage() {
+        viewModel.restoreOriginalImage()
+        loadImage(OriginalImage(mediaId), mediaId)
     }
 
     override fun noImage() {
-        viewModel.updateImage(AppConstants.NO_IMAGE)
+        viewModel.updateImage(SaveImageType.Url(AppConstants.NO_IMAGE))
+        loadImage(Uri.EMPTY, mediaId)
     }
 
     override fun onLoaderCancelled() {
     }
+
+    // TODO stylize image
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_album
 }

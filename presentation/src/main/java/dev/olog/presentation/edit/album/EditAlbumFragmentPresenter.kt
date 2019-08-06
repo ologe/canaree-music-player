@@ -1,75 +1,50 @@
 package dev.olog.presentation.edit.album
 
+import dev.olog.core.MediaId
+import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Song
-import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.presentation.utils.safeGet
-import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.tag.FieldKey
-import java.io.File
+import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.track.AlbumGateway
+import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.intents.AppConstants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
-//    private val mediaId: MediaId,
-    private val getSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val albumGateway: AlbumGateway,
+    private val podcastAlbumGateway: PodcastAlbumGateway,
+    private val lastFmGateway: LastFmGateway,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
 
-//    lateinit var songList: List<Song>
-    private lateinit var originalAlbum: DisplayableAlbum
-
-    fun observeAlbum(): DisplayableAlbum {
-        TODO()
-//        if (mediaId.isPodcastAlbum){
-//            return observePodcastAlbumInternal()
-//        }
-//        return observeAlbumInternal()
-    }
-
-    private fun observeAlbumInternal(): DisplayableAlbum{
-        TODO()
-//        return getAlbumUseCase.execute(mediaId)
-//                .flatMap { original ->
-//                    getSongListByParamUseCase.execute(mediaId)
-//                            .map { original.toDisplayableAlbum(it[0].path)  }
-//                }
-//                .firstOrError()
-//                .doOnSuccess { originalAlbum = it }
-    }
-
-    private fun observePodcastAlbumInternal(): DisplayableAlbum{
-        TODO()
-//        return getPodcastAlbumUseCase.execute(mediaId)
-//                .flatMap { original ->
-//                    getSongListByParamUseCase.execute(mediaId)
-//                            .map { original.toDisplayableAlbum(it[0].path)}
-//                }
-//                .firstOrError()
-//                .doOnSuccess { originalAlbum = it }
-    }
-
-    fun getSongList(): List<Song> {
-        TODO()
-//        return getSongListByParamUseCase.execute(mediaId)
-//                .firstOrError()
-//                .doOnSuccess { songList = it }
-    }
-
-    fun getAlbum(): DisplayableAlbum = originalAlbum
-
-    private fun Album.toDisplayableAlbum(path: String): DisplayableAlbum {
-        val file = File(path)
-        val audioFile = AudioFileIO.read(file)
-        val tag = audioFile.tagOrCreateAndSetDefault
-
-        return DisplayableAlbum(
-            this.id,
-            this.title,
-            tag.safeGet(FieldKey.ARTIST),
-            tag.safeGet(FieldKey.ALBUM_ARTIST),
-            tag.safeGet(FieldKey.GENRE),
-            tag.safeGet(FieldKey.YEAR)
+    fun getAlbum(mediaId: MediaId): Album {
+        val album = if (mediaId.isPodcastAlbum) {
+            podcastAlbumGateway.getByParam(mediaId.categoryId)!!
+        } else {
+            albumGateway.getByParam(mediaId.categoryId)!!
+        }
+        return Album(
+            id = album.id,
+            artistId = album.artistId,
+            albumArtist = album.albumArtist,
+            title = album.title,
+            artist = if (album.artist == AppConstants.UNKNOWN) "" else album.artist,
+            hasSameNameAsFolder = album.hasSameNameAsFolder,
+            songs = album.songs,
+            isPodcast = album.isPodcast
         )
+    }
+
+    suspend fun getPath(mediaId: MediaId): String = withContext(Dispatchers.IO) {
+        getSongListByParamUseCase(mediaId).first().path
+    }
+
+    suspend fun fetchData(id: Id): LastFmAlbum? {
+        return lastFmGateway.getAlbum(id)
     }
 
 }

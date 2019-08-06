@@ -1,12 +1,10 @@
 package dev.olog.presentation.edit.song
 
-import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dev.olog.core.MediaId
@@ -17,7 +15,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateSongInfo
-import dev.olog.presentation.edit.model.LoadImageType
 import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
@@ -50,7 +47,7 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory)
     }
     private val editItemViewModel by lazyFast {
-        activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory)
+        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
     }
 
     private val mediaId by lazyFast {

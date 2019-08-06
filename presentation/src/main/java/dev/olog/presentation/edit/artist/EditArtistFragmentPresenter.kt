@@ -1,62 +1,38 @@
 package dev.olog.presentation.edit.artist
 
+import dev.olog.core.MediaId
+import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
 import javax.inject.Inject
 
 class EditArtistFragmentPresenter @Inject constructor(
-//    private val mediaId: MediaId,
-    private val getArtistUseCase: ArtistGateway,
-    private val getPodcastArtistUseCase: PodcastArtistGateway,
-    private val getSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val artistGateway: ArtistGateway,
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val lastFmGateway: LastFmGateway
 
 ) {
 
-    private lateinit var originalArtist: DisplayableArtist
-//    lateinit var songList: List<Song>
-
-    fun observeArtist(): DisplayableArtist {
-        TODO()
-//        if (mediaId.isPodcastArtist){
-//            return getPodcastArtistInternal()
-//        }
-//        return getArtistInternal()
-    }
-
-    private fun getArtistInternal(): DisplayableArtist{
-        TODO()
-//        return getArtistUseCase.execute(mediaId)
-//                .firstOrError()
-//                .map { it.toDisplayableArtist() }
-//                .doOnSuccess { originalArtist = it }
-    }
-
-    private fun getPodcastArtistInternal(): DisplayableArtist{
-        TODO()
-//        return getPodcastArtistUseCase.execute(mediaId)
-//                .firstOrError()
-//                .map { it.toDisplayableArtist() }
-//                .doOnSuccess { originalArtist = it }
-    }
-
-    fun getSongList(): List<Song> {
-        TODO()
-//        return getSongListByParamUseCase.execute(mediaId)
-//                .firstOrError()
-//                .doOnSuccess { songList = it }
-    }
-
-    fun getArtist(): DisplayableArtist = originalArtist
-
-    private fun Artist.toDisplayableArtist(): DisplayableArtist {
-        return DisplayableArtist(
-            this.id,
-            this.name,
-            this.albumArtist
+    fun getArtist(mediaId: MediaId): Artist {
+        val artist = if (mediaId.isPodcastArtist) {
+            podcastArtistGateway.getByParam(mediaId.categoryId)!!
+        } else {
+            artistGateway.getByParam(mediaId.categoryId)!!
+        }
+        return Artist(
+            id = artist.id,
+            name = artist.name,
+            albumArtist = artist.albumArtist,
+            songs = artist.songs,
+            isPodcast = artist.isPodcast
         )
+    }
+
+    suspend fun fetchData(id: Id): LastFmArtist? {
+        return lastFmGateway.getArtist(id)
     }
 
 }

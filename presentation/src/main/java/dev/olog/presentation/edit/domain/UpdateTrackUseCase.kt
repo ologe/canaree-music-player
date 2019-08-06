@@ -1,6 +1,5 @@
 package dev.olog.presentation.edit.domain
 
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -82,7 +81,7 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     private fun updateMediaStore(id: Long, isPodcast: Boolean?) {
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val values = ContentValues(2).apply {
             isPodcast?.let {
                 put(MediaStore.Audio.Media.IS_PODCAST, it)

@@ -42,6 +42,7 @@
         <item name="seekBarStyle">@style/MaterialSeekBar</item>
         <item name="floatingActionButtonStyle">@style/MaterialFab</item>
 
+        <item name="elevationOverlayEnabled">false</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallShapeAppearance</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumShapeAppearance</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeShapeAppearance</item>

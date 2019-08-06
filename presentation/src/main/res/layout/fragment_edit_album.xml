@@ -154,25 +154,26 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
-                style="@style/PositiveButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/info"
+                android:text="@string/popup_positive_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/PositiveButton"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/popup_positive_save"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/info" />
+                android:layout_marginBottom="16dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancelButton"
+                android:text="@string/popup_negative_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/popup_negative_cancel"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
+                app:layout_constraintTop_toTopOf="@+id/okButton"
                 app:layout_constraintEnd_toStartOf="@+id/okButton"
-                app:layout_constraintTop_toTopOf="@+id/okButton" />
+                android:layout_marginEnd="16dp"
+                style="@style/DefaultButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

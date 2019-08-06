@@ -3,58 +3,62 @@ package dev.olog.presentation.edit.artist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.track.Song
+import androidx.lifecycle.viewModelScope
+import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Artist
+import dev.olog.presentation.edit.model.SaveImageType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
-@Suppress("UNUSED_PARAMETER", "unused")
 class EditArtistFragmentViewModel @Inject constructor(
-        private val presenter: EditArtistFragmentPresenter
+    private val presenter: EditArtistFragmentPresenter
 
-) : ViewModel(){
-
-    private val songList = MutableLiveData<List<Song>>()
-
-    private val displayedArtist = MutableLiveData<DisplayableArtist>()
-
-//    private var songListDisposable: Disposable? = null
-//    private var artistDisposable: Disposable? = null
+) : ViewModel() {
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
-
-//        artistDisposable = presenter.observeArtist()
-//                .subscribe({
-//                    this.displayedArtist.postValue(it)
-//                }, Throwable::printStackTrace)
-//
-//        songListDisposable = presenter.getSongList()
-//                .subscribe({
-//                    songList.postValue(it)
-//                }, Throwable::printStackTrace)
     }
 
-    fun updateImage(image: String?){
-//        val oldValue = displayedArtist.value!!
-//        val newValue = oldValue.copy(image = image)
-//        displayedArtist.postValue(newValue) TODO
+    private var newImage: SaveImageType = SaveImageType.NotSet
+
+    private val displayableArtistLiveData = MutableLiveData<DisplayableArtist>()
+
+    fun requestData(mediaId: MediaId) = viewModelScope.launch {
+        val artist = withContext(Dispatchers.IO) {
+            presenter.getArtist(mediaId)
+        }
+        displayableArtistLiveData.value = artist.toDisplayableArtist()
     }
 
-    fun getNewImage(): String? {
-//        return displayedArtist.value!!.image
-        return "" // TODO
+    fun observeData(): LiveData<DisplayableArtist> = displayableArtistLiveData
 
-    }
-
-    fun getArtist(): DisplayableArtist = presenter.getArtist()
+    fun getNewImage(): SaveImageType = newImage
 
     override fun onCleared() {
-//        songListDisposable.unsubscribe()
+        viewModelScope.cancel()
     }
 
-    fun observeData(): LiveData<DisplayableArtist> = displayedArtist
-    fun observeSongList(): LiveData<List<Song>> = songList
+    fun updateImage(image: SaveImageType) {
+        newImage = image
+    }
 
+    fun restoreOriginalImage() {
+        newImage = SaveImageType.Original
+    }
+
+    private fun Artist.toDisplayableArtist(): DisplayableArtist {
+        return DisplayableArtist(
+            id = this.id,
+            title = this.name,
+            albumArtist = this.albumArtist,
+            songs = this.songs,
+            isPodcast = this.isPodcast
+        )
+    }
 
 
 }
