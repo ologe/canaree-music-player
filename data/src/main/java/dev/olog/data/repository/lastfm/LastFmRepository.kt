@@ -53,7 +53,12 @@ internal class LastFmRepository @Inject constructor(
         Log.v(TAG, "fetch id=$trackId")
 
         val song = songGateway.getByParam(trackId) ?: return null
+
         val trackTitle = TextUtils.addSpacesToDash(song.title)
+                // removes content between parenthesis
+            .replace("(\\(|\\[)[\\w\\s]+(\\)|\\])".toRegex(), "")
+            .trim()
+
         val trackArtist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist
 
         var result: LastFmTrack? = null

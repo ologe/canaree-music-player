@@ -1,9 +1,10 @@
 package dev.olog.presentation.edit.domain
 
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.core.MediaId
@@ -42,6 +43,9 @@ class UpdateTrackUseCase @Inject constructor(
                 updateMediaStore(id, param.isPodcast) // TODO image for some reasong is loading for another id
             }
 
+            val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            intent.data = Uri.fromFile(File((param.path)))
+            context.sendBroadcast(intent)
         } catch (ex: Throwable) {
             ex.printStackTrace()
         }
@@ -82,7 +86,7 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     private fun updateMediaStore(id: Long, isPodcast: Boolean?) {
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val values = ContentValues(2).apply {
             isPodcast?.let {
                 put(MediaStore.Audio.Media.IS_PODCAST, it)
