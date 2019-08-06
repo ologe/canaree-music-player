@@ -19,6 +19,7 @@
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
 - crashes when there are no tracks
+- edit info image override not working as intended
 
 ## features
 - add to favorite in android auto
