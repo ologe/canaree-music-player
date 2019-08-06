@@ -39,8 +39,8 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInj
     }
 
     override fun getResources(): Resources {
-        val res = super.getResources()
         if (customResources == null){
+            val res = super.getResources()
             val isDarkMode = res.getBoolean(R.bool.is_dark_mode)
             customResources = DarkDesaturatedResources(isDarkMode, res)
         }
