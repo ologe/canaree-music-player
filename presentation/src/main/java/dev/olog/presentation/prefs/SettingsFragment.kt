@@ -3,12 +3,14 @@ package dev.olog.presentation.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
@@ -24,6 +26,7 @@ import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.presentation.pro.HasBilling
 import dev.olog.presentation.utils.forEach
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
@@ -98,6 +101,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
         if (!state.isPremiumStrict()){
             findPreference<Preference>(getString(R.string.premium_ad_key))?.isVisible = true
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val list = view.findViewById<RecyclerView>(R.id.recycler_view)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
     }
 
     override fun onResume() {

@@ -15,6 +15,7 @@ import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.TextUtils
 import dev.olog.shared.lazyFast
@@ -54,7 +55,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
     private var toast: Toast? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = LinearLayoutManager(context)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.setHasFixedSize(true)
 

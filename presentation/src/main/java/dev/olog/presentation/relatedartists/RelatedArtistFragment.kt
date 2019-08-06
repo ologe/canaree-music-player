@@ -3,11 +3,11 @@ package dev.olog.presentation.relatedartists
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.viewModelProvider
@@ -43,7 +43,7 @@ class RelatedArtistFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = GridLayoutManager(context!!, 2)
+        list.layoutManager = OverScrollGridLayoutManager(list, 2)
         list.adapter = adapter
         list.setHasFixedSize(true)
 

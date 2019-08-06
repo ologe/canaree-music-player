@@ -11,6 +11,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.subscribe
@@ -52,7 +53,7 @@ class FolderTreeFragment : BaseFragment(),
         fab.shrink(false)
 
         list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
         fastScroller.attachRecyclerView(list)

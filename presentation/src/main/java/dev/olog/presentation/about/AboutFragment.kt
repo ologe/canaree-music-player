@@ -7,6 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.presentation.pro.IBilling
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
@@ -33,7 +34,7 @@ class AboutFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        list.layoutManager = LinearLayoutManager(ctx)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
 
         presenter.observeData()

@@ -27,7 +27,7 @@ class BillingImpl @Inject constructor(
     companion object {
         private const val PRO_VERSION_ID = "pro_version"
         @JvmStatic
-        private val DEFAULT_PREMIUM = BuildConfig.DEBUG
+        private val DEFAULT_PREMIUM = false
         private const val DEFAULT_TRIAL = false
         private const val DEFAULT_SHOW_AD = false
         @JvmStatic

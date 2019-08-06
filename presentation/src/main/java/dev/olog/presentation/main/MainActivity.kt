@@ -68,8 +68,6 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var rateAppDialog: RateAppDialog
 
-    private lateinit var scrollHelper: SuperCerealScrollHelper
-
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
         super.onCreate(savedInstanceState)
@@ -85,14 +83,16 @@ class MainActivity : MusicGlueActivity(),
             slidingPanel.setHeight(dip(300))
         }
 
-        scrollHelper = SuperCerealScrollHelper(
+        val scrollHelper = SuperCerealScrollHelper(
             this, ScrollType.Full(
                 slidingPanel = slidingPanel,
                 bottomNavigation = bottomWrapper,
                 toolbarHeight = dimen(R.dimen.toolbar),
-                tabLayoutHeight = dimen(R.dimen.tab)
+                tabLayoutHeight = dimen(R.dimen.tab),
+                realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
             )
         )
+        lifecycle.addObserver(scrollHelper)
 
         when {
             viewModel.isFirstAccess() -> {
@@ -114,21 +114,6 @@ class MainActivity : MusicGlueActivity(),
 
     private fun navigateToLastPage(){
         bottomNavigation.navigateToLastPage()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        scrollHelper.onAttach()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        scrollHelper.onDetach()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        scrollHelper.dispose()
     }
 
     override fun onNewIntent(intent: Intent?) {

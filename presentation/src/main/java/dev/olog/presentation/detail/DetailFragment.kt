@@ -33,6 +33,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -119,7 +120,7 @@ class DetailFragment : BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadImage(savedInstanceState)
 
-        list.layoutManager = LinearLayoutManager(ctx)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)

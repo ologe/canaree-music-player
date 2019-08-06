@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -12,6 +11,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.viewModelProvider
@@ -52,7 +52,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
+        list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
         setupDragListener(list, ItemTouchHelper.LEFT)
