@@ -25,9 +25,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.ripple.RippleTarget
@@ -48,7 +46,6 @@ import kotlin.properties.Delegates
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
-    CanHandleOnBackPressed,
     IDragListener by DragListenerImpl() {
 
     companion object {
@@ -113,8 +110,10 @@ class DetailFragment : BaseFragment(),
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
-    internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
-        adjustStatusBarColor(new)
+    internal var hasLightStatusBarColor by Delegates.observable(false) { _, old, new ->
+        if (old != new){
+            adjustStatusBarColor(new)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -305,11 +304,6 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
-
-    override fun handleOnBackPressed(): Boolean {
-        (act as MainActivity).restoreSlidingPanelHeight()
-        return false
-    }
 
     private val scrollListener = object : RecyclerView.OnScrollListener(){
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

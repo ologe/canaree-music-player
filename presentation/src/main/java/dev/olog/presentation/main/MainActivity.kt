@@ -205,11 +205,6 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreSlidingPanelHeight(){
-        bottomWrapper.animate().translationY(0f).duration = 100
-        slidingPanel.animate().translationY(0f).duration = 100
-    }
-
     private fun tryLoadAd(){
         val heightToAdd: Int
         if (viewModel.canShowAds()){

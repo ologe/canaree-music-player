@@ -9,15 +9,13 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
-import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
 import dev.olog.shared.TextUtils
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
@@ -26,7 +24,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPressed {
+class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
@@ -172,11 +170,6 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop, CanHandleOnBackPresse
             val layoutManager = list.layoutManager as LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
-    }
-
-    override fun handleOnBackPressed(): Boolean {
-        (act as MainActivity).restoreSlidingPanelHeight()
-        return false
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_create_playlist
