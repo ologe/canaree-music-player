@@ -16,8 +16,6 @@
 - after creating 'new playlist' from + button, bottom navigation disappears
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work
-- most played not working, probably because of flow.sinsle()
-- allow more scroll in scroll helper, because sometimes bottomsheet hides list content
 
 ## features
 - add to favorite in android auto
