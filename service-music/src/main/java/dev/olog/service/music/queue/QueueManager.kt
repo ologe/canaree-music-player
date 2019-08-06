@@ -22,7 +22,7 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -109,7 +109,7 @@ internal class QueueManager @Inject constructor(
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getRecentlyAddedUseCase(mediaId).single()
+        var songList = getRecentlyAddedUseCase(mediaId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         if (shuffleMode.isEnabled()) {
@@ -136,7 +136,7 @@ internal class QueueManager @Inject constructor(
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getMostPlayedSongsUseCase(mediaId).single()
+        var songList = getMostPlayedSongsUseCase(mediaId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         if (shuffleMode.isEnabled()) {
