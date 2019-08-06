@@ -98,9 +98,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceScreen.forEach {
             it.isEnabled = premiumEnabled || !paidSettings.contains(it)
         }
-        if (!state.isPremiumStrict()){
-            findPreference<Preference>(getString(R.string.premium_ad_key))?.isVisible = true
-        }
+        findPreference<Preference>(getString(R.string.premium_ad_key))!!.isVisible = !state.isPremiumStrict()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

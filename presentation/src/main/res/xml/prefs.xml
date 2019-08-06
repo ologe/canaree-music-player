@@ -178,7 +178,8 @@
             app:summaryOn="@string/prefs_auto_create_images_summary_on"
             app:summaryOff="@string/prefs_auto_create_images_summary_off"
             app:key="@string/prefs_auto_create_images_key"
-            app:defaultValue="true" />
+            app:defaultValue="true"
+            app:singleLineTitle="false"/>
 
         <Preference
             app:key="@string/prefs_reset_tutorial_key"
