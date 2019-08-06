@@ -2,7 +2,6 @@
 - check mediastore insert/update/delete on Android Q
 - change grid span
 - swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
-- re add podcast auto playlist
 - fix stilyze image (dynamic module crashes)
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 - check if buy premium works

@@ -128,14 +128,14 @@ internal class PlaylistRepository @Inject constructor(
     override fun getAllAutoPlaylists(): List<Playlist> {
         assertBackgroundThread()
         return listOf(
-            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0], 0),
-            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1], 0),
-            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2], 0)
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
+            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
+            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2])
         )
     }
 
-    private fun createAutoPlaylist(id: Long, title: String, listSize: Int): Playlist {
-        return Playlist(id, title, listSize, false)
+    private fun createAutoPlaylist(id: Long, title: String): Playlist {
+        return Playlist(id, title, 0, false)
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {

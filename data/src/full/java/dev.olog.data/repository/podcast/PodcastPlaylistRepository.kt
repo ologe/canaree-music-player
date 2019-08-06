@@ -1,5 +1,7 @@
 package dev.olog.data.repository.podcast
 
+import android.content.Context
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.entity.track.Artist
@@ -8,6 +10,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.data.R
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
@@ -17,15 +20,18 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
     appDatabase: AppDatabase,
     private val favoriteGateway: FavoriteGateway
 ) : PodcastPlaylistGateway {
 
+    private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
     private val podcastPlaylistDao = appDatabase.podcastPlaylistDao()
     private val historyDao = appDatabase.historyDao()
 
@@ -43,13 +49,33 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
+    override fun getAllAutoPlaylists(): List<Playlist> {
+        assertBackgroundThread()
+        return listOf(
+            createAutoPlaylist(AutoPlaylist.LAST_ADDED.id, autoPlaylistTitles[0]),
+            createAutoPlaylist(AutoPlaylist.FAVORITE.id, autoPlaylistTitles[1]),
+            createAutoPlaylist(AutoPlaylist.HISTORY.id, autoPlaylistTitles[2])
+        )
+    }
+
+    private fun createAutoPlaylist(id: Long, title: String): Playlist {
+        return Playlist(id, title, 0, false)
+    }
+
     override fun getByParam(param: Id): Playlist? {
         assertBackgroundThread()
-        return podcastPlaylistDao.getPlaylistById(param)?.toDomain()
-
+        return if (AutoPlaylist.isAutoPlaylist(param)){
+            getAllAutoPlaylists().find { it.id == param }
+        } else {
+            podcastPlaylistDao.getPlaylistById(param)?.toDomain()
+        }
     }
 
     override fun observeByParam(param: Id): Flow<Playlist?> {
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return flow { emit(getByParam(param)) }
+        }
+
         return podcastPlaylistDao.observePlaylistById(param)
             .map { it }
             .asFlow()

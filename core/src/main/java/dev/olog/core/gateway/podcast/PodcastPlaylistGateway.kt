@@ -9,6 +9,8 @@ interface PodcastPlaylistGateway :
     HasSiblings<Playlist, Id>,
     HasRelatedArtists<Id> {
 
+    fun getAllAutoPlaylists(): List<Playlist>
+
     suspend fun createPlaylist(playlistName: String): Long
 
     suspend fun renamePlaylist(playlistId: Id, newTitle: String)

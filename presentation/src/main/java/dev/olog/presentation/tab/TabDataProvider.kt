@@ -79,10 +79,10 @@ internal class TabDataProvider @Inject constructor(
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
         }.combineLatest(
-            flowOf(playlistGateway.getAllAutoPlaylists().map { it.toAutoPlaylist() }.startWith(headers.autoPlaylistHeader))
-        ) { all, auto ->
-            auto + all
-        }
+            flowOf(playlistGateway.getAllAutoPlaylists()
+                .map { it.toAutoPlaylist() }
+                .startWith(headers.autoPlaylistHeader))
+        ) { all, auto -> auto + all }
     }
 
     private fun getAlbums(): Flow<List<DisplayableItem>> {
@@ -137,7 +137,11 @@ internal class TabDataProvider @Inject constructor(
             list.asSequence().map { it.toTabDisplayableItem(resources) }
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
-        }
+        }.combineLatest(
+            flowOf(podcastPlaylistGateway.getAllAutoPlaylists()
+                .map { it.toAutoPlaylist() }
+                .startWith(headers.autoPlaylistHeader))
+        ) { all, auto -> auto + all }
     }
 
     private fun getPodcastAlbums(): Flow<List<DisplayableItem>> {
