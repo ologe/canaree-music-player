@@ -11,8 +11,7 @@
 - reduce method count (opening dex file take a lot of time on on app startup)
 - remove last fm binding ~700 methods
 
-### bug
-- floating window play button in search lyrics not always working 
+### bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - after creating 'new playlist' from + button, bottom navigation disappears
 - figure out how to change preference switch track disabled color
