@@ -64,7 +64,8 @@ public abstract class Content implements LifecycleOwner {
      */
     @CallSuper
     public void onHidden() {
-        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
     }
 
     @NonNull

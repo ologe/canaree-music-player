@@ -1,28 +1,24 @@
 package dev.olog.service.floating
 
 import android.content.Context
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import dev.olog.media.model.PlayerState
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.map
 import dev.olog.shared.android.extensions.subscribe
+import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
-import kotlinx.android.synthetic.main.layout_mini_player.view.*
 
 class LyricsContent(
     lifecycle: Lifecycle,
     context: Context,
     private val glueService: MusicGlueService
 
-) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player),
-    DefaultLifecycleObserver {
+) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player) {
 
-    init {
-        lifecycle.addObserver(this)
-        content.playPause.setOnClickListener { glueService.playPause() }
+    override fun onShown() {
+        super.onShown()
 
         glueService.observePlaybackState()
             .subscribe(this) {
@@ -52,14 +48,17 @@ class LyricsContent(
                 content.seekBar.max = it.duration.toInt()
             }
 
+        content.playPause.setOnClickListener { glueService.playPause() }
+
         content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
         })
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        content.seekBar.setOnSeekBarChangeListener(null)
+    override fun onHidden() {
+        super.onHidden()
         content.playPause.setOnClickListener(null)
+        content.seekBar.setOnSeekBarChangeListener(null)
     }
 
     override fun getUrl(item: String): String {

@@ -48,6 +48,9 @@ class OfflineLyricsContent(
     override fun onShown() {
         super.onShown()
 
+        glueService.observePlaybackState()
+            .subscribe(this) { content.seekBar.onStateChanged(it) }
+
         content.edit.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 EditLyricsDialog.showForService(context, presenter.getLyrics()) { newLyrics ->
@@ -55,19 +58,6 @@ class OfflineLyricsContent(
                 }
             }
         }
-        content.sync.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                OfflineLyricsSyncAdjustementDialog.showForService(
-                    context,
-                    presenter.getSyncAdjustment()
-                ) {
-                    presenter.updateSyncAdjustment(it)
-                }
-            }
-        }
-        content.fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
-        content.fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
-        content.scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
 
         content.image.observePaletteColors()
             .map { it.accent }
@@ -86,8 +76,19 @@ class OfflineLyricsContent(
                 content.seekBar.max = it.duration.toInt()
             }
 
-        glueService.observePlaybackState()
-            .subscribe(this) { content.seekBar.onStateChanged(it) }
+        content.sync.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                OfflineLyricsSyncAdjustementDialog.showForService(
+                    context,
+                    presenter.getSyncAdjustment()
+                ) {
+                    presenter.updateSyncAdjustment(it)
+                }
+            }
+        }
+        content.fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
+        content.fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
+        content.scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
 
         lyricsJob = GlobalScope.launch(Dispatchers.Main) {
             presenter.observeLyrics()
@@ -111,6 +112,7 @@ class OfflineLyricsContent(
         content.fakeNext.setOnTouchListener(null)
         content.fakePrev.setOnTouchListener(null)
         content.scrollView.setOnTouchListener(null)
+        content.seekBar.setOnSeekBarChangeListener(null)
 
         lyricsJob?.cancel()
     }
