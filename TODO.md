@@ -35,8 +35,6 @@
 
 ## features
 - change grid span
-- add to favorite in android auto
-- check if can use custom icons in android auto
 
 ## Maybe
 - settings to blur lockscreen image
