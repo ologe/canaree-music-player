@@ -6,13 +6,15 @@
 - reduce method count (opening dex file take a lot of time on on app startup)
 - remove last fm binding ~700 methods
 
-### bug 
+### strange bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
-- after creating 'new playlist' from + button, bottom navigation disappears
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
-- crashes when there are no tracks
 - edit info image override not working as intended
+
+### urgent bug
+- after creating 'new playlist' from + button, bottom navigation disappears
+- crashes when there are no tracks
 - fix stilyze image (dynamic module crashes)
 - check if buy premium works
 
