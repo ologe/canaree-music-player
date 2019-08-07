@@ -42,11 +42,11 @@ class UpdateMultipleTracksUseCase @Inject constructor(
             if (param.mediaId.isArtist || param.mediaId.isPodcastArtist) {
                 increaseImageVersion(param.mediaId)
                 saveArtistImage(param.mediaId.categoryId, param.image)
-                updateArtistMediaStore(param.mediaId.categoryId)
+                updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
             } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum) {
                 increaseImageVersion(param.mediaId)
                 saveAlbumImage(param.mediaId.categoryId, param.image)
-                updateAlbumMediaStore(param.mediaId.categoryId)
+                updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
             }
         } catch (ex: Throwable){
             ex.printStackTrace()
@@ -100,18 +100,20 @@ class UpdateMultipleTracksUseCase @Inject constructor(
         }
     }
 
-    private fun updateAlbumMediaStore(id: Long) {
+    private fun updateAlbumMediaStore(id: Long, isPodcast: Boolean) {
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val values = ContentValues(1).apply {
             put(MediaStore.Audio.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
+            put(MediaStore.Audio.Media.IS_PODCAST, isPodcast)
         }
         context.contentResolver.update(uri, values, "${MediaStore.Audio.Media.ALBUM_ID} = ?", arrayOf("$id"))
     }
 
-    private fun updateArtistMediaStore(id: Long) {
+    private fun updateArtistMediaStore(id: Long, isPodcast: Boolean) {
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val values = ContentValues(1).apply {
             put(MediaStore.Audio.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
+            put(MediaStore.Audio.Media.IS_PODCAST, isPodcast)
         }
         context.contentResolver.update(uri, values, "${MediaStore.Audio.Media.ARTIST_ID} = ?", arrayOf("$id"))
     }
@@ -126,7 +128,9 @@ class UpdateMultipleTracksUseCase @Inject constructor(
         @JvmField
         val image: SaveImageType,
         @JvmField
-        val fields: Map<FieldKey, String>
+        val fields: Map<FieldKey, String>,
+        @JvmField
+        val isPodcast: Boolean
     )
 
 }

@@ -75,6 +75,7 @@ class EditArtistFragment : BaseEditItemFragment(), CoroutineScope by MainScope()
                 R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
             )
             albumsUpdated.text = text
+            podcast.isChecked = it.isPodcast
         }
     }
 
@@ -100,7 +101,9 @@ class EditArtistFragment : BaseEditItemFragment(), CoroutineScope by MainScope()
                 mediaId,
                 artist.extractText().trim(),
                 albumArtist.extractText().trim(),
-                viewModel.getNewImage())
+                viewModel.getNewImage(),
+                podcast.isChecked
+            )
         )
 
         when (result){

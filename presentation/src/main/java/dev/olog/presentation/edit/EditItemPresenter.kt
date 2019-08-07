@@ -61,7 +61,8 @@ class EditItemPresenter @Inject constructor(
                     FieldKey.ALBUM_ARTIST to albumArtist,
                     FieldKey.GENRE to info.genre,
                     FieldKey.YEAR to info.year
-                )
+                ),
+                info.isPodcast
             )
         )
     }
@@ -76,7 +77,8 @@ class EditItemPresenter @Inject constructor(
                 mapOf(
                     FieldKey.ARTIST to info.name,
                     FieldKey.ALBUM_ARTIST to albumArtist
-                )
+                ),
+                info.isPodcast
             )
         )
     }

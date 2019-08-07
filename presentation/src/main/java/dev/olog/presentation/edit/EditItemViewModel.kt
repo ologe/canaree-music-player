@@ -178,7 +178,9 @@ class UpdateAlbumInfo(
     @JvmField
     val year: String,
     @JvmField
-    val image: SaveImageType
+    val image: SaveImageType,
+    @JvmField
+    val isPodcast: Boolean
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -194,6 +196,7 @@ class UpdateAlbumInfo(
         if (genre != other.genre) return false
         if (year != other.year) return false
         if (image != other.image) return false
+        if (isPodcast != other.isPodcast) return false
 
         return true
     }
@@ -206,6 +209,7 @@ class UpdateAlbumInfo(
         result = 31 * result + genre.hashCode()
         result = 31 * result + year.hashCode()
         result = 31 * result + image.hashCode()
+        result = 31 * result + isPodcast.hashCode()
         return result
     }
 }
@@ -218,7 +222,9 @@ class UpdateArtistInfo(
     @JvmField
     val albumArtist: String,
     @JvmField
-    val image: SaveImageType
+    val image: SaveImageType,
+    @JvmField
+    val isPodcast: Boolean
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -231,6 +237,7 @@ class UpdateArtistInfo(
         if (name != other.name) return false
         if (albumArtist != other.albumArtist) return false
         if (image != other.image) return false
+        if (isPodcast != other.isPodcast) return false
 
         return true
     }
@@ -240,6 +247,7 @@ class UpdateArtistInfo(
         result = 31 * result + name.hashCode()
         result = 31 * result + albumArtist.hashCode()
         result = 31 * result + image.hashCode()
+        result = 31 * result + isPodcast.hashCode()
         return result
     }
 }

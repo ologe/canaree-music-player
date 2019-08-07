@@ -70,6 +70,7 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
             val text = resources.getQuantityString(
                 R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
             albumsUpdated.text =  text
+            podcast.isChecked = it.isPodcast
         }
     }
 
@@ -98,7 +99,8 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
                 albumArtist.extractText().trim(),
                 genre.extractText().trim(),
                 year.extractText().trim(),
-                viewModel.getNewImage()
+                viewModel.getNewImage(),
+                podcast.isChecked
             )
         )
 
