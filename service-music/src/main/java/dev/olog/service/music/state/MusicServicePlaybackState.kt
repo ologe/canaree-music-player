@@ -9,11 +9,10 @@ import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.R
-import dev.olog.service.music.model.PositionInQueue
-import dev.olog.service.music.model.SkipType
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
+import dev.olog.service.music.model.PositionInQueue
+import dev.olog.service.music.model.SkipType
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
@@ -29,12 +28,6 @@ internal class MusicServicePlaybackState @Inject constructor(
     companion object {
         @JvmStatic
         val TAG = "SM:${MusicServicePlaybackState::class.java.simpleName}"
-        @JvmStatic
-        val CUSTOM_ACTION_ADD_FAVORITE = "$TAG.add.favorite"
-        @JvmStatic
-        val CUSTOM_ACTION_SHUFFLE = "$TAG.shuffle"
-        @JvmStatic
-        val CUSTOM_ACTION_REPEAT = "$TAG.repeat"
     }
 
     private val builder = PlaybackStateCompat.Builder().apply {
@@ -44,39 +37,6 @@ internal class MusicServicePlaybackState @Inject constructor(
             0f
         )
         setActions(getActions())
-        addCustomAction(addToFavoriteAction())
-        addCustomAction(repeatAction())
-        addCustomAction(shuffleAction()) // TODO
-    }
-
-    private fun addToFavoriteAction(): PlaybackStateCompat.CustomAction {
-        val action =
-            CUSTOM_ACTION_ADD_FAVORITE
-        val name = "Add favorite"
-        return PlaybackStateCompat.CustomAction.Builder(
-            action, name,
-            R.drawable.vd_favorite
-        ).build()
-    }
-
-    private fun repeatAction(): PlaybackStateCompat.CustomAction {
-        val action =
-            CUSTOM_ACTION_REPEAT
-        val name = "Repeat"
-        return PlaybackStateCompat.CustomAction.Builder(
-            action, name,
-            R.drawable.vd_repeat
-        ).build()
-    }
-
-    private fun shuffleAction(): PlaybackStateCompat.CustomAction {
-        val action =
-            CUSTOM_ACTION_SHUFFLE
-        val name = "Shuffle"
-        return PlaybackStateCompat.CustomAction.Builder(
-            action, name,
-            R.drawable.vd_shuffle
-        ).build()
     }
 
     fun prepare(bookmark: Long) {
