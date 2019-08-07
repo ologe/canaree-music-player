@@ -23,7 +23,8 @@ object RepositoryHelperModule {
                 MIGRATION_16_17,
                 MIGRATION_17_18,
                 MIGRATION_18_19,
-                MIGRATION_19_20
+                MIGRATION_19_20,
+                MIGRATION_20_21
             )
             .build()
     }
@@ -129,6 +130,24 @@ object RepositoryHelperModule {
             """.trimIndent())
             database.execSQL("""
                 CREATE  INDEX `index_equalizer_preset_id` ON `equalizer_preset` (`id`)
+            """.trimIndent())
+        }
+    }
+
+    private val MIGRATION_20_21 = object : Migration(20, 21) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("DROP TABLE used_image_track")
+            database.execSQL("DROP TABLE used_image_album")
+            database.execSQL("DROP TABLE used_image_artist")
+
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `used_image_track_2` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))
+            """.trimIndent())
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `used_image_album_2` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))
+            """.trimIndent())
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `used_image_artist_2` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))
             """.trimIndent())
         }
     }

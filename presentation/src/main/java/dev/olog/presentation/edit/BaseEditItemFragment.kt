@@ -22,8 +22,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
 
-private const val PICK_IMAGE_CODE = 456
-
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
@@ -120,35 +118,16 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
         MaterialAlertDialogBuilder(ctx)
             .setItems(R.array.edit_item_image_dialog) { _, which ->
                 when (which) {
-                    0 -> openImagePicker()
-                    1 -> restoreImage()
-                    2 -> noImage()
-                    3 -> stylizeImage()
+                    0 -> restoreImage()
+                    1 -> noImage()
+                    2 -> stylizeImage()
                 }
-            }
-            .show()
+            }.show()
     }
 
-    private fun openImagePicker() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        this.startActivityForResult(
-            Intent.createChooser(intent, getString(R.string.edit_song_change_album_art)),
-            PICK_IMAGE_CODE
-        )
-    }
-
-    protected abstract fun onImagePicked(uri: Uri)
     protected abstract fun restoreImage()
     protected abstract fun noImage()
     protected open fun stylizeImage(){
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PICK_IMAGE_CODE) {
-            data?.data?.let { onImagePicked(it) } ?: Log.w("EditItem", "image not found")
-        }
     }
 
     abstract fun onLoaderCancelled()

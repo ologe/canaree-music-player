@@ -113,11 +113,6 @@ class EditArtistFragment : BaseEditItemFragment(), CoroutineScope by MainScope()
         }
     }
 
-    override fun onImagePicked(uri: Uri) {
-        viewModel.updateImage(SaveImageType.Url(uri.toString()))
-        loadImage(uri, mediaId)
-    }
-
     override fun restoreImage() {
         viewModel.restoreOriginalImage()
         loadImage(OriginalImage(mediaId), mediaId)

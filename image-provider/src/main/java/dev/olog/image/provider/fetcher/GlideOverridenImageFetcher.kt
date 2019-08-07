@@ -78,10 +78,6 @@ internal class GlideOverridenImageFetcher(
             callback.onDataReady(null)
             return true
         }
-        if (URLUtil.isContentUrl(image)){
-            callback.onDataReady(context.contentResolver.openInputStream(Uri.parse(image)))
-            return true
-        }
         val file = File(image)
         if (file.exists()){
             callback.onDataReady(file.inputStream())

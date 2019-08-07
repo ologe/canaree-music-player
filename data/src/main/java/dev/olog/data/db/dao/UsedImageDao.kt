@@ -15,34 +15,34 @@ internal abstract class UsedImageDao {
 
     @Query("""
         SELECT *
-        FROM used_image_track
+        FROM used_image_track_2
         ORDER BY id
         """)
      abstract fun getAllImagesForTracks(): List<UsedTrackImageEntity>
 
     @Query("""
         SELECT *
-        FROM used_image_album
+        FROM used_image_album_2
         ORDER BY id
         """)
      abstract fun getAllImagesForAlbums(): List<UsedAlbumImageEntity>
 
     @Query("""
         SELECT *
-        FROM used_image_artist
+        FROM used_image_artist_2
         ORDER BY id
         """)
      abstract fun getAllImagesForArtists(): List<UsedArtistImageEntity>
 
     // get by param
 
-    @Query("SELECT image FROM used_image_track WHERE id = :id")
+    @Query("SELECT image FROM used_image_track_2 WHERE id = :id")
      abstract fun getImageForTrack(id: Long): String?
 
-    @Query("SELECT image FROM used_image_album WHERE id = :id")
+    @Query("SELECT image FROM used_image_album_2 WHERE id = :id")
      abstract fun getImageForAlbum(id: Long): String?
 
-    @Query("SELECT image FROM used_image_artist WHERE id = :id")
+    @Query("SELECT image FROM used_image_artist_2 WHERE id = :id")
      abstract fun getImageForArtist(id: Long): String?
 
     // insert
@@ -58,13 +58,13 @@ internal abstract class UsedImageDao {
 
     // delete
 
-    @Query("DELETE FROM used_image_track WHERE id = :id")
+    @Query("DELETE FROM used_image_track_2 WHERE id = :id")
      abstract fun deleteForTrack(id: Long)
 
-    @Query("DELETE FROM used_image_album WHERE id = :id")
+    @Query("DELETE FROM used_image_album_2 WHERE id = :id")
      abstract fun deleteForAlbum(id: Long)
 
-    @Query("DELETE FROM used_image_artist WHERE id = :id")
+    @Query("DELETE FROM used_image_artist_2 WHERE id = :id")
      abstract fun deleteForArtist(id: Long)
 
 }

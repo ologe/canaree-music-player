@@ -3,7 +3,7 @@ package dev.olog.data.db.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "used_image_track")
+@Entity(tableName = "used_image_track_2")
 class UsedTrackImageEntity(
     @PrimaryKey
     @JvmField
@@ -31,7 +31,7 @@ class UsedTrackImageEntity(
     }
 }
 
-@Entity(tableName = "used_image_album")
+@Entity(tableName = "used_image_album_2")
 class UsedAlbumImageEntity(
     @PrimaryKey
     @JvmField
@@ -59,7 +59,7 @@ class UsedAlbumImageEntity(
     }
 }
 
-@Entity(tableName = "used_image_artist")
+@Entity(tableName = "used_image_artist_2")
 class UsedArtistImageEntity(
     @PrimaryKey
     @JvmField

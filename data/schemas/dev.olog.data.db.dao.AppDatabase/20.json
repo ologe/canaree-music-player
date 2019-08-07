@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 20,
-    "identityHash": "145dd95a2a8fbbf6caf3ed63b52fa6db",
+    "identityHash": "8deb2843fab99e18c1811cb7791491a7",
     "entities": [
       {
         "tableName": "playing_queue",
@@ -738,7 +738,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_track",
+        "tableName": "used_image_track_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -764,7 +764,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_album",
+        "tableName": "used_image_album_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -790,7 +790,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_artist",
+        "tableName": "used_image_artist_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -1053,7 +1053,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '145dd95a2a8fbbf6caf3ed63b52fa6db')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8deb2843fab99e18c1811cb7791491a7')"
     ]
   }
 }
