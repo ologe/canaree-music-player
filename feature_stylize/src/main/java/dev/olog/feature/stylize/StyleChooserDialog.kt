@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.entity.ImageStyle
-import kotlinx.android.synthetic.main.item_style.view.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -23,7 +23,7 @@ class StyleChooserDialog {
     @Keep
     suspend fun create(context: Context) = suspendCoroutine<ImageStyle?> { continuation ->
         val inflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(R.layout.fragment_style, null, false)
+        val view: View = inflater.inflate(dev.olog.msc.R.layout.fragment_style, null, false)
 
         val builder = MaterialAlertDialogBuilder(context)
             .setView(view)
@@ -31,7 +31,7 @@ class StyleChooserDialog {
             .setPositiveButton("OK", null)
             .setNegativeButton("Cancel", null)
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
+        val list = view.findViewById<RecyclerView>(dev.olog.msc.R.id.list)
 
         val adapter = StyleChooserAdapter()
 
@@ -40,24 +40,40 @@ class StyleChooserDialog {
 
         val dialog = builder.show()
 
+        var resumed = false
+
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val style = adapter.selectedStyle
             if (style != null) {
+                resumed = true
                 continuation.resume(style)
                 dialog.dismiss()
             }
 
         }
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+            resumed = true
             continuation.resume(null)
             dialog.dismiss()
+        }
+        dialog.setOnDismissListener {
+            if (!resumed) {
+                continuation.resume(null)
+            }
         }
     }
 
 }
 
-internal class SimpleViewHolder(view: View) : RecyclerView.ViewHolder(view)
+@Keep
+internal class SimpleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+    val cover: ImageView = view.findViewById(dev.olog.msc.R.id.cover)
+    val selectedImage: View = view.findViewById(dev.olog.msc.R.id.selectedImage)
+
+}
+
+@Keep
 internal class StyleChooserAdapter : RecyclerView.Adapter<SimpleViewHolder>() {
 
     var selectedStyle: ImageStyle? = null
@@ -76,13 +92,18 @@ internal class StyleChooserAdapter : RecyclerView.Adapter<SimpleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_style, parent, false)
+        val view = inflater.inflate(dev.olog.msc.R.layout.item_style, parent, false)
 
         val viewHolder = SimpleViewHolder(view)
 
         view.setOnClickListener {
+            val indexOldOfStyle = data.indexOfFirst { it.first == selectedStyle }
             selectedStyle = data[viewHolder.adapterPosition].first
-            notifyDataSetChanged()
+            val indexNewOfStyle = data.indexOfFirst { it.first == selectedStyle }
+            if (indexOldOfStyle != -1){
+                notifyItemChanged(indexOldOfStyle)
+            }
+            notifyItemChanged(indexNewOfStyle)
         }
         return viewHolder
     }
@@ -94,10 +115,10 @@ internal class StyleChooserAdapter : RecyclerView.Adapter<SimpleViewHolder>() {
         val item = data[position]
         Glide.with(context)
             .load(ContextCompat.getDrawable(context, item.second))
-            .into(holder.itemView.cover)
+            .into(holder.cover)
 
         val visibility = if (item.first == selectedStyle) View.VISIBLE else View.GONE
-        holder.itemView.selectedImage.visibility = visibility
+        holder.selectedImage.visibility = visibility
 
 
     }

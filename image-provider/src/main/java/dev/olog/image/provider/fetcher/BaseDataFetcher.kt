@@ -39,7 +39,7 @@ abstract class BaseDataFetcher(
     override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun cleanup() {
-        unsubscribe()
+
     }
 
     override fun cancel() {

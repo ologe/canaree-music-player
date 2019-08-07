@@ -95,7 +95,7 @@ class GlideMergedImageFetcher(
     override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun cleanup() {
-        cancel(null)
+
     }
 
     override fun cancel() {

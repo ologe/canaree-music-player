@@ -1,10 +1,12 @@
 package dev.olog.presentation.edit.album
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
+import dev.olog.core.Stylizer
 import dev.olog.image.provider.model.OriginalImage
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
@@ -16,14 +18,12 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() {
+class EditAlbumFragment : BaseEditItemFragment() {
 
     companion object {
         const val TAG = "EditAlbumFragment"
@@ -126,7 +126,42 @@ class EditAlbumFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
     override fun onLoaderCancelled() {
     }
 
-    // TODO stylize image
+    override suspend fun stylizeImage(stylizer: Stylizer) {
+        withContext(Dispatchers.IO) {
+            try {
+                getBitmap(OriginalImage(mediaId), mediaId)
+            } catch (ex: Exception){
+                withContext(Dispatchers.Main){
+                    ctx.toast("Can't stylize default cover")
+                }
+                ex.printStackTrace()
+                return@withContext
+            }?.let { bitmap ->
+                stylizeImageInternal(stylizer, bitmap)
+            }
+        }
+    }
+
+    private suspend fun stylizeImageInternal(stylizer: Stylizer, bitmap: Bitmap){
+        val style = withContext(Dispatchers.Main) {
+            Stylizer.loadDialog(act)
+        }
+        if (style != null){
+            withContext(Dispatchers.Main){
+                showLoader("Stylizing image", dismissable = false)
+            }
+            val stylizedBitmap = stylizer.stylize(style, bitmap)
+            viewModel.updateImage(SaveImageType.Stylized(stylizedBitmap))
+            withContext(Dispatchers.Main) {
+                hideLoader()
+                loadImage(stylizedBitmap, mediaId)
+            }
+        }
+    }
+
+    override fun toggleDownloadModule(show: Boolean) {
+        downloadModule.toggleVisibility(show, true)
+    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_album
 }

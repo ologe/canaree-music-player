@@ -30,7 +30,7 @@ interface Stylizer {
         suspend fun loadDialog(context: Context): ImageStyle? {
             val dialogClass = Class.forName("dev.olog.feature.stylize.StyleChooserDialog")
             val method = dialogClass.getMethod("create", Context::class.java, Continuation::class.java)
-            return method.invokeSuspend(dialogClass, context) as ImageStyle?
+            return method.invokeSuspend(dialogClass.newInstance(), context) as ImageStyle?
         }
 
     }

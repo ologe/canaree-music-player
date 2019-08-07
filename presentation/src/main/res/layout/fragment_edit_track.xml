@@ -34,17 +34,43 @@
                 android:focusable="true"
                 tools:padding="22dp"/>
 
+            <LinearLayout
+                android:id="@+id/downloadModule"
+                app:layout_constraintTop_toBottomOf="@+id/cover"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="8dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+                <TextView
+                    android:text="Downloading stylizer module"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:textColor="?android:textColorPrimary"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/cover"
+                app:layout_constraintTop_toBottomOf="@+id/downloadModule"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="8dp"
-                app:chipSpacingHorizontal="12dp"
-                >
+                android:layout_marginTop="16dp"
+                app:layout_goneMarginTop="24dp"
+                app:chipSpacingHorizontal="12dp">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/bitrate"

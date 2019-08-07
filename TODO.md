@@ -1,6 +1,5 @@
 ## TODO
 - check mediastore insert/update/delete on Android Q
-- add keep resource file in :feature-stylizer that keeps module title, and all the images
 
 ## TODO for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
@@ -10,12 +9,11 @@
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
-- edit info image override not working as intended
+- override NO IMAGE not wokring
 
 ### urgent bug
 - after creating 'new playlist' from + button, bottom navigation disappears
 - crashes when there are no tracks
-- fix stilyze image (dynamic module crashes)
 - check if buy premium works
 
 ## DONE

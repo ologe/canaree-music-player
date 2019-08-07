@@ -23,11 +23,10 @@ import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import java.lang.Exception
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
-class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() {
+class EditTrackFragment : BaseEditItemFragment() {
 
     companion object {
         const val TAG = "EditTrackFragment"
@@ -149,51 +148,41 @@ class EditTrackFragment : BaseEditItemFragment(), CoroutineScope by MainScope() 
         viewModel.stopFetch()
     }
 
-    override fun stylizeImage() {
-        launch {
-            loadModule()?.let { stylizer ->
-                withContext(Dispatchers.IO) {
-                    getBitmap(OriginalImage(mediaId), mediaId)?.let { bitmap ->
-                        stylizeImageInternal(bitmap)
-                    }
+    override suspend fun stylizeImage(stylizer: Stylizer) {
+        withContext(Dispatchers.IO) {
+            try {
+                getBitmap(OriginalImage(mediaId), mediaId)
+            } catch (ex: Exception){
+                withContext(Dispatchers.Main){
+                    ctx.toast("Can't stylize default cover")
                 }
+                ex.printStackTrace()
+                return@withContext
+            }?.let { bitmap ->
+                stylizeImageInternal(stylizer, bitmap)
             }
         }
     }
 
-    private suspend fun stylizeImageInternal(bitmap: Bitmap){
-        val stylizer = Stylizer.loadClass(requireContext())
-        val style = withContext(Dispatchers.Main){
+    private suspend fun stylizeImageInternal(stylizer: Stylizer, bitmap: Bitmap){
+        val style = withContext(Dispatchers.Main) {
             Stylizer.loadDialog(act)
         }
         if (style != null){
+            withContext(Dispatchers.Main){
+                showLoader("Stylizing image", dismissable = false)
+            }
             val stylizedBitmap = stylizer.stylize(style, bitmap)
             viewModel.updateImage(SaveImageType.Stylized(stylizedBitmap))
             withContext(Dispatchers.Main) {
+                hideLoader()
                 loadImage(stylizedBitmap, mediaId)
             }
         }
     }
 
-    private suspend fun loadModule(): Stylizer? = suspendCoroutine { continuation ->
-        showLoader("Downloading stylize module")
-
-        val splitInstallManager = SplitInstallManagerFactory.create(requireContext())
-
-        val request = SplitInstallRequest.newBuilder()
-            .addModule("feature_stylize")
-            .build()
-//        SplitInstallErrorCode
-        splitInstallManager.startInstall(request)
-            .addOnCompleteListener { _ ->
-                hideLoader()
-                continuation.resume(Stylizer.loadClass(requireContext()))
-            }
-            .addOnFailureListener { ex ->
-                ex.printStackTrace()
-                hideLoader()
-                continuation.resume(null)
-            }
+    override fun toggleDownloadModule(show: Boolean) {
+        downloadModule.toggleVisibility(show, true)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_track

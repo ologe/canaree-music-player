@@ -75,7 +75,7 @@ class GlideOriginalImageFetcher(
     }
 
     override fun cleanup() {
-        cancel(null)
+
     }
 
     override fun cancel() {

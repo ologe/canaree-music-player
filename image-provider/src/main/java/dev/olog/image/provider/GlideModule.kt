@@ -75,13 +75,13 @@ class GlideModule : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         injectIfNeeded(context)
 
+        registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
+
         registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
-
-        registry.append(OriginalImage::class.java, InputStream::class.java, originalOnlyFactory)
-        registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
+        registry.prepend(OriginalImage::class.java, InputStream::class.java, originalOnlyFactory)
     }
 
     override fun isManifestParsingEnabled(): Boolean = false
