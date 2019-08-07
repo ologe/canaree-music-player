@@ -133,6 +133,7 @@ internal class DetailSortingHelper @Inject constructor(
             MediaIdCategory.ALBUMS -> DETAIL_SORT_ALBUM_ARRANGING
             MediaIdCategory.ARTISTS -> DETAIL_SORT_ARTIST_ARRANGING
             MediaIdCategory.GENRES -> DETAIL_SORT_GENRE_ARRANGING
+            MediaIdCategory.PLAYLISTS -> DETAIL_SORT_PLAYLIST_ARRANGING
             else -> throw IllegalStateException("invalid category $category")
         }
 
