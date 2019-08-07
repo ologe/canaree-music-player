@@ -2,7 +2,6 @@ package dev.olog.presentation.main.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.offlinelyrics2.OfflineLyricsFragment2

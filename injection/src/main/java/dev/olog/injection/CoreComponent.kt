@@ -18,7 +18,7 @@ import dev.olog.core.prefs.*
 import dev.olog.data.DataModule
 import dev.olog.data.PreferenceModule
 import dev.olog.data.RepositoryHelperModule
-import dev.olog.data.api.lastfm.LastFmModule
+import dev.olog.data.api.lastfm.NetworkModule
 import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.IBassBoost
 import dev.olog.equalizer.IEqualizer
@@ -28,7 +28,7 @@ import javax.inject.Singleton
 @Component(
     modules = arrayOf(
         CoreModule::class,
-        LastFmModule::class,
+        NetworkModule::class,
 
 //        // data
         RepositoryHelperModule::class,
@@ -44,7 +44,7 @@ interface CoreComponent {
     fun context(): Context
     fun resources(): Resources
 
-    fun lastFmGateway(): LastFmGateway
+    fun lastFmGateway(): ImageRetrieverGateway
 
     fun prefs(): AppPreferencesGateway
     fun musicPrefs(): MusicPreferencesGateway

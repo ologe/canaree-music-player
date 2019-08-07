@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
+import dev.olog.data.api.deezer.DeezerService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,9 +15,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class LastFmModule {
+object NetworkModule {
 
     @Provides
+    @JvmStatic
     @Singleton
     internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
@@ -27,6 +29,7 @@ class LastFmModule {
             .build()
     }
 
+    @JvmStatic
     private fun logInterceptor(): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
@@ -38,6 +41,7 @@ class LastFmModule {
         return loggingInterceptor
     }
 
+    @JvmStatic
     private fun headerInterceptor(context: Context): Interceptor {
         return Interceptor {
             val original = it.request()
@@ -51,8 +55,9 @@ class LastFmModule {
     }
 
     @Provides
+    @JvmStatic
     @Singleton
-    internal fun provideRetrofit(client: OkHttpClient): Retrofit {
+    internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://ws.audioscrobbler.com/2.0/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -61,8 +66,20 @@ class LastFmModule {
     }
 
     @Provides
+    @JvmStatic
+    @Singleton
     internal fun provideLastFmRest(retrofit: Retrofit): LastFmService {
         return retrofit.create(LastFmService::class.java)
+    }
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    internal fun provideDeezerRest(retrofit: Retrofit): DeezerService {
+        val newBuilder = retrofit.newBuilder()
+            .baseUrl("https://api.deezer.com/")
+            .build()
+        return newBuilder.create(DeezerService::class.java)
     }
 
 }

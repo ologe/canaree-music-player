@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.album
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
-    private val lastFmGateway: LastFmGateway,
+    private val lastFmGateway: ImageRetrieverGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {

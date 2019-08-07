@@ -7,16 +7,16 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
 import java.io.InputStream
 import javax.inject.Inject
 
-internal class GlideLastFmImageLoader(
+internal class GlideImageRetrieverLoader(
     private val context: Context,
-    private val lastFmGateway: LastFmGateway
+    private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -41,7 +41,7 @@ internal class GlideLastFmImageLoader(
                 GlideSongFetcher(
                     context,
                     mediaId,
-                    lastFmGateway
+                    imageRetrieverGateway
                 )
             )
         } else if (mediaId.isAlbum) {
@@ -51,7 +51,7 @@ internal class GlideLastFmImageLoader(
                 GlideAlbumFetcher(
                     context,
                     mediaId,
-                    lastFmGateway
+                    imageRetrieverGateway
                 )
             )
         } else {
@@ -61,7 +61,7 @@ internal class GlideLastFmImageLoader(
                 GlideArtistFetcher(
                     context,
                     mediaId,
-                    lastFmGateway
+                    imageRetrieverGateway
                 )
             )
         }
@@ -69,14 +69,14 @@ internal class GlideLastFmImageLoader(
 
     class Factory @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val lastFmGateway: LastFmGateway
+        private val imageRetrieverGateway: ImageRetrieverGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
-            return GlideLastFmImageLoader(
+            return GlideImageRetrieverLoader(
                 context,
-                lastFmGateway
+                imageRetrieverGateway
             )
         }
 

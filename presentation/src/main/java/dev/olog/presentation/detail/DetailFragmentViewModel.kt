@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
@@ -31,7 +31,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val lastFmGateway: LastFmGateway
+    private val lastFmGateway: ImageRetrieverGateway
 
 ) : ViewModel() {
 

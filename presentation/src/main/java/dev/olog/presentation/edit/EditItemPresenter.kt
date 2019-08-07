@@ -1,14 +1,14 @@
 package dev.olog.presentation.edit
 
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.presentation.edit.domain.UpdateTrackUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 
 class EditItemPresenter @Inject constructor(
-    private val lastFmGateway: LastFmGateway,
+    private val lastFmGateway: ImageRetrieverGateway,
     private val updateTrackUseCase: UpdateTrackUseCase,
     private val updateMultipleTracksUseCase: UpdateMultipleTracksUseCase
 

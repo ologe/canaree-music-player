@@ -9,7 +9,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.repository.*
-import dev.olog.data.repository.lastfm.LastFmRepository
+import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAlbumRepository
 import dev.olog.data.repository.podcast.PodcastArtistRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
@@ -66,7 +66,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideLastFmRepository(repository: LastFmRepository): LastFmGateway
+    internal abstract fun provideLastFmRepository(repository: ImageRetrieverRepository): ImageRetrieverGateway
 
     @Binds
     @Singleton

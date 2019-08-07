@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.artist
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.track.Artist
-import dev.olog.core.gateway.LastFmGateway
+import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.track.ArtistGateway
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class EditArtistFragmentPresenter @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
-    private val lastFmGateway: LastFmGateway
+    private val lastFmGateway: ImageRetrieverGateway
 
 ) {
 

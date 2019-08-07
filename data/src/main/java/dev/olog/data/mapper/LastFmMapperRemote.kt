@@ -97,11 +97,11 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
     }
 }
 
-fun ArtistInfo.toDomain(id: Long): LastFmArtist {
+fun ArtistInfo.toDomain(id: Long): LastFmArtist? {
     val artist = this.artist
     return LastFmArtist(
         id,
-        artist.image.reversed().find { it.text.isNotBlank() }?.text!!,
+        "",
         artist.mbid ?: "",
         artist.bio.content ?: ""
     )
