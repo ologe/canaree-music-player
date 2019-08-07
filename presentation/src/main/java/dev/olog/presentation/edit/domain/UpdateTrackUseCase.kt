@@ -39,7 +39,7 @@ class UpdateTrackUseCase @Inject constructor(
 
             if (id != null) {
                 increaseImageVersion(param.mediaId)
-                saveImage(id, param.image)
+                saveImage(param.mediaId, param.image)
                 updateMediaStore(id, param.isPodcast) // TODO image for some reasong is loading for another id
             }
 
@@ -62,26 +62,24 @@ class UpdateTrackUseCase @Inject constructor(
         return tag
     }
 
-    private fun saveImage(id: Long, image: SaveImageType) = when(image) {
-        is SaveImageType.NotSet -> {
+    private fun saveImage(mediaId: MediaId, image: SaveImageType) = when(image) {
+        is SaveImageType.Skip -> {
             // do nothing
         }
         is SaveImageType.Original -> {
             // remove override image
-            gateway.setForTrack(id, null)
-        }
-        is SaveImageType.Url -> {
-            gateway.setForTrack(id, image.url)
+            imageVersionGateway.setCurrentVersion(mediaId, 0)
+            gateway.setForTrack(mediaId.resolveId, null)
         }
         is SaveImageType.Stylized -> {
             val bitmap = image.bitmap
             val folder = ImagesFolderUtils.getImageFolderFor(context, ImagesFolderUtils.SONG)
-            val dest = File(folder, "${id}_stylized.webp") // override
+            val dest = File(folder, "${mediaId.resolveId}_stylized.webp") // override
             val out = FileOutputStream(dest)
             bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
             bitmap.recycle()
             out.close()
-            gateway.setForTrack(id, dest.path)
+            gateway.setForTrack(mediaId.resolveId, dest.path)
         }
     }
 

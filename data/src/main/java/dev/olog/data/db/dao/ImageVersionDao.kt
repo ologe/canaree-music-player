@@ -2,6 +2,7 @@ package dev.olog.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.db.entities.ImageVersionEntity
 
@@ -17,16 +18,7 @@ abstract class ImageVersionDao {
     )
     abstract fun getVersion(mediaId: String): ImageVersionEntity?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertVersion(version: ImageVersionEntity)
-
-    @Query(
-        """
-        UPDATE image_version
-        SET version = version + 1
-        WHERE mediaId = :mediaId
-    """
-    )
-    abstract fun increaseVersion(mediaId: String)
 
 }

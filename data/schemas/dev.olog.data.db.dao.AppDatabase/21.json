@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 21,
-    "identityHash": "8deb2843fab99e18c1811cb7791491a7",
+    "identityHash": "3aa1cac2e255728af79788a9c295a6da",
     "entities": [
       {
         "tableName": "playing_queue",
@@ -934,7 +934,7 @@
       },
       {
         "tableName": "image_version",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, PRIMARY KEY(`mediaId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, `maxVersionReached` INTEGER NOT NULL, PRIMARY KEY(`mediaId`))",
         "fields": [
           {
             "fieldPath": "mediaId",
@@ -945,6 +945,12 @@
           {
             "fieldPath": "version",
             "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxVersionReached",
+            "columnName": "maxVersionReached",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -1053,7 +1059,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8deb2843fab99e18c1811cb7791491a7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3aa1cac2e255728af79788a9c295a6da')"
     ]
   }
 }

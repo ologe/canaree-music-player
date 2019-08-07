@@ -30,7 +30,7 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     private var fetchJob: Job? = null
 
-    private var newImage: SaveImageType = SaveImageType.NotSet
+    private var newImage: SaveImageType = SaveImageType.Skip
 
     private val songLiveData = MutableLiveData<Song>()
     private val displayableSongLiveData = MutableLiveData<DisplayableSong>()

@@ -103,7 +103,7 @@ object RepositoryHelperModule {
     private val MIGRATION_17_18 = object : Migration(17, 18){
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL("""
-                CREATE TABLE IF NOT EXISTS `image_version` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, PRIMARY KEY(`mediaId`))
+                CREATE TABLE IF NOT EXISTS `image_version` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, `maxVersionReached` INTEGER NOT NULL,  PRIMARY KEY(`mediaId`))
             """.trimIndent())
             database.execSQL("CREATE  INDEX `index_image_version_mediaId` ON `image_version` (`mediaId`)")
         }

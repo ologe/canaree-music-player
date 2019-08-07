@@ -56,6 +56,8 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.constraint_layout
 
+    implementation lib_x.play_core
+
     implementation lib_ui.glide
 
 //    https://github.com/fritzlabs/fritz-repository/releases

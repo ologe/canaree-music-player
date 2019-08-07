@@ -6,6 +6,7 @@ import dev.olog.core.MediaId
 interface ImageVersionGateway {
 
     fun getCurrentVersion(mediaId: MediaId): Int
+    fun setCurrentVersion(mediaId: MediaId, version: Int)
     fun increaseCurrentVersion(mediaId: MediaId)
 
 }

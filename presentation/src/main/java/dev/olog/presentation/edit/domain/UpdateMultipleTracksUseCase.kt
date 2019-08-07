@@ -33,7 +33,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                     UpdateTrackUseCase.Data(
                         mediaId = null, // set to null because do not want to update track image
                         path = song.path,
-                        image = SaveImageType.NotSet,
+                        image = SaveImageType.Skip,
                         fields = param.fields,
                         isPodcast = null
                     )
@@ -41,7 +41,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
             }
             if (param.mediaId.isArtist || param.mediaId.isPodcastArtist) {
                 increaseImageVersion(param.mediaId)
-                saveArtistImage(param.mediaId.categoryId, param.image)
+                saveArtistImage(param.mediaId, param.image)
                 updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
             } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum) {
                 increaseImageVersion(param.mediaId)
@@ -55,15 +55,12 @@ class UpdateMultipleTracksUseCase @Inject constructor(
     }
 
     private fun saveAlbumImage(id: Long, image: SaveImageType) = when(image) {
-        is SaveImageType.NotSet -> {
+        is SaveImageType.Skip -> {
             // do nothing
         }
         is SaveImageType.Original -> {
             // remove override image
             gateway.setForAlbum(id, null)
-        }
-        is SaveImageType.Url -> {
-            gateway.setForAlbum(id, image.url)
         }
         is SaveImageType.Stylized -> {
             val bitmap = image.bitmap
@@ -77,26 +74,24 @@ class UpdateMultipleTracksUseCase @Inject constructor(
         }
     }
 
-    private fun saveArtistImage(id: Long, image: SaveImageType) = when(image) {
-        is SaveImageType.NotSet -> {
+    private fun saveArtistImage(mediaId: MediaId, image: SaveImageType) = when(image) {
+        is SaveImageType.Skip -> {
             // do nothing
         }
         is SaveImageType.Original -> {
             // remove override image
-            gateway.setForArtist(id, null)
-        }
-        is SaveImageType.Url -> {
-            gateway.setForArtist(id, image.url)
+            imageVersionGateway.setCurrentVersion(mediaId, 0)
+            gateway.setForArtist(mediaId.categoryId, null)
         }
         is SaveImageType.Stylized -> {
             val bitmap = image.bitmap
             val folder = ImagesFolderUtils.getImageFolderFor(context, ImagesFolderUtils.ARTIST)
-            val dest = File(folder, "${id}_stylized.webp") // override
+            val dest = File(folder, "${mediaId.categoryId}_stylized.webp") // override
             val out = FileOutputStream(dest)
             bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
             bitmap.recycle()
             out.close()
-            gateway.setForArtist(id, dest.path)
+            gateway.setForArtist(mediaId.categoryId, dest.path)
         }
     }
 

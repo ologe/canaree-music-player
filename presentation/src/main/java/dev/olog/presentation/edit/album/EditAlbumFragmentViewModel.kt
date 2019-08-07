@@ -27,7 +27,7 @@ class EditAlbumFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private var newImage: SaveImageType = SaveImageType.NotSet
+    private var newImage: SaveImageType = SaveImageType.Skip
 
     private val displayableAlbumLiveData = MutableLiveData<DisplayableAlbum>()
 

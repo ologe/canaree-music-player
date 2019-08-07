@@ -10,12 +10,12 @@ class CustomMediaStoreSignature(
     @JvmField
     private val mediaId: MediaId,
     @JvmField
-    private val versionGateway: ImageVersionGateway
+    private val versionGateway: ImageVersionGateway?
 ) : Key {
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         val data = ByteBuffer.allocate(Integer.SIZE)
-            .putInt(versionGateway.getCurrentVersion(mediaId))
+            .putInt(versionGateway?.getCurrentVersion(mediaId) ?: 0)
             .array()
         messageDigest.update(data)
     }

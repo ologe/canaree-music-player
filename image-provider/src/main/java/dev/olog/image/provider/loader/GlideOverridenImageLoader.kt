@@ -34,9 +34,6 @@ internal class GlideOverridenImageLoader(
             mediaId.isArtist || mediaId.isPodcastArtist -> usedImageGateway.getForArtist(mediaId.categoryId)
             else -> null
         }
-        if (overrideImage == AppConstants.NO_IMAGE){
-            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
-        }
 
         return ModelLoader.LoadData(
             MediaIdKey(mediaId),

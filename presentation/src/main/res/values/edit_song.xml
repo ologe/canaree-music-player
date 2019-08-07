@@ -52,7 +52,6 @@
 
     <string-array name="edit_item_image_dialog">
         <item>Restore default</item>
-        <item>No Image</item>
         <item>Stylize image</item>
     </string-array>
 

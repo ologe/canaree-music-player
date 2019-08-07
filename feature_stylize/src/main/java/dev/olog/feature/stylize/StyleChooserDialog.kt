@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.play.core.splitcompat.SplitCompat
 import dev.olog.core.entity.ImageStyle
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -22,8 +23,9 @@ class StyleChooserDialog {
 
     @Keep
     suspend fun create(context: Context) = suspendCoroutine<ImageStyle?> { continuation ->
+        SplitCompat.install(context)
         val inflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(dev.olog.msc.R.layout.fragment_style, null, false)
+        val view: View = inflater.inflate(R.layout.fragment_style, null, false)
 
         val builder = MaterialAlertDialogBuilder(context)
             .setView(view)
@@ -31,7 +33,7 @@ class StyleChooserDialog {
             .setPositiveButton("OK", null)
             .setNegativeButton("Cancel", null)
 
-        val list = view.findViewById<RecyclerView>(dev.olog.msc.R.id.list)
+        val list = view.findViewById<RecyclerView>(R.id.list)
 
         val adapter = StyleChooserAdapter()
 
@@ -68,8 +70,8 @@ class StyleChooserDialog {
 @Keep
 internal class SimpleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val cover: ImageView = view.findViewById(dev.olog.msc.R.id.cover)
-    val selectedImage: View = view.findViewById(dev.olog.msc.R.id.selectedImage)
+    val cover: ImageView = view.findViewById(R.id.cover)
+    val selectedImage: View = view.findViewById(R.id.selectedImage)
 
 }
 
@@ -78,21 +80,22 @@ internal class StyleChooserAdapter : RecyclerView.Adapter<SimpleViewHolder>() {
 
     var selectedStyle: ImageStyle? = null
 
+    @Keep
     private val data = listOf(
-        ImageStyle.BICENTENNIAL_PRINT to R.drawable.bycentennial_print,
-        ImageStyle.HEAD_OF_CLOWN to R.drawable.head_of_clown,
-        ImageStyle.HORSES_ON_SEASHORE to R.drawable.horses_on_seashore,
-        ImageStyle.FEMMES to R.drawable.les_femmes_dalger,
-        ImageStyle.POPPY_FIELD to R.drawable.poppy_field,
-        ImageStyle.RITMO_PLASTICO to R.drawable.ritmo_plastico,
-        ImageStyle.STARRY_NIGHT to R.drawable.starry_night,
-        ImageStyle.THE_SCREAM to R.drawable.the_scream,
-        ImageStyle.THE_TRAIL to R.drawable.the_trail
+        ImageStyle.BICENTENNIAL_PRINT to R.drawable.ic_bycentennial_print,
+        ImageStyle.HEAD_OF_CLOWN to R.drawable.ic_head_of_clown,
+        ImageStyle.HORSES_ON_SEASHORE to R.drawable.ic_horses_on_seashore,
+        ImageStyle.FEMMES to R.drawable.ic_les_femmes_dalger,
+        ImageStyle.POPPY_FIELD to R.drawable.ic_poppy_field,
+        ImageStyle.RITMO_PLASTICO to R.drawable.ic_ritmo_plastico,
+        ImageStyle.STARRY_NIGHT to R.drawable.ic_starry_night,
+        ImageStyle.THE_SCREAM to R.drawable.ic_the_scream,
+        ImageStyle.THE_TRAIL to R.drawable.ic_the_trail
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(dev.olog.msc.R.layout.item_style, parent, false)
+        val view = inflater.inflate(R.layout.item_style, parent, false)
 
         val viewHolder = SimpleViewHolder(view)
 

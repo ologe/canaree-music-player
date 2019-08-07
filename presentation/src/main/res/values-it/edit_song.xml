@@ -35,7 +35,6 @@
 
   <string-array name="edit_item_image_dialog">
     <item>Ripristina</item>
-    <item>Nessuna immagine</item>
     <item>Stilizza immagine</item>
   </string-array>
 

@@ -6,7 +6,6 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.CallSuper
@@ -25,13 +24,11 @@ import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.model.OriginalImage
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.NetworkUtils
-import dev.olog.shared.exhaustive
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -68,16 +65,17 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
             .into(image)
     }
 
-    protected fun loadImage(originalImage: OriginalImage, mediaId: MediaId) {
+    protected fun loadOriginalImage(mediaId: MediaId) {
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
         GlideApp.with(ctx).clear(image)
 
         GlideApp.with(ctx)
-            .load(originalImage)
+            .load(mediaId)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
+            .override(500)
+            .signature(CustomMediaStoreSignature(mediaId, null))
             .into(image)
     }
 
@@ -90,28 +88,16 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
             .load(bitmap)
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
+            .override(500)
             .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
             .into(image)
     }
 
-    protected fun loadImage(uri: Uri, mediaId: MediaId) {
-        val image = view!!.findViewById<ImageView>(R.id.cover)
-
-        GlideApp.with(ctx).clear(image)
-
-        GlideApp.with(ctx)
-            .load(uri)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
-            .into(image)
-    }
-
-    protected fun getBitmap(originalImage: OriginalImage, mediaId: MediaId): Bitmap? {
+    protected fun getOriginalImageBitmap(mediaId: MediaId): Bitmap? {
         return GlideApp.with(ctx)
             .asBitmap()
-            .load(originalImage)
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
+            .load(mediaId)
+            .signature(CustomMediaStoreSignature(mediaId, null))
             .submit()
             .get()
     }
@@ -141,8 +127,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
             .setItems(R.array.edit_item_image_dialog) { _, which ->
                 when (which) {
                     0 -> restoreImage()
-                    1 -> noImage()
-                    2 -> installOrDo { stylizer ->
+                    1 -> installOrDo { stylizer ->
                         launch { stylizeImage(stylizer) }
                     }
                 }
@@ -175,7 +160,6 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
     }
 
     protected abstract fun restoreImage()
-    protected abstract fun noImage()
 
     private fun installOrDo(action: (Stylizer) -> Unit) {
         val show = splitManager.installedModules.contains(FEATURE_STYLIZE)

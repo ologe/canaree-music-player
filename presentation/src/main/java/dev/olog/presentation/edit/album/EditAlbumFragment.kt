@@ -1,14 +1,11 @@
 package dev.olog.presentation.edit.album
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.core.Stylizer
-import dev.olog.image.provider.model.OriginalImage
-import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
@@ -18,9 +15,11 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EditAlbumFragment : BaseEditItemFragment() {
@@ -115,12 +114,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     override fun restoreImage() {
         viewModel.restoreOriginalImage()
-        loadImage(OriginalImage(mediaId), mediaId)
-    }
-
-    override fun noImage() {
-        viewModel.updateImage(SaveImageType.Url(AppConstants.NO_IMAGE))
-        loadImage(Uri.EMPTY, mediaId)
+        loadOriginalImage(mediaId)
     }
 
     override fun onLoaderCancelled() {
@@ -129,7 +123,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     override suspend fun stylizeImage(stylizer: Stylizer) {
         withContext(Dispatchers.IO) {
             try {
-                getBitmap(OriginalImage(mediaId), mediaId)
+                getOriginalImageBitmap(mediaId)
             } catch (ex: Exception){
                 withContext(Dispatchers.Main){
                     ctx.toast("Can't stylize default cover")

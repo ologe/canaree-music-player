@@ -13,14 +13,12 @@ internal class GlideOverridenImageFetcher(
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        if (overrideImage == null){
-            callback.onLoadFailed(Exception("no override image"))
-            return
-        }
-        val file = File(overrideImage)
-        if (file.exists()){
-            callback.onDataReady(file.inputStream())
-            return
+        if (overrideImage != null) {
+            val file = File(overrideImage)
+            if (file.exists()) {
+                callback.onDataReady(file.inputStream())
+                return
+            }
         }
         callback.onLoadFailed(Exception("no override image"))
     }
