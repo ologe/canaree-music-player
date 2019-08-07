@@ -1,21 +1,21 @@
 package dev.olog.image.provider.loader
 
-import android.content.Context
+import android.net.Uri
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.gateway.UsedImageGateway
 import dev.olog.image.provider.fetcher.GlideOverridenImageFetcher
+import dev.olog.intents.AppConstants
 import java.io.InputStream
 import javax.inject.Inject
 
 internal class GlideOverridenImageLoader(
-    private val context: Context,
+    private val uriLoader: ModelLoader<Uri, InputStream>,
     private val usedImageGateway: UsedImageGateway,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
@@ -27,16 +27,30 @@ internal class GlideOverridenImageLoader(
         height: Int,
         options: Options
     ): ModelLoader.LoadData<InputStream>? {
+        val overrideImage = when {
+            mediaId.isLeaf -> usedImageGateway.getForTrack(mediaId.resolveId)
+                ?: tryGetForAlbum(mediaId)
+            mediaId.isAlbum || mediaId.isPodcastAlbum -> usedImageGateway.getForAlbum(mediaId.categoryId)
+            mediaId.isArtist || mediaId.isPodcastArtist -> usedImageGateway.getForArtist(mediaId.categoryId)
+            else -> null
+        }
+        if (overrideImage == AppConstants.NO_IMAGE){
+            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
+        }
+
         return ModelLoader.LoadData(
             MediaIdKey(mediaId),
-            GlideOverridenImageFetcher(
-                context,
-                mediaId,
-                usedImageGateway,
-                songGateway,
-                podcastGateway
-            )
+            GlideOverridenImageFetcher(overrideImage)
         )
+    }
+
+    private fun tryGetForAlbum(mediaId: MediaId): String? {
+        val albumId = if (mediaId.isPodcast){
+            podcastGateway.getByParam(mediaId.resolveId)?.albumId
+        } else {
+            songGateway.getByParam(mediaId.resolveId)?.albumId
+        } ?: return null
+        return usedImageGateway.getForAlbum(albumId)
     }
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -45,15 +59,15 @@ internal class GlideOverridenImageLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
         private val usedImageGateway: UsedImageGateway,
         private val songGateway: SongGateway,
         private val podcastGateway: PodcastGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
+            val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
             return GlideOverridenImageLoader(
-                context,
+                uriLoader,
                 usedImageGateway,
                 songGateway,
                 podcastGateway
