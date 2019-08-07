@@ -25,8 +25,6 @@ class HeaderVisibilityScrollListener(
 
     private var textWrapper: View? = null
 
-    private val background by lazyFast { fragment.view!!.dynamicBackground }
-
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
@@ -39,8 +37,6 @@ class HeaderVisibilityScrollListener(
             }
             val bottom = child.bottom - textWrapper!!.height
             val needDarkLayout = bottom - toolbarHeight < 0
-
-            background.translationY = child.bottom.toFloat()
 
             if (needDarkLayout && view.statusBar.isInvisible) {
                 // set visible
@@ -63,9 +59,6 @@ class HeaderVisibilityScrollListener(
                 view.headerText.toggleVisibility(visible = true, gone = false)
 
                 fragment.hasLightStatusBarColor = true
-            }
-            if (abs(background.translationY) > 0.01){
-                background.translationY = 0f
             }
         }
     }

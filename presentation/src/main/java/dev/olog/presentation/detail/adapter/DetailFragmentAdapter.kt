@@ -197,6 +197,11 @@ internal class DetailFragmentAdapter(
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         when (holder.itemViewType){
+            R.layout.item_detail_image -> {
+                BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
+                holder.view.title.text = item.title
+                holder.view.subtitle.text = item.subtitle
+            }
             R.layout.item_detail_song_footer,
             R.layout.item_detail_header,
             R.layout.item_detail_header_albums,

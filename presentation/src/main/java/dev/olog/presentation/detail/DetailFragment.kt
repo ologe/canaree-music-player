@@ -117,8 +117,6 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadImage(savedInstanceState)
-
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
@@ -169,45 +167,6 @@ class DetailFragment : BaseFragment(),
                     viewModel.updateFilter(it)
                 }
         }
-    }
-
-    private fun loadImage(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            return
-        }
-        postponeEnterTransition()
-        GlideApp.with(requireContext())
-            .load(mediaId)
-            .priority(Priority.IMMEDIATE)
-            .onlyRetrieveFromCache(true)
-            .error(CoverUtils.getGradient(requireContext(), mediaId))
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-            })
-            .into(RippleTarget(cover))
-
-        // setup for parallax
-        list.setView(cover)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

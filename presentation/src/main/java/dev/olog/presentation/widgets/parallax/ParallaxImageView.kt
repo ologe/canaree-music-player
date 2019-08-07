@@ -5,37 +5,29 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import com.google.android.material.math.MathUtils
+import android.view.View
+import androidx.core.math.MathUtils.clamp
 import dev.olog.presentation.R
-import dev.olog.shared.clamp
 import dev.olog.shared.widgets.ForegroundImageView
+import kotlin.math.abs
 
-private const val DEFAULT_PARALLAX = 10
-private const val MAX_ALPHA = 40 // .3f
+private const val DEFAULT_PARALLAX = .7f
+private const val MAX_ALPHA = 40 //.3f
 
 class ParallaxImageView(
-    context: Context,
-    attrs: AttributeSet
+        context: Context,
+        attrs: AttributeSet? = null
+
 ) : ForegroundImageView(context, attrs) {
 
     private var scrimColor = Color.LTGRAY
     private val paint = Paint()
 
-    private var parallax: Int = 0
-    private var maxScrimAlpha = 0f
-
-    private var totalListTranslationY = 0
+    private var parallax : Float
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.ParallaxImageView)
-        parallax = a.getInt(
-            R.styleable.ParallaxImageView_parallax,
-            DEFAULT_PARALLAX
-        )
-        maxScrimAlpha = a.getInt(
-            R.styleable.ParallaxImageView_max_scrim_alpha_255,
-            MAX_ALPHA
-        ).toFloat()
+        val a = context.obtainStyledAttributes(R.styleable.ParallaxImageView)
+        parallax = a.getFloat(R.styleable.ParallaxImageView_parallax, DEFAULT_PARALLAX)
         a.recycle()
 
         // start transparent
@@ -43,47 +35,26 @@ class ParallaxImageView(
         paint.alpha = 0
     }
 
-    override fun onDraw(canvas: Canvas) {
-        drawParallax(canvas)
-        super.onDraw(canvas)
-        drawScrim(canvas)
-    }
+    fun translateY(root: View, textWrapper: View) {
+        val diff = (height - abs(textWrapper.height - root.bottom))
 
-    private fun drawParallax(canvas: Canvas) {
-        if (isInEditMode) {
-            return
-        }
-        if (drawable != null) {
-            val currentTranslationY = clamp(
-                totalListTranslationY,
-                0,
-                height
-            ) / parallax
-            canvas.translate(translationX, -currentTranslationY.toFloat())
-        }
-    }
+        translationY = diff.toFloat() * parallax
 
-    private fun drawScrim(canvas: Canvas) {
-        if (isInEditMode) {
-            return
-        }
-        val max = height / 2
-        val clamped = clamp(totalListTranslationY, 0, max)
-        val ratio = clamped.toFloat() / max.toFloat()
-        val newAlpha = MathUtils.lerp(0f, maxScrimAlpha, ratio)
-        paint.alpha = newAlpha.toInt()
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
-    }
-
-    fun onScrollChanged(translationY: Int) {
-        totalListTranslationY += translationY
+        val currentAlpha = clamp((diff * .05f).toInt(), 0, MAX_ALPHA)
+        paint.alpha = currentAlpha
         invalidate()
     }
 
-    fun setScrimColor(color: Int) {
+    fun setScrimColor(color: Int){
         paint.color = color
-        invalidate()
+        paint.alpha = clamp(translationY.toInt(), 0, MAX_ALPHA)
     }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        if (!isInEditMode){
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        }
+    }
 
 }

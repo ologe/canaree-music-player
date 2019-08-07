@@ -3,7 +3,6 @@
 
     <declare-styleable name="ParallaxImageView">
         <attr name="parallax" format="integer"/>
-        <attr name="max_scrim_alpha_255" format="integer"/>
     </declare-styleable>
 
 </resources>

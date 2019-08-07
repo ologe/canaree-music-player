@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.getImageVersionGateway
@@ -85,6 +86,23 @@ object BindingsAdapter {
             OVERRIDE_MID,
             Priority.HIGH
         )
+    }
+
+    @JvmStatic
+    fun loadBigAlbumImage(view: ImageView, mediaId: MediaId) {
+        val context = view.context
+
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+            .load(mediaId)
+            .override(Target.SIZE_ORIGINAL)
+            .priority(Priority.IMMEDIATE)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
+            .error(CoverUtils.getGradient(context, mediaId))
+            .onlyRetrieveFromCache(true)
+            .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
+            .into(RippleTarget(view))
     }
 
     @JvmStatic

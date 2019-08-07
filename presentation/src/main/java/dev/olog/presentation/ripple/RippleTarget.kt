@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 import kotlin.coroutines.resume
@@ -26,7 +27,7 @@ class RippleTarget(
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
             job?.cancel()
-            job = GlobalScope.launch (Dispatchers.Default){
+            job = GlobalScope.launch(Dispatchers.Default) {
                 generateRipple(drawable)
             }
         }
@@ -58,6 +59,16 @@ class RippleTarget(
             view.foreground = RippleUtils.create(
                 palette, darkAlpha,
                 lightAlpha, fallbackColor, true
+            )
+        }
+        if (view is ParallaxImageView) {
+            view.setScrimColor(
+                RippleUtils.createColor(
+                    palette,
+                    darkAlpha,
+                    lightAlpha,
+                    fallbackColor
+                )
             )
         }
     }

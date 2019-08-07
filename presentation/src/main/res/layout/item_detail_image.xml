@@ -7,21 +7,30 @@
     android:layout_height="wrap_content"
     tools:ignore="RtlSymmetry">
 
-    <ImageView
-        android:id="@+id/cover"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1.05"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:src="@drawable/vd_album"
-        tools:scaleType="center"
-        tools:background="?colorSecondary"
-        android:clickable="true"
-        android:focusable="true"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true" />
+        <dev.olog.presentation.widgets.parallax.ParallaxImageView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.05"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:src="@drawable/vd_album"
+            tools:scaleType="center"
+            tools:background="@color/placeholder_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true" />
+
+        <View
+            android:id="@+id/fade"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/vd_fade"/>
 
 
     <!--hides textWrapper translation background gap-->
