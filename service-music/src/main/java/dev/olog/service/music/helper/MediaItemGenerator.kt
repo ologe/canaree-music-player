@@ -25,7 +25,7 @@ internal class MediaItemGenerator @Inject constructor(
 ) {
 
 
-    suspend fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
+    fun getCategoryChilds(category: MediaIdCategory): MutableList<MediaBrowserCompat.MediaItem> {
         assertBackgroundThread()
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
@@ -38,17 +38,16 @@ internal class MediaItemGenerator @Inject constructor(
         }.toMutableList()
     }
 
-    suspend fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
+    fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
         return getSongListByParamUseCase(parentId)
             .map { it.toChildMediaItem(parentId) }
             .toMutableList()
     }
 
-    private suspend fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -56,11 +55,10 @@ internal class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private suspend fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -68,7 +66,7 @@ internal class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private suspend fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
@@ -78,22 +76,20 @@ internal class MediaItemGenerator @Inject constructor(
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private suspend fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
+    private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(MediaId.playableItem(parentId, this.id).toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private suspend fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.title)
-            .setIconBitmap(context.getCachedBitmap(getMediaId(), 200))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -101,11 +97,10 @@ internal class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private suspend fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.name)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
@@ -113,11 +108,10 @@ internal class MediaItemGenerator @Inject constructor(
         )
     }
 
-    private suspend fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
+    private fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
             .setMediaId(getMediaId().toString())
             .setTitle(this.name)
-            .setIconBitmap(context.getCachedBitmap(getMediaId()))
             .build()
         return MediaBrowserCompat.MediaItem(
             description,
