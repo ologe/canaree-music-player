@@ -27,6 +27,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
+// TODO refactor
 internal class ImageRetrieverRepository @Inject constructor(
     private val lastFmService: LastFmService,
     private val deezerService: DeezerService,
