@@ -40,7 +40,9 @@ abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() 
     protected open fun extendDialog(dialog: AlertDialog) {}
 
     protected open fun positionButtonAction(context: Context) {}
-    protected open fun negativeButtonAction(context: Context) {}
+    protected open fun negativeButtonAction(context: Context) {
+        dismiss()
+    }
     protected open fun neutralButtonAction(context: Context) {}
 
 }
