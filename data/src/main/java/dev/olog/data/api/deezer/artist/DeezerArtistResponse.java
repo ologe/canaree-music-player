@@ -6,12 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeezerResponse {
+public class DeezerArtistResponse {
 
     @Expose
-    public List<Data> data = new ArrayList<>();
+    public List<Album> data = new ArrayList<>();
 
-    public static class Data {
+    public static class Album {
 
         @Expose
         public String picture;

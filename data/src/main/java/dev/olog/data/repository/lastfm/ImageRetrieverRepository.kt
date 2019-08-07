@@ -6,13 +6,14 @@ import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.deezer.artist.DeezerResponse
+import dev.olog.data.api.deezer.artist.DeezerArtistResponse
 import dev.olog.data.api.lastfm.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
@@ -20,7 +21,6 @@ import dev.olog.shared.TextUtils
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.networkCall
 import dev.olog.data.utils.safeNetworkCall
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -51,44 +51,98 @@ internal class ImageRetrieverRepository @Inject constructor(
         return mustFetch
     }
 
-    override suspend fun getTrack(trackId: Id): LastFmTrack? {
+    override suspend fun getTrack(trackId: Id): LastFmTrack? = coroutineScope {
         Log.v(TAG, "get track id=$trackId")
         assertBackgroundThread()
         val cached = localTrack.getCached(trackId)
         if (cached != null) {
             Log.v(TAG, "found in cache id=$trackId")
-            return cached
+            return@coroutineScope cached
         }
         Log.v(TAG, "fetch id=$trackId")
 
-        val song = songGateway.getByParam(trackId) ?: return null
+        val song = songGateway.getByParam(trackId) ?: return@coroutineScope null
 
         val trackTitle = TextUtils.addSpacesToDash(song.title)
-                // removes content between parenthesis
+            // removes content between parenthesis
             .replace("(\\(|\\[)[\\w\\s]+(\\)|\\])".toRegex(), "")
             .trim()
 
         val trackArtist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist
 
+        val calls = listOf(
+            async { fetchTrackLastFm(song, trackTitle, trackArtist) },
+            async { fetchDeezer(trackTitle, trackArtist) }
+        ).awaitAll()
+        val result = makeTrack(calls[0] as LastFmTrack, calls[1] as String?)
+        localTrack.cache(result)
+        return@coroutineScope result
+    }
+
+    private fun makeTrack(lastFmTrack: LastFmTrack, image: String?): LastFmTrack {
+        return LastFmTrack(
+            lastFmTrack.id,
+            lastFmTrack.title,
+            lastFmTrack.artist,
+            lastFmTrack.album,
+            image ?: lastFmTrack.image,
+            lastFmTrack.mbid,
+            lastFmTrack.artistMbid,
+            lastFmTrack.albumMbid
+        )
+    }
+
+    private suspend fun fetchTrackLastFm(
+        song: Song,
+        trackTitle: String,
+        trackArtist: String
+    ): LastFmTrack {
+        val trackId = song.id
+
         var result: LastFmTrack? = null
         if (song.artist != MediaStore.UNKNOWN_STRING) { // search only if has artist
-            result = networkCall { lastFmService.getTrackInfoAsync(trackTitle, trackArtist) }
+            result = safeNetworkCall { lastFmService.getTrackInfoAsync(trackTitle, trackArtist) }
                 ?.toDomain(trackId)
         }
         if (result == null) {
-            val searchTrack = networkCall { lastFmService.searchTrackAsync(trackTitle, trackArtist) }
+            val searchTrack = safeNetworkCall { lastFmService.searchTrackAsync(trackTitle, trackArtist) }
                 ?.toDomain(trackId)
 
             if (searchTrack != null && searchTrack.title.isNotBlank() && searchTrack.artist.isNotBlank()) {
-                result = networkCall { lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist) }
+                result = safeNetworkCall { lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist) }
                     ?.toDomain(trackId)
             }
             if (result == null) {
                 result = LastFmNulls.createNullTrack(trackId).toDomain()
             }
         }
-        localTrack.cache(result)
         return result
+    }
+
+    private suspend fun fetchDeezer(
+        trackTitle: String,
+        trackArtist: String
+    ): String? {
+        val query = if (trackArtist.isBlank()){
+            trackTitle
+        } else {
+            "$trackTitle - $trackArtist"
+        }
+        try {
+            return safeNetworkCall { deezerService.getTrack(query) }?.data?.get(0)?.album?.let {
+                when {
+                    it.coverXl.isNotEmpty() -> it.coverXl
+                    it.coverBig.isNotEmpty() -> it.coverBig
+                    it.coverMedium.isNotEmpty() -> it.coverMedium
+                    it.coverSmall.isNotEmpty() -> it.coverSmall
+                    it.cover.isNotEmpty() -> it.cover
+                    else -> ""
+                }
+            } ?: ""
+        } catch (ex: Throwable){
+            ex.printStackTrace()
+            return null
+        }
     }
 
     override suspend fun deleteTrack(trackId: Id) {
@@ -174,9 +228,8 @@ internal class ImageRetrieverRepository @Inject constructor(
             async {
                 safeNetworkCall { deezerService.getArtist(artist.name) }
             }
-        )
-        val callsResult = calls.awaitAll()
-        var result = makeArtist(artist, callsResult[0] as LastFmArtist?, callsResult[1] as DeezerResponse?)
+        ).awaitAll()
+        var result = makeArtist(artist, calls[0] as LastFmArtist?, calls[1] as DeezerArtistResponse?)
 
         if (result == null) {
             result = LastFmNulls.createNullArtist(artistId).toDomain()
@@ -188,7 +241,7 @@ internal class ImageRetrieverRepository @Inject constructor(
     private fun makeArtist(
         artist: Artist,
         lastFmArtist: LastFmArtist?,
-        deezerResponse: DeezerResponse?): LastFmArtist? {
+        deezerResponse: DeezerArtistResponse?): LastFmArtist? {
         if (lastFmArtist == null && deezerResponse == null){
             return null
         }
