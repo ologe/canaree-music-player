@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
@@ -143,6 +144,10 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun toggleSortArranging() {
+        if (mediaId.category == MediaIdCategory.PLAYLISTS &&
+            getSortOrderUseCase(mediaId).type == SortType.CUSTOM){
+            return
+        }
         toggleSortArrangingUseCase(mediaId.category)
     }
 
