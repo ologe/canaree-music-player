@@ -11,10 +11,11 @@ import dev.olog.data.db.dao.AppDatabase
 import javax.inject.Singleton
 
 @Module
-class RepositoryHelperModule {
+object RepositoryHelperModule {
 
     @Provides
     @Singleton
+    @JvmStatic
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(

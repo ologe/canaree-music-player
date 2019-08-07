@@ -9,11 +9,12 @@ import dev.olog.shared.android.utils.isNougat
 import dev.olog.shared.android.utils.isOreo
 
 @Module
-internal class NotificationModule {
+internal object NotificationModule {
 
     @Provides
     @PerService
-    fun provideNotificationImpl(
+    @JvmStatic
+    internal fun provideNotificationImpl(
         notificationImpl26: Lazy<NotificationImpl26>,
         notificationImpl24: Lazy<NotificationImpl24>,
         notificationImpl: Lazy<NotificationImpl21>
