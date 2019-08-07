@@ -177,7 +177,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             val extras = Bundle()
             extras.putBoolean(CONTENT_STYLE_SUPPORTED, true)
 //            extras.putBoolean(EXTRA_MEDIA_SEARCH_SUPPORTED, true) TODO not sure what is doing
-            extras.putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_GRID_ITEM_HINT_VALUE)
+            extras.putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
             extras.putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, extras)
         }
