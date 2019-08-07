@@ -35,7 +35,7 @@ internal abstract class BaseRepository<T, Param>(
         launch {
             assertBackgroundThread()
             // small delay to make subclass initialization
-            delay(50)
+            delay(100)
 
             while (!PermissionsUtils.canReadStorage(context)) {
                 delay(300)
