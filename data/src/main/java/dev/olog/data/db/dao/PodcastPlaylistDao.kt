@@ -3,9 +3,16 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import dev.olog.core.entity.track.Song
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import dev.olog.data.utils.assertBackground
+import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
 internal abstract class PodcastPlaylistDao {
@@ -50,7 +57,35 @@ internal abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
-    abstract fun getPlaylistTracks(playlistId: Long): Flowable<List<PodcastPlaylistTrackEntity>>
+    abstract fun getPlaylistTracksImpl(playlistId: Long): List<PodcastPlaylistTrackEntity>
+
+    fun getPlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): List<Song> {
+        assertBackgroundThread()
+        val trackList = getPlaylistTracksImpl(playlistId)
+        val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        return trackList.mapNotNull { entity ->
+            songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+        }
+    }
+
+    @Query("""
+        SELECT tracks.*
+        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+            ON playlist.id = tracks.playlistId
+        WHERE playlistId = :playlistId
+    """)
+    abstract fun observePlaylistTracksImpl(playlistId: Long): Flowable<List<PodcastPlaylistTrackEntity>>
+
+    fun observePlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): Flow<List<Song>> {
+        return observePlaylistTracksImpl(playlistId)
+            .asFlow()
+            .map { trackList ->
+                val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                trackList.mapNotNull { entity ->
+                    songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+                }
+            }.assertBackground()
+    }
 
     @Query("""
         SELECT max(idInPlaylist)

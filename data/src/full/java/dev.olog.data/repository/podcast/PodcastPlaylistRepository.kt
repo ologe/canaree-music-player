@@ -9,6 +9,8 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.R
 import dev.olog.data.db.dao.AppDatabase
@@ -18,17 +20,16 @@ import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     appDatabase: AppDatabase,
-    private val favoriteGateway: FavoriteGateway
+    private val podcastGateway: PodcastGateway,
+    private val favoriteGateway: FavoriteGateway,
+    private val podcastArtistGateway: PodcastArtistGateway
 ) : PodcastPlaylistGateway {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
@@ -59,7 +60,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     private fun createAutoPlaylist(id: Long, title: String): Playlist {
-        return Playlist(id, title, 0, false)
+        return Playlist(id, title, 0, true)
     }
 
     override fun getByParam(param: Id): Playlist? {
@@ -85,11 +86,37 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
-        TODO()
+        assertBackgroundThread()
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return getAutoPlaylistsTracks(param)
+        }
+        return podcastPlaylistDao.getPlaylistTracks(param, podcastGateway)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        TODO()
+        if (AutoPlaylist.isAutoPlaylist(param)){
+            return observeAutoPlaylistsTracks(param)
+                .assertBackground()
+        }
+        return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
+    }
+
+    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+        return when (param){
+            AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()
+            AutoPlaylist.HISTORY.id -> historyDao.getPodcasts(podcastGateway)
+            else -> throw IllegalStateException("invalid auto playlist id")
+        }
+    }
+
+    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
+        return when (param){
+            AutoPlaylist.LAST_ADDED.id -> podcastGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.observePodcasts()
+            AutoPlaylist.HISTORY.id -> historyDao.observePodcasts(podcastGateway)
+            else -> throw IllegalStateException("invalid auto playlist id")
+        }
     }
 
     override fun observeSiblings(param: Id): Flow<List<Playlist>> {
@@ -159,6 +186,12 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
-        TODO()
+        return observeTrackListByParam(params)
+            .map {  songList ->
+                val artists = songList.groupBy { it.artistId }
+                    .map { it.key }
+                podcastArtistGateway.getAll()
+                    .filter { artists.contains(it.id) }
+            }
     }
 }

@@ -52,7 +52,7 @@ class PodcastPlaylistEntity(
 class PodcastPlaylistTrackEntity(
     @PrimaryKey(autoGenerate = true)
     @JvmField
-    val id: Long = 0,
+    val id: Long = 0, // progressive
     @JvmField
     val idInPlaylist: Long,
     @JvmField

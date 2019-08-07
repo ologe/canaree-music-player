@@ -98,7 +98,7 @@ internal abstract class HistoryDao {
             }.assertBackground()
     }
 
-    fun getAllPodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
         return observeAllPodcastsImpl()
             .asFlow()
             .map { historyList ->
