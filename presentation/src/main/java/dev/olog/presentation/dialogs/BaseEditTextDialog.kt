@@ -30,7 +30,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
     @CallSuper
     override fun extendDialog(dialog: AlertDialog) {
         editText = dialog.findViewById(R.id.editText)!!
-        editTextLayout = dialog.findViewById(R.id.editTextLayout)!!
+        editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
 
         showJeyboardJob?.cancel()
