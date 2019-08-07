@@ -9,7 +9,7 @@ internal suspend fun<T> networkCall(repeatTimes: Int = 3, call: suspend () -> Re
     var errorMessage : String? = null
 
     repeat(repeatTimes) { iteration ->
-        delay(500L * iteration)
+        delay(1000L * iteration)
         val result = call()
         if (result.isSuccessful) {
             return result.body()
