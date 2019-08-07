@@ -251,13 +251,15 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
-        val realPosition = viewHolder.adapterPosition - headers
-        viewModel.removeFromPlaylist(getItem(realPosition)!!)
+        val position = viewHolder.adapterPosition
+        val item = getItem(position)
+        dataSet.removeAt(position)
+        notifyItemRemoved(position)
+        viewModel.removeFromPlaylist(item!!)
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        dataSet.removeAt(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
+
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
