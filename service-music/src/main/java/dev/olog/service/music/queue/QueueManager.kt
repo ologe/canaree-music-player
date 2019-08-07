@@ -41,6 +41,11 @@ internal class QueueManager @Inject constructor(
 
 ) : Queue {
 
+    companion object {
+        // limit the max queue on devices with thousand of songs
+        private const val MAX_QUEUE_SIZE = 500
+    }
+
     override suspend fun prepare(): PlayerMediaEntity? {
         assertMainThread()
 
@@ -78,6 +83,7 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         var songList = getSongListByParamUseCase(mediaId).asSequence()
+            .take(MAX_QUEUE_SIZE)
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
@@ -110,6 +116,7 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         var songList = getRecentlyAddedUseCase(mediaId).first()
+            .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         if (shuffleMode.isEnabled()) {
@@ -137,6 +144,7 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         var songList = getMostPlayedSongsUseCase(mediaId).first()
+            .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         if (shuffleMode.isEnabled()) {
@@ -161,6 +169,7 @@ internal class QueueManager @Inject constructor(
         assertBackgroundThread()
 
         var songList = getSongListByParamUseCase(mediaId).asSequence()
+            .take(MAX_QUEUE_SIZE)
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
@@ -240,7 +249,7 @@ internal class QueueManager @Inject constructor(
                 forceShuffle = true
                 VoiceSearch.noFilter(getSongListByParamUseCase(mediaId).shuffled())
             }
-        }
+        }.take(MAX_QUEUE_SIZE)
 
         val currentIndex = 0
         val result = songList.getOrNull(currentIndex) ?: return null
