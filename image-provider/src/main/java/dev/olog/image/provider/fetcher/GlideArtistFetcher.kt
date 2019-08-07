@@ -11,8 +11,7 @@ import java.io.InputStream
 // is the name of the image
 private const val LAST_FM_PLACEHOLDER = "2a96cbd8b46e442fc41c2b86b821562f.png"
 
-//https://e-cdns-images.dzcdn.net/images/artist//1000x1000-000000-80-0-0.jpg
-private const val DEEZER_PLACEHOLDER = "-000000-80-0-0.jpg"
+private const val DEEZER_PLACEHOLDER = "https://cdns-images.dzcdn.net/images/artist//"
 
 class GlideArtistFetcher(
     context: Context,
@@ -25,7 +24,7 @@ class GlideArtistFetcher(
 
     override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
         val image = imageRetrieverGateway.getArtist(id)!!.image
-        if (image.endsWith(LAST_FM_PLACEHOLDER) || image.endsWith(DEEZER_PLACEHOLDER)) {
+        if (image.endsWith(LAST_FM_PLACEHOLDER) || image.startsWith(DEEZER_PLACEHOLDER)) {
             return ""
         }
         return image
