@@ -349,20 +349,18 @@ internal class QueueImpl @Inject constructor(
 
         val queue = playingQueue.toList() // work on a copy
 
-        val songList: List<MediaEntity> = songIds.mapNotNull {
+        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+
+        val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
-                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
-                podcastGateway.getByParam(mediaId.categoryId)
+                podcastGateway.getByParam(id)
             } else {
-                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
-                songGateway.getByParam(mediaId.categoryId)
+                songGateway.getByParam(id)
             }
             track
-        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
+        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
 
-        val newQueue = (queue + songList).mapIndexed { index, mediaEntity ->
-            mediaEntity.withIdInPlaylist(index)
-        }
+        val newQueue = queue + songList
 
         updateState(newQueue, currentSongPosition, false, true)
 
@@ -373,28 +371,24 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
-        // TODO
         assertBackgroundThread()
         val queue = playingQueue.toList() // work on a copy
-//
-//         | 0 | 1 | 2 | 3 | 4 | 5 |
-        val before = queue.take(currentSongPosition)
-        val after = queue.drop(currentSongPosition + 1)
 
-        val songList: List<MediaEntity> = songIds.mapNotNull {
+        val before = queue.take(currentSongPosition)
+        val after = queue.drop(currentSongPosition)
+
+        var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
+
+        val songList: List<MediaEntity> = songIds.mapNotNull { id ->
             val track: Song? = if (isPodcast) {
-                val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, it.toString())
-                podcastGateway.getByParam(mediaId.categoryId)
+                podcastGateway.getByParam(id)
             } else {
-                val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, it.toString())
-                songGateway.getByParam(mediaId.categoryId)
+                songGateway.getByParam(id)
             }
             track
-        }.mapIndexed { index, song -> song.toMediaEntity(index, song.getMediaId()) }
+        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
 
-        val newQueue = (before + songList + after).mapIndexed { index, mediaEntity ->
-            mediaEntity.withIdInPlaylist(index)
-        }
+        val newQueue = before + songList + after
 
         updateState(newQueue, currentSongPosition, false, true)
 
