@@ -1,7 +1,5 @@
 package dev.olog.data.api.deezer
 
-import dev.olog.data.api.deezer.artist.DeezerArtistResponse
-import dev.olog.data.api.deezer.artist.DeezerTrackResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,5 +15,10 @@ interface DeezerService {
     suspend fun getTrack(
         @Query("q") trackName: String
     ): Response<DeezerTrackResponse>
+
+    @GET("search/album&limit=1")
+    suspend fun getAlbum(
+        @Query("q") trackName: String
+    ): Response<DeezerAlbumResponse>
 
 }

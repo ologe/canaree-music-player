@@ -1,4 +1,4 @@
-package dev.olog.data.api.deezer.artist;
+package dev.olog.data.api.deezer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
