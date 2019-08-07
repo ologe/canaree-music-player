@@ -66,8 +66,15 @@ object CoverUtils {
         val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.resolveSource))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
-        val pos = (mediaId.resolveId.toInt()) % COLORS.size
-        gradient.colors = COLORS[abs(pos)]
+        val position = mediaId.resolveId.toInt()
+        if (!context.isDarkMode()) {
+            // use custom color for light theme
+            val pos = (position) % COLORS.size
+            gradient.colors = COLORS[abs(pos)]
+        } else {
+            val pos = (position) % DESATURATED_COLORS.size
+            gradient.colors = DESATURATED_COLORS[abs(pos)]
+        }
         return gradient
     }
 
