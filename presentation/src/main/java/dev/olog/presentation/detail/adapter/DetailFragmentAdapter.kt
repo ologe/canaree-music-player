@@ -246,8 +246,8 @@ internal class DetailFragmentAdapter(
         val realFrom = from - headers
         val realTo = to - headers
         dataSet.swap(from, to)
-        notifyItemMoved(realFrom, realTo)
-        viewModel.moveItemInPlaylist(from, to)
+        notifyItemMoved(from, to)
+        viewModel.moveItemInPlaylist(realFrom, realTo)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {

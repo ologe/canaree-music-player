@@ -15,7 +15,6 @@
 - edit info image override not working as intended
 - fix stilyze image (dynamic module crashes)
 - check if buy premium works
-- check drag and drop in detail
 
 ## DONE
 - fix android auto not working
