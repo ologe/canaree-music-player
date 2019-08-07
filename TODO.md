@@ -1,6 +1,5 @@
 ## TODO
 - check mediastore insert/update/delete on Android Q
-- swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
 - add keep resource file in :feature-stylizer that keeps module title, and all the images
 
 ## TODO for methoud count reducing
@@ -18,15 +17,6 @@
 - check if buy premium works
 - check drag and drop in detail
 
-## features
-- change grid span
-- add to favorite in android auto
-- check if can use custom icons in android auto
-- custom preset in equalizer
-- made lyrics sync for every track
-- settings to blur lockscreen image
-
-
 ## DONE
 - fix android auto not working
 - fix player swipe
@@ -37,11 +27,20 @@
 - added custom eq preset to all versions
 - added check last fm authentication
 - add custom equalizer preset
+- add lyrics sync for every track
 - fix snackbar (buy premium) in setting fragment
 - check if show album art on lockscreen works (working on AOSP)
-- enable premium with ads??
+- enable premium with ads
+- swap last fm artist with deezer (https://developers.deezer.com/api/artist) 
+
+
+## features
+- change grid span
+- add to favorite in android auto
+- check if can use custom icons in android auto
 
 ## Maybe
+- settings to blur lockscreen image
 - try double tap to forward/replay?
 - whitelist
 - made sleep timer top and bottom curved
