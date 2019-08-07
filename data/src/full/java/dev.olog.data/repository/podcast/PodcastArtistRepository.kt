@@ -31,7 +31,7 @@ internal class PodcastArtistRepository @Inject constructor(
 ) : BaseRepository<Artist, Id>(context), PodcastArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
-    private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
+    private val lastPlayedDao = appDatabase.lastPlayedPodcastArtistDao()
 
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
