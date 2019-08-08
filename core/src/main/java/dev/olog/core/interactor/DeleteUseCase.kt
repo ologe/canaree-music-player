@@ -2,6 +2,7 @@ package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.podcast.PodcastGateway
+import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
@@ -9,6 +10,7 @@ import javax.inject.Inject
 
 class DeleteUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway,
+    private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
     private val songGateway: SongGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase
@@ -25,8 +27,8 @@ class DeleteUseCase @Inject constructor(
         }
 
         return when {
-            mediaId.isPodcastPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryValue.toLong())
-            mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryValue.toLong())
+            mediaId.isPodcastPlaylist -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
+            mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryId)
             else -> {
                 val songList = getSongListByParamUseCase(mediaId)
                 songGateway.deleteGroup(songList)
