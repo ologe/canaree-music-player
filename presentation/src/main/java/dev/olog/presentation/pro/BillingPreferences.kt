@@ -15,7 +15,7 @@ internal class BillingPreferences @Inject constructor(
 
     companion object {
         @JvmStatic
-        val DEFAULT_PREMIUM = BuildConfig.DEBUG
+        val DEFAULT_PREMIUM = false
         private const val DEFAULT_TRIAL = false
         private const val DEFAULT_SHOW_AD = false
 

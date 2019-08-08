@@ -6,8 +6,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import dev.olog.core.interactor.ResetPreferencesUseCase
 import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.presentation.BuildConfig
+import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -26,10 +27,14 @@ internal class BillingImpl @Inject constructor(
 ) : BillingConnection(activity), IBilling, CoroutineScope by MainScope() {
 
     companion object {
-        private const val PRO_VERSION_ID = "pro_version"
-
         @JvmStatic
         private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
+
+        private const val PRO_VERSION_ID = "pro_version"
+
+        private const val TEST_PURCHASED = "android.test.purchased"
+        private const val TEST_CANCELLED = "android.test.canceled"
+        private const val TEST_UNAVAILABLE = "android.test.item_unavailable"
     }
 
     private val lastPremium = billingPrefs.getLastPremium()
@@ -114,6 +119,13 @@ internal class BillingImpl @Inject constructor(
             BillingClient.BillingResponseCode.OK -> {
                 isPremiumState = isProBought(purchases)
             }
+            BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
+                activity.toast(R.string.network_timeout)
+            }
+            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
+                activity.toast(R.string.network_not_available)
+            }
+
             // TODO add missing
             else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +
                     "error=${billingResult.debugMessage}")
@@ -121,7 +133,7 @@ internal class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null || BillingPreferences.DEFAULT_PREMIUM
+        return purchases?.find { it.sku == PRO_VERSION_ID } != null || BillingPreferences.DEFAULT_PREMIUM
 //        return true
     }
 
@@ -143,10 +155,11 @@ internal class BillingImpl @Inject constructor(
     override fun purchasePremium() {
         doOnConnected {
             val params = SkuDetailsParams.newBuilder()
-            params.setSkusList(listOf(PRO_VERSION_ID))
+                .setSkusList(listOf(PRO_VERSION_ID))
                 .setType(BillingClient.SkuType.INAPP)
+                .build()
 
-            billingClient.querySkuDetailsAsync(params.build()) { result, skuDetailsList ->
+            billingClient.querySkuDetailsAsync(params) { result, skuDetailsList ->
                 if (result.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList?.isNotEmpty() == true) {
                     val flowParams = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetailsList[0])

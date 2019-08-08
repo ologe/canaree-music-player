@@ -29,6 +29,7 @@
     <string name="common_empty_list">Empty list</string>
 
     <string name="network_not_available">Please check your network connection</string>
+    <string name="network_timeout">Please retry</string>
 
     <string name="are_you_sure">Are you sure?</string>
 

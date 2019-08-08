@@ -8,6 +8,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
+import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.toast
 
 internal abstract class BillingConnection(
@@ -33,11 +34,19 @@ internal abstract class BillingConnection(
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
-                when (billingResult.responseCode) {
-                    BillingClient.BillingResponseCode.OK -> isConnected = true
-                    BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> activity.toast("Play store not found")
+                when (billingResult.responseCode){
+                    BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
+                        activity.toast(R.string.network_timeout)
+                    }
+                    BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
+                        activity.toast(R.string.network_not_available)
+                    }
                 }
-                func?.invoke()
+
+                isConnected = billingResult.responseCode == BillingClient.BillingResponseCode.OK
+                if (isConnected){
+                    func?.invoke()
+                }
             }
 
             override fun onBillingServiceDisconnected() {
