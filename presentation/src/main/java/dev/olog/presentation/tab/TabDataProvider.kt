@@ -147,11 +147,11 @@ internal class TabDataProvider @Inject constructor(
     }
 
     private fun getPodcastAlbums(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = albumGateway.observeRecentlyAdded()
+        val recentlyAddedFlow = podcastAlbumGateway.observeRecentlyAdded()
             .combineLatest(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = albumGateway.observeLastPlayed()
+        val recentlyPlayedFlow = podcastAlbumGateway.observeLastPlayed()
             .combineLatest(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
@@ -170,11 +170,11 @@ internal class TabDataProvider @Inject constructor(
     }
 
     private fun getPodcastArtists(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = artistGateway.observeRecentlyAdded()
+        val recentlyAddedFlow = podcastArtistGateway.observeRecentlyAdded()
             .combineLatest(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = artistGateway.observeLastPlayed()
+        val recentlyPlayedFlow = podcastArtistGateway.observeLastPlayed()
             .combineLatest(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
