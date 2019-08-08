@@ -32,7 +32,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val lastFmGateway: ImageRetrieverGateway
+    private val imageRetrieverGateway: ImageRetrieverGateway
 
 ) : ViewModel() {
 
@@ -104,14 +104,16 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val biography = when {
-                    mediaId.isArtist -> lastFmGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> lastFmGateway.getAlbum(mediaId.categoryId)?.wiki
+                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
+                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
                     else -> null
                 }
                 withContext(Dispatchers.Main) {
                     biographyLiveData.value = biography
                 }
             } catch (ex: NullPointerException) {
+                ex.printStackTrace()
+            } catch (ex: IndexOutOfBoundsException) {
                 ex.printStackTrace()
             }
         }
