@@ -53,7 +53,7 @@ class OfflineLyricsContent(
 
         content.edit.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                EditLyricsDialog.showForService(context, presenter.getLyrics()) { newLyrics ->
+                EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
             }
@@ -78,7 +78,7 @@ class OfflineLyricsContent(
 
         content.sync.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                OfflineLyricsSyncAdjustementDialog.showForService(
+                OfflineLyricsSyncAdjustementDialog.show(
                     context,
                     presenter.getSyncAdjustment()
                 ) {
