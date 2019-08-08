@@ -10,7 +10,6 @@
 - audio is not paused on some devices during a call (Huawei P30 lite)
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
-- override NO IMAGE not wokring
 
 ### urgent bug
 - after creating 'new playlist' from + button, bottom navigation disappears
