@@ -1,11 +1,11 @@
 package dev.olog.presentation.edit.domain
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
@@ -84,14 +84,14 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     private fun updateMediaStore(id: Long, isPodcast: Boolean?) {
-        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
         val values = ContentValues(2).apply {
             isPodcast?.let {
                 put(MediaStore.Audio.Media.IS_PODCAST, it)
             }
             put(MediaStore.Audio.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000)
         }
-        context.contentResolver.update(uri, values, "${BaseColumns._ID} = ?", arrayOf("$id"))
+        context.contentResolver.update(uri, values, null, null)
     }
 
     private fun updateTagFields(tag: Tag, param: Data){
