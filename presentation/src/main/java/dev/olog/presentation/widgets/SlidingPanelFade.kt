@@ -49,14 +49,15 @@ class SlidingPanelFade(
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            isClickable = newState != BottomSheetBehavior.STATE_COLLAPSED
-            isFocusable = isClickable
-
-            if (isClickable){
+            val setClickable = newState != BottomSheetBehavior.STATE_COLLAPSED
+            if (setClickable){
                 setOnClickListener { slidingPanel.collapse() }
             } else {
                 setOnClickListener(null)
             }
+
+            isClickable = setClickable
+            isFocusable = isClickable
         }
     }
 
