@@ -52,6 +52,8 @@
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
+
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
