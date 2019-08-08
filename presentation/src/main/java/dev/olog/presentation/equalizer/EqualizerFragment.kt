@@ -62,12 +62,24 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
                         step = presenter.getBandStep()
                         max = presenter.getBandLimit()
                         min = -presenter.getBandLimit()
-                        value = band.gain // todo animate
+                        animateBar(this, band.gain)
                     }
                     layout.seekbar.alpha = DEFAULT_BAR_ALPHA
                     layout.frequency.text = band.displayableFrequency
                 }
             }
+    }
+
+    private fun animateBar(bar: BoxedVertical, gain: Float) = launch {
+        var duration = 150f
+        val timeDelta = 16f
+        val progressDelta = (gain - bar.value) * (timeDelta / duration)
+        while (duration > 0){
+            delay(timeDelta.toLong())
+            duration -= timeDelta
+            bar.value += progressDelta
+        }
+        bar.value = gain // set exact value
     }
 
     private fun buildBands() {
