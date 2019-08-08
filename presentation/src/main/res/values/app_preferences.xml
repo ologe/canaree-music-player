@@ -189,7 +189,7 @@
 
     <!--dark mode-->
     <string name="prefs_dark_mode_title">Dark mode</string>
-    <string name="prefs_dark_mode_follow_system">Follow system</string>
+    <string name="prefs_dark_mode_follow_system">Set by Battery Saver</string>
     <string name="prefs_dark_mode_light">Light</string>
     <string name="prefs_dark_mode_dark">Dark</string>
 
