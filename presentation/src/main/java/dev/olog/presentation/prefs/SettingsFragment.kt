@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -32,6 +33,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+@Keep
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
     SharedPreferences.OnSharedPreferenceChangeListener,

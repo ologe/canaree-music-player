@@ -2,6 +2,7 @@ package dev.olog.presentation.playermini
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
+@Keep
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {

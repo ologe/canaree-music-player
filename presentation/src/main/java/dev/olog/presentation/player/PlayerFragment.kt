@@ -2,6 +2,7 @@ package dev.olog.presentation.player
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.math.abs
 
+@Keep
 class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     @Inject
