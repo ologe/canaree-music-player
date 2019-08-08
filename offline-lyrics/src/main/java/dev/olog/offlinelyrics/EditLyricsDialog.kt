@@ -26,12 +26,11 @@ object EditLyricsDialog {
         dialog.show()
 
         val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
+        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.wrapper)!!
         editTextLayout.hint = context.getString(R.string.offline_lyrics_edit_hint)
         if (currentText != context.getString(R.string.offline_lyrics_empty)) {
             editText.setText(currentText)
         }
-        dialog.findViewById<View>(R.id.clear)!!.setOnClickListener { editText.setText("") }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             updateFunc(editText.text.toString())

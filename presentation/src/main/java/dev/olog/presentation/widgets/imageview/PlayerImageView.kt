@@ -22,9 +22,7 @@ open class PlayerImageView (
 ) : ShapeImageView(context, attr) {
 
     private val adaptiveImageHelper by lazyFast {
-        AdaptiveImageHelper(
-            context
-        )
+        AdaptiveImageHelper(context)
     }
 
     override fun setImageBitmap(bm: Bitmap?) {
@@ -51,7 +49,8 @@ open class PlayerImageView (
             .load(mediaId)
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
-            .override(Target.SIZE_ORIGINAL)
+            .override(500)
+            .onlyRetrieveFromCache(true)
             .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
             .into(RippleTarget(this))
     }

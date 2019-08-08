@@ -39,7 +39,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     suspend fun getLyrics(): String {
-        return observeLyrics().single().lyrics
+        return observeLyrics().first().lyrics
     }
 
     fun observeLyrics(): Flow<LyricsModel> {
