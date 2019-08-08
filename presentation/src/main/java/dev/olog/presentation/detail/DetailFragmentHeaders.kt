@@ -33,7 +33,8 @@ class DetailFragmentHeaders @Inject constructor(
         DisplayableHeader(
             type = R.layout.item_detail_header,
             mediaId = MediaId.headerId("most played header"),
-            title = context.getString(R.string.detail_most_played)
+            title = context.getString(R.string.detail_most_played),
+            visible = false
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_detail_list_most_played,
