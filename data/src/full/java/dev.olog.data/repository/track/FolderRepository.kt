@@ -116,7 +116,6 @@ internal class FolderRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        // TODO check
         mostPlayedDao.insertOne(
             FolderMostPlayedEntity(
                 0,

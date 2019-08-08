@@ -13,6 +13,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.mapper.toAlbum
+import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -66,11 +67,14 @@ internal class PodcastAlbumRepository @Inject constructor(
 
     override fun getTrackListByParam(param: Id): List<Song> {
         assertBackgroundThread()
-        TODO()
+        val cursor = queries.getSongList(param)
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
-        TODO()
+        val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
+            .assertBackground()
     }
 
     override fun observeLastPlayed(): Flow<List<Album>> {
