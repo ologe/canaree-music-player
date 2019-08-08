@@ -41,7 +41,6 @@ dependencies {
     implementation project(':shared-widgets')
     implementation project(':prefs-keys')
     implementation project(':media')
-    implementation project(':tap-target-view')
     implementation project(':offline-lyrics')
     implementation project(':jaudiotagger')
     implementation project(':intents')
@@ -67,7 +66,9 @@ dependencies {
     implementation lib_x.preference
     implementation lib_x.coordinator
     implementation lib_x.billing
+
     implementation lib_ui.lottie
+    implementation lib_ui.tap_target_view
 
     implementation lib_x.play_core
 

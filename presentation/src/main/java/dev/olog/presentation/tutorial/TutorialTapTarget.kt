@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetSequence
+import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorBackground
-import dev.olog.taptargetview.TapTarget
-import dev.olog.taptargetview.TapTargetSequence
-import dev.olog.taptargetview.TapTargetView
 
 object TutorialTapTarget {
 
