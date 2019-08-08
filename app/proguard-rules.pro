@@ -31,6 +31,9 @@
 
 # SHRINK ONLY
 -dontobfuscate
+-keep class ai.fritz.vision.imagesegmentation.blend.ColorUtilities
+
+
 
 # J-AUDIO-TAGGER
 -keep class org.jsoup.** { *; }

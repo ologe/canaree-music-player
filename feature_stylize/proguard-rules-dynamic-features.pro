@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class dev.olog.feature.stylize.StylizerImpl
+-keep class ai.fritz.vision.imagesegmentation.blend.ColorUtilities
