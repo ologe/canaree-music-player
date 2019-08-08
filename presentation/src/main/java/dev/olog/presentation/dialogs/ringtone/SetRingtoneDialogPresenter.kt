@@ -28,7 +28,7 @@ class SetRingtoneDialogPresenter @Inject constructor() {
     }
 
     @TargetApi(23)
-    private fun requestWritingSettingsPermission(activity: FragmentActivity){
+    private suspend fun requestWritingSettingsPermission(activity: FragmentActivity) = withContext(Dispatchers.Main){
         MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
