@@ -1,13 +1,15 @@
 package dev.olog.presentation.popup.main
 
+import android.content.Context
+import android.provider.MediaStore
 import android.util.Log
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
@@ -18,6 +20,7 @@ import dev.olog.presentation.pro.IBilling
 import javax.inject.Inject
 
 class MainPopupDialog @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val billing: IBilling,
     private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences
@@ -149,6 +152,7 @@ class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllTracksSort(model)
+        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
     private fun handleAllAlbumsSorting(menuItem: MenuItem, sort: SortEntity) {
@@ -169,6 +173,7 @@ class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllAlbumsSort(model)
+        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
     private fun handleAllArtistsSorting(menuItem: MenuItem, sort: SortEntity) {
@@ -189,6 +194,7 @@ class MainPopupDialog @Inject constructor(
         }
 
         gateway.setAllArtistsSort(model)
+        context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
     }
 
 }
