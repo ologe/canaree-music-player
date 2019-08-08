@@ -72,13 +72,14 @@ internal class SongRepository @Inject constructor(
 
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
+        val path = getByParam(id)!!.path
         val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
-        val deleted = context.contentResolver.delete(uri, null, null)
+        val deleted = contentResolver.delete(uri, null, null)
         if (deleted < 1) {
             Log.w("SongRepo", "song not found $id")
             return
         }
-        val path = getByParam(id)!!.path
+
         val file = File(path)
         if (file.exists()) {
             file.delete()
