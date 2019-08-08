@@ -16,12 +16,9 @@ import dev.olog.offlinelyrics.model.LyricsModel
 import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 abstract class BaseOfflineLyricsPresenter constructor(
@@ -50,10 +47,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
         }
     }
 
-    fun transformLyrics(context: Context, bookmark: Int, model: LyricsModel): Spannable {
+    suspend fun transformLyrics(context: Context, bookmark: Int, model: LyricsModel): Spannable = withContext(Dispatchers.Default){
         val syncAdjustment = lyricsGateway.getSyncAdjustment(model.id).toInt()
         val position = clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
-        return transformLyricsInternal(context, position, model.lyrics)
+        transformLyricsInternal(context, position, model.lyrics)
     }
 
     private fun transformLyricsInternal(

@@ -31,7 +31,7 @@ object OfflineLyricsSyncAdjustementDialog {
 
         val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
         editText.setText(currentValue)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.wrapper)!!
+        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
         editTextLayout.hint = ctx.getString(R.string.offline_lyrics_adjust_sync_hint)
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
