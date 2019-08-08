@@ -92,9 +92,6 @@ class SuperCerealScrollHelper(
     }
 
     override fun skipFragment(fragment: Fragment): Boolean {
-        if (fragment.tag == AboutFragment.TAG){
-            return true
-        }
         if (isViewPagerChildTag(fragment.tag)){
             return false
         }
