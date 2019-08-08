@@ -6,6 +6,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.shared.android.utils.isQ
 
 class FolderPopup(
     view: View,
@@ -26,5 +27,10 @@ class FolderPopup(
         addPlaylistChooser(view.context, listener.playlists)
 
         setOnMenuItemClickListener(listener)
+
+        if (isQ() && song == null) {
+            // works bad on Q
+            menu.removeItem(R.id.delete)
+        }
     }
 }

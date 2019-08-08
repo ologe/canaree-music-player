@@ -1,5 +1,6 @@
 package dev.olog.presentation.dialogs.delete
 
+import android.app.RecoverableSecurityException
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
@@ -10,6 +11,7 @@ import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,17 +52,30 @@ class DeleteDialog: BaseDialog() {
 
     override fun positionButtonAction(context: Context) {
         launch {
-            var message: String
-            try {
-                presenter.execute(mediaId)
-                message = successMessage(act)
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                message = failMessage(act)
+            catchRecoverableSecurityException(this@DeleteDialog) {
+                tryExecute()
             }
-            act.toast(message)
-            dismiss()
         }
+    }
+
+    private suspend fun tryExecute(){
+        var message: String
+        try {
+            presenter.execute(mediaId)
+            message = successMessage(act)
+        } catch (ex: Throwable) {
+            if (isQ() && ex is RecoverableSecurityException){
+                throw ex
+            }
+            ex.printStackTrace()
+            message = failMessage(act)
+        }
+        act.toast(message)
+        dismiss()
+    }
+
+    override suspend fun onRecoverableSecurityExceptionRecovered() {
+        tryExecute()
     }
 
     private fun successMessage(context: Context): String {

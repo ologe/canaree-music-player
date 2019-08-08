@@ -7,6 +7,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
+import dev.olog.shared.android.utils.isQ
 
 class PlaylistPopup(
     view: View,
@@ -48,6 +49,11 @@ class PlaylistPopup(
             if (playlist.id == AutoPlaylist.FAVORITE.id) {
                 menu.removeItem(R.id.addToFavorite)
             }
+        }
+
+        if (isQ() && song == null) {
+            // works bad on Q
+            menu.removeItem(R.id.delete)
         }
     }
 
