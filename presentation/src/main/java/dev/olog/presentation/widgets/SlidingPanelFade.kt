@@ -6,12 +6,12 @@ import android.view.View
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.lazyFast
-import dev.olog.shared.android.extensions.dip
 import dev.olog.presentation.R
-import dev.olog.shared.mutableLazy
+import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.utils.collapse
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.scrimBackground
+import dev.olog.shared.lazyFast
 
 class SlidingPanelFade(
         context: Context,
@@ -21,6 +21,9 @@ class SlidingPanelFade(
     private val fragmentContainer by lazyFast {
         (context as FragmentActivity).findViewById<View>(R.id.fragmentContainer)
     }
+
+    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+
     var parallax = context.dip(20)
 
     init {
@@ -30,12 +33,12 @@ class SlidingPanelFade(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        (context as HasSlidingPanel).getSlidingPanel().addPanelSlideListener(slidingPanelCallback)
+        slidingPanel.addPanelSlideListener(slidingPanelCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        (context as HasSlidingPanel).getSlidingPanel().removePanelSlideListener(slidingPanelCallback)
+        slidingPanel.removePanelSlideListener(slidingPanelCallback)
     }
 
     private val slidingPanelCallback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -48,6 +51,12 @@ class SlidingPanelFade(
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             isClickable = newState != BottomSheetBehavior.STATE_COLLAPSED
             isFocusable = isClickable
+
+            if (isClickable){
+                setOnClickListener { slidingPanel.collapse() }
+            } else {
+                setOnClickListener(null)
+            }
         }
     }
 
