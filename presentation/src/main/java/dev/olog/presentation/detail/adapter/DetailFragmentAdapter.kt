@@ -1,8 +1,10 @@
 package dev.olog.presentation.detail.adapter
 
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -47,7 +49,7 @@ internal class DetailFragmentAdapter(
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
 ) : ObservableAdapter<DisplayableItem>(
-    lifecycle, DiffCallbackDisplayableItem
+    lifecycle, DiffCallbackDetailDisplayableItem
 ), TouchableAdapter {
 
     private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
@@ -166,6 +168,22 @@ internal class DetailFragmentAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: DataBoundViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isNotEmpty()){
+            val payload = payloads[0] as List<String>
+            holder.view.apply {
+                title.text = payload[0]
+                subtitle.text = payload[1]
+            }
+            return
+        }
+        super.onBindViewHolder(holder, position, payloads)
+    }
+
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
@@ -277,4 +295,27 @@ internal class DetailFragmentAdapter(
     }
 
 
+}
+
+object DiffCallbackDetailDisplayableItem : DiffUtil.ItemCallback<DisplayableItem>() {
+
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun getChangePayload(oldItem: DisplayableItem, newItem: DisplayableItem): Any? {
+        if (newItem.type == R.layout.item_detail_image){
+            require(newItem is DisplayableHeader)
+            return listOf(
+                newItem.title,
+                newItem.subtitle
+            )
+        }
+        return null
+    }
 }
