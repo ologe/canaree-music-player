@@ -6,6 +6,7 @@ import android.util.Log
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @PerService
 internal class MusicServiceRepeatMode @Inject constructor(
@@ -19,34 +20,33 @@ internal class MusicServiceRepeatMode @Inject constructor(
         private val TAG = "SM:${MusicServiceRepeatMode::class.java.simpleName}"
     }
 
+    private var state by Delegates.observable(REPEAT_MODE_INVALID) { _, _, new ->
+        musicPreferencesUseCase.setRepeatMode(new)
+        mediaSession.setRepeatMode(new)
+    }
+
     init {
-        val state = getState() // TODO blocking operation
-        mediaSession.setRepeatMode(state)
+        state = musicPreferencesUseCase.getRepeatMode()
         Log.v(TAG, "setup state=$state")
     }
 
-    fun getState(): Int = musicPreferencesUseCase.getRepeatMode()
+    fun isRepeatNone(): Boolean = state == REPEAT_MODE_NONE
 
-    // TODO blocking io call, i think is the same in shuffle
-    fun isRepeatNone(): Boolean = getState() == REPEAT_MODE_NONE
+    fun isRepeatOne(): Boolean = state == REPEAT_MODE_ONE
 
-    fun isRepeatOne(): Boolean = getState() == REPEAT_MODE_ONE
-
-    fun isRepeatAll(): Boolean = getState() == REPEAT_MODE_ALL
+    fun isRepeatAll(): Boolean = state == REPEAT_MODE_ALL
 
     fun update() {
-        val oldState = getState()
+        val oldState = state
 
-        val newState = when (oldState) {
+        this.state = when (oldState) {
             REPEAT_MODE_NONE -> REPEAT_MODE_ALL
             REPEAT_MODE_ALL -> REPEAT_MODE_ONE
             else -> REPEAT_MODE_NONE
         }
 
-        musicPreferencesUseCase.setRepeatMode(newState)
-        mediaSession.setRepeatMode(newState)
 
-        Log.v(TAG, "update old state=$oldState, new state=$newState")
+        Log.v(TAG, "update old state=$oldState, new state=${this.state}")
     }
 
 }

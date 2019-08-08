@@ -1,12 +1,12 @@
 package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_ALL
-import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_NONE
+import android.support.v4.media.session.PlaybackStateCompat.*
 import android.util.Log
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @PerService
 internal class MusicServiceShuffleMode @Inject constructor(
@@ -19,13 +19,17 @@ internal class MusicServiceShuffleMode @Inject constructor(
         private val TAG = "SM:${MusicServiceShuffleMode::class.java.simpleName}"
     }
 
+    private var state by Delegates.observable(SHUFFLE_MODE_INVALID) { _, _, new ->
+        musicPreferencesUseCase.setShuffleMode(new)
+        mediaSession.setShuffleMode(new)
+    }
+
     init {
-        val state = getState()
-        mediaSession.setShuffleMode(state)
+        state = musicPreferencesUseCase.getShuffleMode()
         Log.v(TAG, "setup state=$state")
     }
 
-    fun isEnabled(): Boolean = getState() != SHUFFLE_MODE_NONE
+    fun isEnabled(): Boolean = state != SHUFFLE_MODE_NONE
 
     fun setEnabled(enabled: Boolean) {
         Log.v(TAG, "set enabled=$enabled")
@@ -34,26 +38,21 @@ internal class MusicServiceShuffleMode @Inject constructor(
         mediaSession.setShuffleMode(shuffleMode)
     }
 
-    fun getState(): Int = musicPreferencesUseCase.getShuffleMode()
-
     /**
      * @return true if new shuffle state is enabled
      */
     fun update(): Boolean {
-        val oldState = getState()
+        val oldState = state
 
-        val newState = if (oldState == SHUFFLE_MODE_NONE) {
+        this.state = if (oldState == SHUFFLE_MODE_NONE) {
             SHUFFLE_MODE_ALL
         } else {
             SHUFFLE_MODE_NONE
         }
 
-        musicPreferencesUseCase.setShuffleMode(newState)
-        mediaSession.setShuffleMode(newState)
+        Log.v(TAG, "update old state=$oldState, new state=${this.state}")
 
-        Log.v(TAG, "update old state=$oldState, new state=$newState")
-
-        return newState != SHUFFLE_MODE_NONE
+        return this.state != SHUFFLE_MODE_NONE
     }
 
 }
