@@ -344,7 +344,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
-        // TODO
         assertBackgroundThread()
 
         val queue = playingQueue.toList() // work on a copy
@@ -374,8 +373,8 @@ internal class QueueImpl @Inject constructor(
         assertBackgroundThread()
         val queue = playingQueue.toList() // work on a copy
 
-        val before = queue.take(currentSongPosition)
-        val after = queue.drop(currentSongPosition)
+        val before = queue.take(currentSongPosition + 1)
+        val after = queue.drop(currentSongPosition + 1)
 
         var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
 
