@@ -103,13 +103,6 @@ class MainActivity : MusicGlueActivity(),
         }
 
         intent?.let { handleIntent(it) }
-
-        viewModel.observeHasPlayingQueue()
-            .subscribe(this) { hasPlayingQueue ->
-                val state = if (hasPlayingQueue) BottomSheetBehavior.STATE_COLLAPSED
-                else BottomSheetBehavior.STATE_HIDDEN
-                getSlidingPanel().state = state
-            }
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
