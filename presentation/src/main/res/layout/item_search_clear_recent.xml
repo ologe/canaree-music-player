@@ -18,6 +18,7 @@
         android:text="@string/search_clear_recent_searches"
         android:textSize="@dimen/item_search_footer_text_size"
         android:padding="12dp"
+        android:layout_marginBottom="12dp"
         android:gravity="center"
         android:textColor="?android:textColorPrimary"
         app:fontFamily="sans-serif-black"
