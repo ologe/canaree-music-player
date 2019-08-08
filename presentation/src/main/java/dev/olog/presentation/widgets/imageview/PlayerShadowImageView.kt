@@ -23,7 +23,7 @@ class PlayerShadowImageView(
         private const val DEFAULT_COLOR = -1
         private const val BRIGHTNESS = -25f
         private const val SATURATION = 1.3f
-        private const val TOP_OFFSET = 2.2f
+        private const val TOP_OFFSET = 1.8f
         private const val PADDING = 22f
         internal const val DOWNSCALE_FACTOR = 0.2f
     }
