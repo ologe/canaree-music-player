@@ -31,7 +31,11 @@ class DeleteUseCase @Inject constructor(
             mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryId)
             else -> {
                 val songList = getSongListByParamUseCase(mediaId)
-                songGateway.deleteGroup(songList)
+                if (mediaId.isAnyPodcast){
+                    podcastGateway.deleteGroup(songList)
+                } else {
+                    songGateway.deleteGroup(songList)
+                }
             }
         }
     }
