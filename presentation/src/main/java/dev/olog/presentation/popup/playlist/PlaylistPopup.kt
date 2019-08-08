@@ -41,6 +41,8 @@ class PlaylistPopup(
                 menu.removeItem(R.id.playShuffle)
                 menu.removeItem(R.id.addToFavorite)
                 menu.removeItem(R.id.addToPlaylist)
+                menu.removeItem(R.id.playLater)
+                menu.removeItem(R.id.playNext)
             }
         } else {
             if (playlist.id == AutoPlaylist.FAVORITE.id) {
