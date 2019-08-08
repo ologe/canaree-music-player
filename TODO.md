@@ -12,9 +12,7 @@
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
 
 ### urgent bug
-- after creating 'new playlist' from + button, bottom navigation disappears
 - crashes when there are no tracks
-- check if buy premium works
 
 ## DONE
 - fix android auto not working
