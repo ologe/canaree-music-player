@@ -22,7 +22,9 @@
         android:textColor="?android:textColorPrimary"
         android:textSize="20dp"
         tools:text="FLAT"
-        android:drawableEnd="@drawable/vd_arrow_down"/>
+        android:drawableEnd="@drawable/vd_arrow_down"
+        android:drawableTint="?android:textColorPrimary"
+        tools:ignore="UnusedAttribute" />
 
     <ImageButton
         android:id="@+id/delete"
@@ -69,7 +71,6 @@
         android:clickable="true"
         android:focusable="true"/>
 
-    <!--        TODO night mode-->
     <dev.olog.presentation.widgets.equalizer.croller.Croller
         android:id="@+id/bassKnob"
         android:layout_width="150dp"
@@ -81,7 +82,7 @@
         app:layout_constraintVertical_bias=".7"
         app:main_circle_color="#EDEDED"
         app:back_circle_color="#EDEDED"
-        app:indicator_color="?android:textColorPrimary"
+        app:indicator_color="#000"
         app:indicator_width="10"
         app:progress_primary_color="?android:textColorPrimary"
         app:progress_secondary_color="@color/progressBackgroundTint"
@@ -103,7 +104,7 @@
         app:layout_constraintVertical_bias=".7"
         app:main_circle_color="#EDEDED"
         app:back_circle_color="#EDEDED"
-        app:indicator_color="?android:textColorPrimary"
+        app:indicator_color="#000"
         app:indicator_width="10"
         app:progress_primary_color="?android:textColorPrimary"
         app:progress_secondary_color="@color/progressBackgroundTint"

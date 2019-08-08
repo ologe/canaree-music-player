@@ -29,7 +29,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/seekbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/transparent_black"/>
+        android:background="@color/textColorPrimary"
+        android:alpha=".8"/>
 
     <TextView
         android:id="@+id/frequency"

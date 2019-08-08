@@ -1,5 +1,6 @@
 ## TODO
 - check mediastore insert/update/delete on Android Q
+- try app on all API level
 
 ## TODO for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
