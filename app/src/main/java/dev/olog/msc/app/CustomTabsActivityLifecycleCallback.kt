@@ -9,14 +9,14 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
 
     private var tabHelper : CustomTabsHelper? = null
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         tabHelper = CustomTabsHelper()
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
     }
 
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         try {
             tabHelper?.bindCustomTabsService(activity)
         } catch (ex: Throwable){
@@ -25,7 +25,7 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
 
     }
 
-    override fun onActivityPaused(activity: Activity?) {
+    override fun onActivityPaused(activity: Activity) {
         try {
             tabHelper?.unbindCustomTabsService(activity)
         } catch (ex: Throwable){
@@ -34,15 +34,15 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
 
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
 
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
+    override fun onActivityDestroyed(activity: Activity) {
 
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
 
     }
 }
