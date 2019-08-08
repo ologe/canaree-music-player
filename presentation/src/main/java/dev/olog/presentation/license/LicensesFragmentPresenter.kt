@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LicenseModel
 
-class LicensesFragmentPresenter (private val context: Context) {
+class LicensesFragmentPresenter(private val context: Context) {
 
     private val cachedLicenses = mutableMapOf<String, String>()
 
@@ -21,6 +21,13 @@ class LicensesFragmentPresenter (private val context: Context) {
         MediaId.headerId("android support"),
         "Android Support Libraries",
         "https://developer.android.com/topic/libraries/support-library/index.html",
+        apache()
+    )
+
+    private val KOTLIN_COROUTINES = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("coroutines"),
+        "kotlinx.coroutines", "https://github.com/Kotlin/kotlinx.coroutines",
         apache()
     )
 
@@ -171,84 +178,149 @@ class LicensesFragmentPresenter (private val context: Context) {
         gnu()
     )
 
-    val data : List<LicenseModel> = listOf(
-            ANDROID_OPEN_SOURCE_PROJECT,
-            ANDROID_SUPPORT_LIBRARIES,
-            DAGGER,
-            RX_JAVA,
-            EXO_PLAYER,
-            HOVER,
-            LOTTIE,
-            GLIDE,
-            BETTER_PICKERS,
-            FUZZY_WUZZY,
-            GSON,
-            RETROFIT,
-            OK_HTTP,
-            J_AUDIO_TAGGER,
-            TAP_TARGET_VIEW,
-            AES_CRYPTO,
-            LAST_FM_BINDING,
-            CUSTOM_TABS,
-            LEAK_CANARY,
-            MATERIAL_DIALOGS,
-            LIBAVCODEC,
-            LIBAVRESAMPLE,
-            LIBAVUTIL
+    private val SCROLL_HELPER = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("scroll helper"),
+        "Scroll Helper", "https://github.com/ologe/scroll-helper",
+        mit()
+    )
+
+    private val BLUR_KIT = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("blurkit"),
+        "BlurKit", "https://github.com/CameraKit/blurkit-android",
+        mit()
+    )
+
+    private val COLOR_DESATURATION = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("color desaturation"),
+        "Color desaturation", "https://github.com/ologe/color-desaturation",
+        mit()
+    )
+
+    private val CONTENT_RESOLVER_SQL = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("content resolver sql"),
+        "Content Resolver SQL", "https://github.com/ologe/android-content-resolver-SQL",
+        mit()
+    )
+
+    private val STETHO = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("stetho"),
+        "Stetho", "https://github.com/facebook/stetho",
+        mit()
+    )
+
+    private val FRITZ_AI = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("fritz ai"),
+        "Fritz", "https://github.com/fritzlabs/fritz-repository",
+        apache()
+    )
+
+    val data: List<LicenseModel> = listOf(
+        ANDROID_OPEN_SOURCE_PROJECT,
+        ANDROID_SUPPORT_LIBRARIES,
+
+        // core
+        KOTLIN_COROUTINES,
+        DAGGER,
+        RX_JAVA, // TODO remove after room supports flow/channel
+
+        // audio
+        EXO_PLAYER,
+        J_AUDIO_TAGGER,
+        LIBAVCODEC,
+        LIBAVRESAMPLE,
+        LIBAVUTIL,
+
+        // ui
+        GLIDE,
+        LOTTIE,
+        CUSTOM_TABS,
+        MATERIAL_DIALOGS,
+        SCROLL_HELPER,
+        COLOR_DESATURATION,
+        BLUR_KIT,
+        TAP_TARGET_VIEW,
+        BETTER_PICKERS,
+
+        // ai
+        FRITZ_AI,
+
+        // data
+        CONTENT_RESOLVER_SQL,
+
+        // network
+        OK_HTTP,
+        RETROFIT,
+        GSON,
+
+        // utils
+        LAST_FM_BINDING,
+        AES_CRYPTO,
+        FUZZY_WUZZY,
+        HOVER,
+
+        // debug
+        LEAK_CANARY,
+        STETHO
     )
 
     private fun apache(): String {
         return cachedLicenses.getOrPut("apache") {
             context.assets
-                    .open("licenses/apache.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/apache.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 
     private fun mit(): String {
         return cachedLicenses.getOrPut("mit") {
             context.assets
-                    .open("licenses/mit.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/mit.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 
     private fun gnu(): String {
         return cachedLicenses.getOrPut("gnu") {
             context.assets
-                    .open("licenses/gnu.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/gnu.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 
     private fun jAudioTagger(): String {
         return cachedLicenses.getOrPut("jaudiotagger") {
             context.assets
-                    .open("licenses/jaudiotagger.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/jaudiotagger.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 
 
-    private fun glide(): String{
+    private fun glide(): String {
         return cachedLicenses.getOrPut("glide") {
             context.assets
-                    .open("licenses/glide.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/glide.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 
-    private fun lastFmBinding(): String{
+    private fun lastFmBinding(): String {
         return cachedLicenses.getOrPut("lastfm") {
             context.assets
-                    .open("licenses/lastfm.txt")
-                    .bufferedReader()
-                    .use { it.readText() }
+                .open("licenses/lastfm.txt")
+                .bufferedReader()
+                .use { it.readText() }
         }
     }
 

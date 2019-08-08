@@ -71,11 +71,12 @@ If you find any problems, please feel free to file an [issue](https://github.com
 * [**ExoPlayer**](https://github.com/google/ExoPlayer)
 * [**Dagger**](https://github.com/google/dagger)
 * [**RxJava**](https://github.com/ReactiveX/RxJava)
-* [**support-optional**](https://github.com/dmstocking/support-optional)
+* [**kotlinx.coroutines**](https://github.com/Kotlin/kotlinx.coroutines)
+* [**Scroll helper**](https://github.com/ologe/scroll-helper)
+* [**Color desaturation**](https://github.com/ologe/color-desaturation)
+* [**Content resolver SQL**](https://github.com/ologe/android-content-resolver-SQL)
 * [**Glide**](https://github.com/bumptech/glide)
-* [**AndroidSlidingUpPanel**](https://github.com/umano/AndroidSlidingUpPanel)
 * [**Lottie**](https://github.com/airbnb/lottie-android)
-* [**sqlbrite**](https://github.com/square/sqlbrite)
 * [**Retrofit**](https://github.com/square/retrofit)
 * [**OkHttp**](https://github.com/square/okhttp)
 * [**Gson**](https://github.com/google/gson)
@@ -86,6 +87,7 @@ If you find any problems, please feel free to file an [issue](https://github.com
 * [**fuzzywuzzy**](https://github.com/xdrop/fuzzywuzzy)
 * [**Leak canary**](https://github.com/square/leakcanary)
 * [**Stetho**](http://facebook.github.io/stetho/)
+* [**Fritz SDK**](https://github.com/fritzlabs/fritz-repository)
 
 ## Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=dev.olog.msc)
