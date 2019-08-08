@@ -59,8 +59,8 @@ class RenameDialog : BaseEditTextDialog() {
         var message: String
         try {
             presenter.execute(mediaId, string)
-            message = successMessage(act, string).toString()
-        } catch (ex: Exception) {
+            message = successMessage(act, string)
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             message = getString(R.string.popup_error_message)
         }

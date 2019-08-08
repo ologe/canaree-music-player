@@ -60,7 +60,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
         try {
             presenter.execute(mediaId, string)
             message = successMessage(act, string).toString()
-        } catch (ex: Exception) {
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             message = getString(R.string.popup_error_message)
         }

@@ -65,7 +65,8 @@ class PlayNextDialog : BaseDialog() {
                 val mediaController = MediaControllerCompat.getMediaController(act)
                 presenter.execute(mediaController, mediaId)
                 message = successMessage(act)
-            } catch (ex: Exception) {
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
                 message = failMessage(act)
             }
             act.toast(message)

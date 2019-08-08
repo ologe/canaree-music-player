@@ -50,7 +50,8 @@ class ClearPlaylistDialog : BaseDialog() {
             try {
                 presenter.execute(mediaId)
                 message = successMessage(act)
-            } catch (ex: Exception) {
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
                 message = failMessage(act)
             }
             act.toast(message)

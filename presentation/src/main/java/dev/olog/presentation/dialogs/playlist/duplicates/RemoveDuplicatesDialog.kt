@@ -48,7 +48,8 @@ class RemoveDuplicatesDialog: BaseDialog() {
                 val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
                 presenter.execute(mediaId)
                 message = successMessage(act)
-            } catch (ex: Exception) {
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
                 message = failMessage(act)
             }
             act.toast(message)
