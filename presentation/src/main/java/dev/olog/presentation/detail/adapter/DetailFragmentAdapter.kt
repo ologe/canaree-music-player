@@ -242,7 +242,7 @@ internal class DetailFragmentAdapter(
 
     val canSwipeRight: Boolean
         get() {
-            if (mediaId.isPlaylist) {
+            if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
                 val playlistId = mediaId.resolveId
                 return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
                     playlistId
@@ -252,9 +252,6 @@ internal class DetailFragmentAdapter(
         }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean {
-        if (mediaId.isPodcastPlaylist) {
-            return false
-        }
         return viewType == R.layout.item_detail_song ||
                 viewType == R.layout.item_detail_song_with_drag_handle ||
                 viewType == R.layout.item_detail_song_with_track ||

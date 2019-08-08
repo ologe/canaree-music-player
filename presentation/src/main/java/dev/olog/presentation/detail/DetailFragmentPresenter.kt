@@ -20,7 +20,7 @@ class DetailFragmentPresenter @Inject constructor(
     suspend fun removeFromPlaylist(item: DisplayableTrack) {
         mediaId.assertPlaylist()
         val playlistId = mediaId.categoryId
-        val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
+        val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
             removeFromPlaylistUseCase(
