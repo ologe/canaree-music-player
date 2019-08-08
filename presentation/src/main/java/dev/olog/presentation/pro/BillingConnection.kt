@@ -1,5 +1,6 @@
 package dev.olog.presentation.pro
 
+import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -34,6 +35,8 @@ internal abstract class BillingConnection(
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
+                Log.v("Billing", "billing connection response code=${billingResult.responseCode}, " +
+                        "error=${billingResult.debugMessage}")
                 when (billingResult.responseCode){
                     BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
                         activity.toast(R.string.network_timeout)
