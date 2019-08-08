@@ -27,22 +27,19 @@
 # Reduce the size of the output some more.
 -allowaccessmodification
 
-# SlidingPanel weird warning
--dontwarn android.graphics.Canvas
-
--classobfuscationdictionary windows.txt
--packageobfuscationdictionary windows.txt
-
 -dontwarn com.google.errorprone.annotations.*
 
-#jaudiotagger
+# SHRINK ONLY
+-dontobfuscate
+
+# J-AUDIO-TAGGER
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
 
-#glide
+# GLIDE
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
@@ -54,9 +51,7 @@
 
 
 
-
 # RETROFIT
-
 
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.
