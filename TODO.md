@@ -11,6 +11,9 @@
 - figure out how to change preference switch track disabled color
 - on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
 
+### bug
+- merged images don't update after content change
+
 ### urgent bug
 - crashes when there are no tracks
 
