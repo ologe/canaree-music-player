@@ -3,7 +3,6 @@ package dev.olog.data.repository
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.provider.BaseColumns
 import android.provider.MediaStore.Audio.Playlists
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.dagger.ApplicationContext
@@ -56,18 +55,17 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
         var lastPlayOrder = cursor.use {
             if (it.moveToFirst()) {
-                it.getInt(0) + 1
+                it.getInt(0)
             } else {
-                1
+                0
             }
         }
 
-        val arrayOf = mutableListOf<ContentValues>()
-        for (songId in songIds) {
-            val values = ContentValues(2)
-            values.put(Playlists.Members.PLAY_ORDER, lastPlayOrder++)
-            values.put(Playlists.Members.AUDIO_ID, songId)
-            arrayOf.add(values)
+        val arrayOf = songIds.map { songId ->
+            ContentValues(2).apply {
+                put(Playlists.Members.PLAY_ORDER, ++lastPlayOrder)
+                put(Playlists.Members.AUDIO_ID, songId)
+            }
         }
 
         handleRecoverableSecurityException {
@@ -77,11 +75,8 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun deletePlaylist(playlistId: Long) {
-        context.contentResolver.delete(
-            Playlists.EXTERNAL_CONTENT_URI,
-            "${BaseColumns._ID} = ?",
-            arrayOf("$playlistId")
-        )
+        val uri = ContentUris.withAppendedId(Playlists.EXTERNAL_CONTENT_URI, playlistId)
+        context.contentResolver.delete(uri, null, null)
     }
 
     override suspend fun clearPlaylist(playlistId: Long) {
@@ -102,11 +97,8 @@ internal class PlaylistRepositoryHelper @Inject constructor(
             removeFromAutoPlaylist(playlistId, idInPlaylist)
         } else {
             val uri = Playlists.Members.getContentUri("external", playlistId)
-            context.contentResolver.delete(
-                uri,
-                "${Playlists.Members._ID} = ?",
-                arrayOf("$idInPlaylist")
-            )
+            val trackUri = ContentUris.withAppendedId(uri, idInPlaylist)
+            context.contentResolver.delete(trackUri, null, null)
         }
     }
 
@@ -119,16 +111,12 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun renamePlaylist(playlistId: Long, newTitle: String) {
+        val uri = ContentUris.withAppendedId(Playlists.EXTERNAL_CONTENT_URI, playlistId)
         val values = ContentValues(1).apply {
             put(Playlists.NAME, newTitle)
         }
 
-        context.contentResolver.update(
-            Playlists.EXTERNAL_CONTENT_URI,
-            values,
-            "${BaseColumns._ID} = ?",
-            arrayOf("$playlistId")
-        )
+        context.contentResolver.update(uri, values, null, null)
     }
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
@@ -137,23 +125,23 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     override suspend fun removeDuplicated(playlistId: Long) {
         val uri = Playlists.Members.getContentUri("external", playlistId)
-        val cursor = context.contentResolver.query(
-            uri, arrayOf(
-                Playlists.Members._ID,
-                Playlists.Members.AUDIO_ID
-            ), null, null, Playlists.Members.DEFAULT_SORT_ORDER
-        )
+        val sql = """
+            SELECT ${Playlists.Members._ID}, ${Playlists.Members.AUDIO_ID}
+            FROM $uri
+            
+        """.trimIndent()
+        val tracksId = context.contentResolver.querySql(sql).use { cursor ->
+            val distinctTrackIds = mutableSetOf<Long>()
 
-        val distinctTrackIds = mutableSetOf<Long>()
-
-        while (cursor != null && cursor.moveToNext()) {
-            val trackId = cursor.getLong(Playlists.Members.AUDIO_ID)
-            distinctTrackIds.add(trackId)
+            while (cursor.moveToNext()) {
+                val trackId = cursor.getLong(Playlists.Members.AUDIO_ID)
+                distinctTrackIds.add(trackId)
+            }
+            distinctTrackIds
         }
-        cursor?.close()
 
         context.contentResolver.delete(uri, null, null)
-        addSongsToPlaylist(playlistId, distinctTrackIds.toList())
+        addSongsToPlaylist(playlistId, tracksId.toList())
     }
 
     override suspend fun insertSongToHistory(songId: Long) {
