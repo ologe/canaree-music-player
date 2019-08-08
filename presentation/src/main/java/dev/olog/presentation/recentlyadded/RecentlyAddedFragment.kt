@@ -23,10 +23,12 @@ import javax.inject.Inject
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
-        const val TAG = "RecentlyAddedFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        @JvmStatic
+        val TAG = RecentlyAddedFragment::class.java.name
+        @JvmStatic
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-
+        @JvmStatic
         fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId.toString()

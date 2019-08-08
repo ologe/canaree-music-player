@@ -19,10 +19,12 @@ import javax.inject.Inject
 class RelatedArtistFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "RelatedArtistFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        @JvmStatic
+        val TAG = RelatedArtistFragment::class.java.name
+        @JvmStatic
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-
+        @JvmStatic
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId.toString()
