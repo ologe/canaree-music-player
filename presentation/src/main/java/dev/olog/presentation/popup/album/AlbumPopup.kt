@@ -6,7 +6,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.intents.AppConstants
 
 class AlbumPopup(
     view: View,
@@ -26,18 +25,6 @@ class AlbumPopup(
         addPlaylistChooser(view.context, listener.playlists)
 
         setOnMenuItemClickListener(listener)
-
-        if (song == null) {
-            if (album.artist == AppConstants.UNKNOWN) {
-                menu.removeItem(R.id.viewArtist)
-            }
-        } else {
-            menu.removeItem(R.id.viewAlbum)
-
-            if (song.artist == AppConstants.UNKNOWN) {
-                menu.removeItem(R.id.viewArtist)
-            }
-        }
     }
 
 }

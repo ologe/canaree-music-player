@@ -3,7 +3,6 @@ package dev.olog.presentation.popup.artist
 import android.view.View
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -26,14 +25,6 @@ class ArtistPopup(
         addPlaylistChooser(view.context, listener.playlists)
 
         setOnMenuItemClickListener(listener)
-
-        if (song != null) {
-            menu.removeItem(R.id.viewArtist)
-
-            if (song.album == AppConstants.UNKNOWN) {
-                menu.removeItem(R.id.viewAlbum)
-            }
-        }
     }
 
 }
