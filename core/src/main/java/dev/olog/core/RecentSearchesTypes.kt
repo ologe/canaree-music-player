@@ -1,6 +1,5 @@
 package dev.olog.core
 
-// TODO
 object RecentSearchesTypes {
     const val SONG = 0
     const val ARTIST = 1
