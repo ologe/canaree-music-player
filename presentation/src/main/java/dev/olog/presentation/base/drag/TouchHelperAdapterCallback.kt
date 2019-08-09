@@ -96,7 +96,7 @@ class TouchHelperAdapterCallback(
                 getDefaultUIUtil().onDraw(
                     canvas,
                     recyclerView,
-                    viewHolder.itemView.content, // TODO bad, find a way to cache
+                    viewHolder.itemView.content,
                     dX,
                     dY,
                     actionState,

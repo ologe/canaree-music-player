@@ -138,8 +138,6 @@ class AboutFragmentPresenter(
     fun buyPro() {
         if (!billing.getBillingsState().isPremiumStrict()) {
             billing.purchasePremium()
-        } else {
-            // TODO show toast with already purchased
         }
     }
 }
