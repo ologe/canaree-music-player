@@ -35,6 +35,8 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -134,9 +136,12 @@ class MainActivity : MusicGlueActivity(),
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             Shortcuts.DETAIL -> {
-                val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
-                val mediaId = MediaId.fromString(string)
-                navigator.toDetailFragment(mediaId)
+                launch {
+                    delay(250)
+                    val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
+                    val mediaId = MediaId.fromString(string)
+                    navigator.toDetailFragment(mediaId)
+                }
             }
             Intent.ACTION_VIEW -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
