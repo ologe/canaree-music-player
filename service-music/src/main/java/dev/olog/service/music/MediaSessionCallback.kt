@@ -69,7 +69,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onEmptyQueue() {
-        TODO()
+        // TODO
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
