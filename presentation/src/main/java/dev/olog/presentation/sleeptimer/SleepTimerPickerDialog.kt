@@ -54,7 +54,6 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
         toggleButtons(sleepTime > 0)
 
-        // TODO check if works properly
         if (sleepTime > 0) {
 
             countDownDisposable = launch {

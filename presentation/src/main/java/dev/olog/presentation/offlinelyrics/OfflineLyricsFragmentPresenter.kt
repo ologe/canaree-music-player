@@ -2,6 +2,7 @@ package dev.olog.presentation.offlinelyrics
 
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
@@ -18,16 +19,16 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
     private var currentTitle: String = ""
     private var currentArtist: String = ""
 
-    fun updateCurrentMetadata(title: String, artist: String){
+    fun updateCurrentMetadata(title: String, artist: String) {
         this.currentTitle = title
         this.currentArtist = artist
     }
 
     fun getInfoMetadata(): String {
         var result = currentTitle
-//        if (currentArtist != AppConstants.UNKNOWN_ARTIST){ TODO
-//            result += " $currentArtist"
-//        }
+        if (currentArtist != AppConstants.UNKNOWN) {
+            result += " $currentArtist"
+        }
         result += " lyrics"
         return result
     }
