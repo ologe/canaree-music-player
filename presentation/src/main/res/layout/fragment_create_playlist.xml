@@ -115,7 +115,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_create_playlist" />
+        tools:listitem="@layout/item_create_playlist"
+        android:clipToPadding="false"/>
 
     <dev.olog.presentation.widgets.fascroller.RxWaveSideBarView
         android:id="@+id/sidebar"
