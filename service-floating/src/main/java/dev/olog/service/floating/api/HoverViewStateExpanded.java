@@ -152,7 +152,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
                 chainedTab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: is not stable and is crashing.
                         onTabSelected(chainedTab);
                     }
                 });
@@ -178,8 +177,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
             final TabChain tabChain = mTabChains.get(i);
 
             if (i == 0) {
-                // TODO: generalize the notion of a predecessor so that the 1st tab doesn't need
-                // TODO: to be treated in a special way.
                 tabChain.chainTo(mDock);
                 tabChain.tightenChain(!animateSelectedTab);
             } else {
@@ -236,7 +233,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
         unchainTabs(() -> {
             Log.d(TAG, "Running unchained runnable.");
             // We wait to nullify our HoverMenuView because some final animations need it.
-            // TODO: maybe the answer is for the collapse state to handle what happens to the tabs and content display and shade?
             mHoverView = null;
         });
     }
@@ -356,8 +352,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
     }
 
     private void transitionDisplayFromOldMenuToNew() {
-        // TODO: implement a generalized display update mechanism rather than have sprawling update
-        // TODO: logic throughout this Class.
         for (int i = 0; i < mHoverView.mMenu.getSectionCount(); ++i) {
             if (i < mChainedTabs.size()) {
                 updateSection(i);
@@ -494,7 +488,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
             selectSection(mHoverView.mMenu.getSection(newSelectionIndex));
         }
 
-        // TODO: This cleanup should be centralized.
         chainedTab.setOnClickListener(null);
         mSections.remove(chainedTab);
     }
@@ -533,7 +526,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
         contentDisplay.displayContent(section.getContent());
     }
 
-    // TODO: do we need this?
     public void setListener(@NonNull Listener listener) {
         mListener = listener;
     }
@@ -543,7 +535,6 @@ class HoverViewStateExpanded extends BaseHoverViewState {
 
         void onExpanded();
 
-        // TODO: do we need this?
         void onCollapseRequested();
     }
 }

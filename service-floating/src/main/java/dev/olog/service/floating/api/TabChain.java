@@ -104,7 +104,6 @@ class TabChain {
         moveToChainedPosition(immediate);
 
         if (null != mPredecessorTab) {
-            // TODO: need to only add this once.
             mPredecessorTab.addOnPositionChangeListener(mOnPredecessorPositionChange);
         }
     }

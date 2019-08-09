@@ -64,13 +64,8 @@ internal class ExitView constructor(
 
         mExitIcon = findViewById(R.id.view_exit)
 
-        mExitRadiusInPx = context.dimen(R.dimen.hover_exit_radius) // todo increase radius?
+        mExitRadiusInPx = context.dimen(R.dimen.hover_exit_radius)
 
-        drawUnderNavigationBar()
-    }
-
-    private fun drawUnderNavigationBar() {
-        // todo enable drawing under navigation bar
     }
 
     fun isInExitZone(position: Point): Boolean {

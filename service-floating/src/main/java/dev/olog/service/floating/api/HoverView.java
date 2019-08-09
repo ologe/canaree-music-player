@@ -239,11 +239,9 @@ public class HoverView extends RelativeLayout {
         persistentState.restore(this, mMenu);
     }
 
-    // TODO: when to call this?
     public void release() {
         Log.d(TAG, "Released.");
         mDragger.deactivate();
-        // TODO: should we also release the screen?
     }
 
     public void enableDebugMode(boolean debugMode) {

@@ -163,7 +163,6 @@ public class InWindowDragger implements Dragger {
     }
 
     private void createTouchControlView(@NonNull final Point dragStartCenterPosition) {
-        // TODO: define dimen size
         mDragView = new View(mContext);
         mWindowViewController.addView(mTouchAreaDiameter, mTouchAreaDiameter, true, mDragView);
         mWindowViewController.moveViewTo(mDragView, dragStartCenterPosition.x - (mTouchAreaDiameter / 2), dragStartCenterPosition.y - (mTouchAreaDiameter / 2));

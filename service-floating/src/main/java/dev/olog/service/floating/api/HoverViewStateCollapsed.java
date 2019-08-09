@@ -194,7 +194,6 @@ class HoverViewStateCollapsed extends BaseHoverViewState {
                 Log.d(TAG, "onRemoved. Position: " + position + ", Count: " + count);
                 if (mSelectedSectionIndex == position) {
                     Log.d(TAG, "Selected tab removed. Displaying a new tab.");
-                    // TODO: externalize a selection strategy for when the selected section disappears
                     mFloatingTab.removeOnLayoutChangeListener(mOnLayoutChangeListener);
                     mHoverView.mScreen.destroyChainedTab(mFloatingTab);
 
@@ -376,7 +375,6 @@ class HoverViewStateCollapsed extends BaseHoverViewState {
 
         void onTap();
 
-        // TODO: do we need this?
         void onExited();
     }
 
