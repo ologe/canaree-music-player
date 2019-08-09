@@ -68,7 +68,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     )
                 }
                 header.text = text
-                fab.toggleVisibility(size > 0, true)
+                fab.toggleVisibility(size > 0, false)
             }
 
         viewModel.observeData()
