@@ -36,6 +36,9 @@ import dev.olog.data.db.entities.*
         UsedAlbumImageEntity::class,
         UsedArtistImageEntity::class,
 
+        PlaylistEntity::class,
+        PlaylistTrackEntity::class,
+
         PodcastPlaylistEntity::class,
         PodcastPlaylistTrackEntity::class,
 
@@ -45,7 +48,7 @@ import dev.olog.data.db.entities.*
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 21, exportSchema = true
+    ), version = 16, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
@@ -75,6 +78,7 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun usedImageDao(): UsedImageDao
 
+    abstract fun playlistDao(): PlaylistDao
     abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
     abstract fun podcastPositionDao(): PodcastPositionDao

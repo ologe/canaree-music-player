@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 16,
-    "identityHash": "c0864132abd919f70eb9ce47e361db25",
+    "identityHash": "4632fd5e9038c331f25a352a7f91e606",
     "entities": [
       {
         "tableName": "playing_queue",
@@ -508,8 +508,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "last_fm_track",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `artist` TEXT NOT NULL, `album` TEXT NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "last_fm_track_v2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `artist` TEXT NOT NULL, `album` TEXT NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, `mbid` TEXT NOT NULL, `artistMbid` TEXT NOT NULL, `albumMbid` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -546,6 +546,24 @@
             "columnName": "added",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "mbid",
+            "columnName": "mbid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "artistMbid",
+            "columnName": "artistMbid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "albumMbid",
+            "columnName": "albumMbid",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -556,19 +574,19 @@
         },
         "indices": [
           {
-            "name": "index_last_fm_track_id",
+            "name": "index_last_fm_track_v2_id",
             "unique": false,
             "columnNames": [
               "id"
             ],
-            "createSql": "CREATE  INDEX `index_last_fm_track_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE  INDEX `index_last_fm_track_v2_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
       },
       {
-        "tableName": "last_fm_album",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `artist` TEXT NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "last_fm_album_v2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `artist` TEXT NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, `mbid` TEXT NOT NULL, `wiki` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -599,6 +617,18 @@
             "columnName": "added",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "mbid",
+            "columnName": "mbid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wiki",
+            "columnName": "wiki",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -609,19 +639,19 @@
         },
         "indices": [
           {
-            "name": "index_last_fm_album_id",
+            "name": "index_last_fm_album_v2_id",
             "unique": false,
             "columnNames": [
               "id"
             ],
-            "createSql": "CREATE  INDEX `index_last_fm_album_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE  INDEX `index_last_fm_album_v2_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
       },
       {
-        "tableName": "last_fm_artist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "last_fm_artist_v2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, `added` TEXT NOT NULL, `mbid` TEXT NOT NULL, `wiki` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -640,6 +670,18 @@
             "columnName": "added",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "mbid",
+            "columnName": "mbid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wiki",
+            "columnName": "wiki",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -650,12 +692,12 @@
         },
         "indices": [
           {
-            "name": "index_last_fm_artist_id",
+            "name": "index_last_fm_artist_v2_id",
             "unique": false,
             "columnNames": [
               "id"
             ],
-            "createSql": "CREATE  INDEX `index_last_fm_artist_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE  INDEX `index_last_fm_artist_v2_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -696,7 +738,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_track",
+        "tableName": "used_image_track_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -722,7 +764,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_album",
+        "tableName": "used_image_album_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -748,7 +790,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "used_image_artist",
+        "tableName": "used_image_artist_2",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -772,6 +814,97 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "playlist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `size` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "size",
+            "columnName": "size",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "playlist_tracks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `idInPlaylist` INTEGER NOT NULL, `trackId` INTEGER NOT NULL, `playlistId` INTEGER NOT NULL, FOREIGN KEY(`playlistId`) REFERENCES `playlist`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "idInPlaylist",
+            "columnName": "idInPlaylist",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "trackId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playlistId",
+            "columnName": "playlistId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_playlist_tracks_playlistId",
+            "unique": false,
+            "columnNames": [
+              "playlistId"
+            ],
+            "createSql": "CREATE  INDEX `index_playlist_tracks_playlistId` ON `${TABLE_NAME}` (`playlistId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "playlist",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "playlistId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "podcast_playlist",
@@ -889,12 +1022,135 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "image_version",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mediaId` TEXT NOT NULL, `version` INTEGER NOT NULL, `maxVersionReached` INTEGER NOT NULL, PRIMARY KEY(`mediaId`))",
+        "fields": [
+          {
+            "fieldPath": "mediaId",
+            "columnName": "mediaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxVersionReached",
+            "columnName": "maxVersionReached",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "mediaId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_image_version_mediaId",
+            "unique": false,
+            "columnNames": [
+              "mediaId"
+            ],
+            "createSql": "CREATE  INDEX `index_image_version_mediaId` ON `${TABLE_NAME}` (`mediaId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lyrics_sync_adjustment",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `millis` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "millis",
+            "columnName": "millis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_lyrics_sync_adjustment_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_lyrics_sync_adjustment_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "equalizer_preset",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `bands` TEXT NOT NULL, `isCustom` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bands",
+            "columnName": "bands",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCustom",
+            "columnName": "isCustom",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_equalizer_preset_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_equalizer_preset_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c0864132abd919f70eb9ce47e361db25')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4632fd5e9038c331f25a352a7f91e606')"
     ]
   }
 }

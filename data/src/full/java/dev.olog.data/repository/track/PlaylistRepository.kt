@@ -1,8 +1,6 @@
 package dev.olog.data.repository.track
 
 import android.content.Context
-import android.database.Cursor
-import android.provider.MediaStore
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
@@ -11,68 +9,65 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
+import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
-import dev.olog.data.mapper.toArtist
-import dev.olog.data.mapper.toPlaylist
-import dev.olog.data.mapper.toPlaylistSong
-import dev.olog.data.queries.PlaylistQueries
-import dev.olog.data.repository.BaseRepository
-import dev.olog.data.repository.ContentUri
+import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import dev.olog.data.utils.queryAll
-import dev.olog.data.utils.queryCountRow
-import kotlinx.coroutines.flow.*
+import dev.olog.shared.mapListItem
+import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
+import android.provider.MediaStore.Audio.Playlists.*
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
+import dev.olog.contentresolversql.querySql
+import dev.olog.data.db.entities.PlaylistEntity
+import dev.olog.data.db.entities.PlaylistTrackEntity
+import kotlinx.coroutines.flow.*
 
 internal class PlaylistRepository @Inject constructor(
-    @ApplicationContext context: Context,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
+    @ApplicationContext private val context: Context,
     appDatabase: AppDatabase,
     private val songGateway: SongGateway,
+    private val artistGateway: ArtistGateway,
     private val helper: PlaylistRepositoryHelper,
     private val favoriteGateway: FavoriteGateway
-) : BaseRepository<Playlist, Id>(context),
-    PlaylistGateway, PlaylistOperations by helper {
+) : PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
-    private val queries = PlaylistQueries(contentResolver, blacklistPrefs, sortPrefs)
+    private val playlistDao = appDatabase.playlistDao()
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
 
-    override fun registerMainContentUri(): ContentUri {
-        return ContentUri(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, true)
+    override fun getAll(): List<Playlist> {
+        populatePlaylistTables()
+        assertBackgroundThread()
+        val result = playlistDao.getAllPlaylists()
+        return result.map { it.toDomain() }
     }
 
-    override fun queryAll(): List<Playlist> {
-        assertBackgroundThread()
-        val cursor = queries.getAll()
-        val playlists = contentResolver.queryAll(cursor) { it.toPlaylist() }
-        return playlists.map { playlist ->
-            // get the size for every playlist
-            val sizeQueryCursor = queries.countPlaylistSize(playlist.id)
-            val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            playlist.withSongs(sizeQuery)
-        }
+    override fun observeAll(): Flow<List<Playlist>> {
+        return playlistDao.observeAllPlaylists()
+            .asFlow()
+            .onStart { populatePlaylistTables() }
+            .distinctUntilChanged()
+            .mapListItem { it.toDomain() }
+            .assertBackground()
     }
 
     override fun getByParam(param: Id): Playlist? {
         assertBackgroundThread()
-        val all = if (AutoPlaylist.isAutoPlaylist(param)){
-            getAllAutoPlaylists()
+        return if (AutoPlaylist.isAutoPlaylist(param)){
+            getAllAutoPlaylists().find { it.id == param }
         } else {
-            channel.value
+            playlistDao.getPlaylistById(param)?.toDomain()
         }
-        return all.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Playlist?> {
@@ -80,9 +75,11 @@ internal class PlaylistRepository @Inject constructor(
             return flow { emit(getByParam(param)) }
         }
 
-        return channel.asFlow()
-            .map { it.find { it.id == param } }
+        return playlistDao.observePlaylistById(param)
+            .map { it }
+            .asFlow()
             .distinctUntilChanged()
+            .map { it?.toDomain() }
             .assertBackground()
     }
 
@@ -91,8 +88,8 @@ internal class PlaylistRepository @Inject constructor(
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
-        val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toPlaylistSong() }
+        // TODO sort
+        return playlistDao.getPlaylistTracks(param, songGateway)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -100,11 +97,8 @@ internal class PlaylistRepository @Inject constructor(
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
         }
-
-        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", param)
-        val contentUri = ContentUri(uri, true)
-        return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+        // TODO sort
+        return playlistDao.observePlaylistTracks(param, songGateway)
     }
 
     private fun getAutoPlaylistsTracks(param: Id): List<Song> {
@@ -164,19 +158,63 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
-        val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
-            .distinctUntilChanged()
-            .assertBackground()
-    }
-
-    private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toArtist() }
-            .groupBy { it.id }
-            .map { (_, list) ->
-                val artist = list[0]
-                artist.withSongs(list.size)
+        return observeTrackListByParam(params)
+            .map {  songList ->
+                val artists = songList.groupBy { it.artistId }
+                    .map { it.key }
+                artistGateway.getAll()
+                    .filter { artists.contains(it.id) }
             }
     }
+
+    private fun populatePlaylistTables() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val key = "populated_with_legacy_playlist"
+        val populated = prefs.getBoolean(key, false)
+        if (populated){
+            return
+        }
+        if (playlistDao.getAllPlaylists().isNotEmpty()){
+            return
+        }
+
+        val savedPlaylistSql = """
+                SELECT $_ID, $NAME
+                FROM $EXTERNAL_CONTENT_URI
+                ORDER BY $DEFAULT_SORT_ORDER
+            """
+        context.contentResolver.querySql(savedPlaylistSql).use {
+            while (it.moveToNext()) {
+                val playlistId = it.getLong(0)
+                val playlistName = it.getString(1)
+
+                val playlist = PlaylistEntity(playlistId, playlistName, 0)
+                playlistDao.createPlaylist(playlist)
+                populatePlaylistWithTracks(playlistId)
+            }
+        }
+
+        prefs.edit {
+            putBoolean(key, true)
+        }
+    }
+
+    private fun populatePlaylistWithTracks(playlistId: Long) {
+        val savedPlaylistSql = """
+                SELECT ${Members._ID}, ${Members.AUDIO_ID}
+                FROM ${Members.getContentUri("external", playlistId)}
+                ORDER BY ${Members.DEFAULT_SORT_ORDER}
+            """
+        val tracks = mutableListOf<PlaylistTrackEntity>()
+        context.contentResolver.querySql(savedPlaylistSql).use {
+            while (it.moveToNext()) {
+                val idInPlaylist = it.getLong(0)
+                val trackId = it.getLong(1)
+                val playlistTrack = PlaylistTrackEntity(0, idInPlaylist, trackId, playlistId)
+                tracks.add(playlistTrack)
+            }
+        }
+        playlistDao.insertTracks(tracks)
+    }
+
 }

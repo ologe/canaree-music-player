@@ -28,7 +28,7 @@ interface PlaylistOperations {
 
     suspend fun insertSongToHistory(songId: Long)
 
-    fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
+    suspend fun moveItem(playlistId: Long, from: Int, to: Int)
 
     suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long)
 

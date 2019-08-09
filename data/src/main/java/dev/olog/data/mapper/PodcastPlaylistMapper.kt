@@ -3,6 +3,7 @@
 package dev.olog.data.mapper
 
 import dev.olog.core.entity.track.Playlist
+import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 
 internal inline fun PodcastPlaylistEntity.toDomain(): Playlist {
@@ -11,5 +12,14 @@ internal inline fun PodcastPlaylistEntity.toDomain(): Playlist {
         this.name,
         this.size,
         true
+    )
+}
+
+internal inline fun PlaylistEntity.toDomain(): Playlist {
+    return Playlist(
+        this.id,
+        this.name,
+        this.size,
+        false
     )
 }

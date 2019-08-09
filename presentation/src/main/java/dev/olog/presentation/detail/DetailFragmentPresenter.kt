@@ -35,7 +35,7 @@ class DetailFragmentPresenter @Inject constructor(
         }
     }
 
-    fun moveInPlaylist(from: Int, to: Int){
+    suspend fun moveInPlaylist(from: Int, to: Int){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
         moveItemInPlaylistUseCase.execute(

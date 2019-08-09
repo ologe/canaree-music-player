@@ -153,7 +153,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         toggleSortArrangingUseCase(mediaId.category)
     }
 
-    fun moveItemInPlaylist(from: Int, to: Int) {
+    fun moveItemInPlaylist(from: Int, to: Int) = viewModelScope.launch(Dispatchers.IO) {
         presenter.moveInPlaylist(from, to)
     }
 

@@ -4,9 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.data.db.entities.PodcastPlaylistEntity
-import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import dev.olog.core.gateway.track.SongGateway
+import dev.olog.data.db.entities.PlaylistEntity
+import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import io.reactivex.Flowable
@@ -15,123 +15,131 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.reactive.flow.asFlow
 
 @Dao
-internal abstract class PodcastPlaylistDao {
+internal abstract class PlaylistDao {
 
     @Query("""
         SELECT playlist.*, count(*) as size
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylists(): List<PodcastPlaylistEntity>
+    abstract fun getAllPlaylists(): List<PlaylistEntity>
 
     @Query("""
         SELECT playlist.*, count(*) as size
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun observeAllPlaylists(): Flowable<List<PodcastPlaylistEntity>>
+    abstract fun observeAllPlaylists(): Flowable<List<PlaylistEntity>>
 
     @Query("""
         SELECT playlist.*, count(*) as size
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
-            ON playlist.id = tracks.playlistId
-        where playlist.id = :id
-        GROUP BY playlistId
-    """)
-    abstract fun getPlaylistById(id: Long): PodcastPlaylistEntity?
-
-    @Query("""
-        SELECT playlist.*, count(*) as size
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun observePlaylistById(id: Long): Flowable<PodcastPlaylistEntity?>
+    abstract fun getPlaylistById(id: Long): PlaylistEntity?
+
+    @Query("""
+        SELECT playlist.*, count(*) as size
+        FROM playlist playlist JOIN playlist_tracks tracks
+            ON playlist.id = tracks.playlistId
+        where playlist.id = :id
+        GROUP BY playlistId
+    """)
+    abstract fun observePlaylistById(id: Long): Flowable<PlaylistEntity?>
 
     @Query("""
         SELECT tracks.*
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
         ORDER BY idInPlaylist
     """)
-    abstract fun getPlaylistTracksImpl(playlistId: Long): List<PodcastPlaylistTrackEntity>
+    abstract fun getPlaylistTracksImpl(playlistId: Long): List<PlaylistTrackEntity>
 
-    fun getPlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): List<Song> {
+    fun getPlaylistTracks(playlistId: Long, songGateway: SongGateway): List<Song> {
         assertBackgroundThread()
         val trackList = getPlaylistTracksImpl(playlistId)
-        val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
         return trackList.mapNotNull { entity ->
-            songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+            songList[entity.trackId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
         }
     }
 
     @Query("""
         SELECT tracks.*
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
         ORDER BY idInPlaylist
     """)
-    abstract fun observePlaylistTracksImpl(playlistId: Long): Flowable<List<PodcastPlaylistTrackEntity>>
+    abstract fun observePlaylistTracksImpl(playlistId: Long): Flowable<List<PlaylistTrackEntity>>
 
-    fun observePlaylistTracks(playlistId: Long, podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePlaylistTracks(playlistId: Long, songGateway: SongGateway): Flow<List<Song>> {
         return observePlaylistTracksImpl(playlistId)
             .asFlow()
             .map { trackList ->
-                val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 trackList.mapNotNull { entity ->
-                    songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
+                    songList[entity.trackId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
                 }
             }.assertBackground()
     }
 
     @Query("""
         SELECT max(idInPlaylist)
-        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+        FROM playlist playlist JOIN playlist_tracks tracks
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
     abstract suspend fun getPlaylistMaxId(playlistId: Long): Int?
 
     @Insert
-    abstract suspend fun createPlaylist(playlist: PodcastPlaylistEntity): Long
+    abstract fun createPlaylist(playlist: PlaylistEntity): Long
 
     @Query("""
-        UPDATE podcast_playlist SET name = :name WHERE id = :id
+        UPDATE playlist SET name = :name WHERE id = :id
     """)
     abstract suspend fun renamePlaylist(id: Long, name: String)
 
-    @Query("""DELETE FROM podcast_playlist WHERE id = :id""")
+    @Query("""DELETE FROM playlist WHERE id = :id""")
     abstract suspend fun deletePlaylist(id: Long)
 
     @Insert
-    abstract suspend fun insertTracks(tracks: List<PodcastPlaylistTrackEntity>)
+    abstract fun insertTracks(tracks: List<PlaylistTrackEntity>)
 
     @Query("""
-        DELETE FROM podcast_playlist_tracks
+        DELETE FROM playlist_tracks
         WHERE playlistId = :playlistId AND idInPlaylist = :idInPlaylist
     """)
     abstract suspend fun deleteTrack(playlistId: Long, idInPlaylist: Long)
 
     @Query("""
-        DELETE FROM podcast_playlist_tracks WHERE playlistId = :id
+        DELETE FROM playlist_tracks WHERE playlistId = :id
     """)
     abstract suspend fun clearPlaylist(id: Long)
 
     @Query("""
-        DELETE FROM podcast_playlist_tracks
+        DELETE FROM playlist_tracks
         WHERE EXISTS (
             SELECT count(*) as items
-            FROM podcast_playlist_tracks
+            FROM playlist_tracks
             WHERE playlistId = :id
             GROUP BY id, playlistId
             HAVING items > 1
         )
     """)
     abstract suspend fun removeDuplicated(id: Long)
+
+    @Query("""
+        UPDATE playlist_tracks
+        SET idInPlaylist = CASE WHEN idInPlaylist = :from THEN :to
+                                WHEN idInPlaylist = :to THEN :from END
+        WHERE playlistId = :playlistId
+    """)
+    abstract suspend fun moveItem(playlistId: Long, from: Int, to: Int)
 
 }
