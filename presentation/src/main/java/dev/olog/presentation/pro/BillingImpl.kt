@@ -126,7 +126,6 @@ internal class BillingImpl @Inject constructor(
                 activity.toast(R.string.network_not_available)
             }
 
-            // TODO add missing
             else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +
                     "error=${billingResult.debugMessage}")
         }

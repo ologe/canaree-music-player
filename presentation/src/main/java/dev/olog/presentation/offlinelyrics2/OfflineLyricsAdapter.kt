@@ -28,5 +28,4 @@ internal object DiffCallbackLyricsModel : DiffUtil.ItemCallback<LyricsModel>() {
         return oldItem == newItem
     }
 
-    // TODO on payload change
 }
