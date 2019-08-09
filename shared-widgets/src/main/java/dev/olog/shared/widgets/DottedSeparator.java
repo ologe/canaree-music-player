@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
+
 import androidx.annotation.Nullable;
 
 public class DottedSeparator extends View {
@@ -21,12 +22,7 @@ public class DottedSeparator extends View {
         super(context, attrs, defStyleAttr);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setBackgroundResource(R.drawable.dotted_line);
-//        if (AppTheme.INSTANCE.isDar+kTheme()){
-//            setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-//            setAlpha(.2f);
-//        } else {
-            setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
-            setAlpha(.1f); //TODO move to resource
-//        }
+        setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
+        setAlpha(.1f);
     }
 }
