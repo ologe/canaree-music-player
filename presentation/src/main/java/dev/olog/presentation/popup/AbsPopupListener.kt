@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.net.Uri
 
 abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
@@ -89,9 +90,10 @@ abstract class AbsPopupListener(
     protected fun share(activity: Activity, song: Song) {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForPath(activity, song.path))
+        val uri = FileProvider.getUriForPath(activity, song.path)
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
         intent.type = "audio/*"
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        grantUriPermission(activity, intent, uri)
         try {
             if (intent.resolveActivity(activity.packageManager) != null) {
                 val string = activity.getString(R.string.share_song_x, song.title)
@@ -102,6 +104,20 @@ abstract class AbsPopupListener(
         } catch (ex: Throwable) {
             ex.printStackTrace()
             activity.toast(R.string.song_not_shareable)
+        }
+    }
+
+    private fun grantUriPermission(context: Context, intent: Intent, uri: Uri){
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        val resInfoList = context.packageManager.queryIntentActivities(intent, 0)
+        for (resolveInfo in resInfoList) {
+            val packageName = resolveInfo.activityInfo.packageName
+            context.grantUriPermission(
+                packageName,
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
         }
     }
 
