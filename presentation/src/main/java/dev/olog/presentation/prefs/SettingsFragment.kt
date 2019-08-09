@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
@@ -46,6 +47,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
+
+    @Inject
+    lateinit var imageVersionGateway: ImageVersionGateway
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -195,6 +199,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private suspend fun clearGlideCache() {
         GlideApp.get(ctx.applicationContext).clearMemory()
+
+        withContext(Dispatchers.IO){
+            imageVersionGateway.deleteAll()
+        }
 
         withContext(Dispatchers.IO) {
             GlideApp.get(ctx.applicationContext).clearDiskCache()

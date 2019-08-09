@@ -9,6 +9,8 @@ interface ImageVersionGateway {
     fun setCurrentVersion(mediaId: MediaId, version: Int)
     fun increaseCurrentVersion(mediaId: MediaId)
 
+    fun deleteAll()
+
 }
 
 interface HasImageVersionGateway {

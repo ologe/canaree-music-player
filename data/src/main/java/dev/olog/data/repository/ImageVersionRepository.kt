@@ -46,4 +46,8 @@ internal class ImageVersionRepository @Inject constructor(
             )
         )
     }
+
+    override fun deleteAll() {
+        dao.deleteAll()
+    }
 }

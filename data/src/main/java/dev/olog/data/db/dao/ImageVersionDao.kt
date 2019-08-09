@@ -21,4 +21,9 @@ abstract class ImageVersionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertVersion(version: ImageVersionEntity)
 
+    @Query("""
+        DELETE FROM image_version
+    """)
+    abstract fun deleteAll()
+
 }
