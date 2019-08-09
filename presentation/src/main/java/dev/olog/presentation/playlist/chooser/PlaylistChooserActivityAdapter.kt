@@ -46,7 +46,6 @@ class PlaylistChooserActivityAdapter(
 
         holder.view.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }
