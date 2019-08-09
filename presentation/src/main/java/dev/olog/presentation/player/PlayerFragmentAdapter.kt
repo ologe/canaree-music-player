@@ -105,7 +105,7 @@ internal class PlayerFragmentAdapter(
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
-                viewHolder.itemView.volume.musicPrefs = musicPrefs
+                viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
         }
 

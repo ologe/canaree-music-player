@@ -48,7 +48,7 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
         volumeSlider.max = 100
         volumeSlider.progress = musicPrefs.getVolume()
 
-        val yPosition = arguments!!.getFloat(ARGUMENT_Y_POSITION, -1f)
+        val yPosition = arguments?.getFloat(ARGUMENT_Y_POSITION, -1f) ?: -1f
         if (yPosition > -1){
             card.translationY = yPosition
         }
