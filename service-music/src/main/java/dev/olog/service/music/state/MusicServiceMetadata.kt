@@ -84,8 +84,6 @@ internal class MusicServiceMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-//                .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image) TODO ??
-//                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putString(MusicConstants.PATH, entity.path)
                 .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
                 .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)

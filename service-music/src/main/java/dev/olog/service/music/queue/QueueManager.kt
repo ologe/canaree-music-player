@@ -75,8 +75,6 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    // TODO check what happens when playing a playlist song with multiple copies
-    // TODO of the same song
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
@@ -108,8 +106,6 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    // TODO check what happens when playing a playlist song with multiple copies
-    // TODO of the same song
     override suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity? {
         assertBackgroundThread()
 

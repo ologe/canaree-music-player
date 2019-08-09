@@ -74,7 +74,6 @@ internal class MediaSessionQueue @Inject constructor(
             .setMediaId(mediaId.toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
-//                .setMediaUri(Uri.parse(this.image)) TODO ??
             .build()
 
         return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())

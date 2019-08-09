@@ -31,7 +31,7 @@ internal class LastFmService @Inject constructor() {
 
     init {
         Caller.getInstance().userAgent = "dev.olog.msc"
-        Caller.getInstance().logger.level = Level.OFF // TODO check logs
+        Caller.getInstance().logger.level = Level.OFF
     }
 
     fun tryAutenticate(credentials: UserCredentials) {

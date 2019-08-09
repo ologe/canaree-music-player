@@ -4,8 +4,6 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -19,16 +17,15 @@ import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
-import dev.olog.shared.swap
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
+import dev.olog.shared.swap
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
 
-// TODO move
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
