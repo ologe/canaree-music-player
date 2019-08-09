@@ -16,12 +16,9 @@ import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DetailFragmentViewModel @Inject constructor(
@@ -41,6 +38,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
+
+    private var moveList = mutableListOf<Pair<Int, Int>>()
 
     private val filterChannel = ConflatedBroadcastChannel("")
 
@@ -153,8 +152,13 @@ internal class DetailFragmentViewModel @Inject constructor(
         toggleSortArrangingUseCase(mediaId.category)
     }
 
-    fun moveItemInPlaylist(from: Int, to: Int) = viewModelScope.launch(Dispatchers.IO) {
-        presenter.moveInPlaylist(from, to)
+    fun addMove(from: Int, to: Int){
+        moveList.add(from to to)
+    }
+
+    fun processMove() = viewModelScope.launch {
+        presenter.moveInPlaylist(moveList)
+        moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {

@@ -3,6 +3,7 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.data.db.entities.PodcastPlaylistEntity
@@ -133,5 +134,8 @@ internal abstract class PodcastPlaylistDao {
         )
     """)
     abstract suspend fun removeDuplicated(id: Long)
+
+    @Update
+    abstract suspend fun updateTrackList(list: List<PodcastPlaylistTrackEntity>)
 
 }

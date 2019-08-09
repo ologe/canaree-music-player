@@ -8,6 +8,9 @@ import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.swap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
@@ -76,11 +79,13 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return playlistDao.renamePlaylist(playlistId, newTitle)
     }
 
-    override suspend fun moveItem(playlistId: Long, from: Int, to: Int) {
-        val fromEntity = playlistDao.getTrackIdByIdInPlaylist(playlistId, from)
-        val toEntity = playlistDao.getTrackIdByIdInPlaylist(playlistId, to)
-        playlistDao.updateIdInPlaylist(fromEntity.id, toEntity.idInPlaylist)
-        playlistDao.updateIdInPlaylist(toEntity.id, fromEntity.idInPlaylist)
+    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) = withContext(Dispatchers.IO) {
+        var trackList = playlistDao.getPlaylistTracksImpl(playlistId)
+        for ((from, to) in moveList) {
+            trackList.swap(from, to)
+        }
+        trackList = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+        playlistDao.updateTrackList(trackList)
     }
 
     override suspend fun removeDuplicated(playlistId: Long) {

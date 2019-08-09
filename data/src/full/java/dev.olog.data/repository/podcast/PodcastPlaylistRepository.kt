@@ -20,6 +20,8 @@ import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
+import dev.olog.shared.swap
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
@@ -194,4 +196,15 @@ internal class PodcastPlaylistRepository @Inject constructor(
                     .filter { artists.contains(it.id) }
             }
     }
+
+    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
+        kotlinx.coroutines.withContext(Dispatchers.IO) {
+            var trackList = podcastPlaylistDao.getPlaylistTracksImpl(playlistId)
+            for ((from, to) in moveList) {
+                trackList.swap(from, to)
+            }
+            trackList = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+            podcastPlaylistDao.updateTrackList(trackList)
+        }
+
 }

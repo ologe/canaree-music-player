@@ -3,6 +3,7 @@ package dev.olog.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.PlaylistEntity
@@ -145,13 +146,7 @@ internal abstract class PlaylistDao {
     )
     abstract suspend fun getTrackIdByIdInPlaylist(playlistId: Long, from: Int): PlaylistTrackEntity
 
-    @Query(
-        """
-        UPDATE playlist_tracks
-        SET idInPlaylist = :idInPlaylist
-        WHERE id = :id
-    """
-    )
-    abstract suspend fun updateIdInPlaylist(id: Long, idInPlaylist: Long)
+    @Update
+    abstract suspend fun updateTrackList(list: List<PlaylistTrackEntity>)
 
 }

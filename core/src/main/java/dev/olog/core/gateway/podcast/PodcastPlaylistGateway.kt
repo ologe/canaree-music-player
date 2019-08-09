@@ -25,7 +25,8 @@ interface PodcastPlaylistGateway :
 
     suspend fun removeDuplicated(playlistId: Id)
 
-
     suspend fun insertPodcastToHistory(podcastId: Id)
+
+    suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>)
 
 }

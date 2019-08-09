@@ -259,7 +259,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onClearView() {
-
+        viewModel.processMove()
     }
 
     override fun onMoved(from: Int, to: Int) {
@@ -267,7 +267,7 @@ internal class DetailFragmentAdapter(
         val realTo = to - headers
         dataSet.swap(from, to)
         notifyItemMoved(from, to)
-        viewModel.moveItemInPlaylist(realFrom, realTo)
+        viewModel.addMove(realFrom, realTo)
     }
 
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {

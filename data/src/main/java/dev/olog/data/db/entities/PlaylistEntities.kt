@@ -49,7 +49,7 @@ class PlaylistEntity(
         )
     ]
 )
-class PlaylistTrackEntity(
+data class PlaylistTrackEntity(
     @PrimaryKey(autoGenerate = true)
     @JvmField
     val id: Long = 0, // progressive
@@ -59,27 +59,4 @@ class PlaylistTrackEntity(
     val trackId: Long,
     @JvmField
     val playlistId: Long
-) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as PlaylistTrackEntity
-
-        if (id != other.id) return false
-        if (idInPlaylist != other.idInPlaylist) return false
-        if (trackId != other.trackId) return false
-        if (playlistId != other.playlistId) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + idInPlaylist.hashCode()
-        result = 31 * result + trackId.hashCode()
-        result = 31 * result + playlistId.hashCode()
-        return result
-    }
-}
+)
