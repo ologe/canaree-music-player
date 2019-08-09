@@ -173,7 +173,9 @@ internal class QueueImpl @Inject constructor(
     fun getPreviousSong(playerBookmark: Long): MediaEntity? {
         assertMainThread()
 
-        if (/*repeatMode.isRepeatOne() || */playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD) {
+        val isPodcast = getCurrentSong()?.isPodcast ?: false
+
+        if (!isPodcast && playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD) {
             return playingQueue.getOrNull(currentSongPosition) ?: return null
         }
 
