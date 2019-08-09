@@ -35,7 +35,9 @@ class CustomSeekBar(
 
         listener = object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                onProgressChanged(progress)
+                if (fromUser){
+                    onProgressChanged(progress)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
