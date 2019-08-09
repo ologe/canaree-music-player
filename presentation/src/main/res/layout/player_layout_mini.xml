@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/artist"
             app:layout_constraintStart_toEndOf="@+id/miniCover"
-            app:layout_constraintEnd_toStartOf="@+id/playbackSpeed"
+            app:layout_constraintEnd_toStartOf="@+id/volume"
             android:layout_marginStart="@dimen/mini_player_margin_start"
             android:layout_marginEnd="16dp"
             style="@style/MiniPlayerText"
@@ -86,6 +86,16 @@
             app:layout_constraintEnd_toStartOf="@+id/favorite"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <dev.olog.presentation.widgets.VolumeChangerView
+            android:id="@+id/volume"
+            android:layout_gravity="end"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:src="@drawable/vd_volume_up"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playbackSpeed"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

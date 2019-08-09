@@ -25,6 +25,8 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
+import dev.olog.presentation.widgets.StatusBarView
+import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
@@ -42,7 +44,6 @@ import kotlinx.android.synthetic.main.player_layout_default.view.duration
 import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
 import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
 import kotlinx.android.synthetic.main.player_layout_default.view.title
-import kotlinx.android.synthetic.main.player_layout_mini.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
 import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
@@ -104,7 +105,7 @@ internal class PlayerFragmentAdapter(
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
-                viewHolder.itemView.volume?.musicPrefs = musicPrefs
+                viewHolder.itemView.volume.musicPrefs = musicPrefs
             }
         }
 
@@ -197,9 +198,15 @@ internal class PlayerFragmentAdapter(
             }
 
         view.volume?.setOnClickListener {
+            val outLocation = intArrayOf(0, 0)
+            it.getLocationInWindow(outLocation)
+            val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
             (view.context as FragmentActivity).fragmentTransaction {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, PlayerVolumeFragment.newInstance(R.layout.player_volume), PlayerVolumeFragment.TAG)
+                add(android.R.id.content, PlayerVolumeFragment.newInstance(
+                    R.layout.player_volume,
+                    yLocation
+                ), PlayerVolumeFragment.TAG)
                 addToBackStack(PlayerVolumeFragment.TAG)
             }
         }
@@ -307,7 +314,7 @@ internal class PlayerFragmentAdapter(
     private fun updateImage(view: View, metadata: PlayerMetadata) {
         view.imageSwitcher?.loadImage(metadata)
         view.blurBackground?.loadImage(metadata.mediaId)
-        view.miniCover?.loadImage(metadata.mediaId)
+        view.findViewById<PlayerImageView>(R.id.miniCover)?.loadImage(metadata.mediaId)
     }
 
     private fun openPlaybackSpeedPopup(view: View) {

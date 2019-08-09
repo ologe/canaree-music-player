@@ -21,11 +21,13 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
         val TAG = PlayerVolumeFragment::class.java.name
         @JvmStatic
         private val ARGUMENT_LAYOUT_ID = "$TAG.argument.layoutid"
+        private val ARGUMENT_Y_POSITION = "$TAG.argument.y_position"
 
         @JvmStatic
-        fun newInstance(layoutId: Int): PlayerVolumeFragment {
+        fun newInstance(layoutId: Int, yPosition: Float = -1f): PlayerVolumeFragment {
             return PlayerVolumeFragment().withArguments(
-                ARGUMENT_LAYOUT_ID to layoutId
+                ARGUMENT_LAYOUT_ID to layoutId,
+                ARGUMENT_Y_POSITION to yPosition
             )
         }
     }
@@ -45,6 +47,11 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         volumeSlider.max = 100
         volumeSlider.progress = musicPrefs.getVolume()
+
+        val yPosition = arguments!!.getFloat(ARGUMENT_Y_POSITION, -1f)
+        if (yPosition > -1){
+            card.translationY = yPosition
+        }
     }
 
     override fun onResume() {
