@@ -127,6 +127,14 @@ internal class PlayerFragmentAdapter(
                     .asLiveData()
                     .subscribe(holder, viewModel::updatePaletteColors)
             }
+            view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
+                it.observeProcessorColors()
+                    .asLiveData()
+                    .subscribe(holder, viewModel::updateProcessorColors)
+                it.observePaletteColors()
+                    .asLiveData()
+                    .subscribe(holder, viewModel::updatePaletteColors)
+            }
 
             bindPlayerControls(holder, view)
 
