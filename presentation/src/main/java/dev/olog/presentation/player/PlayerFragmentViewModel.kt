@@ -70,7 +70,7 @@ class PlayerFragmentViewModel @Inject constructor(
         palettePublisher.offer(palette)
     }
 
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!! // TODO check
+    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
 
     fun updateCurrentTrackId(trackId: Long) {
         currentTrackIdPublisher.offer(trackId)

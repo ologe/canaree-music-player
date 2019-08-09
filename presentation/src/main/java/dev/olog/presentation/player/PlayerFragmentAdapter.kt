@@ -293,7 +293,7 @@ internal class PlayerFragmentAdapter(
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {
         if (view.context.hasPlayerAppearance().isFlat()){
-            // TODO all caps attribute is not working for some reason
+            // WORKAROUND, all caps attribute is not working for some reason
             view.title.text = metadata.title.toUpperCase()
         } else {
             view.title.text = metadata.title
