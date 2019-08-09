@@ -31,7 +31,6 @@ internal class MediaButton @Inject internal constructor(
         if (clicks <= MAX_ALLOWED_CLICKS) {
             job?.cancel()
             job = launch {
-                // TODO check if works
                 delay(DELAY)
                 dispatchEvent(clicks)
                 clicks = 0
@@ -48,8 +47,6 @@ internal class MediaButton @Inject internal constructor(
             1 -> eventDispatcher.dispatchEvent(Event.PLAY_PAUSE)
             2 -> eventDispatcher.dispatchEvent(Event.SKIP_NEXT)
             3 -> eventDispatcher.dispatchEvent(Event.SKIP_PREVIOUS)
-            else -> { // TODO speech ??
-            }
         }
     }
 

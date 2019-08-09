@@ -17,7 +17,7 @@ class EnhacedShuffleTest {
     @get:Rule
     var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
 
-    val enhancedShuffle = EnhancedShuffle(mock())
+    private val enhancedShuffle = EnhancedShuffle(mock())
 
     @Test
     fun `test shuffle with empty list`() = runBlocking<Unit> {
@@ -41,7 +41,7 @@ class EnhacedShuffleTest {
         )
     }
 
-    // TODO something is not working well when 'just played' is more than half of new queue
+    // something is not working well when 'just played' is more than half of new queue
     @Test
     fun `test shuffle`() = runBlocking<Unit> {
 

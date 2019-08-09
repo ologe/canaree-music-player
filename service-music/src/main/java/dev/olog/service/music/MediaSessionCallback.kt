@@ -343,7 +343,6 @@ internal class MediaSessionCallback @Inject constructor(
     private fun updatePodcastPosition() {
         Log.v(TAG, "updatePodcastPosition")
 
-        // TODO move somewhere else
         GlobalScope.launch {
             val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
             queue.updatePodcastPosition(bookmark)
