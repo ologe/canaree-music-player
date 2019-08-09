@@ -44,10 +44,4 @@ class MusicServiceMetadataTest {
         verify(spy).onMetadataChanged(metadataItem)
     }
 
-    @Test
-    fun `test onMetadataChanged`() {
-        // TODO don't know how to test, update and notifyWidgets are private and
-        //  I don't want to make internal
-    }
-
 }
