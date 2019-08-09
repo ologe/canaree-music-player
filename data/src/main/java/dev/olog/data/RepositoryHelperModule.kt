@@ -18,11 +18,11 @@ object RepositoryHelperModule {
     @JvmStatic
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-            .addMigrations(Migration_15_16(context))
+            .addMigrations(Migration_15_16)
             .build()
     }
 
-    private class Migration_15_16(private val context: Context) : Migration(15, 16) {
+    private val Migration_15_16 = object : Migration(15, 16) {
 
         override fun migrate(database: SupportSQLiteDatabase) {
             dropLastFmTables(database)
