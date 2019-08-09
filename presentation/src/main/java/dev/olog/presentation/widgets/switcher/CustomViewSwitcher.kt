@@ -121,6 +121,7 @@ class CustomViewSwitcher(
         GlideApp.with(context).clear(imageView)
         GlideApp.with(context)
             .load(mediaId)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(Target.SIZE_ORIGINAL)
