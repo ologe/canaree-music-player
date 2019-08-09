@@ -150,6 +150,7 @@ class MainActivity : MusicGlueActivity(),
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
         }
+        intent.action = null
         setIntent(null)
     }
 
