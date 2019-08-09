@@ -15,7 +15,6 @@ class VolumeChangerView(
 ) : AppCompatImageButton(context, attrs) {
 
     init {
-        // TODO use lottie?? https://assets10.lottiefiles.com/datafiles/dPBsEmiWemqAzfE/data.json
         setImageResource(R.drawable.vd_volume_up)
     }
 

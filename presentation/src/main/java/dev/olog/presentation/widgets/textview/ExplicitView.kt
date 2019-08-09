@@ -14,7 +14,6 @@ class ExplicitView(
     private var job: Job? = null
 
     fun onItemChanged(title: String) {
-        // TODO check compuitation cost
         toggleVisibility(visible = false, gone = true)
 
         job?.cancel()

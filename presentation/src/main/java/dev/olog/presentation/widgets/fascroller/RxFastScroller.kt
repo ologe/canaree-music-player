@@ -73,7 +73,7 @@ class RxFastScroller(
 
             try {
                 bubbleColor = context.colorAccent()
-                handleColor = context.colorControlNormal() // TODO check
+                handleColor = context.colorControlNormal()
                 textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
                 hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)
             } finally {
