@@ -157,10 +157,7 @@ class MediaId private constructor(
     val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 
     fun assertPlaylist(){
-        val isPlaylist = isPlaylist || isPodcastPlaylist
-        if (!isPlaylist){
-            throw IllegalStateException("not a playlist")
-        }
+        require(isPlaylist || isPodcastPlaylist)
     }
 
 }

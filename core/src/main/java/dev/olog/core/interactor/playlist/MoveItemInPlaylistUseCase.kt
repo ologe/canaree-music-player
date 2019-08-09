@@ -8,11 +8,11 @@ class MoveItemInPlaylistUseCase @Inject constructor(
     private val playlistGateway: PlaylistGateway
 ) {
 
-    fun execute(input: Input): Boolean {
+    suspend fun execute(input: Input) {
         if (input.type == PlaylistType.PODCAST) {
-            return false
+            return
         }
-        return playlistGateway.moveItem(input.playlistId, input.from, input.to)
+        playlistGateway.moveItem(input.playlistId, input.from, input.to)
     }
 
     class Input(
