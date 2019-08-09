@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.doOnPreDraw
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
@@ -24,7 +25,7 @@ class PlayerShadowImageView(
         private const val DEFAULT_COLOR = -1
         private const val BRIGHTNESS = -25f
         private const val SATURATION = 1.3f
-        private const val TOP_OFFSET = 1.8f
+        private const val TOP_OFFSET = 2.2f
         private const val PADDING = 22f
         internal const val DOWNSCALE_FACTOR = 0.2f
     }
@@ -83,7 +84,7 @@ class PlayerShadowImageView(
 
     private inline fun setBlurShadow(crossinline setImage: () -> Unit = {}) {
         background = null
-        doOnLayout {
+        doOnNextLayout {
             setImage()
             makeBlurShadow()
         }
