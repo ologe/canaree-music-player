@@ -89,7 +89,13 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun removeDuplicated(playlistId: Long) {
-        playlistDao.removeDuplicated(playlistId)
+        val notDuplicate = playlistDao.getPlaylistTracksImpl(playlistId)
+            .asSequence()
+            .groupBy { it.trackId }
+            .map { it.value[0] }
+            .toList()
+        playlistDao.deletePlaylistTracks(playlistId)
+        playlistDao.insertTracks(notDuplicate)
     }
 
     override suspend fun insertSongToHistory(songId: Long) {

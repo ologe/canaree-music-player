@@ -119,21 +119,15 @@ internal abstract class PlaylistDao {
     abstract suspend fun deleteTrack(playlistId: Long, idInPlaylist: Long)
 
     @Query("""
+        DELETE FROM playlist_tracks
+        WHERE playlistId = :playlistId
+    """)
+    abstract suspend fun deletePlaylistTracks(playlistId: Long)
+
+    @Query("""
         DELETE FROM playlist_tracks WHERE playlistId = :id
     """)
     abstract suspend fun clearPlaylist(id: Long)
-
-    @Query("""
-        DELETE FROM playlist_tracks
-        WHERE id in (
-            SELECT id, count(*) as item
-            FROM playlist_tracks
-            WHERE playlistId = :id
-            GROUP BY id, playlistId
-            HAVING items > 1
-        )
-    """)
-    abstract suspend fun removeDuplicated(playlistId: Long)
 
     @Update
     abstract suspend fun updateTrackList(list: List<PlaylistTrackEntity>)

@@ -180,7 +180,13 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun removeDuplicated(playlistId: Id) {
-        podcastPlaylistDao.removeDuplicated(playlistId)
+        val notDuplicate = podcastPlaylistDao.getPlaylistTracksImpl(playlistId)
+            .asSequence()
+            .groupBy { it.podcastId }
+            .map { it.value[0] }
+            .toList()
+        podcastPlaylistDao.deletePlaylistTracks(playlistId)
+        podcastPlaylistDao.insertTracks(notDuplicate)
     }
 
     override suspend fun insertPodcastToHistory(podcastId: Id) {
