@@ -112,7 +112,7 @@ dependencies {
     debugImplementation lib_debug.leak_canary_debug_fragments
     releaseImplementation lib_debug.leak_canary_release
 
-//    debugImplementation lib_debug.stetho
+    debugImplementation lib_debug.stetho
 
     // firebase
     implementation lib_analytics.core
