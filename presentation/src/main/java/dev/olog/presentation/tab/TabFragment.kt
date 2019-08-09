@@ -218,7 +218,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        // TODO when scrolling move toolbar and sliding panel out
         list.stopScroll()
 
         val scrollableItem = sidebar.scrollableLayoutId
@@ -259,7 +258,6 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
     }
 
-    // TODO observe in a viewmodel livedata the current sorting
     private fun getCurrentSorting(item: DisplayableItem): String {
         return when (category) {
             TabCategory.SONGS -> {
