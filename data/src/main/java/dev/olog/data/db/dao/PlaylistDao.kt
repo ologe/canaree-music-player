@@ -134,12 +134,24 @@ internal abstract class PlaylistDao {
     """)
     abstract suspend fun removeDuplicated(id: Long)
 
-    @Query("""
-        UPDATE playlist_tracks
-        SET idInPlaylist = CASE WHEN idInPlaylist = :from THEN :to
-                                WHEN idInPlaylist = :to THEN :from END
+    @Query(
+        """
+        SELECT *
+        FROM playlist_tracks
         WHERE playlistId = :playlistId
-    """)
-    abstract suspend fun moveItem(playlistId: Long, from: Int, to: Int)
+        LIMIT 1
+        OFFSET :from
+    """
+    )
+    abstract suspend fun getTrackIdByIdInPlaylist(playlistId: Long, from: Int): PlaylistTrackEntity
+
+    @Query(
+        """
+        UPDATE playlist_tracks
+        SET idInPlaylist = :idInPlaylist
+        WHERE id = :id
+    """
+    )
+    abstract suspend fun updateIdInPlaylist(id: Long, idInPlaylist: Long)
 
 }

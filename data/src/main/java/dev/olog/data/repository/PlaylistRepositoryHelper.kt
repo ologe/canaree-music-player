@@ -1,7 +1,5 @@
 package dev.olog.data.repository
 
-import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway
@@ -13,7 +11,6 @@ import dev.olog.data.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
-    @ApplicationContext private val context: Context,
     appDatabase: AppDatabase,
     private val favoriteGateway: FavoriteGateway
 
@@ -80,7 +77,10 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun moveItem(playlistId: Long, from: Int, to: Int) {
-        playlistDao.moveItem(playlistId, from, to)
+        val fromEntity = playlistDao.getTrackIdByIdInPlaylist(playlistId, from)
+        val toEntity = playlistDao.getTrackIdByIdInPlaylist(playlistId, to)
+        playlistDao.updateIdInPlaylist(fromEntity.id, toEntity.idInPlaylist)
+        playlistDao.updateIdInPlaylist(toEntity.id, fromEntity.idInPlaylist)
     }
 
     override suspend fun removeDuplicated(playlistId: Long) {
