@@ -13,7 +13,6 @@ import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
-import dev.olog.data.utils.handleRecoverableSecurityException
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
@@ -68,10 +67,8 @@ internal class PlaylistRepositoryHelper @Inject constructor(
             }
         }
 
-        handleRecoverableSecurityException {
-            context.contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
-            context.contentResolver.notifyChange(Playlists.EXTERNAL_CONTENT_URI, null)
-        }
+        context.contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+        context.contentResolver.notifyChange(Playlists.EXTERNAL_CONTENT_URI, null)
     }
 
     override suspend fun deletePlaylist(playlistId: Long) {
