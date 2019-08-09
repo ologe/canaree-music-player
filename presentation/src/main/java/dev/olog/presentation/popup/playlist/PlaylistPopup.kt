@@ -50,11 +50,6 @@ class PlaylistPopup(
                 menu.removeItem(R.id.addToFavorite)
             }
         }
-
-        if (isQ() && song == null) {
-            // works bad on Q
-            menu.removeItem(R.id.delete)
-        }
     }
 
 }
