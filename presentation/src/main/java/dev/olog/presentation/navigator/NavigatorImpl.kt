@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class NavigatorImpl @Inject internal constructor( // TODO
+class NavigatorImpl @Inject internal constructor(
     private val activity: AppCompatActivity,
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,

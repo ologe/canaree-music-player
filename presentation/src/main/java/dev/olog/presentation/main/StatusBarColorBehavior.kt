@@ -83,7 +83,6 @@ class StatusBarColorBehavior @Inject constructor(
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
-                    // TODO check if it needed
                     val playerApperance = (activity.hasPlayerAppearance())
                     if (playerApperance.isFullscreen() || playerApperance.isBigImage()) {
                         activity.window.removeLightStatusBar()
