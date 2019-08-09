@@ -40,9 +40,10 @@ class UpdateTrackUseCase @Inject constructor(
             if (id != null) {
                 increaseImageVersion(param.mediaId)
                 saveImage(param.mediaId, param.image)
-                updateMediaStore(id, param.isPodcast) // TODO image for some reasong is loading for another id
+                updateMediaStore(id, param.isPodcast)
             }
 
+            @Suppress("DEPRECATION")
             val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
             intent.data = Uri.fromFile(File((param.path)))
             context.sendBroadcast(intent)
