@@ -48,13 +48,11 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun clearPlaylist(playlistId: Long) {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-            when (playlistId) {
-                AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
-                AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
-            }
+        require(AutoPlaylist.isAutoPlaylist(playlistId))
+        when (playlistId) {
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
+            AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
         }
-        return playlistDao.clearPlaylist(playlistId)
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {

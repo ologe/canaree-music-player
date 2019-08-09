@@ -7,7 +7,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import dev.olog.shared.android.utils.isQ
 
 class PlaylistPopup(
     view: View,
@@ -34,7 +33,7 @@ class PlaylistPopup(
                 menu.removeItem(R.id.delete)
                 menu.removeItem(R.id.removeDuplicates)
             }
-            if (playlist.id == AutoPlaylist.LAST_ADDED.id) {
+            if (playlist.id == AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(playlist.id)) {
                 menu.removeItem(R.id.clear)
             }
             if (playlist.size < 1) {

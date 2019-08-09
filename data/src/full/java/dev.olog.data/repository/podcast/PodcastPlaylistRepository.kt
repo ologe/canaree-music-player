@@ -142,13 +142,11 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun clearPlaylist(playlistId: Id) {
-        if (AutoPlaylist.isAutoPlaylist(playlistId)) {
-            when (playlistId) {
-                AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
-                AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
-            }
+        require(AutoPlaylist.isAutoPlaylist(playlistId))
+        when (playlistId) {
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
+            AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
         }
-        return podcastPlaylistDao.clearPlaylist(playlistId)
     }
 
     override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
