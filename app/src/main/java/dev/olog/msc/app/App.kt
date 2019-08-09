@@ -2,7 +2,6 @@ package dev.olog.msc.app
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import com.facebook.stetho.Stetho
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
@@ -46,7 +45,7 @@ class App : ThemedApp(), HasAndroidInjector {
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
 //            LeakCanary.install(this)
-            Stetho.initializeWithDefaults(this)
+//            Stetho.initializeWithDefaults(this)
         }
     }
 
