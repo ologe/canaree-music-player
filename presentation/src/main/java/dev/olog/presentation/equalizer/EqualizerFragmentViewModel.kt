@@ -73,10 +73,7 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     }
 
     fun getBandStep(): Float {
-        if (isP()) {
-            return .1f
-        }
-        TODO()
+        return .1f
     }
 
     fun deleteCurrentPreset() = viewModelScope.launch(Dispatchers.IO) {
