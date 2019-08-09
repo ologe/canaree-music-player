@@ -20,8 +20,6 @@ internal object MediaIdHelper {
 
     fun getLibraryCategories(context: Context): MutableList<MediaBrowserCompat.MediaItem> {
         return mutableListOf(
-                // todo pensare a quali categorie usare, mini queue, recents, ecc
-            // TODO podcasts ?
             createShuffleAllMediaIem(context),
             createBrowsableMediaItem(
                 context,
@@ -52,7 +50,7 @@ internal object MediaIdHelper {
     }
 
     private fun createShuffleAllMediaIem(context: Context): MediaBrowserCompat.MediaItem{
-        val description = MediaDescriptionCompat.Builder() // TODO not handles
+        val description = MediaDescriptionCompat.Builder()
             .setMediaId(MediaId.shuffleId().toString())
             .setTitle(context.getString(R.string.common_shuffle))
             .build()
