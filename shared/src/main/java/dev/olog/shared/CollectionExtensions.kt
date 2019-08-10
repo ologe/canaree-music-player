@@ -11,30 +11,30 @@ fun <T> List<T>.swap(i: Int, j: Int): List<T> {
     return this
 }
 
-private inline fun <T> List<T>.isInBounds(index: Int): Boolean {
+fun <T> List<T>.isInBounds(index: Int): Boolean {
     return index in 0..lastIndex
 }
 
-inline fun <T> List<T>.startWith(item: T): List<T> {
+fun <T> List<T>.startWith(item: T): List<T> {
     val list = this.toMutableList()
     list.add(0, item)
     return list
 }
 
-inline fun <T> List<T>.startWith(data: List<T>): List<T> {
+fun <T> List<T>.startWith(data: List<T>): List<T> {
     val list = this.toMutableList()
     list.addAll(0, data)
     return list
 }
 
-inline fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
+fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     if (this.isNotEmpty()){
         return startWith(item)
     }
     return this
 }
 
-inline fun <T> List<T>.startWithIfNotEmpty(item: List<T>): List<T> {
+fun <T> List<T>.startWithIfNotEmpty(item: List<T>): List<T> {
     if (this.isNotEmpty()){
         return startWith(item)
     }
@@ -67,11 +67,3 @@ operator fun<T> List<T>.component6() = get(5)
 operator fun<T> List<T>.component7() = get(6)
 operator fun<T> List<T>.component8() = get(7)
 operator fun<T> List<T>.component9() = get(8)
-
-fun <T> List<List<T>>.flatten(): List<T> {
-    val result = mutableListOf<T>()
-    for (list in this) {
-        result.addAll(list)
-    }
-    return result
-}
