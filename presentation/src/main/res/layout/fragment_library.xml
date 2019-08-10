@@ -36,7 +36,7 @@
             android:text="@string/common_podcasts"
             android:textColor="?android:textColorSecondary"
             android:textAppearance="@style/Header.Main"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintBottom_toBottomOf="@+id/tracks"
             app:layout_constraintStart_toEndOf="@+id/tracks"
             app:layout_constraintTop_toTopOf="@+id/more" />
 
