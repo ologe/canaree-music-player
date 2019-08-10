@@ -157,7 +157,9 @@ class MediaId private constructor(
     val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 
     fun assertPlaylist(){
-        require(isPlaylist || isPodcastPlaylist)
+        require(isPlaylist || isPodcastPlaylist) {
+            "not a playlist, category=${this.category}"
+        }
     }
 
 }
