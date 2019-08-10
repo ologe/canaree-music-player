@@ -39,6 +39,10 @@ internal class PodcastRepository @Inject constructor(
         sortPrefs, true
     )
 
+    init {
+        firstQuery()
+    }
+
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }

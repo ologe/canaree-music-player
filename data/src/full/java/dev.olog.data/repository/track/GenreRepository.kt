@@ -42,6 +42,10 @@ internal class GenreRepository @Inject constructor(
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
+    init {
+        firstQuery()
+    }
+
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, true)
     }

@@ -36,6 +36,10 @@ internal class SongRepository @Inject constructor(
         sortPrefs, false
     )
 
+    init {
+        firstQuery()
+    }
+
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(Audio.Media.EXTERNAL_CONTENT_URI, true)
     }

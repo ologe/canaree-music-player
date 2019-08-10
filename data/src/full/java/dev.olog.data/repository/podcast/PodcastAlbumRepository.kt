@@ -34,6 +34,10 @@ internal class PodcastAlbumRepository @Inject constructor(
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
     private val lastPlayedDao = appDatabase.lastPlayedPodcastAlbumDao()
 
+    init {
+        firstQuery()
+    }
+
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }

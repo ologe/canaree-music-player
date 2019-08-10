@@ -42,6 +42,10 @@ internal class FolderRepository @Inject constructor(
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
+    init {
+        firstQuery()
+    }
+
     override fun registerMainContentUri(): ContentUri {
         return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
     }

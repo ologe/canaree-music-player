@@ -27,15 +27,9 @@ internal abstract class BaseRepository<T, Param>(
 
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 
-    init {
-        firstQuery()
-    }
-
-    private fun firstQuery() {
+    protected fun firstQuery() {
         launch {
             assertBackgroundThread()
-            // small delay to make subclass initialization
-            delay(100)
 
             while (!PermissionsUtils.canReadStorage(context)) {
                 delay(300)
