@@ -79,12 +79,16 @@ class MediaExposer(
             }
         }
 
-        mediaBrowser.connect()
+        if (!mediaBrowser.isConnected){
+            mediaBrowser.connect()
+        }
     }
 
     fun disconnect() {
         job?.cancel()
-        mediaBrowser.disconnect()
+        if (mediaBrowser.isConnected){
+            mediaBrowser.disconnect()
+        }
     }
 
     /**
