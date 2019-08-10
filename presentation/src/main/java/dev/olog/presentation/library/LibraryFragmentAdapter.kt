@@ -11,7 +11,7 @@ import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.tab.TabFragment
 
-@Suppress("DEPRECATION") // TODO the newer version has problems with scroll helper
+@Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 class LibraryFragmentAdapter(
         private val context: Context,
         fragmentManager: FragmentManager,
