@@ -79,7 +79,7 @@ internal object MergedImagesCreator {
         if (oldImage != null) { // image found
             val fileImageName = oldImage.extractImageName()
 
-            val albumIdsInFilename = fileImageName.containedAlbums()
+            val albumIdsInFilename = fileImageName.containedAlbums() ?: return null
 
             val sameImages = albumsId.sorted() == albumIdsInFilename.sorted()
             if (sameImages) {
