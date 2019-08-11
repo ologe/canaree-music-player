@@ -1,116 +1,149 @@
 # Release notes
 
 ## 3.0.0
-- internal changes
-    - migration from rx to coroutines
-    - splitted app in packages
-- android auto
-    - fixed not working
-    - updated theme (not finished)
-- fixed playing queue drag and drop and index problems
-- fixed swipepable view swipe not always working
-- changed dark mode implementation
-    - from 4 to 3 following android Q dark mode 
-- removed widget with queue
-- reduced mini queue items (because of performance problem with NestedScrollView), however jank is not
-    completely disappeared
-- added volume controls to player fragment
-- made cover colored in dark mode
-- added is_podcast override in edit track
-- added cut corner image shape
-- added image stylizer
-- made offline lyrics sync for track instead of being global
-- added 10 band equalizer to android P and above
-- added custom eq preset to all versions
-- added changelog in about screen
+
+- **Internal changes**
+    - Migration from rx to coroutines
+    - Splitted app in packages
+
+- **UI**
+    - Overall ui changes
+    - Changed dark mode implementation to follow [Material Design Specification](https://material.io/design/color/dark-theme.html)
+        - Only 3 dark mode modes:
+            - Follow system (Android Q)/Set by Battery Saver(pre Android Q)
+            - Light mode 
+            - Dark mode
+        - Dark mode default cover colors are now colored
+        - Too much saturated colors now will be desaturated for a better contrast
+    - Added volume controls in all player themes
+    - New icon shape available
+        - Cur corner
+    - Merged Tracks and Podcast bottom navigation items to a single Library item
+    - Added bottom navigation, sliding panel, toolbar, tab layout and FABs translation Y when 
+        scrolling any list
+    - Added text horizontal scroll to mini player and player 
+            
+- **Features**
+    - Added `is podcast override in edit track, edit album and edit artist
+    - Made offline lyrics sync customizable for for track instead of being global
+    - Added 10 band equalizer to android P and above, on pre Android P devices, the default 5 band 
+        equalizer will be used
+    - Added changelog in about screen
+    - Now you can opt-in to show a banner AD to enable premium
+    - Unlocked some setting customization to all users
+    - Added artist and album biography
+    - Added image stylizer: when editing a track, album and artist you can choose to blend the album 
+        art with a painting (additional module has to be downloaded). Thanks to [Fritz](https://www.fritz.ai/). 
+      
+- **Misc**
+    - Android Q support
+    - When title contains `explicit` (case insensitive + parenthesis allowed), an explicit icon
+        will be displayed
+    - Added animations to floating window
+    - Cold/hot start performance increased
+    - Overall performance increase
+    - Force to portrait only
+    - Removed widget with queue (ugly, bad performance and causing crashes)
+    - When trying to login to LastFm, a network call will be made to check is inserted
+        credentials are valid
+    - Now images will be downloaded from Deezer instead of LastFm because of better quality (1000x1000)
+    - Updated community from Google+ (deprecated by Google) to a [subreddit](https://www.reddit.com/r/canaree/)
+    - Removed share app  
+            
+- **Bug fixes**
+    - Improved overall stability
+    - Android Auto stuck at loading 
+    - Fixed playing queue drag and drop + index problems
+    - Overall drag and drop fix
+    - Fixed swipeable view swipe not working as intended  
 
 ## 2.1.1
-- fixed all tracks sort order by date
+- Fixed all tracks sort order by date
 
 ## 2.0.12
-- removed disabling day night from base activity
-- removed unused dagger injection in splash
-- fixed dark theme in library categories
+- Removed disabling day night from base activity
+- Removed unused dagger injection in splash
+- Fixed dark theme in library categories
 
 ## 2.0.11
-- removed unused code
+- Removed unused code
 
 
 ## 2.0.10
-- try to fix foregroundimageview crash
-- spanish typo fix
+- Try to fix ForegroundImageView crash
+- Spanish typo fix
 
 ## 2.0.9
-- added firebase invites analytics
+- Added firebase invites analytics
 
 ## 2.0.8
-- song cursor mapper folder crash fix
+- Song cursor mapper folder crash fix
 
 ## 2.0.7
-- added spanish language
+- Added spanish language
 
 ## 2.0.6
-- improved analytics:
+- Improved analytics:
     - tracks current screen
-- added perf monitoring
-- added in-app message
-- added website deep-linking
-- added small implementation for google personal search indexing
-- added invite friends
+- Added perf monitoring
+- Added in-app message
+- Added website deep-linking
+- Added small implementation for google personal search indexing
+- Added invite friends
 
 ## 2.0.5
 - Fix adaptive color Image presenter crash
-- fixed null string crash cursor mapper
-- added keep rule to TextInputEditText in proguard
+- Fixed null string crash cursor mapper
+- Added keep rule to TextInputEditText in proguard
 
 ## 2.0.4
-- fixed color accent crash
-- fixed crash on repeat mode changed
-- added message when starting updating album/artist
-- fix playback speed menu typo
-- fixed square image shape on player
-- added option to show lockscreen
-- added option to ignore media store thumnails
-- removed edit item ripple on click
-- fixed low quality images
-- fixed download track image automatically
-- fixed edit track not showing properly
+- Fixed color accent crash
+- Fixed crash on repeat mode changed
+- Added message when starting updating album/artist
+- Fix playback speed menu typo
+- Fixed square image shape on player
+- Added option to show lockscreen album art
+- Added option to ignore media store thumbnails
+- Removed edit item ripple on click
+- Fixed low quality images
+- Fixed download track image automatically
+- Fixed edit track not showing properly
 
 ## 2.0.3
 
-- migration to AndroidX
-- added black theme to intro
-- overall fixes to dark/black theme
-- fixed FAB not always working in offline lyrics/floating window
-- added save playing queue as playlist
-- fixed delete podcast playlist popup
-- preferences reorder
-- changed library categories landscape behavior
-- added option to enable or disable adaptive colors
-- added immersive mode
-- added search podcast
-- added FAB to show keyboard
-- fixed notch
-- create playlist not adding tracks on creation
-- buggy swipe and drag in playing queue
-- removed corner radius to big image theme
-- albums not showing in detail
-- playing queue not handling correctly duplicated songs
+- Migration to AndroidX
+- Added black theme to intro
+- Overall fixes to dark/black theme
+- Fixed FAB not always working in offline lyrics/floating window
+- Added save playing queue as playlist
+- Fixed delete podcast playlist popup
+- Preferences reorder
+- Changed library categories landscape behavior
+- Added option to enable or disable adaptive colors
+- Added immersive mode
+- Added search podcast
+- Added FAB to show keyboard
+- Fixed notch
+- Create playlist not adding tracks on creation
+- Buggy swipe and drag in playing queue
+- Removed corner radius to big image theme
+- Albums not showing in detail
+- Playing queue not handling correctly duplicated songs
 
 
 ## 2.0.2
-- added mini player player theme
-- added support to do not download album image that has same app as folder (finish to implement)
-- removed preset chooser popup
+- Added mini player player theme
+- Added support to do not download album image that has same app as folder (finish to implement)
+- Removed preset chooser popup
 
 
 ## 2.0.1
-- tap tutorial draw out of screen border
-- fixed rounded search theme colors
-- added show/hide podcast preference
-- added buy premium to main popup
-- fixed swipe animation
-- set jaudiotagger encoding to UTF-8
+- Tap tutorial draw out of screen border
+- Fixed rounded search theme colors
+- Added show/hide podcast preference
+- Added buy premium to main popup
+- Fixed swipe animation
+- Set jaudiotagger encoding to UTF-8
 
 
 ## 2.0.0
