@@ -24,7 +24,7 @@
     - Added text horizontal scroll to mini player and player 
             
 - **Features**
-    - Added `is podcast override in edit track, edit album and edit artist
+    - Added `is podcast` override in edit track, edit album and edit artist
     - Made offline lyrics sync customizable for for track instead of being global
     - Added 10 band equalizer to android P and above, on pre Android P devices, the default 5 band 
         equalizer will be used
