@@ -37,6 +37,8 @@ class AboutFragmentPresenter(
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
         @JvmStatic
         val BUY_PRO = MediaId.headerId("pro")
+        @JvmStatic
+        val CHANGELOG = MediaId.headerId("changelog")
     }
 
 
@@ -88,6 +90,12 @@ class AboutFragmentPresenter(
             type = R.layout.item_about,
             mediaId = SPECIAL_THANKS_ID,
             title = context.getString(R.string.about_special_thanks_to),
+            subtitle = context.getString(R.string.about_special_thanks_to_description)
+        ),
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = CHANGELOG,
+            title = "Changelog",
             subtitle = context.getString(R.string.about_special_thanks_to_description)
         )
     )

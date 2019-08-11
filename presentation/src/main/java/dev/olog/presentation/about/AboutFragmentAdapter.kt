@@ -33,6 +33,7 @@ class AboutFragmentAdapter(
                 AboutFragmentPresenter.BUY_PRO -> presenter.buyPro()
                 AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
                 AboutFragmentPresenter.BETA -> navigator.joinBeta()
+                AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
             }
         }
     }

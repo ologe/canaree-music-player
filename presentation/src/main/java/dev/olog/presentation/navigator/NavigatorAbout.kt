@@ -14,4 +14,6 @@ interface NavigatorAbout {
 
     fun joinBeta()
 
+    fun toChangelog()
+
 }

@@ -22,6 +22,7 @@
 - made offline lyrics sync for track instead of being global
 - added 10 band equalizer to android P and above
 - added custom eq preset to all versions
+- added changelog in about screen
 
 ## 2.1.1
 - fixed all tracks sort order by date
