@@ -94,7 +94,10 @@ internal class TabFragmentAdapter(
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
-            duration?.text = item.idInPlaylist.toString() // TODO bad
+            duration?.let {
+                val durationString = item.idInPlaylist.toString() + "m"
+                it.text = durationString
+            }
             explicit?.onItemChanged(item.title)
         }
     }

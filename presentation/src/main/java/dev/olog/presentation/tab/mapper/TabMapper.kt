@@ -6,6 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import java.util.concurrent.TimeUnit
 
 internal fun Folder.toTabDisplayableItem(
     resources: Resources,
@@ -43,12 +44,12 @@ internal fun Playlist.toTabDisplayableItem(
 
 internal fun Song.toTabDisplayableItem(): DisplayableItem {
     return DisplayableTrack(
-        type = R.layout.item_tab_song,
+        type = if (isPodcast) R.layout.item_tab_podcast else R.layout.item_tab_song,
         mediaId = getMediaId(),
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = this.idInPlaylist,
+        idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration).toInt() else this.idInPlaylist,
         dataModified = this.dateModified
     )
 }
