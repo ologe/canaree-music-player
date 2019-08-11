@@ -1,5 +1,6 @@
 package dev.olog.presentation.popup.main
 
+import android.app.Activity
 import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
@@ -15,15 +16,18 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.R
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.pro.IBilling
+import dev.olog.presentation.tab.toTabCategory
 import javax.inject.Inject
 
-class MainPopupDialog @Inject constructor(
+internal class MainPopupDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val billing: IBilling,
     private val popupNavigator: MainPopupNavigator,
-    private val gateway: SortPreferences
+    private val gateway: SortPreferences,
+    private val presentationPrefs: PresentationPreferencesGateway
 
 ) {
 
@@ -71,6 +75,22 @@ class MainPopupDialog @Inject constructor(
                     -1,
                     ""
                 )
+                R.id.gridSize1 -> {
+                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 1)
+                    recreateActivity(anchor)
+                }
+                R.id.gridSize2 -> {
+                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 2)
+                    recreateActivity(anchor)
+                }
+                R.id.gridSize3 -> {
+                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 3)
+                    recreateActivity(anchor)
+                }
+                R.id.gridSize4 -> {
+                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 4)
+                    recreateActivity(anchor)
+                }
                 else -> {
                     when (category) {
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
@@ -84,6 +104,10 @@ class MainPopupDialog @Inject constructor(
             true
         }
         popup.show()
+    }
+
+    private fun recreateActivity(view: View){
+        (view.context as Activity).recreate()
     }
 
     private fun initializeTracksSort(menu: Menu): SortEntity {

@@ -1,34 +1,25 @@
 package dev.olog.presentation.tab.layoutmanager
 
-import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.android.extensions.configuration
 
 class AlbumSpanSizeLookup(
-        context: Context,
-        private val adapter: ObservableAdapter<BaseModel>
+    private val adapter: ObservableAdapter<BaseModel>,
+    private val requestedSpanSize: Int
+
 
 ) : AbsSpanSizeLookup() {
 
-    private val smallestWidthDip = context.configuration.smallestScreenWidthDp
-    private val isTablet = smallestWidthDip >= 600
 
     override fun getSpanSize(position: Int): Int {
-        val itemType = adapter.getItem(position)!!.type
-        when (itemType) {
+        when (adapter.getItem(position)!!.type) {
             R.layout.item_tab_header,
             R.layout.item_tab_new_album_horizontal_list,
-            R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
-        }
-//
-        if (isTablet) {
-            val span = 4
-            return spanCount / span
+            R.layout.item_tab_last_played_album_horizontal_list -> return getSpanCount()
         }
 
-        return spanCount / 2
+        return getSpanCount() / requestedSpanSize
     }
 
 }

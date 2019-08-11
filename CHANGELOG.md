@@ -22,6 +22,7 @@
     - Added bottom navigation, sliding panel, toolbar, tab layout and FABs translation Y when 
         scrolling any list
     - Added text horizontal scroll to mini player and player 
+    - Added dynamic grid size
             
 - **Features**
     - Added `is podcast` override in edit track, edit album and edit artist

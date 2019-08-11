@@ -34,7 +34,7 @@
 
 
 ## features
-- change grid span
+
 
 ## Maybe
 - settings to blur lockscreen image

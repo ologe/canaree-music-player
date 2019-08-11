@@ -1,6 +1,5 @@
 package dev.olog.presentation.tab.layoutmanager
 
-import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -11,24 +10,37 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 
 internal object LayoutManagerFactory {
 
-    private fun createSpanSize(context: Context, category: TabCategory, adapter: ObservableAdapter<BaseModel>): AbsSpanSizeLookup {
+    private fun createSpanSize(
+        category: TabCategory,
+        adapter: ObservableAdapter<BaseModel>,
+        requestedSpanSize: Int
+    ): AbsSpanSizeLookup {
 
         return when (category) {
             TabCategory.PLAYLISTS,
-            TabCategory.PODCASTS_PLAYLIST -> PlaylistSpanSizeLookup(context)
+            TabCategory.PODCASTS_PLAYLIST -> PlaylistSpanSizeLookup(requestedSpanSize)
             TabCategory.ALBUMS,
-            TabCategory.PODCASTS_ALBUMS -> AlbumSpanSizeLookup(context, adapter)
+            TabCategory.PODCASTS_ALBUMS -> AlbumSpanSizeLookup(adapter, requestedSpanSize)
             TabCategory.ARTISTS,
-            TabCategory.PODCASTS_ARTISTS -> ArtistSpanSizeLookup(context, adapter)
-            TabCategory.SONGS, TabCategory.PODCASTS -> SongSpanSizeLookup()
-            else -> BaseSpanSizeLookup(context)
+            TabCategory.PODCASTS_ARTISTS -> ArtistSpanSizeLookup(adapter, requestedSpanSize)
+            TabCategory.SONGS, TabCategory.PODCASTS -> SongSpanSizeLookup(requestedSpanSize)
+            else -> BaseSpanSizeLookup(requestedSpanSize)
         }
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun get(recyclerView: RecyclerView, category: TabCategory, adapter: TabFragmentAdapter): GridLayoutManager {
-        val spanSizeLookup = createSpanSize(recyclerView.context, category, adapter as ObservableAdapter<BaseModel>)
-        val layoutManager = OverScrollGridLayoutManager(recyclerView, spanSizeLookup.getSpanSize())
+    fun get(
+        recyclerView: RecyclerView,
+        category: TabCategory,
+        adapter: TabFragmentAdapter,
+        requestedSpanSize: Int
+    ): GridLayoutManager {
+        val spanSizeLookup = createSpanSize(
+            category,
+            adapter as ObservableAdapter<BaseModel>,
+            requestedSpanSize
+        )
+        val layoutManager = OverScrollGridLayoutManager(recyclerView, spanSizeLookup.getSpanCount())
         layoutManager.spanSizeLookup = spanSizeLookup
         return layoutManager
     }

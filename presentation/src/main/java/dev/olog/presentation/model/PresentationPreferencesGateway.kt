@@ -1,8 +1,9 @@
 package dev.olog.presentation.model
 
+import dev.olog.presentation.tab.TabCategory
 import kotlinx.coroutines.flow.Flow
 
-interface PresentationPreferencesGateway {
+internal interface PresentationPreferencesGateway {
 
     fun getLastBottomViewPage(): BottomNavigationPage
     fun setLastBottomViewPage(page: BottomNavigationPage)
@@ -31,6 +32,9 @@ interface PresentationPreferencesGateway {
     fun isAdaptiveColorEnabled(): Boolean
 
     fun observePlayerControlsVisibility(): Flow<Boolean>
+
+    fun getSpanCount(category: TabCategory): Int
+    fun setSpanCount(category: TabCategory, spanCount: Int)
 
     fun setDefault()
 }

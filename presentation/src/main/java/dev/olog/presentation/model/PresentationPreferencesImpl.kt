@@ -6,12 +6,12 @@ import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
+import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class PresentationPreferencesImpl @Inject constructor(
+internal class PresentationPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {
@@ -252,4 +252,13 @@ class PresentationPreferencesImpl @Inject constructor(
         return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 
+    override fun getSpanCount(category: TabCategory): Int {
+        return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(context, category))
+    }
+
+    override fun setSpanCount(category: TabCategory, spanCount: Int) {
+        preferences.edit {
+            putInt("${category}_span", spanCount)
+        }
+    }
 }

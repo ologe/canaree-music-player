@@ -1,28 +1,17 @@
 package dev.olog.presentation.tab.layoutmanager
 
-import android.content.Context
-import dev.olog.shared.android.extensions.configuration
-
 class PlaylistSpanSizeLookup(
-        context: Context
+    private val requestedSpanSize: Int
+
 
 ) : AbsSpanSizeLookup() {
 
-    private val smallestWidthDip = context.configuration.smallestScreenWidthDp
-    private val isTablet = smallestWidthDip >= 600
-
     override fun getSpanSize(position: Int): Int {
         when (position) {
-            0, 4 -> return spanCount
+            0, 4 -> return getSpanCount()
         }
 
-        var span = 3
-
-        if (isTablet) {
-            span++
-        }
-
-        return spanCount / span
+        return getSpanCount() / requestedSpanSize
     }
 
 }

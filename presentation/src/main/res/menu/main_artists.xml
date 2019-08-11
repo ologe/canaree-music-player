@@ -43,16 +43,30 @@
 
     </item>
 
-    <!--<group>-->
+    <group>
 
-        <!--<item-->
-            <!--android:id="@+id/gridSpan"-->
-            <!--android:title="@string/popup_grid_size">-->
+        <item
+            android:id="@+id/gridSize"
+            android:title="@string/popup_grid_size">
 
-            <!--<menu/>-->
+            <menu>
 
-        <!--</item>-->
+                <item android:id="@+id/gridSize1"
+                    android:title="1"/>
 
-    <!--</group>-->
+                <item android:id="@+id/gridSize2"
+                    android:title="2"/>
+
+                <item android:id="@+id/gridSize3"
+                    android:title="3"/>
+
+                <item android:id="@+id/gridSize4"
+                    android:title="4"/>
+
+            </menu>
+
+        </item>
+
+    </group>
 
 </menu>

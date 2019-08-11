@@ -26,8 +26,8 @@ import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
-import dev.olog.shared.android.extensions.*
 import dev.olog.shared.TextUtils
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.launch
@@ -109,7 +109,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter)
+        val requestedSpanSize = viewModel.getSpanCount(category)
+        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
         list.layoutManager = gridLayoutManager
         list.adapter = adapter
         list.setHasFixedSize(true)
