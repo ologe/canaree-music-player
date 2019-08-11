@@ -1,8 +1,7 @@
 ## TODO
-- check mediastore insert/update/delete on Android Q
 - try app on all API level
 - test on foldable
-- TODO check spanish and portuguese translation
+- TODO check spanish and portuguese translation 
 
 ## TODO for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
@@ -10,11 +9,9 @@
 
 ### strange bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
-- figure out how to change preference switch track disabled color
-- on opening the app, the first time visiting settings in dark mode, the disable color doesn't work (androix.preference bug?)
 
 ### bug
-- merged images don't update after content change
+- merged images don't update after content change (folders and genres)
 
 ### urgent bug
 - crashes when there are no tracks
