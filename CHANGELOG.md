@@ -13,12 +13,12 @@
             - Follow system (Android Q)/Set by Battery Saver(pre Android Q)
             - Light mode 
             - Dark mode
-        - Dark mode default cover colors are now colored
+        - Dark mode default covers are now colored
         - Too much saturated colors now will be desaturated for a better contrast
     - Added volume controls in all player themes
     - New icon shape available
         - Cur corner
-    - Merged Tracks and Podcast bottom navigation items to a single Library item
+    - Merged `Tracks` and `Podcast` bottom navigation items to a single `Library` item
     - Added bottom navigation, sliding panel, toolbar, tab layout and FABs translation Y when 
         scrolling any list
     - Added text horizontal scroll to mini player and player 
