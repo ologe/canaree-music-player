@@ -55,6 +55,8 @@ implementation project(':exoplayer-extension-ffmpeg')
       ```gradle 
       apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
       ```
+
+#### After both
 * Create `gradle.properties` in project root folder.
 ```groovy
 # OPTIONAL properties
