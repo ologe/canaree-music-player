@@ -162,7 +162,7 @@ internal class TabDataProvider @Inject constructor(
             .startWith(headers.autoPlaylistHeader)
 
         return podcastPlaylistGateway.observeAll().map { list ->
-            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PLAYLISTS)
+            val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_PLAYLIST)
             list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
@@ -182,7 +182,7 @@ internal class TabDataProvider @Inject constructor(
 
         return podcastAlbumGateway.observeAll()
             .map { albums ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ALBUMS)
+                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_ALBUMS)
                 albums.map { it.toTabDisplayableItem(requestedSpanSize) }
             }
             .combineLatest(
@@ -209,7 +209,7 @@ internal class TabDataProvider @Inject constructor(
 
         return podcastArtistGateway.observeAll()
             .map { artists ->
-                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.ARTISTS)
+                val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)
                 artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
             }
             .combineLatest(
