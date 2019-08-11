@@ -25,7 +25,7 @@
             
 - **Features**
     - Added `is podcast` override in edit track, edit album and edit artist, to avoid moving manually 
-        a track into `Podcast` folder on device. When a track is in the Podcast category, last position 
+        a track into `Podcast folder on device. When a track is in the Podcast category, last position 
         will be saved when exiting the app or changing podcast.
     - Made offline lyrics sync customizable for every track instead of being global
     - Added `10 band equalizer` to android P and above. On devices pre Android P, the default 5 band 
