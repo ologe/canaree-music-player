@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview
+package dev.olog.presentation.widgets.imageview.blurshadow
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,6 +12,10 @@ import android.widget.ImageView
 
 object BlurShadow {
 
+    private const val DOWNSCALE_FACTOR = 0.2f
+    private const val DEFAULT_RADIUS_OFFSET = 0.5f // or .85?
+    const val RADIUS = 7f * 2 * DEFAULT_RADIUS_OFFSET
+
     private var renderScript: RenderScript? = null
 
     fun init(context: Context) {
@@ -19,22 +23,22 @@ object BlurShadow {
             renderScript = RenderScript.create(context)
     }
 
-    fun blur(view: ImageView, width: Int, height: Int, radius: Float): Bitmap? {
+    private val script by lazy {
+        ScriptIntrinsicBlur.create(
+            renderScript, Element.U8_4(renderScript)
+        ).apply { setRadius(RADIUS) }
+    }
+
+    fun blur(view: ImageView, width: Int, height: Int): Bitmap? {
         val src = getBitmapForView(
             view,
-            PlayerShadowImageView.DOWNSCALE_FACTOR,
             width,
             height
         ) ?: return null
         val input = Allocation.createFromBitmap(renderScript, src)
         val output = Allocation.createTyped(renderScript, input.type)
-        val script = ScriptIntrinsicBlur.create(
-            renderScript, Element.U8_4(
-                renderScript
-            )
-        )
+
         script.apply {
-            setRadius(radius)
             setInput(input)
             forEach(output)
         }
@@ -42,16 +46,16 @@ object BlurShadow {
         return src
     }
 
-    private fun getBitmapForView(view: ImageView, downscaleFactor: Float, width: Int, height: Int): Bitmap? {
+    private fun getBitmapForView(view: ImageView, width: Int, height: Int): Bitmap? {
         val bitmap = Bitmap.createBitmap(
-            (width * downscaleFactor).toInt(),
-            (height * downscaleFactor).toInt(),
+            (width * DOWNSCALE_FACTOR).toInt(),
+            (height * DOWNSCALE_FACTOR).toInt(),
             Bitmap.Config.ARGB_8888
         )
 
         val canvas = Canvas(bitmap)
         val matrix = Matrix()
-        matrix.preScale(downscaleFactor, downscaleFactor)
+        matrix.preScale(DOWNSCALE_FACTOR, DOWNSCALE_FACTOR)
         canvas.setMatrix(matrix)
         view.draw(canvas)
         return bitmap
