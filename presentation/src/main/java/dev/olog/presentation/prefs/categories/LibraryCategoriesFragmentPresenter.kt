@@ -5,7 +5,7 @@ import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import javax.inject.Inject
 
-class LibraryCategoriesFragmentPresenter @Inject constructor(
+internal class LibraryCategoriesFragmentPresenter @Inject constructor(
         private val appPreferencesUseCase: PresentationPreferencesGateway
 ){
 

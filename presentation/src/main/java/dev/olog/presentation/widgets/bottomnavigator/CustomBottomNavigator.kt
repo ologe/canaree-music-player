@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class CustomBottomNavigator(
+internal class CustomBottomNavigator(
         context: Context,
         attrs: AttributeSet
 ) : BottomNavigationView(context, attrs), CoroutineScope by MainScope() {

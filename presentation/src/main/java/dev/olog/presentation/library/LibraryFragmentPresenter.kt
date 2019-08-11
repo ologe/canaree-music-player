@@ -7,7 +7,7 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
-class LibraryFragmentPresenter @Inject constructor(
+internal class LibraryFragmentPresenter @Inject constructor(
     private val appPrefsUseCase: PresentationPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {

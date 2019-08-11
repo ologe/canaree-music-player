@@ -37,7 +37,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var presenter: LibraryFragmentPresenter
+    internal lateinit var presenter: LibraryFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
 

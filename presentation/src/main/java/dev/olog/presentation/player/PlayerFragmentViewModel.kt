@@ -21,7 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class PlayerFragmentViewModel @Inject constructor(
+internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val presentationPrefs: PresentationPreferencesGateway,

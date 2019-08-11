@@ -52,7 +52,7 @@ abstract class MainActivityModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
-    abstract fun proviewViewModel(impl: MainActivityViewModel): ViewModel
+    internal abstract fun proviewViewModel(impl: MainActivityViewModel): ViewModel
 
     @Module
     companion object {

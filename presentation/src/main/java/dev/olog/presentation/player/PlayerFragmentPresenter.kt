@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.combineLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class PlayerFragmentPresenter @Inject constructor(
+internal class PlayerFragmentPresenter @Inject constructor(
     private val billing: IBilling,
     private val appPrefsUseCase: PresentationPreferencesGateway
 ) {

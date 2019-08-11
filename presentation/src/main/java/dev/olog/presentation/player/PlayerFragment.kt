@@ -41,7 +41,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         viewModelProvider<PlayerFragmentViewModel>(viewModelFactory)
     }
     @Inject
-    lateinit var presenter: PlayerFragmentPresenter
+    internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
     lateinit var navigator: Navigator
 

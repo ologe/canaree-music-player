@@ -28,7 +28,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     @Inject
-    lateinit var presenter: LibraryCategoriesFragmentPresenter
+    internal lateinit var presenter: LibraryCategoriesFragmentPresenter
     private val adapter by lazyFast {
         LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
     }

@@ -7,6 +7,6 @@ import dagger.Module
 abstract class PresentationModelModule {
 
     @Binds
-    abstract fun providePresentationPrefs(impl: PresentationPreferencesImpl): PresentationPreferencesGateway
+    internal abstract fun providePresentationPrefs(impl: PresentationPreferencesImpl): PresentationPreferencesGateway
 
 }

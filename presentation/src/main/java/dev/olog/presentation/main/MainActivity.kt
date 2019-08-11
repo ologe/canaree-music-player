@@ -61,7 +61,7 @@ class MainActivity : MusicGlueActivity(),
     override lateinit var billing: IBilling
 
     @Inject
-    lateinit var presentationPrefs: PresentationPreferencesGateway
+    internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
     @Suppress("unused")
     @Inject

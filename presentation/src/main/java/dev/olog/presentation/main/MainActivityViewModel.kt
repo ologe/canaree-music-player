@@ -8,7 +8,7 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.Permissions
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(
+internal class MainActivityViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val prefsGateway: AppPreferencesGateway,
     private val presentationPrefs: PresentationPreferencesGateway
