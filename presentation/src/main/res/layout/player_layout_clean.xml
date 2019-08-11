@@ -44,8 +44,8 @@
             android:paddingEnd="0dp"
             android:paddingStart="0dp"
             android:paddingTop="20dp"
-            app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
-            app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
+            app:layout_constraintEnd_toEndOf="@+id/textWrapper"
+            app:layout_constraintStart_toStartOf="@+id/textWrapper"
             app:layout_constraintTop_toBottomOf="@+id/textWrapper"
             tools:max="100"
             tools:progress="40" />
