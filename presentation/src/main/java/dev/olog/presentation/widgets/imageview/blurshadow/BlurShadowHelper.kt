@@ -53,7 +53,6 @@ class BlurShadowHelper(
     }
 
     private fun makeBlurShadow() {
-        println("make blur shadow $this")
         val blur = BlurShadow.blur(
             view,
             view.width,

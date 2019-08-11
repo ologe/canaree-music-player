@@ -12,18 +12,6 @@ class NormalizedEqualizer(priority: Int, audioSession: Int) {
             equalizer.enabled = value
         }
 
-    init {
-        for (index in 0 until equalizer.numberOfPresets) {
-            val presetName = equalizer.getPresetName(index.toShort())
-            println("preset $presetName")
-            equalizer.usePreset(index.toShort())
-
-            for (band in 0 until equalizer.numberOfBands) {
-                println("${getBandFrequency(band)}:${getBandLevel(band )}")
-            }
-        }
-    }
-
     // return frequency in Hz instead of milliHz
     fun getBandFrequency(band: Int): Float {
         val freq = equalizer.getCenterFreq(band.toShort()).toFloat()
