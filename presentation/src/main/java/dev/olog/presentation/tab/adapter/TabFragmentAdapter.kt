@@ -93,7 +93,7 @@ internal class TabFragmentAdapter(
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.view.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
-            quickAction.setId(item.mediaId)
+            quickAction?.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle
         }

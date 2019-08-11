@@ -7,9 +7,12 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 
-internal fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Folder.toTabDisplayableItem(
+    resources: Resources,
+    requestedSpanSize: Int
+): DisplayableItem {
     return DisplayableAlbum(
-        type = R.layout.item_tab_album,
+        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
@@ -25,10 +28,13 @@ internal fun Playlist.toAutoPlaylist(): DisplayableItem {
     )
 }
 
-internal fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Playlist.toTabDisplayableItem(
+    resources: Resources,
+    requestedSpanSize: Int
+): DisplayableItem {
 
     return DisplayableAlbum(
-        type = R.layout.item_tab_album,
+        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
@@ -48,20 +54,23 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
 }
 
 
-internal fun Album.toTabDisplayableItem(): DisplayableItem {
+internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem {
     return DisplayableAlbum(
-        type = R.layout.item_tab_album,
+        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = getMediaId(),
         title = title,
         subtitle = artist
     )
 }
 
-internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Artist.toTabDisplayableItem(
+    resources: Resources,
+    requestedSpanSize: Int
+): DisplayableItem {
     val songs = DisplayableAlbum.readableSongCount(resources, songs)
 
     return DisplayableAlbum(
-        type = R.layout.item_tab_artist,
+        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_artist,
         mediaId = getMediaId(),
         title = name,
         subtitle = songs
@@ -69,9 +78,12 @@ internal fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem 
 }
 
 
-internal fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
+internal fun Genre.toTabDisplayableItem(
+    resources: Resources,
+    requestedSpanSize: Int
+): DisplayableItem {
     return DisplayableAlbum(
-        type = R.layout.item_tab_album,
+        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = getMediaId(),
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
