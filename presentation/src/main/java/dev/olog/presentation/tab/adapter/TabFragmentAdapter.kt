@@ -42,8 +42,8 @@ internal class TabFragmentAdapter(
             R.layout.item_tab_song,
             R.layout.item_tab_podcast -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    val sort = viewModel.getAllTracksSortOrder(item.mediaId)
-                    mediaProvider.playFromMediaId(item.mediaId, null, sort)
+                    onItemClick(item)
+
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item.mediaId, viewHolder.itemView)
@@ -54,7 +54,7 @@ internal class TabFragmentAdapter(
             R.layout.item_tab_artist,
             R.layout.item_tab_auto_playlist -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    navigator.toDetailFragment(item.mediaId)
+                    onItemClick(item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item.mediaId, viewHolder.itemView)
@@ -68,6 +68,15 @@ internal class TabFragmentAdapter(
                 val view = viewHolder.itemView as RecyclerView
                 setupNestedList.setupNestedList(viewType, view)
             }
+        }
+    }
+
+    private fun onItemClick(item: DisplayableItem){
+        if (item is DisplayableTrack){
+            val sort = viewModel.getAllTracksSortOrder(item.mediaId)
+            mediaProvider.playFromMediaId(item.mediaId, null, sort)
+        } else if (item is DisplayableAlbum){
+            navigator.toDetailFragment(item.mediaId)
         }
     }
 
