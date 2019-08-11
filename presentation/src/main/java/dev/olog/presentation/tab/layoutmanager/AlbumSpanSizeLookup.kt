@@ -6,10 +6,8 @@ import dev.olog.presentation.model.BaseModel
 
 class AlbumSpanSizeLookup(
     private val adapter: ObservableAdapter<BaseModel>,
-    private val requestedSpanSize: Int
-
-
-) : AbsSpanSizeLookup() {
+    requestedSpanSize: Int
+) : AbsSpanSizeLookup(requestedSpanSize) {
 
 
     override fun getSpanSize(position: Int): Int {

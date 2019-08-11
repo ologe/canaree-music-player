@@ -256,6 +256,10 @@ internal class PresentationPreferencesImpl @Inject constructor(
         return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(context, category))
     }
 
+    override fun observeSpanCount(category: TabCategory): Flow<Int> {
+        return preferences.observeKey("${category}_span", SpanCountController.getDefaultSpan(context, category))
+    }
+
     override fun setSpanCount(category: TabCategory, spanCount: Int) {
         preferences.edit {
             putInt("${category}_span", spanCount)

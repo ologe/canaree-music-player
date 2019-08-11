@@ -1,9 +1,8 @@
 package dev.olog.presentation.tab.layoutmanager
 
 class SongSpanSizeLookup(
-    private val currentSpanSize: Int
+    requestedSpanSize: Int
+) : AbsSpanSizeLookup(requestedSpanSize) {
 
-) : AbsSpanSizeLookup() {
-
-    override fun getSpanSize(position: Int): Int = getSpanCount() / currentSpanSize
+    override fun getSpanSize(position: Int): Int = getSpanCount() / requestedSpanSize
 }

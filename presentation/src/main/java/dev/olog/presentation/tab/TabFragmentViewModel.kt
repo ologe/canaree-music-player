@@ -49,5 +49,6 @@ internal class TabFragmentViewModel @Inject constructor(
     }
 
     fun getSpanCount(category: TabCategory) = presentationPrefs.getSpanCount(category)
+    fun observeSpanCount(category: TabCategory) = presentationPrefs.observeSpanCount(category)
 
 }

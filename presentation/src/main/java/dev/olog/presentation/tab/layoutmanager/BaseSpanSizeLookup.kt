@@ -1,9 +1,8 @@
 package dev.olog.presentation.tab.layoutmanager
 
 class BaseSpanSizeLookup(
-    private val requestedSpanSize: Int
-
-) : AbsSpanSizeLookup() {
+    requestedSpanSize: Int
+) : AbsSpanSizeLookup(requestedSpanSize) {
 
 
     override fun getSpanSize(position: Int): Int {

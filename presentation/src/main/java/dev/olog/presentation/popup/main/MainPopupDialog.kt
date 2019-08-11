@@ -19,6 +19,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.pro.IBilling
+import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
 import javax.inject.Inject
 
@@ -75,22 +76,10 @@ internal class MainPopupDialog @Inject constructor(
                     -1,
                     ""
                 )
-                R.id.gridSize1 -> {
-                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 1)
-                    recreateActivity(anchor)
-                }
-                R.id.gridSize2 -> {
-                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 2)
-                    recreateActivity(anchor)
-                }
-                R.id.gridSize3 -> {
-                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 3)
-                    recreateActivity(anchor)
-                }
-                R.id.gridSize4 -> {
-                    presentationPrefs.setSpanCount(category!!.toTabCategory(), 4)
-                    recreateActivity(anchor)
-                }
+                R.id.gridSize1 -> updateSpanCount(anchor, category!!.toTabCategory(), 1)
+                R.id.gridSize2 -> updateSpanCount(anchor, category!!.toTabCategory(), 2)
+                R.id.gridSize3 -> updateSpanCount(anchor, category!!.toTabCategory(), 3)
+                R.id.gridSize4 -> updateSpanCount(anchor, category!!.toTabCategory(), 4)
                 else -> {
                     when (category) {
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
@@ -106,8 +95,12 @@ internal class MainPopupDialog @Inject constructor(
         popup.show()
     }
 
-    private fun recreateActivity(view: View){
-        (view.context as Activity).recreate()
+    private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
+        val current = presentationPrefs.getSpanCount(category)
+        presentationPrefs.setSpanCount(category, spanCount)
+        if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
+            (view.context as Activity).recreate()
+        }
     }
 
     private fun initializeTracksSort(menu: Menu): SortEntity {

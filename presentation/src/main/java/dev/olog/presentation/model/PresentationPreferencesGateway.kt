@@ -34,6 +34,7 @@ internal interface PresentationPreferencesGateway {
     fun observePlayerControlsVisibility(): Flow<Boolean>
 
     fun getSpanCount(category: TabCategory): Int
+    fun observeSpanCount(category: TabCategory): Flow<Int>
     fun setSpanCount(category: TabCategory, spanCount: Int)
 
     fun setDefault()
