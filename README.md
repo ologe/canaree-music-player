@@ -18,7 +18,7 @@ Canaree (Music Player)
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
 
-Complete music player published in the Play Store. Heavily relies on Dagger, RxJava and Clean architecture.
+Complete music player published in the Play Store. Heavily relies on Dagger, ~~RxJava~~ kotlin coroutines and Clean architecture.
 
 ## Screenshots
 <div style="dispaly:flex">
@@ -30,7 +30,7 @@ Complete music player published in the Play Store. Heavily relies on Dagger, RxJ
 ## Build
 Compilation can be done in 2 ways. Using the first method will prevent you from supporting FFMPEG, FLAC and OPUS formats.  
 #### Method 1 (Fast)
-In `build.gradle` app module.
+In `build.gradle` service-music module.
 * Uncomment
 ```gradle
 implementation 'com.google.android.exoplayer:exoplayer-core:$latest_exoplayer_version
@@ -42,7 +42,6 @@ implementation project(':exoplayer-extension-flac')
 implementation project(':exoplayer-extension-opus')
 implementation project(':exoplayer-extension-ffmpeg')
 ```
-
 
 #### Method 2
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
@@ -56,8 +55,43 @@ implementation project(':exoplayer-extension-ffmpeg')
       ```gradle 
       apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
       ```
+* Create `gradle.properties` in project root folder.
+```groovy
+# OPTIONAL properties
+org.gradle.jvmargs=-Xmx4096m
+org.gradle.parallel=true
+org.gradle.daemon=true
 
-## Extensions (Linux or macOS recommended)
+android.useAndroidX=true
+android.enableJetifier=true
+android.enableSeparateAnnotationProcessing=true
+
+# incremental
+kotlin.incremental=true
+kapt.incremental.apt=true
+# parallel
+kapt.use.worker.api=true
+# compile avoidance
+kapt.include.compile.classpath=false
+
+# proguard
+android.enableR8=true
+android.enableR8.fullMode=true
+
+# MANDATORY properties (keys)
+last_fm_key="your_key"
+last_fm_secret="your_secret"
+
+fritz_key="your_fritz_sdk_key"
+
+aes_password="your_aes_password"
+
+ad_mob_key="your_ad_mob_key"
+# test ad unit id
+ad_mob_unity_id_bottom_navigation="ca-app-pub-3940256099942544/6300978111"
+```
+
+### Extensions (Linux or macOS recommended)
 To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding 
 ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported. 
 * [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
