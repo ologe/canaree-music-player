@@ -55,6 +55,7 @@
         android:layout_height="0dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        tools:listitem="@layout/item_about"/>
+        tools:listitem="@layout/item_about"
+        android:clipToPadding="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
