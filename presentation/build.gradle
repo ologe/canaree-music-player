@@ -14,15 +14,15 @@ android {
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
 
-            resValue "string", "ad_mob_key", ab_mob_key
-            resValue "string", "ab_mob_unity_id_bottom_navigation", ab_mob_unity_id_bottom_navigation
+            resValue "string", "ad_mob_key", ad_mob_key
+            resValue "string", "ad_mob_unity_id_bottom_navigation", ad_mob_unity_id_bottom_navigation
         }
         debug {
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
 
-            resValue "string", "ad_mob_key", ab_mob_key
-            resValue "string", "ab_mob_unity_id_bottom_navigation", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "ad_mob_key", ad_mob_key
+            resValue "string", "ad_mob_unity_id_bottom_navigation", "ca-app-pub-3940256099942544/6300978111"
         }
     }
 

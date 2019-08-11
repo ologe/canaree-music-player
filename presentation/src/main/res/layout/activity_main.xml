@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/ab_mob_unity_id_bottom_navigation"
+            ads:adUnitId="@string/ad_mob_unity_id_bottom_navigation"
             android:clickable="true"
             android:focusable="true"
             android:layout_marginTop="4dp" />
