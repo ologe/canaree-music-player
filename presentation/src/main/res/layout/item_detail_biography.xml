@@ -11,6 +11,7 @@
         android:id="@+id/biography"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="13dp"
         tools:text="@tools:sample/lorem/random"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintTop_toTopOf="parent"
