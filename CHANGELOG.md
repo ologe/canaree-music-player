@@ -7,17 +7,16 @@
     - Splitted app in packages
 
 - **UI**
-    - Overall ui changes
-    - Changed dark mode implementation to follow [Material Design Specification](https://material.io/design/color/dark-theme.html)
-        - Only 3 dark mode modes:
+    - Overall UI changes
+    - Changed `Dark Mode` implementation to follow [Material Design Specification](https://material.io/design/color/dark-theme.html)
+        - Only 3 modes:
             - Follow system (Android Q)/Set by Battery Saver(pre Android Q)
             - Light mode 
             - Dark mode
-        - Dark mode default covers are now colored
+        - Default covers are now colored
         - Too much saturated colors now will be desaturated for a better contrast
     - Added volume controls in all player themes
-    - New icon shape available
-        - Cur corner
+    - New icon shape available called `cut corner`
     - Merged `Tracks` and `Podcast` bottom navigation items to a single `Library` item
     - Added bottom navigation, sliding panel, toolbar, tab layout and FABs translation Y when 
         scrolling any list
@@ -25,28 +24,29 @@
     - Added dynamic grid size
             
 - **Features**
-    - Added `is podcast` override in edit track, edit album and edit artist
-    - Made offline lyrics sync customizable for for track instead of being global
-    - Added 10 band equalizer to android P and above, on pre Android P devices, the default 5 band 
+    - Added `is podcast` override in edit track, edit album and edit artist, to avoid moving manually 
+        a track into `Podcast` folder on device. When a track is in the Podcast category, last position 
+        will be saved when exiting the app or changing podcast.
+    - Made offline lyrics sync customizable for every track instead of being global
+    - Added `10 band equalizer` to android P and above. On devices pre Android P, the default 5 band 
         equalizer will be used
     - Added changelog in about screen
     - Now you can opt-in to show a banner AD to enable premium
-    - Unlocked some setting customization to all users
+    - Unlocked some settings customization to all users
     - Added artist and album biography
-    - Added image stylizer: when editing a track, album and artist you can choose to blend the album 
+    - Added `image stylizer`: when editing a track, album and artist you can choose to blend the album 
         art with a painting (additional module has to be downloaded). Thanks to [Fritz](https://www.fritz.ai/). 
       
 - **Misc**
-    - Android Q support
-    - When title contains `explicit` (case insensitive + parenthesis allowed), an explicit icon
+    - **Android Q support**
+    - When a track title contains `explicit` (case insensitive + parenthesis allowed), an explicit icon
         will be displayed
     - Added animations to floating window
-    - Cold/hot start performance increased
-    - Overall performance increase
+    - Cold/hot start performance improved
+    - Overall performance improvements
     - Force to portrait only
-    - Removed widget with queue (ugly, bad performance and causing crashes)
-    - When trying to login to LastFm, a network call will be made to check is inserted
-        credentials are valid
+    - Removed widget with queue (ugly, bad performance and was causing crashes)
+    - When trying to login to LastFm, a network call will be made to check is the credentials are valid
     - Now images will be downloaded from Deezer instead of LastFm because of better quality (1000x1000)
     - Updated community from Google+ (deprecated by Google) to a [subreddit](https://www.reddit.com/r/canaree/)
     - Removed share app  
@@ -54,7 +54,7 @@
 - **Bug fixes**
     - Improved overall stability
     - Android Auto stuck at loading 
-    - Fixed playing queue drag and drop + index problems
+    - Playing queue drag and drop + index problems
     - Overall drag and drop fix
     - Fixed swipeable view swipe not working as intended  
 
