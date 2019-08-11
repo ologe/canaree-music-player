@@ -73,7 +73,7 @@ kotlin.incremental=true
 kapt.incremental.apt=true
 # parallel
 kapt.use.worker.api=true
-# compile avoidance
+# compilation avoidance
 kapt.include.compile.classpath=false
 
 # proguard
