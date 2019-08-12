@@ -1,7 +1,5 @@
 package dev.olog.shared
 
-import kotlin.math.abs
-
 fun clamp(value: Int, min: Int, max: Int): Int {
     if (value < min) {
         return min
@@ -29,20 +27,23 @@ fun clamp(value: Float, min: Float, max: Float): Float {
     return value
 }
 
-fun indexOfClosest(value: Long, list: List<Long>): Int {
-    var min = Long.MAX_VALUE
-    var closestIndex = -1
-
-    for (index in 0..list.lastIndex) {
-        val v = list[index]
-
-        val diff = abs(v - value)
-
-        if (diff < min) {
-            min = diff
-            closestIndex = index
-        }
+/**
+ * list = | 100 | 200 | 300 | 400 |
+ * value = 202
+ * returns 1
+ */
+fun List<Long>.indexOfClosest(value: Long): Int {
+    if (isEmpty()) {
+        return -1
     }
 
-    return closestIndex
+    if (value > last()) {
+        return lastIndex
+    }
+
+    return clamp(
+        indexOfFirst { it > value } - 1,
+        0,
+        lastIndex
+    )
 }
