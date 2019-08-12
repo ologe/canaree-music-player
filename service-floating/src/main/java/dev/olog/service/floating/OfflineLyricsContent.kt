@@ -3,6 +3,7 @@ package dev.olog.service.floating
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -75,6 +76,7 @@ class OfflineLyricsContent(
                 content.header.text = it.title
                 content.subHeader.text = it.artist
                 content.seekBar.max = it.duration.toInt()
+                content.scrollView.scrollTo(0, 0)
             }
 
         content.sync.setOnClickListener {
@@ -101,6 +103,13 @@ class OfflineLyricsContent(
             .subscribe(this) { (lyrics, type) ->
                 content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 content.text.text = lyrics
+
+                content.text.doOnPreDraw {
+                    if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
+                        val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
+                        content.scrollView.smoothScrollTo(0, scrollTo)
+                    }
+                }
 
                 if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
                     val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)

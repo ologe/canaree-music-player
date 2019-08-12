@@ -164,9 +164,12 @@ abstract class BaseOfflineLyricsPresenter constructor(
             spannableBuilder.appendln()
         }
 
-        val interval = 750L
+        val interval = 300L
 
         return flow {
+            delay(250L)
+            emit(++tick)
+
             while (true) {
                 delay(interval)
                 if (currentSpeed == 0f) {
@@ -178,20 +181,19 @@ abstract class BaseOfflineLyricsPresenter constructor(
             val current = currentStartMillis - syncAdjustmentPublisher.value + // static
                     (it + 1L) * interval * currentSpeed // dynamic
 
-            val closest = syncedLyrics.lyrics
+            syncedLyrics.lyrics
                 .map { it.first }
                 .indexOfClosest(current.toLong())
+        }.distinctUntilChanged()
+            .filter { it >= 0 }
+            .map { closest ->
+                currentParagraph = closest
 
-            if (closest == -1){
-                return@map spannableBuilder to syncedLyrics
+                val (from, to) = words[closest]
+                SpannableStringBuilder(spannableBuilder).apply {
+                    currentSpan(this, from, to)
+                } to syncedLyrics
             }
-            currentParagraph = closest
-
-            val (from, to) = words[closest]
-            SpannableStringBuilder(spannableBuilder).apply {
-                currentSpan(this, from, to)
-            } to syncedLyrics
-        }
     }
 
     fun updateCurrentTrackId(trackId: Long) {

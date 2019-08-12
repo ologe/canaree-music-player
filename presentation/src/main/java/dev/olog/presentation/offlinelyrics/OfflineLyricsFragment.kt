@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.doOnPreDraw
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
@@ -60,6 +61,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
+                scrollView.scrollTo(0, 0)
             }
 
 
@@ -74,9 +76,11 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 text.text = lyrics
 
-                if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                    val scrollTo = OffsetCalculator.compute(text, lyrics, presenter.currentParagraph)
-                    scrollView.smoothScrollTo(0, scrollTo)
+                text.doOnPreDraw {
+                    if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
+                        val scrollTo = OffsetCalculator.compute(text, lyrics, presenter.currentParagraph)
+                        scrollView.scrollTo(0, scrollTo)
+                    }
                 }
             }
 
