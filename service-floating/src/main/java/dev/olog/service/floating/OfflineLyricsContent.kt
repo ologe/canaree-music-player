@@ -6,11 +6,10 @@ import android.view.View
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.NoScrollTouchListener
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
@@ -26,6 +25,8 @@ class OfflineLyricsContent(
     private var lyricsJob: Job? = null
 
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
+
+    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(context) { glueService.playPause() } }
 
     private suspend fun loadImage(mediaId: MediaId) {
         try {
@@ -88,7 +89,7 @@ class OfflineLyricsContent(
         }
         content.fakeNext.setOnClickListener { glueService.skipToNext() }
         content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
-        content.scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
+        content.scrollView.setOnTouchListener(scrollViewTouchListener)
 
         glueService.observePlaybackState()
             .subscribe(this) {
@@ -97,13 +98,19 @@ class OfflineLyricsContent(
             }
 
         presenter.observeLyrics()
-            .subscribe(this) {
-                content.emptyState.toggleVisibility(it.isEmpty(), true)
-                content.text.text = it
+            .subscribe(this) { (lyrics, type) ->
+                content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                content.text.text = lyrics
+
+                if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
+                    val scrollTo = OffsetCalculator.compute(content.text, lyrics, presenter.currentParagraph)
+                    content.scrollView.smoothScrollTo(0, scrollTo)
+                }
             }
 
         content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
+            presenter.resetTick()
         })
     }
 

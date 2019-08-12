@@ -5,10 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
-import dev.olog.offlinelyrics.NoScrollTouchListener
+import dev.olog.core.MediaId
+import dev.olog.image.provider.OnImageLoadingError
+import dev.olog.image.provider.getCachedBitmap
 import dev.olog.media.MediaProvider
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.offlinelyrics.*
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
@@ -16,10 +17,14 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.lazyFast
+import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
 import javax.inject.Inject
@@ -40,6 +45,8 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val mediaProvider by lazy { activity as MediaProvider }
 
+    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (presenter.showAddLyricsIfNeverShown()) {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
@@ -49,11 +56,12 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                image.loadImage(it.mediaId)
+                launch { loadImage(it.mediaId) }
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
             }
+
 
         mediaProvider.observePlaybackState()
             .subscribe(viewLifecycleOwner) {
@@ -62,9 +70,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }
 
         presenter.observeLyrics()
-            .subscribe(viewLifecycleOwner) {
-                emptyState.toggleVisibility(it.isEmpty(), true)
-                text.text = it
+            .subscribe(viewLifecycleOwner) { (lyrics, type) ->
+                emptyState.toggleVisibility(lyrics.isEmpty(), true)
+                text.text = lyrics
+
+                if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
+                    val scrollTo = OffsetCalculator.compute(text, lyrics, presenter.currentParagraph)
+                    scrollView.smoothScrollTo(0, scrollTo)
+                }
             }
 
         mediaProvider.observePlaybackState()
@@ -82,7 +95,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     override fun onStart() {
         super.onStart()
-        blurLayout.startBlur()
+
         presenter.onStart()
     }
 
@@ -101,7 +114,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
-        scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
+        scrollView.setOnTouchListener(scrollViewTouchListener)
 
         sync.setOnClickListener { _ ->
             launch {
@@ -116,6 +129,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         seekBar.setListener(onStopTouch = {
             mediaProvider.seekTo(seekBar.progress.toLong())
+            presenter.resetTick()
         }, onStartTouch = {
         }, onProgressChanged = {
         })
@@ -137,8 +151,19 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     override fun onStop() {
         super.onStop()
-        blurLayout.pauseBlur()
         presenter.onStop()
+    }
+
+    private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
+        try {
+            val original = requireContext().getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
+            val blurred = BlurKit.getInstance().blur(original, 20)
+            withContext(Dispatchers.Main){
+                image.setImageBitmap(blurred)
+            }
+        } catch (ex: Throwable){
+            ex.printStackTrace()
+        }
     }
 
     private fun searchLyrics() {

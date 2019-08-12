@@ -13,11 +13,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
-import dev.olog.shared.clamp
 import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -25,11 +23,9 @@ import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
 sealed class Lyrics {
-    data class Normal(val lyrics: Spannable) : Lyrics()
-    data class Synced(val lyrics: List<Pair<Millis, Spannable>>) : Lyrics()
+    class Normal(val lyrics: Spannable) : Lyrics()
+    class Synced(val lyrics: List<Pair<Long, Spannable>>) : Lyrics()
 }
-
-private typealias Millis = Long
 
 abstract class BaseOfflineLyricsPresenter constructor(
     private val context: Context,
@@ -38,6 +34,11 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val insertUseCase: InsertOfflineLyricsUseCase
 
 ) {
+
+    companion object {
+        const val DEFAULT_SPAN_SIZE_DP = 25f
+        const val CURRENT_SPAN_SIZE_DP = 30f
+    }
 
 //    \[\d{2}:\d{2}.\d{2,3}\](.)*
     private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
@@ -55,10 +56,15 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private var syncJob: Job? = null
 
     private var originalLyrics = MutableLiveData<CharSequence>()
-    private val observedLyrics = MutableLiveData<CharSequence>()
+    private val observedLyrics = MutableLiveData<Pair<CharSequence, Lyrics>>()
 
     private var currentStartMillis = -1
     private var currentSpeed = 1f
+
+    private var tick = 0
+
+    var currentParagraph : Int = 0
+        private set
 
     fun onStart() {
         observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
@@ -72,7 +78,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 .flatMapLatest {
                     when (it) {
                         is Lyrics.Normal -> {
-                            flowOf(it.lyrics)
+                            flowOf(it.lyrics to it)
                         }
                         is Lyrics.Synced -> {
                             handleSyncedLyrics(it)
@@ -104,7 +110,11 @@ abstract class BaseOfflineLyricsPresenter constructor(
         currentSpeed = speed
     }
 
-    fun observeLyrics(): LiveData<CharSequence> = observedLyrics
+    fun resetTick(){
+        tick = 0
+    }
+
+    fun observeLyrics(): LiveData<Pair<CharSequence, Lyrics>> = observedLyrics
 
     private suspend fun onNextLyrics(lyrics: String) {
         withContext(Dispatchers.Main) {
@@ -145,7 +155,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         }
     }
 
-    private fun handleSyncedLyrics(syncedLyrics: Lyrics.Synced): Flow<Spannable> {
+    private fun handleSyncedLyrics(syncedLyrics: Lyrics.Synced): Flow<Pair<Spannable, Lyrics>> {
         spannableBuilder.clear()
         val words = mutableListOf<Pair<Int, Int>>()
         for (lyric in syncedLyrics.lyrics) {
@@ -154,10 +164,9 @@ abstract class BaseOfflineLyricsPresenter constructor(
             spannableBuilder.appendln()
         }
 
-        val interval = clamp(AppConstants.PROGRESS_BAR_INTERVAL, 250, Long.MAX_VALUE)
+        val interval = 750L
 
         return flow {
-            var tick = 0
             while (true) {
                 delay(interval)
                 if (currentSpeed == 0f) {
@@ -166,18 +175,22 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 emit(++tick)
             }
         }.map {
-            val current = currentStartMillis + syncAdjustmentPublisher.value + // static
+            val current = currentStartMillis - syncAdjustmentPublisher.value + // static
                     (it + 1L) * interval * currentSpeed // dynamic
-            val closest = indexOfClosest(current.toLong(), syncedLyrics.lyrics.map { it.first })
+
+            val closest = syncedLyrics.lyrics
+                .map { it.first }
+                .indexOfClosest(current.toLong())
 
             if (closest == -1){
-                return@map spannableBuilder
+                return@map spannableBuilder to syncedLyrics
             }
+            currentParagraph = closest
 
             val (from, to) = words[closest]
             SpannableStringBuilder(spannableBuilder).apply {
                 currentSpan(this, from, to)
-            }
+            } to syncedLyrics
         }
     }
 
@@ -218,7 +231,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                AbsoluteSizeSpan(context.dpToPx(25f)),
+                AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
                 0,
                 lyrics.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -234,7 +247,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(25f)),
+            AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
             from,
             to,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -249,7 +262,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(30f)),
+            AbsoluteSizeSpan(context.dpToPx(CURRENT_SPAN_SIZE_DP)),
             from,
             to,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
