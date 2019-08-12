@@ -39,7 +39,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         viewModelScope.launch {
             queueLiveData.asFlow()
-                .combineLatest(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
+                .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
                 { queue, idInPlaylist ->
                     val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
                     queue.mapIndexed { index, item ->

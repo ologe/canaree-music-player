@@ -23,7 +23,7 @@ import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(

@@ -10,12 +10,9 @@ import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
@@ -47,7 +44,7 @@ internal class EqualizerRepository @Inject constructor(
 
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
         return prefs.observeCurrentPresetId()
-            .switchMap { dao.observePresetById(it).asFlow() }
+            .flatMapLatest { dao.observePresetById(it).asFlow() }
             .map { it.toDomain() }
             .distinctUntilChanged()
     }

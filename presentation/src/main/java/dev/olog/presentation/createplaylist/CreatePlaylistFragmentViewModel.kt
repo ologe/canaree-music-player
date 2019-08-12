@@ -46,11 +46,11 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             showOnlyFiltered.asFlow()
-                .switchMap { onlyFiltered ->
+                .flatMapLatest { onlyFiltered ->
                     if (onlyFiltered){
                         getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
                     } else {
-                        getPlaylistTypeTracks().combineLatest(filterChannel.asFlow()) { tracks, filter ->
+                        getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
                             if (filter.isNotEmpty()) {
                                 tracks.filter {
                                     it.title.contains(filter, true) ||

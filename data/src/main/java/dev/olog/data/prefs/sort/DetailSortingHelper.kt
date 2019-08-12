@@ -9,6 +9,7 @@ import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortDetail
 import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ internal class DetailSortingHelper @Inject constructor(
 
     override fun observeDetailFolderSort(): Flow<SortEntity> {
         return preferences.observeKey(DETAIL_SORT_FOLDER_ORDER, SortType.TITLE.ordinal)
-            .combineLatest(
+            .combine(
                 preferences.observeKey(
                     DETAIL_SORT_FOLDER_ARRANGING,
                     SortArranging.ASCENDING.ordinal
@@ -48,7 +49,7 @@ internal class DetailSortingHelper @Inject constructor(
 
     override fun observeDetailPlaylistSort(): Flow<SortEntity> {
         return preferences.observeKey(DETAIL_SORT_PLAYLIST_ORDER, SortType.CUSTOM.ordinal)
-            .combineLatest(
+            .combine(
                 preferences.observeKey(
                     DETAIL_SORT_PLAYLIST_ARRANGING,
                     SortArranging.ASCENDING.ordinal
@@ -63,7 +64,7 @@ internal class DetailSortingHelper @Inject constructor(
 
     override fun observeDetailAlbumSort(): Flow<SortEntity> {
         return preferences.observeKey(DETAIL_SORT_ALBUM_ORDER, SortType.TITLE.ordinal)
-            .combineLatest(
+            .combine(
                 preferences.observeKey(
                     DETAIL_SORT_ALBUM_ARRANGING,
                     SortArranging.ASCENDING.ordinal
@@ -78,7 +79,7 @@ internal class DetailSortingHelper @Inject constructor(
 
     override fun observeDetailArtistSort(): Flow<SortEntity> {
         return preferences.observeKey(DETAIL_SORT_ARTIST_ORDER, SortType.TITLE.ordinal)
-            .combineLatest(
+            .combine(
                 preferences.observeKey(
                     DETAIL_SORT_ARTIST_ARRANGING,
                     SortArranging.ASCENDING.ordinal
@@ -93,7 +94,7 @@ internal class DetailSortingHelper @Inject constructor(
 
     override fun observeDetailGenreSort(): Flow<SortEntity> {
         return preferences.observeKey(DETAIL_SORT_GENRE_ORDER, SortType.TITLE.ordinal)
-            .combineLatest(
+            .combine(
                 preferences.observeKey(
                     DETAIL_SORT_GENRE_ARRANGING,
                     SortArranging.ASCENDING.ordinal

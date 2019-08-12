@@ -8,7 +8,7 @@ import dev.olog.data.db.entities.OfflineLyricsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class OfflineLyricsRepository @Inject constructor(

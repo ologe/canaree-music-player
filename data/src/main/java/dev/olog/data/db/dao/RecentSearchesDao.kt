@@ -24,7 +24,7 @@ import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class RecentSearchesDao {

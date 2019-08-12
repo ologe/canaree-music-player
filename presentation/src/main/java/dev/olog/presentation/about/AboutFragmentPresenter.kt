@@ -11,7 +11,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.pro.IBilling
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combineLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 
@@ -123,21 +123,20 @@ class AboutFragmentPresenter(
 
     init {
         launch {
-            billing.observeBillingsState()
-                .combineLatest(flowOf(data)) { state, data ->
-                    when {
-                        state.isBought -> listOf(alreadyPro).plus(data)
-                        state.isTrial -> listOf(trial).plus(data)
-                        else -> listOf(noPro).plus(data)
-                    }
-                }.flowOn(Dispatchers.Default)
+            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
+                when {
+                    state.isBought -> listOf(alreadyPro).plus(data)
+                    state.isTrial -> listOf(trial).plus(data)
+                    else -> listOf(noPro).plus(data)
+                }
+            }.flowOn(Dispatchers.Default)
                 .collect {
                     dataLiveData.value = it
                 }
         }
     }
 
-    fun onCleared(){
+    fun onCleared() {
         cancel()
     }
 

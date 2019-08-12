@@ -21,7 +21,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class PodcastArtistRepository @Inject constructor(
@@ -83,7 +83,7 @@ internal class PodcastArtistRepository @Inject constructor(
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
-        return observeAll().combineLatest(lastPlayedDao.getAll().asFlow()) { all, lastPlayed ->
+        return observeAll().combine(lastPlayedDao.getAll().asFlow()) { all, lastPlayed ->
             if (all.size < HasLastPlayed.MIN_ITEMS) {
                 listOf() // too few album to show recents
             } else {

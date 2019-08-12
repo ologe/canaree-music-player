@@ -48,7 +48,7 @@ class SearchDataProvider @Inject constructor(
     }
 
     fun observe(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow().switchMap { query ->
+        return queryChannel.asFlow().flatMapLatest { query ->
             if (query.isBlank()) {
                 getRecents()
             } else {
@@ -59,31 +59,31 @@ class SearchDataProvider @Inject constructor(
 
     fun observeArtists(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
-            .switchMap { getArtists(it) }
+            .flatMapLatest { getArtists(it) }
             .assertBackground()
     }
 
     fun observeAlbums(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
-            .switchMap { getAlbums(it) }
+            .flatMapLatest { getAlbums(it) }
             .assertBackground()
     }
 
     fun observeGenres(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
-            .switchMap { getGenres(it) }
+            .flatMapLatest { getGenres(it) }
             .assertBackground()
     }
 
     fun observePlaylists(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
-            .switchMap { getPlaylists(it) }
+            .flatMapLatest { getPlaylists(it) }
             .assertBackground()
     }
 
     fun observeFolders(): Flow<List<DisplayableItem>> {
         return queryChannel.asFlow()
-            .switchMap { getFolders(it) }
+            .flatMapLatest { getFolders(it) }
             .assertBackground()
     }
 
@@ -107,8 +107,8 @@ class SearchDataProvider @Inject constructor(
     }
 
     private fun getFiltered(query: String): Flow<List<DisplayableItem>> {
-        return getArtists(query).map { if (it.isNotEmpty()) searchHeaders.artistsHeaders(it.size) else it }
-            .combineLatest(
+        return combine(
+                getArtists(query).map { if (it.isNotEmpty()) searchHeaders.artistsHeaders(it.size) else it },
                 getAlbums(query).map { if (it.isNotEmpty()) searchHeaders.albumsHeaders(it.size) else it },
                 getPlaylists(query).map { if (it.isNotEmpty()) searchHeaders.playlistsHeaders(it.size) else it },
                 getGenres(query).map { if (it.isNotEmpty()) searchHeaders.genreHeaders(it.size) else it },
@@ -126,7 +126,7 @@ class SearchDataProvider @Inject constructor(
                             it.album.contains(query, true)
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
-        }.combineLatest(
+        }.combine(
             podcastGateway.observeAll().map {
                 it.asSequence()
                     .filter {
@@ -153,7 +153,7 @@ class SearchDataProvider @Inject constructor(
                             it.artist.contains(query, true)
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
-        }.combineLatest(
+        }.combine(
             podcastAlbumGateway.observeAll().map {
                 if (query.isBlank()) {
                     return@map listOf<DisplayableItem>()
@@ -182,7 +182,7 @@ class SearchDataProvider @Inject constructor(
                     it.name.contains(query, true)
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
-        }.combineLatest(
+        }.combine(
             podcastArtistGateway.observeAll().map {
                 if (query.isBlank()) {
                     return@map listOf<DisplayableItem>()
@@ -210,7 +210,7 @@ class SearchDataProvider @Inject constructor(
                     it.title.contains(query, true)
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
-        }.combineLatest(
+        }.combine(
             podcastPlaylistGateway.observeAll().map {
                 if (query.isBlank()) {
                     return@map listOf<DisplayableItem>()

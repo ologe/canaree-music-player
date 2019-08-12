@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.offlinelyrics2.OfflineLyricsFragment2
 import dev.olog.presentation.playermini.MiniPlayerFragment
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialog
 
@@ -19,9 +18,6 @@ abstract class MainActivityFragmentsModule {
 
     @ContributesAndroidInjector
     internal abstract fun provideOfflineLyricsFragment(): OfflineLyricsFragment
-
-    @ContributesAndroidInjector
-    internal abstract fun provideOfflineLyrics2Fragment(): OfflineLyricsFragment2
 
     @ContributesAndroidInjector
     internal abstract fun provideCategoriesFragment(): LibraryFragment

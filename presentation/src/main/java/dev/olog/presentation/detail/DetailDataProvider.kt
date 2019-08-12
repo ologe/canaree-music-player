@@ -84,9 +84,9 @@ internal class DetailDataProvider @Inject constructor(
 
     fun observe(mediaId: MediaId, filterFlow: Flow<String>): Flow<List<DisplayableItem>> {
         val songListFlow = sortOrderUseCase(mediaId)
-            .switchMap { order ->
+            .flatMapLatest { order ->
                 observeSongListByParamUseCase(mediaId)
-                    .combineLatest(filterFlow) { songList, filter ->
+                    .combine(filterFlow) { songList, filter ->
                         val filteredSongList: MutableList<Song> = songList.asSequence()
                             .filter {
                                 it.title.contains(filter, true) ||
@@ -112,7 +112,8 @@ internal class DetailDataProvider @Inject constructor(
                     }
             }
 
-        return observeHeader(mediaId).combineLatest(
+        return combine(
+            observeHeader(mediaId),
             observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
             observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
             observeRecentlyAdded(mediaId).map {

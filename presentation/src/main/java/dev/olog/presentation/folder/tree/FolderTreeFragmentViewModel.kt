@@ -50,7 +50,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             currentDirectory.asFlow()
-                .switchMap { file ->
+                .flatMapLatest { file ->
                     gateway.observeFolderChildren(file)
                         .map { addHeaders(file, it) }
                 }
@@ -60,7 +60,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 }
         }
         viewModelScope.launch {
-            currentDirectory.asFlow().combineLatest(appPreferencesUseCase.observeDefaultMusicFolder())
+            currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
             { current, default -> current.path == default.path }
                 .collect { isCurrentFolderDefaultFolder.value = it }
         }

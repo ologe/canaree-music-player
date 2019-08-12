@@ -21,7 +21,7 @@ import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.reactive.flow.asFlow
+import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 import android.provider.MediaStore.Audio.Playlists.*
 import androidx.core.content.edit

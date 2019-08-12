@@ -63,13 +63,13 @@ abstract class BaseOfflineLyricsPresenter constructor(
     fun onStart() {
         observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
             currentTrackIdPublisher.asFlow()
-                .switchMap { id -> observeUseCase(id) }
+                .flatMapLatest { id -> observeUseCase(id) }
                 .flowOn(Dispatchers.IO)
                 .collect { onNextLyrics(it) }
         }
         transformLyricsJob = GlobalScope.launch {
             lyricsPublisher.asFlow()
-                .switchMap {
+                .flatMapLatest {
                     when (it) {
                         is Lyrics.Normal -> {
                             flowOf(it.lyrics)
@@ -88,7 +88,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         }
         syncJob = GlobalScope.launch {
             currentTrackIdPublisher.asFlow()
-                .switchMap { lyricsGateway.observeSyncAdjustment(it) }
+                .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
                 .collect { syncAdjustmentPublisher.offer(it) }
         }
     }

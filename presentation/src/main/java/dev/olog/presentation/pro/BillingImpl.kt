@@ -137,8 +137,10 @@ internal class BillingImpl @Inject constructor(
     }
 
     override fun observeBillingsState(): Flow<BillingState> {
-        return premiumPublisher.asFlow().combineLatest(trialPublisher.asFlow(), showAdPublisher.asFlow())
-        { premium, trial, showAds ->
+        return combine(
+            premiumPublisher.asFlow(),
+            trialPublisher.asFlow(),
+            showAdPublisher.asFlow()) { premium, trial, showAds ->
             BillingState(trial, premium, showAds)
         }.distinctUntilChanged()
     }
