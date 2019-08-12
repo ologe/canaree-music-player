@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
 sealed class Lyrics {
-    data class Normal(val lyrics: String) : Lyrics()
+    data class Normal(val lyrics: Spannable) : Lyrics()
     data class Synced(val lyrics: List<Pair<Millis, Spannable>>) : Lyrics()
 }
 
@@ -118,7 +118,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.offer(Lyrics.Normal(lyrics))
+            lyricsPublisher.offer(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -206,6 +206,23 @@ abstract class BaseOfflineLyricsPresenter constructor(
         insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
             insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
+        }
+    }
+
+    private fun noSyncDefaultSpan(lyrics: String): Spannable {
+        return SpannableStringBuilder(lyrics).apply {
+            setSpan(
+                ForegroundColorSpan(Color.WHITE),
+                0,
+                lyrics.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                AbsoluteSizeSpan(context.dpToPx(25f)),
+                0,
+                lyrics.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
 
