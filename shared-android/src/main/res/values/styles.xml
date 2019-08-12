@@ -55,7 +55,6 @@
 
         <item name="android:overScrollMode">never</item>
 
-        <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
