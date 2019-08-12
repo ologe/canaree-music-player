@@ -29,11 +29,11 @@ fun clamp(value: Float, min: Float, max: Float): Float {
     return value
 }
 
-fun indexOfClosest(value: Int, list: List<Int>): Int {
-    var min = Integer.MAX_VALUE
+fun indexOfClosest(value: Long, list: List<Long>): Int {
+    var min = Long.MAX_VALUE
     var closestIndex = -1
 
-    for (index in 0 until list.lastIndex){
+    for (index in 0 until list.lastIndex) {
         val v = list[index]
 
         val diff = abs(v - value)
