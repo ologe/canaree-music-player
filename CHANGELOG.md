@@ -22,6 +22,8 @@
         scrolling any list
     - Added text horizontal scroll to mini player and player 
     - Added dynamic grid size
+    - Renamed `Clean` player appearance to `Glow`
+    - Added auto scroll to sync lyrics  
             
 - **Features**
     - Added `is podcast` override in edit track, edit album and edit artist, to avoid moving manually 
