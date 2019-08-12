@@ -33,7 +33,7 @@ fun indexOfClosest(value: Long, list: List<Long>): Int {
     var min = Long.MAX_VALUE
     var closestIndex = -1
 
-    for (index in 0 until list.lastIndex) {
+    for (index in 0..list.lastIndex) {
         val v = list[index]
 
         val diff = abs(v - value)
