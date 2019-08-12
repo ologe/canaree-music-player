@@ -165,9 +165,8 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 delay(interval)
                 if (currentSpeed == 0f) {
                     tick = 0
-                } else {
-                    emit(++tick)
                 }
+                emit(++tick)
             }
         }.map {
             val current = currentStartMillis + syncAdjustmentPublisher.value + // static
