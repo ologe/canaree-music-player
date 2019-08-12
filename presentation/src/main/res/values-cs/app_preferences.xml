@@ -56,7 +56,7 @@
   <string name="prefs_appearance_spotify">Známý zelený hudební přehrávač</string>
   <string name="prefs_appearance_fullscreen">Režim plné obrazovky</string>
   <string name="prefs_appearance_big_image">Režim velkého obrázku</string>
-  <string name="prefs_appearance_clean">Čisté</string>
+  <string name="prefs_appearance_clean">Záře</string>
   <!--dark mode-->
   <string name="prefs_dark_mode_title">Temný režim</string>
   <string name="prefs_dark_mode_light">Světlo</string>

@@ -164,7 +164,7 @@
     <string name="prefs_appearance_spotify">Famous green music player</string>
     <string name="prefs_appearance_fullscreen">Fullscreen</string>
     <string name="prefs_appearance_big_image">Big image</string>
-    <string name="prefs_appearance_clean">Clean</string>
+    <string name="prefs_appearance_clean">Glow</string>
     <string name="prefs_appearance_mini">Mini</string>
 
     <string-array name="prefs_appearance_entry_values">
