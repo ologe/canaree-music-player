@@ -154,13 +154,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
             spannableBuilder.appendln()
         }
 
-        var lastClosest = -1
-
         val interval = clamp(AppConstants.PROGRESS_BAR_INTERVAL, 250, Long.MAX_VALUE)
 
         return flow {
             var tick = 0
-            emit(tick)
             while (true) {
                 delay(interval)
                 if (currentSpeed == 0f) {
@@ -173,26 +170,14 @@ abstract class BaseOfflineLyricsPresenter constructor(
                     (it + 1L) * interval * currentSpeed // dynamic
             val closest = indexOfClosest(current.toLong(), syncedLyrics.lyrics.map { it.first })
 
-            if (closest == -1) {
-                // do nothing
+            if (closest == -1){
                 return@map spannableBuilder
             }
 
-            if (lastClosest == closest) {
-                // same
-                return@map spannableBuilder
-            }
-
-            if (lastClosest != -1) {
-                // set span to default
-                val (from, to) = words[lastClosest]
-                defaultSpan(spannableBuilder, from, to)
-            }
             val (from, to) = words[closest]
-            currentSpan(spannableBuilder, from, to)
-
-            lastClosest = closest
-            spannableBuilder
+            SpannableStringBuilder(spannableBuilder).apply {
+                currentSpan(this, from, to)
+            }
         }
     }
 
@@ -229,7 +214,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             ForegroundColorSpan(0xFF_757575.toInt()),
             from,
             to,
-            Spanned.SPAN_INCLUSIVE_INCLUSIVE
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
             AbsoluteSizeSpan(context.dpToPx(25f)),
@@ -244,7 +229,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             ForegroundColorSpan(Color.WHITE),
             from,
             to,
-            Spanned.SPAN_INCLUSIVE_INCLUSIVE
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
             AbsoluteSizeSpan(context.dpToPx(30f)),
