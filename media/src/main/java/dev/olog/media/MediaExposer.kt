@@ -29,6 +29,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
@@ -80,7 +81,15 @@ class MediaExposer(
         }
 
         if (!mediaBrowser.isConnected){
-            mediaBrowser.connect()
+            try {
+                mediaBrowser.connect()
+            } catch (ex: IllegalStateException){
+                if (ex.message?.trim() == "connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)"){
+                    // already connecting
+                    return
+                }
+                throw ex
+            }
         }
     }
 
