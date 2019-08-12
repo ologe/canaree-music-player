@@ -45,12 +45,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
         }
 
-        seekBar.setListener(onStopTouch = {
-            mediaProvider.seekTo(seekBar.progress.toLong())
-        }, onStartTouch = {
-        }, onProgressChanged = {
-        })
-
         mediaProvider.observeMetadata()
             .subscribe(viewLifecycleOwner) {
                 presenter.updateCurrentTrackId(it.id)
@@ -107,7 +101,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
-        // TODO make scroll bad
         scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
 
         sync.setOnClickListener { _ ->
@@ -120,6 +113,12 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 }
             }
         }
+
+        seekBar.setListener(onStopTouch = {
+            mediaProvider.seekTo(seekBar.progress.toLong())
+        }, onStartTouch = {
+        }, onProgressChanged = {
+        })
     }
 
     override fun onPause() {
