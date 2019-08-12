@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <attr name="colorPrimaryTransparent" format="reference|color" />
     <attr name="colorSwipeBackground" format="reference|color"/>
@@ -54,6 +54,8 @@
         <item name="chipStyle">@style/DefaultChip</item>
 
         <item name="android:overScrollMode">never</item>
+
+        <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme">
