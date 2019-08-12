@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
+import io.reactivex.Flowable
 
 @Dao
 abstract class LyricsSyncAdjustmentDao {
@@ -18,7 +19,19 @@ abstract class LyricsSyncAdjustmentDao {
     )
     abstract fun getSync(id: Long): LyricsSyncAdjustmentEntity?
 
+    @Query(
+        """
+        SELECT * 
+        FROM lyrics_sync_adjustment
+        WHERE id = :id
+    """
+    )
+    abstract fun observeSync(id: Long): Flowable<LyricsSyncAdjustmentEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun setSync(entity: LyricsSyncAdjustmentEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertSyncIfEmpty(entity: LyricsSyncAdjustmentEntity)
 
 }

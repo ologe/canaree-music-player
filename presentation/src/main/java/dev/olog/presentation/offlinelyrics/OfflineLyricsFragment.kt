@@ -61,16 +61,17 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 seekBar.max = it.duration.toInt()
             }
 
-        launch {
-            presenter.observeLyrics()
-                .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
-                .map { text.precomputeText(it) }
-                .asLiveData()
-                .subscribe(viewLifecycleOwner) {
-                    emptyState.toggleVisibility(it.isEmpty(), true)
-                    text.text = it
-                }
-        }
+        mediaProvider.observePlaybackState()
+            .subscribe(viewLifecycleOwner) {
+                val speed = if (it.isPaused) 0f else it.playbackSpeed
+                presenter.onStateChanged(it.bookmark, speed)
+            }
+
+        presenter.observeLyrics()
+            .subscribe(viewLifecycleOwner) {
+                emptyState.toggleVisibility(it.isEmpty(), true)
+                text.text = it
+            }
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
@@ -88,6 +89,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onStart() {
         super.onStart()
         blurLayout.startBlur()
+        presenter.onStart()
     }
 
     override fun onResume() {
@@ -103,8 +105,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         search.setOnClickListener { searchLyrics() }
         act.window.removeLightStatusBar()
 
-        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
-        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
+        fakeNext.setOnClickListener { mediaProvider.skipToNext() }
+        fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
+        // TODO make scroll bad
         scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
 
         sync.setOnClickListener { _ ->
@@ -136,6 +139,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onStop() {
         super.onStop()
         blurLayout.pauseBlur()
+        presenter.onStop()
     }
 
     private fun searchLyrics() {

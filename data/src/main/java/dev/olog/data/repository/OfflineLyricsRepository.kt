@@ -7,6 +7,7 @@ import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
 import dev.olog.data.db.entities.OfflineLyricsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.reactive.flow.asFlow
 import javax.inject.Inject
 
@@ -33,6 +34,13 @@ internal class OfflineLyricsRepository @Inject constructor(
 
     override fun getSyncAdjustment(id: Long): Long {
         return syncDao.getSync(id)?.millis ?: 0L
+    }
+
+    override fun observeSyncAdjustment(id: Long): Flow<Long> {
+        return syncDao.observeSync(id)
+            .asFlow()
+            .onStart { syncDao.insertSyncIfEmpty(LyricsSyncAdjustmentEntity(id, 0)) }
+            .map { it.millis }
     }
 
     override suspend fun setSyncAdjustment(id: Long, millis: Long) {

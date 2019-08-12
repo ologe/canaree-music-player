@@ -17,6 +17,7 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
     implementation project(':jaudiotagger')
+    implementation project(':intents')
 
     implementation lib_core.dagger
     kapt lib_core.dagger_processor

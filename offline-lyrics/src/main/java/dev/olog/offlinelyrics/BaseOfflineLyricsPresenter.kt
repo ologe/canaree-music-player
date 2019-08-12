@@ -2,187 +2,207 @@ package dev.olog.offlinelyrics
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.offlinelyrics.model.LyricsModel
 import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.clamp
-import dev.olog.shared.flowInterval
+import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
+sealed class Lyrics {
+    data class Normal(val lyrics: String) : Lyrics()
+    data class Synced(val lyrics: List<Pair<Millis, Spannable>>) : Lyrics()
+}
+
+private typealias Millis = Long
+
 abstract class BaseOfflineLyricsPresenter constructor(
+    private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
     private val observeUseCase: ObserveOfflineLyricsUseCase,
     private val insertUseCase: InsertOfflineLyricsUseCase
 
 ) {
 
-    private var lyricsDisposable: Job? = null
-    protected val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
+//    \[\d{2}:\d{2}.\d{2,3}\](.)*
+    private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
+
+    private val spannableBuilder = SpannableStringBuilder()
+
+    private var insertLyricsJob: Job? = null
+    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
+    private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
+
+    private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
+
+    private var observeLyricsJob: Job? = null
+    private var transformLyricsJob: Job? = null
+    private var syncJob: Job? = null
+
+    private var originalLyrics = MutableLiveData<CharSequence>()
+    private val observedLyrics = MutableLiveData<CharSequence>()
+
+    private var currentStartMillis = -1
+    private var currentSpeed = 1f
+
+    fun onStart() {
+        observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
+            currentTrackIdPublisher.asFlow()
+                .switchMap { id -> observeUseCase(id) }
+                .flowOn(Dispatchers.IO)
+                .collect { onNextLyrics(it) }
+        }
+        transformLyricsJob = GlobalScope.launch {
+            lyricsPublisher.asFlow()
+                .switchMap {
+                    when (it) {
+                        is Lyrics.Normal -> {
+                            flowOf(it.lyrics)
+                        }
+                        is Lyrics.Synced -> {
+                            handleSyncedLyrics(it)
+                        }
+                    }
+                }
+                .flowOn(Dispatchers.Default)
+                .collect {
+                    withContext(Dispatchers.Main) {
+                        observedLyrics.value = it
+                    }
+                }
+        }
+        syncJob = GlobalScope.launch {
+            currentTrackIdPublisher.asFlow()
+                .switchMap { lyricsGateway.observeSyncAdjustment(it) }
+                .collect { syncAdjustmentPublisher.offer(it) }
+        }
+    }
+
+    fun onStop() {
+        observeLyricsJob?.cancel()
+        transformLyricsJob?.cancel()
+        syncJob?.cancel()
+    }
+
+    fun onStateChanged(position: Int, speed: Float) {
+        currentStartMillis = position
+        currentSpeed = speed
+    }
+
+    fun observeLyrics(): LiveData<CharSequence> = observedLyrics
+
+    private suspend fun onNextLyrics(lyrics: String) {
+        withContext(Dispatchers.Main) {
+            originalLyrics.value = lyrics
+        }
+        // add a newline to ensure that last word is matched correctly
+        val sanitizedString = lyrics.trim() + "\n"
+        val matches = matcher.findAll(sanitizedString)
+            .map { it.value.trim() }
+            .toList()
+
+        if (matches.isEmpty()) {
+            // not synced
+            lyricsPublisher.offer(Lyrics.Normal(lyrics))
+        } else {
+            // synced lyrics
+            val result = matches.map {
+
+                val minutes = TimeUnit.MINUTES.toMillis(
+                    it[1].toString().toLong() * 10L +
+                            it[2].toString().toLong()
+                )
+                val seconds = TimeUnit.SECONDS.toMillis(
+                    it[4].toString().toLong() * 10L +
+                            it[5].toString().toLong()
+                )
+                val millis = it[7].toString().toLong() * 100L + it[8].toString().toLong() * 10
+                val time = minutes + seconds + millis
+
+                val textOnly = it.substring(10)
+
+                time to SpannableStringBuilder().apply {
+                    append(textOnly)
+                    defaultSpan(this, 0, textOnly.length)
+                }
+            }
+            lyricsPublisher.offer(Lyrics.Synced(result))
+        }
+    }
+
+    private fun handleSyncedLyrics(syncedLyrics: Lyrics.Synced): Flow<Spannable> {
+        spannableBuilder.clear()
+        val words = mutableListOf<Pair<Int, Int>>()
+        for (lyric in syncedLyrics.lyrics) {
+            words.add(spannableBuilder.length to spannableBuilder.length + lyric.second.length)
+            spannableBuilder.append(lyric.second)
+            spannableBuilder.appendln()
+        }
+
+        var lastClosest = -1
+
+        val interval = clamp(AppConstants.PROGRESS_BAR_INTERVAL, 250, Long.MAX_VALUE)
+
+        return flow {
+            var tick = 0
+            emit(tick)
+            while (true) {
+                delay(interval)
+                if (currentSpeed == 0f) {
+                    tick = 0
+                } else {
+                    emit(++tick)
+                }
+            }
+        }.map {
+            val current = currentStartMillis + syncAdjustmentPublisher.value + // static
+                    (it + 1L) * interval * currentSpeed // dynamic
+            val closest = indexOfClosest(current.toLong(), syncedLyrics.lyrics.map { it.first })
+
+            if (closest == -1) {
+                // do nothing
+                return@map spannableBuilder
+            }
+
+            if (lastClosest == closest) {
+                // same
+                return@map spannableBuilder
+            }
+
+            if (lastClosest != -1) {
+                // set span to default
+                val (from, to) = words[lastClosest]
+                defaultSpan(spannableBuilder, from, to)
+            }
+            val (from, to) = words[closest]
+            currentSpan(spannableBuilder, from, to)
+
+            lastClosest = closest
+            spannableBuilder
+        }
+    }
 
     fun updateCurrentTrackId(trackId: Long) {
         currentTrackIdPublisher.offer(trackId)
     }
 
-    suspend fun getLyrics(): String {
-        return observeLyrics().first().lyrics
-    }
-
-    fun observeLyrics(): Flow<LyricsModel> {
-        return currentTrackIdPublisher.asFlow().switchMap { id ->
-            observeUseCase(id).combineLatest(flowInterval(1, TimeUnit.SECONDS)) { lyrics, _ ->
-                LyricsModel(id, lyrics)
-            }
-        }
-    }
-
-    suspend fun transformLyrics(context: Context, bookmark: Int, model: LyricsModel): Spannable = withContext(Dispatchers.Default){
-        val syncAdjustment = lyricsGateway.getSyncAdjustment(model.id).toInt()
-        val position = clamp(bookmark + syncAdjustment, 0, Int.MAX_VALUE)
-        transformLyricsInternal(context, position, model.lyrics)
-    }
-
-    private fun transformLyricsInternal(
-        context: Context,
-        bookmark: Int,
-        lyrics: String
-    ): Spannable {
-        // TODO recheck
-        val lines = lyrics.split("\n")
-
-        if (searchForSyncedLyrics(lines).take(10).count() == 0) {
-            val spannable = SpannableString(lyrics)
-            spannable.setSpan(
-                ForegroundColorSpan(Color.WHITE),
-                0,
-                spannable.length,
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            spannable.setSpan(
-                AbsoluteSizeSpan(context.dpToPx(16f)),
-                0,
-                spannable.length,
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            return spannable
-        }
-
-        try {
-            val notEmptyLines = lines
-                .asSequence()
-                .map { line ->
-                    val index = line.indexOfFirst { it == '[' }
-                    if (index == -1) {
-                        ""
-                    } else {
-                        line.substring(index)
-                    }
-                }
-                .filter { it.length > 10 }
-                .filter { it[10] != '\r' }
-                .filter { it[0] == '[' && it[9] == ']' }
-                .filter { it[1].isDigit() && it[2].isDigit() && it[4].isDigit() && it[5].isDigit() }
-                .toList()
-
-
-            val timeList = mutableListOf<Int>()
-
-            for (line in notEmptyLines) {
-                val indexOfBracket = line.indexOfFirst { it == '[' }
-                if (indexOfBracket == -1) {
-                    continue
-                }
-                val m1 = line[indexOfBracket + 1].toString().toInt() * 10
-                val m2 = line[indexOfBracket + 2].toString().toInt()
-                val s1 = line[indexOfBracket + 4].toString().toInt() * 10
-                val s2 = line[indexOfBracket + 5].toString().toInt()
-                val m = TimeUnit.MINUTES.toMillis((m1 + m2).toLong()).toInt()
-                val s = TimeUnit.SECONDS.toMillis((s1 + s2).toLong()).toInt()
-                timeList.add(m + s)
-            }
-
-            val closest = dev.olog.shared.indexOfClosest(bookmark, timeList)
-
-            val result = SpannableStringBuilder()
-            for (index in 0..notEmptyLines.lastIndex) {
-                val line = notEmptyLines[index].substring(10)
-                if (index == closest) {
-                    result.append(line)
-                    result.setSpan(
-                        ForegroundColorSpan(Color.WHITE),
-                        result.length - line.length,
-                        result.length,
-                        Spanned.SPAN_INCLUSIVE_INCLUSIVE
-                    )
-                    result.setSpan(
-                        AbsoluteSizeSpan(context.dpToPx(30f)),
-                        result.length - line.length,
-                        result.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                } else {
-                    result.append(line)
-                    result.setSpan(
-                        ForegroundColorSpan(0xFF_757575.toInt()),
-                        result.length - line.length,
-                        result.length,
-                        Spanned.SPAN_INCLUSIVE_INCLUSIVE
-                    )
-                    result.setSpan(
-                        AbsoluteSizeSpan(context.dpToPx(16f)),
-                        result.length - line.length,
-                        result.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-                result.appendln()
-            }
-
-            return result
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
-            val spannable = SpannableString(lyrics)
-            spannable.setSpan(
-                ForegroundColorSpan(Color.WHITE),
-                0,
-                spannable.length,
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            spannable.setSpan(
-                AbsoluteSizeSpan(context.dpToPx(16f)),
-                0,
-                spannable.length,
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            return spannable
-        }
-    }
-
-    private fun searchForSyncedLyrics(lines: List<String>): Sequence<String> {
-        return lines.asSequence()
-            .map { it.trim() }
-            .map { line ->
-                val index = line.indexOfFirst { it == '[' }
-                if (index == -1) {
-                    ""
-                } else {
-                    line.substring(index)
-                }
-            }
-            .filter { it.length > 10 }
-            .filter { it[10] != '\r' }
-            .filter { it[1].isDigit() && it[2].isDigit() && it[4].isDigit() && it[5].isDigit() }
+    fun getLyrics(): String {
+        return originalLyrics.value.toString()
     }
 
     fun updateSyncAdjustment(value: Long) {
@@ -191,7 +211,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         }
     }
 
-    suspend fun getSyncAdjustment(): String = kotlinx.coroutines.withContext(Dispatchers.IO) {
+    suspend fun getSyncAdjustment(): String = withContext(Dispatchers.IO) {
         "${lyricsGateway.getSyncAdjustment(currentTrackIdPublisher.value)}"
     }
 
@@ -199,10 +219,46 @@ abstract class BaseOfflineLyricsPresenter constructor(
         if (currentTrackIdPublisher.valueOrNull == null) {
             return
         }
-        lyricsDisposable?.cancel()
-        lyricsDisposable = GlobalScope.launch {
+        insertLyricsJob?.cancel()
+        insertLyricsJob = GlobalScope.launch {
             insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
         }
+    }
+
+    private fun defaultSpan(builder: SpannableStringBuilder, from: Int, to: Int) {
+        builder.setSpan(
+            ForegroundColorSpan(0xFF_757575.toInt()),
+            from,
+            to,
+            Spanned.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        builder.setSpan(
+            AbsoluteSizeSpan(context.dpToPx(25f)),
+            from,
+            to,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
+    private fun currentSpan(builder: SpannableStringBuilder, from: Int, to: Int) {
+        builder.setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            from,
+            to,
+            Spanned.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        builder.setSpan(
+            AbsoluteSizeSpan(context.dpToPx(30f)),
+            from,
+            to,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        builder.setSpan(
+            StyleSpan(Typeface.BOLD),
+            from,
+            to,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
 }

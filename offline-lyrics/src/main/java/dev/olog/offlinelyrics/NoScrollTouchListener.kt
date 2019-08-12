@@ -23,7 +23,7 @@ class NoScrollTouchListener(
                 timePressed = System.currentTimeMillis()
                 xDown = event.x
                 yDown = event.y
-                return true
+                return false
             }
             MotionEvent.ACTION_UP -> {
                 if (System.currentTimeMillis() - timePressed <= ViewConfiguration.getTapTimeout()){
@@ -32,7 +32,7 @@ class NoScrollTouchListener(
                     if (abs(xUp - xDown) < configuration.scaledTouchSlop &&
                             abs(yUp - yDown) < configuration.scaledTouchSlop){
                         action()
-                        return true
+                        return false
                     }
                 }
             }

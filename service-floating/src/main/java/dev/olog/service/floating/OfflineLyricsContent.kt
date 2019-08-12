@@ -14,8 +14,6 @@ import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class OfflineLyricsContent(
@@ -47,6 +45,8 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         super.onShown()
+
+        presenter.onStart()
 
         glueService.observePlaybackState()
             .subscribe(this) { content.seekBar.onStateChanged(it) }
@@ -86,19 +86,21 @@ class OfflineLyricsContent(
                 }
             }
         }
-        content.fakeNext.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToNext() })
-        content.fakePrev.setOnTouchListener(NoScrollTouchListener(context) { glueService.skipToPrevious() })
+        content.fakeNext.setOnClickListener { glueService.skipToNext() }
+        content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
         content.scrollView.setOnTouchListener(NoScrollTouchListener(context) { glueService.playPause() })
 
-        lyricsJob = GlobalScope.launch(Dispatchers.Main) {
-            presenter.observeLyrics()
-                .map { presenter.transformLyrics(context, content.seekBar.progress, it) }
-                .flowOn(Dispatchers.IO)
-                .collect {
-                    content.emptyState.toggleVisibility(it.isEmpty(), true)
-                    content.text.text = it
-                }
-        }
+        glueService.observePlaybackState()
+            .subscribe(this) {
+                val speed = if (it.isPaused) 0f else it.playbackSpeed
+                presenter.onStateChanged(it.bookmark, speed)
+            }
+
+        presenter.observeLyrics()
+            .subscribe(this) {
+                content.emptyState.toggleVisibility(it.isEmpty(), true)
+                content.text.text = it
+            }
 
         content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
@@ -107,6 +109,7 @@ class OfflineLyricsContent(
 
     override fun onHidden() {
         super.onHidden()
+        presenter.onStop()
         content.edit.setOnClickListener(null)
         content.sync.setOnClickListener(null)
         content.fakeNext.setOnTouchListener(null)

@@ -9,6 +9,7 @@ interface OfflineLyricsGateway {
     suspend fun saveLyrics(offlineLyrics: OfflineLyrics)
 
     fun getSyncAdjustment(id: Long): Long
+    fun observeSyncAdjustment(id: Long): Flow<Long>
     suspend fun setSyncAdjustment(id: Long, millis: Long)
 
 }
