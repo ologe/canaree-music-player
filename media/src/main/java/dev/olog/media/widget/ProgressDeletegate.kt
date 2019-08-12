@@ -33,19 +33,17 @@ class ProgressDeletegate(
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
         incrementJob = launch {
-            var current = 1
-            while (true){
-                delay(AppConstants.PROGRESS_BAR_INTERVAL)
-                current++
-                computeProgress(++current, startMillis, speed)
-            }
+            flowInterval(
+                AppConstants.PROGRESS_BAR_INTERVAL,
+                TimeUnit.MILLISECONDS
+            )
+                .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    setProgress(progressBar, it.toInt())
+                    channel.offer(it.toLong())
+                }
         }
-    }
-
-    private fun computeProgress(time: Int, startMillis: Int, speed: Float){
-        val progress = (time + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis
-        setProgress(progressBar, progress.toInt())
-        channel.offer(progress.toLong())
     }
 
     private fun setProgress(progressBar: ProgressBar, position: Int){
