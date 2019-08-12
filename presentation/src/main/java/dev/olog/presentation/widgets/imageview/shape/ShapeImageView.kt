@@ -93,6 +93,11 @@ open class ShapeImageView(
         }
     }
 
+    override fun requestLayout() {
+        super.requestLayout()
+        mask = null
+    }
+
     private fun getMask(): Bitmap? {
         if (mask == null) {
             mask = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
