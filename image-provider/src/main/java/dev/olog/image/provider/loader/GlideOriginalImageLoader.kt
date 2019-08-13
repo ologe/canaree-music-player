@@ -24,6 +24,9 @@ internal class GlideOriginalImageLoader(
             // artist image never exists on device
             return false
         }
+        if (mediaId.isLeaf){
+            return true
+        }
         if (mediaId.isFolder || mediaId.isPlaylist || mediaId.isGenre || mediaId.isPodcastPlaylist) {
             return false
         }
