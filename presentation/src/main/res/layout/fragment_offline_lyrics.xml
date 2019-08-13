@@ -25,13 +25,13 @@
         android:layout_height="0dp"
         android:clickable="false"
         android:focusable="false"
-        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/placeholder_album"
-        android:elevation="0dp"/>
+        android:elevation="0dp"
+        android:scaleType="centerCrop"/>
 
     <View
         android:layout_width="0dp"

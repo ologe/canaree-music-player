@@ -4,14 +4,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ForegroundImageView
-
+ì
 open class AdaptiveColorImageView(
         context: Context,
         attr: AttributeSet
 
-) : ForegroundImageView(context, attr) {
+) : AppCompatImageView(context, attr) {
 
     private val presenter by lazyFast {
         AdaptiveColorImageViewPresenter(
