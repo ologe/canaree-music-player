@@ -15,7 +15,6 @@ import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import java.io.File
 import java.io.InputStream
 
