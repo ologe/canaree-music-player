@@ -20,6 +20,7 @@
 ### urgent bug
 - crashes when there are no tracks
 - sometimes when opening a fragment, it opens only a blank screen (fragment lib bug?)
+- not always loading embedded image
 
 ## DONE
 - fix android auto not working
