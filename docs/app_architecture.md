@@ -15,7 +15,7 @@
 #### `:app`
 - Must depend on almost every `:module` in order to build the apk
 
-#### ':core'
+#### `:core`
 - Contains gateway that allow decoupled communication between `:data` and other modules
 - Contains common entities
 - Contains interactors (business use-cases)
