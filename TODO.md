@@ -18,7 +18,6 @@
 -  recent search song don't display album, just a dot
 
 ### urgent bug
-- fix image loading when image is in a separate file
 - crashes when there are no tracks
 - sometimes when opening a fragment, it opens only a blank screen (fragment lib bug?)
 
