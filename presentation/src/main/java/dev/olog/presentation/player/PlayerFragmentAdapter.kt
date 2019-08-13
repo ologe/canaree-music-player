@@ -102,8 +102,12 @@ internal class PlayerFragmentAdapter(
                 setupListeners(viewHolder)
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
-                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
-                    navigator.toDialog(mediaId, view)
+                    try {
+                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
+                        navigator.toDialog(mediaId, view)
+                    } catch (ex: NullPointerException){
+                        ex.printStackTrace()
+                    }
                 }
                 viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
