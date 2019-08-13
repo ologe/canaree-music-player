@@ -15,6 +15,11 @@ class ShadowImageView(
 
     private val helper by lazyFast { BlurShadowHelper(this) }
 
+    init {
+        scaleType = ScaleType.CENTER_CROP
+        adjustViewBounds = true
+    }
+
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
         if (!isInEditMode) {

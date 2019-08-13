@@ -5,7 +5,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.view.doOnPreDraw
 import dev.olog.shared.android.extensions.dpToPx
 import kotlinx.coroutines.*
 

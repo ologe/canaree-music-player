@@ -28,6 +28,11 @@ class BlurredBackground(
         private const val BLUR_RADIUS = 25
     }
 
+    init {
+        scaleType = ScaleType.CENTER_CROP
+        adjustViewBounds = true
+    }
+
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     fun loadImage(mediaId: MediaId) {

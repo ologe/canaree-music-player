@@ -16,7 +16,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1"/>
+        app:layout_constraintDimensionRatio="1"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
 
     <FrameLayout
         android:id="@+id/selectedImage"
