@@ -30,7 +30,6 @@ public class ForegroundImageView extends AppCompatImageView {
         setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
 
         setScaleType(ScaleType.CENTER_CROP);
-        setAdjustViewBounds(true);
     }
 
     @Override
