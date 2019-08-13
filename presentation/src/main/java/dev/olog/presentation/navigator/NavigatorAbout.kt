@@ -16,4 +16,6 @@ interface NavigatorAbout {
 
     fun toChangelog()
 
+    fun toGithub()
+
 }

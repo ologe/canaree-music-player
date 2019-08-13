@@ -44,6 +44,24 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
+    override fun toGithub() {
+        val customTabIntent = CustomTabsIntent.Builder()
+            .enableUrlBarHiding()
+            .setToolbarColor(activity.colorSurface())
+            .build()
+        CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
+
+        val uri = Uri.parse("https://github.com/ologe/canaree-music-player")
+        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri) { _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
+        }
+    }
+
     override fun toSpecialThanksFragment() {
         superCerealTransition(
             activity, SpecialThanksFragment(), SpecialThanksFragment.TAG,

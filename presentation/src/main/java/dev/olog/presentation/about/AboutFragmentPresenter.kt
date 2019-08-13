@@ -39,6 +39,8 @@ class AboutFragmentPresenter(
         val BUY_PRO = MediaId.headerId("pro")
         @JvmStatic
         val CHANGELOG = MediaId.headerId("changelog")
+        @JvmStatic
+        val GITHUB = MediaId.headerId("github")
     }
 
 
@@ -96,6 +98,12 @@ class AboutFragmentPresenter(
             type = R.layout.item_about,
             mediaId = CHANGELOG,
             title = "Changelog",
+            subtitle = context.getString(R.string.about_special_thanks_to_description)
+        ),
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = GITHUB,
+            title = "Github repository",
             subtitle = context.getString(R.string.about_special_thanks_to_description)
         )
     )

@@ -35,7 +35,8 @@
     - Made offline lyrics sync customizable for every track instead of being global
     - Added `10 band equalizer` to android P and above. On devices pre Android P, the default 5 band 
         equalizer will be used
-    - Added changelog in about screen
+    - Added changelog link in about screen
+    - Added Github link in about screen
     - Now you can opt-in to show a banner AD to enable premium
     - Unlocked some settings customization to all users
     - Added artist and album biography
