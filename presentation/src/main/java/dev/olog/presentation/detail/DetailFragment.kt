@@ -151,6 +151,7 @@ class DetailFragment : BaseFragment(),
                     act.onBackPressed()
                 } else {
                     adapter.updateDataSet(list)
+                    restoreUpperWidgetsTranslation()
                 }
             }
 

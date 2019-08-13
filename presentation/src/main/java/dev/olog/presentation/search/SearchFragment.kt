@@ -116,6 +116,7 @@ class SearchFragment : BaseFragment(),
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
+                restoreUpperWidgetsTranslation()
             }
 
         viewModel.observeAlbumsData()

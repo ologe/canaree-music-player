@@ -75,6 +75,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             .subscribe(viewLifecycleOwner) {
                 adapter.updateDataSet(it)
                 sidebar.onDataChanged(it)
+                restoreUpperWidgetsTranslation()
             }
 
         launch {

@@ -3,6 +3,7 @@ package dev.olog.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
@@ -209,6 +210,11 @@ class MainActivity : MusicGlueActivity(),
 
     override fun navigate(page: BottomNavigationPage) {
         bottomNavigation.navigate(page)
+    }
+
+    fun restoreUpperWidgetsTranslation(){
+        findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
+        findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }
 
     private fun tryLoadAd(){

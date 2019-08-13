@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import dagger.android.support.DaggerFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.main.MainActivity
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -32,6 +33,10 @@ abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
     override fun onDestroyView() {
         super.onDestroyView()
         cancel()
+    }
+
+    fun restoreUpperWidgetsTranslation(){
+        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
     }
 
 }
