@@ -65,7 +65,7 @@
 - Contains shared preferences keys, using a separate module for communication between modules
 
 #### `:shared`
-- Shared Pure java/kotlin utilities
+- Shared pure java/kotlin utilities
 
 #### `:shared-android`
 - Self explanatory 
