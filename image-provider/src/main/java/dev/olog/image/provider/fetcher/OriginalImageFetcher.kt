@@ -1,14 +1,14 @@
 package dev.olog.image.provider.fetcher
 
 import android.media.MediaMetadataRetriever
-import androidx.core.util.Pools
 import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
 import java.io.*
 
 object OriginalImageFetcher {
 
-    private val FALLBACKS = arrayOf("cover.jpg", "album.jpg", "folder.jpg", "cover.png", "album.png", "folder.png")
+    private val NAMES = arrayOf("folder", "cover", "album")
+    private val EXTENSIONS = arrayOf("jpg", "jpeg", "png")
 
     suspend fun loadImage(path: String): InputStream? {
         var retriever: MediaMetadataRetriever? = null
@@ -43,13 +43,13 @@ object OriginalImageFetcher {
             ex.printStackTrace()
         }
 
-        val parent = File(path).parentFile
-        for (fallback in FALLBACKS) {
-            yield()
-            val cover = File(parent, fallback)
-            if (cover.exists()) {
-                return FileInputStream(cover)
-            }
+        val file = File(path).parentFile?.listFiles()
+            ?.asSequence()
+            ?.filter { !it.isDirectory }
+            ?.filter { EXTENSIONS.contains(it.extension) }
+            ?.find { NAMES.contains(it.name.toLowerCase()) }
+        if (file != null) {
+            return FileInputStream(file)
         }
         return null
     }
