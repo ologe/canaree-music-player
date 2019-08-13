@@ -305,6 +305,9 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity? {
+        if (queueImpl.isEmpty()){
+            return null
+        }
         val mediaEntity = queueImpl.getNextSong(trackEnded) ?: return null
         return mediaEntity.toPlayerMediaEntity(
             queueImpl.currentPositionInQueue(),
@@ -313,6 +316,9 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
+        if (queueImpl.isEmpty()){
+            return null
+        }
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity?.toPlayerMediaEntity(

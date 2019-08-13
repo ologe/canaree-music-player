@@ -57,6 +57,8 @@ internal class QueueImpl @Inject constructor(
         }
     }
 
+    fun isEmpty() = playingQueue.isEmpty()
+
     /**
      * @param persist when true a new queue must be selected, queue and index will be persisted
      *  to storage
