@@ -58,7 +58,7 @@
     <!-- bookmark -->
     <TextView
         android:id="@+id/bookmark"
-        tools:text="0:00"
+        android:text="0:00"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
     <!-- duration -->
     <TextView
         android:id="@+id/duration"
-        tools:text="2:57"
+        android:text="0:00"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
