@@ -43,3 +43,4 @@
 - try double tap to forward/replay?
 - whitelist
 - made sleep timer top and bottom curved
+- fade on resume/pause
