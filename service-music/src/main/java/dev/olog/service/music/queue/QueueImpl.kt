@@ -57,7 +57,7 @@ internal class QueueImpl @Inject constructor(
         }
     }
 
-    fun isEmpty() = playingQueue.isEmpty()
+    private fun isEmpty() = playingQueue.isEmpty()
 
     /**
      * @param persist when true a new queue must be selected, queue and index will be persisted
@@ -109,6 +109,9 @@ internal class QueueImpl @Inject constructor(
 
     @CheckResult
     fun getCurrentSong(): MediaEntity? {
+        if (isEmpty()){
+            return null
+        }
         return playingQueue.getOrNull(currentSongPosition)
     }
 
@@ -138,6 +141,11 @@ internal class QueueImpl @Inject constructor(
     @CheckResult
     fun getSongById(idInPlaylist: Int): MediaEntity? {
         assertMainThread()
+
+        if (isEmpty()){
+            return null
+        }
+
         val positionInQueue = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
         if (positionInQueue == -1){
             return null
@@ -151,6 +159,10 @@ internal class QueueImpl @Inject constructor(
     @CheckResult
     fun getNextSong(trackEnded: Boolean): MediaEntity? {
         assertMainThread()
+
+        if (isEmpty()){
+            return null
+        }
 
         if (repeatMode.isRepeatOne() && trackEnded) {
             return playingQueue.getOrNull(currentSongPosition) ?: return null
@@ -174,6 +186,10 @@ internal class QueueImpl @Inject constructor(
     @CheckResult
     fun getPreviousSong(playerBookmark: Long): MediaEntity? {
         assertMainThread()
+
+        if (isEmpty()){
+            return null
+        }
 
         val isPodcast = getCurrentSong()?.isPodcast ?: false
 
@@ -217,6 +233,10 @@ internal class QueueImpl @Inject constructor(
     fun shuffle() {
         assertMainThread()
 
+        if (isEmpty()){
+            return
+        }
+
         val currentPlaying = playingQueue.getOrNull(currentSongPosition) ?: return
 
         val queue = enhancedShuffle.shuffle(playingQueue)
@@ -236,6 +256,10 @@ internal class QueueImpl @Inject constructor(
     fun sort() {
         assertMainThread()
 
+        if (isEmpty()){
+            return
+        }
+
         val currentPlaying = playingQueue.getOrNull(currentSongPosition) ?: return
 
         playingQueue.sortBy { it.idInPlaylist }
@@ -249,6 +273,9 @@ internal class QueueImpl @Inject constructor(
 
     fun onRepeatModeChanged() {
         assertMainThread()
+        if (isEmpty()){
+            return
+        }
 
         currentSongPosition = ensurePosition(playingQueue, currentSongPosition)
         val list = playingQueue.drop(currentSongPosition + 1)
@@ -276,6 +303,10 @@ internal class QueueImpl @Inject constructor(
     fun handleSwap(from: Int, to: Int) {
         assertMainThread()
 
+        if (isEmpty()){
+            return
+        }
+
         if (from !in 0..playingQueue.lastIndex || to !in 0..playingQueue.lastIndex) {
             return
         }
@@ -300,6 +331,11 @@ internal class QueueImpl @Inject constructor(
      */
     fun handleMoveRelative(position: Int) {
         assertMainThread()
+
+        if (isEmpty()){
+            return
+        }
+
         if (position !in 0..playingQueue.lastIndex) {
             return
         }
@@ -311,6 +347,10 @@ internal class QueueImpl @Inject constructor(
 
     fun handleRemove(position: Int) {
         assertMainThread()
+
+        if (isEmpty()){
+            return
+        }
 
         if (position !in 0..playingQueue.lastIndex) {
             return
@@ -347,6 +387,10 @@ internal class QueueImpl @Inject constructor(
     suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
         assertBackgroundThread()
 
+        if (isEmpty()){
+            return
+        }
+
         val queue = playingQueue.toList() // work on a copy
 
         var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
@@ -372,6 +416,11 @@ internal class QueueImpl @Inject constructor(
 
     suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
         assertBackgroundThread()
+
+        if (isEmpty()){
+            return
+        }
+
         val queue = playingQueue.toList() // work on a copy
 
         val before = queue.take(currentSongPosition + 1)
