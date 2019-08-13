@@ -17,7 +17,9 @@ import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
@@ -124,7 +126,7 @@ class CustomViewSwitcher(
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
-            .override(Target.SIZE_ORIGINAL)
+            .override(GlideUtils.OVERRIDE_BIG)
             .onlyRetrieveFromCache(true)
             .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
             .listener(this)

@@ -12,14 +12,12 @@ import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
 
 object BindingsAdapter {
-
-    private const val OVERRIDE_SMALL = 150
-    private const val OVERRIDE_MID = 400
 
     @JvmStatic
     fun loadFile(view: ImageView, item: DisplayableFile) {
@@ -28,7 +26,7 @@ object BindingsAdapter {
 
         GlideApp.with(context)
                 .load(AudioFileCover(item.path!!))
-                .override(OVERRIDE_SMALL)
+                .override(GlideUtils.OVERRIDE_SMALL)
                 .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
                 .into(view)
     }
@@ -39,7 +37,7 @@ object BindingsAdapter {
         loadImageImpl(
             view,
             mediaId,
-            OVERRIDE_SMALL
+            GlideUtils.OVERRIDE_SMALL
         )
     }
 
@@ -74,7 +72,7 @@ object BindingsAdapter {
         loadImageImpl(
             view,
             mediaId,
-            OVERRIDE_SMALL
+            GlideUtils.OVERRIDE_SMALL
         )
     }
 
@@ -83,7 +81,7 @@ object BindingsAdapter {
         loadImageImpl(
             view,
             mediaId,
-            OVERRIDE_MID,
+            GlideUtils.OVERRIDE_MID,
             Priority.HIGH
         )
     }
@@ -96,7 +94,7 @@ object BindingsAdapter {
 
         GlideApp.with(context)
             .load(mediaId)
-            .override(Target.SIZE_ORIGINAL)
+            .override(GlideUtils.OVERRIDE_BIG)
             .priority(Priority.IMMEDIATE)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))

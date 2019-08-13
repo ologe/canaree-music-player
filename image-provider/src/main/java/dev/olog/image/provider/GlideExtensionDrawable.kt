@@ -11,9 +11,15 @@ import dev.olog.core.gateway.getImageVersionGateway
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+object GlideUtils {
+    const val OVERRIDE_SMALL = 150
+    const val OVERRIDE_MID = 400
+    const val OVERRIDE_BIG = 1000
+}
+
 suspend fun Context.getCachedDrawable(
     mediaId: MediaId,
-    size: Int = Target.SIZE_ORIGINAL,
+    size: Int = GlideUtils.OVERRIDE_BIG,
     extension: (GlideRequest<Drawable>.() -> GlideRequest<Drawable>)? = null,
     withError: Boolean = true
 ): Drawable? = suspendCoroutine { continuation ->

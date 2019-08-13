@@ -20,7 +20,7 @@ sealed class OnImageLoadingError {
 
 suspend fun Context.getCachedBitmap(
     mediaId: MediaId,
-    size: Int = Target.SIZE_ORIGINAL,
+    size: Int = GlideUtils.OVERRIDE_BIG,
     extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
     onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
 ): Bitmap? = suspendCoroutine { continuation ->
@@ -88,7 +88,7 @@ suspend fun Context.getCachedBitmap(
 }
 
 private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
-    if (requestedSize != Target.SIZE_ORIGINAL){
+    if (requestedSize != GlideUtils.OVERRIDE_BIG){
         return requestedSize
     }
 

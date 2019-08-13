@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.request.target.Target
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.IPlayerLifecycle
@@ -92,7 +93,7 @@ internal class MusicServiceMetadata @Inject constructor(
             yield()
 
             if (showLockScreenArtwork) {
-                val bitmap = context.getCachedBitmap(entity.mediaId, Target.SIZE_ORIGINAL)
+                val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
                 yield()
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
             }
