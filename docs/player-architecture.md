@@ -27,10 +27,10 @@
 - Delegates playback calls to the right player `CrossFadePlayer`
 
 ### `CrossFadePlayer`
-- Actual crossfade implementation, fades out the current song and fades in the next
-- Fakes gapless by using crossfade, that force next song preload. Volume is kept quite high
+- Actual crossfade implementation, fades out the current song and fades in next
+- Fakes gapless by using crossfade, that forces next song preload. Volume is kept quite high
     to avoid gapless distorsion
 - Delegates playback calls to `AbsPlayer`
 
-### `AbsPlayer`
+### `AbsPlayer<T>`
 - Handles the actual playback
