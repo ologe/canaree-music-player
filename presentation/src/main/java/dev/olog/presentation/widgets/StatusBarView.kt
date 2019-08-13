@@ -1,10 +1,12 @@
 package dev.olog.presentation.widgets
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.setHeight
+import dev.olog.shared.android.utils.isMarshmallow
 
 /**
  * Custom status bar to handle device notch
@@ -23,7 +25,11 @@ class StatusBarView(
 
     init {
         if (!isInEditMode){
-            setBackgroundColor(context.colorSurface())
+            if (isMarshmallow()){
+                setBackgroundColor(context.colorSurface())
+            } else {
+                setBackgroundColor(Color.BLACK)
+            }
         }
     }
 
