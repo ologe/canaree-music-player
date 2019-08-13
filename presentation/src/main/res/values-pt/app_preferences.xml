@@ -51,7 +51,7 @@
 
     <!-- gapless -->
     <string name="prefs_gapless_title">Reprodução sem intervalo</string>
-    <string name="prefs_gapless_summary">Permite reprodução sem intervalo quando crossfade está ligado</string>
+    <string name="prefs_gapless_summary">Permite reprodução sem intervalo</string>
 
     <!-- icon shape -->
     <string name="prefs_icon_shape_title">Forma do ícone</string>

@@ -25,6 +25,9 @@
     - Renamed `Clean` player appearance to `Glow`
     - Added auto scroll to sync lyrics  
             
+- **Audio**
+    - Improved `gapless playback` to work without crossfade enabled
+            
 - **Features**
     - Added `is podcast` override in edit track, edit album and edit artist, to avoid moving manually 
         a track into `Podcast folder on device. When a track is in the Podcast category, last position 

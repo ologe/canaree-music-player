@@ -97,7 +97,7 @@
 
     <!--gapless-->
     <string name="prefs_gapless_title">Gapless</string>
-    <string name="prefs_gapless_summary">Allows gapless playback when crossfade is on</string>
+    <string name="prefs_gapless_summary">Allows gapless playback</string>
 
     <!--icon shape-->
     <string name="prefs_icon_shape_title">Icon shape</string>

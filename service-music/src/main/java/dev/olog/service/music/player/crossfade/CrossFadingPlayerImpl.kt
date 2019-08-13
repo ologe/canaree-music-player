@@ -16,11 +16,13 @@ import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
+import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.abs
 
 internal class CrossFadePlayerImpl @Inject internal constructor(
     @ApplicationContext context: Context,
@@ -35,10 +37,16 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     ExoPlayerListenerWrapper,
     CoroutineScope by MainScope() {
 
+    companion object {
+        private const val MIN_CROSSFADE_FOR_GAPLESS = 2000
+        private const val MAX_CROSSFADE_FOR_GAPLESS = 4000
+    }
+
     private var isCurrentSongPodcast = false
 
     private var fadeDisposable: Job? = null
 
+    private var gapless = false
     private var crossFadeTime = 0
 
     init {
@@ -60,8 +68,22 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         }
 
         launch {
-            musicPreferencesUseCase.observeCrossFade()
-                .collect { crossFadeTime = it }
+            musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
+            { crossfade, gapless ->
+                if (gapless){
+                    // force song preloading
+                    clamp(crossfade, MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
+                } else {
+                    crossfade
+                }
+
+            }.collect {
+                crossFadeTime = it
+            }
+        }
+        launch {
+            musicPreferencesUseCase.observeGapless()
+                .collect { gapless = it }
         }
     }
 
@@ -139,8 +161,10 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
 //        debug("fading in")
         cancelFade()
         val (min, max, interval, delta) = CrossFadeInternals(
-            crossFadeTime,
-            volume.getMaxAllowedVolume()
+            gapless = gapless,
+            crossfade = crossFadeTime,
+            duration = crossFadeTime,
+            maxVolumeAllowed = volume.getMaxAllowedVolume()
         )
         player.volume = min
 
@@ -166,8 +190,10 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
         requestNextSong()
 
         val (min, max, interval, delta) = CrossFadeInternals(
-            time.toInt(),
-            volume.getMaxAllowedVolume()
+            gapless = gapless,
+            crossfade = crossFadeTime,
+            duration = time.toInt(),
+            maxVolumeAllowed = volume.getMaxAllowedVolume()
         )
         player.volume = max
 
@@ -246,13 +272,24 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
 
     }
 
-    private class CrossFadeInternals(duration: Int, maxVolumeAllowed: Float) {
+    private class CrossFadeInternals(
+        private val gapless: Boolean,
+        private val crossfade: Int,
+        private val duration: Int,
+        private val maxVolumeAllowed: Float
+    ) {
 
-        val min: Float = 0f
+        val min: Float
+            get() {
+                if (gapless && crossfade <= MAX_CROSSFADE_FOR_GAPLESS){
+                    return clamp(maxVolumeAllowed * 0.75f, 0f, maxVolumeAllowed)
+                }
+                return 0f
+            }
         val max: Float = maxVolumeAllowed
         val interval: Long = 200L
         private val times: Long = duration / interval
-        val delta: Float = Math.abs(max - min) / times
+        val delta: Float = abs(max - min) / times
 
         operator fun component1() = min
         operator fun component2() = max

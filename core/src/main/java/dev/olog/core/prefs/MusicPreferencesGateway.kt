@@ -28,6 +28,9 @@ interface MusicPreferencesGateway {
 
     fun setDefault()
 
+    /**
+     * in millis
+     */
     fun observeCrossFade(): Flow<Int>
     fun observeGapless(): Flow<Boolean>
 
