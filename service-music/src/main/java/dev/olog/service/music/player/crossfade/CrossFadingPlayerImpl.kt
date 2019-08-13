@@ -38,8 +38,8 @@ internal class CrossFadePlayerImpl @Inject internal constructor(
     CoroutineScope by MainScope() {
 
     companion object {
-        private const val MIN_CROSSFADE_FOR_GAPLESS = 2000
-        private const val MAX_CROSSFADE_FOR_GAPLESS = 4000
+        private const val MIN_CROSSFADE_FOR_GAPLESS = 1000
+        private const val MAX_CROSSFADE_FOR_GAPLESS = 2000
     }
 
     private var isCurrentSongPodcast = false
