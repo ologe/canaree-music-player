@@ -36,6 +36,11 @@ internal class MainPopupDialog @Inject constructor(
         private const val SAVE_AS_PLAYLIST_ID = -12345
     }
 
+    /**
+     * @param category null when from search
+     *                 [MediaId.playingQueueId] when from playing queue
+     *                 valid category when form tab
+     */
     fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
         val popup = PopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
@@ -48,6 +53,9 @@ internal class MainPopupDialog @Inject constructor(
 
         if (billing.getBillingsState().isPremiumStrict()) {
             popup.menu.removeItem(R.id.premium)
+        }
+        if (category == null || category == MediaIdCategory.PLAYING_QUEUE){
+            popup.menu.removeItem(R.id.gridSize)
         }
 
         val sortModel = when (category) {
