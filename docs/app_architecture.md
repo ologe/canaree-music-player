@@ -6,7 +6,7 @@
 
 ### Legend
 - Every rectangle is an Android `:module`
-- Every vertical line delimits a `logical layer`
+- Every vertical line delimits a `logic layer`
 - To avoid arrows hell, only some important dependencies is highlighted
 - A `:module` in a `layer`:
     - can't depend on other modules in the same layer (except `shared layer`)
