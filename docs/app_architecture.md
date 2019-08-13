@@ -32,24 +32,24 @@
 - Creates dagger shared core component
 - Binds `:core` gateways with `:data` implementations 
 
-#### ':data'
+#### `:data`
 - Repositories implementation
 - Makes network calls and caching
 
 
 ## Libs
 
-#### ':media'
+#### `:media`
 - Provides a reactive API to connect to `:service-music`
 
-#### ':equalizer'
+#### `:equalizer`
 - Equalizer, BassBoos and Virtualizer implementation for different API level
 
-#### ':feature_stylize'
+#### `:feature_stylize`
 - On-demand dynamic module
 - Used from image blending/stylize
 
-#### ':offline-lyrics'
+#### `:offline-lyrics`
 - Provides an API to read offline lyrics, saved on device on from track metadata
 - Supports `.lrc` file format for synced lyrics 
 
@@ -58,17 +58,17 @@
 
 ## Utils
 
-#### ':intents'
+#### `:intents`
 - Contains common actions and constants for communication between modules
 
-#### ':prefs-keys'
+#### `:prefs-keys`
 - Contains shared preferences keys, using a separate module for communication between modules
 
-#### ':shared'
+#### `:shared`
 - Shared Pure java/kotlin utilities
 
-#### ':shared-android'
+#### `:shared-android`
 - Self explanatory 
 
-#### ':shared-widgets'
+#### `:shared-widgets`
 - Self explanatory
