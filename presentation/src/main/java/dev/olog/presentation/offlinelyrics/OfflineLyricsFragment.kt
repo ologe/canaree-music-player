@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
+import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -122,11 +123,15 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         sync.setOnClickListener { _ ->
             launch {
-                OfflineLyricsSyncAdjustementDialog.show(
-                    ctx,
-                    presenter.getSyncAdjustment()
-                ) {
-                    presenter.updateSyncAdjustment(it)
+                try {
+                    OfflineLyricsSyncAdjustementDialog.show(
+                        ctx,
+                        presenter.getSyncAdjustment()
+                    ) {
+                        presenter.updateSyncAdjustment(it)
+                    }
+                } catch (ex: Throwable){
+                    ex.printStackTrace()
                 }
             }
         }

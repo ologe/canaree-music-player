@@ -15,6 +15,7 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
+import java.lang.Exception
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -81,11 +82,15 @@ class OfflineLyricsContent(
 
         content.sync.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
-                OfflineLyricsSyncAdjustementDialog.show(
-                    context,
-                    presenter.getSyncAdjustment()
-                ) {
-                    presenter.updateSyncAdjustment(it)
+                try {
+                    OfflineLyricsSyncAdjustementDialog.show(
+                        context,
+                        presenter.getSyncAdjustment()
+                    ) {
+                        presenter.updateSyncAdjustment(it)
+                    }
+                } catch (ex: Throwable){
+                    ex.printStackTrace()
                 }
             }
         }
