@@ -119,7 +119,7 @@ internal class FavoriteRepository @Inject constructor(
     override suspend fun toggleFavorite() {
         assertBackgroundThread()
 
-        val value = favoriteStatePublisher.value
+        val value = favoriteStatePublisher.valueOrNull ?: return
         val id = value.songId
         val state = value.enum
         val type = value.favoriteType
