@@ -7,8 +7,8 @@ import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.service.music.interfaces.SourceFactory
-import dev.olog.service.music.player.crossfade.CrossFadePlayerImpl
+import dev.olog.service.music.interfaces.ISourceFactory
+import dev.olog.service.music.player.crossfade.CrossFadePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -23,7 +23,7 @@ internal class ClippedSourceFactory @Inject constructor (
     musicPrefsUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver,
-    SourceFactory<CrossFadePlayerImpl.Model>,
+    ISourceFactory<CrossFadePlayer.Model>,
     CoroutineScope by MainScope() {
 
     companion object {
@@ -56,7 +56,7 @@ internal class ClippedSourceFactory @Inject constructor (
      * NB -> some Flac files are not seekable and clippable, and when clipped,
      *       an error is thrown, so flacs will never be clipped
      */
-    override fun get(model: CrossFadePlayerImpl.Model): MediaSource {
+    override fun get(model: CrossFadePlayer.Model): MediaSource {
         val mediaSource = sourceFactory.get(model.mediaEntity)
         val isFlac = model.isFlac
 

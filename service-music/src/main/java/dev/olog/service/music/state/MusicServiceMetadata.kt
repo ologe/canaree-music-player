@@ -13,7 +13,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.interfaces.PlayerLifecycle
+import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
@@ -31,10 +31,10 @@ import javax.inject.Inject
 internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    playerLifecycle: PlayerLifecycle,
+    playerLifecycle: IPlayerLifecycle,
     private val musicPrefs: MusicPreferencesGateway
 
-) : PlayerLifecycle.Listener,
+) : IPlayerLifecycle.Listener,
     DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
 

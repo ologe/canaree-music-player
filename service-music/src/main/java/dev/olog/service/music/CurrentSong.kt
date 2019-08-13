@@ -15,7 +15,7 @@ import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.interfaces.PlayerLifecycle
+import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.CustomScope
@@ -32,11 +32,11 @@ internal class CurrentSong @Inject constructor(
     private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
     insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
     insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
-    playerLifecycle: PlayerLifecycle
+    playerLifecycle: IPlayerLifecycle
 
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope(),
-    PlayerLifecycle.Listener {
+    IPlayerLifecycle.Listener {
 
     companion object {
         @JvmStatic

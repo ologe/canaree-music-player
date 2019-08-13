@@ -1,6 +1,6 @@
 package dev.olog.service.music.interfaces
 
-internal interface CustomExoPlayer<T> {
+internal interface IPlayerDelegate<T> {
 
     fun prepare(mediaEntity: T, bookmark: Long)
 
@@ -9,11 +9,9 @@ internal interface CustomExoPlayer<T> {
     fun seekTo(where: Long)
 
     fun resume()
-
     fun pause()
 
     fun isPlaying(): Boolean
-
     fun getBookmark(): Long
 
     fun getDuration(): Long

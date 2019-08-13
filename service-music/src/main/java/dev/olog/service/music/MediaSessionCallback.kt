@@ -10,8 +10,8 @@ import android.view.KeyEvent
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.interfaces.Player
-import dev.olog.service.music.interfaces.Queue
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 @PerService
 internal class MediaSessionCallback @Inject constructor(
-    private val queue: Queue,
-    private val player: Player,
+    private val queue: IQueue,
+    private val player: IPlayer,
     private val repeatMode: MusicServiceRepeatMode,
     private val shuffleMode: MusicServiceShuffleMode,
     private val mediaButton: MediaButton,

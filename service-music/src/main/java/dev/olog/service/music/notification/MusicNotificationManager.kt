@@ -10,7 +10,7 @@ import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
-import dev.olog.service.music.interfaces.PlayerLifecycle
+import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -27,7 +27,7 @@ internal class MusicNotificationManager @Inject constructor(
     private val service: Service,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
-    playerLifecycle: PlayerLifecycle
+    playerLifecycle: IPlayerLifecycle
 
 ) : DefaultLifecycleObserver, CoroutineScope by CustomScope() {
 
@@ -45,7 +45,7 @@ internal class MusicNotificationManager @Inject constructor(
     private val currentState = MusicNotificationState()
     private var publishJob: Job? = null
 
-    private val playerListener = object : PlayerLifecycle.Listener {
+    private val playerListener = object : IPlayerLifecycle.Listener {
         override fun onPrepare(metadata: MetadataEntity) {
             onNextMetadata(metadata.entity)
         }

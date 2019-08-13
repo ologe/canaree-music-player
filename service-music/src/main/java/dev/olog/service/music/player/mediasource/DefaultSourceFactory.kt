@@ -11,14 +11,14 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.service.music.interfaces.SourceFactory
+import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.model.MediaEntity
 import javax.inject.Inject
 
 internal class DefaultSourceFactory @Inject constructor(
     @ApplicationContext context: Context
 
-) : SourceFactory<MediaEntity> {
+) : ISourceFactory<MediaEntity> {
 
     private val bandwidthMeter = DefaultBandwidthMeter()
     private val userAgent = Util.getUserAgent(context, "Next")

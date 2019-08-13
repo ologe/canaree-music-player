@@ -11,15 +11,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.interfaces.Player
-import dev.olog.service.music.interfaces.ServiceLifecycleController
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
     LifecycleOwner,
-    ServiceLifecycleController {
+    IServiceLifecycleController {
 
     companion object {
         private const val ACTION_KEEP_SERVICE_ALIVE = "action.KEEP_SERVICE_ALIVE"
@@ -29,7 +29,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     @Inject
-    internal lateinit var player: Player
+    internal lateinit var player: IPlayer
 
     private var serviceStarted = false
 

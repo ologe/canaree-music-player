@@ -24,18 +24,18 @@ internal class PlayerImpl @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val playerState: MusicServicePlaybackState,
     private val noisy: Noisy,
-    private val serviceLifecycle: ServiceLifecycleController,
+    private val serviceLifecycle: IServiceLifecycleController,
     private val audioFocus : AudioFocusBehavior,
-    private val player: CustomExoPlayer<PlayerMediaEntity>,
+    private val playerDelegate: IPlayerDelegate<PlayerMediaEntity>,
     musicPrefsUseCase: MusicPreferencesGateway,
     private val playerVolume: IMaxAllowedPlayerVolume
 
-) : Player,
+) : IPlayer,
     DefaultLifecycleObserver,
-    PlayerLifecycle,
+    IPlayerLifecycle,
     CoroutineScope by MainScope() {
 
-    private val listeners = mutableListOf<PlayerLifecycle.Listener>()
+    private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
     private var currentSpeed = 1f
 
@@ -48,7 +48,7 @@ internal class PlayerImpl @Inject constructor(
                 .flowOn(Dispatchers.Default)
                 .collect { volume ->
                     val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
-                    player.setVolume(newVolume)
+                    playerDelegate.setVolume(newVolume)
                 }
         }
 
@@ -56,7 +56,7 @@ internal class PlayerImpl @Inject constructor(
             musicPrefsUseCase.observePlaybackSpeed()
                 .collect {
                     currentSpeed = it
-                    player.setPlaybackSpeed(it)
+                    playerDelegate.setPlaybackSpeed(it)
                     playerState.updatePlaybackSpeed(it)
                 }
         }
@@ -69,10 +69,10 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {
-        player.prepare(playerModel, playerModel.bookmark)
+        playerDelegate.prepare(playerModel, playerModel.bookmark)
 
         playerState.prepare(playerModel.bookmark)
-        player.setPlaybackSpeed(currentSpeed)
+        playerDelegate.setPlaybackSpeed(currentSpeed)
         playerState.updatePlaybackSpeed(currentSpeed)
         playerState.toggleSkipToActions(playerModel.positionInQueue)
 
@@ -100,7 +100,7 @@ internal class PlayerImpl @Inject constructor(
 
         val entity = playerModel.mediaEntity
 
-        player.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
+        playerDelegate.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(
             if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
@@ -120,7 +120,7 @@ internal class PlayerImpl @Inject constructor(
     override fun resume() {
         if (!requestFocus()) return
 
-        player.resume()
+        playerDelegate.resume()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark(), currentSpeed)
         listeners.forEach {
             it.onStateChanged(playbackState)
@@ -131,7 +131,7 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun pause(stopService: Boolean, releaseFocus: Boolean) {
-        player.pause()
+        playerDelegate.pause()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark(), currentSpeed)
         listeners.forEach {
             it.onStateChanged(playbackState)
@@ -148,7 +148,7 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun seekTo(millis: Long) {
-        player.seekTo(millis)
+        playerDelegate.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
         val playbackState = playerState.update(state, millis, currentSpeed)
         listeners.forEach {
@@ -164,28 +164,28 @@ internal class PlayerImpl @Inject constructor(
     }
 
     override fun forwardTenSeconds() {
-        val newBookmark = player.getBookmark() + TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, player.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(10)
+        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
     }
 
     override fun replayTenSeconds() {
-        val newBookmark = player.getBookmark() - TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, player.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(10)
+        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
     }
 
     override fun forwardThirtySeconds() {
-        val newBookmark = player.getBookmark() + TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, player.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(30)
+        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
     }
 
     override fun replayThirtySeconds() {
-        val newBookmark = player.getBookmark() - TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, player.getDuration()))
+        val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(30)
+        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
     }
 
-    override fun isPlaying(): Boolean = player.isPlaying()
+    override fun isPlaying(): Boolean = playerDelegate.isPlaying()
 
-    override fun getBookmark(): Long = player.getBookmark()
+    override fun getBookmark(): Long = playerDelegate.getBookmark()
 
     override fun stopService() {
         serviceLifecycle.stop()
@@ -199,15 +199,15 @@ internal class PlayerImpl @Inject constructor(
         audioFocus.abandonFocus()
     }
 
-    override fun addListener(listener: PlayerLifecycle.Listener) {
+    override fun addListener(listener: IPlayerLifecycle.Listener) {
         listeners.add(listener)
     }
 
-    override fun removeListener(listener: PlayerLifecycle.Listener) {
+    override fun removeListener(listener: IPlayerLifecycle.Listener) {
         listeners.remove(listener)
     }
 
     override fun setVolume(volume: Float) {
-        player.setVolume(volume)
+        playerDelegate.setVolume(volume)
     }
 }

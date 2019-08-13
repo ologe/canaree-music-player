@@ -17,7 +17,7 @@ import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.PlayerImpl
 import dev.olog.service.music.player.PlayerVolume
-import dev.olog.service.music.player.crossfade.CrossFadePlayer
+import dev.olog.service.music.player.crossfade.CrossFadePlayerSwitcher
 import dev.olog.service.music.queue.QueueManager
 
 @Module
@@ -32,19 +32,19 @@ abstract class MusicServiceModule {
 
     @Binds
     @PerService
-    internal abstract fun provideServiceLifecycle(instance: MusicService): ServiceLifecycleController
+    internal abstract fun provideServiceLifecycle(instance: MusicService): IServiceLifecycleController
 
     @Binds
     @PerService
-    internal abstract fun provideQueue(queue: QueueManager): Queue
+    internal abstract fun provideQueue(queue: QueueManager): IQueue
 
     @Binds
     @PerService
-    internal abstract fun providePlayer(player: PlayerImpl): Player
+    internal abstract fun providePlayer(player: PlayerImpl): IPlayer
 
     @Binds
     @PerService
-    internal abstract fun providePlayerLifecycle(player: Player): PlayerLifecycle
+    internal abstract fun providePlayerLifecycle(player: IPlayer): IPlayerLifecycle
 
     @Binds
     @PerService
@@ -52,7 +52,7 @@ abstract class MusicServiceModule {
 
     @Binds
     @PerService
-    internal abstract fun providePlayerImpl(impl: CrossFadePlayer): CustomExoPlayer<PlayerMediaEntity>
+    internal abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
 
     @Module
     companion object {

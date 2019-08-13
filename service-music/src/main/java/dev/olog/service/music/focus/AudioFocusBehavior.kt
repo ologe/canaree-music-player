@@ -9,7 +9,7 @@ import androidx.media.AudioManagerCompat
 import dagger.Lazy
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.service.music.interfaces.Player
+import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
     @ServiceContext context: Context,
-    private val player: Lazy<Player>, // keep it lazy to avoid circular dependency
+    private val player: Lazy<IPlayer>, // keep it lazy to avoid circular dependency
     private val volume: IMaxAllowedPlayerVolume
 
 ) : AudioManager.OnAudioFocusChangeListener {

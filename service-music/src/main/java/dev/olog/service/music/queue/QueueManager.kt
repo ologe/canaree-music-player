@@ -12,7 +12,7 @@ import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.service.music.interfaces.Queue
+import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
@@ -39,7 +39,7 @@ internal class QueueManager @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase
 
-) : Queue {
+) : IQueue {
 
     companion object {
         // limit the max queue on devices with thousand of songs

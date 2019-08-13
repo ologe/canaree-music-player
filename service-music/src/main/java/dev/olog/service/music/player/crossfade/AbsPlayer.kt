@@ -13,20 +13,23 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.CustomExoPlayer
+import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import dev.olog.service.music.interfaces.SourceFactory
+import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
 
+/**
+ * This class handles playback
+ */
 internal abstract class AbsPlayer<T>(
     private val context: Context,
     lifecycle: Lifecycle,
-    private val mediaSourceFactory: SourceFactory<T>,
+    private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume
 
-) : CustomExoPlayer<T>,
+) : IPlayerDelegate<T>,
     ExoPlayerListenerWrapper,
     DefaultLifecycleObserver {
 
@@ -64,7 +67,7 @@ internal abstract class AbsPlayer<T>(
     override fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean) {
         val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource, true, true)
-        if (mediaEntity is CrossFadePlayerImpl.Model){
+        if (mediaEntity is CrossFadePlayer.Model){
             player.seekTo(mediaEntity.playerMediaEntity.bookmark)
         }
         player.playWhenReady = hasFocus

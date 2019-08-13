@@ -1,7 +1,7 @@
 package dev.olog.service.music.queue
 
 import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.interfaces.PlayerLifecycle
+import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.removeFirst
@@ -10,9 +10,9 @@ import kotlin.math.min
 
 @PerService
 internal class EnhancedShuffle @Inject constructor(
-    playerLifecycle: PlayerLifecycle
+    playerLifecycle: IPlayerLifecycle
 
-) : PlayerLifecycle.Listener {
+) : IPlayerLifecycle.Listener {
 
     /**
      * lastListened[listening_now, ,.., listened_long_ago]
