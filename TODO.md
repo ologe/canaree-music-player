@@ -16,7 +16,7 @@
     album with jaudio tagger instead of skipping download
 
 ### urgent bug
-- crashes when there are no tracks
+- on Lollipop, splash image not showing
 
 ## DONE
 - fix android auto not working
