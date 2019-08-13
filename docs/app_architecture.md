@@ -12,6 +12,8 @@
     - can't depend on other modules in the same layer (except `shared layer`)
     - can depend on any module in any layer on it's upper right, or on the layer below
 
+## Modules
+
 #### `:app`
 - Must depend on almost every `:module` in order to build the apk
 
