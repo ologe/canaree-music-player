@@ -50,8 +50,6 @@ internal open class NotificationImpl21 @Inject constructor(
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setColor(service.colorControlNormal())
-            .setColorized(false)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(
                 NotificationActions.buildMediaPendingIntent(
