@@ -8,9 +8,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 inline fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
-            .beginTransaction()
-            .func()
-            .commitAllowingStateLoss()
+        .beginTransaction()
+        .func()
+        .commit()
 }
 
 fun FragmentManager.getTopFragment(): Fragment? {
@@ -22,8 +22,8 @@ fun FragmentManager.getTopFragment(): Fragment? {
     return null
 }
 
-inline fun FragmentActivity.alertDialog(builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder){
+inline fun FragmentActivity.alertDialog(builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder) {
     MaterialAlertDialogBuilder(this)
-            .builder()
-            .show()
+        .builder()
+        .show()
 }
