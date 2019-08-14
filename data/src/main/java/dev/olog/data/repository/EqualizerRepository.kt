@@ -120,11 +120,6 @@ internal class EqualizerRepository @Inject constructor(
                 -1.5f, 0f, 2.5f, 3.5f, 4f
             ),
             createPresetApi28(
-                id++, "Dance",
-                4f, 7f, 5f, 0f, 2.5f,
-                3.5f, 5f, 4.5f, 3.5f, 0f
-            ),
-            createPresetApi28(
                 id++, "Deep",
                 4.5f, 3.5f, 2f, 1f, 3f,
                 2.5f, 1.5f, -2f, -3.5f, -4.5f
