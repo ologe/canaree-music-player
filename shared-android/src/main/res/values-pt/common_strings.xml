@@ -2,12 +2,15 @@
 <resources>
     <string name="common_library">Library</string>
 
+    <string name="network_timeout">Por favor tente novamente</string>
+
     <string name="common_folders">Pastas</string>
     <string name="common_playlists">Listas de reprodução</string>
     <string name="common_tracks">Faixas</string>
     <string name="common_albums">Álbuns</string>
     <string name="common_artists">Artistas</string>
     <string name="common_genres">Géneros</string>
+    <string name="common_podcasts">Podcasts</string>
     <string name="common_last_added">Adicionados recentemente</string>
     <string name="common_favorites">Favoritos</string>
     <string name="common_history">Recentes</string>
@@ -16,7 +19,6 @@
     <string name="common_placeholder_artist">Um artista incrível</string>
     <string name="common_placeholder_album">Um álbum incrível</string>
     <string name="common_empty_list">Lista vazia</string>
-    <string name="network_not_available">Por favor verifica a tua ligação</string>
     <string name="are_you_sure">Tens a certeza?</string>
     <plurals name="common_plurals_hours">
         <item quantity="one">%d hora</item>
@@ -45,6 +47,12 @@
     <string name="common_artist">Artista</string>
     <string name="common_album">Álbum</string>
     <string name="common_genre">Género</string>
+
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Lista de reprodução de podcast</string>
+    <string name="common_podcast_album">Álbum de podcast</string>
+    <string name="common_podcast_artist">Artista de podcast</string>
+
     <string name="common_duration">Duração</string>
     <string name="common_recently_added">Adicionado recentemente</string>
     <string name="common_custom">Personalizado</string>
@@ -69,5 +77,8 @@
 
     <string name="common_enabled">Ativado</string>
     <string name="common_disabled">Desativado</string>
+
+    <string name="common_added_to_play_next">Added to play next</string>
+    <string name="common_moved_to_play_next">Moved to play next</string>
 
 </resources>

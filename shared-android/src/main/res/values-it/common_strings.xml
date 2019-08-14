@@ -9,6 +9,10 @@
   <string name="common_albums">Album</string>
   <string name="common_artists">Artisti</string>
   <string name="common_genres">Generi</string>
+  <string name="common_podcasts">Podcasts</string>
+
+  <string name="network_timeout">Riprova</string>
+
   <string name="common_last_added">Aggiunti di recente</string>
   <string name="common_favorites">Preferiti</string>
   <string name="common_history">Cronologia</string>
@@ -35,10 +39,16 @@
     <item quantity="other">%d cartelle</item>
   </plurals>
   <string name="common_folder">Cartella</string>
+  <string name="common_playlist">Playlist</string>
   <string name="common_title">Titolo</string>
   <string name="common_track">Brano</string>
+  <string name="common_album">Album</string>
   <string name="common_artist">Artista</string>
   <string name="common_genre">Genere</string>
+  <string name="common_podcast">Podcast</string>
+  <string name="common_podcast_playlist">Playlist Podcast</string>
+  <string name="common_podcast_album">Album Podcast</string>
+  <string name="common_podcast_artist">Artist Podcast</string>
   <string name="common_duration">Durata</string>
   <string name="common_recently_added">Aggiunti di recente</string>
   <string name="common_custom">Personalizzato</string>
@@ -62,4 +72,7 @@
   <string name="common_moved_to_play_next">Verrà riprodotto come successivo</string>
   <string name="common_enabled">Abilitato</string>
   <string name="common_disabled">Disabilitato</string>
+
+  <string name="common_switch_on">On</string>
+  <string name="common_switch_off">Off</string>
 </resources>

@@ -125,7 +125,7 @@ internal class BillingImpl @Inject constructor(
                 activity.get()?.toast(R.string.network_timeout)
             }
             BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
-                activity.get()?.toast(R.string.network_not_available)
+                activity.get()?.toast(R.string.common_no_internet)
             }
 
             else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +

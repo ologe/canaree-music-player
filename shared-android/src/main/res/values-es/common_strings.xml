@@ -2,12 +2,15 @@
 <resources>
     <string name="common_library">Biblioteca</string>
 
+    <string name="network_timeout">Por favor, intenta de nuevo</string>
+
     <string name="common_folders">Carpetas</string>
     <string name="common_playlists">Listas de reproducción</string>
     <string name="common_tracks">Pistas</string>
     <string name="common_albums">Álbumes</string>
     <string name="common_artists">Artistas</string>
     <string name="common_genres">Géneros</string>
+    <string name="common_podcasts">Podcasts</string>
     <string name="common_last_added">Recientemente añadido</string>
     <string name="common_favorites">Favoritos</string>
     <string name="common_history">Cronología</string>
@@ -36,8 +39,18 @@
     <string name="common_folder">Carpeta</string>
     <string name="common_title">Título</string>
     <string name="common_track">Pista</string>
+    <string name="common_album">Álbum</string>
     <string name="common_artist">Artista</string>
     <string name="common_genre">Género</string>
+
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Lista de reproducción de podcast</string>
+    <string name="common_podcast_album">Álbum de podcast</string>
+    <string name="common_podcast_artist">Artista de podcast</string>
+
+    <string name="common_no_internet">Comprueba tu conexión a Internet</string>
+
+    <string name="common_playlist">Lista de reproducción</string>
     <string name="common_duration">Duración</string>
     <string name="common_recently_added">@string/common_last_added</string>
     <string name="common_custom">Personalizado</string>
@@ -57,4 +70,12 @@
     <string name="common_filter">Filtrar..</string>
     <string name="common_enabled">Habilitado</string>
     <string name="common_disabled">Desactivado</string>
+
+    <string name="common_switch_on">Encendido</string>
+    <string name="common_switch_off">Apagado</string>
+
+    <string name="common_browser_not_found">Navegador no encontrado</string>
+
+    <string name="common_added_to_play_next">Added to play next</string>
+    <string name="common_moved_to_play_next">Moved to play next</string>
 </resources>

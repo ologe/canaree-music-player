@@ -25,7 +25,6 @@
 
     <string name="common_empty_list">Empty list</string>
 
-    <string name="network_not_available">Please check your network connection</string>
     <string name="network_timeout">Please retry</string>
 
     <string name="are_you_sure">Are you sure?</string>
@@ -78,7 +77,7 @@
 
     <string name="common_shape_square">Square</string>
     <string name="common_shape_rounded">Round square</string>
-    <string name="common_shape_cut_corner">Cut corner</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
 
     <string name="common_related_artists">Related artists</string>
     <string name="common_most_played">Most played</string>
