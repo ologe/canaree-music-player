@@ -24,7 +24,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/error"
-            android:text="@string/floating_window_offline"
+            android:text="@string/common_no_internet"
             android:textSize="30sp"
             android:gravity="center"
             android:layout_width="match_parent"
