@@ -18,8 +18,8 @@
     <string name="about_special_thanks_to">Special thanks to</string>
     <string name="about_special_thanks_to_description">Click to see</string>
 
-    <string name="about_support_rate">@string/rate_app_title</string>
-    <string name="about_support_rate_description">@string/rate_app_message</string>
+    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
+    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
 
     <string name="about_privacy_policy">Privacy Policy</string>
     <string name="about_privacy_policy_description">Important for both of us</string>

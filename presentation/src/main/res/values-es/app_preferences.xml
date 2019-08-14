@@ -8,6 +8,7 @@
     <string name="prefs_category_library">Biblioteca</string>
     <string name="prefs_category_ui">Interfaz de usuario</string>
     <string name="prefs_category_other">Otro</string>
+    <string name="prefs_category_audio">Audio</string>
     <!--quick action-->
     <string name="prefs_quick_action_title">Acción rapida</string>
     <string name="prefs_quick_action_summary">Cambia la funcionalidad del icono junto a las imágenes</string>

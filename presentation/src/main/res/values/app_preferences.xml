@@ -74,8 +74,8 @@
 
     <!--folder tree-->
     <string name="prefs_folder_tree_view_title">Folder hierarchy view</string>
-    <string name="prefs_folder_tree_view_summary_off">@string/common_disabled</string>
-    <string name="prefs_folder_tree_view_summary_on">@string/common_enabled</string>
+    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
 
     <string name="prefs_show_podcasts_title">Show podcasts</string>
     <string name="prefs_show_podcasts_summary">Show podcasts tab in library</string>
@@ -116,14 +116,14 @@
 
     <!--show player controls-->
     <string name="prefs_player_controls_visibility_title">Classic player controls</string>
-    <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
-    <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
+    <string name="prefs_player_controls_visibility_summary_on" translatable="false">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off" translatable="false">@string/common_hidden</string>
 
 
     <!--adaptive colors-->
     <string name="prefs_adaptive_colors_title">Adaptive colors</string>
-    <string name="prefs_adaptive_colors_summary_on">@string/common_enabled</string>
-    <string name="prefs_adaptive_colors_summary_off">@string/common_disabled</string>
+    <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
 
     <!--show new albums/artists-->
     <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>
@@ -154,8 +154,8 @@
 
     <!--auto create images-->
     <string name="prefs_auto_create_images_title">Auto create folder, playlist and genre images</string>
-    <string name="prefs_auto_create_images_summary_on">@string/common_enabled</string>
-    <string name="prefs_auto_create_images_summary_off">@string/common_disabled</string>
+    <string name="prefs_auto_create_images_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off" translatable="false">@string/common_disabled</string>
 
     <!--appearance-->
     <string name="prefs_appearance_title">Now playing screen appearance</string>
@@ -224,13 +224,13 @@
 
     <!--lockscreen artwork-->
     <string name="prefs_lockscreen_artwork_title">Lockscreen artwork</string>
-    <string name="prefs_lockscreen_artwork_summary_off">@string/common_disabled</string>
-    <string name="prefs_lockscreen_artwork_summary_on">@string/common_enabled</string>
+    <string name="prefs_lockscreen_artwork_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on" translatable="false">@string/common_enabled</string>
 
     <!--daynight-->
     <string name="prefs_day_night_title">Day-Night mode</string>
-    <string name="prefs_day_night_summary_on">@string/common_enabled</string>
-    <string name="prefs_day_night_summary_off">@string/common_disabled</string>
+    <string name="prefs_day_night_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off" translatable="false">@string/common_disabled</string>
 
     <!--accent color chooser-->
     <string name="prefs_accent_color_title">Accent color</string>
@@ -238,7 +238,7 @@
 
     <!--fullscreen-->
     <string name="prefs_immersive_title">Immersive mode</string>
-    <string name="prefs_immersive_summary_on">@string/common_enabled</string>
-    <string name="prefs_immersive_summary_off">@string/common_disabled</string>
+    <string name="prefs_immersive_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off" translatable="false">@string/common_disabled</string>
 
 </resources>
