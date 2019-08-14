@@ -14,8 +14,6 @@
         <item>@string/common_albums</item>
     </string-array>
 
-    <string name="detail_see_all">ver tudo</string>
-
     <!-- Fuzzy -->
     <string name="detail_more_albums_by">Mais por %s</string>
     <plurals name="detail_xx_new_songs">

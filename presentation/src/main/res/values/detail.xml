@@ -19,7 +19,6 @@
         <item>@string/common_albums</item>
     </string-array>
 
-    <string name="detail_see_all">see all</string>
     <string name="detail_more_albums_by">More by %s</string>
     <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
     <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>

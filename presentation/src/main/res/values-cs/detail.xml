@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="detail_album_header">
+        <item>Další složky</item>
+        <item>Další seznamy skladeb</item>
+        <item/>
+        <item>Další alba</item>
+        <item>@string/common_albums</item>
+        <item>Jiné žánry</item>
+        <item>Další seznamy skladeb</item>
+        <item/>
+        <item/>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">Více o %s</string>
+
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d nová píseň</item>
+        <item quantity="few">%d nových písní</item>
+        <item quantity="other">%d nových písní</item>
+    </plurals>
+
+</resources>
