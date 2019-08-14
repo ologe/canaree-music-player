@@ -17,26 +17,30 @@ class VirtualizerImpl @Inject constructor(
             return virtualizer?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
             ex.printStackTrace()
-            // throws getParameter() called on uninitialized AudioEffect.
+            // sometimes throws getParameter() called on uninitialized AudioEffect.
             return 0
         }
     }
 
     override fun setStrength(value: Int) {
-        virtualizer?.setStrength(value.toShort())?.also {
-            val currentProperties = virtualizer?.properties?.toString()
-            if (!currentProperties.isNullOrBlank()) {
-                equalizerPrefsUseCase.saveVirtualizerSettings(currentProperties)
+        safeAction {
+            virtualizer?.setStrength(value.toShort())?.also {
+                val currentProperties = virtualizer?.properties?.toString()
+                if (!currentProperties.isNullOrBlank()) {
+                    equalizerPrefsUseCase.saveVirtualizerSettings(currentProperties)
+                }
             }
         }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        virtualizer?.enabled = enabled
+        safeAction {
+            virtualizer?.enabled = enabled
+        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        onDestroy()
+        release()
 
         try {
             virtualizer = Virtualizer(0, audioSessionId).apply {
@@ -52,7 +56,24 @@ class VirtualizerImpl @Inject constructor(
     }
 
     override fun onDestroy() {
-        virtualizer?.release()
+        release()
+    }
+
+    private fun release() {
+        safeAction {
+            virtualizer?.release()
+            virtualizer = null
+        }
+    }
+
+
+    private fun safeAction(action: () -> Unit){
+        try {
+            action()
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // sometimes throws getParameter() called on uninitialized AudioEffect.
+        }
     }
 
 }

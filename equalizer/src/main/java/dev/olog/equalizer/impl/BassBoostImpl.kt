@@ -17,26 +17,30 @@ class BassBoostImpl @Inject constructor(
             return bassBoost?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
             ex.printStackTrace()
-            // throws getParameter() called on uninitialized AudioEffect.
+            // sometimes throws getParameter() called on uninitialized AudioEffect.
             return 0
         }
     }
 
     override fun setStrength(value: Int) {
-        bassBoost?.setStrength(value.toShort())?.also {
-            val currentProperties = bassBoost?.properties?.toString()
-            if (!currentProperties.isNullOrBlank()){
-                equalizerPrefsUseCase.saveBassBoostSettings(currentProperties)
+        safeAction {
+            bassBoost?.setStrength(value.toShort())?.also {
+                val currentProperties = bassBoost?.properties?.toString()
+                if (!currentProperties.isNullOrBlank()){
+                    equalizerPrefsUseCase.saveBassBoostSettings(currentProperties)
+                }
             }
         }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        bassBoost?.enabled = enabled
+        safeAction {
+            bassBoost?.enabled = enabled
+        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        bassBoost?.release()
+        release()
 
         try {
             bassBoost = BassBoost(0, audioSessionId).apply {
@@ -52,7 +56,23 @@ class BassBoostImpl @Inject constructor(
     }
 
     override fun onDestroy() {
-        bassBoost?.release()
+        release()
+    }
+
+    private fun release(){
+        safeAction {
+            bassBoost?.release()
+            bassBoost = null
+        }
+    }
+
+    private fun safeAction(action: () -> Unit){
+        try {
+            action()
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // sometimes throws getParameter() called on uninitialized AudioEffect.
+        }
     }
 
 }

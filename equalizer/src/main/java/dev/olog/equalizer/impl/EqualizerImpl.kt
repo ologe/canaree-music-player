@@ -41,8 +41,10 @@ internal class EqualizerImpl @Inject constructor(
     }
 
     private fun release() {
-        equalizer?.release()
-        equalizer = null
+        safeAction {
+            equalizer?.release()
+            equalizer = null
+        }
     }
 
     override fun onDestroy() {
@@ -50,15 +52,19 @@ internal class EqualizerImpl @Inject constructor(
     }
 
     override fun setEnabled(enabled: Boolean) {
-        equalizer?.enabled = enabled
+        safeAction {
+            equalizer?.enabled = enabled
+        }
         prefs.setEqualizerEnabled(enabled)
     }
 
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
         updateCurrentPresetIfCustom()
         prefs.setCurrentPresetId(preset.id)
-        equalizer?.let {
-            updatePresetInternal(preset)
+        safeAction {
+            equalizer?.let {
+                updatePresetInternal(preset)
+            }
         }
     }
 
@@ -75,7 +81,9 @@ internal class EqualizerImpl @Inject constructor(
     }
 
     override fun setBandLevel(band: Int, level: Float) {
-        equalizer?.setBandLevel(band, level)
+        safeAction {
+            equalizer?.setBandLevel(band, level)
+        }
     }
 
 
@@ -92,8 +100,20 @@ internal class EqualizerImpl @Inject constructor(
     }
 
     private fun updatePresetInternal(preset: EqualizerPreset) {
-        preset.bands.forEachIndexed { index, equalizerBand ->
-            setBandLevel(index, equalizerBand.gain)
+        safeAction {
+            preset.bands.forEachIndexed { index, equalizerBand ->
+                setBandLevel(index, equalizerBand.gain)
+            }
         }
     }
+
+    private fun safeAction(action: () -> Unit){
+        try {
+            action()
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // sometimes throws getParameter() called on uninitialized AudioEffect.
+        }
+    }
+
 }
