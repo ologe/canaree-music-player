@@ -47,6 +47,11 @@ internal fun CustomBottomNavigator.inject(){
     buildComponent(context as MainActivity).inject(this)
 }
 
+internal fun MainActivity.clearComponent(){
+    activityComponent?.clear()
+    activityComponent = null
+}
+
 @Component(
     modules = arrayOf(
         PresentationModelModule::class,

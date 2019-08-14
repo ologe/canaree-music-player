@@ -20,6 +20,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
+import dev.olog.presentation.main.di.clearComponent
 import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
@@ -112,6 +113,11 @@ class MainActivity : MusicGlueActivity(),
         }
 
         intent?.let { handleIntent(it) }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        clearComponent()
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
