@@ -16,9 +16,6 @@
     album with jaudio tagger instead of skipping download
 - on Lollipop, splash image not showing (don't know how to fix)
 
-### urgent bug
-- on lollipop item not loading
-
 ## DONE
 - fix android auto not working
 - fix player swipe
