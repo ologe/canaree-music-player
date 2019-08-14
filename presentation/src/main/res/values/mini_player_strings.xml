@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="mini_player_time_left">
+        <item quantity="one">%d min left</item>
+        <item quantity="other">%d min left</item>
+    </plurals>
+
+</resources>

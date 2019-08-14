@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="mini_player_time_left">
+        <item quantity="one">zbývá %d min</item>
+        <item quantity="few">zbývá %d minut</item>
+        <item quantity="other">zbývá %d minut</item>
+    </plurals>
+
+</resources>

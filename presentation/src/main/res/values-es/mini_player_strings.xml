@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="mini_player_time_left">
+        <item quantity="one">queda 1 min</item>
+        <item quantity="other">quedan 10 minutos</item>
+    </plurals>
+
+</resources>
