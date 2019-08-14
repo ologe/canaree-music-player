@@ -14,9 +14,9 @@
 - merged images don't update after content change (folders and genres)
 - in ImageRetrieverRepository, when retrieving album image, if has same name as folder, extract the real 
     album with jaudio tagger instead of skipping download
+- on Lollipop, splash image not showing (don't know how to fix)
 
 ### urgent bug
-- on Lollipop, splash image not showing
 
 ## DONE
 - fix android auto not working
