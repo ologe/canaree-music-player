@@ -2,7 +2,7 @@ package dev.olog.presentation.popup.main
 
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(
-    activity: AppCompatActivity,
+    activity: FragmentActivity,
     billing: IBilling
 ) {
 

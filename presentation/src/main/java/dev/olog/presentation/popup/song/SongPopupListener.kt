@@ -2,6 +2,7 @@ package dev.olog.presentation.popup.song
 
 import android.app.Activity
 import android.view.MenuItem
+import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
@@ -10,15 +11,19 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class SongPopupListener @Inject constructor(
-    private val activity: Activity,
+    activity: FragmentActivity,
     private val navigator: Navigator,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+
+    private val activityRef = WeakReference(activity)
+
 
     private lateinit var song: Song
 
@@ -32,6 +37,8 @@ class SongPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        val activity = activityRef.get() ?: return true
+
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, song.title)

@@ -1,7 +1,7 @@
 package dev.olog.presentation.popup.genre
 
-import android.app.Activity
 import android.view.MenuItem
+import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
@@ -12,16 +12,20 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class GenrePopupListener @Inject constructor(
-    private val activity: Activity,
+    activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+
+    private val activityRef = WeakReference(activity)
+
 
     private lateinit var genre: Genre
     private var song: Song? = null
@@ -41,6 +45,8 @@ class GenrePopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        val activity = activityRef.get() ?: return true
+
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), genre.size, genre.name)

@@ -1,17 +1,17 @@
 package dev.olog.presentation.rateapp
 
-import android.app.Activity
 import android.content.Context
 import androidx.core.content.edit
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.shared.android.utils.PlayStoreUtils
 import kotlinx.coroutines.*
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 private var counterAlreadyIncreased = false
@@ -20,19 +20,23 @@ private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
 private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
 class RateAppDialog @Inject constructor(
-    private val activity: Activity,
-    @ActivityLifecycle private val lifecycle: Lifecycle
+    @ApplicationContext private val context: Context,
+    activity: FragmentActivity
 
 ) : DefaultLifecycleObserver {
+
+    private val activityRef = WeakReference(activity)
 
     private var disposable: Job? = null
 
     init {
-        lifecycle.addObserver(this)
-        check()
+        activityRef.get()?.let {
+            it.lifecycle.addObserver(this)
+            check(it)
+        }
     }
 
-    private fun check() {
+    private fun check(activity: FragmentActivity) {
         disposable = GlobalScope.launch {
             val show = updateCounter(activity)
             delay(2000)
@@ -43,6 +47,7 @@ class RateAppDialog @Inject constructor(
     }
 
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
+        val activity = activityRef.get() ?: return@withContext
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.rate_app_title)
             .setMessage(R.string.rate_app_message)
@@ -80,12 +85,12 @@ class RateAppDialog @Inject constructor(
     }
 
     private fun isNeverShowAgain(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, false)
     }
 
     private fun setNeverShowAgain() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs.edit { putBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, true) }
     }
 
