@@ -103,4 +103,6 @@
     <string name="common_enabled">Enabled</string>
     <string name="common_disabled">Disabled</string>
 
+    <string name="common_sort_by">Sort by</string>
+
 </resources>

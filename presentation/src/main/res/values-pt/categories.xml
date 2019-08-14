@@ -21,7 +21,6 @@
         <item>Sem artista</item>
     </string-array>
 
-    <string name="category_sort_by">Ordenar por</string>
     <string name="category_sort_by_title">Título</string>
     <string name="category_sort_by_artist">Artista</string>
     <string name="category_sort_by_album">Álbum</string>

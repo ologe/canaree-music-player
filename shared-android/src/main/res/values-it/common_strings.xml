@@ -75,4 +75,6 @@
 
   <string name="common_switch_on">On</string>
   <string name="common_switch_off">Off</string>
+
+  <string name="common_sort_by">Ordina per</string>
 </resources>

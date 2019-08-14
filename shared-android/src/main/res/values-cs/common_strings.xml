@@ -63,6 +63,6 @@
   <string name="common_enabled">Povoleno</string>
   <string name="common_disabled">Zakázáno</string>
 
-  <string name="common_browser_not_found">Prohlížeč nebyl nalezen</string>
 
+  <string name="common_sort_by">Seřadit podle</string>
 </resources>

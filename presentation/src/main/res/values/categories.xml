@@ -38,7 +38,7 @@
         <item>No artists</item>
     </string-array>
 
-    <string name="category_sort_by">Sort by</string>
+    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
     <string name="category_sort_by_title" translatable="false">@string/common_title</string>
     <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
     <string name="category_sort_by_album_artist" translatable="false">Album artist</string>

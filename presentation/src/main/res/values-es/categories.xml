@@ -18,7 +18,6 @@
         <item>Ningún artista</item>
     </string-array>
 
-    <string name="category_sort_by">Ordenar por</string>
     <string name="category_sort_by_date">Fecha</string>
     <string name="category_sort_by_ascending">Ascendente</string>
     <string name="category_sort_by_descending">Descendente</string>

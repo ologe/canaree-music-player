@@ -22,6 +22,5 @@
         <item quantity="one">%d nova faixa</item>
         <item quantity="other">%d novas faixas</item>
     </plurals>
-    <string name="detail_sort_by">Ordenar por</string>
 
 </resources>
