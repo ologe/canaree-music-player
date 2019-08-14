@@ -31,7 +31,6 @@
     <item quantity="one">I cambiamenti verrano applicati a %d brano</item>
     <item quantity="other">I cambiamenti verrano applicati a %d brani</item>
   </plurals>
-  <string name="edit_song_change_album_art">Scegli un\'immagine</string>
 
   <string-array name="edit_item_image_dialog">
     <item>Ripristina</item>

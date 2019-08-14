@@ -32,6 +32,8 @@
         <item quantity="other">As tuas mudanças foram aplicadas a %d músicas</item>
     </plurals>
 
-    <string name="edit_song_change_album_art">Escolha uma imagem</string>
+
+    <string name="edit_album_update_start">Começou a atualizar o álbum..</string>
+    <string name="edit_artist_update_start">Começou a atualizar o artista..</string>
 
 </resources>
