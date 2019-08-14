@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">service-floating</string>
+    <string name="app_name" translatable="false">service-floating</string>
 
-    <string name="floating_window_notification_channel_title">Floating window</string>
-    <string name="floating_window_notification_channel_description">Floating window</string>
+    <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
+    <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>
     <string name="floating_window_notification_content_text">Tap to close</string>
 
     <string name="floating_window_offline">You are offline</string>
