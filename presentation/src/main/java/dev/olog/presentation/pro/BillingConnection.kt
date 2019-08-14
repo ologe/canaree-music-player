@@ -11,18 +11,19 @@ import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.toast
+import java.lang.ref.WeakReference
 
 internal abstract class BillingConnection(
-    protected val activity: FragmentActivity
+    protected val activity: WeakReference<FragmentActivity>
 ) : PurchasesUpdatedListener, DefaultLifecycleObserver {
 
     init {
-        activity.lifecycle.addObserver(this)
+        activity.get()?.lifecycle?.addObserver(this)
     }
 
     private var isConnected = false
 
-    protected val billingClient: BillingClient = BillingClient.newBuilder(activity)
+    protected val billingClient: BillingClient = BillingClient.newBuilder(activity.get()!!)
         .setListener(this)
         .enablePendingPurchases()
         .build()
@@ -39,10 +40,10 @@ internal abstract class BillingConnection(
                         "error=${billingResult.debugMessage}")
                 when (billingResult.responseCode){
                     BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
-                        activity.toast(R.string.network_timeout)
+                        activity.get()?.toast(R.string.network_timeout)
                     }
                     BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
-                        activity.toast(R.string.network_not_available)
+                        activity.get()?.toast(R.string.network_not_available)
                     }
                 }
 

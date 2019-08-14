@@ -13,6 +13,7 @@ import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -24,7 +25,7 @@ internal class BillingImpl @Inject constructor(
     private val presentationPreferences: PresentationPreferencesGateway,
     private val prefsGateway: AppPreferencesGateway
 
-) : BillingConnection(activity), IBilling, CoroutineScope by MainScope() {
+) : BillingConnection(WeakReference(activity)), IBilling, CoroutineScope by MainScope() {
 
     companion object {
         @JvmStatic
@@ -92,7 +93,8 @@ internal class BillingImpl @Inject constructor(
     }
 
     private fun isStillTrial(): Boolean {
-        val packageInfo = activity.packageManager.getPackageInfo(activity.packageName, 0)
+        val act = activity.get() ?: return false
+        val packageInfo = act.packageManager.getPackageInfo(act.packageName, 0)
         val firstInstallTime = packageInfo.firstInstallTime
         return System.currentTimeMillis() - firstInstallTime < TRIAL_TIME
     }
@@ -120,10 +122,10 @@ internal class BillingImpl @Inject constructor(
                 isPremiumState = isProBought(purchases)
             }
             BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
-                activity.toast(R.string.network_timeout)
+                activity.get()?.toast(R.string.network_timeout)
             }
             BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
-                activity.toast(R.string.network_not_available)
+                activity.get()?.toast(R.string.network_not_available)
             }
 
             else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +
@@ -154,6 +156,7 @@ internal class BillingImpl @Inject constructor(
     }
 
     override fun purchasePremium() {
+        val act = activity.get() ?: return
         doOnConnected {
             val params = SkuDetailsParams.newBuilder()
                 .setSkusList(listOf(PRO_VERSION_ID))
@@ -165,7 +168,7 @@ internal class BillingImpl @Inject constructor(
                     val flowParams = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetailsList[0])
                         .build()
-                    billingClient.launchBillingFlow(activity, flowParams)
+                    billingClient.launchBillingFlow(act, flowParams)
                 }
             }
         }
