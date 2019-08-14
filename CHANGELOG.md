@@ -5,6 +5,7 @@
 - **Internal changes**
     - Migration from rx to coroutines
     - Splitted app in packages
+    - Increased min Android version to 23 (Marshmallow) 
 
 - **UI**
     - Overall UI changes
