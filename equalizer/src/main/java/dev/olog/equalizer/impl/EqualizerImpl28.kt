@@ -44,7 +44,7 @@ internal class EqualizerImpl28 @Inject constructor(
             for (index in 0 until BANDS) {
                 val currentBand = currentPreset.bands[index]
                 val eqBand =
-                    DynamicsProcessing.EqBand(true, currentBand.frequency, currentBand.gain)
+                    DynamicsProcessing.EqBand(true, currentBand.frequency + BAND_LIMIT, currentBand.gain)
                 eq.setBand(index, eqBand)
             }
             setPreEqAllChannelsTo(eq)
@@ -106,7 +106,7 @@ internal class EqualizerImpl28 @Inject constructor(
         val result = mutableListOf<EqualizerBand>()
         for (index in 0 until BANDS) {
             val eqBand = dynamicProcessing!!.getPreEqBandByChannelIndex(0, index)
-            result.add(EqualizerBand(eqBand.gain, eqBand.cutoffFrequency))
+            result.add(EqualizerBand(eqBand.gain, eqBand.cutoffFrequency - BAND_LIMIT))
         }
         return result
     }
