@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_shortcut_added_to_home_screen">Odkaz byl přidán na plochu</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">Spouštěč nepodporuje přidávání zkratek</string>
+
+    <string name="shortcut_playlist_chooser">Přidejte seznam skladeb</string>
+
+</resources>

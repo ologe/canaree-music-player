@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_shortcut_added_to_home_screen">Atajo agregado a la pantalla de inicio</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">Su lanzador no admite agregar accesos directos</string>
+
+    <string name="shortcut_playlist_chooser">Agregar una lista de reproducción</string>
+
+</resources>
