@@ -2,22 +2,22 @@ package dev.olog.presentation.main
 
 import android.annotation.SuppressLint
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.lazyFast
+import dev.olog.presentation.utils.removeLightStatusBar
+import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
-    private val activity: AppCompatActivity
+    private val activity: FragmentActivity
 
 ) : DefaultLifecycleObserver, FragmentManager.OnBackStackChangedListener {
 

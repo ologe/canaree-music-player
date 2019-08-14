@@ -1,7 +1,7 @@
 package dev.olog.presentation.pro
 
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import dev.olog.core.interactor.ResetPreferencesUseCase
@@ -19,7 +19,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 internal class BillingImpl @Inject constructor(
-    activity: AppCompatActivity,
+    activity: FragmentActivity,
     private val billingPrefs: BillingPreferences,
     private val resetPreferencesUseCase: ResetPreferencesUseCase,
     private val presentationPreferences: PresentationPreferencesGateway,

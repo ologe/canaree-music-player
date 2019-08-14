@@ -1,7 +1,7 @@
 package dev.olog.presentation.navigator
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.Lazy
@@ -40,7 +40,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class NavigatorImpl @Inject internal constructor(
-    activity: AppCompatActivity,
+    activity: FragmentActivity,
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>

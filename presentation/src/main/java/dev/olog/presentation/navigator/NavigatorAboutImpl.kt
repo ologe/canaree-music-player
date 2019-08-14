@@ -2,20 +2,22 @@ package dev.olog.presentation.navigator
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.colorSurface
+import dev.olog.shared.android.extensions.isIntentSafe
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.PlayStoreUtils
 import saschpe.android.customtabs.CustomTabsHelper
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class NavigatorAboutImpl @Inject internal constructor(
-    activity: AppCompatActivity
+    activity: FragmentActivity
 
 ) : NavigatorAbout {
 
