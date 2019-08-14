@@ -46,7 +46,7 @@ ext {
     fuzzywuzzy = '1.2.0'
 
 //    debug
-    leak_canary = '1.6.3'
+    leak_canary = '2.0-beta-2'
     stetho = '1.5.1'
 
 //    ai
@@ -148,8 +148,6 @@ ext {
 
     lib_debug = [
             leak_canary_debug          : "com.squareup.leakcanary:leakcanary-android:$leak_canary",
-            leak_canary_release        : "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary",
-            leak_canary_debug_fragments: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
             stetho                     : "com.facebook.stetho:stetho:$stetho",
     ]
 

@@ -3,7 +3,6 @@ package dev.olog.msc.app
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.google.android.play.core.splitcompat.SplitCompat
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -13,6 +12,7 @@ import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
+import leakcanary.LeakCanary
 import javax.inject.Inject
 
 class App : ThemedApp(), HasAndroidInjector {
@@ -28,9 +28,6 @@ class App : ThemedApp(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return
-        }
         inject()
         initializeComponents()
         initializeConstants()
@@ -44,7 +41,6 @@ class App : ThemedApp(), HasAndroidInjector {
 
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
-//            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
         }
     }
