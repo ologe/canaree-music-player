@@ -12,7 +12,6 @@ import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import io.alterac.blurkit.BlurKit
-import leakcanary.LeakCanary
 import javax.inject.Inject
 
 class App : ThemedApp(), HasAndroidInjector {
