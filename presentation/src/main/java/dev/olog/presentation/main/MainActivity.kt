@@ -34,6 +34,7 @@ import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import dev.olog.shared.android.theme.isImmersiveMode
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
@@ -75,6 +76,13 @@ class MainActivity : MusicGlueActivity(),
         inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (isImmersiveMode()){
+            // workaround, on some device on immersive mode bottom navigation disappears
+            rootView.fitsSystemWindows = true
+            slidingPanel.fitsSystemWindows = true
+            bottomWrapper.fitsSystemWindows = true
+        }
 
         tryLoadAd()
 
