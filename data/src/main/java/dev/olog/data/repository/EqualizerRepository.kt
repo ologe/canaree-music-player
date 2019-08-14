@@ -209,10 +209,6 @@ internal class EqualizerRepository @Inject constructor(
                 5f, 3f, -2f, 4f, 4f
             ),
             createPreset(
-                id++, "Dance",
-                6f, 0f, 2f, 4f, 1f
-            ),
-            createPreset(
                 id++, "Flat",
                 0f, 0f, 0f, 0f, 0f
             ),
