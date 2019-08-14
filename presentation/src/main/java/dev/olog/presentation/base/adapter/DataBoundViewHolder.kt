@@ -21,11 +21,14 @@ class DataBoundViewHolder(val view: View) : RecyclerView.ViewHolder(view),
     }
 
     fun onAppear() {
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         lifecycleRegistry.currentState = Lifecycle.State.RESUMED
     }
 
     fun onDisappear() {
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
