@@ -89,7 +89,7 @@ class LottieFavorite(
         if (this.state == favoriteEnum) {
             return
         }
-        this.state = favoriteEnum
+        this.state = FavoriteEnum.valueOf(favoriteEnum.name)
 
         when (favoriteEnum) {
             FavoriteEnum.FAVORITE -> toggleFavorite(true)

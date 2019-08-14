@@ -258,7 +258,6 @@ internal class PlayerFragmentAdapter(
         })
 
         viewModel.onFavoriteStateChanged
-            .asLiveData()
             .subscribe(holder, view.favorite::onNextState)
 
         viewModel.skipToNextVisibility

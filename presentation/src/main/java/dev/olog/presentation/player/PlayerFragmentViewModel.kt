@@ -1,7 +1,10 @@
 package dev.olog.presentation.player
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteEnum
@@ -13,9 +16,12 @@ import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class PlayerFragmentViewModel @Inject constructor(
@@ -27,6 +33,20 @@ internal class PlayerFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currentTrackIdPublisher = BroadcastChannel<Long>(Channel.CONFLATED)
+
+    private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
+
+    init {
+        viewModelScope.launch {
+            observeFavoriteAnimationUseCase()
+                .flowOn(Dispatchers.Default)
+                .collect { favoriteLiveData.value = it }
+        }
+    }
+
+    override fun onCleared() {
+        viewModelScope.cancel()
+    }
 
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
 
@@ -59,7 +79,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
         )
     }
 
-    val onFavoriteStateChanged: Flow<FavoriteEnum> = observeFavoriteAnimationUseCase()
+    val onFavoriteStateChanged: LiveData<FavoriteEnum> = favoriteLiveData
 
     val skipToNextVisibility = musicPrefsUseCase
             .observeSkipToNextVisibility()
