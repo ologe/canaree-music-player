@@ -22,11 +22,27 @@ import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.tab.di.TabFragmentInjector
+import dev.olog.presentation.widgets.bottomnavigator.CustomBottomNavigator
+import dev.olog.shared.android.utils.assertMainThread
 
-fun MainActivity.inject() {
-    DaggerMainActivityComponent.factory()
-        .create(this, CoreComponent.coreComponent(application))
-        .inject(this)
+private var activityComponent: MainActivityComponent? = null
+
+private fun buildComponent(activity: MainActivity): MainActivityComponent {
+    assertMainThread()
+
+    if (activityComponent == null){
+        activityComponent = DaggerMainActivityComponent.factory()
+            .create(activity, CoreComponent.coreComponent(activity.application))
+    }
+    return activityComponent!!
+}
+
+internal fun MainActivity.inject() {
+    buildComponent(this).inject(this)
+}
+
+internal fun CustomBottomNavigator.inject(){
+    buildComponent(context as MainActivity).inject(this)
 }
 
 @Component(
@@ -59,9 +75,10 @@ fun MainActivity.inject() {
     ), dependencies = [CoreComponent::class]
 )
 @PerActivity
-interface MainActivityComponent {
+internal interface MainActivityComponent {
 
     fun inject(instance: MainActivity)
+    fun inject(bottomNavigation: CustomBottomNavigator)
 
     @Component.Factory
     interface Factory {

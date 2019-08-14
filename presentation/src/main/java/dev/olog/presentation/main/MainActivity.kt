@@ -78,8 +78,6 @@ class MainActivity : MusicGlueActivity(),
 
         tryLoadAd()
 
-        bottomNavigation.presentationPrefs = presentationPrefs
-
         if (hasPlayerAppearance().isMini()){
             // TODO made a resource value
             slidingPanelFade.parallax = 0
