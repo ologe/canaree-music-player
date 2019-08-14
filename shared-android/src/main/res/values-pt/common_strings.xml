@@ -12,8 +12,6 @@
     <string name="common_favorites">Favoritos</string>
     <string name="common_history">Recentes</string>
     <string name="common_all_tracks">Todas as faixas</string>
-    <string name="common_unknown_album">Álbum desconhecido</string>
-    <string name="common_unknown_artist">Artista desconhecido</string>
     <string name="common_placeholder_title">Um título incrível</string>
     <string name="common_placeholder_artist">Um artista incrível</string>
     <string name="common_placeholder_album">Um álbum incrível</string>

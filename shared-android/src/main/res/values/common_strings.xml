@@ -19,9 +19,6 @@
 
     <string name="common_all_tracks">All tracks</string>
 
-    <string name="common_unknown_album">Unknown album</string>
-    <string name="common_unknown_artist">Unknown artist</string>
-
     <string name="common_placeholder_title">An awesome title</string>
     <string name="common_placeholder_artist">An awesome artist</string>
     <string name="common_placeholder_album">An awesome album</string>
