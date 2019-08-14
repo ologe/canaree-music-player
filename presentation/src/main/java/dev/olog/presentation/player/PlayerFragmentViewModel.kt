@@ -11,11 +11,8 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.widgets.adaptive.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -24,51 +21,12 @@ import javax.inject.Inject
 internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-    private val presentationPrefs: PresentationPreferencesGateway,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) : ViewModel() {
 
-    private val processorPublisher = BroadcastChannel<ProcessorColors>(Channel.CONFLATED)
-    private val palettePublisher = BroadcastChannel<PaletteColors>(Channel.CONFLATED)
     private val currentTrackIdPublisher = BroadcastChannel<Long>(Channel.CONFLATED)
-
-    // allow adaptive color on flat appearance
-    fun observeProcessorColors(): Flow<ProcessorColors> = processorPublisher
-        .asFlow()
-        .map {
-            val hasPlayerAppearance = context.hasPlayerAppearance()
-            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat()) {
-                it
-            } else {
-                InvalidProcessColors
-            }
-        }
-        .filter { it is ValidProcessorColors }
-        .flowOn(Dispatchers.Default)
-
-    // allow adaptive color on flat appearance
-    fun observePaletteColors(): Flow<PaletteColors> = palettePublisher
-        .asFlow()
-        .map {
-            val hasPlayerAppearance = context.hasPlayerAppearance()
-            if (presentationPrefs.isAdaptiveColorEnabled() || hasPlayerAppearance.isFlat() || hasPlayerAppearance.isSpotify()) {
-                it
-            } else {
-                InvalidPaletteColors
-            }
-        }
-        .filter { it is ValidPaletteColors }
-        .flowOn(Dispatchers.Default)
-
-    fun updateProcessorColors(palette: ProcessorColors) {
-        processorPublisher.offer(palette)
-    }
-
-    fun updatePaletteColors(palette: PaletteColors) {
-        palettePublisher.offer(palette)
-    }
 
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
 

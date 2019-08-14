@@ -31,15 +31,15 @@ internal interface IPlayerAppearanceAdaptiveBehavior {
             }
     }
 
-    operator fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel)
+    operator fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter)
 }
 
 internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
         val view = viewHolder.itemView
 
-        viewModel.observePaletteColors()
+        presenter.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
@@ -75,11 +75,11 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
 
 internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
         val view = viewHolder.itemView
 
 
-        viewModel.observePaletteColors()
+        presenter.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
@@ -96,10 +96,10 @@ internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveB
 
 internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
         val view = viewHolder.itemView
 
-        viewModel.observeProcessorColors()
+        presenter.observeProcessorColors()
             .asLiveData()
             .subscribe(viewHolder) { colors ->
                 view.title.apply {
@@ -112,7 +112,7 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
                 }
             }
 
-        viewModel.observePaletteColors()
+        presenter.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
@@ -128,10 +128,10 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
 
 internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
         val view = viewHolder.itemView
 
-        viewModel.observePaletteColors()
+        presenter.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
@@ -149,10 +149,10 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
 
 internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior {
 
-    override fun invoke(viewHolder: DataBoundViewHolder, viewModel: PlayerFragmentViewModel) {
+    override fun invoke(viewHolder: DataBoundViewHolder, presenter: PlayerFragmentPresenter) {
         val view = viewHolder.itemView
 
-        viewModel.observePaletteColors()
+        presenter.observePaletteColors()
             .map { it.accent }
             .asLiveData()
             .subscribe(viewHolder) { accent ->
