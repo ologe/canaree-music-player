@@ -126,23 +126,23 @@ internal class PlayerFragmentAdapter(
             view.imageSwitcher?.let {
                 it.observeProcessorColors()
                     .asLiveData()
-                    .subscribe(holder, viewModel::updateProcessorColors)
+                    .subscribe(holder, presenter::updateProcessorColors)
                 it.observePaletteColors()
                     .asLiveData()
-                    .subscribe(holder, viewModel::updatePaletteColors)
+                    .subscribe(holder, presenter::updatePaletteColors)
             }
             view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
                 it.observeProcessorColors()
                     .asLiveData()
-                    .subscribe(holder, viewModel::updateProcessorColors)
+                    .subscribe(holder, presenter::updateProcessorColors)
                 it.observePaletteColors()
                     .asLiveData()
-                    .subscribe(holder, viewModel::updatePaletteColors)
+                    .subscribe(holder, presenter::updatePaletteColors)
             }
 
             bindPlayerControls(holder, view)
 
-            playerAppearanceAdaptiveBehavior(holder, viewModel)
+            playerAppearanceAdaptiveBehavior(holder, presenter)
         }
     }
 
