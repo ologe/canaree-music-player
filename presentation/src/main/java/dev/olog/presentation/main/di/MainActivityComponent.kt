@@ -24,17 +24,19 @@ import dev.olog.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.tab.di.TabFragmentInjector
 import dev.olog.presentation.widgets.bottomnavigator.CustomBottomNavigator
 import dev.olog.shared.android.utils.assertMainThread
+import java.lang.ref.WeakReference
 
-private var activityComponent: MainActivityComponent? = null
+private var activityComponent: WeakReference<MainActivityComponent>? = null
 
 private fun buildComponent(activity: MainActivity): MainActivityComponent {
     assertMainThread()
 
-    if (activityComponent == null){
-        activityComponent = DaggerMainActivityComponent.factory()
+    if (activityComponent?.get() == null){
+        val component = DaggerMainActivityComponent.factory()
             .create(activity, CoreComponent.coreComponent(activity.application))
+        activityComponent = WeakReference(component)
     }
-    return activityComponent!!
+    return activityComponent!!.get()!!
 }
 
 internal fun MainActivity.inject() {
