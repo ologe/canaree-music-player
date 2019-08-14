@@ -13,7 +13,13 @@ class VirtualizerImpl @Inject constructor(
     private var virtualizer: Virtualizer? = null
 
     override fun getStrength(): Int {
-        return virtualizer?.roundedStrength?.toInt() ?: 0
+        try {
+            return virtualizer?.roundedStrength?.toInt() ?: 0
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // throws getParameter() called on uninitialized AudioEffect.
+            return 0
+        }
     }
 
     override fun setStrength(value: Int) {

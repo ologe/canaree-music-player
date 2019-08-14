@@ -65,7 +65,13 @@ internal class EqualizerImpl @Inject constructor(
     override fun getBandCount(): Int = BANDS
 
     override fun getBandLevel(band: Int): Float {
-        return equalizer?.getBandLevel(band) ?: 0f
+        try {
+            return equalizer?.getBandLevel(band) ?: 0f
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // throws getParameter() called on uninitialized AudioEffect.
+            return 0f
+        }
     }
 
     override fun setBandLevel(band: Int, level: Float) {

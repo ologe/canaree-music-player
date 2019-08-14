@@ -13,7 +13,13 @@ class BassBoostImpl @Inject constructor(
     private var bassBoost: BassBoost? = null
 
     override fun getStrength(): Int {
-        return bassBoost?.roundedStrength?.toInt() ?: 0
+        try {
+            return bassBoost?.roundedStrength?.toInt() ?: 0
+        } catch (ex: IllegalStateException){
+            ex.printStackTrace()
+            // throws getParameter() called on uninitialized AudioEffect.
+            return 0
+        }
     }
 
     override fun setStrength(value: Int) {
