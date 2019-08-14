@@ -45,6 +45,7 @@
     <string name="common_title">Título</string>
     <string name="common_track">Faixa</string>
     <string name="common_artist">Artista</string>
+    <string name="common_album_artist">Álbum do artista</string>
     <string name="common_album">Álbum</string>
     <string name="common_genre">Género</string>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="edit_info_title">@string/common_track</string>
-    <string name="edit_info_artist">@string/common_artist</string>
-    <string name="edit_info_album_artist">Album artist</string>
+    <string name="edit_info_title" translatable="false">@string/common_track</string>
+    <string name="edit_info_artist" translatable="false">@string/common_artist</string>
+    <string name="edit_info_album_artist">@string/category_sort_by_album_artist</string>
     <string name="edit_info_album">@string/common_album</string>
     <string name="edit_info_genre">@string/common_genre</string>
     <string name="edit_info_year">Year</string>
@@ -48,7 +48,7 @@
 
     <string name="edit_song_change_album_art">Pick an image</string>
 
-    <dimen name="edit_item_min_height">260dp</dimen>
+
 
     <string-array name="edit_item_image_dialog">
         <item>Restore default</item>

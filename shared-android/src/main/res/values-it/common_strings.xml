@@ -44,6 +44,7 @@
   <string name="common_track">Brano</string>
   <string name="common_album">Album</string>
   <string name="common_artist">Artista</string>
+  <string name="common_album_artist">Artista di un album</string>
   <string name="common_genre">Genere</string>
   <string name="common_podcast">Podcast</string>
   <string name="common_podcast_playlist">Playlist Podcast</string>

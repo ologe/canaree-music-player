@@ -29,6 +29,7 @@
   <string name="common_title">Název</string>
   <string name="common_track">Stopa</string>
   <string name="common_artist">Autor</string>
+  <string name="common_album_artist">Umělec alba</string>
   <string name="common_album">Album</string>
   <string name="common_genre">Žánr</string>
 

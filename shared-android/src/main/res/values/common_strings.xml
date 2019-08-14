@@ -59,6 +59,7 @@
     <string name="common_title">Title</string>
     <string name="common_track">Track</string>
     <string name="common_artist">Artist</string>
+    <string name="common_album_artist">Album artist</string>
     <string name="common_album">Album</string>
     <string name="common_genre">Genre</string>
     <string name="common_duration">Duration</string>

@@ -41,6 +41,7 @@
     <string name="common_track">Pista</string>
     <string name="common_album">Álbum</string>
     <string name="common_artist">Artista</string>
+    <string name="common_album_artist">Artista de un álbum</string>
     <string name="common_genre">Género</string>
 
     <string name="common_podcast">Podcast</string>
