@@ -30,7 +30,6 @@ internal class FavoriteRepository @Inject constructor(
 
     override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
         .asFlow()
-        .map { it.copy() } // pass a copy to avoid any view referencing this channel
         .map { it.enum }
 
     override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
