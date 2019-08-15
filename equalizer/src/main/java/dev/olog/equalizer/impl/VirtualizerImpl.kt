@@ -25,10 +25,6 @@ class VirtualizerImpl @Inject constructor(
                 isImplementedByDevice = true
             }
         }
-        if (!isImplementedByDevice) {
-            Toast.makeText(context, "Virtualizer not available", Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
     override fun getStrength(): Int {

@@ -67,10 +67,6 @@ internal class EqualizerImpl28 @Inject constructor(
                 isImplementedByDevice = true
             }
         }
-        if (!isImplementedByDevice) {
-            Toast.makeText(context, "Equalizer not available", Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {

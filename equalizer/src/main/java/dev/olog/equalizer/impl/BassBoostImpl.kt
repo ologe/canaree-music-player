@@ -25,10 +25,6 @@ class BassBoostImpl @Inject constructor(
                 isImplementedByDevice = true
             }
         }
-        if (!isImplementedByDevice) {
-            Toast.makeText(context, "Bass boost not available", Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
     override fun getStrength(): Int {
