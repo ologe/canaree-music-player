@@ -70,6 +70,7 @@ internal class BillingImpl @Inject constructor(
     }
 
     init {
+        activity.lifecycle.addObserver(this)
         doOnConnected { checkPurchases() }
 
         if (isStillTrial()) {

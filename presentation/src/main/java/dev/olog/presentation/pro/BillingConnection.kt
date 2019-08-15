@@ -17,10 +17,6 @@ internal abstract class BillingConnection(
     protected val activity: WeakReference<FragmentActivity>
 ) : PurchasesUpdatedListener, DefaultLifecycleObserver {
 
-    init {
-        activity.get()?.lifecycle?.addObserver(this)
-    }
-
     private var isConnected = false
 
     protected val billingClient: BillingClient = BillingClient.newBuilder(activity.get()!!)
