@@ -88,7 +88,7 @@
 
     <!--midnight mode-->
     <string name="prefs_lower_volume_on_night_title">Midnight mode</string>
-    <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
+    <string name="prefs_lower_volume_on_night_summary">Lowers the max volume at night</string>
 
 
     <!--crossfade-->
