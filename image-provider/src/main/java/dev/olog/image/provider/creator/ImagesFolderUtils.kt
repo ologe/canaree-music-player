@@ -62,9 +62,14 @@ class ImageName(file: File) {
     }
 
     fun progressive(): Long {
-        val indexOfStart = name.indexOf("_") + 1
-        val indexOfEnd = name.indexOf("(")
-        return name.substring(indexOfStart, indexOfEnd).toLong()
+        try {
+            val indexOfStart = name.indexOf("_") + 1
+            val indexOfEnd = name.indexOf("(")
+            return name.substring(indexOfStart, indexOfEnd).toLong()
+        } catch (ex: Exception){
+            ex.printStackTrace()
+            return 0
+        }
     }
 
 }
