@@ -101,6 +101,11 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        list.adapter = null
+    }
+
     override fun provideLayoutId(): Int {
         val appearance = requireContext().hasPlayerAppearance()
         return when (appearance.playerAppearance()) {
