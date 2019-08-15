@@ -60,7 +60,14 @@ class BlacklistModel(
 
     // show the path without "/storage/emulated/0"
     @JvmField
-    val displayablePath = path.substring(defaultStorageDir.length)
+    val displayablePath = {
+        try {
+            path.substring(defaultStorageDir.length)
+        } catch (ex: StringIndexOutOfBoundsException){
+            ex.printStackTrace()
+            path
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
