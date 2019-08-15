@@ -19,6 +19,8 @@ internal class TrackQueries(
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 
     fun getAll(): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
                 $TITLE,
@@ -32,14 +34,16 @@ internal class TrackQueries(
                 $DATE_MODIFIED,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection()}
+            WHERE ${defaultSelection(blacklist)}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query)
+        return contentResolver.querySql(query, params)
     }
 
     fun getByParam(id: Id): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
                 $TITLE,
@@ -53,15 +57,15 @@ internal class TrackQueries(
                 $DATE_MODIFIED,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE $_ID = ? AND ${defaultSelection()}
+            WHERE $_ID = ? AND ${defaultSelection(blacklist)}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query, arrayOf("$id"))
+        return contentResolver.querySql(query, arrayOf("$id") + params)
     }
 
-    private fun defaultSelection(): String {
-        return "${isPodcast()} AND ${notBlacklisted()}"
+    private fun defaultSelection(notBlacklisted: String): String {
+        return "${isPodcast()} AND $notBlacklisted"
     }
 
     private fun sortOrder(): String {

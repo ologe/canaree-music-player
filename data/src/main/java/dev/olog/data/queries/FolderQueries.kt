@@ -17,24 +17,18 @@ internal class FolderQueries(
 ) : BaseQueries(blacklistPrefs, sortPrefs, false) {
 
     fun getAll(includeBlackListed: Boolean): Cursor {
-        val query = """
-            SELECT $DATA
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(includeBlackListed)}
-        """
-        return contentResolver.querySql(query)
-    }
+        val (blacklist, params) = notBlacklisted()
 
-    fun getByPath(folderPath: Path): Cursor {
         val query = """
             SELECT $DATA
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ?
+            WHERE ${defaultSelection(includeBlackListed, blacklist)}
         """
-        return contentResolver.querySql(query, arrayOf(folderPath))
+        return contentResolver.querySql(query, params)
     }
 
     fun getSongList(folderPath: String): Cursor {
+        val (blacklist, params) = notBlacklisted()
 
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
@@ -42,13 +36,14 @@ internal class FolderQueries(
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ?
+            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ?
             ORDER BY ${songListSortOrder(MediaIdCategory.FOLDERS, DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, arrayOf(folderPath))
+        return contentResolver.querySql(query, params + arrayOf(folderPath))
     }
 
     fun getRecentlyAdded(folderPath: String): Cursor {
+        val (blacklist, params) = notBlacklisted()
 
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
@@ -56,13 +51,15 @@ internal class FolderQueries(
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ? AND ${isRecentlyAdded()}
+            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ? AND ${isRecentlyAdded()}
             ORDER BY lower($TITLE) COLLATE UNICODE ASC
         """
-        return contentResolver.querySql(query, arrayOf(folderPath))
+        return contentResolver.querySql(query, params + arrayOf(folderPath))
     }
 
     fun getRelatedArtists(path: Path): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
              SELECT
                 $ARTIST_ID,
@@ -70,18 +67,18 @@ internal class FolderQueries(
                 ${Columns.ALBUM_ARTIST},
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false)} AND $folderProjection = ?
+            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ?
             ORDER BY lower($ARTIST) COLLATE UNICODE ASC
         """
 
-        return contentResolver.querySql(query, arrayOf(path))
+        return contentResolver.querySql(query, params + arrayOf(path))
     }
 
-    private fun defaultSelection(includeBlackListed: Boolean): String {
+    private fun defaultSelection(includeBlackListed: Boolean, notBlacklisted: String): String {
         if (includeBlackListed) {
             return isPodcast()
         }
-        return "${isPodcast()} AND ${notBlacklisted()}"
+        return "${isPodcast()} AND $notBlacklisted"
     }
 
 }

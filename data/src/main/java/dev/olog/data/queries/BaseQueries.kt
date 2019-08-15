@@ -35,9 +35,11 @@ abstract class BaseQueries(
         return "strftime('%s','now') - $DATE_ADDED <= $RECENTLY_ADDED_TIME"
     }
 
-    protected fun notBlacklisted(): String {
-        val blackListed = blacklistPrefs.getBlackList().map { "'$it'" }
-        return "$folderProjection NOT IN (${blackListed.joinToString()})"
+    protected fun notBlacklisted(): Pair<String, Array<String>> {
+        val blacklist = blacklistPrefs.getBlackList()
+        val params = blacklist.map { "?" }
+        val blackListed = blacklist.toTypedArray()
+        return "$folderProjection NOT IN (${params.joinToString()})" to blackListed
     }
 
     protected fun songListSortOrder(category: MediaIdCategory, default: String): String {

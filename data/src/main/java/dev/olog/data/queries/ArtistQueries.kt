@@ -20,6 +20,8 @@ internal class ArtistQueries(
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 
     fun getAll(): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
              SELECT
                 $ARTIST_ID,
@@ -27,44 +29,31 @@ internal class ArtistQueries(
                 ${Columns.ALBUM_ARTIST},
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection()}
-
+            WHERE ${defaultSelection(blacklist)}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query)
-    }
-
-    fun getById(id: Id): Cursor {
-        val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $DATA,
-                $IS_PODCAST
-            FROM ${EXTERNAL_CONTENT_URI}
-            WHERE $ARTIST_ID = ? AND ${defaultSelection()}
-            ORDER BY ${sortOrder()}
-        """
-
-        return contentResolver.querySql(query, arrayOf("$id"))
+        return contentResolver.querySql(query, params)
     }
 
     fun getSongList(id: Long): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
                 $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSongSelection()} AND $ARTIST_ID = ?
+            WHERE $ARTIST_ID = ? AND ${defaultSongSelection(blacklist)}
             ORDER BY ${songListSortOrder(MediaIdCategory.ARTISTS, DEFAULT_SORT_ORDER)}
         """
-        return contentResolver.querySql(query, arrayOf("$id"))
+        return contentResolver.querySql(query, arrayOf("$id") + params)
     }
 
     fun getRecentlyAdded(): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
         val query = """
              SELECT
                 $ARTIST_ID,
@@ -73,19 +62,19 @@ internal class ArtistQueries(
                 $DATA,
                 $IS_PODCAST
             FROM ${EXTERNAL_CONTENT_URI}
-            WHERE ${defaultSelection()} AND ${isRecentlyAdded()}
+            WHERE ${defaultSelection(blacklist)} AND ${isRecentlyAdded()}
             ORDER BY ${sortOrder()}
         """
 
-        return contentResolver.querySql(query)
+        return contentResolver.querySql(query, params)
     }
 
-    private fun defaultSelection(): String {
-        return "${isPodcast()} AND ${notBlacklisted()}"
+    private fun defaultSelection(notBlacklisted: String): String {
+        return "${isPodcast()} AND $notBlacklisted"
     }
 
-    private fun defaultSongSelection(): String {
-        return "${isPodcast()} AND ${notBlacklisted()}"
+    private fun defaultSongSelection(notBlacklisted: String): String {
+        return "${isPodcast()} AND $notBlacklisted"
     }
 
     private fun sortOrder(): String {
