@@ -1,7 +1,8 @@
 # Release notes
 
 ## 3.0.1.2
-- Fixed screen color issues on some devices 
+- Fixed screen color issues on some devices
+- Fixed crashes 
 
 ## 3.0.1.1
 - Added some missing Czech, Spanish and Portuguese translations
