@@ -1,7 +1,9 @@
 ## TODO
 - try app on all API level
 - test on foldable
-- TODO check spanish and portuguese translation 
+
+- revamp blacklist fragment, with a tree based architecture
+- think about posting on FDroid 
 
 ## TODO for methoud count reducing
 - reduce method count (opening dex file take a lot of time on on app startup)
@@ -14,7 +16,7 @@
 - merged images don't update after content change (folders and genres)
 - in ImageRetrieverRepository, when retrieving album image, if has same name as folder, extract the real 
     album with jaudio tagger instead of skipping download
-- revamp blacklist fragment, with a tree based architecture  
+      
 
 
 ## Maybe
