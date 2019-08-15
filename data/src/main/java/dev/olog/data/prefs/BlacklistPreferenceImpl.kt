@@ -24,7 +24,6 @@ class BlacklistPreferenceImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setBlackList(setOf())
     }
 

@@ -7,8 +7,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class BlacklistFragment : ListDialog() {
@@ -34,8 +36,11 @@ class BlacklistFragment : ListDialog() {
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
-        GlobalScope.launch {
-            adapter = BlacklistFragmentAdapter(presenter.data)
+        GlobalScope.launch(Dispatchers.Main) {
+            val data = withContext(Dispatchers.Default) {
+                presenter.data
+            }
+            adapter = BlacklistFragmentAdapter(data)
             list.adapter = adapter
             list.layoutManager = GridLayoutManager(context, 3)
         }
