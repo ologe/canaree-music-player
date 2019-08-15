@@ -157,7 +157,9 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun processMove() = viewModelScope.launch {
-        presenter.moveInPlaylist(moveList)
+        if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
+            presenter.moveInPlaylist(moveList)
+        }
         moveList.clear()
     }
 
