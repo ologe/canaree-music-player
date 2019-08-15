@@ -24,6 +24,7 @@
   <string name="prefs_podcast_library_categories_summary">Configura la visibilità e l\'ordine delle categorie dei podcast</string>
 
   <!--blacklist-->
+  <string name="prefs_blacklist_title">Lista nera</string>
   <string name="prefs_blacklist_summary">Nascondi le cartelle dalla libreria</string>
   <string name="prefs_blacklist_description">Premi per mostrare/nascondere</string>
   <string name="prefs_blacklist_error">Non puoi nascondere tutte le cartelle</string>

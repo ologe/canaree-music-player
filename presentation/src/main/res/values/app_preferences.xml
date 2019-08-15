@@ -68,7 +68,7 @@
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Blacklist</string>
-    <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>
+    <string name="prefs_blacklist_summary">Hide folders from the library</string>
     <string name="prefs_blacklist_description">Click to show/hide</string>
     <string name="prefs_blacklist_error">Can not blacklist all folders</string>
 
