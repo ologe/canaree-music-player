@@ -1,3 +1,3 @@
 <resources>
-    <string name="app_name">presentation</string>
+    <string name="app_name" translatable="false">presentation</string>
 </resources>

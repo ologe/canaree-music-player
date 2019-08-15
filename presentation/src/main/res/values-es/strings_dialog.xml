@@ -30,4 +30,16 @@
     <string name="popup_error_message">Algo salió mal</string>
     <string name="popup_permission">Permiso</string>
 
+    <string name="popup_sleep_timer">Tiempo de dormir</string>
+    <string name="popup_negative_no">No</string>
+    <string name="popup_positive_ok">OK</string>
+
+    <string name="share_song_x"><![CDATA[Compartir <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_request_permission_write_settings">
+        Acepte el siguiente permiso para cambiar el tono de llamada
+    </string>
+
+    <string name="popup_grid_size">Tamaño de la cuadrícula</string>
+
 </resources>

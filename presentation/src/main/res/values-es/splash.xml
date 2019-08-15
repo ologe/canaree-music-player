@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="splash_player_controls">controles multimedia</string>
+    <string name="splash_player_tutorial_1">Haga clic en la imagen para reproducir/pausar</string>
+    <string name="splash_player_tutorial_2">Haga clic en los bordes de la imagen o deslice para saltar</string>
+
+    <string name="splash_storage_permission">Permiso de almacenamiento</string>
+    <string name="splash_storage_permission_disabled">Otorgue permiso de almacenamiento para usar la aplicación</string>
+
+</resources>

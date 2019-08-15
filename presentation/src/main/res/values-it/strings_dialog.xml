@@ -34,4 +34,10 @@
   <string name="popup_request_permission_write_settings">
         Per poter cambiare la suoneria l\'app deve disporre del seguente permesso
     </string>
+
+  <string name="popup_negative_no">No</string>
+  <string name="popup_positive_ok">OK</string>
+
+  <string name="popup_grid_size">Dimensione griglia</string>
+
 </resources>

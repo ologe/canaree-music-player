@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="splash_player_controls">Multimediální ovládací prvky</string>
+    <string name="splash_player_tutorial_1">Klepnutím na obrázek přehrajete/pozastavíte</string>
+    <string name="splash_player_tutorial_2">Kliknutím na okraje obrázku nebo přejetím prstem přeskočíte</string>
+
+    <string name="splash_storage_permission">Povolení k ukládání</string>
+    <string name="splash_storage_permission_disabled">Udělte prosím úložišti oprávnění k používání aplikace</string>
+
+</resources>

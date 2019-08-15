@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="search_did_you_mean">Querías decir:</string>
     <string name="search_recent_searches">Búsquedas recientes</string>
     <string name="search_clear_recent_searches">Borrar búsquedas recientes</string>
     <string name="search_recent_empty_state">Busca en tu biblioteca..</string>

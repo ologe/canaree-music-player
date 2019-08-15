@@ -13,4 +13,33 @@
   <string name="popup_permission">Oprávnění</string>
   <string name="popup_request_permission_write_settings">        Prosíme aby jste přijali následující oprávnění ke změně vyzvánění
     </string>
+
+
+  <string name="popup_play">Hrát</string>
+  <string name="popup_play_shuffle">Náhodné přehrávání</string>
+  <string name="popup_add_to_playlist">Přidat do seznamu skladeb..</string>
+  <string name="popup_add_to_favorites">Přidat k oblíbeným</string>
+  <string name="popup_add_to_home_screen">Přidat na domácí obrazovku</string>
+  <string name="popup_play_next">Zahrajte si další</string>
+  <string name="popup_play_later">Zahrajte si později</string>
+  <string name="popup_edit_song_info">Upravit píseň</string>
+  <string name="popup_edit_album_info">Upravit album</string>
+  <string name="popup_edit_artist_info">Upravit umělce</string>
+  <string name="popup_view_album">Prohlédnout album</string>
+  <string name="popup_view_artist">Zobrazit umělce</string>
+  <string name="popup_share">Podíl</string>
+  <string name="popup_set_as_ringtone">Nastavit jako vyzvánění</string>
+  <string name="popup_delete">Odstranit</string>
+  <string name="popup_rename">Přejmenovat</string>
+  <string name="popup_clear_playlist">Vymazat seznam skladeb</string>
+  <string name="popup_remove_duplicates">Odstraňte duplikáty</string>
+
+  <string name="popup_equalizer">Ekvalizér</string>
+  <string name="popup_sleep_timer">Časovač vypnutí</string>
+
+  <string name="popup_negative_cancel">zrušení</string>
+  <string name="popup_negative_no">Ne</string>
+
+  <string name="popup_grid_size">Velikost mřížky</string>
+
 </resources>

@@ -35,4 +35,6 @@
     <string name="popup_permission">Permissão</string>
     <string name="popup_request_permission_write_settings">Por favor aceita a permissão para mudar o toque</string>
 
+    <string name="popup_grid_size">Tamanho da grade</string>
+
 </resources>
