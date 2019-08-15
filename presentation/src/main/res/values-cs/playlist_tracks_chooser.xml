@@ -4,4 +4,11 @@
   <string name="playlist_tracks_chooser_no_tracks">Vyberte skladby pro váš nový playlist</string>
   <string name="playlist_tracks_chooser_show_only_selected">Zobrazit pouze vybrané skladby</string>
   <string name="playlist_tracks_chooser_show_all">Zobrazit vše</string>
+
+  <plurals name="playlist_tracks_chooser_count">
+    <item quantity="one">Je vybrána %d skladba</item>
+    <item quantity="few">Bylo vybráno %d skladeb</item>
+    <item quantity="other">Bylo vybráno %d skladeb</item>
+  </plurals>
+
 </resources>

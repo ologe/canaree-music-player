@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="playlist_chooser_header">Elige una lista de reproducción</string>
+    <string name="playlist_chooser_dialog_title">Añadir al lanzador</string>
+    <string name="playlist_chooser_dialog_message">Añadir lista de reproducción %s al lanzador?</string>
+
+</resources>

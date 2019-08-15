@@ -9,7 +9,7 @@
     <string name="playlist_tracks_chooser_show_all">Mostra tutti i brani</string>
 
     <plurals name="playlist_tracks_chooser_count">
-        <item quantity="one">1 brano selezionato</item>
+        <item quantity="one">%d brano selezionato</item>
         <item quantity="other">%d brani selezionati</item>
     </plurals>
 </resources>

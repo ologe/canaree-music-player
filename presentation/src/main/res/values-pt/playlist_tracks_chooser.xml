@@ -6,7 +6,7 @@
     <string name="playlist_tracks_chooser_show_all">Mostrar tudo</string>
 
     <plurals name="playlist_tracks_chooser_count">
-        <item quantity="one">1 faixa selecionada</item>
+        <item quantity="one">%d faixa selecionada</item>
         <item quantity="other">%d faixas selecionadas</item>
     </plurals>
 
