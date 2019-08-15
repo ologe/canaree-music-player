@@ -1,5 +1,9 @@
 package dev.olog.equalizer.impl
 
+import android.content.Context
+import android.media.audiofx.AudioEffect
+import android.widget.Toast
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
@@ -12,6 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 
@@ -26,7 +31,24 @@ internal class EqualizerImpl @Inject constructor(
 
     private var equalizer: NormalizedEqualizer? = null
 
+    private var isImplementedByDevice = false
+
+    init {
+        for (queryEffect in AudioEffect.queryEffects()) {
+            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_EQUALIZER){
+                isImplementedByDevice = true
+            }
+        }
+        if (!isImplementedByDevice) {
+            Toast.makeText(context, "Equalizer not available", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
+        if (!isImplementedByDevice){
+            return
+        }
         launch {
             release()
             try {
@@ -71,6 +93,9 @@ internal class EqualizerImpl @Inject constructor(
     override fun getBandCount(): Int = BANDS
 
     override fun getBandLevel(band: Int): Float {
+        if (!isImplementedByDevice){
+            return 0f
+        }
         try {
             return equalizer?.getBandLevel(band) ?: 0f
         } catch (ex: IllegalStateException){
@@ -90,6 +115,10 @@ internal class EqualizerImpl @Inject constructor(
     override fun getBandLimit(): Float = BAND_LIMIT
 
     override fun getAllBandsCurrentLevel(): List<EqualizerBand> {
+        if (!isImplementedByDevice){
+            return emptyList()
+        }
+
         val result = mutableListOf<EqualizerBand>()
         for (bandIndex in 0 until BANDS) {
             val gain = equalizer!!.getBandLevel(bandIndex)
@@ -108,6 +137,10 @@ internal class EqualizerImpl @Inject constructor(
     }
 
     private fun safeAction(action: () -> Unit){
+        if (!isImplementedByDevice){
+            return
+        }
+
         try {
             action()
         } catch (ex: IllegalStateException){

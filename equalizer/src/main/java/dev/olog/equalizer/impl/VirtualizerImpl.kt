@@ -1,18 +1,41 @@
 package dev.olog.equalizer.impl
 
+import android.content.Context
+import android.media.audiofx.AudioEffect
 import android.media.audiofx.Virtualizer
+import android.widget.Toast
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.IVirtualizer
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
 ) : IVirtualizer {
 
     private var virtualizer: Virtualizer? = null
 
+    private var isImplementedByDevice = false
+
+    init {
+        for (queryEffect in AudioEffect.queryEffects()) {
+            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_VIRTUALIZER){
+                isImplementedByDevice = true
+            }
+        }
+        if (!isImplementedByDevice) {
+            Toast.makeText(context, "Virtualizer not available", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     override fun getStrength(): Int {
+        if (!isImplementedByDevice){
+            return 0
+        }
+
         try {
             return virtualizer?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
@@ -40,6 +63,10 @@ class VirtualizerImpl @Inject constructor(
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         release()
 
         try {
@@ -68,6 +95,10 @@ class VirtualizerImpl @Inject constructor(
 
 
     private fun safeAction(action: () -> Unit){
+        if (!isImplementedByDevice){
+            return
+        }
+
         try {
             action()
         } catch (ex: IllegalStateException){

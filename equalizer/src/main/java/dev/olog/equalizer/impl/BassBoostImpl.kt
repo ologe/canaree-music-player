@@ -1,18 +1,40 @@
 package dev.olog.equalizer.impl
 
+import android.content.Context
+import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
+import android.widget.Toast
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.equalizer.IBassBoost
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
 ) : IBassBoost {
 
     private var bassBoost: BassBoost? = null
 
+    private var isImplementedByDevice = false
+
+    init {
+        for (queryEffect in AudioEffect.queryEffects()) {
+            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_BASS_BOOST){
+                isImplementedByDevice = true
+            }
+        }
+        if (!isImplementedByDevice) {
+            Toast.makeText(context, "Bass boost not available", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     override fun getStrength(): Int {
+        if (!isImplementedByDevice){
+            return 0
+        }
         try {
             return bassBoost?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
@@ -40,6 +62,10 @@ class BassBoostImpl @Inject constructor(
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         release()
 
         try {
@@ -67,6 +93,10 @@ class BassBoostImpl @Inject constructor(
     }
 
     private fun safeAction(action: () -> Unit){
+        if (!isImplementedByDevice){
+            return
+        }
+
         try {
             action()
         } catch (ex: IllegalStateException){

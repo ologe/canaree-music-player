@@ -1,8 +1,12 @@
 package dev.olog.equalizer.impl
 
+import android.content.Context
+import android.media.audiofx.AudioEffect
 import android.media.audiofx.DynamicsProcessing
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
@@ -13,6 +17,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
 internal class EqualizerImpl28 @Inject constructor(
+    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 ) : AbsEqualizer(gateway, prefs),
@@ -54,7 +59,25 @@ internal class EqualizerImpl28 @Inject constructor(
 
     private var dynamicProcessing: DynamicsProcessing? = null
 
+    private var isImplementedByDevice = false
+
+    init {
+        for (queryEffect in AudioEffect.queryEffects()) {
+            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_DYNAMICS_PROCESSING){
+                isImplementedByDevice = true
+            }
+        }
+        if (!isImplementedByDevice) {
+            Toast.makeText(context, "Equalizer not available", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         launch {
             release()
             dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
@@ -64,6 +87,10 @@ internal class EqualizerImpl28 @Inject constructor(
     }
 
     private fun release() {
+        if (!isImplementedByDevice){
+            return
+        }
+
         dynamicProcessing?.release()
         dynamicProcessing = null
     }
@@ -73,11 +100,19 @@ internal class EqualizerImpl28 @Inject constructor(
     }
 
     override fun setEnabled(enabled: Boolean) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         dynamicProcessing?.enabled = enabled
         prefs.setEqualizerEnabled(enabled)
     }
 
     override suspend fun setCurrentPreset(preset: EqualizerPreset) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         updateCurrentPresetIfCustom()
         prefs.setCurrentPresetId(preset.id)
         dynamicProcessing?.let {
@@ -92,10 +127,18 @@ internal class EqualizerImpl28 @Inject constructor(
     override fun getBandCount(): Int = BANDS
 
     override fun getBandLevel(band: Int): Float {
+        if (!isImplementedByDevice){
+            return 0f
+        }
+
         return dynamicProcessing?.getPreEqBandByChannelIndex(0, band)?.gain ?: 0f
     }
 
     override fun setBandLevel(band: Int, level: Float) {
+        if (!isImplementedByDevice){
+            return
+        }
+
         dynamicProcessing?.getPreEqBandByChannelIndex(0, band)?.let { eq ->
             eq.gain = level
             dynamicProcessing?.setPreEqBandAllChannelsTo(band, eq)
@@ -103,6 +146,10 @@ internal class EqualizerImpl28 @Inject constructor(
     }
 
     override fun getAllBandsCurrentLevel(): List<EqualizerBand> {
+        if (!isImplementedByDevice){
+            return emptyList()
+        }
+
         val result = mutableListOf<EqualizerBand>()
         for (index in 0 until BANDS) {
             val eqBand = dynamicProcessing!!.getPreEqBandByChannelIndex(0, index)
