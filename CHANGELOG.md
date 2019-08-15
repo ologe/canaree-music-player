@@ -1,5 +1,12 @@
 # Release notes
 
+## 3.0.1.2
+- Fixed screen color issues on some devices 
+
+## 3.0.1.1
+- Added some missing Czech, Spanish and Portuguese translations
+- Fixed blacklist dialog crash
+
 ## 3.0.0
 
 - **Internal changes**
