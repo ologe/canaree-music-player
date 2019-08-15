@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="remove_duplicates_message"><![CDATA[Odebrat všechny duplikáty ze seznamu skladeb <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Duplikáty byly odstraněny ze seznamu skladeb %1$s</string>
+
+</resources>
