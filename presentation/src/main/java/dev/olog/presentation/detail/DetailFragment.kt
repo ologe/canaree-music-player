@@ -231,6 +231,11 @@ class DetailFragment : BaseFragment(),
         filter.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        list.adapter = null
+    }
+
     override fun adjustStatusBarColor() {
         adjustStatusBarColor(hasLightStatusBarColor)
     }

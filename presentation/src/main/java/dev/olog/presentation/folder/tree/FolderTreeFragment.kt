@@ -91,6 +91,11 @@ class FolderTreeFragment : BaseFragment(),
         fab.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        list.adapter = null
+    }
+
     private fun onFabClick(){
         if (!fab.isExtended){
             fab.extend()

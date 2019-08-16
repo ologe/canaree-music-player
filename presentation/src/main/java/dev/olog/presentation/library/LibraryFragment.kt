@@ -109,6 +109,11 @@ class LibraryFragment : BaseFragment() {
         podcasts.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewPager.adapter = null
+    }
+
     private fun changeLibraryPage(page: LibraryPage) {
         presenter.setLibraryPage(page)
         (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)

@@ -97,6 +97,11 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         floatingWindow.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        list.adapter = null
+    }
+
     private fun startServiceOrRequestOverlayPermission() {
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }

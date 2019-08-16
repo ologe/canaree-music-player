@@ -129,6 +129,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     override fun onDestroyView() {
         super.onDestroyView()
         toast?.cancel()
+        list.adapter = null
     }
 
     private fun showCreateDialog() {

@@ -70,5 +70,10 @@ class RelatedArtistFragment : BaseFragment() {
         back.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        list.adapter = null
+    }
+
     override fun provideLayoutId(): Int = R.layout.fragment_related_artist
 }
