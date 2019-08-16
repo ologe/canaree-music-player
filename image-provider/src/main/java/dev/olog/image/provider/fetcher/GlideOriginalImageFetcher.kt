@@ -1,9 +1,11 @@
 package dev.olog.image.provider.fetcher
 
+import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.executor.GlideScope
@@ -13,8 +15,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import java.io.InputStream
 
-
 class GlideOriginalImageFetcher(
+    private val context: Context,
     private val mediaId: MediaId,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
@@ -31,13 +33,12 @@ class GlideOriginalImageFetcher(
                 callback.onLoadFailed(Exception("item not found for id$id"))
                 return@launch
             }
-            val itemPath: String?
 
-            itemPath = when {
-                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)?.path
-                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)?.path
-                mediaId.isAlbum -> songGateway.getByAlbumId(id)?.path
-                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)?.path
+            val song: Song? = when {
+                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
+                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
+                mediaId.isAlbum -> songGateway.getByAlbumId(id)
+                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
                 else -> {
                     callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                     return@launch
@@ -45,12 +46,12 @@ class GlideOriginalImageFetcher(
             }
             yield()
 
-            if (itemPath == null) {
+            if (song == null) {
                 callback.onLoadFailed(IllegalArgumentException("track not found for id $id"))
                 return@launch
             }
             try {
-                val stream = OriginalImageFetcher.loadImage(itemPath)
+                val stream = OriginalImageFetcher.loadImage(context, song)
                 callback.onDataReady(stream)
             } catch (ex: Throwable) {
                 if (ex is Exception){

@@ -1,11 +1,13 @@
 package dev.olog.image.provider.loader
 
+import android.content.Context
 import android.net.Uri
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
@@ -13,6 +15,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 internal class GlideOriginalImageLoader(
+    private val context: Context,
     private val uriLoader: ModelLoader<Uri, InputStream>,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
@@ -45,6 +48,7 @@ internal class GlideOriginalImageLoader(
             return ModelLoader.LoadData(
                 MediaIdKey(mediaId),
                 GlideOriginalImageFetcher(
+                    context,
                     mediaId,
                     songGateway,
                     podcastGateway
@@ -55,6 +59,7 @@ internal class GlideOriginalImageLoader(
     }
 
     class Factory @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
         private val podcastGateway: PodcastGateway
 
@@ -63,6 +68,7 @@ internal class GlideOriginalImageLoader(
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
             return GlideOriginalImageLoader(
+                context,
                 uriLoader,
                 songGateway,
                 podcastGateway
