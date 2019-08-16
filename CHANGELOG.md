@@ -3,9 +3,9 @@
 ## 3.0.1.4
 - Fixed crashes
 - Fixed some English mistranslations
-- Added Greek and Vietnamese translation
-- Added localization request screen + translators credits
-- Updated **huffle behavior**. Shuffle will be enabled automatically only when playing "shuffle all", or by pressing
+- Added Greek, Hindi and Vietnamese translation
+- Added *localization request* screen + translators credits
+- Updated **shuffle behavior**. Shuffle will be enabled automatically only when playing "shuffle all", or by pressing
     the "shuffle button" in the player screen. Otherwise, if you'll click on a song, shuffle mode
     will be disabled automatically. 
 
