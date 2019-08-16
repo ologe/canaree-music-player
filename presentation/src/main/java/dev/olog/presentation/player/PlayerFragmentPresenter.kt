@@ -10,24 +10,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
-    billing: IBilling,
-    presentationPrefs: PresentationPreferencesGateway
+    private val billing: IBilling,
+    private val presentationPrefs: PresentationPreferencesGateway
 ) {
-
-    private val billingRef = WeakReference(billing)
-    private val presentationPrefsRef = WeakReference(presentationPrefs)
 
     private val processorPublisher = BroadcastChannel<ProcessorColors>(Channel.CONFLATED)
     private val palettePublisher = BroadcastChannel<PaletteColors>(Channel.CONFLATED)
 
     fun observePlayerControlsVisibility(): Flow<Boolean> {
-        val billing = billingRef.get() ?: return emptyFlow()
-        val presentationPrefs = presentationPrefsRef.get() ?: return emptyFlow()
 
         return billing.observeBillingsState().map { it.isPremiumEnabled() }
             .combine(presentationPrefs.observePlayerControlsVisibility())
@@ -36,7 +30,6 @@ internal class PlayerFragmentPresenter @Inject constructor(
 
     // allow adaptive color on flat appearance
     fun observeProcessorColors(): Flow<ProcessorColors> {
-        val presentationPrefs = presentationPrefsRef.get() ?: return emptyFlow()
 
         return processorPublisher.asFlow()
             .map {
@@ -53,7 +46,6 @@ internal class PlayerFragmentPresenter @Inject constructor(
 
     // allow adaptive color on flat appearance
     fun observePaletteColors(): Flow<PaletteColors> {
-        val presentationPrefs = presentationPrefsRef.get() ?: return emptyFlow()
 
         return palettePublisher
             .asFlow()
