@@ -87,8 +87,6 @@ class MediaExposer(
 //                TODO leak ??
 //                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
 //                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
-
-                throw ex
             }
         }
     }
