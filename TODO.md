@@ -4,8 +4,6 @@
 
 - revamp blacklist fragment, with a tree based architecture
 - think about posting on FDroid
-- Update Shuffle all behavior, the queue will shuffle only when pressing "Shuffle All" or the "shuffle button",
-    otherwise disable shuffle
 - re-add "Hide podcast" preferences
 - add translations (vietnamese and greek)
 

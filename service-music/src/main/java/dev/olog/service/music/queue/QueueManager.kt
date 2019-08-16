@@ -17,7 +17,6 @@ import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
-import dev.olog.shared.swap
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
@@ -80,15 +79,13 @@ internal class QueueManager @Inject constructor(
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getSongListByParamUseCase(mediaId).asSequence()
+        val songList = getSongListByParamUseCase(mediaId).asSequence()
             .take(MAX_QUEUE_SIZE)
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
 
-        if (shuffleMode.isEnabled()) {
-            songList = shuffleAndSwap(songList, songId)
-        }
+        shuffleMode.setEnabled(false)
 
         val currentIndex = getCurrentSongIndexWhenPlayingNewQueue(songList, songId)
         val result = songList.getOrNull(currentIndex) ?: return null
@@ -111,13 +108,11 @@ internal class QueueManager @Inject constructor(
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getRecentlyAddedUseCase(mediaId).first()
+        val songList = getRecentlyAddedUseCase(mediaId).first()
             .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
-        if (shuffleMode.isEnabled()) {
-            songList = shuffleAndSwap(songList, songId)
-        }
+        shuffleMode.setEnabled(false)
 
         val currentIndex = getCurrentSongIndexWhenPlayingNewQueue(songList, songId)
         val result = songList.getOrNull(currentIndex) ?: return null
@@ -139,13 +134,12 @@ internal class QueueManager @Inject constructor(
 
         val songId = mediaId.leaf ?: -1L
 
-        var songList = getMostPlayedSongsUseCase(mediaId).first()
+        val songList = getMostPlayedSongsUseCase(mediaId).first()
             .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
-        if (shuffleMode.isEnabled()) {
-            songList = shuffleAndSwap(songList, songId)
-        }
+        shuffleMode.setEnabled(false)
+
         val currentIndex = getCurrentSongIndexWhenPlayingNewQueue(songList, songId)
         val result = songList.getOrNull(currentIndex) ?: return null
 
@@ -170,6 +164,7 @@ internal class QueueManager @Inject constructor(
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
 
+        shuffleMode.setEnabled(true)
         songList = shuffle(songList)
 
         val currentIndex = 0
@@ -180,7 +175,6 @@ internal class QueueManager @Inject constructor(
             updateImmediate = false,
             persist = true
         )
-        shuffleMode.setEnabled(true)
 
         return result.toPlayerMediaEntity(
             queueImpl.computePositionInQueue(songList, currentIndex),
@@ -247,6 +241,8 @@ internal class QueueManager @Inject constructor(
             }
         }.take(MAX_QUEUE_SIZE)
 
+        shuffleMode.setEnabled(forceShuffle)
+
         val currentIndex = 0
         val result = songList.getOrNull(currentIndex) ?: return null
 
@@ -256,27 +252,14 @@ internal class QueueManager @Inject constructor(
             persist = true
         )
 
-        shuffleMode.setEnabled(forceShuffle)
-
         return result.toPlayerMediaEntity(
             queueImpl.computePositionInQueue(songList, currentIndex),
             getPodcastBookmarkOrDefault(result)
         )
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun shuffle(songList: List<MediaEntity>): List<MediaEntity> {
+    private fun shuffle(songList: List<MediaEntity>): List<MediaEntity> {
         return enhancedShuffle.shuffle(songList)
-    }
-
-    private fun shuffleAndSwap(songList: List<MediaEntity>, songId: Long): List<MediaEntity> {
-        val item = songList.find { it.id == songId } ?: songList
-        val list = enhancedShuffle.shuffle(songList)
-        val songPosition = list.indexOf(item)
-        if (songPosition != 0 && songPosition != -1) {
-            list.swap(0, songPosition)
-        }
-        return list
     }
 
     private fun getCurrentSongIndexWhenPlayingNewQueue(
