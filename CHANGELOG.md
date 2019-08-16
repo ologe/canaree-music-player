@@ -3,7 +3,8 @@
 ## 3.0.1.4
 - Fixed crashes
 - Fixed some English mistranslations
-- Added Greek and Vietnamese translation 
+- Added Greek and Vietnamese translation
+- Added localization request screen + translators credits 
 
 ## 3.0.1.3
 - Fixed image loading cache miss
