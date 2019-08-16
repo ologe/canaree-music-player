@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:layout_marginTop="24dp">
 
     <include
         android:id="@+id/playerToolbar"
@@ -88,7 +89,7 @@
     <include
         android:id="@+id/playerControls"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintBottom_toTopOf="@+id/title"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_default"
