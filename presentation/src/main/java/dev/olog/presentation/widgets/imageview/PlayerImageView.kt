@@ -55,7 +55,7 @@ open class PlayerImageView (
 
             GlideApp.with(context)
                 .load(mediaId)
-                .placeholder(CoverUtils.getGradient(context, mediaId))
+                .error(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .override(500)
                 .onlyRetrieveFromCache(true)

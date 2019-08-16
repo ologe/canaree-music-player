@@ -13,7 +13,7 @@
 ### bug-
 - merged images don't update after content change (folders and genres)
 - not loading embedded images on some devices
-- some themes looks bad on small devices
+- crash when pressing "more button" in player fragment 
 
 
 ## Maybe
