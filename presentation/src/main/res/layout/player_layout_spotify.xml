@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_height="match_parent"
-    android:id="@+id/playerRoot">
+    android:id="@+id/playerRoot"
+    tools:layout_marginBottom="48dp">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
@@ -35,8 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/player_cover_margin_horizontal_spotify"
-        android:layout_marginEnd="@dimen/player_cover_margin_horizontal_spotify"
-        app:layout_constraintBottom_toTopOf="@+id/textWrapper"/>
+        android:layout_marginEnd="@dimen/player_cover_margin_horizontal_spotify" />
 
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
@@ -50,6 +50,51 @@
         android:clickable="true"
         android:focusable="true"
         tools:visibility="invisible"/>
+
+    <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
+    <LinearLayout
+        android:id="@+id/textWrapper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher">
+
+        <!-- title -->
+        <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+            android:id="@+id/title"
+            tools:text="In Da Club"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_title_text_size"
+            android:textColor="?android:attr/textColorPrimary"
+            android:fontFamily="sans-serif-black"
+            tools:fontFamily="sans-serif-black"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/artist"
+            tools:text="50 Cent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/player_artist_text_size"
+            android:textColor="?android:attr/textColorSecondary"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar
@@ -105,12 +150,12 @@
         layout="@layout/player_controls_spotify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"/>
+        android:layout_marginBottom="60dp"/>
 
     <dev.olog.presentation.widgets.LottieFavorite
         android:id="@+id/favorite"
         android:layout_width="@dimen/common_icon_size"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/common_icon_size"
         android:layout_gravity="end"
         app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintStart_toStartOf="@+id/playerControls" />
@@ -120,51 +165,7 @@
         app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintEnd_toEndOf="@id/playerControls"
         android:src="@drawable/vd_more"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp" />
-
-    <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
-    <LinearLayout
-        android:id="@+id/textWrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
-        android:layout_marginBottom="16dp">
-
-        <!-- title -->
-        <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
-            android:id="@+id/title"
-            tools:text="In Da Club"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_title_text_size"
-            android:textColor="?android:attr/textColorPrimary"
-            android:fontFamily="sans-serif-black"
-            tools:fontFamily="sans-serif-black"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/artist"
-            tools:text="50 Cent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_artist_text_size"
-            android:textColor="?android:attr/textColorSecondary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
-            android:layout_marginTop="4dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center" />
-
-    </LinearLayout>
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
