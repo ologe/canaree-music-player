@@ -84,10 +84,10 @@ class MediaExposer(
             try {
                 mediaBrowser.connect()
             } catch (ex: IllegalStateException){
-                if (ex.message?.trim() == "connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)"){
-                    // already connecting
-                    return
-                }
+//                TODO leak ??
+//                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
+//                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
+
                 throw ex
             }
         }
