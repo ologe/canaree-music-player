@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"

@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_marginBottom="48dp">
 
     <include layout="@layout/layout_view_switcher_square"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -103,7 +104,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/player_big_image_text_margin_top"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp">
 
@@ -142,11 +143,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/volumeChangerFragment"
+        app:layout_constraintBottom_toTopOf="@+id/lyrics"
         layout="@layout/player_controls_big_image"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"/>
+        android:layout_height="wrap_content" />
 
     <dev.olog.presentation.widgets.LottieFavorite
         android:id="@+id/favorite"
@@ -166,17 +166,6 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:layout_margin="16dp"/>
-
-    <fragment
-        android:id="@+id/volumeChangerFragment"
-        android:name="dev.olog.presentation.player.volume.PlayerVolumeFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:tag="dev.olog.presentation.player.volume.PlayerVolumeFragment"
-        app:layout_constraintStart_toStartOf="@+id/favorite"
-        app:layout_constraintEnd_toEndOf="@+id/more"
-        app:layout_constraintBottom_toTopOf="@+id/playbackSpeed"
-        tools:layout="@layout/player_volume_no_background" />
 
     <ImageButton
         android:id="@+id/playbackSpeed"
