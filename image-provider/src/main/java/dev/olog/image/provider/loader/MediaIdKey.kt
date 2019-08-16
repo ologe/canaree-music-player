@@ -15,6 +15,9 @@ internal class MediaIdKey(private val mediaId: MediaId) : Key {
     }
 
     override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
         if (other is MediaId) {
             if (this.mediaId.isLeaf && other.isLeaf) {
                 // is song
