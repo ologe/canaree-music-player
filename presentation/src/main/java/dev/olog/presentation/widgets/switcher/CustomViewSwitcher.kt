@@ -19,13 +19,16 @@ import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.media.model.PlayerMetadata
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
@@ -121,16 +124,23 @@ class CustomViewSwitcher(
         val imageView = getImageView(getNextView())
 
         GlideApp.with(context).clear(imageView)
-        GlideApp.with(context)
-            .load(mediaId)
-            .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .override(GlideUtils.OVERRIDE_BIG)
-            .onlyRetrieveFromCache(true)
-            .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
-            .listener(this)
-            .into(RippleTarget(imageView)) // TODO ripple not working
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val version = withContext(Dispatchers.Default){
+                context.getImageVersionGateway().getCurrentVersion(mediaId)
+            }
+
+            GlideApp.with(context)
+                .load(mediaId)
+                .placeholder(CoverUtils.onlyGradient(context, mediaId))
+                .error(CoverUtils.getGradient(context, mediaId))
+                .priority(Priority.IMMEDIATE)
+                .override(GlideUtils.OVERRIDE_BIG)
+                .onlyRetrieveFromCache(true)
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .listener(this@CustomViewSwitcher)
+                .into(RippleTarget(imageView)) // TODO ripple not working
+        }
     }
 
     fun getImageView(parent: View = currentView): ImageView {

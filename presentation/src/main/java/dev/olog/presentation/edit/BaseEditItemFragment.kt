@@ -30,9 +30,7 @@ import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.NetworkUtils
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
     CoroutineScope by MainScope() {
@@ -56,13 +54,19 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
 
         GlideApp.with(ctx).clear(image)
 
-        GlideApp.with(ctx)
-            .load(mediaId)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
-            .override(500)
-            .priority(Priority.IMMEDIATE)
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
-            .into(image)
+        launch {
+            val version = withContext(Dispatchers.Default){
+                requireContext().getImageVersionGateway().getCurrentVersion(mediaId)
+            }
+
+            GlideApp.with(ctx)
+                .load(mediaId)
+                .placeholder(CoverUtils.getGradient(ctx, mediaId))
+                .override(500)
+                .priority(Priority.IMMEDIATE)
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .into(image)
+        }
     }
 
     protected fun loadOriginalImage(mediaId: MediaId) {
@@ -75,7 +79,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(500)
-            .signature(CustomMediaStoreSignature(mediaId, null))
+            .signature(CustomMediaStoreSignature(mediaId, 0))
             .into(image)
     }
 
@@ -84,20 +88,26 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
 
         GlideApp.with(ctx).clear(image)
 
-        GlideApp.with(ctx)
-            .load(bitmap)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
-            .priority(Priority.IMMEDIATE)
-            .override(500)
-            .signature(CustomMediaStoreSignature(mediaId, requireContext().getImageVersionGateway()))
-            .into(image)
+        launch {
+            val version = withContext(Dispatchers.Default){
+                requireContext().getImageVersionGateway().getCurrentVersion(mediaId)
+            }
+
+            GlideApp.with(ctx)
+                .load(bitmap)
+                .placeholder(CoverUtils.getGradient(ctx, mediaId))
+                .priority(Priority.IMMEDIATE)
+                .override(500)
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .into(image)
+        }
     }
 
     protected fun getOriginalImageBitmap(mediaId: MediaId): Bitmap? {
         return GlideApp.with(ctx)
             .asBitmap()
             .load(mediaId)
-            .signature(CustomMediaStoreSignature(mediaId, null))
+            .signature(CustomMediaStoreSignature(mediaId, 0))
             .submit()
             .get()
     }

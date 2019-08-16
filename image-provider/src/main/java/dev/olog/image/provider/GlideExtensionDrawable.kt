@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
@@ -24,19 +23,21 @@ suspend fun Context.getCachedDrawable(
     withError: Boolean = true
 ): Drawable? = suspendCoroutine { continuation ->
 
+    val version = getImageVersionGateway().getCurrentVersion(mediaId)
+
     val placeholder = CoverUtils.getGradient(this, mediaId)
 
     val error = GlideApp.with(this)
         .load(placeholder)
         .extend(extension)
-        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
+        .signature(CustomMediaStoreSignature(mediaId, version))
 
     GlideApp.with(this)
         .load(mediaId)
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
-        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
+        .signature(CustomMediaStoreSignature(mediaId, version))
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Drawable>() {
 

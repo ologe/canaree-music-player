@@ -16,6 +16,10 @@ import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object BindingsAdapter {
 
@@ -48,22 +52,29 @@ object BindingsAdapter {
         override: Int,
         priority: Priority = Priority.HIGH
     ) {
-
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
-        val builder = GlideApp.with(context)
-            .load(mediaId)
-            .override(override)
-            .priority(priority)
-            .placeholder(CoverUtils.getGradient(context, mediaId))
-            .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
-            .transition(DrawableTransitionOptions.withCrossFade())
-        if (mediaId.isLeaf) {
-            builder.into(view)
-        } else {
-            builder.into(RippleTarget(view))
+        GlobalScope.launch(Dispatchers.Main) {
+            val version = withContext(Dispatchers.Default){
+                context.getImageVersionGateway().getCurrentVersion(mediaId)
+            }
+
+            val builder = GlideApp.with(context)
+                .load(mediaId)
+                .override(override)
+                .priority(priority)
+                .placeholder(CoverUtils.getGradient(context, mediaId))
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .transition(DrawableTransitionOptions.withCrossFade())
+
+                if (mediaId.isLeaf) {
+                    builder.into(view)
+                } else {
+                    builder.into(RippleTarget(view))
+                }
+
         }
     }
 
@@ -92,15 +103,21 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        GlideApp.with(context)
-            .load(mediaId)
-            .override(GlideUtils.OVERRIDE_BIG)
-            .priority(Priority.IMMEDIATE)
-            .placeholder(CoverUtils.onlyGradient(context, mediaId))
-            .error(CoverUtils.getGradient(context, mediaId))
-            .onlyRetrieveFromCache(true)
-            .signature(CustomMediaStoreSignature(mediaId, context.getImageVersionGateway()))
-            .into(RippleTarget(view))
+        GlobalScope.launch(Dispatchers.Main) {
+            val version = withContext(Dispatchers.Default){
+                context.getImageVersionGateway().getCurrentVersion(mediaId)
+            }
+
+            GlideApp.with(context)
+                .load(mediaId)
+                .override(GlideUtils.OVERRIDE_BIG)
+                .priority(Priority.IMMEDIATE)
+                .placeholder(CoverUtils.onlyGradient(context, mediaId))
+                .error(CoverUtils.getGradient(context, mediaId))
+                .onlyRetrieveFromCache(true)
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .into(RippleTarget(view))
+        }
     }
 
     @JvmStatic

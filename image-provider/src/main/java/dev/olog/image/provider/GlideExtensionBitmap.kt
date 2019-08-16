@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
@@ -26,6 +25,7 @@ suspend fun Context.getCachedBitmap(
 ): Bitmap? = suspendCoroutine { continuation ->
 
 
+    val version = getImageVersionGateway().getCurrentVersion(mediaId)
 
     GlideApp.with(this)
         .asBitmap()
@@ -33,7 +33,7 @@ suspend fun Context.getCachedBitmap(
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
-        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
+        .signature(CustomMediaStoreSignature(mediaId, version))
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Bitmap>() {
 
@@ -58,7 +58,7 @@ suspend fun Context.getCachedBitmap(
                         .asBitmap()
                         .load(placeholder.toBitmap(bestSize, bestSize))
                         .extend(extension)
-                        .signature(CustomMediaStoreSignature(mediaId, getImageVersionGateway()))
+                        .signature(CustomMediaStoreSignature(mediaId, version))
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(
                                 resource: Bitmap,

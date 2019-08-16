@@ -1,5 +1,11 @@
 # Release notes
 
+## 3.0.1.3
+- Fixed image loading cache miss
+
+## 3.0.1.2
+- More crashes fixes
+
 ## 3.0.1.2
 - Fixed screen color issues on some devices
 - Fixed crashes 
