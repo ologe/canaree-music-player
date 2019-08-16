@@ -25,7 +25,7 @@ internal class MusicServiceShuffleMode @Inject constructor(
     }
 
     init {
-        state = musicPreferencesUseCase.getShuffleMode()
+        this.state = musicPreferencesUseCase.getShuffleMode()
         Log.v(TAG, "setup state=$state")
     }
 
@@ -33,9 +33,7 @@ internal class MusicServiceShuffleMode @Inject constructor(
 
     fun setEnabled(enabled: Boolean) {
         Log.v(TAG, "set enabled=$enabled")
-        val shuffleMode = if (enabled) SHUFFLE_MODE_ALL else SHUFFLE_MODE_NONE
-        musicPreferencesUseCase.setShuffleMode(shuffleMode)
-        mediaSession.setShuffleMode(shuffleMode)
+        this.state = if (enabled) SHUFFLE_MODE_ALL else SHUFFLE_MODE_NONE
     }
 
     /**
