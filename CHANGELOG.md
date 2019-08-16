@@ -1,5 +1,10 @@
 # Release notes
 
+## 3.0.1.4
+- Fixed crashes
+- Fixed some English mistranslations
+- Added Greek and Vietnamese translation 
+
 ## 3.0.1.3
 - Fixed image loading cache miss
 
