@@ -9,7 +9,6 @@ import dev.olog.core.entity.track.*
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
-import dev.olog.data.utils.getString
 import dev.olog.data.utils.getStringOrNull
 import java.io.File
 
@@ -20,10 +19,10 @@ fun Cursor.toSong(): Song {
 
     val path = getStringOrNull(MediaStore.MediaColumns.DATA) ?: ""
 
-    val title = getString(MediaStore.MediaColumns.TITLE)
+    val title = getStringOrNull(MediaStore.MediaColumns.TITLE) ?: ""
 
-    val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val artist = getStringOrNull(MediaStore.Audio.AudioColumns.ARTIST) ?: ""
+    val album = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM) ?: ""
 
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
 
@@ -60,10 +59,10 @@ fun Cursor.toPlaylistSong(): Song {
 
     val path = getStringOrNull(MediaStore.MediaColumns.DATA) ?: ""
 
-    val title = getString(MediaStore.MediaColumns.TITLE)
+    val title = getStringOrNull(MediaStore.MediaColumns.TITLE) ?: ""
 
-    val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val artist = getStringOrNull(MediaStore.Audio.AudioColumns.ARTIST) ?: ""
+    val album = getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM) ?: ""
 
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
 
@@ -93,13 +92,18 @@ fun Cursor.toPlaylistSong(): Song {
 }
 
 fun Cursor.toAlbum(): Album {
-    val title = getString(MediaStore.Audio.Media.ALBUM)
-    val artist = getString(MediaStore.Audio.Media.ARTIST)
+    val title = getStringOrNull(MediaStore.Audio.Media.ALBUM) ?: ""
+    val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
 
-    val data = getString(MediaStore.Audio.AudioColumns.DATA)
-    val path = data.substring(1, data.lastIndexOf(File.separator))
-    val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
+    val dirName = try {
+        val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
+        val path = data.substring(1, data.lastIndexOf(File.separator))
+        path.substring(path.lastIndexOf(File.separator) + 1)
+    } catch (ex: Throwable){
+        ex.printStackTrace()
+        ""
+    }
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Album(
@@ -115,7 +119,7 @@ fun Cursor.toAlbum(): Album {
 }
 
 fun Cursor.toArtist(): Artist {
-    val artist = getString(MediaStore.Audio.Media.ARTIST)
+    val artist = getStringOrNull(MediaStore.Audio.Media.ARTIST) ?: ""
     val albumArtist = getStringOrNull(Columns.ALBUM_ARTIST) ?: artist
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
@@ -128,21 +132,9 @@ fun Cursor.toArtist(): Artist {
     )
 }
 
-internal fun Cursor.toPlaylist(): Playlist {
-    val id = getLong(BaseColumns._ID)
-    val name = getString(MediaStore.Audio.PlaylistsColumns.NAME).capitalize()
-
-    return Playlist(
-        id = id,
-        title = name,
-        size = 0, // wil be updated later
-        isPodcast = false
-    )
-}
-
 internal fun Cursor.toGenre(): Genre {
     val id = this.getLong(BaseColumns._ID)
-    val name = this.getString(MediaStore.Audio.GenresColumns.NAME).capitalize()
+    val name = this.getStringOrNull(MediaStore.Audio.GenresColumns.NAME)?.capitalize() ?: ""
     return Genre(
         id = id,
         name = name,
