@@ -14,8 +14,12 @@ internal class CurrentActivityObserver(context: Context) :
         (context.applicationContext as Application).registerActivityLifecycleCallbacks(this)
     }
 
-    override fun onActivityResumed(activity: Activity) {
+    override fun onActivityStarted(activity: Activity) {
         currentActivity = activity
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+        currentActivity = null
     }
 
 }
