@@ -203,7 +203,10 @@ internal class MediaSessionCallback @Inject constructor(
     override fun onCustomAction(action: String, extras: Bundle?) {
         Log.v(TAG, "onCustomAction action=$action, extras=$extras")
 
-        when (MusicServiceCustomAction.valueOf(action)) {
+        val musicAction = MusicServiceCustomAction.values().find { it.name == action }
+            ?: return // other apps can request custom action
+
+        when (musicAction) {
             MusicServiceCustomAction.SHUFFLE -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
