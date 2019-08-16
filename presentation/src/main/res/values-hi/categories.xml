@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="category_header" translatable="false">@string/common_library</string>
+
+    <string-array name="categories">
+        <item>@string/category_folders</item>
+        <item>@string/category_playlists</item>
+        <item>@string/category_songs</item>
+        <item>@string/category_albums</item>
+        <item>@string/category_artists</item>
+        <item>@string/category_genres</item>
+    </string-array>
+
+    <string name="category_folders" translatable="false">@string/common_folders</string>
+    <string name="category_playlists" translatable="false">@string/common_playlists</string>
+    <string name="category_songs" translatable="false">@string/common_tracks</string>
+    <string name="category_albums" translatable="false">@string/common_albums</string>
+    <string name="category_artists" translatable="false">@string/common_artists</string>
+    <string name="category_genres" translatable="false">@string/common_genres</string>
+    <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
+
+    <string name="category_no_tab_visible">और अब?</string>
+
+    <string-array name="tab_empty_state">
+        <item>कोई फोल्डर नहीं</item>
+        <item>कोई प्लेलिस्ट नहीं</item>
+        <item>@string/common_no_tracks</item>
+        <item>कोई एल्बम नहीं</item>
+        <item>कोई संगीतकार नहीं</item>
+        <item>कोई शैली नहीं</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>कोई प्लेलिस्ट नहींt</item>
+        <item>कोई पॉडकास्ट नहीं</item>
+        <item>कोई एल्बम नहीं</item>
+        <item>कोई संगीतकार नहीं</item>
+    </string-array>
+
+    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
+    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
+    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
+    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
+    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="category_sort_by_date">तिथि</string>
+    <string name="category_sort_by_ascending">बढ़ते क्रम में</string>
+    <string name="category_sort_by_descending">घटते क्रम में</string>
+
+
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> will be set as ringtone]]></string>
+
+    <string name="song_x_set_as_ringtone">%1$s εφαρμογή ώς ήχου κλήσης</string>
+
+</resources>

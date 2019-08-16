@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
+
+    <string name="save_as_playlist">Αποθήκευση ώς λίστα αναπαραγωγής</string>
+    <string name="queue_saved_as_playlist">Αναπαραγωγή ουράς όπως είναι αποθηκευμένη στην λίστα %s</string>
+
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
+    </plurals>
+
+    <string name="added_song_x_to_playlist_y">%1$s προστέθηκε στην λίστα αναπαραγωγής %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d τραγούδι προστέθηκε στην λίστα αναπαραγωγής %2$s</item>
+        <item quantity="other">%1$d τραγούδια προστέθηκαν στην λίστα αναπαραγωγής %2$s</item>
+    </plurals>
+
+    <string name="popup_new_playlist">Καινούργια λίστα αναπαραγωγής</string>
+    <string name="popup_no_playlist">Δεν υπάρχουν λίστες αναπαραγωγής ακόμη..</string>
+
+    <string name="new_playlist_hint">Όνομα λίστα αναπαραγωγής</string>
+
+    <string name="popup_playlist_name_not_valid">Μη έγκυρο όνομα λίστας αναπαραγωγής </string>
+    <string name="popup_playlist_name_already_exist">Η λίστα αναπαραγωγής ήδη υπάρχει</string>
+
+</resources>

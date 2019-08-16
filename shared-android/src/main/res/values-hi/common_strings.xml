@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">संग्रह</string>
+
+    <string name="common_folders">फोल्डर</string>
+    <string name="common_playlists">प्लेलिस्ट</string>
+    <string name="common_tracks">गाने</string>
+    <string name="common_albums">एल्बम</string>
+    <string name="common_artists">संगीतकार</string>
+    <string name="common_genres">शैली </string>
+    <string name="common_podcasts">पॉडकास्ट</string>
+
+    <string name="common_last_added">पहले जोड़ा हुआ</string>
+    <string name="common_favorites">पसंदीदा</string>
+    <string name="common_history">वृत्तांत</string>
+
+    <string name="common_all_tracks">सभी गाने</string>
+
+    <string name="common_placeholder_title">गजब का शीर्षक</string>
+    <string name="common_placeholder_artist">गजब का संगीतकार</string>
+    <string name="common_placeholder_album">गजब का एल्बम</string>
+
+    <string name="common_empty_list">खाली सूचि</string>
+
+    <string name="network_timeout">फिर कोशिश करें</string>
+
+    <string name="are_you_sure">आप निश्चित हैं?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d घंटा</item>
+        <item quantity="other">%d घंटे</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d मिनट</item>
+        <item quantity="other">%d मिनट</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d गाना</item>
+        <item quantity="other">%d गाने</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d एल्बम</item>
+        <item quantity="other">%d एल्बम</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d फोल्डर</item>
+        <item quantity="other">%d फोल्डर</item>
+    </plurals>
+
+    <string name="common_folder">फोल्डर</string>
+    <string name="common_playlist">प्लेलिस्ट</string>
+    <string name="common_title">शीर्षक</string>
+    <string name="common_track">गाना</string>
+    <string name="common_artist">संगीतकार</string>
+    <string name="common_album_artist">एल्बम संगीतकार</string>
+    <string name="common_album">एल्बम</string>
+    <string name="common_genre">शैली</string>
+    <string name="common_duration">अवधि</string>
+    <string name="common_recently_added">हाल ही जोड़े गए</string>
+    <string name="common_custom">रूचि अनुरूप</string>
+    <string name="common_track_number">गाना संख्या</string>
+    <string name="common_podcast">पोडकास्ट</string>
+    <string name="common_podcast_playlist">पॉडकास्ट प्लेलिस्ट</string>
+    <string name="common_podcast_album">पॉडकास्ट एल्बम</string>
+    <string name="common_podcast_artist">पॉडकास्ट संगीतकार</string>
+
+    <string name="common_play">सुनें</string>
+    <string name="common_shuffle">सभी फेंटे</string>
+    <string name="common_search">ढूढें</string>
+    <string name="common_hide">छिपायें</string>
+
+    <string name="common_shape_square">वर्ग</string>
+    <string name="common_shape_rounded">गोलाकार वर्ग</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Related artists</string>
+    <string name="common_most_played">Most played</string>
+
+    <string name="common_no_tracks">कोई गाना नहीं</string>
+    <string name="common_no_results">कोई परिणाम नहीं</string>
+
+    <string name="common_visible">प्रत्यक्ष</string>
+    <string name="common_hidden">छिपा हुआ</string>
+
+    <string name="common_no_internet">अपना इंटरनेट कनेक्शन जांचे</string>
+
+    <string name="common_switch_on">चालू</string>
+    <string name="common_switch_off">बंद</string>
+
+    <string name="common_filter">Filter..</string>
+
+    <string name="common_browser_not_found">ब्राउज़र नहीं मिला</string>
+
+    <string name="common_added_to_play_next">Added to play next</string>
+    <string name="common_moved_to_play_next">Moved to play next</string>
+
+    <string name="common_enabled">Enabled</string>
+    <string name="common_disabled">Disabled</string>
+
+    <string name="common_sort_by">Sort by</string>
+
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="playlist_x_renamed_to_y">Λίστα αναπαραγωγής %1$s μετονομάστηκε σε %2$s</string>
+
+    <string name="popup_positive_rename">Μετονομασία</string>
+
+</resources>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="playlist_chooser_header">Chọn một danh sách phát</string>
+    <string name="playlist_chooser_dialog_title">Thêm vào màn hình chờ</string>
+    <string name="playlist_chooser_dialog_message">Thêm danh sách phát \'%s\' vào màn hình chờ chứ?</string>
+
+</resources>

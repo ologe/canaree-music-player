@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="popup_play">Phát</string>
+    <string name="popup_play_shuffle">Phát ngẫu nhiên</string>
+    <string name="popup_add_to_playlist">Thêm vào danh sách phát...</string>
+    <string name="popup_add_to_favorites">Thêm vào danh sách ưa thích</string>
+    <string name="popup_add_to_home_screen">Thêm vào màn hình chờ</string>
+    <string name="popup_play_next">Phát tiếp</string>
+    <string name="popup_play_later">Phát sau</string>
+    <string name="popup_edit_song_info">Sửa thông tin bài hát</string>
+    <string name="popup_edit_album_info">Sửa thông tin album</string>
+    <string name="popup_edit_artist_info">Sửa thông tin nghệ sĩ</string>
+    <string name="popup_view_album">Xem thông tin album</string>
+    <string name="popup_view_artist">Xem thông tin artist</string>
+    <string name="popup_share">Chia sẻ</string>
+    <string name="popup_set_as_ringtone">Đặt làm nhạc chuông</string>
+    <string name="popup_delete">Xóa</string>
+    <string name="popup_rename">Đổi tên</string>
+    <string name="popup_clear_playlist">Xóa danh sách phát</string>
+    <string name="popup_remove_duplicates">Xóa các tệp trùng lặp</string>
+
+    <string name="popup_equalizer">Equalizer</string>
+    <string name="popup_sleep_timer">Tự động dừng</string>
+    <string name="popup_settings" translatable="false">@string/settings</string>
+    <string name="popup_about" translatable="false">@string/about</string>
+
+    <string name="popup_negative_cancel">Hủy bỏ</string>
+    <string name="popup_negative_no">Không</string>
+    <string name="popup_negative_back">Quay lại</string>
+
+    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Lưu</string>
+    <string name="popup_positive_create">Tạo</string>
+    <string name="popup_positive_delete">Xóa</string>
+    <string name="popup_positive_remove">Bỏ</string>
+
+    <string name="popup_neutral_reset">Đặt lại</string>
+
+    <string name="popup_error_message">Có lỗi xảy ra</string>
+
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_permission">Quyền</string>
+    <string name="popup_request_permission_write_settings">
+        Vui lòng chấp nhận quyền để thay đổi nhạc chuông
+    </string>
+
+    <string name="popup_grid_size">Kích cỡ lưới</string>
+
+</resources>

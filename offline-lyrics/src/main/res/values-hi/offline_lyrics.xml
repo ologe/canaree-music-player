@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="offline_lyrics_empty">गाने के बोल नहीं मिले</string>
+
+    <string name="offline_lyrics_edit_title">गाने के बोल जोड़े</string>
+    <string name="offline_lyrics_edit_hint">गाने के बोल यहां पेस्ट करें</string>
+    <string name="offline_lyrics_adjust_sync">समक्रमण सही करें</string>
+    <string name="offline_lyrics_adjust_sync_hint">मिलीसेकण्ड्स</string>
+    <string name="offline_lyrics_adjust_sync_error">सिर्फ संख्याएँ</string>
+
+</resources>

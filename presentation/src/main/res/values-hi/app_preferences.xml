@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+
+    <string name="settings">सेटिंग्स</string>
+
+    <string name="prefs_not_premium_action">खरीदें</string>
+
+    <!--categories-->
+    <string name="prefs_category_library">संग्रह</string>
+    <string name="prefs_category_audio">ध्वनि</string>
+    <string name="prefs_category_ui">उपयोगकर्ता सेटिंग्स</string>
+    <string name="prefs_category_other">अन्य</string>
+
+
+    <!--quick action-->
+    <string name="prefs_quick_action_title">जल्दी करें</string>
+    <string name="prefs_quick_action_summary">चित्रों के बाद वाले छोटे आइकन के कार्य को बदलें</string>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entries">
+        <item>@string/common_hide</item>
+        <item>@string/common_play</item>
+        <item>@string/common_shuffle</item>
+    </string-array>
+
+
+
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">प्रत्यक्ष कार्य</string>
+    <string name="prefs_detail_sections_summary">प्रत्यक्ष भाग विवरण खाका में बदलें</string>
+
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entries">
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
+    </string-array>
+
+
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">संग्रह वर्गीकरण</string>
+    <string name="prefs_library_categories_title_podcasts">पॉडकास्ट वर्गीकरण</string>
+    <string name="prefs_library_categories_summary">संग्रह वर्गीकरण का दिखना और क्रम बदलें</string>
+
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">पॉडकास्ट वर्गीकरण</string>
+    <string name="prefs_podcast_library_categories_summary">पॉडकास्ट वर्गीकरण का दिखना और क्रम बदल</string>
+
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">काली सूची</string>
+    <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>
+    <string name="prefs_blacklist_description">देखने/छिपाने के लिए क्लिक करें </string>
+    <string name="prefs_blacklist_error">सभी फोल्डर काली सूची में नहीं डाल सकते</string>
+
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">फोल्डर वर्गीकरण दृश्य</string>
+    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
+
+    <string name="prefs_show_podcasts_title">पॉडकास्ट देखें</string>
+    <string name="prefs_show_podcasts_summary">संग्रह में पॉडकास्ट देखें</string>
+
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">तुल्यकारक</string>
+    <string name="prefs_used_equalizer_summary_on">एप तुल्यकारक इस्तेमाल करें</string>
+    <string name="prefs_used_equalizer_summary_off">सिस्टम तुल्यकारक इस्तेमाल करें (अगर उपलब्ध हो)</string>
+
+
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">मध्य रात्रि मोड</string>
+    <string name="prefs_lower_volume_on_night_summary">रात्रि में अधिकतम वॉल्यूम कम करता है</string>
+
+
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">क्रॉसफेड</string>
+    <string name="prefs_cross_fade_summary">गानों के बीच में क्रॉस फेड की अनुमति देता है</string>
+
+    <!--gapless-->
+    <string name="prefs_gapless_title">लगातार प्लेबैक</string>
+    <string name="prefs_gapless_summary">लगातार प्लेबैक की अनुमति देता है</string>
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">आइकन रूप</string>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_cut_corner</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entries">
+        <item>@string/common_shape_square</item>
+        <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_cut_corner</item>
+    </string-array>
+
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">आदर्श प्लेयर नियंत्रण</string>
+    <string name="prefs_player_controls_visibility_summary_on" translatable="false">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off" translatable="false">@string/common_hidden</string>
+
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">अनुकूल रंग</string>
+    <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">नए एल्बम और संगीतकार दिखाएँ</string>
+    <string name="prefs_show_new_albums_artists_summary">हाल ही में जोड़े गए सभी नए एल्बम और संगीतकार दिखाएँ</string>
+
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">सुने हुए गाने</string>
+    <string name="prefs_show_recent_albums_artists_summary">हाल ही में सुने गए सभी गाने दिखाएँ</string>
+
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">अपने आप चित्र डाउनलोड करें</string>
+    <string name="prefs_auto_download_images_summary_mobile">हमेशा</string>
+    <string name="prefs_auto_download_images_summary_wifi">केवल वाईफाई पर</string>
+    <string name="prefs_auto_download_images_summary_never">कभी नहीं</string>
+
+    <string-array name="prefs_auto_download_images_entry_values">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
+
+    <string-array name="prefs_auto_download_images_entries">
+        <item>@string/prefs_auto_download_images_summary_never</item>
+        <item>@string/prefs_auto_download_images_summary_wifi</item>
+        <item>@string/prefs_auto_download_images_summary_mobile</item>
+    </string-array>
+
+
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">खुद से फ़ोल्डर, प्लेलिस्ट और शैली बनायें</string>
+    <string name="prefs_auto_create_images_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_title">अभी सुन रहें स्क्रीन</string>
+    <string name="prefs_appearance_default">पूर्व निर्धारित</string>
+    <string name="prefs_appearance_flat">समतल</string>
+    <string name="prefs_appearance_spotify">मशहूर ग्रीन म्यूजिक प्लेयर</string>
+    <string name="prefs_appearance_fullscreen">पूर्ण प्रपट्ट</string>
+    <string name="prefs_appearance_big_image">बड़े चित्र</string>
+    <string name="prefs_appearance_clean">उज्जवल </string>
+    <string name="prefs_appearance_mini">छोटा</string>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
+        <item>@string/prefs_appearance_entry_value_big_image</item>
+        <item>@string/prefs_appearance_entry_value_clean</item>
+        <item>@string/prefs_appearance_entry_value_mini</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entries">
+        <item>@string/prefs_appearance_default</item>
+        <item>@string/prefs_appearance_flat</item>
+        <item>@string/prefs_appearance_spotify</item>
+        <item>@string/prefs_appearance_fullscreen</item>
+        <item>@string/prefs_appearance_big_image</item>
+        <item>@string/prefs_appearance_clean</item>
+        <item>@string/prefs_appearance_mini</item>
+    </string-array>
+
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">अन्धकारमय अंदाज़</string>
+    <string name="prefs_dark_mode_follow_system">बैटरी सेवर के द्वारा बदलें</string>
+    <string name="prefs_dark_mode_light">उज्जवल</string>
+    <string name="prefs_dark_mode_dark">अन्धकारमय</string>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entries">
+        <item>@string/prefs_dark_mode_follow_system</item>
+        <item>@string/prefs_dark_mode_light</item>
+        <item>@string/prefs_dark_mode_dark</item>
+    </string-array>
+
+    <!--notch support-->
+    <string name="prefs_notch_support_title">नौच समर्थन</string>
+    <string name="prefs_notch_support_summary">स्टेटस बार की लम्बाई बढ़ायें</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">कैश हटाएँ</string>
+    <string name="prefs_delete_cached_images_summary">सभी कैश चित्र हटाएँ</string>
+    <string name="prefs_delete_cached_images_success">कैश हटाया गया</string>
+
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">शिक्षण पूर्व निर्धारित स्थिति में लाएं</string>
+
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">Last.fm परिचय</string>
+    <string name="prefs_last_fm_credentials_message">परिचय कुट करके सुरक्षित किया जायेगा </string>
+    <string name="prefs_last_fm_credentials_summary">अपने Last.fm खाते का प्रयोक्ता नाम और पासवर्ड दाखिल करें</string>
+
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">लॉक स्क्रीन चित्रकला</string>
+    <string name="prefs_lockscreen_artwork_summary_off" translatable="false">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on" translatable="false">@string/common_enabled</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_title">दिन-रात्रि अंदाज़</string>
+    <string name="prefs_day_night_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off" translatable="false">@string/common_disabled</string>
+
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">लहजा रंग</string>
+    <string name="prefs_accent_color_summary">लहजा विषय रंग बदलें</string>
+
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">तन्मयता अंदाज़</string>
+    <string name="prefs_immersive_summary_on" translatable="false">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off" translatable="false">@string/common_disabled</string>
+
+</resources>

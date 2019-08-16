@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="popup_play">Αναπαραγωγή</string>
+    <string name="popup_play_shuffle">Μεικτή αναπαραγωγή</string>
+    <string name="popup_add_to_playlist">Προσθήκη στην λίστα αναπαραγωγής..</string>
+    <string name="popup_add_to_favorites">Προσθήκη στα αγαπημένα</string>
+    <string name="popup_add_to_home_screen">Προσθήκη στην αρχική οθόνη</string>
+    <string name="popup_play_next">Αναπαραγωγή επόμενου</string>
+    <string name="popup_play_later">Αναπαραγωγή αργότερα</string>
+    <string name="popup_edit_song_info">Επεξεργασία τραγουδιού</string>
+    <string name="popup_edit_album_info">Επεξεργασία άλμπουμ</string>
+    <string name="popup_edit_artist_info">Επεξεργασία καλλιτέχνη</string>
+    <string name="popup_view_album">Εμφάνιση άλμπουμ</string>
+    <string name="popup_view_artist">Εμφάνιση καλλιτέχνη</string>
+    <string name="popup_share">Κοινοποιήση</string>
+    <string name="popup_set_as_ringtone">Εφαρμογή ώς ήχου κλήσης</string>
+    <string name="popup_delete">Διαγραφή</string>
+    <string name="popup_rename">Μετονομασία</string>
+    <string name="popup_clear_playlist">Εκκαθάριση λίστα αναπαραγωγής </string>
+    <string name="popup_remove_duplicates">Διαγραφή διπλών</string>
+
+    <string name="popup_equalizer">Εξισωτής</string>
+    <string name="popup_sleep_timer">Χρονοδιακόπτης ύπνου</string>
+    <string name="popup_settings" translatable="false">@string/settings</string>
+    <string name="popup_about" translatable="false">@string/about</string>
+
+    <string name="popup_negative_cancel">Ακύρωση</string>
+    <string name="popup_negative_no">Όχι</string>
+    <string name="popup_negative_back">Πίσω</string>
+
+    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Αποθήκευση</string>
+    <string name="popup_positive_create">Δημιουργία</string>
+    <string name="popup_positive_delete">Διαγραφή</string>
+    <string name="popup_positive_remove">Κατάργηση</string>
+
+    <string name="popup_neutral_reset">Επαναφορά</string>
+
+    <string name="popup_error_message">Κάτι πήγε στραβά</string>
+
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
+
+    <string name="popup_permission">Permission</string>
+    <string name="popup_request_permission_write_settings">
+        Παρακαλώ αποδέξου την άδεια για να πραγματοποιηθεί η αλλαγή ήχου κλήσης
+    </string>
+
+    <string name="popup_grid_size">Grid size</string>
+
+</resources>

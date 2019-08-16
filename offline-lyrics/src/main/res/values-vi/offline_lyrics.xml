@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="offline_lyrics_empty">Kh+APQ-ng c+APM l+Ht0-i b+AOA-i h+AOE-t</string>
+
+    <string name="offline_lyrics_edit_title">Th+AOo-m l+Ht0-i b+AOA-i h+AOE-t</string>
+    <string name="offline_lyrics_edit_hint">D+AOE-n l+Ht0-i b+AOA-i h+AOE-t c+Huc-a b+HqE-n +Ht8 +AREA4g-y</string>
+    <string name="offline_lyrics_adjust_sync">Ch+Hsk-nh s+Hu0-a t+HtE-c +AREe2Q ch+HqE-y l+Ht0-i b+AOA-i h+AOE-t</string>
+    <string name="offline_lyrics_adjust_sync_hint">Mili gi+AOI-y</string>
+    <string name="offline_lyrics_adjust_sync_error">Ch+Hsk c+AOE-c ch+Hu8 s+HtE</string>
+
+</resources>

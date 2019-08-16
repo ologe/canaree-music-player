@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string name="add_song_x_to_play_next"><![CDATA[Play <b>%1$s</b> next?]]></string>
+
+<plurals name="add_xx_songs_to_play_next">
+    <item quantity="one"><![CDATA[Play <b>%1$d song</b> next?]]></item>
+    <item quantity="other"><![CDATA[Play <b>%1$d songs</b> next?]]></item>
+</plurals>
+
+<string name="song_x_added_to_play_next">%1$s आगे बजने के लिए जोड़ा गया</string>
+<plurals name="xx_songs_added_to_play_next">
+    <item quantity="one">आगे बजाने के लिए %1$d गाना जोड़ा गए</item>
+    <item quantity="other">आगे बजाने के लिए %1$d गानें जोड़े गए</item>
+</plurals>
+
+</resources>

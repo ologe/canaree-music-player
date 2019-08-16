@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="splash_player_controls">Ρυθμίσεις player</string>
+    <string name="splash_player_tutorial_1">Πάτα την εικόνα για παίξε/παύση</string>
+    <string name="splash_player_tutorial_2">Πάτα στις άκρες της φωτογραφίας ή σύρε για παράλειψη </string>
+
+    <string name="splash_storage_permission">Άδεια αποθηκευτικού χώρου</string>
+    <string name="splash_storage_permission_disabled">Παρακαλώ δώστε άδεια αποθηκευτικού χώρου για να χρησιμοποιήσετε την εφαρμογή</string>
+
+
+</resources>

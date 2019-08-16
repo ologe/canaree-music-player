@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="splash_player_controls">Điều khiển trình phát nhạc</string>
+    <string name="splash_player_tutorial_1">Chậm vào ảnh để phát/dừng lại</string>
+    <string name="splash_player_tutorial_2">Chạm vào cạnh ảnh hoặc vuốt để chuyển bài</string>
+
+    <string name="splash_storage_permission">Quyền truy cập bộ nhớ</string>
+    <string name="splash_storage_permission_disabled">Làm ơn cấp quyền truy cập bộ nhớ</string>
+
+
+</resources>

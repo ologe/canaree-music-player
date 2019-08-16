@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="playlist_tracks_chooser_no_tracks">Chọn bài hát để thêm vào danh sách phát mới của bạn</string>
+
+    <string name="playlist_tracks_chooser_show_only_selected">Chỉ hiển thị các bài hát đã được chọn</string>
+    <string name="playlist_tracks_chooser_show_all">Hiển thị tất cả</string>
+
+    <plurals name="playlist_tracks_chooser_count">
+        <item quantity="one">Đã chọn 1 bài hát</item>
+        <item quantity="other">Đã chọn %d bài hát</item>
+    </plurals>
+
+</resources>

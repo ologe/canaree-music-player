@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="playlist_x_renamed_to_y">प्लेलिस्ट %1$s का नाम बदल कर %2$s किया गया</string>
+
+    <string name="popup_positive_rename">नाम बदलें</string>
+
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">Βιβλιοθήκη</string>
+
+    <string name="common_folders">Φάκελοι</string>
+    <string name="common_playlists">Λίστα αναπαραγωγής</string>
+    <string name="common_tracks">Τραγούδια</string>
+    <string name="common_albums">Δίσκοι</string>
+    <string name="common_artists">Καλλιτέχνες</string>
+    <string name="common_genres">Είδη</string>
+    <string name="common_podcasts">Podcasts</string>
+
+    <string name="common_last_added">Προστέθηκε τελευταίο</string>
+    <string name="common_favorites">Αγαπημένα</string>
+    <string name="common_history">Ιστορικό</string>
+
+    <string name="common_all_tracks">Ολα τα τραγούδια</string>
+
+    <string name="common_placeholder_title">Ένα τέλειο τίτλο</string>
+    <string name="common_placeholder_artist">Έναν τέλειο καλλιτέχνη</string>
+    <string name="common_placeholder_album">Ένα τέλειο δίσκο</string>
+
+    <string name="common_empty_list">Άδεια λίστα</string>
+
+    <string name="network_timeout">Παρακαλώ ξαναπροσπαθήστε</string>
+
+    <string name="are_you_sure">Είστε σίγουρος?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d ώρα</item>
+        <item quantity="other">%d ώρες</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d λεπτό</item>
+        <item quantity="other">%d λεπτά</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d τραγούδι</item>
+        <item quantity="other">%d τραγούδια</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d δίσκος</item>
+        <item quantity="other">%d δίσκοι</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d φάκελος</item>
+        <item quantity="other">%d φάκελοι</item>
+    </plurals>
+
+    <string name="common_folder">Φάκελος</string>
+    <string name="common_playlist">Λίστα αναπαραγωγής</string>
+    <string name="common_title">Τίτλος</string>
+    <string name="common_track">Τραγούδι</string>
+    <string name="common_artist">Καλλιτέχνης</string>
+    <string name="common_album_artist">Δίσκος καλλιτέχνη</string>
+    <string name="common_album">Δίσκος</string>
+    <string name="common_genre">Είδος</string>
+    <string name="common_duration">Διάρκεια</string>
+    <string name="common_recently_added">Προστέθηκε πρόσφατα</string>
+    <string name="common_custom">Προσαρμοσμένο</string>
+    <string name="common_track_number">Αριθμός τραγουδιού</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Λίστα αναπαραγωγής Podcast</string>
+    <string name="common_podcast_album">Δίσκοι Podcast</string>
+    <string name="common_podcast_artist">Καλλιτέχνες Podcast</string>
+
+    <string name="common_play">Έναρξη</string>
+    <string name="common_shuffle">Τυχαία αναπαραγωγή όλων</string>
+    <string name="common_search">Αναζήτηση</string>
+    <string name="common_hide">κρύψιμο</string>
+
+    <string name="common_shape_square">Τετράγωνο</string>
+    <string name="common_shape_rounded">Κυκλικό τετράγωνο</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Σχετικοί καλλιτέχνες</string>
+    <string name="common_most_played">Περισσότερες αναπαραγωγές</string>
+
+    <string name="common_no_tracks">Δεν υπάρχουν τραγούδια</string>
+    <string name="common_no_results">Δεν υπάρχουν αποτελέσματα</string>
+
+    <string name="common_visible">Ορατό</string>
+    <string name="common_hidden">Κρυμμένο</string>
+
+    <string name="common_no_internet">Ελέγξτε την σύνδεση σας στο διαδίκτυο</string>
+
+    <string name="common_switch_on">ανοιχτό</string>
+    <string name="common_switch_off">κλειστό</string>
+
+    <string name="common_filter">Φίλτρο. .</string>
+
+    <string name="common_browser_not_found">Δεν βρέθηκε πρόγραμμα περιήγησης</string>
+
+    <string name="common_added_to_play_next">Προστέθηκε για αναπαραγωγή μετα αυτο το τραγούδι</string>
+    <string name="common_moved_to_play_next">Μετακινήθηκε για αναπαραγωγή μετα αυτο το τραγούδι</string>
+
+    <string name="common_enabled">Ενεργοποίηση</string>
+    <string name="common_disabled">Απενεργοποίηση</string>
+
+    <string name="common_sort_by">Ταξινόμηση κατα</string>
+
+</resources>

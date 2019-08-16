@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">Thư viện</string>
+
+    <string name="common_folders">Thư mục</string>
+    <string name="common_playlists">Danh sách phát</string>
+    <string name="common_tracks">Bài hát</string>
+    <string name="common_albums">Album</string>
+    <string name="common_artists">Nghệ sĩ</string>
+    <string name="common_genres">Thể loại</string>
+    <string name="common_podcasts">Podcast</string>
+
+    <string name="common_last_added">Lần cuối được thêm</string>
+    <string name="common_favorites">Yêu thích</string>
+    <string name="common_history">Lịch sử</string>
+
+    <string name="common_all_tracks">Tất cả bài hát</string>
+
+    <string name="common_placeholder_title">Tên bài hay</string>
+    <string name="common_placeholder_artist">Nghệ sĩ xuất sắc</string>
+    <string name="common_placeholder_album">Album tuyệt vời</string>
+
+    <string name="common_empty_list">Danh sách trống</string>
+
+    <string name="network_timeout">Làm ơn bạn thử lại</string>
+
+    <string name="are_you_sure">Bạn có chắc không?</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d giờ</item>
+        <item quantity="other">%d giờ</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d phút</item>
+        <item quantity="other">%d phút</item>
+    </plurals>
+
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d bài hát</item>
+        <item quantity="other">%d bài hát</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d thư mục</item>
+        <item quantity="other">%d thư mục</item>
+    </plurals>
+
+    <string name="common_folder">Thư mục</string>
+    <string name="common_playlist">Danh sách phát</string>
+    <string name="common_title">Tiêu đề</string>
+    <string name="common_track">Bài hát</string>
+    <string name="common_artist">Nghệ sĩ</string>
+    <string name="common_album_artist">Nghệ sĩ album</string>
+    <string name="common_album">Album</string>
+    <string name="common_genre">Thể loại</string>
+    <string name="common_duration">Thời lượng</string>
+    <string name="common_recently_added">Được thêm gần đây</string>
+    <string name="common_custom">Tùy chỉnh</string>
+    <string name="common_track_number">Số bài hát</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Danh sách phát podcast</string>
+    <string name="common_podcast_album">Album podcast</string>
+    <string name="common_podcast_artist">Người làm podcast</string>
+
+    <string name="common_play">Phát</string>
+    <string name="common_shuffle">Ngẫu nhiên</string>
+    <string name="common_search">Tìm kiếm</string>
+    <string name="common_hide">Ẩn</string>
+
+    <string name="common_shape_square">Vuông</string>
+    <string name="common_shape_rounded">Vuông góc tròn</string>
+    <string name="common_shape_cut_corner" translatable="false">Cut corner</string>
+
+    <string name="common_related_artists">Nghệ sĩ có liên quan</string>
+    <string name="common_most_played">Được nghe nhiều nhất</string>
+
+    <string name="common_no_tracks">Không có bài hát</string>
+    <string name="common_no_results">Không có kết quả</string>
+
+    <string name="common_visible">Hiện</string>
+    <string name="common_hidden">Ẩn</string>
+
+    <string name="common_no_internet">Hãy kiểm tra kết nối internet của bạn</string>
+
+    <string name="common_switch_on">Bật</string>
+    <string name="common_switch_off">Tắt</string>
+
+    <string name="common_filter">Lọc..</string>
+
+    <string name="common_browser_not_found">Không tìm thấy trình duyệt</string>
+
+    <string name="common_added_to_play_next">Đã thêm vào danh sách phát kế tiếp</string>
+    <string name="common_moved_to_play_next">Đã được chuyển để phát kế tiếp</string>
+
+    <string name="common_enabled">Bật</string>
+    <string name="common_disabled">Tắt</string>
+
+    <string name="common_sort_by">Sắp xếp theo</string>
+
+</resources>

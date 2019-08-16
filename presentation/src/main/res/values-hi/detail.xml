@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="detail_most_played" translatable="false">@string/common_most_played</string>
+    <string name="detail_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="detail_albums" translatable="false">@string/common_albums</string>
+    <string name="detail_tracks" translatable="false">@string/common_tracks</string>
+
+    <string-array name="detail_album_header">
+        <item>अन्य फोल्डर</item>
+        <item>अन्य प्लेलिस्ट</item>
+        <item/>
+        <item>अन्य एल्बम</item>
+        <item>@string/common_albums</item>
+        <item>अन्य शैली</item>
+        <item>अन्य प्लेलिस्ट</item>
+        <item/>
+        <item/>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">More by %s</string>
+    <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
+    <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
+
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d new track</item>
+        <item quantity="other">%d new tracks</item>
+    </plurals>
+
+    <string name="detail_sort_by" translatable="false">@string/common_sort_by</string>
+
+    <string name="sort_by_title" translatable="false">@string/common_title</string>
+    <string name="sort_by_artist" translatable="false">@string/common_artist</string>
+    <string name="sort_by_album" translatable="false">@string/common_album</string>
+    <string name="sort_by_duration" translatable="false">@string/common_duration</string>
+    <string name="sort_by_recently_added" translatable="false">@string/common_recently_added</string>
+    <string name="sort_by_custom" translatable="false">@string/common_custom</string>
+    <string name="sort_by_track" translatable="false">@string/common_track_number</string>
+
+</resources>

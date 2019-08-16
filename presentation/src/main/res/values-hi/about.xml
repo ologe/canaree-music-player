@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about">के बारे में</string>
+
+    <string name="about_author">रचियता</string>
+    <string name="about_version">संस्करण</string>
+
+    <string name="about_join_community">समुदाय</string>
+    <string name="about_join_community_description">समुदाय से जुड़ें</string>
+
+    <string name="about_beta">बीटा</string>
+    <string name="about_beta_description">एकदम नए फीचर इस्तेमाल करें सभी से पहले</string>
+
+    <string name="about_third_sw">अन्य व्यक्ति के सॉफ्टवेयर </string>
+    <string name="about_third_sw_description">सॉफ्टवेयर जिन्होंने डेवलपमेंट में सहायता की</string>
+
+    <string name="about_special_thanks_to">विशेष धन्यवाद</string>
+    <string name="about_special_thanks_to_description">देखने के लिए क्लिक करें</string>
+
+    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
+    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
+
+    <string name="about_privacy_policy">गोपनीयता नीति</string>
+    <string name="about_privacy_policy_description">हम दोनों के लिए मत्वपूर्ण</string>
+
+    <string name="about_buy_pro">पेशेवर संस्करण खरीदें</string>
+    <string name="about_buy_pro_description">सभी फीचर्स इस्तेमाल करने के लिए पेशेवर संस्करण खरीदें</string>
+    <string name="about_buy_pro_description_trial">परीक्षण संस्करण, सभी फीचर खुले हैं</string>
+
+    <string name="about_icon_made_by_x_from_y">आइकन %1$s ने बनाया %2$s से</string>
+
+</resources>
