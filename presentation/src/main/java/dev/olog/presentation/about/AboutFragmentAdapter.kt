@@ -35,6 +35,7 @@ class AboutFragmentAdapter(
                 AboutFragmentPresenter.BETA -> navigator.joinBeta()
                 AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
                 AboutFragmentPresenter.GITHUB -> navigator.toGithub()
+                AboutFragmentPresenter.TRANSLATION -> navigator.toTranslations()
             }
         }
     }

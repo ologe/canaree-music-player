@@ -18,6 +18,9 @@
     <string name="about_special_thanks_to">Special thanks to</string>
     <string name="about_special_thanks_to_description">Click to see</string>
 
+    <string name="about_translations" translatable="false">Help translate the app</string>
+    <string name="about_translations_description" translatable="false">Click for more details</string>
+
     <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
     <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
 

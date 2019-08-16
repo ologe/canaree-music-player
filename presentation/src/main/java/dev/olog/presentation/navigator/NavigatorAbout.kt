@@ -18,4 +18,7 @@ interface NavigatorAbout {
 
     fun toGithub()
 
+    fun toTranslations()
+    fun requestTranslation()
+
 }

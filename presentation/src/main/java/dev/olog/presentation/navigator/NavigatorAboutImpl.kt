@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import dev.olog.presentation.R
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
+import dev.olog.presentation.translations.TranslationsFragment
 import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
@@ -132,4 +133,25 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
+    override fun toTranslations() {
+        val activity = activityRef.get() ?: return
+
+        superCerealTransition(
+            activity, TranslationsFragment(), TranslationsFragment.TAG,
+            FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+        )
+    }
+
+    override fun requestTranslation() {
+        val activity = activityRef.get() ?: return
+
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("dev.eugeniu.olog@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "Canaree translation")
+        }
+        if (intent.resolveActivity(activity.packageManager) != null) {
+            activity.startActivity(intent)
+        }
+    }
 }

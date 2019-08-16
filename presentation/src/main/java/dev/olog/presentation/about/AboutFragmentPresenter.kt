@@ -32,6 +32,8 @@ class AboutFragmentPresenter(
         @JvmStatic
         val SPECIAL_THANKS_ID = MediaId.headerId("special thanks to")
         @JvmStatic
+        val TRANSLATION = MediaId.headerId("Translation")
+        @JvmStatic
         val RATE_ID = MediaId.headerId("rate")
         @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
@@ -78,21 +80,15 @@ class AboutFragmentPresenter(
         ),
         DisplayableHeader(
             type = R.layout.item_about,
-            mediaId = PRIVACY_POLICY,
-            title = context.getString(R.string.about_privacy_policy),
-            subtitle = context.getString(R.string.about_privacy_policy_description)
-        ),
-        DisplayableHeader(
-            type = R.layout.item_about,
-            mediaId = THIRD_SW_ID,
-            title = context.getString(R.string.about_third_sw),
-            subtitle = context.getString(R.string.about_third_sw_description)
-        ),
-        DisplayableHeader(
-            type = R.layout.item_about,
             mediaId = SPECIAL_THANKS_ID,
             title = context.getString(R.string.about_special_thanks_to),
             subtitle = context.getString(R.string.about_special_thanks_to_description)
+        ),
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = TRANSLATION,
+            title = context.getString(R.string.about_translations),
+            subtitle = context.getString(R.string.about_translations_description)
         ),
         DisplayableHeader(
             type = R.layout.item_about,
@@ -105,6 +101,18 @@ class AboutFragmentPresenter(
             mediaId = GITHUB,
             title = "Github repository",
             subtitle = context.getString(R.string.about_special_thanks_to_description)
+        ),
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = THIRD_SW_ID,
+            title = context.getString(R.string.about_third_sw),
+            subtitle = context.getString(R.string.about_third_sw_description)
+        ),
+        DisplayableHeader(
+            type = R.layout.item_about,
+            mediaId = PRIVACY_POLICY,
+            title = context.getString(R.string.about_privacy_policy),
+            subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
 
