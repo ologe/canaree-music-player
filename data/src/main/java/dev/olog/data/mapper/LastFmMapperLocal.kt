@@ -9,7 +9,9 @@ import dev.olog.data.db.entities.LastFmTrackEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
-private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
+    timeZone = TimeZone.getTimeZone("UTC")
+}
 
 private fun millisToFormattedDate(value: Long): String {
     return formatter.format(Date(value))
