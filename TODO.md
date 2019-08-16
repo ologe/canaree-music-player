@@ -5,7 +5,6 @@
 - revamp blacklist fragment, with a tree based architecture
 - think about posting on FDroid
 - re-add "Hide podcast" preferences
-- add translations (vietnamese and greek)
 
 ### strange bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
