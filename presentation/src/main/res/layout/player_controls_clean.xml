@@ -47,7 +47,7 @@
         android:id="@+id/playPause"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:padding="0dp"
+        android:padding="4dp"
         tools:src="@drawable/vd_playpause_play"
         app:layout_constraintTop_toBottomOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/previous"

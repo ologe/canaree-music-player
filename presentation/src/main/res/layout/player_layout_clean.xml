@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    tools:layout_marginTop="24dp"
+    tools:layout_marginBottom="48dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,12 +133,13 @@
     <include
         android:id="@+id/playerControls"
         layout="@layout/player_controls_clean"
+        android:minHeight="64dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/innerRoot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/volumeChangerFragment" />
+        app:layout_constraintBottom_toTopOf="@+id/more" />
 
     <ImageButton
         android:id="@+id/more"
@@ -165,17 +168,6 @@
         app:layout_constraintEnd_toStartOf="@+id/more"
         app:layout_constraintStart_toEndOf="@+id/lyrics"
         app:layout_constraintBottom_toBottomOf="@+id/more" />
-
-    <fragment
-        android:id="@+id/volumeChangerFragment"
-        android:name="dev.olog.presentation.player.volume.PlayerVolumeFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:tag="dev.olog.presentation.player.volume.PlayerVolumeFragment"
-        app:layout_constraintStart_toStartOf="@+id/playbackSpeed"
-        app:layout_constraintEnd_toEndOf="@+id/more"
-        app:layout_constraintBottom_toTopOf="@+id/playbackSpeed"
-        tools:layout="@layout/player_volume_no_background" />
 
     <ImageButton
         android:id="@+id/playbackSpeed"
