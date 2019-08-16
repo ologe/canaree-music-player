@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--toolbar-->
-    <dimen name="player_now_playing_size">28dp</dimen>
-
     <!--cover-->
     <dimen name="player_cover_margin_vertical">12dp</dimen>
 

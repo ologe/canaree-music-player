@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    tools:layout_marginTop="24dp"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    tools:layout_marginTop="24dp">
 
     <include
         android:id="@+id/playerToolbar"
@@ -94,17 +94,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_default"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias=".9"
+        android:layout_marginTop="32dp" />
 
     <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
     <LinearLayout
         android:id="@+id/textWrapper"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/more"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="32dp">
 
         <!-- title -->
         <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
@@ -141,7 +144,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
             android:clickable="false"
             android:focusable="false"
             app:layout_constraintHorizontal_bias="0"
