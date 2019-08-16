@@ -42,6 +42,7 @@ object OriginalImageFetcher {
         } catch (ex: IOException) {
             ex.printStackTrace()
         }
+        yield()
 
         val file = File(path).parentFile?.listFiles()
             ?.asSequence()
