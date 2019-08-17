@@ -3,16 +3,13 @@ package dev.olog.data
 import android.database.ContentObserver
 import android.os.Handler
 import android.os.Looper
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 internal class DataObserver(
     private val onUpdate: () -> Unit
-) : ContentObserver(Handler(Looper.getMainLooper())), CoroutineScope by CustomScope() {
+) : ContentObserver(Handler(Looper.getMainLooper())) {
 
     override fun onChange(selfChange: Boolean) {
         super.onChange(selfChange)
-        launch { onUpdate() }
+        onUpdate()
     }
 }
