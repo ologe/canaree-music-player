@@ -14,6 +14,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import java.io.InputStream
+import java.util.concurrent.CancellationException
 
 class GlideOriginalImageFetcher(
     private val context: Context,
@@ -80,7 +81,7 @@ class GlideOriginalImageFetcher(
     }
 
     override fun cancel() {
-        cancel(null)
+        cancel(CancellationException())
     }
 
 }

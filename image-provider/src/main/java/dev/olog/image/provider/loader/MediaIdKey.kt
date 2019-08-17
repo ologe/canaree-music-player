@@ -9,9 +9,9 @@ internal class MediaIdKey(private val mediaId: MediaId) : Key {
 
     override fun toString(): String {
         if (mediaId.isLeaf) {
-            return "${MediaIdCategory.SONGS}${mediaId.leaf}"
+            return "${MediaIdCategory.SONGS}-${mediaId.leaf}"
         }
-        return "${mediaId.category}${mediaId.categoryValue}"
+        return "${mediaId.category.name}-${mediaId.categoryValue}"
     }
 
     override fun equals(other: Any?): Boolean {
