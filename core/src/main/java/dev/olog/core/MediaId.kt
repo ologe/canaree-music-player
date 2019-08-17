@@ -107,7 +107,7 @@ class MediaId private constructor(
     }
 
     override fun hashCode(): Int {
-        var result = category.hashCode()
+        var result = category.name.hashCode()
         result = 31 * result + categoryValue.hashCode()
         result = 31 * result + (leaf?.hashCode() ?: 0)
         return result
