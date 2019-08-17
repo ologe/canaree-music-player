@@ -1,6 +1,6 @@
 # Release notes
 
-## 3.0.1.4
+## 3.0.1.5
 - Fixed crashes
 - Fixed some English mistranslations
 - Added Greek, Hindi and Vietnamese translation
@@ -8,6 +8,9 @@
 - Updated **shuffle behavior**. Shuffle will be enabled automatically only when playing "shuffle all", or by pressing
     the "shuffle button" in the player screen. Otherwise, if you'll click on a song, shuffle mode
     will be disabled automatically. 
+
+## 3.0.1.4
+- Crash fixes
 
 ## 3.0.1.3
 - Fixed image loading cache miss
