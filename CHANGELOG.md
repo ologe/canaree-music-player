@@ -1,5 +1,8 @@
 # Release notes
 
+## 3.0.1.6
+- Fixed some image not loading 
+
 ## 3.0.1.5
 - Fixed crashes
 - Fixed some English mistranslations

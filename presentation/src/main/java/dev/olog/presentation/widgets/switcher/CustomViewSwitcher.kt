@@ -11,7 +11,9 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
@@ -43,6 +45,8 @@ class CustomViewSwitcher(
     }
 
     private var lastItem: MediaId? = null
+
+    private var imageVersion = 0
 
     private val adaptiveImageHelper by lazyFast {
         AdaptiveImageHelper(
@@ -121,6 +125,9 @@ class CustomViewSwitcher(
     private fun loadImageInternal(mediaId: MediaId) {
         animationFinished = false
 
+        imageVersion++
+        val currentVersion = imageVersion
+
         val imageView = getImageView(getNextView())
 
         GlideApp.with(context).clear(imageView)
@@ -140,6 +147,27 @@ class CustomViewSwitcher(
                 .signature(CustomMediaStoreSignature(mediaId, version))
                 .listener(this@CustomViewSwitcher)
                 .into(RippleTarget(imageView)) // TODO ripple not working
+
+            GlideApp.with(context)
+                .load(mediaId)
+                .priority(Priority.IMMEDIATE)
+                .override(GlideUtils.OVERRIDE_BIG)
+                .signature(CustomMediaStoreSignature(mediaId, version))
+                .into(object : CustomTarget<Drawable>(){
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        if (resource !== imageView.drawable && currentVersion == imageVersion) {
+                            // different image and same load
+                            imageView.setImageDrawable(resource)
+                        }
+                    }
+                })
         }
     }
 
