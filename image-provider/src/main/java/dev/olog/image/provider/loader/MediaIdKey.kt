@@ -18,15 +18,14 @@ internal class MediaIdKey(private val mediaId: MediaId) : Key {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        if (other is MediaId) {
-            if (this.mediaId.isLeaf && other.isLeaf) {
-                // is song
-                return this.mediaId.leaf == other.leaf
-            }
-            return this.mediaId.category == other.category &&
-                    this.mediaId.categoryValue == other.categoryValue
+        other as MediaIdKey
+
+        if (this.mediaId.isLeaf && other.mediaId.isLeaf) {
+            // is song
+            return this.mediaId.leaf == other.mediaId.leaf
         }
-        return false
+        return this.mediaId.category == other.mediaId.category &&
+                this.mediaId.categoryValue == other.mediaId.categoryValue
     }
 
     override fun hashCode(): Int {
