@@ -28,7 +28,7 @@ internal class LastFmScrobbling @Inject constructor(
         launch {
             observeLastFmUserCredentials()
                 .filter { it.username.isNotBlank() }
-                .collect { lastFmService::tryAutenticate }
+                .collect { lastFmService::tryAuthenticate }
         }
     }
 
