@@ -116,8 +116,10 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPause() {
         Log.v(TAG, "onPause")
-        updatePodcastPosition()
-        player.pause(true)
+        launch(Dispatchers.Main) {
+            updatePodcastPosition()
+            player.pause(true)
+        }
     }
 
     override fun onStop() {
@@ -187,8 +189,10 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         Log.v(TAG, "onSeekTo pos=$pos")
-        updatePodcastPosition()
-        player.seekTo(pos)
+        launch(Dispatchers.Main) {
+            updatePodcastPosition()
+            player.seekTo(pos)
+        }
     }
 
     override fun onSetRating(rating: RatingCompat?) {
@@ -343,13 +347,11 @@ internal class MediaSessionCallback @Inject constructor(
         }
     }
 
-    private fun updatePodcastPosition() {
+    private suspend fun updatePodcastPosition() {
         Log.v(TAG, "updatePodcastPosition")
 
-        GlobalScope.launch {
-            val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
-            queue.updatePodcastPosition(bookmark)
-        }
+        val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
+        queue.updatePodcastPosition(bookmark)
     }
 
 }
