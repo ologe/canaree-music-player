@@ -12,8 +12,7 @@ import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 
 abstract class ObservableAdapter<T : BaseModel>(
@@ -27,7 +26,7 @@ abstract class ObservableAdapter<T : BaseModel>(
     protected val dataSet = mutableListOf<T>()
     private var neverEmitted = true
 
-    private val channel = BroadcastChannel<List<T>>(Channel.CONFLATED)
+    private val channel = ConflatedBroadcastChannel<List<T>>()
 
     fun getData(): List<T> = dataSet.toList()
 

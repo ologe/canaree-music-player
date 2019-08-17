@@ -7,8 +7,7 @@ import dev.olog.presentation.pro.IBilling
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -18,8 +17,8 @@ internal class PlayerFragmentPresenter @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) {
 
-    private val processorPublisher = BroadcastChannel<ProcessorColors>(Channel.CONFLATED)
-    private val palettePublisher = BroadcastChannel<PaletteColors>(Channel.CONFLATED)
+    private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
+    private val palettePublisher = ConflatedBroadcastChannel<PaletteColors>()
 
     fun observePlayerControlsVisibility(): Flow<Boolean> {
 

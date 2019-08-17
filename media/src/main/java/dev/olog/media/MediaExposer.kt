@@ -23,8 +23,6 @@ import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -51,7 +49,7 @@ class MediaExposer(
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = BroadcastChannel<MusicServiceConnectionState>(Channel.CONFLATED)
+    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
 
     private val metadataPublisher = MutableLiveData<PlayerMetadata>()
     private val statePublisher = MutableLiveData<PlayerPlaybackState>()

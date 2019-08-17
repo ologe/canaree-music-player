@@ -18,9 +18,9 @@ import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val currentTrackIdPublisher = BroadcastChannel<Long>(Channel.CONFLATED)
+    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
 
     private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
 
