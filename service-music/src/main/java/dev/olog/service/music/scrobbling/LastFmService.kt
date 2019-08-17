@@ -8,17 +8,15 @@ import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.entity.UserCredentials
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import dev.olog.shared.CustomScope
+import kotlinx.coroutines.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 
-internal class LastFmService @Inject constructor() {
+internal class LastFmService @Inject constructor(): CoroutineScope by CustomScope(Dispatchers.IO) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -58,7 +56,7 @@ internal class LastFmService @Inject constructor() {
         }
 
         scrobbleJob?.cancel()
-        scrobbleJob = GlobalScope.launch {
+        scrobbleJob = launch {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()
             Track.scrobble(scrobbleData, session)
