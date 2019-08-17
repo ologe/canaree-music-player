@@ -91,8 +91,13 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun getByUri(uri: Uri): Song? {
-        val id = getByUriInternal(uri)?.toLong() ?: return null
-        return getByParam(id)
+        try {
+            val id = getByUriInternal(uri)?.toLong() ?: return null
+            return getByParam(id)
+        } catch (ex: Exception){
+            ex.printStackTrace()
+            return null
+        }
     }
 
     @Suppress("DEPRECATION")
