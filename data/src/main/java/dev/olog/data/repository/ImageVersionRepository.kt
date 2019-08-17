@@ -23,6 +23,9 @@ internal class ImageVersionRepository @Inject constructor(
     }
 
     override fun getCurrentVersion(mediaId: MediaId): Int {
+        if (mediaId.isLeaf){
+            getCurrentEntityVersion(MediaId.songId(mediaId.leaf!!)).version
+        }
         return getCurrentEntityVersion(mediaId).version
     }
 
