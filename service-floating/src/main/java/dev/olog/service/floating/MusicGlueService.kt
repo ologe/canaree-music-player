@@ -29,7 +29,7 @@ class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle
 
-) : DefaultLifecycleObserver, OnConnectionChanged, CoroutineScope by CustomScope() {
+) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
@@ -47,7 +47,6 @@ class MusicGlueService @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         mediaController?.unregisterCallback(mediaExposer.callback)
         mediaExposer.disconnect()
-        cancel()
     }
 
     override fun onConnectedSuccess(
