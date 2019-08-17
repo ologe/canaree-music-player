@@ -14,6 +14,8 @@
 - not loading embedded images on some devices
 - crash when pressing "more button" in player fragment (quite random) 
 
+### bug?
+- check sync lyrics autoscroll
 
 ## Maybe
 - settings to blur lockscreen image
