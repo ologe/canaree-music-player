@@ -23,18 +23,14 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.lang.Runnable
-import java.util.concurrent.TimeUnit
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
 private const val SCROLL_BAR_HIDE_DELAY = 1000
 private const val TRACK_SNAP_RANGE = 5
-private const val TEXT_THROTTLE = 100L
-private const val SCROLL_THROTTLE = 50L
 
 class RxFastScroller(
         context: Context,
