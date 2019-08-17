@@ -185,12 +185,16 @@ internal class PlaylistRepository @Inject constructor(
             """
         context.contentResolver.querySql(savedPlaylistSql).use {
             while (it.moveToNext()) {
-                val playlistId = it.getLong(0)
-                val playlistName = it.getString(1) ?: continue
+                try {
+                    val playlistId = it.getLong(0)
+                    val playlistName = it.getString(1) ?: continue
 
-                val playlist = PlaylistEntity(playlistId, playlistName, 0)
-                playlistDao.createPlaylist(playlist)
-                populatePlaylistWithTracks(playlistId)
+                    val playlist = PlaylistEntity(playlistId, playlistName, 0)
+                    playlistDao.createPlaylist(playlist)
+                    populatePlaylistWithTracks(playlistId)
+                } catch (ex: Exception){
+                    ex.printStackTrace()
+                }
             }
         }
 
