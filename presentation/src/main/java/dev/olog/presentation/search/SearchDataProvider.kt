@@ -13,11 +13,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -39,7 +37,7 @@ class SearchDataProvider @Inject constructor(
     // recent
     private val recentSearchesGateway: RecentSearchesGateway
 
-) : CoroutineScope by CustomScope() {
+) {
 
     private val queryChannel = ConflatedBroadcastChannel("")
 
