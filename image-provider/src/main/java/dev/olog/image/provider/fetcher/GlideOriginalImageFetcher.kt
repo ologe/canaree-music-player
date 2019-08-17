@@ -14,6 +14,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import java.io.InputStream
+import java.lang.RuntimeException
 import java.util.concurrent.CancellationException
 
 class GlideOriginalImageFetcher(
@@ -55,11 +56,7 @@ class GlideOriginalImageFetcher(
                 val stream = OriginalImageFetcher.loadImage(context, song)
                 callback.onDataReady(stream)
             } catch (ex: Throwable) {
-                if (ex is Exception){
-                    callback.onLoadFailed(ex)
-                } else {
-                    ex.printStackTrace()
-                }
+                callback.onLoadFailed(RuntimeException(ex))
             }
         }
     }

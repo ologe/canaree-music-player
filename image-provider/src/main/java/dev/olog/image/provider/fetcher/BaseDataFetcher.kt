@@ -12,6 +12,7 @@ import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
+import java.lang.RuntimeException
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -65,11 +66,7 @@ abstract class BaseDataFetcher(
 
                 throw NoSuchElementException()
             } catch (ex: Throwable) {
-                if (ex is Exception){
-                    callback.onLoadFailed(ex)
-                } else {
-                    ex.printStackTrace()
-                }
+                callback.onLoadFailed(RuntimeException(ex))
             }
         }
     }

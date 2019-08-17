@@ -17,6 +17,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
+import java.lang.RuntimeException
 
 class GlideMergedImageFetcher(
     private val context: Context,
@@ -35,8 +36,8 @@ class GlideMergedImageFetcher(
                     else -> makePlaylistImage(mediaId.categoryId)
                 }
                 callback.onDataReady(inputStream)
-            } catch (ex: Exception){
-                callback.onLoadFailed(ex)
+            } catch (ex: Throwable){
+                callback.onLoadFailed(RuntimeException(ex))
             }
         }
     }
