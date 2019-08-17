@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.db.entities.*
 
-private const val CACHE_TIME = "7 days"
+private const val CACHE_TIME = "1 month"
 
 @Dao
 internal abstract class LastFmDao {
