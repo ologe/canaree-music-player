@@ -27,11 +27,18 @@
         app:behavior_peekHeight="@dimen/sliding_panel_peek_plus_navigation"
         app:layout_behavior="dev.olog.scrollhelper.MultiListenerBottomSheetBehavior">
 
-        <fragment
-            android:name="dev.olog.presentation.player.PlayerFragment"
-            android:layout_width="match_parent"
+        <FrameLayout
+            style="@style/SlidingPanelStyle"
             android:layout_height="match_parent"
-            android:tag="@string/player_fragment_tag" />
+            android:layout_gravity="center">
+
+            <fragment
+                android:name="dev.olog.presentation.player.PlayerFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tag="@string/player_fragment_tag" />
+
+        </FrameLayout>
 
         <fragment
             android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
