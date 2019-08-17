@@ -24,6 +24,9 @@ internal class FolderQueries(
             FROM $EXTERNAL_CONTENT_URI
             WHERE ${defaultSelection(includeBlackListed, blacklist)}
         """
+        if (includeBlackListed){
+            return contentResolver.querySql(query)
+        }
         return contentResolver.querySql(query, params)
     }
 
