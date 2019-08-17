@@ -34,7 +34,7 @@ internal class LastFmService @Inject constructor() {
         Caller.getInstance().logger.level = Level.OFF
     }
 
-    fun tryAutenticate(credentials: UserCredentials) {
+    fun tryAuthenticate(credentials: UserCredentials) {
         try {
             session = Authenticator.getMobileSession(
                 credentials.username,
