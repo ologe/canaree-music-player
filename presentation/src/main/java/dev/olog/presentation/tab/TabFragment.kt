@@ -149,9 +149,11 @@ class TabFragment : BaseFragment(), SetupNestedList {
             viewModel.observeSpanCount(category)
                 .drop(1) // drop initial value, already used
                 .collect {
-                    TransitionManager.beginDelayedTransition(list)
-                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
-                    list.requestLayout()
+                    if (list != null && list.isLaidOut) {
+                        TransitionManager.beginDelayedTransition(list)
+                        (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
+                        list.requestLayout()
+                    }
                 }
         }
 
