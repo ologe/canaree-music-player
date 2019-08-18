@@ -56,6 +56,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:clipToPadding="false"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
-        android:paddingBottom="@dimen/playing_queue_margin_vertical"/>
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
