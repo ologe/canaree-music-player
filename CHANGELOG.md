@@ -1,5 +1,8 @@
 # Release notes
 
+## 3.0.1.7
+- Added tablet/foldable layout support
+
 ## 3.0.1.6
 - Fixed some image not loading 
 
