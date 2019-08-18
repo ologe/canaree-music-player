@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toStartOf="@+id/volume"
             android:layout_marginStart="@dimen/mini_player_margin_start"
             android:layout_marginEnd="16dp"
-            style="@style/MiniPlayerText"
+            android:gravity="bottom"
             android:layout_marginBottom="2dp" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"
-            style="@style/MiniPlayerSubText"
+            android:gravity="top"
             android:layout_marginTop="2dp"
             android:scrollHorizontally="true"/>
 
@@ -68,7 +68,6 @@
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/mini_player_margin_end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

@@ -1,23 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--cover-->
-    <dimen name="player_cover_margin_vertical">24dp</dimen>
-    <dimen name="player_cover_margin_horizontal">64dp</dimen>
-    <dimen name="player_cover_margin_horizontal_spotify">64dp</dimen>
+    <dimen name="player_cover_margin_horizontal">32dp</dimen>
 
-    <!--seekbar-->
-    <dimen name="player_seekBar_padding_bottom">30dp</dimen>
-    <dimen name="player_seekBar_padding_horizontal">80dp</dimen>
-
-    <!--durations-->
-    <dimen name="player_bookmark_text_size">17dp</dimen>
-    <dimen name="player_duration_margin_end">64dp</dimen>
-
-    <!--metadata-->
-    <dimen name="player_title_text_size">26dp</dimen>
-    <dimen name="player_title_margin_horizontal">64dp</dimen>
-    <dimen name="player_artist_text_size">18dp</dimen>
-    <dimen name="player_artist_bottom_padding">10dp</dimen>
+    <dimen name="player_title_margin_horizontal">36dp</dimen>
 
 </resources>

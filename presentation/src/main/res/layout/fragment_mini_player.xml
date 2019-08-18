@@ -10,7 +10,6 @@
         android:id="@+id/next"
         android:layout_width="40dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/mini_player_margin_end"
         android:background="@null"
         android:padding="5dp"
         app:avd="@drawable/avd_music_next"
@@ -46,7 +45,7 @@
 
     <dev.olog.shared.widgets.AutoScrollTextView
         android:id="@+id/title"
-        style="@style/MiniPlayerText"
+        android:gravity="bottom"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/mini_player_margin_start"
@@ -62,7 +61,7 @@
 
     <TextView
         android:id="@+id/artist"
-        style="@style/MiniPlayerSubText"
+        android:gravity="top"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="2dp"
