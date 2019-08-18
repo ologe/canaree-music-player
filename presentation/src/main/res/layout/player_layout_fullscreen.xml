@@ -118,7 +118,7 @@
             android:layout_height="@dimen/common_icon_size"
             app:layout_constraintTop_toTopOf="@id/textWrapper"
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="@+id/seekBar"/>
 
         <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
         <LinearLayout
@@ -172,9 +172,8 @@
             android:id="@+id/more"
             app:layout_constraintTop_toTopOf="@id/textWrapper"
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/seekBar"
             android:src="@drawable/vd_more"
-            android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@android:color/white"
