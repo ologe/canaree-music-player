@@ -12,7 +12,10 @@
 ### bug-
 - merged images don't update after content change (folders and genres)
 - not loading embedded images on some devices
-- crash when pressing "more button" in player fragment (quite random) 
+- crash when pressing "more button" in player fragment (quite random)
+- force original image loader tracks to load first album image 
+- restore base repository to call update on a background thread
+ 
 
 ### bug?
 - check sync lyrics autoscroll
