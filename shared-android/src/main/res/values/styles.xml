@@ -3,6 +3,7 @@
     <attr name="colorPrimaryTransparent" format="reference|color" />
     <attr name="colorSwipeBackground" format="reference|color"/>
     <attr name="colorUnselectedButton" format="reference|color"/>
+    <attr name="colorSurfaceSecondary" format="reference|color"/>
 
     <attr name="colorBackgroundTransparent" format="reference|color"/>
 
@@ -23,6 +24,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceSecondary">@color/colorSurfaceSecondary</item>
         <item name="colorControlNormal">@color/color_control_normal_selector</item>
         <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
         <item name="colorSwipeBackground">@color/colorSwipeBackground</item>

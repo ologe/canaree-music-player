@@ -2,7 +2,7 @@
 <resources>
 
     <!--item tab album last played-->
-    <dimen name="item_tab_album_last_player_width">150dp</dimen>
+    <dimen name="item_tab_album_last_player_width">120dp</dimen>
 
     <!--item detail main header-->
     <dimen name="item_detail_main_header_title_size">40dp</dimen>

@@ -249,23 +249,31 @@ class DetailFragment : BaseFragment(),
     }
 
     private fun removeLightStatusBar() {
-        act.window.removeLightStatusBar()
         val color = Color.WHITE
         back.setColorFilter(color)
         more.setColorFilter(color)
         filter.setColorFilter(color)
+
+        if (requireContext().isTablet){
+            return
+        }
+        act.window.removeLightStatusBar()
     }
 
     private fun setLightStatusBar() {
         if (requireContext().isDarkMode()) {
             return
         }
-
-        act.window.setLightStatusBar()
         val color = requireContext().colorControlNormal()
         back.setColorFilter(color)
         more.setColorFilter(color)
         filter.setColorFilter(color)
+
+        if (requireContext().isTablet){
+            return
+        }
+
+        act.window.setLightStatusBar()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail

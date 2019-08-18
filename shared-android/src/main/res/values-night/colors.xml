@@ -4,6 +4,7 @@
     <color name="colorBackgroundTransparent">#cc121212</color>
 
     <color name="colorSurface">#222326</color>
+    <color name="colorSurfaceSecondary">@color/colorSurface</color>
     <color name="colorControlNormal">#F5F5F5</color>
 
     <color name="colorPrimaryTransparent">@color/transparent_black</color>
