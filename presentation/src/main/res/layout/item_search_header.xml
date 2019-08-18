@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
-    android:paddingStart="@dimen/detail_margin_horizontal"
-    android:paddingEnd="@dimen/detail_margin_horizontal">
+    android:paddingStart="@dimen/tab_margin_start"
+    android:paddingEnd="@dimen/tab_margin_start">
 
     <TextView
         android:id="@+id/title"

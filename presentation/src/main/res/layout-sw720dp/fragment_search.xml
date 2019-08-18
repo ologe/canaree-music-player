@@ -112,7 +112,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         tools:listitem="@layout/item_search_recent"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:paddingTop="@dimen/playing_queue_margin_vertical"
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"/>
 
     <TextView
         android:id="@+id/emptyStateText"
