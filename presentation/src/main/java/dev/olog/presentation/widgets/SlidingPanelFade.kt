@@ -10,6 +10,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.utils.collapse
 import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.isTablet
 import dev.olog.shared.android.extensions.scrimBackground
 import dev.olog.shared.lazyFast
 
@@ -23,6 +24,7 @@ class SlidingPanelFade(
     }
 
     private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val isTablet = context.isTablet
 
     var parallax = context.dip(20)
 
@@ -45,7 +47,10 @@ class SlidingPanelFade(
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             alpha = clamp(slideOffset * 1.5f, 0f, 1f)
-            fragmentContainer.translationY = -(slideOffset * parallax)
+
+            if (!isTablet){
+                fragmentContainer.translationY = -(slideOffset * parallax)
+            }
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {

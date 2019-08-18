@@ -23,7 +23,7 @@ import dev.olog.shared.android.extensions.setMargin
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
-    input: ScrollType.Full
+    input: ScrollType
 ) : ScrollHelper(activity, input, false, false, false) { // debug is very slow
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {

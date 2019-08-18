@@ -9,8 +9,4 @@
 
     <dimen name="bottom_navigation_height">50dp</dimen>
 
-    <style name="SlidingPanelStyle">
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
 </resources>

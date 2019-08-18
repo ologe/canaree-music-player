@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,10 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (requireContext().isTablet){
+            view.updatePadding(bottom = view.paddingBottom + requireContext().dimen(R.dimen.bottom_navigation_height))
+        }
+
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(

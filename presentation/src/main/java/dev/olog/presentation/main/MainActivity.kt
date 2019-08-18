@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -38,6 +39,7 @@ import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -93,16 +95,7 @@ class MainActivity : MusicGlueActivity(),
             slidingPanel.setHeight(dip(300))
         }
 
-        val scrollHelper = SuperCerealScrollHelper(
-            this, ScrollType.Full(
-                slidingPanel = slidingPanel,
-                bottomNavigation = bottomWrapper,
-                toolbarHeight = dimen(R.dimen.toolbar),
-                tabLayoutHeight = dimen(R.dimen.tab),
-                realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
-            )
-        )
-        lifecycle.addObserver(scrollHelper)
+        setupSlidingPanel()
 
         when {
             viewModel.isFirstAccess() -> {
@@ -124,6 +117,29 @@ class MainActivity : MusicGlueActivity(),
         Permission.STORAGE -> {
             navigateToLastPage()
             connect()
+        }
+    }
+
+    private fun setupSlidingPanel(){
+        if (!isTablet) {
+            val scrollHelper = SuperCerealScrollHelper(
+                this, ScrollType.Full(
+                    slidingPanel = slidingPanel,
+                    bottomNavigation = bottomWrapper,
+                    toolbarHeight = dimen(R.dimen.toolbar),
+                    tabLayoutHeight = dimen(R.dimen.tab),
+                    realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
+                )
+            )
+            lifecycle.addObserver(scrollHelper)
+        } else {
+            val scrollHelper = SuperCerealScrollHelper(
+                this, ScrollType.None(
+                    toolbarHeight = dimen(R.dimen.toolbar),
+                    tabLayoutHeight = dimen(R.dimen.tab)
+                )
+            )
+            lifecycle.addObserver(scrollHelper)
         }
     }
 
@@ -240,6 +256,11 @@ class MainActivity : MusicGlueActivity(),
             adView.setGone()
             heightToAdd = dip(2)
         }
-        getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek_plus_navigation) + heightToAdd
+        if (!isTablet){
+            getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek_plus_navigation) + heightToAdd
+        } else if(isTablet && adView.isVisible) {
+            getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
+            bottomWrapper.setMargin(bottom = dimen(R.dimen.bottom_navigation_height))
+        }
     }
 }

@@ -4,8 +4,4 @@
     <dimen name="sliding_panel_peek">70dp</dimen>
     <dimen name="sliding_panel_peek_plus_navigation">120dp</dimen>
 
-    <style name="SlidingPanelStyle">
-        <item name="android:layout_width">600dp</item>
-    </style>
-
 </resources>
