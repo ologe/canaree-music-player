@@ -68,7 +68,6 @@
             android:translationY="-15dp"
             android:scaleX=".9"
             android:scaleY=".9"
-            android:textStyle="bold"
             android:textColor="?android:textColorPrimary"/>
 
         <!-- duration -->
@@ -85,8 +84,7 @@
             android:focusable="false"
             android:translationY="-15dp"
             android:scaleX=".9"
-            android:scaleY=".9"
-            android:textStyle="bold" />
+            android:scaleY=".9" />
 
         <LinearLayout
             android:id="@+id/textWrapper"
