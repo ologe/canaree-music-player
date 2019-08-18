@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
         android:background="?colorSurface"
@@ -30,7 +30,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:textAppearance="@style/Header.Secondary"
-            android:text="@string/about"
+            android:text="@string/about_special_thanks_to"
             android:layout_marginStart="48dp"
             tools:fontFamily="sans-serif-black"/>
 
@@ -47,15 +47,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
-        tools:listitem="@layout/item_about"
+        tools:listitem="@layout/item_special_thanks"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:clipToPadding="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
