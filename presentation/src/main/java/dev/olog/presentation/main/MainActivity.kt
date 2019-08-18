@@ -132,14 +132,6 @@ class MainActivity : MusicGlueActivity(),
                 )
             )
             lifecycle.addObserver(scrollHelper)
-        } else {
-            val scrollHelper = SuperCerealScrollHelper(
-                this, ScrollType.None(
-                    toolbarHeight = dimen(R.dimen.toolbar),
-                    tabLayoutHeight = dimen(R.dimen.tab)
-                )
-            )
-            lifecycle.addObserver(scrollHelper)
         }
     }
 
