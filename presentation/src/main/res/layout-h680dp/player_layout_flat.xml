@@ -64,10 +64,9 @@
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar"
         app:layout_constraintTop_toTopOf="@+id/seekBar"
-        android:layout_marginStart="18dp"
         android:clickable="false"
         android:focusable="false" />
 
@@ -79,10 +78,9 @@
         android:textSize="@dimen/player_bookmark_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar"
         app:layout_constraintTop_toTopOf="@+id/seekBar"
-        android:layout_marginEnd="18dp"
         android:clickable="false"
         android:focusable="false" />
 
