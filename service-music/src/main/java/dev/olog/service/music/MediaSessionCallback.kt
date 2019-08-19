@@ -351,7 +351,9 @@ internal class MediaSessionCallback @Inject constructor(
         Log.v(TAG, "updatePodcastPosition")
 
         val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
-        queue.updatePodcastPosition(bookmark)
+        withContext(Dispatchers.IO){
+            queue.updatePodcastPosition(bookmark)
+        }
     }
 
 }
