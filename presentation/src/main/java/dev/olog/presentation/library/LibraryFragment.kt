@@ -82,6 +82,10 @@ class LibraryFragment : BaseFragment() {
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
+        if (!presenter.canShowPodcasts()){
+            podcasts.setGone()
+        }
+
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
             launch {
                 delay(500)

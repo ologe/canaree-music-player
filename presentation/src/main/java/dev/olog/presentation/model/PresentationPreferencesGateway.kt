@@ -37,5 +37,7 @@ internal interface PresentationPreferencesGateway {
     fun observeSpanCount(category: TabCategory): Flow<Int>
     fun setSpanCount(category: TabCategory, spanCount: Int)
 
+    fun canShowPodcasts(): Boolean
+
     fun setDefault()
 }

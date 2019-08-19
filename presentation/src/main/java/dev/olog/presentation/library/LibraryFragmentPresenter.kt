@@ -46,4 +46,6 @@ internal class LibraryFragmentPresenter @Inject constructor(
         appPrefsUseCase.setLibraryPage(page)
     }
 
+    fun canShowPodcasts() = appPrefsUseCase.canShowPodcasts()
+
 }

@@ -265,4 +265,8 @@ internal class PresentationPreferencesImpl @Inject constructor(
             putInt("${category}_span", spanCount)
         }
     }
+
+    override fun canShowPodcasts(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
+    }
 }

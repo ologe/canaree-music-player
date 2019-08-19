@@ -23,6 +23,8 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R
+import dev.olog.presentation.model.LibraryPage
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
@@ -46,10 +48,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     @Inject
-    lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
+    internal lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
 
     @Inject
-    lateinit var imageVersionGateway: ImageVersionGateway
+    internal lateinit var presentationPrefs: PresentationPreferencesGateway
+
+    @Inject
+    internal lateinit var imageVersionGateway: ImageVersionGateway
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -187,6 +192,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         when (key) {
             getString(R.string.premium_ad_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
+                act.recreate()
+            }
+            getString(R.string.prefs_show_podcasts_key) -> {
+                presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
                 act.recreate()
             }
         }
