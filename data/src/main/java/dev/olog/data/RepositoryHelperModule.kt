@@ -18,7 +18,7 @@ object RepositoryHelperModule {
     @JvmStatic
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-            .addMigrations(Migration_15_16)
+            .addMigrations(Migration_15_16, Migration_16_17)
             .build()
     }
 
@@ -181,6 +181,12 @@ object RepositoryHelperModule {
             )
         }
 
+    }
+
+    private val Migration_16_17 = object : Migration(16, 17){
+        override fun migrate(database: SupportSQLiteDatabase) {
+
+        }
     }
 
 }

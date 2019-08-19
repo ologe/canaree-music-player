@@ -48,7 +48,7 @@ import dev.olog.data.db.entities.*
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 16, exportSchema = true
+    ), version = 17, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
