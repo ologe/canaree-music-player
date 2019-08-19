@@ -40,7 +40,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     }
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
-        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_library_categories_title_podcasts
+        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title else R.string.prefs_podcast_library_categories_title
 
         return builder.setTitle(title)
             .setNeutralButton(R.string.popup_neutral_reset, null)

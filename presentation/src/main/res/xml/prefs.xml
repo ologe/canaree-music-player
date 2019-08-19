@@ -21,11 +21,18 @@
             app:key="@string/prefs_library_categories_key"
             tools:enabled="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="@string/prefs_show_podcasts_key"
+            app:title="@string/prefs_show_podcasts_title"
+            app:summary="@string/prefs_show_podcasts_summary"
+            app:defaultValue="true"/>
+
         <Preference
             app:title="@string/prefs_podcast_library_categories_title"
             app:summary="@string/prefs_podcast_library_categories_summary"
             app:key="@string/prefs_podcast_library_categories_key"
-            tools:enabled="false"/>
+            tools:enabled="false"
+            app:dependency="@string/prefs_show_podcasts_key"/>
 
         <Preference
             app:title="@string/prefs_blacklist_title"

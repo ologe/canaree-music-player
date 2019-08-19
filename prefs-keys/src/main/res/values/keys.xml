@@ -6,7 +6,7 @@
     <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
     <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
     <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
-    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts</string>
+    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts_2</string>
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
     <string name="prefs_midnight_mode_key" translatable="false">key_lower_volume</string>
     <string name="prefs_cross_fade_key" translatable="false">key_cross_fade</string>

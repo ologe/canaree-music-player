@@ -61,12 +61,10 @@
 
     <!--library categories-->
     <string name="prefs_library_categories_title">Κατηγορίες βιβλιοθήκης</string>
-    <string name="prefs_library_categories_title_podcasts">Κατηγορίες Podcast</string>
-    <string name="prefs_library_categories_summary">Τροποποίησε την ορατότητα και την σειρά των κατηγορίων της βιβλιοθήκης</string>
+    <string name="prefs_library_categories_summary">Τροποποίησε την ορατότητα και την σειρά</string>
 
     <!--podcast categories-->
     <string name="prefs_podcast_library_categories_title">Κατηγορίες Podcast</string>
-    <string name="prefs_podcast_library_categories_summary">Τροποποίησε την ορατότητα και την σειρά των κατηγορίων των Podcasts</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Μαύρη Λίστα</string>
