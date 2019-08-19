@@ -13,9 +13,7 @@
 - merged images don't update after content change (folders and genres)
 - not loading embedded images on some devices
 - crash when pressing "more button" in player fragment (quite random)
-- force original image loader tracks to load first album image 
-- restore base repository to call update on a background thread
- 
+- sometime after using fast scroller, clicking on a song actually plays the first song 
 
 ### bug?
 - check sync lyrics autoscroll
