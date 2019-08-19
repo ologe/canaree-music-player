@@ -120,7 +120,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         list.setHasFixedSize(true)
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
-            list.updatePadding(0, 0, 0, 0)
+            list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))
         }
 
         val scrollableLayoutId = when (category) {

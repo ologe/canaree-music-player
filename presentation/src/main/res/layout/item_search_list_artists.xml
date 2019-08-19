@@ -5,7 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingStart="@dimen/tab_margin_start"
-    android:paddingEnd="@dimen/tab_margin_start"/>
+    android:clipToPadding="false" />
 

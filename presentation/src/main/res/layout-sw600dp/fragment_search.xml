@@ -114,7 +114,9 @@
         tools:listitem="@layout/item_search_recent"
         tools:visibility="visible"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
-        android:paddingBottom="@dimen/playing_queue_margin_vertical"/>
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"/>
 
     <TextView
         android:id="@+id/emptyStateText"

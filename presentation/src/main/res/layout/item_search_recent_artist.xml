@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:paddingStart="@dimen/tab_margin_start"
-    android:paddingEnd="@dimen/tab_margin_start">
+    android:background="?attr/selectableItemBackground">
 
     <dev.olog.shared.widgets.CircularImageView
         android:id="@+id/cover"
@@ -15,6 +13,7 @@
         android:layout_height="@dimen/item_song_cover_size"
         android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
         android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginStart="@dimen/item_song_cover_margin_start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintStart_toStartOf="parent"

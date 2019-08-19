@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#e2e3e7">
+    android:layout_height="wrap_content">
 
     <include layout="@layout/layout_swipeable" />
 
@@ -13,14 +12,13 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        android:paddingStart="@dimen/tab_margin_start"
-        android:paddingEnd="@dimen/tab_margin_start">
+        android:background="?android:colorBackground">
 
         <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
             android:id="@+id/cover"
             android:layout_width="@dimen/item_song_cover_size"
             android:layout_height="@dimen/item_song_cover_size"
+            android:layout_marginStart="@dimen/item_song_cover_margin_start"
             android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
             android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -12,9 +12,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal">
+        android:background="?android:colorBackground">
 
         <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
             android:id="@+id/cover"

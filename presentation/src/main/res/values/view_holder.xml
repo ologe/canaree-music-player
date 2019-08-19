@@ -3,6 +3,7 @@
 
     <!-- item song -->
     <dimen name="item_song_cover_margin_vertical">7dp</dimen>
+    <dimen name="item_song_cover_margin_start">12dp</dimen>
     <dimen name="item_song_cover_size">48dp</dimen>
     <dimen name="item_song_title">13dp</dimen>
     <dimen name="item_song_subtitle">11dp</dimen>
