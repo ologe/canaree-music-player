@@ -1,19 +1,15 @@
 ## TODO
 - try app on all API level
-- test on foldable
 
 - revamp blacklist fragment, with a tree based architecture
 - think about posting on FDroid
-- re-add "Hide podcast" preferences
 
 ### strange bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
 
 ### bug-
 - merged images don't update after content change (folders and genres)
-- not loading embedded images on some devices
-- crash when pressing "more button" in player fragment (quite random)
-- sometime after using fast scroller, clicking on a song actually plays the first song 
+- crash when pressing "more button" in player fragment (quite random) 
 
 ### bug?
 - check sync lyrics autoscroll
