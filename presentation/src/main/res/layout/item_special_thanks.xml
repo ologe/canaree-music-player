@@ -8,8 +8,6 @@
     android:orientation="vertical"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:paddingStart="@dimen/tab_margin_start"
-    android:paddingEnd="@dimen/tab_margin_start"
     android:background="?attr/selectableItemBackground">
 
     <ImageView

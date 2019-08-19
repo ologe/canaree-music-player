@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="mini_queue_margin_start">@dimen/player_title_margin_horizontal</dimen>
-    <dimen name="mini_queue_margin_end">@dimen/player_title_margin_horizontal</dimen>
+    <dimen name="mini_queue_margin_start">20dp</dimen>
+    <dimen name="mini_queue_margin_end">20dp</dimen>
 
 </resources>

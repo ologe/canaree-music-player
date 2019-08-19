@@ -27,7 +27,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailRoot"
-        android:layout_width="@dimen/player_size"
+        android:layout_width="@dimen/detail_dimen"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"

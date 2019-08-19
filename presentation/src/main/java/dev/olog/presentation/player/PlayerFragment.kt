@@ -54,7 +54,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (requireContext().isTablet){
+        if (requireContext().isTablet && presenter.canShowAds()){
             view.updatePadding(bottom = view.paddingBottom + requireContext().dimen(R.dimen.bottom_navigation_height))
         }
 

@@ -152,7 +152,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     if (list != null && list.isLaidOut) {
                         TransitionManager.beginDelayedTransition(list)
                         (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
-                        list.requestLayout()
+                        adapter.notifyDataSetChanged()
                     }
                 }
         }

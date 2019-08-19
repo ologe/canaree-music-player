@@ -253,6 +253,7 @@ class MainActivity : MusicGlueActivity(),
         } else if(isTablet && adView.isVisible) {
             getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
             bottomWrapper.setMargin(bottom = dimen(R.dimen.bottom_navigation_height))
+            fragmentContainer.setMargin(bottom = dimen(R.dimen.sliding_panel_peek_plus_navigation))
         }
     }
 }
