@@ -37,10 +37,10 @@ class GlideOriginalImageFetcher(
             }
 
             val song: Song? = when {
-                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
-                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
                 mediaId.isAlbum -> songGateway.getByAlbumId(id)
                 mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
+                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
+                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
                 else -> {
                     callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                     return@launch
@@ -64,13 +64,13 @@ class GlideOriginalImageFetcher(
 
 
     private fun getId(): Long {
-        var trackId = -1L
-        if (mediaId.isLeaf) {
-            trackId = mediaId.leaf!!
-        } else if (mediaId.isAlbum || mediaId.isPodcastAlbum) {
-            trackId = mediaId.categoryId
+        if (mediaId.isAlbum || mediaId.isPodcastAlbum){
+            return mediaId.categoryId
         }
-        return trackId
+        if (mediaId.isLeaf){
+            return mediaId.leaf!!
+        }
+        return -1
     }
 
     override fun cleanup() {
