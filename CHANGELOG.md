@@ -1,8 +1,11 @@
 # Release notes
 
 ## 3.0.1.7
+- Bug fixes and improvements
+- Fixed immediate crash when playing podcast 
 - Added tablet/foldable layout support
 - Re-introduced Lollipop support
+- Added setting to hide podcasts
 
 ## 3.0.1.6
 - Fixed some image not loading 
