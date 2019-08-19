@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="splash_player_controls">Player controls</string>
-    <string name="splash_player_tutorial_1">Click the image to play/pause</string>
-    <string name="splash_player_tutorial_2">Click the image edges or swipe to skip</string>
+    <string name="splash_player_controls">प्लेयर कंट्रोल्स</string>
+    <string name="splash_player_tutorial_1">चालू बंद करने के लिए चित्र पर क्लिक करें</string>
+    <string name="splash_player_tutorial_2">आगे बढ़ने के लिए चित्र के किनारे पर क्लिक करें</string>
 
-    <string name="splash_storage_permission">Storage permission</string>
-    <string name="splash_storage_permission_disabled">Please grant storage permission to use the app</string>
+    <string name="splash_storage_permission">भंडारण अनुमति</string>
+    <string name="splash_storage_permission_disabled">कृपया ऐप इस्तेमाल करने के लिए भंडारण अनुमति प्रदान करें</string>
 
 
 </resources>

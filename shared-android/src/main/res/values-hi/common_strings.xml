@@ -98,12 +98,12 @@
 
     <string name="common_browser_not_found">ब्राउज़र नहीं मिला</string>
 
-    <string name="common_added_to_play_next">Added to play next</string>
-    <string name="common_moved_to_play_next">Moved to play next</string>
+    <string name="common_added_to_play_next">आगे बजाने के लिए जोड़ा गया</string>
+    <string name="common_moved_to_play_next">आगे बजाने के लिए भेजा गया</string>
 
-    <string name="common_enabled">Enabled</string>
-    <string name="common_disabled">Disabled</string>
+    <string name="common_enabled">सक्षम</string>
+    <string name="common_disabled">अक्षम</string>
 
-    <string name="common_sort_by">Sort by</string>
+    <string name="common_sort_by">ऐसे क्रमबद्ध करें</string>
 
 </resources>

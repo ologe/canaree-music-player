@@ -8,10 +8,10 @@
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
     </plurals>
 
-    <string name="song_x_added_to_favorites">%1$s added to Favorites</string>
+    <string name="song_x_added_to_favorites">%1$s पसंदीदा में जोड़ा गया</string>
     <plurals name="xx_songs_added_to_favorites">
-        <item quantity="one">%1$d song added to Favorites</item>
-        <item quantity="other">%1$d songs added to Favorites</item>
+        <item quantity="one">%1$d गाना पसन्दीदा में जोड़ा गया</item>
+        <item quantity="other">%1$d गाने पसन्दीदा में जोड़े गए</item>
     </plurals>
 
 </resources>

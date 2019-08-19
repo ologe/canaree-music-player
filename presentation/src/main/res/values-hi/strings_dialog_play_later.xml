@@ -8,10 +8,10 @@
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to play later?]]></item>
     </plurals>
 
-    <string name="song_x_added_to_play_later">%1$s added to the play later</string>
+    <string name="song_x_added_to_play_later">%1$s बाद में बजने के लिए जोड़ा गए</string>
     <plurals name="xx_songs_added_to_play_later">
-        <item quantity="one">%1$d song added to play later</item>
-        <item quantity="other">%1$d songs added to play later</item>
+        <item quantity="one">%1$d गाना बाद में बजने के लिए जोड़ा गए</item>
+        <item quantity="other">%1$d गाने बाद में बजने के लिए जोड़े गए</item>
     </plurals>
 
 </resources>

@@ -2,12 +2,12 @@
 <resources>
 
     <string-array name="recently_added_header">
-        <item>Recently added to folder %s</item>
-        <item>Recently added to playlist %s</item>
-        <item>Invalid</item>
-        <item>Recently added to album %s</item>
-        <item>Recently added to artist %s</item>
-        <item>Recently added to genre %s</item>
+        <item>%s फोल्डर में हाल में जोड़े गए</item>
+        <item>%s प्लेलिस्ट में हाल में जोड़े गए</item>
+        <item>अमान्य</item>
+        <item>%s एल्बम में हाल में जोड़े गए</item>
+        <item>%s संगीतकार में हाल में जोड़े गए</item>
+        <item>%s शैली में हाल में जोड़े गए</item>
     </string-array>
 
 </resources>
