@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="player_load_more_song">más canciones se cargan mientras escuchas</string>
+    <string name="player_load_more_song">more songs load as you listen</string>
 
 </resources>
