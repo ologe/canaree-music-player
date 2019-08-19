@@ -7,6 +7,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
@@ -16,7 +17,8 @@ import javax.inject.Inject
 internal class GlideOriginalImageLoader(
     private val context: Context,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastGateway,
+    private val imageVersionGateway: ImageVersionGateway
 
 ) : ModelLoader<MediaId, InputStream> {
 
@@ -38,9 +40,11 @@ internal class GlideOriginalImageLoader(
         options: Options
     ): ModelLoader.LoadData<InputStream>? {
 
+        val version = imageVersionGateway.getCurrentVersion(mediaId)
+
         // retrieve image store on track
         return ModelLoader.LoadData(
-            MediaIdKey(mediaId),
+            MediaIdKey(mediaId, version),
             GlideOriginalImageFetcher(
                 context,
                 mediaId,
@@ -53,7 +57,8 @@ internal class GlideOriginalImageLoader(
     class Factory @Inject constructor(
         @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
-        private val podcastGateway: PodcastGateway
+        private val podcastGateway: PodcastGateway,
+        private val imageVersionGateway: ImageVersionGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
@@ -61,7 +66,8 @@ internal class GlideOriginalImageLoader(
             return GlideOriginalImageLoader(
                 context,
                 songGateway,
-                podcastGateway
+                podcastGateway,
+                imageVersionGateway
             )
         }
 

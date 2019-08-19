@@ -2,21 +2,12 @@ package dev.olog.presentation.detail
 
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.getImageVersionGateway
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.CustomMediaStoreSignature
-import dev.olog.image.provider.GlideApp
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -28,7 +19,6 @@ import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

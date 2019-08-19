@@ -6,17 +6,12 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 open class PlayerImageView (
     context: Context,
@@ -48,20 +43,14 @@ open class PlayerImageView (
     open fun loadImage(mediaId: MediaId) {
         GlideApp.with(context).clear(this)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val version = withContext(Dispatchers.Default){
-                context.getImageVersionGateway().getCurrentVersion(mediaId)
-            }
-
-            GlideApp.with(context)
-                .load(mediaId)
-                .error(CoverUtils.getGradient(context, mediaId))
-                .priority(Priority.IMMEDIATE)
-                .override(500)
-                .onlyRetrieveFromCache(true)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .into(RippleTarget(this@PlayerImageView))
-        }
+        GlideApp.with(context)
+            .load(mediaId)
+            .error(CoverUtils.getGradient(context, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .override(500)
+            .onlyRetrieveFromCache(true)
+            .tryAddSignature(mediaId)
+            .into(RippleTarget(this@PlayerImageView))
     }
 
 }

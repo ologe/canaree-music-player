@@ -8,6 +8,7 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -22,7 +23,8 @@ class GlideMergedImageLoader(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
-    private val prefsGateway: AppPreferencesGateway
+    private val prefsGateway: AppPreferencesGateway,
+    private val imageVersionGateway: ImageVersionGateway
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -42,8 +44,11 @@ class GlideMergedImageLoader(
 //             skip
             return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
         }
+
+        val version = imageVersionGateway.getCurrentVersion(mediaId)
+
         return ModelLoader.LoadData(
-            MediaIdKey(mediaId),
+            MediaIdKey(mediaId, version),
             GlideMergedImageFetcher(
                 context,
                 mediaId,
@@ -59,13 +64,20 @@ class GlideMergedImageLoader(
         private val folderGateway: FolderGateway,
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway,
-        private val prefsGateway: AppPreferencesGateway
+        private val prefsGateway: AppPreferencesGateway,
+        private val imageVersionGateway: ImageVersionGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
             return GlideMergedImageLoader(
-                context, uriLoader, folderGateway, playlistGateway, genreGateway, prefsGateway
+                context,
+                uriLoader,
+                folderGateway,
+                playlistGateway,
+                genreGateway,
+                prefsGateway,
+                imageVersionGateway
             )
         }
 

@@ -5,21 +5,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.target.Target
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
+import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 object BindingsAdapter {
 
@@ -56,25 +50,18 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val version = withContext(Dispatchers.Default){
-                context.getImageVersionGateway().getCurrentVersion(mediaId)
-            }
+        val builder = GlideApp.with(context)
+            .load(mediaId)
+            .override(override)
+            .priority(priority)
+            .placeholder(CoverUtils.getGradient(context, mediaId))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .tryAddSignature(mediaId)
 
-            val builder = GlideApp.with(context)
-                .load(mediaId)
-                .override(override)
-                .priority(priority)
-                .placeholder(CoverUtils.getGradient(context, mediaId))
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .transition(DrawableTransitionOptions.withCrossFade())
-
-                if (mediaId.isLeaf) {
-                    builder.into(view)
-                } else {
-                    builder.into(RippleTarget(view))
-                }
-
+        if (mediaId.isLeaf) {
+            builder.into(view)
+        } else {
+            builder.into(RippleTarget(view))
         }
     }
 
@@ -103,21 +90,15 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val version = withContext(Dispatchers.Default){
-                context.getImageVersionGateway().getCurrentVersion(mediaId)
-            }
-
-            GlideApp.with(context)
-                .load(mediaId)
-                .override(GlideUtils.OVERRIDE_BIG)
-                .priority(Priority.IMMEDIATE)
-                .placeholder(CoverUtils.onlyGradient(context, mediaId))
-                .error(CoverUtils.getGradient(context, mediaId))
-                .onlyRetrieveFromCache(true)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .into(RippleTarget(view))
-        }
+        GlideApp.with(context)
+            .load(mediaId)
+            .override(GlideUtils.OVERRIDE_BIG)
+            .priority(Priority.IMMEDIATE)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
+            .error(CoverUtils.getGradient(context, mediaId))
+            .onlyRetrieveFromCache(true)
+            .tryAddSignature(mediaId)
+            .into(RippleTarget(view))
     }
 
     @JvmStatic

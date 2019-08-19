@@ -20,17 +20,19 @@ import com.google.android.play.core.splitinstall.model.SplitInstallErrorCode
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import dev.olog.core.MediaId
 import dev.olog.core.Stylizer
-import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.utils.firstVersionSignature
+import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.NetworkUtils
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
     CoroutineScope by MainScope() {
@@ -54,19 +56,13 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
 
         GlideApp.with(ctx).clear(image)
 
-        launch {
-            val version = withContext(Dispatchers.Default){
-                requireContext().getImageVersionGateway().getCurrentVersion(mediaId)
-            }
-
-            GlideApp.with(ctx)
-                .load(mediaId)
-                .placeholder(CoverUtils.getGradient(ctx, mediaId))
-                .override(500)
-                .priority(Priority.IMMEDIATE)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .into(image)
-        }
+        GlideApp.with(ctx)
+            .load(mediaId)
+            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .override(500)
+            .priority(Priority.IMMEDIATE)
+            .tryAddSignature(mediaId)
+            .into(image)
     }
 
     protected fun loadOriginalImage(mediaId: MediaId) {
@@ -79,7 +75,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
             .placeholder(CoverUtils.getGradient(ctx, mediaId))
             .priority(Priority.IMMEDIATE)
             .override(500)
-            .signature(CustomMediaStoreSignature(mediaId, 0))
+            .firstVersionSignature(mediaId)
             .into(image)
     }
 
@@ -88,26 +84,20 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment(),
 
         GlideApp.with(ctx).clear(image)
 
-        launch {
-            val version = withContext(Dispatchers.Default){
-                requireContext().getImageVersionGateway().getCurrentVersion(mediaId)
-            }
-
-            GlideApp.with(ctx)
-                .load(bitmap)
-                .placeholder(CoverUtils.getGradient(ctx, mediaId))
-                .priority(Priority.IMMEDIATE)
-                .override(500)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .into(image)
-        }
+        GlideApp.with(ctx)
+            .load(bitmap)
+            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .override(500)
+            .tryAddSignature(mediaId)
+            .into(image)
     }
 
     protected fun getOriginalImageBitmap(mediaId: MediaId): Bitmap? {
         return GlideApp.with(ctx)
             .asBitmap()
             .load(mediaId)
-            .signature(CustomMediaStoreSignature(mediaId, 0))
+            .firstVersionSignature(mediaId)
             .submit()
             .get()
     }

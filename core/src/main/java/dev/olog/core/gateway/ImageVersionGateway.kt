@@ -1,7 +1,12 @@
 package dev.olog.core.gateway
 
-import android.content.Context
 import dev.olog.core.MediaId
+import java.util.concurrent.ConcurrentHashMap
+
+// hacky workaround
+object CachedImageVersion {
+    val map: MutableMap<MediaId, Int> = ConcurrentHashMap()
+}
 
 interface ImageVersionGateway {
 
@@ -16,5 +21,3 @@ interface ImageVersionGateway {
 interface HasImageVersionGateway {
     fun getImageVersionGateway(): ImageVersionGateway
 }
-
-fun Context.getImageVersionGateway() = (applicationContext as HasImageVersionGateway).getImageVersionGateway()

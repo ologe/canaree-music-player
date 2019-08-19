@@ -15,11 +15,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.core.gateway.getImageVersionGateway
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.CustomMediaStoreSignature
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
+import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
@@ -27,10 +26,6 @@ import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.lazyFast
 import dev.olog.shared.android.theme.hasPlayerAppearance
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
@@ -132,43 +127,37 @@ class CustomViewSwitcher(
 
         GlideApp.with(context).clear(imageView)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val version = withContext(Dispatchers.Default){
-                context.getImageVersionGateway().getCurrentVersion(mediaId)
-            }
+        GlideApp.with(context)
+            .load(mediaId)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
+            .error(CoverUtils.getGradient(context, mediaId))
+            .priority(Priority.IMMEDIATE)
+            .override(GlideUtils.OVERRIDE_BIG)
+            .onlyRetrieveFromCache(true)
+            .listener(this@CustomViewSwitcher)
+            .tryAddSignature(mediaId)
+            .into(RippleTarget(imageView)) // TODO ripple not working
 
-            GlideApp.with(context)
-                .load(mediaId)
-                .placeholder(CoverUtils.onlyGradient(context, mediaId))
-                .error(CoverUtils.getGradient(context, mediaId))
-                .priority(Priority.IMMEDIATE)
-                .override(GlideUtils.OVERRIDE_BIG)
-                .onlyRetrieveFromCache(true)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .listener(this@CustomViewSwitcher)
-                .into(RippleTarget(imageView)) // TODO ripple not working
+        GlideApp.with(context)
+            .load(mediaId)
+            .priority(Priority.IMMEDIATE)
+            .override(GlideUtils.OVERRIDE_BIG)
+            .tryAddSignature(mediaId)
+            .into(object : CustomTarget<Drawable>(){
+                override fun onLoadCleared(placeholder: Drawable?) {
 
-            GlideApp.with(context)
-                .load(mediaId)
-                .priority(Priority.IMMEDIATE)
-                .override(GlideUtils.OVERRIDE_BIG)
-                .signature(CustomMediaStoreSignature(mediaId, version))
-                .into(object : CustomTarget<Drawable>(){
-                    override fun onLoadCleared(placeholder: Drawable?) {
+                }
 
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    if (resource !== imageView.drawable && currentVersion == imageVersion) {
+                        // different image and same load
+                        imageView.setImageDrawable(resource)
                     }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        if (resource !== imageView.drawable && currentVersion == imageVersion) {
-                            // different image and same load
-                            imageView.setImageDrawable(resource)
-                        }
-                    }
-                })
-        }
+                }
+            })
     }
 
     fun getImageView(parent: View = currentView): ImageView {
