@@ -40,11 +40,6 @@ internal class QueueManager @Inject constructor(
 
 ) : IQueue {
 
-    companion object {
-        // limit the max queue on devices with thousand of songs
-        private const val MAX_QUEUE_SIZE = 500
-    }
-
     override suspend fun prepare(): PlayerMediaEntity? {
         assertMainThread()
 
@@ -80,7 +75,6 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         val songList = getSongListByParamUseCase(mediaId).asSequence()
-            .take(MAX_QUEUE_SIZE)
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
@@ -109,7 +103,6 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         val songList = getRecentlyAddedUseCase(mediaId).first()
-            .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         shuffleMode.setEnabled(false)
@@ -135,7 +128,6 @@ internal class QueueManager @Inject constructor(
         val songId = mediaId.leaf ?: -1L
 
         val songList = getMostPlayedSongsUseCase(mediaId).first()
-            .take(MAX_QUEUE_SIZE)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
 
         shuffleMode.setEnabled(false)
@@ -159,7 +151,6 @@ internal class QueueManager @Inject constructor(
         assertBackgroundThread()
 
         var songList = getSongListByParamUseCase(mediaId).asSequence()
-            .take(MAX_QUEUE_SIZE)
             .filterSongList(filter)
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
             .toList()
@@ -239,7 +230,7 @@ internal class QueueManager @Inject constructor(
                 forceShuffle = true
                 VoiceSearch.noFilter(getSongListByParamUseCase(mediaId).shuffled())
             }
-        }.take(MAX_QUEUE_SIZE)
+        }
 
         shuffleMode.setEnabled(forceShuffle)
 
