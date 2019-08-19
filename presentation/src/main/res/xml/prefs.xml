@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <SwitchPreferenceCompat
-        app:title="Show ads to unlock premium features"
+        app:title="@string/premium_ad_key_title"
+        android:summaryOn="@string/premium_ad_key_summary_on"
+        android:summaryOff="@string/premium_ad_key_summary_off"
         app:key="@string/premium_ad_key"
         app:defaultValue="false"
         app:isPreferenceVisible="false"
