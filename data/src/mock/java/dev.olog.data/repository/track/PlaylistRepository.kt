@@ -53,7 +53,7 @@ class PlaylistRepository @Inject constructor(): PlaylistGateway {
         return observeAll()
     }
 
-    override fun createPlaylist(playlistName: String): Long {
+    override suspend fun createPlaylist(playlistName: String): Long {
         return 1
     }
 
@@ -77,8 +77,8 @@ class PlaylistRepository @Inject constructor(): PlaylistGateway {
 
     }
 
-    override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
-        return false
+    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) {
+
     }
 
     override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {

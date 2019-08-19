@@ -1,20 +1,16 @@
 package dev.olog.data.repository.podcast
 
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.repository.MockData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class PodcastRepository @Inject constructor(
-    songGateway: SongGateway
-): PodcastGateway {
+class PodcastRepository @Inject constructor(): PodcastGateway {
 
-    override fun deleteSingle(id: Id) {
+    override suspend fun deleteSingle(id: Id) {
 
     }
 

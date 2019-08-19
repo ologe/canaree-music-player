@@ -13,10 +13,6 @@ import javax.inject.Inject
 
 class PodcastPlaylistRepository @Inject constructor(): PodcastPlaylistGateway {
 
-    override fun createPlaylist(playlistName: String): Long {
-        return 1
-    }
-
     override suspend fun renamePlaylist(playlistId: Id, newTitle: String) {
 
     }
@@ -29,9 +25,7 @@ class PodcastPlaylistRepository @Inject constructor(): PodcastPlaylistGateway {
 
     }
 
-    override fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
 
-    }
 
     override suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long) {
 
@@ -75,5 +69,21 @@ class PodcastPlaylistRepository @Inject constructor(): PodcastPlaylistGateway {
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
         return flowOf(MockData.artist(true))
+    }
+
+    override fun getAllAutoPlaylists(): List<Playlist> {
+        return MockData.autoPlaylist()
+    }
+
+    override suspend fun createPlaylist(playlistName: String): Long {
+        return 1
+    }
+
+    override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
+
+    }
+
+    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) {
+
     }
 }

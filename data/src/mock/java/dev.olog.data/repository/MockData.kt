@@ -33,7 +33,9 @@ internal object MockData {
                 Song(
                     index, index, index,
                     "An awesome song", "An awesome artist", "An awesome artist",
-                    "An awesome album", 100_0000, System.currentTimeMillis(),
+                    "An awesome album", 100_0000,
+                    System.currentTimeMillis(),
+                    System.currentTimeMillis(),
                     "/storage/emulated/0",
                     1, index.toInt(),
                     podcast
@@ -50,7 +52,7 @@ internal object MockData {
 
     fun artist(podcast: Boolean): List<Artist> {
         return (0L until LIST_SIZE)
-            .map { Artist(it, "An awesome artist", "An awesome artist", it.toInt(), it.toInt(), podcast) }
+            .map { Artist(it, "An awesome artist", "An awesome artist", it.toInt(), podcast) }
 
     }
 
