@@ -291,10 +291,8 @@ internal class QueueImpl @Inject constructor(
         val copy = this.toMutableList()
 
         if (copy.size < PlayingQueueGateway.MINI_QUEUE_SIZE && repeatMode.isRepeatAll()) {
-            while (copy.size <= PlayingQueueGateway.MINI_QUEUE_SIZE) {
-                // add all list for n times
-                copy.addAll(playingQueue.take(PlayingQueueGateway.MINI_QUEUE_SIZE))
-            }
+            // repeat all, show another copy of the list ah the end
+            copy.addAll(playingQueue.take(PlayingQueueGateway.MINI_QUEUE_SIZE))
             return copy.asSequence().take(PlayingQueueGateway.MINI_QUEUE_SIZE).toMutableList()
         }
         return copy
