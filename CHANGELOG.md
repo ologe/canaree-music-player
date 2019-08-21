@@ -1,5 +1,8 @@
 # Release notes
 
+## 3.0.1.8
+- Fixed now playing adaptive color 
+
 ## 3.0.1.7
 - Bug fixes and improvements
 - Fixed immediate crash when playing podcast 

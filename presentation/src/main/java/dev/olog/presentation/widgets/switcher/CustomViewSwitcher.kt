@@ -155,6 +155,7 @@ class CustomViewSwitcher(
                     if (resource !== imageView.drawable && currentVersion == imageVersion) {
                         // different image and same load
                         imageView.setImageDrawable(resource)
+                        adaptiveImageHelper.setImageDrawable(resource)
                     }
                 }
             })
