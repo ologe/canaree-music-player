@@ -7,7 +7,9 @@
     android:id="@+id/container"
     android:clipChildren="false"
     android:clickable="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    tools:layout_marginTop="64dp"
+    tools:layout_marginBottom="48dp">
 
     <TextView
         android:id="@+id/text1"
@@ -58,7 +60,7 @@
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".4"
+        app:layout_constraintGuide_percent="@dimen/splash_tutorial_guideline"
         android:orientation="horizontal"/>
 
 <!--    lazy loading for image programatically-->

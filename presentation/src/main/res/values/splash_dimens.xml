@@ -3,5 +3,6 @@
 
     <dimen name="splash_placeholder_size">140dp</dimen>
 
+    <item name="splash_tutorial_guideline" type="dimen" format="float">.25</item>
 
 </resources>
