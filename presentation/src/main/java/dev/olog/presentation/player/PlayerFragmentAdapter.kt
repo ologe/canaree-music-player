@@ -276,9 +276,9 @@ internal class PlayerFragmentAdapter(
             }
             .asLiveData()
             .subscribe(holder) { visible ->
-                view.previous.toggleVisibility(visible, true)
-                view.playPause.toggleVisibility(visible, true)
-                view.next.toggleVisibility(visible, true)
+                view.findViewById<View>(R.id.playerControls)
+                    ?.findViewById<View>(R.id.player)
+                    ?.toggleVisibility(visible, true)
             }
 
 
