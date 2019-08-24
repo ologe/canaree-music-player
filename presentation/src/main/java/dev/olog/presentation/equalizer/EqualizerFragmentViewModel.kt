@@ -89,7 +89,9 @@ internal class EqualizerFragmentViewModel @Inject constructor(
             isCustom = true,
             bands = equalizer.getAllBandsCurrentLevel()
         )
-        require(preset.bands.size == getBandCount())
+        require(preset.bands.size == getBandCount()) {
+            "current=${preset.bands.size}, requested=${getBandCount()}"
+        }
         equalizerGateway.addPreset(preset)
         true
     }
