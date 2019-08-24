@@ -44,12 +44,22 @@ internal class MediaSessionCallback @Inject constructor(
     private var retrieveDataJob: Job? = null
 
     override fun onPrepare() {
-        launch(Dispatchers.Main) {
-            val track = queue.prepare()
-            if (track != null) {
+        doAction { track ->
+            Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
+            if (track != null){
                 player.prepare(track)
             }
-            Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
+        }
+    }
+
+    private fun doAction(action: (PlayerMediaEntity?) -> Unit){
+        if (queue.isEmpty()){
+            launch(Dispatchers.Main) {
+                val track = queue.prepare()
+                action(track)
+            }
+        } else {
+            action(null)
         }
     }
 
@@ -93,7 +103,12 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPlay() {
         Log.v(TAG, "onPlay")
-        player.resume()
+        doAction {
+            if (it != null){
+                player.prepare(it)
+            }
+            player.resume()
+        }
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {

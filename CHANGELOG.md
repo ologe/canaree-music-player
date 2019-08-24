@@ -6,6 +6,7 @@
 - Updated player themes size
 - Fixed 'classic player controls' setting not working 
 - Fixed adaptive color not always working as intended 
+- Fixed 'Play' launcher shortcut not working
 
 ## 3.0.1.7
 - Bug fixes and improvements

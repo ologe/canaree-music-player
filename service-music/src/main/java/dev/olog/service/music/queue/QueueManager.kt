@@ -69,6 +69,10 @@ internal class QueueManager @Inject constructor(
         )
     }
 
+    override fun isEmpty(): Boolean {
+        return queueImpl.isEmpty()
+    }
+
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
