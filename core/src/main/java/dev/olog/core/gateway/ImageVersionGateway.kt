@@ -17,7 +17,3 @@ interface ImageVersionGateway {
     fun deleteAll()
 
 }
-
-interface HasImageVersionGateway {
-    fun getImageVersionGateway(): ImageVersionGateway
-}

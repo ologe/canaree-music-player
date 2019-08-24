@@ -31,7 +31,7 @@
 
 # SHRINK ONLY
 -dontobfuscate
--keep class ai.fritz.vision.imagesegmentation.blend.ColorUtilities
+-keep class ai.fritz.** { *; }
 
 
 

@@ -1,5 +1,6 @@
 package dev.olog.data.db.dao
 
+import androidx.annotation.Keep
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -7,6 +8,7 @@ import androidx.room.Query
 import dev.olog.data.db.entities.ImageVersionEntity
 
 @Dao
+@Keep
 abstract class ImageVersionDao {
 
     @Query("SELECT * from image_version")
