@@ -1,8 +1,6 @@
 package dev.olog.msc.app
 
 import android.app.Application
-import dev.olog.core.gateway.HasImageVersionGateway
-import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.msc.theme.*
 import dev.olog.shared.android.theme.*
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -12,9 +10,9 @@ abstract class ThemedApp : Application(),
     HasPlayerAppearance,
     HasImmersive,
     HasImageShape,
-    HasQuickAction,
-    HasImageVersionGateway {
+    HasQuickAction {
 
+    @Suppress("unused")
     @Inject
     internal lateinit var darkModeListener: DarkModeListener
 
@@ -29,9 +27,6 @@ abstract class ThemedApp : Application(),
 
     @Inject
     internal lateinit var quickActionListener: QuickActionListener
-
-    @Inject
-    internal lateinit var imageVersionGateway: ImageVersionGateway
 
     override fun playerAppearance(): PlayerAppearance {
         return playerAppearanceListener.playerAppearance
@@ -56,6 +51,4 @@ abstract class ThemedApp : Application(),
     override fun observeQuickAction(): ReceiveChannel<QuickAction> {
         return quickActionListener.quickActionPublisher.openSubscription()
     }
-
-    override fun getImageVersionGateway(): ImageVersionGateway = imageVersionGateway
 }
