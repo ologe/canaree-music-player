@@ -73,7 +73,7 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun getViewPagerPodcastLastPage(): Int {
-        return preferences.getInt(VIEW_PAGER_PODCAST_LAST_PAGE, 2)
+        return preferences.getInt(VIEW_PAGER_PODCAST_LAST_PAGE, 1)
     }
 
     override fun setViewPagerPodcastLastPage(lastPage: Int) {
