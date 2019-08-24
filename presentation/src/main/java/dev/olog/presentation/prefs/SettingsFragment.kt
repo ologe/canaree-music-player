@@ -70,6 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         listOf(
             // library
             findPreference<Preference>(getString(R.string.prefs_library_categories_key))!!,
+            findPreference<Preference>(getString(R.string.prefs_show_podcasts_key))!!,
             findPreference<Preference>(getString(R.string.prefs_podcast_library_categories_key))!!,
             findPreference<Preference>(getString(R.string.prefs_blacklist_key))!!,
             findPreference<Preference>(getString(R.string.prefs_folder_tree_view_key))!!,
