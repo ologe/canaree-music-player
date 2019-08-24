@@ -1,8 +1,8 @@
 ## TODO
-- try app on all API level
-
 - revamp blacklist fragment, with a tree based architecture
 - think about posting on FDroid
+- Try to add 'big image' blurred background transition
+- Add support to m3u8 playlist
 
 ### strange bug 
 - audio is not paused on some devices during a call (Huawei P30 lite)
