@@ -22,13 +22,19 @@ internal class PlayingQueueRepository @Inject constructor(
     private val playingQueueDao = database.playingQueueDao()
 
     override fun getAll(): List<PlayingQueueSong> {
-        assertBackgroundThread()
-        val playingQueue =
-            playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
-        if (playingQueue.isNotEmpty()) {
-            return playingQueue
+        try {
+            assertBackgroundThread()
+            val playingQueue =
+                playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
+            if (playingQueue.isNotEmpty()) {
+                return playingQueue
+            }
+            return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
+        } catch (ex: SecurityException){
+            // sometimes this method is called without having storage permission
+            ex.printStackTrace()
+            return emptyList()
         }
-        return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
     }
 
     override fun observeAll(): Flow<List<PlayingQueueSong>> {
