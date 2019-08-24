@@ -324,7 +324,6 @@ internal class PlayerFragmentAdapter(
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {
         view.imageSwitcher?.loadImage(metadata)
-        view.blurBackground?.loadImage(metadata.mediaId)
         view.findViewById<PlayerImageView>(R.id.miniCover)?.loadImage(metadata.mediaId)
     }
 

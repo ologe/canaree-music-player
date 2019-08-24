@@ -22,6 +22,7 @@ import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.lazyFast
@@ -42,6 +43,10 @@ class CustomViewSwitcher(
     private var lastItem: MediaId? = null
 
     private var imageVersion = 0
+
+    private val blurBackground : BlurredBackground? by lazyFast {
+        (parent as View).findViewById<BlurredBackground>(R.id.blurBackground)
+    }
 
     private val adaptiveImageHelper by lazyFast {
         AdaptiveImageHelper(
@@ -156,6 +161,7 @@ class CustomViewSwitcher(
                         // different image and same load
                         imageView.setImageDrawable(resource)
                         adaptiveImageHelper.setImageDrawable(resource)
+                        blurBackground?.loadImage(mediaId, resource)
                     }
                 }
             })
@@ -170,7 +176,7 @@ class CustomViewSwitcher(
     }
 
     override fun onLoadFailed(
-            e: GlideException?,
+        e: GlideException?,
         model: Any?,
         target: Target<Drawable>?,
         isFirstResource: Boolean
@@ -183,7 +189,9 @@ class CustomViewSwitcher(
             showNext()
 
             if (model is MediaId) {
-                adaptiveImageHelper.setImageDrawable(CoverUtils.getGradient(context, model))
+                val defaultCover = CoverUtils.getGradient(context, model)
+                adaptiveImageHelper.setImageDrawable(defaultCover)
+                blurBackground?.loadImage(model, defaultCover)
             }
         }
         return false
@@ -201,6 +209,7 @@ class CustomViewSwitcher(
             showNext()
         }
         adaptiveImageHelper.setImageDrawable(resource)
+        blurBackground?.loadImage(model as MediaId, resource)
         return false
     }
 
