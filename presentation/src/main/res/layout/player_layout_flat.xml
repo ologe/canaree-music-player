@@ -6,7 +6,8 @@
     android:clipChildren="false"
     android:layout_width="match_parent"
     tools:layout_marginTop="24dp"
-    android:layout_height="match_parent">
+    tools:layout_marginBottom="48dp"
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/playerToolbar"
@@ -39,7 +40,7 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
-        app:debug="true"/>
+        app:debug="false"/>
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar
@@ -92,17 +93,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_default"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
 
     <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
     <LinearLayout
         android:id="@+id/textWrapper"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/more"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
 
         <!-- title -->
         <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
@@ -167,9 +170,12 @@
 
     <dev.olog.shared.widgets.DottedSeparator
         android:id="@+id/separator"
+        app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/dotted_separator_margin_top"
+        android:layout_marginBottom="@dimen/dotted_separator_margin_bottom"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_width="0dp"

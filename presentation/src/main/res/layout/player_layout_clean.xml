@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:clipChildren="false"
     tools:layout_marginTop="24dp"
@@ -22,8 +22,7 @@
         android:clipChildren="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/playerControls">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <include layout="@layout/layout_view_switcher_clean"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -37,96 +36,94 @@
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"/>
 
-        <!-- seekbar -->
-        <dev.olog.media.widget.CustomSeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingEnd="0dp"
-            android:paddingStart="0dp"
-            android:paddingTop="20dp"
-            app:layout_constraintEnd_toEndOf="@+id/textWrapper"
-            app:layout_constraintStart_toStartOf="@+id/textWrapper"
-            app:layout_constraintTop_toBottomOf="@+id/textWrapper"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            tools:max="100"
-            tools:progress="40" />
-
-        <!-- bookmark -->
-        <TextView
-            android:id="@+id/bookmark"
-            android:text="0:00"
-            android:textSize="@dimen/player_bookmark_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"
-            app:layout_constraintStart_toStartOf="@+id/seekBar"
-            android:clickable="false"
-            android:focusable="false"
-            android:translationY="-15dp"
-            android:scaleX=".9"
-            android:scaleY=".9"
-            android:textColor="?android:textColorPrimary"/>
-
-        <!-- duration -->
-        <TextView
-            android:id="@+id/duration"
-            android:text="0:00"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/player_bookmark_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"
-            app:layout_constraintEnd_toEndOf="@+id/seekBar"
-            android:clickable="false"
-            android:focusable="false"
-            android:translationY="-15dp"
-            android:scaleX=".9"
-            android:scaleY=".9" />
-
-        <LinearLayout
-            android:id="@+id/textWrapper"
-            app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_marginTop="42dp">
-
-            <!-- title -->
-            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
-                android:id="@+id/title"
-                tools:text="Gz And Hustlas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="22dp"
-                android:textColor="?android:textColorPrimary"
-                android:clickable="false"
-                android:focusable="false"
-                android:gravity="center"
-                android:fontFamily="sans-serif-black"
-                tools:fontFamily="sans-serif-black"/>
-
-            <TextView
-                android:id="@+id/artist"
-                tools:text="Doggystyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                tools:textColor="?android:attr/textColorSecondary"
-                android:singleLine="true"
-                android:layout_marginTop="4dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:gravity="center" />
-
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- seekbar -->
+    <dev.olog.media.widget.CustomSeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingStart="@dimen/player_seekBar_padding_horizontal"
+        android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textWrapper"
+        tools:max="100"
+        tools:progress="40" />
+
+    <!-- bookmark -->
+    <TextView
+        android:id="@+id/bookmark"
+        android:text="0:00"
+        android:textSize="@dimen/player_bookmark_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        android:layout_marginStart="@dimen/player_seekBar_padding_horizontal"
+        android:clickable="false"
+        android:focusable="false"
+        android:translationY="-15dp"
+        android:textColor="?android:textColorPrimary"/>
+
+    <!-- duration -->
+    <TextView
+        android:id="@+id/duration"
+        android:text="0:00"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/player_bookmark_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/player_seekBar_padding_horizontal"
+        android:clickable="false"
+        android:focusable="false"
+        android:translationY="-15dp" />
+
+    <LinearLayout
+        android:id="@+id/textWrapper"
+        app:layout_constraintTop_toBottomOf="@+id/innerRoot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/player_seekBar_padding_horizontal"
+        android:layout_marginEnd="@dimen/player_seekBar_padding_horizontal"
+        android:layout_marginTop="42dp">
+
+        <!-- title -->
+        <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+            android:id="@+id/title"
+            tools:text="Gz And Hustlas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22dp"
+            android:textColor="?android:textColorPrimary"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:fontFamily="sans-serif-black"
+            tools:fontFamily="sans-serif-black"/>
+
+        <TextView
+            android:id="@+id/artist"
+            tools:text="Doggystyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            tools:textColor="?android:attr/textColorSecondary"
+            android:singleLine="true"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/playerControls"
@@ -134,21 +131,20 @@
         android:minHeight="64dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/innerRoot"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/more" />
+        android:layout_marginTop="8dp"/>
 
     <ImageButton
         android:id="@+id/more"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/vd_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:rotation="90"
-        android:layout_marginEnd="36dp"/>
+        android:layout_margin="8dp"
+        android:rotation="90" />
 
     <ImageButton
         android:id="@+id/lyrics"
@@ -173,8 +169,8 @@
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_slow_motion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"/>
+        app:layout_constraintBottom_toBottomOf="@id/more"
+        android:layout_marginStart="8dp"/>
 
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
@@ -182,7 +178,7 @@
         app:layout_constraintTop_toTopOf="@+id/innerRoot"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/innerRoot"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clickable="true"
@@ -190,20 +186,16 @@
         app:debug="true"
         app:skip_area_dimension="92dp"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintGuide_percent=".5"
-        android:orientation="horizontal"/>
-
     <dev.olog.shared.widgets.DottedSeparator
         android:id="@+id/separator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/more"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/dotted_separator_margin_top"
+        android:layout_marginBottom="@dimen/dotted_separator_margin_bottom"
         android:layout_width="0dp"
         android:layout_height="2dp" />
 

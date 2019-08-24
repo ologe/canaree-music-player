@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    tools:layout_marginBottom="48dp">
 
     <include layout="@layout/layout_view_switcher_square"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -39,6 +40,15 @@
         tools:background="@android:color/holo_red_light"
         android:alpha=".4"
         android:src="?colorBackgroundTransparent" />
+
+    <View
+        app:layout_constraintTop_toTopOf="@id/textWrapper"
+        app:layout_constraintBottom_toBottomOf="@id/blurBackground"
+        app:layout_constraintStart_toStartOf="@id/blurBackground"
+        app:layout_constraintEnd_toEndOf="@id/blurBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/fade_white_vertical"/>
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar
@@ -135,11 +145,11 @@
         android:id="@+id/playerControls"
         app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toEndOf="@+id/favorite"
-        app:layout_constraintEnd_toStartOf="@+id/lyrics"
-        app:layout_constraintBottom_toTopOf="@+id/lyrics"
+        app:layout_constraintEnd_toStartOf="@+id/more"
         layout="@layout/player_controls_big_image"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"/>
 
     <dev.olog.presentation.widgets.LottieFavorite
         android:id="@+id/favorite"
@@ -188,8 +198,11 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_offline_lyrics"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="8dp"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

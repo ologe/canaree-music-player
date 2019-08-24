@@ -159,7 +159,6 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:ellipsize="marquee"
                 android:scrollHorizontally="true"
-                android:layout_marginBottom="@dimen/player_artist_bottom_padding"
                 app:layout_goneMarginBottom="16dp"
                 android:clickable="false"
                 android:focusable="false"

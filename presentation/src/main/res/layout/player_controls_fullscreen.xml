@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="12dp"
-    android:clipToPadding="false"
-    tools:background="@android:color/black">
+    android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/podcast_controls"
@@ -29,7 +28,8 @@
         app:layout_constraintEnd_toStartOf="@+id/previous"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
-        app:layout_constraintHorizontal_chainStyle="packed" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        tools:tint="@color/colorControlNormal"/>
 
     <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"
@@ -43,7 +43,8 @@
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:tint="@android:color/white"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        tools:tint="@color/colorControlNormal"/>
 
     <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -76,7 +77,8 @@
         app:layout_constraintEnd_toStartOf="@+id/repeat"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:tint="@android:color/white"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        tools:tint="@color/colorControlNormal"/>
 
     <!-- repeat -->
     <dev.olog.presentation.widgets.RepeatButton
@@ -89,7 +91,8 @@
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/next"
         app:layout_constraintBottom_toBottomOf="@+id/playPause"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white"
+        tools:tint="@color/colorControlNormal"/>
 
 
     <ImageButton
@@ -101,7 +104,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:tint="@android:color/white"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        app:layout_constraintHorizontal_chainStyle="packed"
+        tools:tint="@color/colorControlNormal"/>
 
     <ImageButton
         android:id="@+id/replay"
@@ -111,7 +115,8 @@
         app:layout_constraintEnd_toStartOf="@+id/forward"
         app:layout_constraintStart_toEndOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="@+id/replay30"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white"
+        tools:tint="@color/colorControlNormal"/>
 
     <ImageButton
         android:id="@+id/forward"
@@ -121,7 +126,8 @@
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/replay"
         app:layout_constraintEnd_toStartOf="@+id/forward30"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white"
+        tools:tint="@color/colorControlNormal"/>
 
     <ImageButton
         android:id="@+id/forward30"
@@ -131,6 +137,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/forward"
         app:layout_constraintEnd_toEndOf="parent"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white"
+        tools:tint="@color/colorControlNormal"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

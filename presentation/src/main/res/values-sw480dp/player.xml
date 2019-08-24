@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--cover-->
-    <dimen name="player_cover_margin_vertical">12dp</dimen>
-
-    <!--seekbar-->
-    <dimen name="player_seekBar_padding_bottom">30dp</dimen>
-
-    <!--durations-->
-    <dimen name="player_bookmark_text_size">16dp</dimen>
-
-    <!--metadata-->
-    <dimen name="player_title_text_size">23dp</dimen>
-    <dimen name="player_artist_text_size">16dp</dimen>
 
 </resources>

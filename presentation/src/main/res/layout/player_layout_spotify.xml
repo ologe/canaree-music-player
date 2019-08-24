@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/playerRoot"
     tools:layout_marginBottom="48dp">
 
@@ -35,8 +34,8 @@
         app:layout_constraintDimensionRatio="1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/player_cover_margin_horizontal_spotify"
-        android:layout_marginEnd="@dimen/player_cover_margin_horizontal_spotify" />
+        android:layout_marginStart="@dimen/player_cover_margin_horizontal"
+        android:layout_marginEnd="@dimen/player_cover_margin_horizontal" />
 
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"
@@ -88,7 +87,6 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
-            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
             android:layout_marginTop="4dp"
             android:clickable="false"
             android:focusable="false"
@@ -101,16 +99,16 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
         app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
-        app:layout_constraintBottom_toTopOf="@+id/playerControls"
-        android:paddingBottom="@dimen/player_seekBar_spotify_padding"
-        android:paddingTop="@dimen/player_seekBar_spotify_padding"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         tools:progress="40"
         tools:max="100"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="8dp"/>
 
     <!-- bookmark -->
     <TextView
@@ -144,28 +142,14 @@
 
     <include
         android:id="@+id/playerControls"
-        app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
-        app:layout_constraintEnd_toEndOf="@+id/imageSwitcher"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/duration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_spotify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"/>
-
-    <dev.olog.presentation.widgets.LottieFavorite
-        android:id="@+id/favorite"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size"
-        android:layout_gravity="end"
-        app:layout_constraintTop_toBottomOf="@+id/playerControls"
-        app:layout_constraintStart_toStartOf="@+id/playerControls" />
-
-    <ImageButton
-        android:id="@+id/more"
-        app:layout_constraintTop_toBottomOf="@+id/playerControls"
-        app:layout_constraintEnd_toEndOf="@id/playerControls"
-        android:src="@drawable/vd_more"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size" />
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="@dimen/mini_queue_margin_start"
+        android:layout_marginEnd="@dimen/mini_queue_margin_end"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

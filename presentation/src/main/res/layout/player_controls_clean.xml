@@ -11,7 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="previous,playPause,next"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <!-- shuffle -->
     <dev.olog.presentation.widgets.ShuffleButton
@@ -47,7 +56,7 @@
         android:id="@+id/playPause"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:padding="4dp"
+        android:padding="6dp"
         tools:src="@drawable/vd_playpause_play"
         app:layout_constraintTop_toBottomOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/previous"

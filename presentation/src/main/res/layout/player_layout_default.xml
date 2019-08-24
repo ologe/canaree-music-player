@@ -5,7 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:layout_marginTop="24dp"
+    tools:layout_marginBottom="48dp">
 
     <include
         android:id="@+id/playerToolbar"
@@ -104,7 +106,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_default"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
 
     <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
     <LinearLayout
@@ -129,8 +132,7 @@
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            android:gravity="start"
-            android:layout_marginTop="@dimen/player_title_margin_top"/>
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/artist"
@@ -143,7 +145,6 @@
             android:maxLines="1"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
             android:layout_marginTop="4dp"
             android:clickable="false"
             android:focusable="false"

@@ -91,7 +91,7 @@
         android:src="@drawable/vd_replay_30"
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playPause"
         app:layout_constraintHorizontal_chainStyle="packed" />
 
     <ImageButton
@@ -130,5 +130,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintBottom_toBottomOf="@+id/playPause" />
+
+    <dev.olog.presentation.widgets.LottieFavorite
+        android:id="@+id/favorite"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:layout_gravity="end"
+        app:layout_constraintTop_toBottomOf="@+id/shuffle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:id="@+id/more"
+        app:layout_constraintTop_toTopOf="@id/favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/vd_more"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
