@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="music_channel_id_notification" translatable="false">Media playback</string>
-    <string name="music_channel_id_notification_description" translatable="false">Media playback controls</string>
 
-    <string name="music_error_empty_queue">Kh+APQ-ng t+AOw-m th+HqU-y nh+HqE-c</string>
-    <string name="music_player_error">L+Htc-i tr+AOw-nh ph+AOE-t</string>
 
 </resources>
