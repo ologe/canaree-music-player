@@ -1,7 +1,11 @@
-# Release notes
+# Release notes 
 
 ## 3.0.1.8
-- Fixed now playing adaptive color 
+- Behavior changes:
+    - Repeat all now repeats the current queue only once instead of filling the player mini queue
+- Updated player themes size
+- Fixed 'classic player controls' setting not working 
+- Fixed adaptive color not always working as intended 
 
 ## 3.0.1.7
 - Bug fixes and improvements
