@@ -20,11 +20,9 @@ import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.entities.RecentSearchesEntity
 import dev.olog.data.utils.assertBackground
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class RecentSearchesDao {
@@ -36,7 +34,7 @@ internal abstract class RecentSearchesDao {
         LIMIT 50
     """
     )
-    abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
+    abstract fun getAllImpl(): Flow<List<RecentSearchesEntity>>
 
     fun getAll(
         songList: SongGateway,
@@ -52,7 +50,6 @@ internal abstract class RecentSearchesDao {
     ): Flow<List<SearchResult>> {
 
         return getAllImpl()
-            .asFlow()
             .distinctUntilChanged()
             .map { recentList ->
                 recentList.mapNotNull { recentEntity ->

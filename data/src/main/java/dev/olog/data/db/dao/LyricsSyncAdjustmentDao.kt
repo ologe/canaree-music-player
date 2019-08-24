@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class LyricsSyncAdjustmentDao {
@@ -26,7 +26,7 @@ abstract class LyricsSyncAdjustmentDao {
         WHERE id = :id
     """
     )
-    abstract fun observeSync(id: Long): Flowable<LyricsSyncAdjustmentEntity>
+    abstract fun observeSync(id: Long): Flow<LyricsSyncAdjustmentEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun setSync(entity: LyricsSyncAdjustmentEntity)

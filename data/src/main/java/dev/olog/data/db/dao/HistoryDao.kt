@@ -11,10 +11,8 @@ import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class HistoryDao {
@@ -42,14 +40,14 @@ internal abstract class HistoryDao {
         ORDER BY dateAdded
         DESC LIMIT $HISTORY_LIMIT
     """)
-    internal abstract fun observeAllTracksImpl(): Flowable<List<HistoryEntity>>
+    internal abstract fun observeAllTracksImpl(): Flow<List<HistoryEntity>>
 
     @Query("""
         SELECT * FROM podcast_song_history
         ORDER BY dateAdded
         DESC LIMIT $HISTORY_LIMIT
     """)
-    internal abstract fun observeAllPodcastsImpl(): Flowable<List<PodcastHistoryEntity>>
+    internal abstract fun observeAllPodcastsImpl(): Flow<List<PodcastHistoryEntity>>
 
     @Query("""DELETE FROM song_history""")
     abstract suspend fun deleteAll()
@@ -89,7 +87,6 @@ internal abstract class HistoryDao {
 
     fun observeTracks(songGateway: SongGateway): Flow<List<Song>> {
         return observeAllTracksImpl()
-            .asFlow()
             .map { historyList ->
                 val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 historyList.mapNotNull { entity ->
@@ -100,7 +97,6 @@ internal abstract class HistoryDao {
 
     fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
         return observeAllPodcastsImpl()
-            .asFlow()
             .map { historyList ->
                 val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 historyList.mapNotNull { entity ->

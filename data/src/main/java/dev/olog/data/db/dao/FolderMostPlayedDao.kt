@@ -7,10 +7,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.db.entities.SongMostTimesPlayedEntity
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class FolderMostPlayedDao {
@@ -26,14 +24,13 @@ internal abstract class FolderMostPlayedDao {
         LIMIT 10
     """
     )
-    abstract fun query(folderPath: String): Flowable<List<SongMostTimesPlayedEntity>>
+    abstract fun query(folderPath: String): Flow<List<SongMostTimesPlayedEntity>>
 
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)
 
     fun getAll(folderPath: String, songGateway2: SongGateway): Flow<List<Song>> {
         return this.query(folderPath)
-            .asFlow()
             .map { mostPlayed ->
                 val songList = songGateway2.getAll()
                 mostPlayed.sortedByDescending { it.timesPlayed }

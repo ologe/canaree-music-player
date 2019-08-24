@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import dev.olog.data.db.entities.LastPlayedPodcastArtistEntity
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal abstract class LastPlayedPodcastArtistDao {
@@ -17,7 +17,7 @@ internal abstract class LastPlayedPodcastArtistDao {
         LIMIT 20
     """
     )
-    abstract fun getAll(): Flowable<List<LastPlayedPodcastArtistEntity>>
+    abstract fun getAll(): Flow<List<LastPlayedPodcastArtistEntity>>
 
     @Insert
     internal abstract suspend fun insertImpl(entity: LastPlayedPodcastArtistEntity)

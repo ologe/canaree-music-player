@@ -23,7 +23,6 @@ import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
@@ -46,7 +45,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     override fun observeAll(): Flow<List<Playlist>> {
         return podcastPlaylistDao.observeAllPlaylists()
-            .asFlow()
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
             .assertBackground()
@@ -81,7 +79,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
         return podcastPlaylistDao.observePlaylistById(param)
             .map { it }
-            .asFlow()
             .distinctUntilChanged()
             .map { it?.toDomain() }
             .assertBackground()

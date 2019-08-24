@@ -1,6 +1,6 @@
 ext {
 //    core
-    coroutines = '1.3.0-RC2'
+    coroutines = '1.3.0'
     dagger = '2.24'
 
 //    android x
@@ -23,21 +23,21 @@ ext {
 
 //    ui
     glide = '4.9.0'
-    lottie = '3.0.0'
-    custom_tabs = '2.0.0'
-    material_dialogs = '2.8.1'
+    lottie = '3.0.1'
+    custom_tabs = '2.0.3'
+    material_dialogs = '3.0.1'
     scroll_helper = '1.1.4'
     blur_kit = '1.0.0'
     color_desaturation = '1.0.2'
     tap_target_view = '2.0.0'
 
 //    data
-    room = '2.1.0'
+    room = '2.2.0-beta01'
     sql_content_resolver = '1.2.1'
 
 //    network
-    ok_http = '4.0.1'
-    retrofit = '2.6.0'
+    ok_http = '4.1.0'
+    retrofit = '2.6.1'
     gson = '2.8.5'
 
 //    utils
@@ -46,21 +46,22 @@ ext {
     fuzzywuzzy = '1.2.0'
 
 //    debug
-    leak_canary = '2.0-beta-2'
+    leak_canary = '2.0-beta-3'
     stetho = '1.5.1'
 
 //    ai
-    fritz = '3.7.2'
+    fritz = '3.8.2'
 
 //    firebase
-    firebase_core = '17.0.1'
+    firebase_core = '17.1.0'
     firebase_crashlytics = '2.10.1'
+    firebase_perf = '19.0.0'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
             ad         : "com.google.android.gms:play-services-ads:18.1.1",
-            perf       : 'com.google.firebase:firebase-perf:18.0.1'
+            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 
     lib_core = [
@@ -72,7 +73,6 @@ ext {
             dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
             coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-            coroutines_rx           : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines",
             coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
     ]
 
@@ -120,7 +120,6 @@ ext {
     lib_data = [
             sql_content_resolver: "com.github.ologe:android-content-resolver-SQL:$sql_content_resolver",
             room                : "androidx.room:room-runtime:$room",
-            room_rx             : "androidx.room:room-rxjava2:$room",
             room_ktx            : "androidx.room:room-ktx:$room",
             room_processor      : "androidx.room:room-compiler:$room",
             roomTesting         : "androidx.room:room-testing:$room",
@@ -147,8 +146,8 @@ ext {
     ]
 
     lib_debug = [
-            leak_canary_debug          : "com.squareup.leakcanary:leakcanary-android:$leak_canary",
-            stetho                     : "com.facebook.stetho:stetho:$stetho",
+            leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
+            stetho           : "com.facebook.stetho:stetho:$stetho",
     ]
 
 }

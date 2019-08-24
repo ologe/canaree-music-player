@@ -4,7 +4,7 @@ import androidx.room.*
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.data.db.entities.FavoriteEntity
 import dev.olog.data.db.entities.FavoritePodcastEntity
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal abstract class FavoriteDao {
@@ -16,10 +16,10 @@ internal abstract class FavoriteDao {
     abstract fun getAllPodcastsImpl(): List<Long>
 
     @Query("SELECT songId FROM favorite_songs")
-    abstract fun observeAllTracksImpl(): Flowable<List<Long>>
+    abstract fun observeAllTracksImpl(): Flow<List<Long>>
 
     @Query("SELECT podcastId FROM favorite_podcast_songs")
-    abstract fun observeAllPodcastsImpl(): Flowable<List<Long>>
+    abstract fun observeAllPodcastsImpl(): Flow<List<Long>>
 
     @Query("DELETE FROM favorite_songs")
     abstract fun deleteTracks()

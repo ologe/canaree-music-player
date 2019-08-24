@@ -2,7 +2,7 @@ package dev.olog.data.db.dao
 
 import androidx.room.*
 import dev.olog.data.db.entities.EqualizerPresetEntity
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal abstract class EqualizerPresetsDao {
@@ -30,7 +30,7 @@ internal abstract class EqualizerPresetsDao {
         WHERE id = :id
     """
     )
-    abstract fun observePresetById(id: Long): Flowable<EqualizerPresetEntity>
+    abstract fun observePresetById(id: Long): Flow<EqualizerPresetEntity>
 
     @Delete
     abstract suspend fun deletePreset(preset: EqualizerPresetEntity)

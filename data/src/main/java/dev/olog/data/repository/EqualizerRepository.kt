@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
@@ -44,7 +43,7 @@ internal class EqualizerRepository @Inject constructor(
 
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
         return prefs.observeCurrentPresetId()
-            .flatMapLatest { dao.observePresetById(it).asFlow() }
+            .flatMapLatest { dao.observePresetById(it) }
             .map { it.toDomain() }
             .distinctUntilChanged()
     }

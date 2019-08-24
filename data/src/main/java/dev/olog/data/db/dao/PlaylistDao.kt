@@ -10,10 +10,8 @@ import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class PlaylistDao {
@@ -32,7 +30,7 @@ internal abstract class PlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun observeAllPlaylists(): Flowable<List<PlaylistEntity>>
+    abstract fun observeAllPlaylists(): Flow<List<PlaylistEntity>>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -50,7 +48,7 @@ internal abstract class PlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun observePlaylistById(id: Long): Flowable<PlaylistEntity?>
+    abstract fun observePlaylistById(id: Long): Flow<PlaylistEntity?>
 
     @Query("""
         SELECT tracks.*
@@ -77,11 +75,10 @@ internal abstract class PlaylistDao {
         WHERE playlistId = :playlistId
         ORDER BY idInPlaylist
     """)
-    abstract fun observePlaylistTracksImpl(playlistId: Long): Flowable<List<PlaylistTrackEntity>>
+    abstract fun observePlaylistTracksImpl(playlistId: Long): Flow<List<PlaylistTrackEntity>>
 
     fun observePlaylistTracks(playlistId: Long, songGateway: SongGateway): Flow<List<Song>> {
         return observePlaylistTracksImpl(playlistId)
-            .asFlow()
             .map { trackList ->
                 val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 trackList.mapNotNull { entity ->

@@ -21,7 +21,6 @@ import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 import android.provider.MediaStore.Audio.Playlists.*
 import androidx.core.content.edit
@@ -54,7 +53,6 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun observeAll(): Flow<List<Playlist>> {
         return playlistDao.observeAllPlaylists()
-            .asFlow()
             .onStart { populatePlaylistTables() }
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
@@ -77,7 +75,6 @@ internal class PlaylistRepository @Inject constructor(
 
         return playlistDao.observePlaylistById(param)
             .map { it }
-            .asFlow()
             .distinctUntilChanged()
             .map { it?.toDomain() }
             .assertBackground()

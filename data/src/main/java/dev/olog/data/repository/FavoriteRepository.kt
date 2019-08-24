@@ -14,7 +14,6 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
@@ -52,7 +51,6 @@ internal class FavoriteRepository @Inject constructor(
 
     override fun observeTracks(): Flow<List<Song>> {
         return favoriteDao.observeAllTracksImpl()
-            .asFlow()
             .map { favorites ->
                 val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> songs[id]?.get(0) }
@@ -62,7 +60,6 @@ internal class FavoriteRepository @Inject constructor(
 
     override fun observePodcasts(): Flow<List<Song>> {
         return favoriteDao.observeAllPodcastsImpl()
-            .asFlow()
             .map { favorites ->
                 val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> podcast[id]?.get(0) }

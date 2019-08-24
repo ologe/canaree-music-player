@@ -13,10 +13,8 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.entities.PlayingQueueEntity
 import dev.olog.data.utils.assertBackgroundThread
-import io.reactivex.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.reactive.asFlow
 
 @Dao
 internal abstract class PlayingQueueDao {
@@ -35,7 +33,7 @@ internal abstract class PlayingQueueDao {
         ORDER BY progressive
     """
     )
-    abstract fun observeAllImpl(): Flowable<List<PlayingQueueEntity>>
+    abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
     abstract fun deleteAllImpl()
@@ -82,7 +80,6 @@ internal abstract class PlayingQueueDao {
         podcastGateway: PodcastGateway
     ): Flow<List<PlayingQueueSong>> {
         return this.observeAllImpl()
-            .asFlow()
             .map {
                 makePlayingQueue(it, songGateway.getAll(), podcastGateway.getAll())
             }
