@@ -143,7 +143,8 @@
         android:src="@drawable/vd_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/player_title_margin_horizontal"
         android:rotation="90" />
 
     <ImageButton
@@ -170,7 +171,7 @@
         android:src="@drawable/vd_slow_motion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/more"
-        android:layout_marginStart="8dp"/>
+        android:layout_marginStart="@dimen/player_title_margin_horizontal"/>
 
     <dev.olog.presentation.widgets.swipeableview.SwipeableView
         android:id="@+id/swipeableView"

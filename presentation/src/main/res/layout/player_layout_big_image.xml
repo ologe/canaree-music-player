@@ -165,7 +165,7 @@
         android:src="@drawable/vd_slow_motion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/lyrics"
-        android:layout_marginStart="8dp"/>
+        android:layout_marginStart="@dimen/player_title_margin_horizontal"/>
 
     <dev.olog.presentation.widgets.ShuffleButton
         android:id="@+id/shuffle"
@@ -190,6 +190,7 @@
         android:src="@drawable/vd_offline_lyrics"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
