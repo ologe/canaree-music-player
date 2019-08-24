@@ -1,5 +1,4 @@
 ﻿<resources>
-    <string name="app_name" translatable="false">service-floating</string>
 
     <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
     <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>

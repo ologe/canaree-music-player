@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">data</string>
 
     <string name="common_last_added">Τελευταίες προσθήκες</string>
     <string name="common_favorites">Αγαπημένα</string>
