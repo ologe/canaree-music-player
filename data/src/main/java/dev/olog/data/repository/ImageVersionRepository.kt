@@ -14,6 +14,12 @@ internal class ImageVersionRepository @Inject constructor(
 
     private val dao = database.imageVersionDao()
 
+    init {
+        CachedImageVersion.map.putAll(dao.getAll().map {
+            MediaId.fromString(it.mediaId) to it.version
+        })
+    }
+
     private fun getCurrentEntityVersion(mediaId: MediaId): ImageVersionEntity {
         var version = dao.getVersion(mediaId.toString())
         if (version == null) {

@@ -9,6 +9,9 @@ import dev.olog.data.db.entities.ImageVersionEntity
 @Dao
 abstract class ImageVersionDao {
 
+    @Query("SELECT * from image_version")
+    abstract fun getAll(): List<ImageVersionEntity>
+
     @Query(
         """
         SELECT * 
