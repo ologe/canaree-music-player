@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/playerRoot">
+    android:layout_height="wrap_content"
+    android:id="@+id/playerRoot"
+    tools:layout_marginBottom="48dp">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
@@ -142,7 +143,6 @@
     <include
         android:id="@+id/playerControls"
         app:layout_constraintTop_toBottomOf="@+id/duration"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/player_controls_spotify"
@@ -150,6 +150,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginStart="@dimen/mini_queue_margin_start"
-        android:layout_marginEnd="@dimen/mini_queue_margin_end" />
+        android:layout_marginEnd="@dimen/mini_queue_margin_end"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

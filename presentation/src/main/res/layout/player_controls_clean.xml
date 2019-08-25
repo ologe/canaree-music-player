@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/player"

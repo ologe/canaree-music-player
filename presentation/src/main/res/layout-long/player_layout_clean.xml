@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:clipChildren="false"
-    tools:layout_marginTop="24dp">
+    tools:layout_marginTop="24dp"
+    tools:layout_marginBottom="48dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,14 +134,11 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/more"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="@dimen/player_title_margin_horizontal"
-        android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
+        android:layout_marginTop="8dp"/>
 
     <ImageButton
         android:id="@+id/more"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/vd_more"
         android:layout_width="wrap_content"
