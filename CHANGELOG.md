@@ -1,5 +1,9 @@
 # Release notes 
 
+## 3.0.1.9
+- Fixed trial not working as intended
+- Updated exo-player to 2.10.4 + updated native libs (FLAC, OPUS, FFMPEG)
+
 ## 3.0.1.8
 - Behavior changes:
     - Repeat all now repeats the current queue only once instead of filling the player mini queue
