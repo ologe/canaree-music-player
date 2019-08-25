@@ -73,15 +73,12 @@ internal class BillingImpl @Inject constructor(
         activity.lifecycle.addObserver(this)
         doOnConnected { checkPurchases() }
 
-        if (isStillTrial()) {
-            isTrialState = true
-            launch(Dispatchers.IO) {
-                flowInterval(5, TimeUnit.MINUTES)
-                    .map { isStillTrial() }
-                    .onEach { isTrialState = it }
-                    .takeWhile { it }
-                    .collect { }
-            }
+        launch(Dispatchers.IO) {
+            flowInterval(1, TimeUnit.SECONDS)
+                .map { isStillTrial() }
+                .onEach { isTrialState = it }
+                .takeWhile { it }
+                .collect { }
         }
         launch {
             prefsGateway.observeCanShowAds()
