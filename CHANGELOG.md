@@ -2,7 +2,7 @@
 
 ## 3.0.1.9
 - Fixed trial not working as intended
-- Updated exo-player to 2.10.4 + updated native libs (FLAC, OPUS, FFMPEG)
+- Updated exo-player to 2.10.4
 
 ## 3.0.1.8
 - Behavior changes:
