@@ -95,7 +95,7 @@ ad_mob_unity_id_bottom_navigation="ca-app-pub-3940256099942544/6300978111"
 
 ### Extensions (Linux or macOS recommended)
 To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding 
-ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported. 
+ExoPlayer extensions using <b>NDK-r17c</b> or older, newer version of NDK are not supported. 
 * [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
 * [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
 * [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
