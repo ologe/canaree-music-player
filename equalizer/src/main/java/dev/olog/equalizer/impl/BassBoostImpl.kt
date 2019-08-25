@@ -21,7 +21,7 @@ class BassBoostImpl @Inject constructor(
 
     init {
         for (queryEffect in AudioEffect.queryEffects()) {
-            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_BASS_BOOST){
+            if (queryEffect.type == AudioEffect.EFFECT_TYPE_BASS_BOOST){
                 isImplementedByDevice = true
             }
         }

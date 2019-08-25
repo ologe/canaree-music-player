@@ -63,7 +63,7 @@ internal class EqualizerImpl28 @Inject constructor(
 
     init {
         for (queryEffect in AudioEffect.queryEffects()) {
-            if (queryEffect.uuid == AudioEffect.EFFECT_TYPE_DYNAMICS_PROCESSING){
+            if (queryEffect.type == AudioEffect.EFFECT_TYPE_DYNAMICS_PROCESSING){
                 isImplementedByDevice = true
             }
         }

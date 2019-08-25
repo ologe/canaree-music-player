@@ -1,5 +1,9 @@
 # Release notes 
 
+## 3.0.20
+- Fixed create equalizer preset crash
+- Updated player appearances size 
+
 ## 3.0.1.9
 - Fixed trial not working as intended
 - Updated exo-player to 2.10.4
