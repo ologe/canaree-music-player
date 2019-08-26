@@ -1,14 +1,11 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
-import android.provider.BaseColumns
-import android.provider.DocumentsContract
 import android.provider.MediaStore.Audio
 import android.util.Log
+import dev.olog.contentresolversql.querySql
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
@@ -92,7 +89,7 @@ internal class SongRepository @Inject constructor(
 
     override fun getByUri(uri: Uri): Song? {
         try {
-            val id = getByUriInternal(uri)?.toLong() ?: return null
+            val id = getByUriInternal(uri) ?: return null
             return getByParam(id)
         } catch (ex: Exception){
             ex.printStackTrace()
@@ -100,57 +97,28 @@ internal class SongRepository @Inject constructor(
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun getByUriInternal(uri: Uri): String? {
-        if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
-            when (uri.authority) {
-                "com.android.providers.media.documents" -> return DocumentsContract.getDocumentId(uri).split(":")[1]
-                "media" -> return uri.lastPathSegment
-            }
-        }
-        var songFile: File? = null
-        if (uri.authority == "com.android.externalstorage.documents") {
-            val child = uri.path?.split(":", limit = 2) ?: listOf()
-            songFile = File(Environment.getExternalStorageDirectory(), child[1])
+    private fun getByUriInternal(uri: Uri): Long? {
+        // https://developer.android.com/training/secure-file-sharing/retrieve-info
+        // content uri has only two field [_id, _display_name]
+        val fileQuery = """
+            SELECT ${Audio.Media.DISPLAY_NAME}
+            FROM $uri
+        """
+        val displayName = contentResolver.querySql(fileQuery).use {
+            it.moveToFirst()
+            it.getString(Audio.Media.DISPLAY_NAME)
         }
 
-        if (songFile == null) {
-            getFilePathFromUri(uri)?.let { path ->
-                songFile = File(path)
-            }
+        val itemQuery = """
+            SELECT ${Audio.Media._ID}
+            FROM ${Audio.Media.EXTERNAL_CONTENT_URI}
+            WHERE ${Audio.Media.DISPLAY_NAME} = ?
+        """
+        val id = contentResolver.querySql(itemQuery, arrayOf(displayName)).use {
+            it.moveToFirst()
+            it.getLong(Audio.Media._ID)
         }
-        if (songFile == null && uri.path != null) {
-            songFile = File(uri.path!!)
-        }
-
-        var songId: String? = null
-
-        if (songFile != null) {
-            context.contentResolver.query(
-                Audio.Media.EXTERNAL_CONTENT_URI, arrayOf(BaseColumns._ID),
-                "${Audio.AudioColumns.DATA} = ?",
-                arrayOf(songFile!!.absolutePath), null
-            )?.use { cursor ->
-                cursor.moveToFirst()
-                songId = "${cursor.getLong(BaseColumns._ID)}"
-            }
-        }
-
-
-        return songId
-    }
-
-    @Suppress("DEPRECATION")
-    private fun getFilePathFromUri(uri: Uri): String? {
-        var path: String? = null
-        context.contentResolver.query(
-            uri, arrayOf(Audio.Media.DATA),
-            null, null, null
-        )?.use { cursor ->
-            cursor.moveToFirst()
-            path = cursor.getString(Audio.Media.DATA)
-        }
-        return path
+        return id
     }
 
     override fun getByAlbumId(albumId: Id): Song? {

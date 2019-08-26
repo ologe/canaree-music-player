@@ -23,7 +23,7 @@ internal class PlayingQueueRepository @Inject constructor(
 
     override fun getAll(): List<PlayingQueueSong> {
         try {
-            assertBackgroundThread()
+//            assertBackgroundThread()
             val playingQueue =
                 playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
             if (playingQueue.isNotEmpty()) {

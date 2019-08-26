@@ -63,9 +63,6 @@
 
                 <data android:scheme="content" />
                 <data android:mimeType="audio/*" />
-                <data android:mimeType="application/ogg" />
-                <data android:mimeType="application/x-ogg" />
-                <data android:mimeType="application/itunes" />
             </intent-filter>
 
             <intent-filter>
@@ -74,9 +71,6 @@
 
                 <data android:scheme="file" />
                 <data android:mimeType="audio/*" />
-                <data android:mimeType="application/ogg" />
-                <data android:mimeType="application/x-ogg" />
-                <data android:mimeType="application/itunes" />
             </intent-filter>
 
         </activity>

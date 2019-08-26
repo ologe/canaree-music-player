@@ -21,6 +21,7 @@ import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -44,22 +45,18 @@ internal class MediaSessionCallback @Inject constructor(
     private var retrieveDataJob: Job? = null
 
     override fun onPrepare() {
-        doAction { track ->
+        onPrepareInternal(forced = true)
+    }
+
+    private fun onPrepareInternal(forced: Boolean){
+        assertMainThread()
+
+        if (queue.isEmpty() || forced){
+            val track = queue.prepare()
             Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
             if (track != null){
                 player.prepare(track)
             }
-        }
-    }
-
-    private fun doAction(action: (PlayerMediaEntity?) -> Unit){
-        if (queue.isEmpty()){
-            launch(Dispatchers.Main) {
-                val track = queue.prepare()
-                action(track)
-            }
-        } else {
-            action(null)
         }
     }
 
@@ -79,11 +76,14 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onEmptyQueue() {
-        // TODO
+        Log.v(TAG, "onEmptyQueue")
+        onStop()
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
         Log.v(TAG, "onPlayFromMediaId mediaId=$stringMediaId, extras=$extras")
+
+        onPrepareInternal(false)
 
         retrieveAndPlay {
             updatePodcastPosition()
@@ -102,16 +102,13 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlay() {
+        onPrepareInternal(false)
         Log.v(TAG, "onPlay")
-        doAction {
-            if (it != null){
-                player.prepare(it)
-            }
-            player.resume()
-        }
+        player.resume()
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
+        onPrepareInternal(false)
         Log.v(TAG, "onPlayFromSearch query=$query, extras=$extras")
 
         retrieveAndPlay {
@@ -121,6 +118,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
+        onPrepareInternal(false)
         Log.v(TAG, "onPlayFromUri uri=$uri, extras=$extras")
 
         retrieveAndPlay {
@@ -220,6 +218,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
+        onPrepareInternal(false)
         Log.v(TAG, "onCustomAction action=$action, extras=$extras")
 
         val musicAction = MusicServiceCustomAction.values().find { it.name == action }
@@ -329,6 +328,8 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
+        onPrepareInternal(false)
+
         val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)!!
         Log.v(TAG, "onMediaButtonEvent, action=${event.action}, keycode=${event.keyCode}")
         if (event.action == KeyEvent.ACTION_DOWN) {

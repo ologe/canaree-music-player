@@ -1,5 +1,8 @@
 # Release notes 
 
+## 3.0.22
+- Fixed ANR when playing a song from file manager or voice assistant
+
 ## 3.0.21
 - Fixed crash on startup
 

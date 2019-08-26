@@ -10,7 +10,7 @@ internal interface IQueue {
 
     fun getCurrentPositionInQueue(): PositionInQueue
 
-    suspend fun prepare(): PlayerMediaEntity?
+    fun prepare(): PlayerMediaEntity?
     fun isEmpty(): Boolean
 
     suspend fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?

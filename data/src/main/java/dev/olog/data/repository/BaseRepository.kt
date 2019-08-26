@@ -47,7 +47,7 @@ internal abstract class BaseRepository<T, Param>(
     }
 
     override fun getAll(): List<T> {
-        assertBackgroundThread()
+//        assertBackgroundThread()
         return channel.valueOrNull
             ?: queryAll() // fallback to normal query if channel never emitted
     }

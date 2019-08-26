@@ -40,12 +40,10 @@ internal class QueueManager @Inject constructor(
 
 ) : IQueue {
 
-    override suspend fun prepare(): PlayerMediaEntity? {
+    override fun prepare(): PlayerMediaEntity? {
         assertMainThread()
 
-        val playingQueue = withContext(Dispatchers.Default) {
-            playingQueueGateway.getAll().map { it.toMediaEntity() }
-        }
+        val playingQueue = playingQueueGateway.getAll().map { it.toMediaEntity() }
 
         val lastPlayedId = musicPreferencesUseCase.getLastIdInPlaylist()
         val currentPosition = clamp(
@@ -308,13 +306,13 @@ internal class QueueManager @Inject constructor(
     }
 
 
-    private suspend fun getLastSessionBookmark(mediaEntity: MediaEntity): Long = withContext(Dispatchers.Default) {
+    private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long  {
         if (mediaEntity.isPodcast) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
-            clamp(bookmark, 0L, mediaEntity.duration)
+            return clamp(bookmark, 0L, mediaEntity.duration)
         } else {
             val bookmark = musicPreferencesUseCase.getBookmark().toInt()
-            clamp(bookmark.toLong(), 0L, mediaEntity.duration)
+            return clamp(bookmark.toLong(), 0L, mediaEntity.duration)
         }
     }
 
