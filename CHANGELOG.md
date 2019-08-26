@@ -1,5 +1,8 @@
 # Release notes 
 
+## 3.0.21
+- Fixed crash on startup
+
 ## 3.0.20
 - Fixed create equalizer preset crash
 - Updated player appearances size 
