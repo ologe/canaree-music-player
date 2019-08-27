@@ -145,13 +145,14 @@ class NavigatorAboutImpl @Inject internal constructor(
     override fun requestTranslation() {
         val activity = activityRef.get() ?: return
 
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("dev.eugeniu.olog@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "Canaree translation")
-        }
-        if (intent.resolveActivity(activity.packageManager) != null) {
-            activity.startActivity(intent)
+        if (allowed()) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://canaree.oneskyapp.com/collaboration/project/162621")
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
         }
     }
 }

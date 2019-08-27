@@ -100,13 +100,15 @@ ExoPlayer extensions using <b>NDK-r17c</b> or older, newer version of NDK are no
 * [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
 * [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
 
+## Translations
+Help translate the app to your language [here](https://canaree.oneskyapp.com/admin/project/dashboard/project/162621)
+
 ## Issues
 If you find any problems, please feel free to file an [issue](https://github.com/ologe/canaree-music-player/issues).
 
 ## Open-source libraries
 * [**ExoPlayer**](https://github.com/google/ExoPlayer)
 * [**Dagger**](https://github.com/google/dagger)
-* [**RxJava**](https://github.com/ReactiveX/RxJava)
 * [**kotlinx.coroutines**](https://github.com/Kotlin/kotlinx.coroutines)
 * [**Scroll helper**](https://github.com/ologe/scroll-helper)
 * [**Color desaturation**](https://github.com/ologe/color-desaturation)

@@ -38,13 +38,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         apache()
     )
 
-    private val RX_JAVA = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("rxJava"),
-        "RxJava", "https://github.com/ReactiveX/RxJava",
-        apache()
-    )
-
     private val EXO_PLAYER = LicenseModel(
         R.layout.item_license,
         MediaId.headerId("exo player"),
@@ -227,7 +220,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         // core
         KOTLIN_COROUTINES,
         DAGGER,
-        RX_JAVA, // TODO remove after room supports flow/channel
 
         // audio
         EXO_PLAYER,
