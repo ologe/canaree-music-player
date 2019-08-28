@@ -90,9 +90,9 @@ internal class BillingImpl @Inject constructor(
         }
 
         billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-            .purchasesList
-            .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
-            .forEach {
+            ?.purchasesList
+            ?.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
+            ?.forEach {
                 val params = AcknowledgePurchaseParams.newBuilder()
                     .setDeveloperPayload(it.developerPayload)
                     .setPurchaseToken(it.purchaseToken)
