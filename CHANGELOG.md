@@ -1,5 +1,8 @@
 # Release notes 
 
+## 3.0.23
+- Fixed auto-refund after 3 days of purchasing the app
+
 ## 3.0.22
 - Fixed ANR when playing a song from file manager or voice assistant
 - Added automated translation service, see the About section for more information

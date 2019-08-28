@@ -88,6 +88,17 @@ internal class BillingImpl @Inject constructor(
                     showAdPublisher.offer(it)
                 }
         }
+
+        billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+            .purchasesList
+            .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
+            .forEach {
+                val params = AcknowledgePurchaseParams.newBuilder()
+                    .setDeveloperPayload(it.developerPayload)
+                    .setPurchaseToken(it.purchaseToken)
+                    .build()
+                billingClient.acknowledgePurchase(params) { }
+            }
     }
 
     private fun isStillTrial(): Boolean {
