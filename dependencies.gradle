@@ -18,7 +18,7 @@ ext {
     android_x_fragments = '1.1.0-rc04'
     constraint_layout = '2.0.0-beta2'
     lifecycle = '2.1.0-rc01'
-    billing = '2.0.3'
+    billing = '1.2.2'
     play_core = '1.6.1'
 
 //    ui

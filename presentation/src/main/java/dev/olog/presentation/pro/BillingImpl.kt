@@ -88,17 +88,6 @@ internal class BillingImpl @Inject constructor(
                     showAdPublisher.offer(it)
                 }
         }
-
-        billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-            ?.purchasesList
-            ?.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
-            ?.forEach {
-                val params = AcknowledgePurchaseParams.newBuilder()
-                    .setDeveloperPayload(it.developerPayload)
-                    .setPurchaseToken(it.purchaseToken)
-                    .build()
-                billingClient.acknowledgePurchase(params) { }
-            }
     }
 
     private fun isStillTrial(): Boolean {
@@ -117,28 +106,26 @@ internal class BillingImpl @Inject constructor(
 
     private fun checkPurchases() {
         val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (purchases.responseCode == BillingClient.BillingResponseCode.OK) {
+        if (purchases.responseCode == BillingClient.BillingResponse.OK) {
             isPremiumState = isProBought(purchases.purchasesList)
         }
     }
 
     override fun onPurchasesUpdated(
-        billingResult: BillingResult,
+        responseCode: Int,
         purchases: MutableList<Purchase>?
     ) {
-        when (billingResult.responseCode) {
-            BillingClient.BillingResponseCode.OK -> {
+        when (responseCode) {
+            BillingClient.BillingResponse.OK -> {
                 isPremiumState = isProBought(purchases)
             }
-            BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
+            BillingClient.BillingResponse.SERVICE_TIMEOUT -> {
                 activity.get()?.toast(R.string.network_timeout)
             }
-            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
+            BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> {
                 activity.get()?.toast(R.string.common_no_internet)
             }
-
-            else -> Log.w("Billing", "billing response code=${billingResult.responseCode}, " +
-                    "error=${billingResult.debugMessage}")
+            else -> Log.w("Billing", "billing response code=${responseCode}")
         }
     }
 
@@ -165,20 +152,14 @@ internal class BillingImpl @Inject constructor(
     }
 
     override fun purchasePremium() {
-        val act = activity.get() ?: return
         doOnConnected {
-            val params = SkuDetailsParams.newBuilder()
-                .setSkusList(listOf(PRO_VERSION_ID))
+            val params = BillingFlowParams.newBuilder()
+                .setSku(PRO_VERSION_ID)
                 .setType(BillingClient.SkuType.INAPP)
                 .build()
 
-            billingClient.querySkuDetailsAsync(params) { result, skuDetailsList ->
-                if (result.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList?.isNotEmpty() == true) {
-                    val flowParams = BillingFlowParams.newBuilder()
-                        .setSkuDetails(skuDetailsList[0])
-                        .build()
-                    billingClient.launchBillingFlow(act, flowParams)
-                }
+            activity.get()?.let {
+                billingClient.launchBillingFlow(it, params)
             }
         }
     }

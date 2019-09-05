@@ -1,5 +1,8 @@
 # Release notes 
 
+## 3.1.0
+- Rollback to old billing implementation (fixed auto-refund)
+
 ## 3.0.23
 - Fixed auto-refund after 3 days of purchasing the app
 

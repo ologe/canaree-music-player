@@ -1,5 +1,6 @@
 package dev.olog.presentation.pro
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentActivity
@@ -7,7 +8,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.toast
@@ -21,7 +21,6 @@ internal abstract class BillingConnection(
 
     protected val billingClient: BillingClient = BillingClient.newBuilder(activity.get()!!)
         .setListener(this)
-        .enablePendingPurchases()
         .build()
 
     protected fun doOnConnected(func: (() -> Unit)?) {
@@ -31,20 +30,20 @@ internal abstract class BillingConnection(
         }
 
         billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                Log.v("Billing", "billing connection response code=${billingResult.responseCode}, " +
-                        "error=${billingResult.debugMessage}")
-                when (billingResult.responseCode){
-                    BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
+            @SuppressLint("SwitchIntDef")
+            override fun onBillingSetupFinished(responseCode: Int) {
+                Log.v("Billing", "billing connection response code=${responseCode}")
+                when (responseCode) {
+                    BillingClient.BillingResponse.SERVICE_TIMEOUT -> {
                         activity.get()?.toast(R.string.network_timeout)
                     }
-                    BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
+                    BillingClient.BillingResponse.SERVICE_UNAVAILABLE -> {
                         activity.get()?.toast(R.string.common_no_internet)
                     }
                 }
 
-                isConnected = billingResult.responseCode == BillingClient.BillingResponseCode.OK
-                if (isConnected){
+                isConnected = responseCode == BillingClient.BillingResponse.OK
+                if (isConnected) {
                     func?.invoke()
                 }
             }
