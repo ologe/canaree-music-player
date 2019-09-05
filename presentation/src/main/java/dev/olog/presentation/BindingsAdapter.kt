@@ -11,7 +11,6 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
-import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
 
@@ -56,7 +55,6 @@ object BindingsAdapter {
             .priority(priority)
             .placeholder(CoverUtils.getGradient(context, mediaId))
             .transition(DrawableTransitionOptions.withCrossFade())
-            .tryAddSignature(mediaId)
 
         if (mediaId.isLeaf) {
             builder.into(view)
@@ -97,7 +95,6 @@ object BindingsAdapter {
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .onlyRetrieveFromCache(true)
-            .tryAddSignature(mediaId)
             .into(RippleTarget(view))
     }
 

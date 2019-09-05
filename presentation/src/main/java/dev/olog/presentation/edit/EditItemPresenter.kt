@@ -33,7 +33,6 @@ class EditItemPresenter @Inject constructor(
             UpdateTrackUseCase.Data(
                 info.originalSong.getMediaId(),
                 info.originalSong.path,
-                info.image,
                 mapOf(
                     FieldKey.TITLE to info.title,
                     FieldKey.ARTIST to info.artist,
@@ -54,7 +53,6 @@ class EditItemPresenter @Inject constructor(
         return updateMultipleTracksUseCase(
             UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
-                info.image,
                 mapOf(
                     FieldKey.ALBUM to info.title,
                     FieldKey.ARTIST to info.artist,
@@ -73,7 +71,6 @@ class EditItemPresenter @Inject constructor(
         return updateMultipleTracksUseCase(
             UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
-                info.image,
                 mapOf(
                     FieldKey.ARTIST to info.name,
                     FieldKey.ALBUM_ARTIST to albumArtist

@@ -8,7 +8,6 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -23,8 +22,7 @@ class GlideMergedImageLoader(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
-    private val prefsGateway: AppPreferencesGateway,
-    private val imageVersionGateway: ImageVersionGateway
+    private val prefsGateway: AppPreferencesGateway
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -45,10 +43,8 @@ class GlideMergedImageLoader(
             return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
         }
 
-        val version = imageVersionGateway.getCurrentVersion(mediaId)
-
         return ModelLoader.LoadData(
-            MediaIdKey(mediaId, version),
+            MediaIdKey(mediaId),
             GlideMergedImageFetcher(
                 context,
                 mediaId,
@@ -64,8 +60,7 @@ class GlideMergedImageLoader(
         private val folderGateway: FolderGateway,
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway,
-        private val prefsGateway: AppPreferencesGateway,
-        private val imageVersionGateway: ImageVersionGateway
+        private val prefsGateway: AppPreferencesGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
@@ -76,8 +71,7 @@ class GlideMergedImageLoader(
                 folderGateway,
                 playlistGateway,
                 genreGateway,
-                prefsGateway,
-                imageVersionGateway
+                prefsGateway
             )
         }
 

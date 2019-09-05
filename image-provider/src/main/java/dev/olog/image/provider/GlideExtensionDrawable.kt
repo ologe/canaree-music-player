@@ -6,7 +6,6 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.shared.safeResume
 import kotlin.coroutines.suspendCoroutine
 
@@ -28,14 +27,12 @@ suspend fun Context.getCachedDrawable(
     val error = GlideApp.with(this)
         .load(placeholder)
         .extend(extension)
-        .tryAddSignature(mediaId)
 
     GlideApp.with(this)
         .load(mediaId)
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
-        .tryAddSignature(mediaId)
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Drawable>() {
 

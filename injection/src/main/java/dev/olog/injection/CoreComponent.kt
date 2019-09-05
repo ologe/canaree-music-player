@@ -52,8 +52,7 @@ interface CoreComponent {
     fun equalizerPrefs(): EqualizerPreferencesGateway
     fun sortPrefs(): SortPreferences
     fun blacklistPrefs(): BlacklistPreferences
-
-    fun usedImageGateway(): UsedImageGateway
+    
     fun playingQueueGateway(): PlayingQueueGateway
     fun favoriteGateway(): FavoriteGateway
     fun recentSearches(): RecentSearchesGateway
@@ -77,7 +76,6 @@ interface CoreComponent {
     fun podcastAlbumGateway(): PodcastAlbumGateway
     fun podcastArtistGateway(): PodcastArtistGateway
 
-    fun imageVersionGateway(): ImageVersionGateway
     fun equalizerGateway(): EqualizerGateway
 
     fun encrypter(): IEncrypter

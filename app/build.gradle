@@ -58,7 +58,7 @@ android {
         noCompress "tflite"
     }
 
-    dynamicFeatures = [":feature_stylize"]
+//    dynamicFeatures = [":feature_stylize"]
 
     kotlinOptions.allWarningsAsErrors = true
 }
@@ -92,7 +92,6 @@ dependencies {
     implementation lib_x.lifecycle_ktx
 
     implementation lib_x.core_ktx
-    implementation lib_x.play_core
     implementation lib_x.appcompat
     implementation lib_x.browser
     implementation lib_x.preference

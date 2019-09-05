@@ -18,7 +18,6 @@ import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
@@ -140,14 +139,12 @@ class CustomViewSwitcher(
             .override(GlideUtils.OVERRIDE_BIG)
             .onlyRetrieveFromCache(true)
             .listener(this@CustomViewSwitcher)
-            .tryAddSignature(mediaId)
             .into(RippleTarget(imageView)) // TODO ripple not working
 
         GlideApp.with(context)
             .load(mediaId)
             .priority(Priority.IMMEDIATE)
             .override(GlideUtils.OVERRIDE_BIG)
-            .tryAddSignature(mediaId)
             .into(object : CustomTarget<Drawable>(){
                 override fun onLoadCleared(placeholder: Drawable?) {
 

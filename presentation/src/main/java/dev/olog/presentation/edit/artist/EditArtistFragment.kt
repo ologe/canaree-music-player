@@ -1,25 +1,20 @@
 package dev.olog.presentation.edit.artist
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
-import dev.olog.core.Stylizer
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateArtistInfo
-import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EditArtistFragment : BaseEditItemFragment() {
@@ -84,14 +79,12 @@ class EditArtistFragment : BaseEditItemFragment() {
             launch { trySave() }
         }
         cancelButton.setOnClickListener { dismiss() }
-        picker.setOnClickListener { changeImage() }
     }
 
     override fun onPause() {
         super.onPause()
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
-        picker.setOnClickListener(null)
     }
 
     private suspend fun trySave(){
@@ -100,7 +93,6 @@ class EditArtistFragment : BaseEditItemFragment() {
                 mediaId,
                 artist.extractText().trim(),
                 albumArtist.extractText().trim(),
-                viewModel.getNewImage(),
                 podcast.isChecked
             )
         )
@@ -112,51 +104,8 @@ class EditArtistFragment : BaseEditItemFragment() {
         }
     }
 
-    override fun restoreImage() {
-        viewModel.restoreOriginalImage()
-        loadOriginalImage(mediaId)
-    }
-
     override fun onLoaderCancelled() {
     }
-
-    override suspend fun stylizeImage(stylizer: Stylizer) {
-        withContext(Dispatchers.IO) {
-            try {
-                getOriginalImageBitmap(mediaId)
-            } catch (ex: Exception){
-                withContext(Dispatchers.Main){
-                    ctx.toast("Can't stylize default cover")
-                }
-                ex.printStackTrace()
-                return@withContext
-            }?.let { bitmap ->
-                stylizeImageInternal(stylizer, bitmap)
-            }
-        }
-    }
-
-    private suspend fun stylizeImageInternal(stylizer: Stylizer, bitmap: Bitmap){
-        val style = withContext(Dispatchers.Main) {
-            Stylizer.loadDialog(act)
-        }
-        if (style != null){
-            withContext(Dispatchers.Main){
-                showLoader("Stylizing image", dismissable = false)
-            }
-            val stylizedBitmap = stylizer.stylize(style, bitmap)
-            viewModel.updateImage(SaveImageType.Stylized(stylizedBitmap))
-            withContext(Dispatchers.Main) {
-                hideLoader()
-                loadImage(stylizedBitmap, mediaId)
-            }
-        }
-    }
-
-    override fun toggleDownloadModule(show: Boolean) {
-        downloadModule.toggleVisibility(show, true)
-    }
-
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_artist
 }

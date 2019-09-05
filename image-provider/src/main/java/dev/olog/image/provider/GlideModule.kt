@@ -17,10 +17,10 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import dev.olog.core.MediaId
 import dev.olog.image.provider.di.inject
-import dev.olog.image.provider.loader.*
+import dev.olog.image.provider.loader.AudioFileCoverLoader
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
+import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
-import dev.olog.image.provider.loader.GlideOverridenImageLoader
 import dev.olog.image.provider.model.AudioFileCover
 import java.io.InputStream
 import javax.inject.Inject
@@ -35,8 +35,6 @@ class GlideModule : AppGlideModule() {
     internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
     @Inject
     internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-    @Inject
-    internal lateinit var overrideFactory: GlideOverridenImageLoader.Factory
 
     private var injected = false
 
@@ -76,7 +74,6 @@ class GlideModule : AppGlideModule() {
         registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, mergedFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, overrideFactory)
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

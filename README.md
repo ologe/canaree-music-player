@@ -84,8 +84,6 @@ android.enableR8.fullMode=true
 last_fm_key="your_key"
 last_fm_secret="your_secret"
 
-fritz_key="your_fritz_sdk_key"
-
 aes_password="your_aes_password"
 
 ad_mob_key="your_ad_mob_key"
@@ -125,7 +123,6 @@ If you find any problems, please feel free to file an [issue](https://github.com
 * [**fuzzywuzzy**](https://github.com/xdrop/fuzzywuzzy)
 * [**Leak canary**](https://github.com/square/leakcanary)
 * [**Stetho**](http://facebook.github.io/stetho/)
-* [**Fritz**](https://www.fritz.ai/)
 
 ## Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=dev.olog.msc)

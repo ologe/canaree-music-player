@@ -8,7 +8,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
-import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
@@ -122,8 +121,6 @@ class UpdateSongInfo(
     @JvmField
     val track: String,
     @JvmField
-    val image: SaveImageType,
-    @JvmField
     val isPodcast: Boolean
 ) {
 
@@ -142,7 +139,6 @@ class UpdateSongInfo(
         if (year != other.year) return false
         if (disc != other.disc) return false
         if (track != other.track) return false
-        if (image != other.image) return false
         if (isPodcast != other.isPodcast) return false
 
         return true
@@ -158,7 +154,6 @@ class UpdateSongInfo(
         result = 31 * result + year.hashCode()
         result = 31 * result + disc.hashCode()
         result = 31 * result + track.hashCode()
-        result = 31 * result + image.hashCode()
         result = 31 * result + isPodcast.hashCode()
         return result
     }
@@ -178,8 +173,6 @@ class UpdateAlbumInfo(
     @JvmField
     val year: String,
     @JvmField
-    val image: SaveImageType,
-    @JvmField
     val isPodcast: Boolean
 ) {
 
@@ -195,7 +188,6 @@ class UpdateAlbumInfo(
         if (albumArtist != other.albumArtist) return false
         if (genre != other.genre) return false
         if (year != other.year) return false
-        if (image != other.image) return false
         if (isPodcast != other.isPodcast) return false
 
         return true
@@ -208,7 +200,6 @@ class UpdateAlbumInfo(
         result = 31 * result + albumArtist.hashCode()
         result = 31 * result + genre.hashCode()
         result = 31 * result + year.hashCode()
-        result = 31 * result + image.hashCode()
         result = 31 * result + isPodcast.hashCode()
         return result
     }
@@ -222,8 +213,6 @@ class UpdateArtistInfo(
     @JvmField
     val albumArtist: String,
     @JvmField
-    val image: SaveImageType,
-    @JvmField
     val isPodcast: Boolean
 ) {
 
@@ -236,7 +225,6 @@ class UpdateArtistInfo(
         if (mediaId != other.mediaId) return false
         if (name != other.name) return false
         if (albumArtist != other.albumArtist) return false
-        if (image != other.image) return false
         if (isPodcast != other.isPodcast) return false
 
         return true
@@ -246,7 +234,6 @@ class UpdateArtistInfo(
         var result = mediaId.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + albumArtist.hashCode()
-        result = 31 * result + image.hashCode()
         result = 31 * result + isPodcast.hashCode()
         return result
     }

@@ -71,8 +71,6 @@ dependencies {
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view
 
-    implementation lib_x.play_core
-
     implementation lib_core.dagger_android
     implementation lib_core.dagger_android_support
     kapt lib_core.dagger_android_processor

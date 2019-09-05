@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
@@ -30,8 +29,6 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     private var fetchJob: Job? = null
 
-    private var newImage: SaveImageType = SaveImageType.Skip
-
     private val songLiveData = MutableLiveData<Song>()
     private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
 
@@ -47,15 +44,9 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     fun getOriginalSong(): Song = songLiveData.value!!
 
-    fun getNewImage(): SaveImageType = newImage
-
     override fun onCleared() {
         fetchJob?.cancel()
         viewModelScope.cancel()
-    }
-
-    fun updateImage(image: SaveImageType) {
-        newImage = image
     }
 
     fun fetchSongInfo(mediaId: MediaId): Boolean {
@@ -80,10 +71,6 @@ class EditTrackFragmentViewModel @Inject constructor(
             }
         }
         return true
-    }
-
-    fun restoreOriginalImage() {
-        newImage = SaveImageType.Original
     }
 
     fun stopFetch() {

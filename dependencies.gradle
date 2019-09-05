@@ -19,7 +19,6 @@ ext {
     constraint_layout = '2.0.0-beta2'
     lifecycle = '2.1.0-rc01'
     billing = '1.2.2'
-    play_core = '1.6.1'
 
 //    ui
     glide = '4.9.0'
@@ -48,9 +47,6 @@ ext {
 //    debug
     leak_canary = '2.0-beta-3'
     stetho = '1.5.1'
-
-//    ai
-    fritz = '3.8.2'
 
 //    firebase
     firebase_core = '17.1.0'
@@ -99,7 +95,6 @@ ext {
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel:$lifecycle",
 
-            play_core           : "com.google.android.play:core:$play_core",
             billing             : "com.android.billingclient:billing:$billing",
     ]
 
@@ -137,12 +132,6 @@ ext {
             retrofit           : "com.squareup.retrofit2:retrofit:$retrofit",
             retrofit_gson      : "com.squareup.retrofit2:converter-gson:$retrofit",
             gson               : "com.google.code.gson:gson:$gson",
-    ]
-
-    lib_ai = [
-            core  : "ai.fritz:core:$fritz",
-            vision: "ai.fritz:vision:$fritz",
-            style : "ai.fritz:vision-style-painting-models:$fritz"
     ]
 
     lib_debug = [

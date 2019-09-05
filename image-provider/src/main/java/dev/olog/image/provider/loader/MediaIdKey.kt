@@ -6,15 +6,14 @@ import dev.olog.core.MediaIdCategory
 import java.security.MessageDigest
 
 internal class MediaIdKey(
-    private val mediaId: MediaId,
-    private val version: Int
+    private val mediaId: MediaId
 ) : Key {
 
     override fun toString(): String {
         if (mediaId.isLeaf) {
-            return "${MediaIdCategory.SONGS}-${mediaId.leaf}-$version"
+            return "${MediaIdCategory.SONGS}-${mediaId.leaf}"
         }
-        return "${mediaId.category.name}-${mediaId.categoryValue}-$version"
+        return "${mediaId.category.name}-${mediaId.categoryValue}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -22,10 +21,6 @@ internal class MediaIdKey(
         if (javaClass != other?.javaClass) return false
 
         other as MediaIdKey
-
-        if (this.version != other.version){
-            return false
-        }
 
         if (this.mediaId.isLeaf && other.mediaId.isLeaf) {
             // is song
@@ -39,7 +34,6 @@ internal class MediaIdKey(
         var result = 17
         result = 31 * result + mediaId.category.name.hashCode()
         result = 31 * result + mediaId.categoryValue.hashCode()
-        result = 31 * result + version
         if (mediaId.isLeaf) {
             result = 31 * result + mediaId.leaf!!.hashCode()
         }

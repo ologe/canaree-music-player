@@ -8,7 +8,6 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.shared.safeResume
 import kotlin.coroutines.suspendCoroutine
 
@@ -31,7 +30,6 @@ suspend fun Context.getCachedBitmap(
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
-        .tryAddSignature(mediaId)
         .onlyRetrieveFromCache(true)
         .into(object : CustomTarget<Bitmap>() {
 
@@ -56,7 +54,6 @@ suspend fun Context.getCachedBitmap(
                         .asBitmap()
                         .load(placeholder.toBitmap(bestSize, bestSize))
                         .extend(extension)
-                        .tryAddSignature(mediaId)
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(
                                 resource: Bitmap,

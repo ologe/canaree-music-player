@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
-import dev.olog.presentation.edit.model.SaveImageType
 import dev.olog.presentation.utils.safeGet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -27,8 +26,6 @@ class EditAlbumFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private var newImage: SaveImageType = SaveImageType.Skip
-
     private val displayableAlbumLiveData = MutableLiveData<DisplayableAlbum>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
@@ -40,18 +37,8 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
     fun observeData(): LiveData<DisplayableAlbum> = displayableAlbumLiveData
 
-    fun getNewImage(): SaveImageType = newImage
-
     override fun onCleared() {
         viewModelScope.cancel()
-    }
-
-    fun updateImage(image: SaveImageType) {
-        newImage = image
-    }
-
-    fun restoreOriginalImage() {
-        newImage = SaveImageType.Original
     }
 
     private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {

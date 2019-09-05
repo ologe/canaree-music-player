@@ -30,38 +30,11 @@
             android:focusable="true"
             tools:padding="22dp"/>
 
-        <LinearLayout
-            android:id="@+id/downloadModule"
-            app:layout_constraintTop_toBottomOf="@+id/cover"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="8dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <ProgressBar
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
-
-            <TextView
-                android:text="Downloading stylizer module"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif-black"
-                android:textSize="20sp"/>
-
-        </LinearLayout>
-
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/downloadModule"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp"
@@ -75,17 +48,6 @@
                 tools:text="Your changes will be applied to 5 song"/>
 
         </com.google.android.material.chip.ChipGroup>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/cover"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
-            app:fabSize="mini"
-            android:src="@drawable/vd_image_search"
-            android:layout_marginEnd="16dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/artistLayout"

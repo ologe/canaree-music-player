@@ -2,6 +2,7 @@
 
 ## 3.1.0
 - Rollback to old billing implementation (fixed auto-refund)
+- Remove stylized image feature
 
 ## 3.0.23
 - Fixed auto-refund after 3 days of purchasing the app

@@ -8,7 +8,6 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.ImageVersionGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
@@ -17,9 +16,7 @@ import javax.inject.Inject
 
 internal class GlideImageRetrieverLoader(
     private val context: Context,
-    private val imageRetrieverGateway: ImageRetrieverGateway,
-    private val imageVersionGateway: ImageVersionGateway
-
+    private val imageRetrieverGateway: ImageRetrieverGateway
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -36,12 +33,10 @@ internal class GlideImageRetrieverLoader(
         options: Options
     ): ModelLoader.LoadData<InputStream>? {
 
-        val version = imageVersionGateway.getCurrentVersion(mediaId)
-
         return if (mediaId.isLeaf) {
             // download track image
             ModelLoader.LoadData(
-                MediaIdKey(mediaId, version),
+                MediaIdKey(mediaId),
                 GlideSongFetcher(
                     context,
                     mediaId,
@@ -51,7 +46,7 @@ internal class GlideImageRetrieverLoader(
         } else if (mediaId.isAlbum) {
             // download album image
             ModelLoader.LoadData(
-                MediaIdKey(mediaId, version),
+                MediaIdKey(mediaId),
                 GlideAlbumFetcher(
                     context,
                     mediaId,
@@ -61,7 +56,7 @@ internal class GlideImageRetrieverLoader(
         } else {
             // download artist image
             ModelLoader.LoadData(
-                MediaIdKey(mediaId, version),
+                MediaIdKey(mediaId),
                 GlideArtistFetcher(
                     context,
                     mediaId,
@@ -73,16 +68,14 @@ internal class GlideImageRetrieverLoader(
 
     class Factory @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val imageRetrieverGateway: ImageRetrieverGateway,
-        private val imageVersionGateway: ImageVersionGateway
+        private val imageRetrieverGateway: ImageRetrieverGateway
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             return GlideImageRetrieverLoader(
                 context,
-                imageRetrieverGateway,
-                imageVersionGateway
+                imageRetrieverGateway
             )
         }
 

@@ -32,10 +32,6 @@ import dev.olog.data.db.entities.*
 
         OfflineLyricsEntity::class,
 
-        UsedTrackImageEntity::class,
-        UsedAlbumImageEntity::class,
-        UsedArtistImageEntity::class,
-
         PlaylistEntity::class,
         PlaylistTrackEntity::class,
 
@@ -44,11 +40,10 @@ import dev.olog.data.db.entities.*
 
         PodcastPositionEntity::class,
 
-        ImageVersionEntity::class,
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 17, exportSchema = true
+    ), version = 18, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
@@ -76,14 +71,11 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun offlineLyricsDao(): OfflineLyricsDao
 
-    abstract fun usedImageDao(): UsedImageDao
-
     abstract fun playlistDao(): PlaylistDao
     abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
     abstract fun podcastPositionDao(): PodcastPositionDao
 
-    abstract fun imageVersionDao(): ImageVersionDao
     abstract fun lyricsSyncAdjustmentDao(): LyricsSyncAdjustmentDao
     abstract fun equalizerPresetsDao(): EqualizerPresetsDao
 }

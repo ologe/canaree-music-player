@@ -8,7 +8,6 @@ import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.utils.tryAddSignature
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
@@ -49,7 +48,6 @@ open class PlayerImageView (
             .priority(Priority.IMMEDIATE)
             .override(500)
             .onlyRetrieveFromCache(true)
-            .tryAddSignature(mediaId)
             .into(RippleTarget(this@PlayerImageView))
     }
 
