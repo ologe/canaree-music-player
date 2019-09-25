@@ -31,7 +31,6 @@
 
 # SHRINK ONLY
 -dontobfuscate
--keep class ai.fritz.** { *; }
 -keep class dev.olog.** { *; }
 
 
