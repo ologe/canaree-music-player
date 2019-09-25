@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
 internal class EqualizerImpl28 @Inject constructor(
-    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 ) : AbsEqualizer(gateway, prefs),
@@ -46,7 +45,7 @@ internal class EqualizerImpl28 @Inject constructor(
                 BANDS
             )
 
-            for (index in 0 until BANDS) {
+            for (index in 0 until eq.bandCount) {
                 val currentBand = currentPreset.bands[index]
                 val eqBand =
                     DynamicsProcessing.EqBand(true, currentBand.frequency + BAND_LIMIT, currentBand.gain)
@@ -120,7 +119,7 @@ internal class EqualizerImpl28 @Inject constructor(
         }
     }
 
-    override fun getBandCount(): Int = BANDS
+    override fun getBandCount(): Int = dynamicProcessing?.getPreEqByChannelIndex(0)?.bandCount ?: BANDS
 
     override fun getBandLevel(band: Int): Float {
         if (!isImplementedByDevice){
@@ -147,7 +146,8 @@ internal class EqualizerImpl28 @Inject constructor(
         }
 
         val result = mutableListOf<EqualizerBand>()
-        for (index in 0 until BANDS) {
+        val eq = dynamicProcessing!!.getPreEqByChannelIndex(0)
+        for (index in 0 until eq.bandCount) {
             val eqBand = dynamicProcessing!!.getPreEqBandByChannelIndex(0, index)
             result.add(EqualizerBand(eqBand.gain, eqBand.cutoffFrequency - BAND_LIMIT))
         }
