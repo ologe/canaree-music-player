@@ -26,18 +26,18 @@ class AutoShrinkExtendedFab(
         job?.cancel()
     }
 
-    override fun shrink(animate: Boolean) {
-        super.shrink(animate)
+    override fun shrink(callback: OnChangedCallback) {
+        super.shrink(callback)
         job?.cancel()
+    }
+
+    override fun hide(callback: OnChangedCallback) {
+        super.hide(callback)
+        fastShrink()
     }
 
     override fun hide() {
         super.hide()
-        fastShrink()
-    }
-
-    override fun hide(animate: Boolean) {
-        super.hide(animate)
         fastShrink()
     }
 

@@ -206,13 +206,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         mit()
     )
 
-    private val FRITZ_AI = LicenseModel(
-        R.layout.item_license,
-        MediaId.headerId("fritz ai"),
-        "Fritz", "https://github.com/fritzlabs/fritz-repository",
-        apache()
-    )
-
     val data: List<LicenseModel> = listOf(
         ANDROID_OPEN_SOURCE_PROJECT,
         ANDROID_SUPPORT_LIBRARIES,
@@ -238,9 +231,6 @@ class LicensesFragmentPresenter(private val context: Context) {
         BLUR_KIT,
         TAP_TARGET_VIEW,
         BETTER_PICKERS,
-
-        // ai
-        FRITZ_AI,
 
         // data
         CONTENT_RESOLVER_SQL,

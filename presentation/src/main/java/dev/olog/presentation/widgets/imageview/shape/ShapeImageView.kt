@@ -54,12 +54,13 @@ open class ShapeImageView(
         paint.xfermode =
             X_FERMO_MODE
 
-        cutCornerShapeModel = ShapeAppearanceModel().apply {
-            setAllCorners(CutCornerTreatment(context.dipf(radius)))
-        }
-        roundedShapeModel = ShapeAppearanceModel().apply {
-            setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
-        }
+        cutCornerShapeModel = ShapeAppearanceModel.builder()
+            .setAllCorners(CutCornerTreatment(context.dipf(radius)))
+            .build()
+
+        roundedShapeModel = ShapeAppearanceModel.builder()
+            .setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
+            .build()
         squareShapeModel = ShapeAppearanceModel()
     }
 

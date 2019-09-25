@@ -50,7 +50,7 @@ class FolderTreeFragment : BaseFragment(),
             activity as MediaProvider,
             navigator
         )
-        fab.shrink(false)
+        fab.shrink()
 
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
