@@ -50,14 +50,6 @@ android {
         disable 'MissingTranslation'
     }
 
-    packagingOptions {
-        exclude 'META-INF/core_release.kotlin_module'
-    }
-
-    aaptOptions {
-        noCompress "tflite"
-    }
-
 //    dynamicFeatures = [":feature_stylize"]
 
     kotlinOptions.allWarningsAsErrors = true
