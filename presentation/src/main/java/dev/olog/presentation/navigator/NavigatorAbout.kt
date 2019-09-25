@@ -2,6 +2,7 @@ package dev.olog.presentation.navigator
 
 interface NavigatorAbout {
 
+    fun toHavocPage()
     fun toLicensesFragment()
 
     fun toSpecialThanksFragment()

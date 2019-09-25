@@ -22,6 +22,8 @@ class AboutFragmentPresenter(
 
     companion object {
         @JvmStatic
+        val HAVOC_ID = MediaId.headerId("havoc id")
+        @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
         @JvmStatic
         val THIRD_SW_ID = MediaId.headerId("third sw")
@@ -116,6 +118,13 @@ class AboutFragmentPresenter(
         )
     )
 
+    private val havoc = DisplayableHeader(
+        type = R.layout.item_about_promotion,
+        mediaId = HAVOC_ID,
+        title = context.getString(R.string.about_havoc),
+        subtitle = context.getString(R.string.about_translations_description)
+    )
+
     private val trial = DisplayableHeader(
         type = R.layout.item_about,
         mediaId = BUY_PRO,
@@ -141,9 +150,9 @@ class AboutFragmentPresenter(
         launch {
             billing.observeBillingsState().combine(flowOf(data)) { state, data ->
                 when {
-                    state.isBought -> listOf(alreadyPro).plus(data)
-                    state.isTrial -> listOf(trial).plus(data)
-                    else -> listOf(noPro).plus(data)
+                    state.isBought -> listOf(havoc, alreadyPro) + (data)
+                    state.isTrial -> listOf(havoc, trial) + (data)
+                    else -> listOf(havoc, noPro) + (data)
                 }
             }.flowOn(Dispatchers.Default)
                 .collect {

@@ -1,5 +1,9 @@
 # Release notes 
 
+## 3.1.1
+- Added link to HAVOC in About section
+- Crash fixes
+
 ## 3.1.0
 - Rollback to old billing implementation (fixed auto-refund)
 - Remove stylized image feature
