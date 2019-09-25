@@ -31,9 +31,9 @@ internal abstract class BaseRepository<T, Param>(
         launch {
             assertBackgroundThread()
 
-            while (!PermissionsUtils.canReadStorage(context)) {
-                delay(300)
-            }
+            do {
+                delay(200)
+            } while (!PermissionsUtils.canReadStorage(context))
 
             val contentUri = registerMainContentUri()
 
