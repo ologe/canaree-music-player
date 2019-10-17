@@ -206,6 +206,13 @@ class LicensesFragmentPresenter(private val context: Context) {
         mit()
     )
 
+    private val CROLLER = LicenseModel(
+        R.layout.item_license,
+        MediaId.headerId("croller"),
+        "Croller", "https://github.com/harjot-oberai/Croller",
+        mit()
+    )
+
     val data: List<LicenseModel> = listOf(
         ANDROID_OPEN_SOURCE_PROJECT,
         ANDROID_SUPPORT_LIBRARIES,
@@ -231,6 +238,7 @@ class LicensesFragmentPresenter(private val context: Context) {
         BLUR_KIT,
         TAP_TARGET_VIEW,
         BETTER_PICKERS,
+        CROLLER,
 
         // data
         CONTENT_RESOLVER_SQL,
