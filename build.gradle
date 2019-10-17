@@ -17,12 +17,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"
         classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin"
-//        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
     }
 
 }
@@ -32,7 +31,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+//        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
     gradle.projectsEvaluated { // TODO remove after coroutines became stable
         tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
@@ -66,8 +65,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_29_3_1_01
-    versionName = '3.1.1'
+    versionCode = 999_29_3_2_00
+    versionName = '3.2.0'
 
 }
 
