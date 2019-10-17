@@ -22,8 +22,5 @@ interface AppPreferencesGateway {
     fun setDefaultMusicFolder(file: File)
 
     fun setDefault()
-
-    fun observeCanShowAds(): Flow<Boolean>
-    fun canShowAds(): Boolean
 }
 

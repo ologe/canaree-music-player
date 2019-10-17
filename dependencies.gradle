@@ -56,7 +56,6 @@ ext {
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
-            ad         : "com.google.android.gms:play-services-ads:18.2.0",
             perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 

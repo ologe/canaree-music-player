@@ -3,9 +3,10 @@ package dev.olog.presentation.pro
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
-import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.Purchase
 import dev.olog.core.interactor.ResetPreferencesUseCase
-import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.toast
@@ -20,16 +21,16 @@ import kotlin.properties.Delegates
 
 internal class BillingImpl @Inject constructor(
     activity: FragmentActivity,
-    private val billingPrefs: BillingPreferences,
     private val resetPreferencesUseCase: ResetPreferencesUseCase,
-    private val presentationPreferences: PresentationPreferencesGateway,
-    private val prefsGateway: AppPreferencesGateway
+    private val presentationPreferences: PresentationPreferencesGateway
 
 ) : BillingConnection(WeakReference(activity)), IBilling, CoroutineScope by MainScope() {
 
     companion object {
         @JvmStatic
         private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
+        private const val DEFAULT_PREMIUM = false
+        private const val DEFAULT_TRIAL = false
 
         private const val PRO_VERSION_ID = "pro_version"
 
@@ -38,32 +39,18 @@ internal class BillingImpl @Inject constructor(
         private const val TEST_UNAVAILABLE = "android.test.item_unavailable"
     }
 
-    private val lastPremium = billingPrefs.getLastPremium()
-    private val lastTrial = billingPrefs.getLastTrial()
-    private val lastShowAd = billingPrefs.getLastShowAd()
+    private val premiumPublisher = ConflatedBroadcastChannel(DEFAULT_PREMIUM)
+    private val trialPublisher = ConflatedBroadcastChannel(DEFAULT_TRIAL)
 
-    private val premiumPublisher = ConflatedBroadcastChannel(lastPremium)
-    private val trialPublisher = ConflatedBroadcastChannel(lastTrial)
-    private val showAdPublisher = ConflatedBroadcastChannel(lastShowAd)
-
-    private var isPremiumState by Delegates.observable(lastPremium) { _, _, new ->
+    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
         premiumPublisher.offer(new)
-        billingPrefs.setLastPremium(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
     }
 
-    private var isTrialState by Delegates.observable(lastTrial) { _, _, new ->
+    private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
         trialPublisher.offer(new)
-        billingPrefs.setLastTrial(new)
-        if (!getBillingsState().isPremiumEnabled()) {
-            setDefault()
-        }
-    }
-
-    private var isShowAdState by Delegates.observable(lastShowAd) { _, _, new ->
-        showAdPublisher.offer(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
@@ -80,14 +67,6 @@ internal class BillingImpl @Inject constructor(
                 .takeWhile { it }
                 .collect { }
         }
-        launch {
-            prefsGateway.observeCanShowAds()
-                .flowOn(Dispatchers.IO)
-                .collect {
-                    isShowAdState = it
-                    showAdPublisher.offer(it)
-                }
-        }
     }
 
     private fun isStillTrial(): Boolean {
@@ -99,8 +78,6 @@ internal class BillingImpl @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
-        billingPrefs.setLastPremium(isPremiumState)
-        billingPrefs.setLastTrial(isTrialState)
         cancel()
     }
 
@@ -130,24 +107,21 @@ internal class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.find { it.sku == PRO_VERSION_ID } != null || BillingPreferences.DEFAULT_PREMIUM
-//        return true
+        return purchases?.find { it.sku == PRO_VERSION_ID } != null || DEFAULT_PREMIUM
     }
 
     override fun observeBillingsState(): Flow<BillingState> {
         return combine(
             premiumPublisher.asFlow(),
-            trialPublisher.asFlow(),
-            showAdPublisher.asFlow()) { premium, trial, showAds ->
-            BillingState(trial, premium, showAds)
+            trialPublisher.asFlow()) { premium, trial ->
+            BillingState(trial, premium)
         }.distinctUntilChanged()
     }
 
     override fun getBillingsState(): BillingState {
         return BillingState(
             isBought = premiumPublisher.value,
-            isTrial = trialPublisher.value,
-            canShowAd = showAdPublisher.value
+            isTrial = trialPublisher.value
         )
     }
 

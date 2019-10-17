@@ -106,7 +106,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceScreen.forEach {
             it.isEnabled = premiumEnabled || !paidSettings.contains(it)
         }
-        findPreference<Preference>(getString(R.string.premium_ad_key))!!.isVisible = !state.isPremiumStrict()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -187,7 +186,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
             // crash workaround, don't know if crashes because of a leak or what else
         }
         when (key) {
-            getString(R.string.premium_ad_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
             }

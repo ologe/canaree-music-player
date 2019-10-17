@@ -4,13 +4,11 @@ class BillingState(
     @JvmField
     val isTrial: Boolean,
     @JvmField
-    val isBought: Boolean,
-    @JvmField
-    val canShowAd: Boolean
+    val isBought: Boolean
 ) {
 
     fun isPremiumEnabled(): Boolean {
-        return isTrial || isBought || canShowAd
+        return isTrial || isBought
     }
 
     fun isPremiumStrict() = isBought
@@ -24,7 +22,6 @@ class BillingState(
 
         if (isTrial != other.isTrial) return false
         if (isBought != other.isBought) return false
-        if (canShowAd != other.canShowAd) return false
 
         return true
     }
@@ -32,7 +29,6 @@ class BillingState(
     override fun hashCode(): Int {
         var result = isTrial.hashCode()
         result = 31 * result + isBought.hashCode()
-        result = 31 * result + canShowAd.hashCode()
         return result
     }
 

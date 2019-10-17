@@ -70,8 +70,5 @@ internal class PlayerFragmentPresenter @Inject constructor(
         palettePublisher.offer(palette)
     }
 
-    fun canShowAds(): Boolean {
-        return prefsGateway.canShowAds()
-    }
 
 }

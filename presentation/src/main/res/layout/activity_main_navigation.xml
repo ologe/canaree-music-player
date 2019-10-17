@@ -58,17 +58,6 @@
             android:background="@android:color/transparent"/>
 
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/ad_mob_unity_id_bottom_navigation"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginTop="4dp" />
-
     </LinearLayout>
 
 </merge>

@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
@@ -86,8 +83,6 @@ class MainActivity : MusicGlueActivity(),
             slidingPanel.fitsSystemWindows = true
             bottomWrapper.fitsSystemWindows = true
         }
-
-        tryLoadAd()
 
         if (hasPlayerAppearance().isMini()){
             // TODO made a resource value
@@ -235,25 +230,5 @@ class MainActivity : MusicGlueActivity(),
     fun restoreUpperWidgetsTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
-    }
-
-    private fun tryLoadAd(){
-        val heightToAdd: Int
-        if (viewModel.canShowAds()){
-            MobileAds.initialize(this, getString(R.string.ad_mob_key))
-            val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
-            heightToAdd = dip(52)
-        } else {
-            adView.setGone()
-            heightToAdd = dip(2)
-        }
-        if (!isTablet){
-            getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek_plus_navigation) + heightToAdd
-        } else if(isTablet && adView.isVisible) {
-            getSlidingPanel().peekHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
-            bottomWrapper.setMargin(bottom = dimen(R.dimen.bottom_navigation_height))
-            fragmentContainer.setMargin(bottom = dimen(R.dimen.sliding_panel_peek_plus_navigation))
-        }
     }
 }

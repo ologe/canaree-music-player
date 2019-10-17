@@ -3,15 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <SwitchPreferenceCompat
-        app:title="@string/premium_ad_key_title"
-        android:summaryOn="@string/premium_ad_key_summary_on"
-        android:summaryOff="@string/premium_ad_key_summary_off"
-        app:key="@string/premium_ad_key"
-        app:defaultValue="false"
-        app:isPreferenceVisible="false"
-        tools:isPreferenceVisible="true"/>
-
     <PreferenceCategory
         app:title="@string/prefs_category_library">
 

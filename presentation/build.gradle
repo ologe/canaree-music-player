@@ -13,16 +13,10 @@ android {
         release {
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
-
-            resValue "string", "ad_mob_key", ad_mob_key
-            resValue "string", "ad_mob_unity_id_bottom_navigation", ad_mob_unity_id_bottom_navigation
         }
         debug {
             buildConfigField 'String', "LAST_FM_KEY", last_fm_key
             buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
-
-            resValue "string", "ad_mob_key", ad_mob_key
-            resValue "string", "ad_mob_unity_id_bottom_navigation", "ca-app-pub-3940256099942544/6300978111"
         }
     }
 
@@ -87,6 +81,4 @@ dependencies {
     implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
     implementation lib_x.lifecycle_ktx
-
-    implementation lib_analytics.ad
 }
