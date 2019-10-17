@@ -33,7 +33,13 @@ abstract class EqualizerModule {
             equalizerImpl28: Lazy<EqualizerImpl28>
         ): IEqualizer {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                return equalizerImpl28.get()
+                try {
+                    // crashes on some devices
+                    return equalizerImpl28.get()
+                } catch (ex: Exception){
+                    ex.printStackTrace()
+                    return equalizerImpl.get()
+                }
             }
             return equalizerImpl.get()
         }

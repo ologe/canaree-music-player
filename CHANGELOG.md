@@ -2,6 +2,10 @@
 
 ## 3.2.0
 - libraries update
+- crash fixes
+
+## 3.2.0
+- libraries update
 
 ## 3.1.1
 - Added link to HAVOC in About section
