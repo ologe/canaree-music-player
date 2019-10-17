@@ -5,15 +5,13 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.audio.AudioListener
-import dev.olog.injection.dagger.PerService
+import dev.olog.equalizer.bassboost.IBassBoost
+import dev.olog.equalizer.equalizer.IEqualizer
+import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.equalizer.IBassBoost
-import dev.olog.equalizer.IEqualizer
-import dev.olog.equalizer.IVirtualizer
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-@PerService
 internal class OnAudioSessionIdChangeListener @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val equalizer: IEqualizer,
@@ -31,6 +29,8 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     private var job: Job? = null
+
+    private val hash by lazy { hashCode() }
 
     init {
         lifecycle.addObserver(this)
@@ -51,15 +51,15 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     private fun onAudioSessionIdInternal(audioSessionId: Int) {
         Log.v(TAG, "on audio session id changed =$audioSessionId")
 
-        equalizer.onAudioSessionIdChanged(audioSessionId)
-        virtualizer.onAudioSessionIdChanged(audioSessionId)
-        bassBoost.onAudioSessionIdChanged(audioSessionId)
+        equalizer.onAudioSessionIdChanged(hash, audioSessionId)
+        virtualizer.onAudioSessionIdChanged(hash, audioSessionId)
+        bassBoost.onAudioSessionIdChanged(hash, audioSessionId)
     }
 
     fun release() {
         Log.v(TAG, "onDestroy")
-        equalizer.onDestroy()
-        virtualizer.onDestroy()
-        bassBoost.onDestroy()
+        equalizer.onDestroy(hash)
+        virtualizer.onDestroy(hash)
+        bassBoost.onDestroy(hash)
     }
 }

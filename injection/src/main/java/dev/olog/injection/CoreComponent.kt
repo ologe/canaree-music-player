@@ -20,9 +20,9 @@ import dev.olog.data.PreferenceModule
 import dev.olog.data.RepositoryHelperModule
 import dev.olog.data.api.lastfm.NetworkModule
 import dev.olog.equalizer.EqualizerModule
-import dev.olog.equalizer.IBassBoost
-import dev.olog.equalizer.IEqualizer
-import dev.olog.equalizer.IVirtualizer
+import dev.olog.equalizer.bassboost.IBassBoost
+import dev.olog.equalizer.equalizer.IEqualizer
+import dev.olog.equalizer.virtualizer.IVirtualizer
 import javax.inject.Singleton
 
 @Component(

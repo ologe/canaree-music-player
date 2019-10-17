@@ -5,38 +5,58 @@ import dagger.Binds
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.equalizer.impl.BassBoostImpl
-import dev.olog.equalizer.impl.EqualizerImpl
-import dev.olog.equalizer.impl.EqualizerImpl28
-import dev.olog.equalizer.impl.VirtualizerImpl
+import dev.olog.equalizer.bassboost.BassBoostImpl
+import dev.olog.equalizer.bassboost.BassBoostProxy
+import dev.olog.equalizer.bassboost.IBassBoost
+import dev.olog.equalizer.bassboost.IBassBoostInternal
+import dev.olog.equalizer.equalizer.*
+import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.equalizer.virtualizer.IVirtualizerInternal
+import dev.olog.equalizer.virtualizer.VirtualizerImpl
+import dev.olog.equalizer.virtualizer.VirtualizerProxy
 import javax.inject.Singleton
 
 @Module
 abstract class EqualizerModule {
 
-    @Binds
-    @Singleton
-    internal abstract fun provideBassBoost(bassBoostImpl: BassBoostImpl): IBassBoost
+    // proxies
 
     @Binds
     @Singleton
-    internal abstract fun provideVirtualizer(virtualizerIml: VirtualizerImpl): IVirtualizer
+    internal abstract fun provideEqualizer(impl: EqualizerProxy): IEqualizer
+
+    @Binds
+    @Singleton
+    internal abstract fun provideBassBoost(impl: BassBoostProxy): IBassBoost
+
+    @Binds
+    @Singleton
+    internal abstract fun provideVirtualizer(impl: VirtualizerProxy): IVirtualizer
+
+
+
+    // implementation
+
+    @Binds
+    internal abstract fun provideBassBoostInternal(impl: BassBoostImpl): IBassBoostInternal
+
+    @Binds
+    internal abstract fun provideVirtualizerInternal(impl: VirtualizerImpl): IVirtualizerInternal
 
     @Module
     companion object {
 
         @Provides
         @JvmStatic
-        @Singleton
-        internal fun provideEqualizer(
+        internal fun provideInternalEqualizer(
             equalizerImpl: Lazy<EqualizerImpl>,
             equalizerImpl28: Lazy<EqualizerImpl28>
-        ): IEqualizer {
+        ): IEqualizerInternal {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 try {
                     // crashes on some devices
                     return equalizerImpl28.get()
-                } catch (ex: Exception){
+                } catch (ex: Exception) {
                     ex.printStackTrace()
                     return equalizerImpl.get()
                 }

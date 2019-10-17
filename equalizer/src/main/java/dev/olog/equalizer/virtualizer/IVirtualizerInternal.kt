@@ -1,9 +1,6 @@
-package dev.olog.equalizer
+package dev.olog.equalizer.virtualizer
 
-/**
- * Virtualizer range 0.1000
- */
-interface IVirtualizer {
+internal interface IVirtualizerInternal {
 
     fun getStrength(): Int
     fun setStrength(value: Int)

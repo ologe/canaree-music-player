@@ -3,9 +3,9 @@ package dev.olog.service.music
 import androidx.lifecycle.Lifecycle
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.equalizer.IBassBoost
-import dev.olog.equalizer.IEqualizer
-import dev.olog.equalizer.IVirtualizer
+import dev.olog.equalizer.bassboost.IBassBoost
+import dev.olog.equalizer.equalizer.IEqualizer
+import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.test.shared.CoroutinesMainDispatcherRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -19,9 +19,9 @@ class OnAudioSessionIdChangeListenerTest {
     var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
 
     private val lifecycle = mock<Lifecycle>()
-    private val equalizer = mock<dev.olog.equalizer.IEqualizer>()
-    private val virtualizer = mock<dev.olog.equalizer.IVirtualizer>()
-    private val bassBoost = mock<dev.olog.equalizer.IBassBoost>()
+    private val equalizer = mock<IEqualizer>()
+    private val virtualizer = mock<IVirtualizer>()
+    private val bassBoost = mock<IBassBoost>()
 
     private val sessionListener = OnAudioSessionIdChangeListener(
         lifecycle, equalizer, virtualizer, bassBoost

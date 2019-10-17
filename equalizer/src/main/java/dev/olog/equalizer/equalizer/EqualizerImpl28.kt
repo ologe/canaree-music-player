@@ -1,17 +1,13 @@
-package dev.olog.equalizer.impl
+package dev.olog.equalizer.equalizer
 
-import android.content.Context
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.DynamicsProcessing
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.equalizer.IEqualizer
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -20,7 +16,7 @@ internal class EqualizerImpl28 @Inject constructor(
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 ) : AbsEqualizer(gateway, prefs),
-    IEqualizer,
+    IEqualizerInternal,
     CoroutineScope by MainScope() {
 
     companion object {
@@ -154,5 +150,6 @@ internal class EqualizerImpl28 @Inject constructor(
         return result
     }
 
-    override fun getBandLimit(): Float = BAND_LIMIT
+    override fun getBandLimit(): Float =
+        BAND_LIMIT
 }

@@ -1,27 +1,22 @@
-package dev.olog.equalizer.impl
+package dev.olog.equalizer.virtualizer
 
-import android.content.Context
 import android.media.audiofx.AudioEffect
-import android.media.audiofx.BassBoost
-import android.widget.Toast
-import dev.olog.core.dagger.ApplicationContext
+import android.media.audiofx.Virtualizer
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.equalizer.IBassBoost
 import javax.inject.Inject
 
-class BassBoostImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+class VirtualizerImpl @Inject constructor(
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
-) : IBassBoost {
+) : IVirtualizerInternal {
 
-    private var bassBoost: BassBoost? = null
+    private var virtualizer: Virtualizer? = null
 
     private var isImplementedByDevice = false
 
     init {
         for (queryEffect in AudioEffect.queryEffects()) {
-            if (queryEffect.type == AudioEffect.EFFECT_TYPE_BASS_BOOST){
+            if (queryEffect.type == AudioEffect.EFFECT_TYPE_VIRTUALIZER){
                 isImplementedByDevice = true
             }
         }
@@ -31,8 +26,9 @@ class BassBoostImpl @Inject constructor(
         if (!isImplementedByDevice){
             return 0
         }
+
         try {
-            return bassBoost?.roundedStrength?.toInt() ?: 0
+            return virtualizer?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
             ex.printStackTrace()
             // sometimes throws getParameter() called on uninitialized AudioEffect.
@@ -42,10 +38,10 @@ class BassBoostImpl @Inject constructor(
 
     override fun setStrength(value: Int) {
         safeAction {
-            bassBoost?.setStrength(value.toShort())?.also {
-                val currentProperties = bassBoost?.properties?.toString()
-                if (!currentProperties.isNullOrBlank()){
-                    equalizerPrefsUseCase.saveBassBoostSettings(currentProperties)
+            virtualizer?.setStrength(value.toShort())?.also {
+                val currentProperties = virtualizer?.properties?.toString()
+                if (!currentProperties.isNullOrBlank()) {
+                    equalizerPrefsUseCase.saveVirtualizerSettings(currentProperties)
                 }
             }
         }
@@ -53,7 +49,7 @@ class BassBoostImpl @Inject constructor(
 
     override fun setEnabled(enabled: Boolean) {
         safeAction {
-            bassBoost?.enabled = enabled
+            virtualizer?.enabled = enabled
         }
     }
 
@@ -65,11 +61,11 @@ class BassBoostImpl @Inject constructor(
         release()
 
         try {
-            bassBoost = BassBoost(0, audioSessionId).apply {
+            virtualizer = Virtualizer(0, audioSessionId).apply {
                 enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-                val lastProperties = equalizerPrefsUseCase.getBassBoostSettings()
+                val lastProperties = equalizerPrefsUseCase.getVirtualizerSettings()
                 if (lastProperties.isNotBlank()) {
-                    properties = BassBoost.Settings(lastProperties)
+                    properties = Virtualizer.Settings(lastProperties)
                 }
             }
         } catch (ex: Throwable) {
@@ -81,12 +77,13 @@ class BassBoostImpl @Inject constructor(
         release()
     }
 
-    private fun release(){
+    private fun release() {
         safeAction {
-            bassBoost?.release()
-            bassBoost = null
+            virtualizer?.release()
+            virtualizer = null
         }
     }
+
 
     private fun safeAction(action: () -> Unit){
         if (!isImplementedByDevice){
