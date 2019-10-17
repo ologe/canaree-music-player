@@ -3,6 +3,7 @@
 ## 3.2.0
 - libraries update
 - crash fixes
+- fixed equalizer when using gapless playback
 
 ## 3.2.0
 - libraries update
