@@ -1,17 +1,15 @@
+## TODO now
+don't show empty genres, folders and playlist
+sort by play count
+
 ## TODO
 - revamp blacklist fragment, with a tree based architecture
 - think about posting on FDroid
 - Try to add 'big image' blurred background transition
-- Add support to m3u8 playlist
+- Add support to m3u8 playlist 
 
-### strange bug 
-- audio is not paused on some devices during a call (Huawei P30 lite)
-
-### bug-
+### bug
 - merged images don't update after content change (folders and genres)
-- crash when pressing "more button" in player fragment (quite random) 
-
-### bug?
 - check sync lyrics autoscroll
 
 ## Maybe
@@ -21,8 +19,3 @@
 - made sleep timer top and bottom curved
 - fade on resume/pause
 - Check for high res audio, see power amp
-
-
-## TODO for methoud count reducing
-- reduce method count (opening dex file take a lot of time on on app startup)
-- remove last fm binding ~700 methods
