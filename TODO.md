@@ -4,7 +4,6 @@ sort by play count
 
 ## TODO
 - revamp blacklist fragment, with a tree based architecture
-- think about posting on FDroid
 - Try to add 'big image' blurred background transition
 - Add support to m3u8 playlist 
 
