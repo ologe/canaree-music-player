@@ -43,6 +43,13 @@ implementation project(':exoplayer-extension-opus')
 implementation project(':exoplayer-extension-ffmpeg')
 ```
 
+Open `setting.gradle` and comment the last three lines like below:
+```gradle
+//gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
+//gradle.ext.exoplayerModulePrefix = 'exoplayer-'
+//apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+```
+
 #### Method 2
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
 * In `settings.gradle`:
