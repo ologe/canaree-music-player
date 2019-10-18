@@ -8,7 +8,7 @@ ext {
     android_x_legacy = '1.0.0'
     android_x_appcompat = '1.1.0'
     android_x_media = '1.1.0'
-    android_x_recycler = '1.1.0-beta05'
+    android_x_recycler = '1.1.0-beta04'
     android_x_browser = '1.0.0'
     android_x_material = '1.1.0-beta01'
     android_x_preference = '1.1.0'
