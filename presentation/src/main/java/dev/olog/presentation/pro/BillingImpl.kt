@@ -21,6 +21,7 @@ import kotlin.properties.Delegates
 
 internal class BillingImpl @Inject constructor(
     activity: FragmentActivity,
+    private val billingPrefs: BillingPreferences,
     private val resetPreferencesUseCase: ResetPreferencesUseCase,
     private val presentationPreferences: PresentationPreferencesGateway
 
@@ -29,8 +30,6 @@ internal class BillingImpl @Inject constructor(
     companion object {
         @JvmStatic
         private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
-        private const val DEFAULT_PREMIUM = false
-        private const val DEFAULT_TRIAL = false
 
         private const val PRO_VERSION_ID = "pro_version"
 
@@ -39,18 +38,23 @@ internal class BillingImpl @Inject constructor(
         private const val TEST_UNAVAILABLE = "android.test.item_unavailable"
     }
 
-    private val premiumPublisher = ConflatedBroadcastChannel(DEFAULT_PREMIUM)
-    private val trialPublisher = ConflatedBroadcastChannel(DEFAULT_TRIAL)
+    private val lastPremium = billingPrefs.getLastPremium()
+    private val lastTrial = billingPrefs.getLastTrial()
 
-    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
+    private val premiumPublisher = ConflatedBroadcastChannel(lastPremium)
+    private val trialPublisher = ConflatedBroadcastChannel(lastTrial)
+
+    private var isPremiumState by Delegates.observable(lastPremium) { _, _, new ->
         premiumPublisher.offer(new)
+        billingPrefs.setLastPremium(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
     }
 
-    private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
+    private var isTrialState by Delegates.observable(lastTrial) { _, _, new ->
         trialPublisher.offer(new)
+        billingPrefs.setLastTrial(new)
         if (!getBillingsState().isPremiumEnabled()) {
             setDefault()
         }
@@ -78,6 +82,8 @@ internal class BillingImpl @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
+        billingPrefs.setLastPremium(isPremiumState)
+        billingPrefs.setLastTrial(isTrialState)
         cancel()
     }
 
@@ -107,13 +113,15 @@ internal class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.find { it.sku == PRO_VERSION_ID } != null || DEFAULT_PREMIUM
+        return purchases?.find { it.sku == PRO_VERSION_ID } != null || BillingPreferences.DEFAULT_PREMIUM
+//        return true
     }
 
     override fun observeBillingsState(): Flow<BillingState> {
         return combine(
             premiumPublisher.asFlow(),
-            trialPublisher.asFlow()) { premium, trial ->
+            trialPublisher.asFlow()
+        ) { premium, trial ->
             BillingState(trial, premium)
         }.distinctUntilChanged()
     }

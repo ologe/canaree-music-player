@@ -1,5 +1,11 @@
 # Release notes 
 
+## 3.2.2
+- Fixed premium not working
+
+## 3.2.1
+- ??
+
 ## 3.2.0
 - libraries update
 - crash fixes
