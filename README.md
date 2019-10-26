@@ -92,10 +92,6 @@ last_fm_key="your_key"
 last_fm_secret="your_secret"
 
 aes_password="your_aes_password"
-
-ad_mob_key="your_ad_mob_key"
-# test ad unit id
-ad_mob_unity_id_bottom_navigation="ca-app-pub-3940256099942544/6300978111"
 ```
 
 ### Extensions (Linux or macOS recommended)
