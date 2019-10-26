@@ -7,7 +7,7 @@
 ### Legend
 - Every rectangle is an Android `:module`
 - Every vertical line delimits a `logic layer`
-- To avoid arrows hell, only some important dependencies is highlighted
+- To avoid arrows hell, only some important dependencies are highlighted
 - A `:module` in a `layer`:
     - can't depend on other modules in the same layer (except `shared layer`)
     - can depend on any module in any layer on it's upper right, or on the layer below
@@ -61,9 +61,7 @@
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/equalizer/build.gradle)
 
 #### `:feature_stylize`
-- On-demand dynamic module
-- Used from image blending/stylize
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/feature_stylize/build.gradle)
+- Removed
 
 #### `:offline-lyrics`
 - Provides an API to read offline lyrics, saved on device on from track metadata
