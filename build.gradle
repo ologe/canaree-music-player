@@ -65,8 +65,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_29_3_2_02
-    versionName = '3.2.2'
+    versionCode = 999_29_3_2_03
+    versionName = '3.2.3'
 
 }
 
