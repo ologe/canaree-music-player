@@ -32,7 +32,6 @@ class App : ThemedApp(), HasAndroidInjector {
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
-        showConfiguration()
     }
 
     private fun initializeComponents() {
@@ -59,13 +58,4 @@ class App : ThemedApp(), HasAndroidInjector {
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
-
-
-    private fun showConfiguration(){
-        if (!BuildConfig.DEBUG){
-            return
-        }
-        println("width dp=${configuration.screenWidthDp}")
-        println("height dp=${configuration.screenHeightDp}")
-    }
 }
