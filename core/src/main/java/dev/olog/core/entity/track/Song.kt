@@ -5,33 +5,19 @@ import dev.olog.core.MediaIdCategory
 import java.io.File
 
 data class Song(
-    @JvmField
     val id: Long,
-    @JvmField
     val artistId: Long,
-    @JvmField
     val albumId: Long,
-    @JvmField
     val title: String,
-    @JvmField
     val artist: String,
-    @JvmField
     val albumArtist: String,
-    @JvmField
     val album: String,
-    @JvmField
     val duration: Long,
-    @JvmField
     val dateAdded: Long,
-    @JvmField
     val dateModified: Long,
-    @JvmField
     val path: String,
-    @JvmField
     val trackColumn: Int,
-    @JvmField
     val idInPlaylist: Int,
-    @JvmField
     val isPodcast: Boolean
 
 ) {
