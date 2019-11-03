@@ -89,8 +89,6 @@ internal abstract class BaseRepository<T, Param>(
 }
 
 class ContentUri(
-    @JvmField
     val uri: Uri,
-    @JvmField
     val notifyForDescendants: Boolean
 )
