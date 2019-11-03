@@ -74,14 +74,10 @@ class UpdateTrackUseCase @Inject constructor(
         }
     }
 
-    class Data(
-        @JvmField
+    data class Data(
         val mediaId: MediaId?,
-        @JvmField
         val path: String,
-        @JvmField
         val fields: Map<FieldKey, String>,
-        @JvmField
         val isPodcast: Boolean?
     )
 

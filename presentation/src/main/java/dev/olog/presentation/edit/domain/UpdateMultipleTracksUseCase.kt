@@ -58,12 +58,9 @@ class UpdateMultipleTracksUseCase @Inject constructor(
         context.contentResolver.update(uri, values, "${MediaStore.Audio.Media.ARTIST_ID} = ?", arrayOf("$id"))
     }
 
-    class Data(
-        @JvmField
+    data class Data(
         val mediaId: MediaId,
-        @JvmField
         val fields: Map<FieldKey, String>,
-        @JvmField
         val isPodcast: Boolean
     )
 
