@@ -23,7 +23,7 @@ class LicensesFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: LicenseModel, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             name.text = item.name
             url.text = item.url
             url.movementMethod = LinkMovementMethod.getInstance()

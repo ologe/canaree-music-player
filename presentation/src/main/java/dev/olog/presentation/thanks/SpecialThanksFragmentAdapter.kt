@@ -19,7 +19,7 @@ class SpecialThanksFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             GlideApp.with(context)
                 .load(ContextCompat.getDrawable(context, item.image))
                 .into(image)

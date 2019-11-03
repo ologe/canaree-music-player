@@ -13,7 +13,7 @@ class TranslationFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         if (viewType == R.layout.item_translations_help){
-            viewHolder.view.setOnClickListener {
+            viewHolder.itemView.setOnClickListener {
                 navigator.requestTranslation()
             }
         }
@@ -21,7 +21,7 @@ class TranslationFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: String, position: Int) {
         if (holder.itemViewType == R.layout.item_translations_contributor) {
-            holder.view.text.text = item
+            holder.itemView.text.text = item
         }
     }
 

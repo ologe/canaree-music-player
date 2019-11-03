@@ -175,7 +175,7 @@ internal class DetailFragmentAdapter(
     ) {
         if (payloads.isNotEmpty()){
             val payload = payloads[0] as List<String>
-            holder.view.apply {
+            holder.itemView.apply {
                 title.text = payload[0]
                 subtitle.text = payload[1]
             }
@@ -194,7 +194,7 @@ internal class DetailFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.view.apply {
+        holder.itemView.apply {
             holder.imageView?.let {
                 BindingsAdapter.loadSongImage(it, item.mediaId)
             }
@@ -208,7 +208,7 @@ internal class DetailFragmentAdapter(
                 val trackNumber = if (item.idInPlaylist < 1){
                     "-"
                 } else item.idInPlaylist.toString()
-                holder.view.index.text = trackNumber
+                holder.itemView.index.text = trackNumber
             }
         }
     }
@@ -217,22 +217,22 @@ internal class DetailFragmentAdapter(
         when (holder.itemViewType){
             R.layout.item_detail_image -> {
                 BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
-                holder.view.title.text = item.title
-                holder.view.subtitle.text = item.subtitle
+                holder.itemView.title.text = item.title
+                holder.itemView.subtitle.text = item.subtitle
             }
             R.layout.item_detail_song_footer,
             R.layout.item_detail_header,
             R.layout.item_detail_header_albums,
             R.layout.item_detail_header_recently_added,
             R.layout.item_detail_image -> {
-                holder.view.apply {
+                holder.itemView.apply {
                     title.text = item.title
                     subtitle?.text = item.subtitle
                     seeMore?.toggleVisibility(item.visible, true)
                 }
             }
             R.layout.item_detail_header_all_song -> {
-                holder.view.apply {
+                holder.itemView.apply {
                     title.text = item.title
                     sort.text = item.subtitle
                 }

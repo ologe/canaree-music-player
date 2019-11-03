@@ -25,7 +25,7 @@ class LibraryCategoriesFragmentAdapter (
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
     override fun bind(holder: DataBoundViewHolder, item: LibraryCategoryBehavior, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             checkBox.text = item.asString(context)
             checkBox.isChecked = item.visible
         }

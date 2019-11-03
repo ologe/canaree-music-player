@@ -33,7 +33,7 @@ class SearchFragmentNestedAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
 
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title

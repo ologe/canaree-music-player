@@ -372,7 +372,7 @@ internal class PlayerFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         if (item is DisplayableTrack){
-            holder.view.apply {
+            holder.itemView.apply {
                 BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
                 firstText.text = item.title
                 secondText.text = item.artist

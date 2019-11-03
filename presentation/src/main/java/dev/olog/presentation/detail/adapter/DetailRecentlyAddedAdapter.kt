@@ -39,7 +39,7 @@ class DetailRecentlyAddedAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableTrack)
 
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

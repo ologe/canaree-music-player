@@ -31,7 +31,7 @@ class CreatePlaylistFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableTrack)
 
-        holder.view.apply {
+        holder.itemView.apply {
             selected.isChecked = viewModel.isChecked(item.mediaId)
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title

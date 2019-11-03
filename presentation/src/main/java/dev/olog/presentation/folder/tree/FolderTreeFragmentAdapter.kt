@@ -53,7 +53,7 @@ class FolderTreeFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             firstText.text = item.title
         }
         when (holder.itemViewType){

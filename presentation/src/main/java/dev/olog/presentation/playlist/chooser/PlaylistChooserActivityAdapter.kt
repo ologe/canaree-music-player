@@ -44,7 +44,7 @@ class PlaylistChooserActivityAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
 
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

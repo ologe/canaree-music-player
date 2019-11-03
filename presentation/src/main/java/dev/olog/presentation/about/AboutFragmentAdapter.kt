@@ -43,7 +43,7 @@ class AboutFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableHeader)
-        holder.view.apply {
+        holder.itemView.apply {
             if (item.mediaId == AboutFragmentPresenter.BUY_PRO) {
                 title.setTextColor(ColorStateList.valueOf(context.colorAccent()))
             }

@@ -96,7 +96,7 @@ class SearchFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             if (item.album.isBlank()){
@@ -110,7 +110,7 @@ class SearchFragmentAdapter(
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
@@ -119,7 +119,7 @@ class SearchFragmentAdapter(
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_search_header){
-            holder.view.apply {
+            holder.itemView.apply {
                 title.text = item.title
                 subtitle.text = item.subtitle
             }

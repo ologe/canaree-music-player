@@ -44,7 +44,7 @@ class PlayingQueueFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             index.text = item.relativePosition
             BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)

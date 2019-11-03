@@ -22,7 +22,7 @@ class BlacklistFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: BlacklistModel, position: Int) {
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             scrim.toggleVisibility(item.isBlacklisted, true)
             firstText.text = item.title

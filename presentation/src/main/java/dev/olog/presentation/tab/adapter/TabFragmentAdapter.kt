@@ -90,7 +90,7 @@ internal class TabFragmentAdapter(
     }
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
@@ -103,7 +103,7 @@ internal class TabFragmentAdapter(
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
-        holder.view.apply {
+        holder.itemView.apply {
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction?.setId(item.mediaId)
             firstText.text = item.title
@@ -114,7 +114,7 @@ internal class TabFragmentAdapter(
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_tab_header){
-            holder.view.title.text = item.title
+            holder.itemView.title.text = item.title
         }
     }
 
