@@ -101,140 +101,32 @@ class EditItemViewModel @Inject constructor(
 
 }
 
-class UpdateSongInfo(
-    @JvmField
+data class UpdateSongInfo(
     val originalSong: Song,
-    @JvmField
     val title: String,
-    @JvmField
     val artist: String,
-    @JvmField
     val albumArtist: String,
-    @JvmField
     val album: String,
-    @JvmField
     val genre: String,
-    @JvmField
     val year: String,
-    @JvmField
     val disc: String,
-    @JvmField
     val track: String,
-    @JvmField
     val isPodcast: Boolean
-) {
+)
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UpdateSongInfo
-
-        if (originalSong != other.originalSong) return false
-        if (title != other.title) return false
-        if (artist != other.artist) return false
-        if (albumArtist != other.albumArtist) return false
-        if (album != other.album) return false
-        if (genre != other.genre) return false
-        if (year != other.year) return false
-        if (disc != other.disc) return false
-        if (track != other.track) return false
-        if (isPodcast != other.isPodcast) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = originalSong.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + artist.hashCode()
-        result = 31 * result + albumArtist.hashCode()
-        result = 31 * result + album.hashCode()
-        result = 31 * result + genre.hashCode()
-        result = 31 * result + year.hashCode()
-        result = 31 * result + disc.hashCode()
-        result = 31 * result + track.hashCode()
-        result = 31 * result + isPodcast.hashCode()
-        return result
-    }
-}
-
-class UpdateAlbumInfo(
-    @JvmField
+data class UpdateAlbumInfo(
     val mediaId: MediaId,
-    @JvmField
     val title: String,
-    @JvmField
     val artist: String,
-    @JvmField
     val albumArtist: String,
-    @JvmField
     val genre: String,
-    @JvmField
     val year: String,
-    @JvmField
     val isPodcast: Boolean
-) {
+)
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UpdateAlbumInfo
-
-        if (mediaId != other.mediaId) return false
-        if (title != other.title) return false
-        if (artist != other.artist) return false
-        if (albumArtist != other.albumArtist) return false
-        if (genre != other.genre) return false
-        if (year != other.year) return false
-        if (isPodcast != other.isPodcast) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = mediaId.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + artist.hashCode()
-        result = 31 * result + albumArtist.hashCode()
-        result = 31 * result + genre.hashCode()
-        result = 31 * result + year.hashCode()
-        result = 31 * result + isPodcast.hashCode()
-        return result
-    }
-}
-
-class UpdateArtistInfo(
-    @JvmField
+data class UpdateArtistInfo(
     val mediaId: MediaId,
-    @JvmField
     val name: String,
-    @JvmField
     val albumArtist: String,
-    @JvmField
     val isPodcast: Boolean
-) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UpdateArtistInfo
-
-        if (mediaId != other.mediaId) return false
-        if (name != other.name) return false
-        if (albumArtist != other.albumArtist) return false
-        if (isPodcast != other.isPodcast) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = mediaId.hashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + albumArtist.hashCode()
-        result = 31 * result + isPodcast.hashCode()
-        return result
-    }
-}
+)

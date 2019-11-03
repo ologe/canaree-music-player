@@ -10,62 +10,25 @@ sealed class DisplayableItem(
     override val mediaId: MediaId
 ) : BaseModel
 
-class DisplayableTrack(
+data class DisplayableTrack(
     override val type: Int,
     override val mediaId: MediaId,
-    @JvmField
     val title: String,
-    @JvmField
     val artist: String,
-    @JvmField
     val album: String,
-    @JvmField
     val idInPlaylist: Int,
-    @JvmField
     val dataModified: Long
 
 ) : DisplayableItem(type, mediaId) {
 
-    @JvmField
     val subtitle = "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DisplayableTrack
-
-        if (type != other.type) return false
-        if (mediaId != other.mediaId) return false
-        if (title != other.title) return false
-        if (artist != other.artist) return false
-        if (album != other.album) return false
-        if (idInPlaylist != other.idInPlaylist) return false
-        if (dataModified != other.dataModified) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = type
-        result = 31 * result + mediaId.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + artist.hashCode()
-        result = 31 * result + album.hashCode()
-        result = 31 * result + idInPlaylist
-        result = 31 * result + dataModified.hashCode()
-        return result
-    }
-
 
 }
 
-class DisplayableAlbum(
+data class DisplayableAlbum(
     override val type: Int,
     override val mediaId: MediaId,
-    @JvmField
     val title: String,
-    @JvmField
     val subtitle: String
 ) : DisplayableItem(type, mediaId) {
 
@@ -80,89 +43,19 @@ class DisplayableAlbum(
         }
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DisplayableAlbum
-
-        if (type != other.type) return false
-        if (mediaId != other.mediaId) return false
-        if (title != other.title) return false
-        if (subtitle != other.subtitle) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = type
-        result = 31 * result + mediaId.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + subtitle.hashCode()
-        return result
-    }
-
-
 }
 
-class DisplayableHeader(
+data class DisplayableHeader(
     override val type: Int,
     override val mediaId: MediaId,
-    @JvmField
     val title: String,
-    @JvmField
     val subtitle: String? = null,
-    @JvmField
     val visible: Boolean = true
 
-) : DisplayableItem(type, mediaId) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DisplayableHeader
-
-        if (type != other.type) return false
-        if (mediaId != other.mediaId) return false
-        if (title != other.title) return false
-        if (subtitle != other.subtitle) return false
-        if (visible != other.visible) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = type
-        result = 31 * result + mediaId.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + (subtitle?.hashCode() ?: 0)
-        result = 31 * result + visible.hashCode()
-        return result
-    }
-}
+) : DisplayableItem(type, mediaId)
 
 
-class DisplayableNestedListPlaceholder(
+data class DisplayableNestedListPlaceholder(
     override val type: Int,
     override val mediaId: MediaId
-) : DisplayableItem(type, mediaId) {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as DisplayableNestedListPlaceholder
-
-        if (type != other.type) return false
-        if (mediaId != other.mediaId) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = type
-        result = 31 * result + mediaId.hashCode()
-        return result
-    }
-}
+) : DisplayableItem(type, mediaId)
