@@ -5,18 +5,15 @@ import java.util.concurrent.TimeUnit
 
 internal sealed class Event {
 
-    class Metadata(
-        @JvmField
+    data class Metadata(
         val entity: MediaEntity
     ) : Event()
 
-    class State(
-        @JvmField
+    data class State(
         val state: PlaybackStateCompat
     ) : Event()
 
-    class Favorite(
-        @JvmField
+    data class Favorite(
         val favorite: Boolean
     ) : Event()
 
@@ -26,24 +23,15 @@ internal sealed class Event {
  * Used to sync 3 different data sources,
  * metadata, state and favorite
  */
-internal class MusicNotificationState(
-    @JvmField
+internal data class MusicNotificationState(
     var id: Long = -1,
-    @JvmField
     var title: String = "",
-    @JvmField
     var artist: String = "",
-    @JvmField
     var album: String = "",
-    @JvmField
     var isPlaying: Boolean = false,
-    @JvmField
     var bookmark: Long = -1,
-    @JvmField
     var duration: Long = -1,
-    @JvmField
     var isFavorite: Boolean = false,
-    @JvmField
     var isPodcast: Boolean = false
 ) {
 
@@ -98,38 +86,6 @@ internal class MusicNotificationState(
 
     fun isDifferentFavorite(isFavorite: Boolean): Boolean {
         return this.isFavorite != isFavorite
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MusicNotificationState
-
-        if (id != other.id) return false
-        if (title != other.title) return false
-        if (artist != other.artist) return false
-        if (album != other.album) return false
-        if (isPlaying != other.isPlaying) return false
-        if (bookmark != other.bookmark) return false
-        if (duration != other.duration) return false
-        if (isFavorite != other.isFavorite) return false
-        if (isPodcast != other.isPodcast) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + artist.hashCode()
-        result = 31 * result + album.hashCode()
-        result = 31 * result + isPlaying.hashCode()
-        result = 31 * result + bookmark.hashCode()
-        result = 31 * result + duration.hashCode()
-        result = 31 * result + isFavorite.hashCode()
-        result = 31 * result + isPodcast.hashCode()
-        return result
     }
 
     fun deepCopy(): MusicNotificationState {

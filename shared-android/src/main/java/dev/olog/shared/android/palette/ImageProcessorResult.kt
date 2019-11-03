@@ -2,13 +2,9 @@ package dev.olog.shared.android.palette
 
 import android.graphics.Bitmap
 
-class ImageProcessorResult(
-    @JvmField
+data class ImageProcessorResult(
     val bitmap: Bitmap,
-    @JvmField
     val background: Int,
-    @JvmField
     val primaryTextColor: Int,
-    @JvmField
     val secondaryTextColor: Int
 )

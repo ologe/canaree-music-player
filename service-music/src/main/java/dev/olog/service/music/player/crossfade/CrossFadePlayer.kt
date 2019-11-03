@@ -227,12 +227,9 @@ internal class CrossFadePlayer @Inject internal constructor(
         eventDispatcher.dispatchEvent(Event.TRACK_ENDED)
     }
 
-    class Model(
-        @JvmField
+    data class Model(
         val playerMediaEntity: PlayerMediaEntity,
-        @JvmField
         private val trackEnded: Boolean,
-        @JvmField
         private val crossFadeTime: Int
     ) {
 
@@ -242,37 +239,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         val isCrossFadeOn: Boolean = crossFadeTime > 0
         val isTrackEnded: Boolean = trackEnded && isCrossFadeOn
         val isGoodIdeaToClip = crossFadeTime >= 5000
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Model
-
-            if (playerMediaEntity != other.playerMediaEntity) return false
-            if (trackEnded != other.trackEnded) return false
-            if (crossFadeTime != other.crossFadeTime) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = playerMediaEntity.hashCode()
-            result = 31 * result + trackEnded.hashCode()
-            result = 31 * result + crossFadeTime
-            return result
-        }
-
-        fun copy(
-            playerMediaEntity: PlayerMediaEntity = this.playerMediaEntity,
-            trackEnded: Boolean = this.trackEnded,
-            crossFadeTime: Int = this.crossFadeTime
-        ) : Model {
-            return Model(
-                playerMediaEntity, trackEnded, crossFadeTime
-            )
-        }
-
     }
 
     private class CrossFadeInternals(
