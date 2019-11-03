@@ -52,9 +52,7 @@ class SleepTimerUseCase @Inject constructor(
 
 }
 
-class SleepData(
-    @JvmField
+data class SleepData(
     val fromWhen: Long,
-    @JvmField
     val sleepTime: Long
 )

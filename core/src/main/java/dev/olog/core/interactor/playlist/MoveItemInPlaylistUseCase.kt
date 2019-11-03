@@ -18,12 +18,9 @@ class MoveItemInPlaylistUseCase @Inject constructor(
         }
     }
 
-    class Input(
-        @JvmField
+    data class Input(
         val playlistId: Long,
-        @JvmField
         val moveList: List<Pair<Int, Int>>,
-        @JvmField
         val type: PlaylistType
     )
 

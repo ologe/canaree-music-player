@@ -25,11 +25,8 @@ class InsertCustomTrackListToPlaylist @Inject constructor(
     }
 }
 
-class InsertCustomTrackListRequest(
-    @JvmField
+data class InsertCustomTrackListRequest(
     val playlistTitle: String,
-    @JvmField
     val tracksId: List<Long>,
-    @JvmField
     val type: PlaylistType
 )
