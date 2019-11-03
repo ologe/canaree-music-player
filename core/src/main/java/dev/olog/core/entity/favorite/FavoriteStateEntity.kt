@@ -1,11 +1,8 @@
 package dev.olog.core.entity.favorite
 
 data class FavoriteStateEntity(
-    @JvmField
     val songId: Long,
-    @JvmField
     val enum: FavoriteEnum,
-    @JvmField
     val favoriteType: FavoriteType
 )
 
