@@ -53,7 +53,7 @@ internal class EqualizerRepository @Inject constructor(
         require(preset.isCustom)
 
         val newId = getPresets().maxBy { it.id }!!.id + 1
-        dao.insertPreset(preset.toEntity().withId(newId))
+        dao.insertPreset(preset.toEntity().copy(id = newId))
     }
 
     override suspend fun updatePreset(preset: EqualizerPreset) {
