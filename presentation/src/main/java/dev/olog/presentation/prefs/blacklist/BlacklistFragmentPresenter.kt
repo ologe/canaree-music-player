@@ -41,14 +41,11 @@ class BlacklistFragmentPresenter @Inject constructor(
 
 }
 
-class BlacklistModel(
+data class BlacklistModel(
     override val type: Int,
     override val mediaId: MediaId,
-    @JvmField
     val title: String,
-    @JvmField
     val path: String,
-    @JvmField
     var isBlacklisted: Boolean
 ) : BaseModel {
 
@@ -68,30 +65,5 @@ class BlacklistModel(
                 path
             }
         }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as BlacklistModel
-
-        if (type != other.type) return false
-        if (mediaId != other.mediaId) return false
-        if (title != other.title) return false
-        if (path != other.path) return false
-        if (isBlacklisted != other.isBlacklisted) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = type
-        result = 31 * result + mediaId.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + path.hashCode()
-        result = 31 * result + isBlacklisted.hashCode()
-        return result
-    }
-
 
 }

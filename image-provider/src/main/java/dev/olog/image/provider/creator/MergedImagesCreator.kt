@@ -136,9 +136,7 @@ internal object MergedImagesCreator {
 
 }
 
-class IdWithBitmap(
-    @JvmField
+data class IdWithBitmap(
     val id: Long,
-    @JvmField
     val bitmap: Bitmap
 )
