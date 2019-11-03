@@ -60,7 +60,7 @@ class EditTrackFragmentViewModel @Inject constructor(
                     presenter.fetchData(mediaId.resolveId)
                 }
                 var currentSong = displayableSongLiveData.value!!
-                currentSong = currentSong.with(
+                currentSong = currentSong.copy(
                     title = lastFmTrack?.title ?: currentSong.track,
                     artist = lastFmTrack?.artist ?: currentSong.artist,
                     album = lastFmTrack?.album ?: currentSong.album
