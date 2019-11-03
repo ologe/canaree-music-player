@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remove_duplicates_message"><![CDATA[Hapus semua duplikat dari daftar putar <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Duplikat dihapus dari daftar putar %1$s</string>
+</resources>

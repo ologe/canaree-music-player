@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remove_duplicates_message"><![CDATA[从播放列表 <b>%1$s</b>移除全部的重复歌曲?]]></string>
+    <string name="remove_duplicates_success">重复歌曲已从播放列表 %1$s移除</string>
+</resources>

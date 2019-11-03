@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_recent_searches">搜索历史</string>
+    <string name="search_clear_recent_searches">清除搜索历史</string>
+    <string name="search_recent_empty_state">搜索你的库</string>
+    <plurals name="search_xx_results">
+        <item quantity="other">%1$s 个结果</item>
+    </plurals>
+</resources>

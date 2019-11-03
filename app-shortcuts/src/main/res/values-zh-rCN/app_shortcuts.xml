@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_shortcut_added_to_home_screen">添加快捷方式到主屏幕</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">您的桌面不支持添加快捷方式</string>
+    <string name="shortcut_playlist_chooser">新建播放列表</string>
+</resources>

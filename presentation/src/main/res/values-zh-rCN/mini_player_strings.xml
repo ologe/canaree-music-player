@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="mini_player_time_left">
+        <item quantity="other">剩余 %d 分钟</item>
+    </plurals>
+</resources>

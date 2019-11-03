@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="related_artists_header">
+        <item>将艺术家与文件夹 %s 关联</item>
+        <item>将艺术家与播放列表 %s 关联</item>
+        <item>无效</item>
+        <item>将艺术家与专辑 %s 关联</item>
+        <item>将艺术家与艺术家 %s 关联</item>
+        <item>将艺术家与流派 %s 关联</item>
+    </string-array>
+</resources>

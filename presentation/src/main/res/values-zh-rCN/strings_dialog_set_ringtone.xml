@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> 将被设置为铃声]]></string>
+    <string name="song_x_set_as_ringtone">设置 %1$s 为铃声</string>
+</resources>

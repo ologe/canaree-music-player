@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_song_x_to_playlist"><![CDATA[添加 <b>%1$s</b> 播放列表：]]></string>
+    <string name="save_as_playlist">另存为播放列表</string>
+    <string name="queue_saved_as_playlist">将播放队列储存为 %s</string>
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="other"><![CDATA[添加<b>%1$d 首歌</b>到播放列表：]]></item>
+    </plurals>
+    <string name="added_song_x_to_playlist_y">将 %1$s 添加到播放列表 %2$s</string>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="other">将 %1$d 首歌添加到播放列表 %2$s</item>
+    </plurals>
+    <string name="popup_new_playlist">新建播放列表</string>
+    <string name="popup_no_playlist">尚无播放列表……</string>
+    <string name="new_playlist_hint">播放列表名称</string>
+    <string name="popup_playlist_name_not_valid">名称无效</string>
+    <string name="popup_playlist_name_already_exist">同名播放列表已存在</string>
+</resources>

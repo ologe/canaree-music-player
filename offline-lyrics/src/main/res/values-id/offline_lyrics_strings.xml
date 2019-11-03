@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="offline_lyrics_empty">Tidak ada lirik</string>
+    <string name="offline_lyrics_edit_title">Tambah lirik</string>
+    <string name="offline_lyrics_edit_hint">Tempel lirikmu disini</string>
+    <string name="offline_lyrics_adjust_sync">Atur sinkronisasi</string>
+    <string name="offline_lyrics_adjust_sync_hint">Milidetik</string>
+    <string name="offline_lyrics_adjust_sync_error">Hanya digit</string>
+</resources>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+    <string name="settings">设置</string>
+    <string name="prefs_not_premium_action">购买</string>
+    <string name="premium_ad_key_title">显示广告来解锁高级功能</string>
+    <!--categories-->
+    <string name="prefs_category_library">曲库</string>
+    <string name="prefs_category_audio">音频</string>
+    <string name="prefs_category_ui">用户界面</string>
+    <string name="prefs_category_other">其它</string>
+    <!--quick action-->
+    <string name="prefs_quick_action_title">快捷功能</string>
+    <string name="prefs_quick_action_summary">更改唱片封面旁小图标的功能</string>
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_title">可见部分</string>
+    <string name="prefs_detail_sections_summary">在详细视图中设置可见部分</string>
+    <!--library categories-->
+    <string name="prefs_library_categories_title">曲库分类</string>
+    <string name="prefs_library_categories_summary">设置可见性与顺序</string>
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_title">播客分类</string>
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">黑名单</string>
+    <string name="prefs_blacklist_summary">在曲库中隐藏文件夹</string>
+    <string name="prefs_blacklist_description">点击显示或隐藏</string>
+    <string name="prefs_blacklist_error">不能屏蔽所有文件夹</string>
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_title">以树状图显示文件夹</string>
+    <string name="prefs_show_podcasts_title">显示播客</string>
+    <string name="prefs_show_podcasts_summary">显示播客选项卡</string>
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">均衡器</string>
+    <string name="prefs_used_equalizer_summary_on">使用内置均衡器</string>
+    <string name="prefs_used_equalizer_summary_off">使用系统均衡器（如果有）</string>
+    <!--midnight mode-->
+    <string name="prefs_lower_volume_on_night_title">夜间模式</string>
+    <string name="prefs_lower_volume_on_night_summary">夜间降低最大音量</string>
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">淡出淡入</string>
+    <string name="prefs_cross_fade_summary">允许切换歌曲时淡出淡入</string>
+    <!--gapless-->
+    <string name="prefs_gapless_title">无间隔</string>
+    <string name="prefs_gapless_summary">无间隔播放</string>
+    <!--icon shape-->
+    <string name="prefs_icon_shape_title">图标形状</string>
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_title">以经典方式控制播放器</string>
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">自适应颜色</string>
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_title">显示新添加的专辑和艺术家</string>
+    <string name="prefs_show_new_albums_artists_summary">显示全部最近添加的专辑和艺术家</string>
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_title">显示最近播放</string>
+    <string name="prefs_show_recent_albums_artists_summary">显示所有最近播放过的专辑和艺术家</string>
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">自动下载图像</string>
+    <string name="prefs_auto_download_images_summary_mobile">总是</string>
+    <string name="prefs_auto_download_images_summary_wifi">使用Wi-Fi时</string>
+    <string name="prefs_auto_download_images_summary_never">从不</string>
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">自动创建文件夹、播放列表和流派的封面</string>
+    <!--appearance-->
+    <string name="prefs_appearance_title">“正在播放”界面外观</string>
+    <string name="prefs_appearance_default">默认</string>
+    <string name="prefs_appearance_flat">扁平化</string>
+    <string name="prefs_appearance_spotify">著名的绿色播放器</string>
+    <string name="prefs_appearance_fullscreen">全拼</string>
+    <string name="prefs_appearance_big_image">大图像</string>
+    <string name="prefs_appearance_clean">荧光</string>
+    <string name="prefs_appearance_mini">迷你</string>
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">黑暗模式</string>
+    <string name="prefs_dark_mode_follow_system">跟随省电模式</string>
+    <string name="prefs_dark_mode_light">明亮</string>
+    <string name="prefs_dark_mode_dark">黑暗</string>
+    <!--notch support-->
+    <string name="prefs_notch_support_title">刘海屏支持</string>
+    <string name="prefs_notch_support_summary">增加状态栏高度</string>
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">清除缓存</string>
+    <string name="prefs_delete_cached_images_summary">清除已缓存的图像</string>
+    <string name="prefs_delete_cached_images_success">缓存已清除</string>
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_title">重置新手教程</string>
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_title">登录last.fm</string>
+    <string name="prefs_last_fm_credentials_message">您的登录凭证将被加密</string>
+    <string name="prefs_last_fm_credentials_summary">为您的last.fm账号输入账号和密码</string>
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_title">锁屏显示</string>
+    <!--daynight-->
+    <string name="prefs_day_night_title">日夜模式</string>
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_title">强调色</string>
+    <string name="prefs_accent_color_summary">更改主题强调色</string>
+    <!--fullscreen-->
+    <string name="prefs_immersive_title">沉浸模式</string>
+</resources>

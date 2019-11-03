@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_library">Pustaka</string>
+    <string name="common_folders">Folder</string>
+    <string name="common_playlists">Daftar Putar</string>
+    <string name="common_tracks">Trek</string>
+    <string name="common_albums">Album</string>
+    <string name="common_artists">Artis</string>
+    <string name="common_genres">Aliran</string>
+    <string name="common_podcasts">Podcast</string>
+    <string name="common_last_added">Terakhir ditambahkan</string>
+    <string name="common_favorites">Favorit</string>
+    <string name="common_history">Riwayat</string>
+    <string name="common_all_tracks">Semua Trek</string>
+    <string name="common_placeholder_title">Judul yang bagus</string>
+    <string name="common_placeholder_artist">Artis yang bagus</string>
+    <string name="common_placeholder_album">Album yang bagus</string>
+    <string name="common_empty_list">Daftar kosong</string>
+    <string name="network_timeout">Silakan ulangi</string>
+    <string name="are_you_sure">Apa anda yakin?</string>
+    <plurals name="common_plurals_hours">
+        <item quantity="other">%d jam</item>
+    </plurals>
+    <plurals name="common_plurals_minutes">
+        <item quantity="other">%d menit</item>
+    </plurals>
+    <plurals name="common_plurals_song">
+        <item quantity="other">%d trek</item>
+    </plurals>
+    <plurals name="common_plurals_album">
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="common_plurals_folder">
+        <item quantity="other">%d folder</item>
+    </plurals>
+    <string name="common_folder">Folder</string>
+    <string name="common_playlist">Daftar Putar</string>
+    <string name="common_title">Judul</string>
+    <string name="common_track">Trek</string>
+    <string name="common_artist">Artis</string>
+    <string name="common_album_artist">Album artis</string>
+    <string name="common_album">Album</string>
+    <string name="common_genre">Aliran</string>
+    <string name="common_duration">Durasi</string>
+    <string name="common_recently_added">Ditambahkan baru-baru ini</string>
+    <string name="common_custom">Kustom</string>
+    <string name="common_track_number">Nomor trek</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Daftar putar podcast</string>
+    <string name="common_podcast_album">Album podcast</string>
+    <string name="common_podcast_artist">Artis podcast</string>
+    <string name="common_play">Mainkan</string>
+    <string name="common_shuffle">Semua acak</string>
+    <string name="common_search">Cari</string>
+    <string name="common_hide">Sembunyi</string>
+    <string name="common_shape_square">Kotak</string>
+    <string name="common_shape_rounded">Kotak bundar</string>
+    <string name="common_related_artists">Artis terkait</string>
+    <string name="common_most_played">Sering dimainkan</string>
+    <string name="common_no_tracks">Tidak ada trek</string>
+    <string name="common_no_results">Tidak ada hasil</string>
+    <string name="common_visible">Terlihat</string>
+    <string name="common_hidden">Tersembunyi</string>
+    <string name="common_no_internet">Cek koneksi internet anda</string>
+    <string name="common_switch_on">Hidup</string>
+    <string name="common_switch_off">Mati</string>
+    <string name="common_filter">Saring..</string>
+    <string name="common_browser_not_found">Browser tidak ditemukan</string>
+    <string name="common_added_to_play_next">Ditambahkan untuk dimainkan selanjutnya</string>
+    <string name="common_moved_to_play_next">Dipindahkan untuk dimainkan selanjutnya</string>
+    <string name="common_enabled">Diaktifkan</string>
+    <string name="common_disabled">Dinonaktifkan</string>
+    <string name="common_sort_by">Urut berdasarkan</string>
+</resources>

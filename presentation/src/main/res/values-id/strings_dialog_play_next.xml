@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_song_x_to_play_next"><![CDATA[Mainkan <b>%1$s</b> selanjutnya?]]></string>
+    <plurals name="add_xx_songs_to_play_next">
+        <item quantity="other"><![CDATA[Mainkan <b>lagu %1$d</b> selanjutnya?]]></item>
+    </plurals>
+</resources>

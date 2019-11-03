@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="recently_added_header">
+        <item>Sebelumnya ditambah ke folder %s</item>
+        <item>Sebelimnya ditambah ke daftar putar %s</item>
+        <item>Gagal</item>
+        <item>Sebelumnya ditambah ke album %s</item>
+        <item>Sebelumnya ditambah ke artis %s</item>
+        <item>Baru-baru ini menambahkan aliran %s</item>
+    </string-array>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_x_renamed_to_y">播放列表 %1$s 已重命名为 %2$s</string>
+    <string name="popup_positive_rename">重命名</string>
+</resources>

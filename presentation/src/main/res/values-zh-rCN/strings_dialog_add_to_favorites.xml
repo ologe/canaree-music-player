@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_song_x_to_favorite"><![CDATA[添加 <b>%1$s</b> 到收藏?]]></string>
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="other"><![CDATA[添加 <b>%1$d 首歌曲</b> 到收藏?]]></item>
+    </plurals>
+    <string name="song_x_added_to_favorites">%1$s 已添加到收藏</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="other">%1$d 首歌已添加到收藏</item>
+    </plurals>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="popup_play">播放</string>
+    <string name="popup_play_shuffle">随机播放</string>
+    <string name="popup_add_to_playlist">添加到播放列表……</string>
+    <string name="popup_add_to_favorites">添加到收藏</string>
+    <string name="popup_add_to_home_screen">添加到主屏幕</string>
+    <string name="popup_play_next">下一曲</string>
+    <string name="popup_play_later">稍后播放</string>
+    <string name="popup_edit_song_info">编辑歌曲</string>
+    <string name="popup_edit_album_info">编辑专辑</string>
+    <string name="popup_edit_artist_info">编辑艺术家</string>
+    <string name="popup_view_album">查看专辑</string>
+    <string name="popup_view_artist">查看艺术家</string>
+    <string name="popup_share">分享</string>
+    <string name="popup_set_as_ringtone">设置为铃声</string>
+    <string name="popup_delete">删除</string>
+    <string name="popup_rename">重命名</string>
+    <string name="popup_clear_playlist">清除播放列表</string>
+    <string name="popup_remove_duplicates">移除重复歌曲</string>
+    <string name="popup_equalizer">均衡器</string>
+    <string name="popup_sleep_timer">睡眠模式</string>
+    <string name="popup_negative_cancel">取消</string>
+    <string name="popup_negative_no">否</string>
+    <string name="popup_negative_back">返回</string>
+    <string name="popup_positive_ok">好的</string>
+    <string name="popup_positive_save">保存</string>
+    <string name="popup_positive_create">创建</string>
+    <string name="popup_positive_delete">删除</string>
+    <string name="popup_positive_remove">移除</string>
+    <string name="popup_neutral_reset">重设</string>
+    <string name="popup_error_message">出了些问题</string>
+    <string name="share_song_x"><![CDATA[分享 <b><font color=\"black\">%1$s</b></font>…]]></string>
+    <string name="popup_permission">许可权限</string>
+    <string name="popup_request_permission_write_settings">请许可以下权限以设置铃声</string>
+    <string name="popup_grid_size">网格尺寸</string>
+</resources>

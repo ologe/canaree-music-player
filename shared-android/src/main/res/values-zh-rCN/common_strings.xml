@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_library">曲库</string>
+    <string name="common_folders">文件夹</string>
+    <string name="common_playlists">播放列表</string>
+    <string name="common_tracks">歌曲</string>
+    <string name="common_albums">专辑</string>
+    <string name="common_artists">艺术家</string>
+    <string name="common_genres">流派</string>
+    <string name="common_podcasts">播客</string>
+    <string name="common_last_added">上次添加</string>
+    <string name="common_favorites">收藏</string>
+    <string name="common_history">播放历史</string>
+    <string name="common_all_tracks">全部歌曲</string>
+    <string name="common_placeholder_title">一个绝妙的标题</string>
+    <string name="common_placeholder_artist">一位牛逼的艺术家</string>
+    <string name="common_placeholder_album">一份棒棒的专辑</string>
+    <string name="common_empty_list">空</string>
+    <string name="network_timeout">请重试</string>
+    <string name="are_you_sure">你确定？</string>
+    <plurals name="common_plurals_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="common_plurals_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="common_plurals_song">
+        <item quantity="other">%d 歌曲</item>
+    </plurals>
+    <plurals name="common_plurals_album">
+        <item quantity="other">%d 专辑</item>
+    </plurals>
+    <plurals name="common_plurals_folder">
+        <item quantity="other">%d 文件夹</item>
+    </plurals>
+    <string name="common_folder">文件夹</string>
+    <string name="common_playlist">播放列表</string>
+    <string name="common_title">标题</string>
+    <string name="common_track">歌曲</string>
+    <string name="common_artist">艺术家</string>
+    <string name="common_album_artist">参演艺术家</string>
+    <string name="common_album">专辑</string>
+    <string name="common_genre">流派</string>
+    <string name="common_duration">日期</string>
+    <string name="common_recently_added">最近添加</string>
+    <string name="common_custom">自定义</string>
+    <string name="common_track_number">歌曲编号</string>
+    <string name="common_podcast">播客</string>
+    <string name="common_podcast_playlist">播客列表</string>
+    <string name="common_podcast_album">播客专辑</string>
+    <string name="common_podcast_artist">播客艺术家</string>
+    <string name="common_play">播放</string>
+    <string name="common_shuffle">随机播放全部</string>
+    <string name="common_search">搜索</string>
+    <string name="common_hide">隐藏</string>
+    <string name="common_shape_square">方形</string>
+    <string name="common_shape_rounded">圆角方形</string>
+    <string name="common_related_artists">相关艺术家</string>
+    <string name="common_most_played">最多播放</string>
+    <string name="common_no_tracks">空</string>
+    <string name="common_no_results">无结果</string>
+    <string name="common_visible">可见</string>
+    <string name="common_hidden">隐藏</string>
+    <string name="common_no_internet">请检查网络连接</string>
+    <string name="common_switch_on">打开</string>
+    <string name="common_switch_off">关闭</string>
+    <string name="common_filter">筛选</string>
+    <string name="common_browser_not_found">未找到浏览器</string>
+    <string name="common_added_to_play_next">添加到下一曲播放</string>
+    <string name="common_moved_to_play_next">移动到下一曲播放</string>
+    <string name="common_enabled">已启用</string>
+    <string name="common_disabled">已禁用</string>
+    <string name="common_sort_by">排序方式</string>
+</resources>
