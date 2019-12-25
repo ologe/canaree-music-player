@@ -3,14 +3,14 @@ package dev.olog.data.repository.lastfm
 import android.util.Log
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.base.Id
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
 import dev.olog.data.utils.assertBackgroundThread
 import javax.inject.Inject
 
 internal class ImageRetrieverLocalTrack @Inject constructor(
-    appDatabase: AppDatabase
+    private val lastFmDao: LastFmDao
 ) {
 
     companion object {
@@ -18,28 +18,26 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
         private val TAG = "D:${ImageRetrieverLocalTrack::class.java.simpleName}"
     }
 
-    private val dao = appDatabase.lastFmDao()
-
     fun mustFetch(trackId: Id): Boolean {
         assertBackgroundThread()
-        return dao.getTrack(trackId) == null
+        return lastFmDao.getTrack(trackId) == null
     }
 
     fun getCached(id: Id): LastFmTrack? {
-        return dao.getTrack(id)?.toDomain()
+        return lastFmDao.getTrack(id)?.toDomain()
     }
 
     fun cache(model: LastFmTrack) {
         Log.v(TAG, "cache ${model.id}")
         assertBackgroundThread()
         val entity = model.toModel()
-        dao.insertTrack(entity)
+        lastFmDao.insertTrack(entity)
     }
 
     fun delete(trackId: Long) {
         Log.v(TAG, "delete $trackId")
         assertBackgroundThread()
-        dao.deleteTrack(trackId)
+        lastFmDao.deleteTrack(trackId)
     }
 
 }

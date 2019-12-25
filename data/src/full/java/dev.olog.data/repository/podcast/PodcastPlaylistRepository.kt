@@ -13,7 +13,8 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.R
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.HistoryDao
+import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
@@ -27,15 +28,14 @@ import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    appDatabase: AppDatabase,
     private val podcastGateway: PodcastGateway,
     private val favoriteGateway: FavoriteGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
+    private val podcastArtistGateway: PodcastArtistGateway,
+    private val historyDao: HistoryDao,
+    private val podcastPlaylistDao: PodcastPlaylistDao
 ) : PodcastPlaylistGateway {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
-    private val podcastPlaylistDao = appDatabase.podcastPlaylistDao()
-    private val historyDao = appDatabase.historyDao()
 
     override fun getAll(): List<Playlist> {
         assertBackgroundThread()

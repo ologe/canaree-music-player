@@ -8,22 +8,22 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.base.Path
+import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.FolderMostPlayedDao
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.getString
-import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.getString
+import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -33,14 +33,13 @@ import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway
+    private val songGateway2: SongGateway,
+    private val mostPlayedDao: FolderMostPlayedDao
 ) : BaseRepository<Folder, Path>(context), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
-    private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
     init {
         firstQuery()

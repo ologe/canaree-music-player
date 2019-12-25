@@ -4,7 +4,8 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.HistoryDao
+import dev.olog.data.db.dao.PlaylistDao
 import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackgroundThread
@@ -14,13 +15,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
-    appDatabase: AppDatabase,
+    private val playlistDao: PlaylistDao,
+    private val historyDao: HistoryDao,
     private val favoriteGateway: FavoriteGateway
 
 ) : PlaylistOperations {
 
-    private val playlistDao = appDatabase.playlistDao()
-    private val historyDao = appDatabase.historyDao()
 
     override suspend fun createPlaylist(playlistName: String): Long {
         assertBackgroundThread()
@@ -77,14 +77,16 @@ internal class PlaylistRepositoryHelper @Inject constructor(
         return playlistDao.renamePlaylist(playlistId, newTitle)
     }
 
-    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) = withContext(Dispatchers.IO) {
-        var trackList = playlistDao.getPlaylistTracksImpl(playlistId)
-        for ((from, to) in moveList) {
-            trackList.swap(from, to)
+    override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
+        withContext(Dispatchers.IO) {
+            var trackList = playlistDao.getPlaylistTracksImpl(playlistId)
+            for ((from, to) in moveList) {
+                trackList.swap(from, to)
+            }
+            trackList =
+                trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
+            playlistDao.updateTrackList(trackList)
         }
-        trackList = trackList.mapIndexed { index, entity -> entity.copy(idInPlaylist = index.toLong()) }
-        playlistDao.updateTrackList(trackList)
-    }
 
     override suspend fun removeDuplicated(playlistId: Long) {
         val notDuplicate = playlistDao.getPlaylistTracksImpl(playlistId)

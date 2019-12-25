@@ -11,7 +11,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.LastPlayedPodcastAlbumDao
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
@@ -27,11 +27,10 @@ internal class PodcastAlbumRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    appDatabase: AppDatabase
+    private val lastPlayedDao: LastPlayedPodcastAlbumDao
 ) : BaseRepository<Album, Id>(context), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
-    private val lastPlayedDao = appDatabase.lastPlayedPodcastAlbumDao()
 
     init {
         firstQuery()

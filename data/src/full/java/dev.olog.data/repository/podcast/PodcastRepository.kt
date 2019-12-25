@@ -10,7 +10,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.entities.PodcastPositionEntity
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
@@ -27,12 +27,10 @@ import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
+    blacklistPrefs: BlacklistPreferences,
+    private val podcastPositionDao: PodcastPositionDao
 ) : BaseRepository<Song, Id>(context), PodcastGateway {
-
-    private val podcastPositionDao = appDatabase.podcastPositionDao()
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

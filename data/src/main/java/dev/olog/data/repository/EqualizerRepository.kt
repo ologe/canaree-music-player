@@ -5,45 +5,46 @@ import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
-    appDatabase: AppDatabase,
+    private val equalizerDao: EqualizerPresetsDao,
     private val prefs: EqualizerPreferencesGateway
 
 ) : EqualizerGateway {
 
-    private val dao = appDatabase.equalizerPresetsDao()
-
     init {
         GlobalScope.launch(Dispatchers.IO) {
-            if (dao.getPresets().isEmpty()) {
+            if (equalizerDao.getPresets().isEmpty()) {
                 // called only first time
                 val presets = createDefaultPresets()
-                GlobalScope.launch { dao.insertPresets(presets) }
+                GlobalScope.launch { equalizerDao.insertPresets(presets) }
             }
         }
     }
 
     override fun getPresets(): List<EqualizerPreset> {
-        return dao.getPresets().map { it.toDomain() }
+        return equalizerDao.getPresets().map { it.toDomain() }
     }
 
     override fun getCurrentPreset(): EqualizerPreset {
         val currentPresetId = prefs.getCurrentPresetId()
-        return dao.getPresetById(currentPresetId).toDomain()
+        return equalizerDao.getPresetById(currentPresetId).toDomain()
     }
 
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
         return prefs.observeCurrentPresetId()
-            .flatMapLatest { dao.observePresetById(it) }
+            .flatMapLatest { equalizerDao.observePresetById(it) }
             .map { it.toDomain() }
             .distinctUntilChanged()
     }
@@ -53,15 +54,15 @@ internal class EqualizerRepository @Inject constructor(
         require(preset.isCustom)
 
         val newId = getPresets().maxBy { it.id }!!.id + 1
-        dao.insertPreset(preset.toEntity().copy(id = newId))
+        equalizerDao.insertPreset(preset.toEntity().copy(id = newId))
     }
 
     override suspend fun updatePreset(preset: EqualizerPreset) {
-        dao.insertPreset(preset.toEntity())
+        equalizerDao.insertPreset(preset.toEntity())
     }
 
     override suspend fun deletePreset(preset: EqualizerPreset) {
-        dao.deletePreset(preset.toEntity())
+        equalizerDao.deletePreset(preset.toEntity())
     }
 
     private fun EqualizerPresetEntity.toDomain(): EqualizerPreset {
