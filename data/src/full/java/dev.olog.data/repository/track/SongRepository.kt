@@ -12,6 +12,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
@@ -25,8 +26,9 @@ import javax.inject.Inject
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
-) : BaseRepository<Song, Id>(context), SongGateway {
+    blacklistPrefs: BlacklistPreferences,
+    schedulers: Schedulers
+) : BaseRepository<Song, Id>(context, schedulers), SongGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

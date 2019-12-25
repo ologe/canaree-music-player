@@ -23,11 +23,13 @@ import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.injection.schedulers.SchedulersModule
 import javax.inject.Singleton
 
 @Component(
     modules = arrayOf(
         CoreModule::class,
+        SchedulersModule::class,
         NetworkModule::class,
 
 //        // data

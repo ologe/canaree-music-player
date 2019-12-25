@@ -41,7 +41,6 @@ internal class PlaylistRepository @Inject constructor(
     private val historyDao: HistoryDao,
     private val mostPlayedDao: PlaylistMostPlayedDao,
     private val playlistDao: PlaylistDao
-
 ) : PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)

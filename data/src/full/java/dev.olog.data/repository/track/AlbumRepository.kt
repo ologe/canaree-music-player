@@ -11,6 +11,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.LastPlayedAlbumDao
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.mapper.toSong
@@ -27,8 +28,9 @@ internal class AlbumRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val lastPlayedDao: LastPlayedAlbumDao
-) : BaseRepository<Album, Id>(context), AlbumGateway {
+    private val lastPlayedDao: LastPlayedAlbumDao,
+    schedulers: Schedulers
+) : BaseRepository<Album, Id>(context, schedulers), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 

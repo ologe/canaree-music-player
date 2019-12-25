@@ -19,5 +19,5 @@ class MutableLazy<T>(val init: () -> T) : ReadWriteProperty<Any?, T> {
     }
 }
 
-public fun <T> mutableLazy(initializer: () -> T): MutableLazy<T> =
+fun <T> mutableLazy(initializer: () -> T): MutableLazy<T> =
     MutableLazy(initializer)

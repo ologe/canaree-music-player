@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
 import dev.olog.data.utils.assertBackground
@@ -20,7 +21,8 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
-    @ApplicationContext protected val context: Context
+    @ApplicationContext protected val context: Context,
+    private val schedulers: Schedulers
 ) : BaseGateway<T, Param>, CoroutineScope by CustomScope() {
 
     protected val contentResolver: ContentResolver = context.contentResolver
@@ -40,7 +42,7 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver { channel.offer(queryAll()) }
+                DataObserver(schedulers.io) { channel.offer(queryAll()) }
             )
             channel.offer(queryAll())
         }
@@ -67,7 +69,7 @@ internal abstract class BaseRepository<T, Param>(
                 offer(action())
             }
 
-            val observer = DataObserver {
+            val observer = DataObserver(schedulers.io) {
                 if (!isClosedForSend) {
                     offer(action())
                 }

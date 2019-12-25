@@ -10,6 +10,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.entities.PodcastPositionEntity
 import dev.olog.data.mapper.toSong
@@ -29,8 +30,9 @@ internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val podcastPositionDao: PodcastPositionDao
-) : BaseRepository<Song, Id>(context), PodcastGateway {
+    private val podcastPositionDao: PodcastPositionDao,
+    schedulers: Schedulers
+) : BaseRepository<Song, Id>(context, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

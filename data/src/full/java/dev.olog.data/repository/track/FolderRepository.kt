@@ -13,6 +13,7 @@ import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.FolderMostPlayedDao
 import dev.olog.data.db.entities.FolderMostPlayedEntity
 import dev.olog.data.mapper.toArtist
@@ -36,8 +37,9 @@ internal class FolderRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
-    private val mostPlayedDao: FolderMostPlayedDao
-) : BaseRepository<Folder, Path>(context), FolderGateway {
+    private val mostPlayedDao: FolderMostPlayedDao,
+    schedulers: Schedulers
+) : BaseRepository<Folder, Path>(context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 

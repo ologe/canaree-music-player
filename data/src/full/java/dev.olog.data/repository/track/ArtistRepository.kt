@@ -11,6 +11,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.LastPlayedArtistDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
@@ -27,8 +28,9 @@ internal class ArtistRepository @Inject constructor(
     @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val lastPlayedDao: LastPlayedArtistDao
-) : BaseRepository<Artist, Id>(context), ArtistGateway {
+    private val lastPlayedDao: LastPlayedArtistDao,
+    schedulers: Schedulers
+) : BaseRepository<Artist, Id>(context, schedulers), ArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 

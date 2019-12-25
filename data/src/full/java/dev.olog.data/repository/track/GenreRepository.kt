@@ -13,6 +13,7 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.GenreMostPlayedDao
 import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
@@ -36,8 +37,9 @@ internal class GenreRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
-    private val mostPlayedDao: GenreMostPlayedDao
-) : BaseRepository<Genre, Id>(context), GenreGateway {
+    private val mostPlayedDao: GenreMostPlayedDao,
+    schedulers: Schedulers
+) : BaseRepository<Genre, Id>(context, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
 
