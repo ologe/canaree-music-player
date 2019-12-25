@@ -44,13 +44,15 @@ android {
 }
 
 dependencies {
-
     implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
     implementation lib_core.coroutines_test
 
-    testImplementation lib_test.junit
-    testImplementation lib_test.mockito
-    testImplementation lib_test.mockito_kotlin
+    implementation lib_x.lifecycle_extensions
+    implementation lib_test.livedata
+
+    implementation lib_test.junit
+//    implementation lib_test.mockito
+//    implementation lib_test.mockito_kotlin
 }
