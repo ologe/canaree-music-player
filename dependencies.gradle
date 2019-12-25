@@ -138,4 +138,10 @@ ext {
             stetho           : "com.facebook.stetho:stetho:$stetho",
     ]
 
+    lib_test = [
+            junit         : "junit:junit:4.12",
+            mockito       : "org.mockito:mockito-core:3.0.0",
+            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+    ]
+
 }

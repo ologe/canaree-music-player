@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.service.music.EventDispatcher.Event
-import dev.olog.test.shared.CoroutinesMainDispatcherRule
+import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 class MediaButtonTest {
 
     @get:Rule
-    var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
+    var coroutinesMainDispatcherRule = MainCoroutineRule()
 
     private val eventDispatcher = mock<EventDispatcher>()
     private val mediaButton = MediaButton(eventDispatcher)

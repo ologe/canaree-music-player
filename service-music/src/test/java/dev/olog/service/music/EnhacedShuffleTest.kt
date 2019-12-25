@@ -6,7 +6,7 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.EnhancedShuffle
 import dev.olog.service.music.shared.MusicServiceData
-import dev.olog.test.shared.CoroutinesMainDispatcherRule
+import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -15,7 +15,7 @@ import org.junit.Test
 class EnhacedShuffleTest {
 
     @get:Rule
-    var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
+    var coroutinesMainDispatcherRule = MainCoroutineRule()
 
     private val enhancedShuffle = EnhancedShuffle(mock())
 
