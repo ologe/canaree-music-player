@@ -51,16 +51,18 @@ open class ShapeImageView(
 
         clipToOutline = true
 
-        paint.xfermode =
-            X_FERMO_MODE
+        paint.xfermode = X_FERMO_MODE
 
-        cutCornerShapeModel = ShapeAppearanceModel.builder()
-            .setAllCorners(CutCornerTreatment(context.dipf(radius)))
+        cutCornerShapeModel = ShapeAppearanceModel.Builder()
+            .setAllCorners(CutCornerTreatment())
+            .setAllCornerSizes(context.dipf(radius))
             .build()
 
-        roundedShapeModel = ShapeAppearanceModel.builder()
-            .setAllCorners(RoundedCornerTreatment(context.dipf(radius)))
+        roundedShapeModel = ShapeAppearanceModel.Builder()
+            .setAllCorners(RoundedCornerTreatment())
+            .setAllCornerSizes(context.dipf(radius))
             .build()
+
         squareShapeModel = ShapeAppearanceModel()
     }
 
