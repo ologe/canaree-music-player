@@ -29,8 +29,6 @@ class App : ThemedApp(), HasAndroidInjector {
     @Inject
     lateinit var trackerFacade: TrackerFacade
 
-    @Inject
-
     override fun onCreate() {
         super.onCreate()
         inject()
