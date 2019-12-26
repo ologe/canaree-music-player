@@ -1,5 +1,4 @@
 ## TODO now
-don't show empty genres, folders and playlist
 sort by play count
 
 ## TODO

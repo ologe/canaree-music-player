@@ -52,7 +52,7 @@ android {
 
 //    dynamicFeatures = [":feature_stylize"]
 
-    kotlinOptions.allWarningsAsErrors = true
+//    kotlinOptions.allWarningsAsErrors = true
 }
 
 apply from: '../kapt.gradle'
