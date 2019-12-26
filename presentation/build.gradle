@@ -32,6 +32,7 @@ apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')
+    implementation project(':analytics')
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')
@@ -84,5 +85,5 @@ dependencies {
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions
     implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_ktx
+    implementation lib_x.lifecycle_viewmodel
 }

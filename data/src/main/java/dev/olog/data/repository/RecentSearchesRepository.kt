@@ -7,13 +7,12 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.data.db.dao.AppDatabase
 import dev.olog.data.db.dao.RecentSearchesDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class RecentSearchesRepository @Inject constructor(
-    appDatabase: AppDatabase,
+    private val dao: RecentSearchesDao,
     private val songGateway: SongGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
@@ -27,8 +26,6 @@ internal class RecentSearchesRepository @Inject constructor(
     private val podcastAlbumGateway: PodcastAlbumGateway
 
 ) : RecentSearchesGateway {
-
-    private val dao: RecentSearchesDao = appDatabase.recentSearchesDao()
 
     override fun getAll(): Flow<List<SearchResult>> {
         return dao.getAll(

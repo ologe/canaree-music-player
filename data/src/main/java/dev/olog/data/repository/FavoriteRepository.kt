@@ -7,7 +7,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.FavoriteDao
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -17,13 +17,11 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
-    appDatabase: AppDatabase,
+    private val favoriteDao: FavoriteDao,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
 
 ) : FavoriteGateway {
-
-    private val favoriteDao = appDatabase.favoriteDao()
 
     private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
 

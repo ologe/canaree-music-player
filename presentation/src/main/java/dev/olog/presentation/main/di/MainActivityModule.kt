@@ -17,7 +17,7 @@ import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.MainActivityViewModel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.navigator.NavigatorImpl
-import dev.olog.presentation.pro.BillingImpl
+import dev.olog.presentation.pro.BillingMock
 import dev.olog.presentation.pro.IBilling
 
 @Module
@@ -39,7 +39,7 @@ abstract class MainActivityModule {
 
     @Binds
     @PerActivity
-    internal abstract fun provideBilling(impl: BillingImpl): IBilling
+    internal abstract fun provideBilling(impl: BillingMock): IBilling
 
     @Binds
     @IntoMap

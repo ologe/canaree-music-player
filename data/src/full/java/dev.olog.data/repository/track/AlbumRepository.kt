@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -11,7 +12,8 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.data.db.dao.LastPlayedAlbumDao
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
@@ -25,13 +27,14 @@ import javax.inject.Inject
 
 internal class AlbumRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    appDatabase: AppDatabase
-) : BaseRepository<Album, Id>(context), AlbumGateway {
+    private val lastPlayedDao: LastPlayedAlbumDao,
+    schedulers: Schedulers
+) : BaseRepository<Album, Id>(context, contentResolver, schedulers), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
-    private val lastPlayedDao = appDatabase.lastPlayedAlbumDao()
 
     init {
         firstQuery()
@@ -43,7 +46,7 @@ internal class AlbumRepository @Inject constructor(
 
     private fun extractAlbums(cursor: Cursor): List<Album> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toAlbum() }
+        return contentResolver.queryAll(cursor) { it.toAlbum() }
             .groupBy { it.id }
             .map { (_, list) ->
                 val album = list[0]

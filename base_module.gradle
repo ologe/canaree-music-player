@@ -41,21 +41,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dexOptions {
-        preDexLibraries true
-    }
-
     useLibrary 'android.test.runner'
 
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
-
-    testOptions {
-        unitTests{
-            returnDefaultValues = true
-            includeAndroidResources = true
-        }
-    }
 
 }
 
@@ -72,21 +61,22 @@ dependencies {
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     // Core library
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.23.4'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    androidTestImplementation 'androidx.test:core:1.2.0'
+    testImplementation lib_test.junit
+    testImplementation lib_test.mockito
+    testImplementation lib_test.mockito_kotlin
 
-    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation lib_test.mockito
+    androidTestImplementation lib_test.mockito_kotlin
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 //    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
 //    androidTestImplementation 'com.google.truth:truth:0.44'
 
     // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
 }

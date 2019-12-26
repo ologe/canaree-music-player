@@ -71,16 +71,16 @@ class PopupMenuFactory @Inject constructor(
 
     private fun getSongPopup(view: View, mediaId: MediaId): PopupMenu {
         val song = getSongUseCase.getByParam(mediaId.leaf!!)!!
-        return SongPopup(view, song, listenerFactory.song(song))
+        return SongPopup(view, listenerFactory.song(song))
     }
 
     private fun getAlbumPopup(view: View, mediaId: MediaId): PopupMenu {
         val album = getAlbumUseCase.getByParam(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getByParam(mediaId.leaf!!)
-            AlbumPopup(view, album, song, listenerFactory.album(album, song))
+            AlbumPopup(view, song, listenerFactory.album(album, song))
         } else {
-            AlbumPopup(view, album, null, listenerFactory.album(album, null))
+            AlbumPopup(view, null, listenerFactory.album(album, null))
         }
     }
 
@@ -106,7 +106,7 @@ class PopupMenuFactory @Inject constructor(
 
     private fun getPodcastPopup(view: View, mediaId: MediaId): PopupMenu {
         val song = getPodcastUseCase.getByParam(mediaId.leaf!!)!!
-        return SongPopup(view, song, listenerFactory.song(song))
+        return SongPopup(view, listenerFactory.song(song))
     }
 
     private fun getPodcastPlaylistPopup(view: View, mediaId: MediaId): PopupMenu {
@@ -123,9 +123,9 @@ class PopupMenuFactory @Inject constructor(
         val album = getPodcastAlbumUseCase.getByParam(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getByParam(mediaId.leaf!!)
-            AlbumPopup(view, album, song, listenerFactory.album(album, song))
+            AlbumPopup(view, song, listenerFactory.album(album, song))
         } else {
-            AlbumPopup(view, album, null, listenerFactory.album(album, null))
+            AlbumPopup(view, null, listenerFactory.album(album, null))
         }
     }
 

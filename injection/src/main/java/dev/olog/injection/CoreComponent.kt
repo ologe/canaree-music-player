@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
+import dev.olog.analytics.AnalyticsModule
+import dev.olog.analytics.TrackerFacade
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.*
@@ -23,12 +25,15 @@ import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.injection.schedulers.SchedulersModule
 import javax.inject.Singleton
 
 @Component(
     modules = arrayOf(
         CoreModule::class,
+        SchedulersModule::class,
         NetworkModule::class,
+        AnalyticsModule::class,
 
 //        // data
         RepositoryHelperModule::class,
@@ -79,6 +84,8 @@ interface CoreComponent {
     fun equalizerGateway(): EqualizerGateway
 
     fun encrypter(): IEncrypter
+
+    fun trackerFacade(): TrackerFacade
 
     @Component.Factory
     interface Factory {

@@ -1,6 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
+buildscript { 
+    ext.kotlin_version = '1.3.61'
+
 
     ext {
         kotlin_version = '1.3.61'
@@ -24,6 +26,9 @@ buildscript {
         classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin"
     }
 
+
+    
+    
 }
 
 allprojects {
@@ -65,8 +70,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_29_3_2_03
-    versionName = '3.2.3'
+    versionCode = 999_29_3_3_00
+    versionName = '3.3.0'
 
 }
 

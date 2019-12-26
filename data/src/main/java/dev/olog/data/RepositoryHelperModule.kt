@@ -10,7 +10,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.db.dao.AppDatabase
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [DatabaseModule::class])
 object RepositoryHelperModule {
 
     @Provides

@@ -1,6 +1,10 @@
 package dev.olog.data.repository.track
 
 import android.content.Context
+import android.provider.MediaStore.Audio.Playlists.*
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
+import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
@@ -14,35 +18,32 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.R
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.HistoryDao
+import dev.olog.data.db.dao.PlaylistDao
+import dev.olog.data.db.dao.PlaylistMostPlayedDao
+import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistMostPlayedEntity
+import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
-import javax.inject.Inject
-import android.provider.MediaStore.Audio.Playlists.*
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
-import dev.olog.contentresolversql.querySql
-import dev.olog.data.db.entities.PlaylistEntity
-import dev.olog.data.db.entities.PlaylistTrackEntity
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    appDatabase: AppDatabase,
     private val songGateway: SongGateway,
     private val artistGateway: ArtistGateway,
     private val helper: PlaylistRepositoryHelper,
-    private val favoriteGateway: FavoriteGateway
+    private val favoriteGateway: FavoriteGateway,
+    private val historyDao: HistoryDao,
+    private val mostPlayedDao: PlaylistMostPlayedDao,
+    private val playlistDao: PlaylistDao
 ) : PlaylistGateway, PlaylistOperations by helper {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
-    private val playlistDao = appDatabase.playlistDao()
-    private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
-    private val historyDao = appDatabase.historyDao()
 
     override fun getAll(): List<Playlist> {
         populatePlaylistTables()

@@ -82,7 +82,8 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_playing_queue"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:scrollbars="none"/>
 
     <dev.olog.presentation.widgets.fascroller.RxFastScroller
         android:id="@+id/fastScroller"

@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -13,7 +14,8 @@ import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.data.db.dao.GenreMostPlayedDao
 import dev.olog.data.db.entities.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
@@ -33,14 +35,15 @@ import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
     @ApplicationContext context: Context,
-    appDatabase: AppDatabase,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway
-) : BaseRepository<Genre, Id>(context), GenreGateway {
+    private val songGateway2: SongGateway,
+    private val mostPlayedDao: GenreMostPlayedDao,
+    schedulers: Schedulers
+) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
-    private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
     init {
         firstQuery()
@@ -54,11 +57,15 @@ internal class GenreRepository @Inject constructor(
         assertBackgroundThread()
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
-        return genres.map { genre ->
+        return genres.mapNotNull { genre ->
             // get the size for every genre
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            genre.withSongs(sizeQuery)
+            if (sizeQuery == 0){
+                null
+            } else {
+                genre.withSongs(sizeQuery)
+            }
         }
     }
 
@@ -127,7 +134,7 @@ internal class GenreRepository @Inject constructor(
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+        return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]

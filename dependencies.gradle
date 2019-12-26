@@ -31,7 +31,7 @@ ext {
     tap_target_view = '2.0.0'
 
 //    data
-    room = '2.2.1'
+    room = '2.2.3'
     sql_content_resolver = '1.2.1'
 
 //    network
@@ -55,6 +55,7 @@ ext {
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
+            analytics  : "com.google.firebase:firebase-analytics:17.2.1",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
             perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
@@ -90,9 +91,8 @@ ext {
             lifecycle_runtime   : "androidx.lifecycle:lifecycle-runtime:$lifecycle",
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle",
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
-            lifecycle_ktx       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
-            lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata:$lifecycle",
-            lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel:$lifecycle",
+            lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
+            lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
 
             billing             : "com.android.billingclient:billing:$billing",
     ]
@@ -136,6 +136,14 @@ ext {
     lib_debug = [
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
             stetho           : "com.facebook.stetho:stetho:$stetho",
+    ]
+
+    lib_test = [
+            junit         : "junit:junit:4.12",
+            mockito       : "org.mockito:mockito-android:3.2.4",
+            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+            livedata      : "com.jraska.livedata:testing-ktx:1.1.0",
+            ext_junit     : "androidx.test.ext:junit-ktx:1.1.0",
     ]
 
 }

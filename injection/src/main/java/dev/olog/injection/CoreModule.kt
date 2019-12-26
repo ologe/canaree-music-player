@@ -1,6 +1,7 @@
 package dev.olog.injection
 
 import android.app.Application
+import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
@@ -26,6 +27,12 @@ abstract class CoreModule {
         @Provides
         @JvmStatic
         internal fun provideResources(instance: Application): Resources = instance.resources
+
+        @Provides
+        @JvmStatic
+        internal fun provideContentResolver(instance: Application): ContentResolver {
+            return instance.contentResolver
+        }
 
         @Provides
         @JvmStatic

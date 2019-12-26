@@ -1,5 +1,6 @@
 package dev.olog.data.repository.podcast
 
+import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -11,7 +12,8 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.data.db.dao.LastPlayedPodcastArtistDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
@@ -25,13 +27,14 @@ import javax.inject.Inject
 
 internal class PodcastArtistRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    appDatabase: AppDatabase
-) : BaseRepository<Artist, Id>(context), PodcastArtistGateway {
+    private val lastPlayedDao: LastPlayedPodcastArtistDao,
+    schedulers: Schedulers
+) : BaseRepository<Artist, Id>(context, contentResolver, schedulers), PodcastArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
-    private val lastPlayedDao = appDatabase.lastPlayedPodcastArtistDao()
 
     init {
         firstQuery()
@@ -43,7 +46,7 @@ internal class PodcastArtistRepository @Inject constructor(
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+        return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]

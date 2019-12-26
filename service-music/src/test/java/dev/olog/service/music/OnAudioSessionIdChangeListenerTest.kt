@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.verify
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.test.shared.CoroutinesMainDispatcherRule
+import dev.olog.test.shared.MainCoroutineRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 class OnAudioSessionIdChangeListenerTest {
 
     @get:Rule
-    var coroutinesMainDispatcherRule = CoroutinesMainDispatcherRule()
+    var coroutinesMainDispatcherRule = MainCoroutineRule()
 
     private val lifecycle = mock<Lifecycle>()
     private val equalizer = mock<IEqualizer>()

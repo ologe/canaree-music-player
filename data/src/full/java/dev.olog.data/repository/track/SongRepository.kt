@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
@@ -12,6 +13,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
@@ -24,12 +26,14 @@ import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences
-) : BaseRepository<Song, Id>(context), SongGateway {
+    blacklistPrefs: BlacklistPreferences,
+    schedulers: Schedulers
+) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
 
     private val queries = TrackQueries(
-        context.contentResolver, blacklistPrefs,
+        contentResolver, blacklistPrefs,
         sortPrefs, false
     )
 
@@ -42,15 +46,15 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Song> {
-        assertBackgroundThread()
+//        assertBackgroundThread()
         val cursor = queries.getAll()
-        return context.contentResolver.queryAll(cursor) { it.toSong() }
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun getByParam(param: Id): Song? {
         assertBackgroundThread()
         val cursor = queries.getByParam(param)
-        return context.contentResolver.queryOne(cursor) { it.toSong() }
+        return contentResolver.queryOne(cursor) { it.toSong() }
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {

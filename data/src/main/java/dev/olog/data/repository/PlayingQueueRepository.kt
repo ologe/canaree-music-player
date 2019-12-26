@@ -6,20 +6,18 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
-import dev.olog.data.db.dao.AppDatabase
+import dev.olog.data.db.dao.PlayingQueueDao
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class PlayingQueueRepository @Inject constructor(
-    database: AppDatabase,
+    private val playingQueueDao: PlayingQueueDao,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
 
 ) : PlayingQueueGateway {
-
-    private val playingQueueDao = database.playingQueueDao()
 
     override fun getAll(): List<PlayingQueueSong> {
         try {
@@ -30,7 +28,7 @@ internal class PlayingQueueRepository @Inject constructor(
                 return playingQueue
             }
             return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
-        } catch (ex: SecurityException){
+        } catch (ex: SecurityException) {
             // sometimes this method is called without having storage permission
             ex.printStackTrace()
             return emptyList()

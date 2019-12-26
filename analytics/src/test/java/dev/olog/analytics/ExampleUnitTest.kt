@@ -1,4 +1,4 @@
-package dev.olog.prefskeys
+package dev.olog.analytics
 
 import org.junit.Test
 
