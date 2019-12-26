@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
+import dev.olog.analytics.AnalyticsModule
 import dev.olog.core.IEncrypter
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.*
@@ -31,6 +32,7 @@ import javax.inject.Singleton
         CoreModule::class,
         SchedulersModule::class,
         NetworkModule::class,
+        AnalyticsModule::class,
 
 //        // data
         RepositoryHelperModule::class,

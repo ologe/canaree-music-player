@@ -3,6 +3,7 @@ package dev.olog.presentation.widgets.bottomnavigator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
@@ -20,7 +21,12 @@ internal class BottomNavigator {
             PlayingQueueFragment.TAG
     )
 
-    fun navigate(activity: FragmentActivity, page: BottomNavigationPage, libraryPage: LibraryPage){
+    fun navigate(
+        activity: FragmentActivity,
+        trackerFacade: TrackerFacade,
+        page: BottomNavigationPage,
+        libraryPage: LibraryPage
+    ) {
         val fragmentTag = page.toFragmentTag(libraryPage)
 
         if (!tags.contains(fragmentTag)) {
@@ -42,8 +48,11 @@ internal class BottomNavigator {
 
             val fragment = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
             if (fragment == null) {
-                add(R.id.fragmentContainer, tagToInstance(fragmentTag), fragmentTag)
+                val newFragment = tagToInstance(fragmentTag)
+                trackerFacade.trackScreen(newFragment::class.java.simpleName, newFragment.arguments)
+                add(R.id.fragmentContainer, newFragment, fragmentTag)
             } else {
+                trackerFacade.trackScreen(fragment::class.java.simpleName, fragment.arguments)
                 show(fragment)
             }
         }
