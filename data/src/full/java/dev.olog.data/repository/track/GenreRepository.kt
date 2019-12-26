@@ -57,11 +57,15 @@ internal class GenreRepository @Inject constructor(
         assertBackgroundThread()
         val cursor = queries.getAll()
         val genres = contentResolver.queryAll(cursor) { it.toGenre() }
-        return genres.map { genre ->
+        return genres.mapNotNull { genre ->
             // get the size for every genre
             val sizeQueryCursor = queries.countGenreSize(genre.id)
             val sizeQuery = contentResolver.queryCountRow(sizeQueryCursor)
-            genre.withSongs(sizeQuery)
+            if (sizeQuery == 0){
+                null
+            } else {
+                genre.withSongs(sizeQuery)
+            }
         }
     }
 
