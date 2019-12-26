@@ -3,6 +3,10 @@ apply from: '../base_module.gradle'
 
 android {
     kotlinOptions.allWarningsAsErrors = true
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -15,4 +19,6 @@ dependencies {
     implementation lib_x.media
     implementation lib_x.appcompat
     implementation lib_x.lifecycle_livedata
+
+    testImplementation lib_test.mockito
 }
