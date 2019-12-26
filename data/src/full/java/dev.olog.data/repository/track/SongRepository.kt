@@ -46,7 +46,7 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Song> {
-        assertBackgroundThread()
+//        assertBackgroundThread()
         val cursor = queries.getAll()
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
