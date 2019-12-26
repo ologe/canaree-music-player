@@ -2,8 +2,11 @@ package dev.olog.presentation.pro
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-internal class BillingMock : IBilling {
+internal class BillingMock @Inject constructor(
+
+): IBilling {
 
     companion object {
         private val STATE = BillingState(isTrial = false, isBought = true)
