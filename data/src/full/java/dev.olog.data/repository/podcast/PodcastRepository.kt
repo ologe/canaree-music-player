@@ -1,5 +1,6 @@
 package dev.olog.data.repository.podcast
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
@@ -28,11 +29,12 @@ import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, schedulers), PodcastGateway {
+) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,
@@ -50,13 +52,13 @@ internal class PodcastRepository @Inject constructor(
     override fun queryAll(): List<Song> {
         assertBackgroundThread()
         val cursor = queries.getAll()
-        return context.contentResolver.queryAll(cursor) { it.toSong() }
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun getByParam(param: Id): Song? {
         assertBackgroundThread()
         val cursor = queries.getByParam(param)
-        return context.contentResolver.queryOne(cursor) { it.toSong() }
+        return contentResolver.queryOne(cursor) { it.toSong() }
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {
@@ -81,7 +83,7 @@ internal class PodcastRepository @Inject constructor(
         assertBackgroundThread()
         val path = getByParam(id)!!.path
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-        val deleted = context.contentResolver.delete(uri, null, null)
+        val deleted = contentResolver.delete(uri, null, null)
 
         if (deleted < 1) {
             Log.w("PodcastRepo", "podcast not found $id")

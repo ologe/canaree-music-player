@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -34,12 +35,13 @@ import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, schedulers), FolderGateway {
+) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 
@@ -54,7 +56,7 @@ internal class FolderRepository @Inject constructor(
     @Suppress("DEPRECATION")
     private fun extractFolders(cursor: Cursor): List<Folder> {
         assertBackgroundThread()
-        val pathList = context.contentResolver.queryAll(cursor) {
+        val pathList = contentResolver.queryAll(cursor) {
             val data = it.getString(MediaStore.Audio.Media.DATA)
             data.substring(0, data.lastIndexOf(File.separator)) // path
         }
@@ -154,7 +156,7 @@ internal class FolderRepository @Inject constructor(
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+        return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]

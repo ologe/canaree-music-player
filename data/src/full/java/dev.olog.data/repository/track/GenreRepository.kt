@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -34,12 +35,13 @@ import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
     @ApplicationContext context: Context,
+    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Genre, Id>(context, schedulers), GenreGateway {
+) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
 
@@ -128,7 +130,7 @@ internal class GenreRepository @Inject constructor(
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
         assertBackgroundThread()
-        return context.contentResolver.queryAll(cursor) { it.toArtist() }
+        return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]

@@ -3,15 +3,13 @@ package dev.olog.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -21,16 +19,15 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
-    @ApplicationContext protected val context: Context,
+    private val context: Context,
+    protected val contentResolver: ContentResolver,
     private val schedulers: Schedulers
-) : BaseGateway<T, Param>, CoroutineScope by CustomScope() {
-
-    protected val contentResolver: ContentResolver = context.contentResolver
+) : BaseGateway<T, Param> {
 
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 
     protected fun firstQuery() {
-        launch {
+        GlobalScope.launch(schedulers.io) {
             assertBackgroundThread()
 
             do {
