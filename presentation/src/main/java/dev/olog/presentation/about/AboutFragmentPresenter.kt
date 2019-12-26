@@ -50,6 +50,12 @@ class AboutFragmentPresenter(
 
     private val data = listOf(
         DisplayableHeader(
+            type = R.layout.item_about_promotion,
+            mediaId = HAVOC_ID,
+            title = context.getString(R.string.about_havoc),
+            subtitle = context.getString(R.string.about_translations_description)
+        ),
+        DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
             title = context.getString(R.string.about_author),
@@ -117,48 +123,42 @@ class AboutFragmentPresenter(
             subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
-
-    private val havoc = DisplayableHeader(
-        type = R.layout.item_about_promotion,
-        mediaId = HAVOC_ID,
-        title = context.getString(R.string.about_havoc),
-        subtitle = context.getString(R.string.about_translations_description)
-    )
-
-    private val trial = DisplayableHeader(
-        type = R.layout.item_about,
-        mediaId = BUY_PRO,
-        title = context.getString(R.string.about_buy_pro),
-        subtitle = context.getString(R.string.about_buy_pro_description_trial)
-    )
-    private val noPro = DisplayableHeader(
-        type = R.layout.item_about,
-        mediaId = BUY_PRO,
-        title = context.getString(R.string.about_buy_pro),
-        subtitle = context.getString(R.string.about_buy_pro_description)
-    )
-    private val alreadyPro = DisplayableHeader(
-        type = R.layout.item_about,
-        mediaId = BUY_PRO,
-        title = context.getString(R.string.about_buy_pro),
-        subtitle = context.getString(R.string.premium_already_premium)
-    )
+//
+//    private val trial = DisplayableHeader(
+//        type = R.layout.item_about,
+//        mediaId = BUY_PRO,
+//        title = context.getString(R.string.about_buy_pro),
+//        subtitle = context.getString(R.string.about_buy_pro_description_trial)
+//    )
+//    private val noPro = DisplayableHeader(
+//        type = R.layout.item_about,
+//        mediaId = BUY_PRO,
+//        title = context.getString(R.string.about_buy_pro),
+//        subtitle = context.getString(R.string.about_buy_pro_description)
+//    )
+//    private val alreadyPro = DisplayableHeader(
+//        type = R.layout.item_about,
+//        mediaId = BUY_PRO,
+//        title = context.getString(R.string.about_buy_pro),
+//        subtitle = context.getString(R.string.premium_already_premium)
+//    )
 
     private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
 
     init {
-        launch {
-            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-                when {
-                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-                    state.isTrial -> listOf(havoc, trial) + (data)
-                    else -> listOf(havoc, noPro) + (data)
-                }
-            }.flowOn(Dispatchers.Default)
-                .collect {
-                    dataLiveData.value = it
-                }
-        }
+//        launch {
+//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
+//                when {
+//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
+//                    state.isTrial -> listOf(havoc, trial) + (data)
+//                    else -> listOf(havoc, noPro) + (data)
+//                }
+//            }.flowOn(Dispatchers.Default)
+//                .collect {
+//                    dataLiveData.value = it
+//                }
+//        }
+        dataLiveData.value = data
     }
 
     fun onCleared() {
