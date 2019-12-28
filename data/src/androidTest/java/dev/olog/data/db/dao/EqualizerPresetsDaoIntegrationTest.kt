@@ -21,7 +21,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-internal class EqualizerPresetsDaoTest {
+internal class EqualizerPresetsDaoIntegrationTest {
 
     private val mockPreset1 = EqualizerPresetEntity(
         1, "rock", listOf(

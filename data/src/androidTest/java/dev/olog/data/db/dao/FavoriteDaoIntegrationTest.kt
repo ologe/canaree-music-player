@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-internal class FavoriteDaoTest {
+internal class FavoriteDaoIntegrationTest {
 
     private val mockFavorite1 = FavoriteEntity(1)
     private val mockFavorite2 = FavoriteEntity(2)
