@@ -107,8 +107,12 @@ internal class FavoriteRepository @Inject constructor(
         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
     }
 
-    override suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean {
-        return favoriteDao.isFavorite(songId) != null
+    override suspend fun isFavorite(songId: Long): Boolean {
+        return favoriteDao.isFavorite(songId)
+    }
+
+    override suspend fun isFavoritePodcast(podcastId: Long): Boolean {
+        return favoriteDao.isFavoritePodcast(podcastId)
     }
 
     override suspend fun toggleFavorite() {

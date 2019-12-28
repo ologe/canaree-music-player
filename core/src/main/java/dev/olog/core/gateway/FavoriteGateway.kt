@@ -22,7 +22,8 @@ interface FavoriteGateway {
 
     suspend fun deleteAll(type: FavoriteType)
 
-    suspend fun isFavorite(type: FavoriteType, songId: Long): Boolean
+    suspend fun isFavorite(songId: Long): Boolean
+    suspend fun isFavoritePodcast(podcastId: Long): Boolean
 
     fun observeToggleFavorite(): Flow<FavoriteEnum>
     suspend fun updateFavoriteState(state: FavoriteStateEntity)

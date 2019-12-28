@@ -10,6 +10,7 @@ internal abstract class EqualizerPresetsDao {
     @Query(
         """
         SELECT * FROM equalizer_preset
+        ORDER BY id
     """
     )
     abstract fun getPresets(): List<EqualizerPresetEntity>
@@ -19,6 +20,7 @@ internal abstract class EqualizerPresetsDao {
         SELECT * 
         FROM equalizer_preset
         WHERE id = :id
+        ORDER BY id
     """
     )
     abstract fun getPresetById(id: Long): EqualizerPresetEntity
@@ -28,6 +30,7 @@ internal abstract class EqualizerPresetsDao {
         SELECT * 
         FROM equalizer_preset
         WHERE id = :id
+        ORDER BY id
     """
     )
     abstract fun observePresetById(id: Long): Flow<EqualizerPresetEntity>
