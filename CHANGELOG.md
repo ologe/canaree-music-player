@@ -1,5 +1,11 @@
 # Release notes 
 
+## 3.3.1
+- added dark mode to floating window on Q
+
+## 3.3.0
+- Unlock pro features for all users 
+
 ## 3.2.2
 - Fixed premium not working
 

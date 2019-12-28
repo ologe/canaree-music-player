@@ -18,6 +18,7 @@ ext {
     android_x_fragments = '1.1.0'
     constraint_layout = '2.0.0-beta4'
     lifecycle = '2.1.0'
+    android_x_webview = '1.1.0'
     billing = '1.2.2'
 
 //    ui
@@ -50,12 +51,13 @@ ext {
 
 //    firebase
     firebase_core = '17.2.0'
+    firebase_analytics = '17.2.1'
     firebase_crashlytics = '2.10.1'
     firebase_perf = '19.0.0'
 
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
-            analytics  : "com.google.firebase:firebase-analytics:17.2.1",
+            analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
             perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
@@ -93,6 +95,7 @@ ext {
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+            webview             : "androidx.webkit:webkit:$android_x_webview",
 
             billing             : "com.android.billingclient:billing:$billing",
     ]
