@@ -8,14 +8,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 
-//private val isTestMode by lazy {
-//    try {
-//        Class.forName("org.junit.Test")
-//        true
-//    } catch (ignored: Throwable) {
-//        false
-//    }
-//}
+private val isTestMode by lazy {
+    // TODO only in unit tests??
+    try {
+        Class.forName("org.junit.Test")
+        true
+    } catch (ignored: Throwable) {
+        false
+    }
+}
 
 inline fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
@@ -27,7 +28,7 @@ fun <T> Flow<T>.assertBackground(): Flow<T> {
 }
 
 fun assertBackgroundThread() {
-    if (/*!isTestMode &&*/ BuildConfig.DEBUG && isMainThread()) {
+    if (!isTestMode && BuildConfig.DEBUG && isMainThread()) {
         throw AssertionError("not on worker thread, current=${Thread.currentThread()}")
     }
 }

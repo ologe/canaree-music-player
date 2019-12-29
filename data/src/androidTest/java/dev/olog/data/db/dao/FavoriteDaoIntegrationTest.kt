@@ -106,7 +106,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun shouldDeleteAll() {
         // when
-        dao.deleteTracks()
+        dao.deleteAllTracks()
 
         // then
         assertEquals(emptyList<Long>(), dao.getAllTracksImpl())

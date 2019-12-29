@@ -46,7 +46,7 @@ fun Cursor.toSong(): Song {
         dateModified = dateModified,
         path = path,
         trackColumn = track,
-        idInPlaylist = -1,
+        idInPlaylist = -1, // TODO remove from song and made another class??
         isPodcast = isPodcast
     )
 }

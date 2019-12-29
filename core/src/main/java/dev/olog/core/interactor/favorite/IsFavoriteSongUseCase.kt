@@ -9,10 +9,7 @@ class IsFavoriteSongUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Input): Boolean {
-        if (param.type == FavoriteType.TRACK) {
-            return gateway.isFavorite(param.songId)
-        }
-        return gateway.isFavoritePodcast(param.songId)
+        return gateway.isFavorite(param.songId, param.type)
     }
 
     class Input(
