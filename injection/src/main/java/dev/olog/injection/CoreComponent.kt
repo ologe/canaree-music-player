@@ -17,9 +17,9 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.prefs.*
-import dev.olog.data.DataModule
-import dev.olog.data.PreferenceModule
-import dev.olog.data.RepositoryHelperModule
+import dev.olog.data.di.DataModule
+import dev.olog.data.di.PreferenceModule
+import dev.olog.data.di.RepositoryHelperModule
 import dev.olog.data.api.lastfm.NetworkModule
 import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.bassboost.IBassBoost

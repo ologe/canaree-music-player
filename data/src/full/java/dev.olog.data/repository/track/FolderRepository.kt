@@ -41,7 +41,7 @@ internal class FolderRepository @Inject constructor(
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
+) : BaseRepository<Folder, Path>(context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 

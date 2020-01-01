@@ -32,7 +32,7 @@ internal class AlbumRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedAlbumDao,
     schedulers: Schedulers
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers), AlbumGateway {
+) : BaseRepository<Album, Id>(context, schedulers), AlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 

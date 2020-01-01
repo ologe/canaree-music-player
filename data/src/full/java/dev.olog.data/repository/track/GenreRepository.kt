@@ -41,7 +41,7 @@ internal class GenreRepository @Inject constructor(
     private val songGateway2: SongGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Genre, Id>(context, contentResolver, schedulers), GenreGateway {
+) : BaseRepository<Genre, Id>(context, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
 

@@ -32,7 +32,7 @@ internal class ArtistRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedArtistDao,
     schedulers: Schedulers
-) : BaseRepository<Artist, Id>(context, contentResolver, schedulers), ArtistGateway {
+) : BaseRepository<Artist, Id>(context, schedulers), ArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
 
