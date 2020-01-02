@@ -5,9 +5,12 @@ import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.EqualizerPresetsDao
 import dev.olog.data.db.entities.EqualizerBandEntity
 import dev.olog.data.db.entities.EqualizerPresetEntity
+import dev.olog.data.mapper.toDomain
+import dev.olog.data.mapper.toEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
@@ -19,16 +22,17 @@ import javax.inject.Inject
 
 internal class EqualizerRepository @Inject constructor(
     private val equalizerDao: EqualizerPresetsDao,
-    private val prefs: EqualizerPreferencesGateway
+    private val prefs: EqualizerPreferencesGateway,
+    private val schedulers: Schedulers
 
 ) : EqualizerGateway {
 
     init {
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(schedulers.io) {
             if (equalizerDao.getPresets().isEmpty()) {
                 // called only first time
                 val presets = createDefaultPresets()
-                GlobalScope.launch { equalizerDao.insertPresets(presets) }
+                GlobalScope.launch(schedulers.io) { equalizerDao.insertPresets(presets) }
             }
         }
     }
@@ -63,24 +67,6 @@ internal class EqualizerRepository @Inject constructor(
 
     override suspend fun deletePreset(preset: EqualizerPreset) {
         equalizerDao.deletePreset(preset.toEntity())
-    }
-
-    private fun EqualizerPresetEntity.toDomain(): EqualizerPreset {
-        return EqualizerPreset(
-            id,
-            name,
-            bands.map { EqualizerBand(it.gain, it.frequency) },
-            isCustom
-        )
-    }
-
-    private fun EqualizerPreset.toEntity(): EqualizerPresetEntity {
-        return EqualizerPresetEntity(
-            id,
-            name,
-            bands.map { EqualizerBandEntity(it.gain, it.frequency) },
-            isCustom
-        )
     }
 
     private fun createDefaultPresets(): List<EqualizerPresetEntity> {
