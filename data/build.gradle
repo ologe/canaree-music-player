@@ -36,6 +36,10 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 //    kotlinOptions.allWarningsAsErrors = true
 }
 
