@@ -66,6 +66,7 @@ dependencies {
     androidTestImplementation lib_core.coroutines_test
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation project (':test-shared')
 

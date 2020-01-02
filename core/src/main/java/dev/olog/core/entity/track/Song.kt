@@ -1,5 +1,6 @@
 package dev.olog.core.entity.track
 
+import android.content.ContentValues
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import java.io.File
@@ -18,10 +19,29 @@ data class Song(
     val path: String,
     val trackColumn: Int,
     val idInPlaylist: Int,
-    val isPodcast: Boolean
+    val isPodcast: Boolean,
+    val displayName: String
 
 ) {
 
+    fun toContentValues(): ContentValues {
+        return ContentValues().apply {
+            put("_id", id)
+            put("artist_id", artistId)
+            put("album_id", albumId)
+            put("title", title)
+            put("artist", artist)
+            put("album", album)
+            put("album_artist", albumArtist)
+            put("duration", duration)
+            put("date_added", dateAdded)
+            put("date_modified", dateModified)
+            put("_data", path)
+            put("track", trackColumn)
+            put("is_podcast", if (isPodcast) 1 else 0)
+            put("_display_name", displayName)
+        }
+    }
 
     val discNumber: Int
         get() {
@@ -56,25 +76,6 @@ data class Song(
     fun getArtistMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
         return MediaId.createCategoryValue(category, this.artistId.toString())
-    }
-
-    fun withInInPlaylist(idInPlaylist: Int): Song {
-        return Song(
-            id = id,
-            artistId = artistId,
-            albumId = albumId,
-            title = title,
-            artist = artist,
-            albumArtist = albumArtist,
-            album = album,
-            duration = duration,
-            dateAdded = dateAdded,
-            dateModified = dateModified,
-            path = path,
-            trackColumn = trackColumn,
-            idInPlaylist = idInPlaylist,
-            isPodcast = isPodcast
-        )
     }
 
 }
