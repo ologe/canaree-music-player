@@ -1,6 +1,5 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
@@ -11,9 +10,8 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.data.di.qualifier.Tracks
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
@@ -26,27 +24,20 @@ import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
-
-    private val queries = TrackQueries(
-        contentResolver, blacklistPrefs,
-        sortPrefs, false
-    )
+    schedulers: Schedulers,
+    @Tracks private val queries: TrackQueries
+) : BaseRepository<Song, Id>(context, schedulers), SongGateway {
 
     init {
         firstQuery()
     }
 
     override fun registerMainContentUri(): ContentUri {
-        return ContentUri(Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return ContentUri(queries.tableUri, true)
     }
 
     override fun queryAll(): List<Song> {
-//        assertBackgroundThread()
+//        DON'T ASSERT MAIN THREAD
         val cursor = queries.getAll()
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
@@ -58,7 +49,7 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {
-        val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, param)
+        val uri = ContentUris.withAppendedId(queries.tableUri, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
@@ -78,7 +69,7 @@ internal class SongRepository @Inject constructor(
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
         val path = getByParam(id)!!.path
-        val uri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id)
+        val uri = ContentUris.withAppendedId(queries.tableUri, id)
         val deleted = contentResolver.delete(uri, null, null)
         if (deleted < 1) {
             Log.w("SongRepo", "song not found $id")
@@ -115,7 +106,7 @@ internal class SongRepository @Inject constructor(
 
         val itemQuery = """
             SELECT ${Audio.Media._ID}
-            FROM ${Audio.Media.EXTERNAL_CONTENT_URI}
+            FROM ${queries.tableUri}
             WHERE ${Audio.Media.DISPLAY_NAME} = ?
         """
         val id = contentResolver.querySql(itemQuery, arrayOf(displayName)).use {

@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.di
 
 import dagger.Binds
 import dagger.Module
@@ -17,9 +17,8 @@ import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.data.repository.track.*
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [QueriesModule::class])
 abstract class DataModule {
-
 
     // tracks
 

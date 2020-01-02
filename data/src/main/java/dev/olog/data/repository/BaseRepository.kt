@@ -20,9 +20,10 @@ import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
     private val context: Context,
-    protected val contentResolver: ContentResolver,
     private val schedulers: Schedulers
 ) : BaseGateway<T, Param> {
+
+    protected val contentResolver: ContentResolver = context.contentResolver
 
     protected val channel = ConflatedBroadcastChannel<List<T>>()
 

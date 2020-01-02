@@ -2,6 +2,7 @@ package dev.olog.data.queries
 
 import android.content.ContentResolver
 import android.database.Cursor
+import android.net.Uri
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.sort.SortArranging
@@ -15,7 +16,8 @@ internal class TrackQueries(
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
     sortPrefs: SortPreferences,
-    isPodcast: Boolean
+    isPodcast: Boolean,
+    val tableUri: Uri
 ) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
 
     fun getAll(): Cursor {
@@ -28,12 +30,13 @@ internal class TrackQueries(
                 $ALBUM,
                 ${Columns.ALBUM_ARTIST},
                 $DURATION,
-                $DATA, $YEAR,
+                $DATA,
                 $TRACK,
                 $DATE_ADDED,
                 $DATE_MODIFIED,
-                $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
+                $IS_PODCAST,
+                $DISPLAY_NAME
+            FROM $tableUri
             WHERE ${defaultSelection(blacklist)}
             ORDER BY ${sortOrder()}
         """
@@ -51,14 +54,14 @@ internal class TrackQueries(
                 $ALBUM,
                 ${Columns.ALBUM_ARTIST},
                 $DURATION,
-                $DATA, $YEAR,
+                $DATA, 
                 $TRACK,
                 $DATE_ADDED,
                 $DATE_MODIFIED,
-                $IS_PODCAST
-            FROM $EXTERNAL_CONTENT_URI
+                $IS_PODCAST,
+                $DISPLAY_NAME
+            FROM $tableUri
             WHERE $_ID = ? AND ${defaultSelection(blacklist)}
-            ORDER BY ${sortOrder()}
         """
 
         return contentResolver.querySql(query, arrayOf("$id") + params)
@@ -81,7 +84,7 @@ internal class TrackQueries(
             SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
             SortType.DURATION -> DURATION
             SortType.RECENTLY_ADDED -> DATE_ADDED
-            else -> "lower($TITLE)"
+            else -> throw RuntimeException("sort not handled=${sortEntity.type}")
         }
 
         sort += " COLLATE UNICODE "

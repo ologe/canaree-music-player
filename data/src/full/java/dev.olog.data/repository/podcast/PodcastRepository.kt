@@ -1,6 +1,5 @@
 package dev.olog.data.repository.podcast
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
@@ -9,11 +8,10 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.dao.PodcastPositionDao
 import dev.olog.data.db.entities.PodcastPositionEntity
+import dev.olog.data.di.qualifier.Podcast
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
@@ -29,24 +27,17 @@ import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
-    sortPrefs: SortPreferences,
-    blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
-    schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
-
-    private val queries = TrackQueries(
-        context.contentResolver, blacklistPrefs,
-        sortPrefs, true
-    )
+    schedulers: Schedulers,
+    @Podcast private val queries: TrackQueries
+) : BaseRepository<Song, Id>(context, schedulers), PodcastGateway {
 
     init {
         firstQuery()
     }
 
     override fun registerMainContentUri(): ContentUri {
-        return ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
+        return ContentUri(queries.tableUri, true)
     }
 
     override fun queryAll(): List<Song> {
@@ -62,7 +53,7 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, param)
+        val uri = ContentUris.withAppendedId(queries.tableUri, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
@@ -82,7 +73,7 @@ internal class PodcastRepository @Inject constructor(
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
         val path = getByParam(id)!!.path
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+        val uri = ContentUris.withAppendedId(queries.tableUri, id)
         val deleted = contentResolver.delete(uri, null, null)
 
         if (deleted < 1) {

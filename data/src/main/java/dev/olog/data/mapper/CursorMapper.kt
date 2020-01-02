@@ -9,6 +9,7 @@ import dev.olog.core.entity.track.*
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
+import dev.olog.data.utils.getString
 import dev.olog.data.utils.getStringOrNull
 import java.io.File
 
@@ -32,6 +33,7 @@ fun Cursor.toSong(): Song {
 
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
+    val displayName = getString(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
 
     return Song(
         id = id,
@@ -47,7 +49,8 @@ fun Cursor.toSong(): Song {
         path = path,
         trackColumn = track,
         idInPlaylist = -1, // TODO remove from song and made another class??
-        isPodcast = isPodcast
+        isPodcast = isPodcast,
+        displayName = displayName
     )
 }
 
@@ -72,6 +75,7 @@ fun Cursor.toPlaylistSong(): Song {
 
     val track = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
+    val displayName = getString(MediaStore.Audio.AudioColumns.DISPLAY_NAME)
 
     return Song(
         id = id,
@@ -87,7 +91,8 @@ fun Cursor.toPlaylistSong(): Song {
         path = path,
         trackColumn = track,
         idInPlaylist = idInPlaylist,
-        isPodcast = isPodcast
+        isPodcast = isPodcast,
+        displayName = displayName
     )
 }
 
