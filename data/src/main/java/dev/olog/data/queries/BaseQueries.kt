@@ -36,7 +36,7 @@ abstract class BaseQueries(
     }
 
     protected fun notBlacklisted(): Pair<String, Array<String>> {
-        val blacklist = blacklistPrefs.getBlackList()
+        val blacklist = blacklistPrefs.getBlackList().take(999)
         val params = blacklist.map { "?" }
         val blackListed = blacklist.toTypedArray()
         return "$folderProjection NOT IN (${params.joinToString()})" to blackListed
