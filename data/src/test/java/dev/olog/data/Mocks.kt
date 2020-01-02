@@ -18,7 +18,8 @@ internal object Mocks {
         "/path/song.mp3",
         1,
         -1,
-        false
+        false,
+        "display name"
     )
 
     val podcast = song.copy(isPodcast = true)

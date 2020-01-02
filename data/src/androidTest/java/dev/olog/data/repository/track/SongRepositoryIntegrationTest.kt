@@ -13,13 +13,12 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.test.InMemoryContentProvider
 import dev.olog.data.test.InMemoryContentProvider.Companion.AUDIO
+import dev.olog.data.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.*
@@ -967,14 +966,7 @@ internal class SongRepositoryIntegrationTest {
             tracks.map { it.toContentValues() }.toTypedArray()
         )
 
-        sut = SongRepository(context, object : Schedulers {
-            override val io: CoroutineDispatcher
-                get() = coroutineRule.testDispatcher
-            override val cpu: CoroutineDispatcher
-                get() = coroutineRule.testDispatcher
-            override val main: CoroutineDispatcher
-                get() = coroutineRule.testDispatcher
-        }, queries)
+        sut = SongRepository(context, coroutineRule.testDispatcher.asSchedulers(), queries)
     }
 
     private fun getDefaultTracks(): List<Song> {
