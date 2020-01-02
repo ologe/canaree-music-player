@@ -13,7 +13,7 @@ private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
     timeZone = TimeZone.getTimeZone("UTC")
 }
 
-private fun millisToFormattedDate(value: Long): String {
+internal fun millisToFormattedDate(value: Long): String {
     return formatter.format(Date(value))
 
 }

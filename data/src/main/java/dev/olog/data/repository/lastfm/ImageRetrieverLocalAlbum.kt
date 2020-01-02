@@ -37,6 +37,7 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
 
     fun delete(albumId: Long) {
         Log.v(TAG, "delete $albumId")
+        assertBackgroundThread()
         lastFmDao.deleteAlbum(albumId)
     }
 

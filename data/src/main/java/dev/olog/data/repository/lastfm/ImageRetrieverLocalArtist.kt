@@ -24,6 +24,7 @@ internal class ImageRetrieverLocalArtist @Inject constructor(
     }
 
     fun getCached(id: Id): LastFmArtist? {
+        assertBackgroundThread()
         return lastFmDao.getArtist(id)?.toDomain()
     }
 

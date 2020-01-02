@@ -24,6 +24,7 @@ internal class ImageRetrieverLocalTrack @Inject constructor(
     }
 
     fun getCached(id: Id): LastFmTrack? {
+        assertBackgroundThread()
         return lastFmDao.getTrack(id)?.toDomain()
     }
 
