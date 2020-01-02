@@ -20,6 +20,7 @@ import dev.olog.data.test.InMemoryContentProvider.Companion.AUDIO
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Ignore
@@ -764,6 +765,122 @@ internal class SongRepositoryIntegrationTest {
 
         // then
         assertNull(actual)
+    }
+
+    @Test
+    fun testObserveByParamBlacklisted() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1) },
+                { it.copy(id = 2) },
+                { it.copy(id = 3) },
+                { it.copy(id = 4) }
+            )
+
+        setup(data)
+
+        // when
+        val actual = sut.observeByParam(1).first()!!
+
+        // then
+        assertEquals(
+            1,
+            actual.id
+        )
+    }
+
+    @Test
+    fun testDeleteSingle() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1, path = "/storage/0/track 1") },
+                { it.copy(id = 2, path = "/storage/0/track 2") },
+                { it.copy(id = 3, path = "/storage/0/track 3") },
+                { it.copy(id = 4, path = "/storage/0/track 4") }
+            )
+
+        setup(data)
+
+        // when
+        sut.deleteSingle(1)
+
+        // then
+        assertEquals(
+            data.drop(1),
+            sut.getAll()
+        )
+    }
+
+    @Test
+    fun testDeleteSingleFail() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1, path = "/storage/0/track 1") },
+                { it.copy(id = 2, path = "/storage/0/track 2") },
+                { it.copy(id = 3, path = "/storage/0/track 3") },
+                { it.copy(id = 4, path = "/storage/0/track 4") }
+            )
+
+        setup(data)
+
+        // when
+        sut.deleteSingle(0)
+
+        // then
+        assertEquals(
+            data.map { it.id }.sorted(),
+            sut.getAll().map { it.id }.sorted()
+        )
+    }
+
+    @Test
+    fun testDeleteGroup() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1, path = "/storage/0/track 1") },
+                { it.copy(id = 2, path = "/storage/0/track 2") },
+                { it.copy(id = 3, path = "/storage/0/track 3") },
+                { it.copy(id = 4, path = "/storage/0/track 4") }
+            )
+
+        setup(data)
+
+        // when
+        sut.deleteGroup(listOf(3L, 4L))
+
+        // then
+        assertEquals(
+            data.dropLast(2).map { it.id }.sorted(),
+            sut.getAll().map { it.id }.sorted()
+        )
     }
 
     private fun MutableList<Song>.mapItems(

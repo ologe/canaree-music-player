@@ -44,6 +44,15 @@ internal interface MediaDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertMultipleGenre(audio: List<MediaStoreGenre>)
 
+    @Query("DELETE FROM ${InMemoryContentProvider.AUDIO} WHERE _id = :id")
+    fun deleteSingleTrack(id: Long)
+
+    @Query("DELETE FROM ${InMemoryContentProvider.PLAYLISTS} WHERE _id = :id")
+    fun deleteSinglePlaylist(id: Long)
+
+    @Query("DELETE FROM ${InMemoryContentProvider.GENRES} WHERE _id = :id")
+    fun deleteSingleGenre(id: Long)
+
     @Query("DELETE FROM ${InMemoryContentProvider.AUDIO}")
     fun deleteTracks()
 

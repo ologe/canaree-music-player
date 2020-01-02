@@ -8,7 +8,7 @@ interface PodcastGateway :
     BaseGateway<Song, Id> {
 
     suspend fun deleteSingle(id: Id)
-    suspend fun deleteGroup(podcastList: List<Song>)
+    suspend fun deleteGroup(podcastList: List<Id>)
 
     fun getCurrentPosition(podcastId: Long, duration: Long): Long
     fun saveCurrentPosition(podcastId: Long, position: Long)

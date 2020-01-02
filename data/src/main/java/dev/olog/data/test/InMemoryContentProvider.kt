@@ -180,6 +180,21 @@ internal class InMemoryContentProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
+        if (MATCHER.match(uri) == CODE_ITEM){
+            val (_, id) = uri.path!!.substring(1).split("/")
+            if (uri.path!!.contains(AUDIO)) {
+                room.mediaDao().deleteSingleTrack(id.toLong())
+                return 1
+            }
+            if (uri.path!!.contains(GENRES)) {
+                room.mediaDao().deleteSingleGenre(id.toLong())
+                return 1
+            }
+            if (uri.path!!.contains(PLAYLISTS)) {
+                room.mediaDao().deleteSinglePlaylist(id.toLong())
+                return 1
+            }
+        }
         if (uri.path!!.contains(AUDIO)) {
             room.mediaDao().deleteTracks()
             return 1

@@ -60,15 +60,15 @@ internal class SongRepository @Inject constructor(
         return deleteInternal(id)
     }
 
-    override suspend fun deleteGroup(ids: List<Song>) {
+    override suspend fun deleteGroup(ids: List<Id>) {
         for (id in ids) {
-            deleteInternal(id.id)
+            deleteInternal(id)
         }
     }
 
     private fun deleteInternal(id: Id) {
         assertBackgroundThread()
-        val path = getByParam(id)!!.path
+        val path = getByParam(id)?.path ?: return
         val uri = ContentUris.withAppendedId(queries.tableUri, id)
         val deleted = contentResolver.delete(uri, null, null)
         if (deleted < 1) {

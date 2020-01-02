@@ -9,7 +9,7 @@ interface SongGateway :
     BaseGateway<Song, Id> {
 
     suspend fun deleteSingle(id: Id)
-    suspend fun deleteGroup(ids: List<Song>)
+    suspend fun deleteGroup(ids: List<Id>)
 
     fun getByUri(uri: Uri): Song?
 
