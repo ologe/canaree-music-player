@@ -7,6 +7,7 @@ import android.database.MatrixCursor
 import androidx.test.core.app.ApplicationProvider
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNull
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -22,6 +23,13 @@ class ContentResolverExtensionsIntegrationTest {
             addRow(arrayOf(2L, "title 2"))
         }
         contentResolver = ApplicationProvider.getApplicationContext<Context>().contentResolver
+    }
+
+    @After
+    fun teardown() {
+        if (!cursor.isClosed) {
+            cursor.close()
+        }
     }
 
     @Test
