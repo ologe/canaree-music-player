@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.data.test
 
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher

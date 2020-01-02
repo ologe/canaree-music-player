@@ -16,7 +16,7 @@ import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.test.InMemoryContentProvider
 import dev.olog.data.test.InMemoryContentProvider.Companion.AUDIO
-import dev.olog.data.asSchedulers
+import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.flow.first
