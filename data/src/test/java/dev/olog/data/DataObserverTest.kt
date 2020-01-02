@@ -2,6 +2,7 @@ package dev.olog.data
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import org.junit.Rule
