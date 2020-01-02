@@ -67,6 +67,29 @@ internal class TrackQueries(
         return contentResolver.querySql(query, arrayOf("$id") + params)
     }
 
+    fun getByAlbumId(albumId: Id): Cursor {
+        val (blacklist, params) = notBlacklisted()
+
+        val query = """
+            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
+                $TITLE,
+                $ARTIST,
+                $ALBUM,
+                ${Columns.ALBUM_ARTIST},
+                $DURATION,
+                $DATA, 
+                $TRACK,
+                $DATE_ADDED,
+                $DATE_MODIFIED,
+                $IS_PODCAST,
+                $DISPLAY_NAME
+            FROM $tableUri
+            WHERE $ALBUM_ID = ? AND ${defaultSelection(blacklist)}
+        """
+
+        return contentResolver.querySql(query, arrayOf("$albumId") + params)
+    }
+
     private fun defaultSelection(notBlacklisted: String): String {
         return "${isPodcast()} AND $notBlacklisted"
     }

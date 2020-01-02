@@ -37,8 +37,8 @@ class GlideOriginalImageFetcher(
             }
 
             val song: Song? = when {
-                mediaId.isAlbum -> songGateway.getByAlbumId(id)
-                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id)
+                mediaId.isAlbum -> songGateway.getByAlbumId(id) // TODO not sure why
+                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id) // TODO not sure why
                 mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
                 mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
                 else -> {

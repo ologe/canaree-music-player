@@ -883,6 +883,61 @@ internal class SongRepositoryIntegrationTest {
         )
     }
 
+    @Test
+    fun testGetByAlbumId() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1, albumId = 1) },
+                { it.copy(id = 2, albumId = 1) },
+                { it.copy(id = 3, albumId = 2) },
+                { it.copy(id = 4, albumId = 3) }
+            )
+
+        setup(data)
+
+        // when
+        val item = sut.getByAlbumId(1)!!
+
+        // then
+        assertEquals(
+            1L,
+            item.albumId
+        )
+    }
+
+    @Test
+    fun testGetByAlbumIdFail() = coroutineRule.runBlocking {
+        // given
+        whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
+        whenever(sortPrefs.getAllTracksSort()).thenReturn(
+            SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+        )
+
+        val data = getDefaultTracks().filter { !it.isPodcast }
+            .toMutableList()
+            .mapItems(
+                { it.copy(id = 1, albumId = 1) },
+                { it.copy(id = 2, albumId = 1) },
+                { it.copy(id = 3, albumId = 2) },
+                { it.copy(id = 4, albumId = 3) }
+            )
+
+        setup(data)
+
+        // when
+        val item = sut.getByAlbumId(0)
+
+        // then
+        assertNull(item)
+    }
+
     private fun MutableList<Song>.mapItems(
         map1: (Song) -> Song,
         map2: (Song) -> Song,

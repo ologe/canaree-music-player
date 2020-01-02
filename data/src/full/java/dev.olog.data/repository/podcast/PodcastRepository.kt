@@ -102,6 +102,13 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        assertBackgroundThread()
+        val item = channel.valueOrNull?.find { it.albumId == albumId }
+        if (item != null){
+            return item
+        }
+
+        val cursor = queries.getByAlbumId(albumId)
+        return contentResolver.queryOne(cursor) { it.toSong() }
     }
 }
