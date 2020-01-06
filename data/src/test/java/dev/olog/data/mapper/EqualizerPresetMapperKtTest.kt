@@ -2,8 +2,8 @@ package dev.olog.data.mapper
 
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
-import dev.olog.data.db.entities.EqualizerBandEntity
-import dev.olog.data.db.entities.EqualizerPresetEntity
+import dev.olog.data.model.db.EqualizerBandEntity
+import dev.olog.data.model.db.EqualizerPresetEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -13,7 +13,10 @@ class EqualizerPresetMapperKtTest {
     fun testToDomain() {
         // given
         val entity = EqualizerPresetEntity(
-            1, "name", listOf(EqualizerBandEntity(10.0f, 10.0f)), true
+            1,
+            "name",
+            listOf(EqualizerBandEntity(10.0f, 10.0f)),
+            true
         )
 
         val domain = EqualizerPreset(
@@ -38,7 +41,10 @@ class EqualizerPresetMapperKtTest {
         )
 
         val entity = EqualizerPresetEntity(
-            1, "name", listOf(EqualizerBandEntity(10.0f, 10.0f)), true
+            1,
+            "name",
+            listOf(EqualizerBandEntity(10.0f, 10.0f)),
+            true
         )
 
         // when

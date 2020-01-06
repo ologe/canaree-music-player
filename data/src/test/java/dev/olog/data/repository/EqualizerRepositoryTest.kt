@@ -7,8 +7,8 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.data.db.dao.EqualizerPresetsDao
-import dev.olog.data.db.entities.EqualizerPresetEntity
+import dev.olog.data.db.EqualizerPresetsDao
+import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
@@ -22,8 +22,18 @@ import org.junit.Test
 internal class EqualizerRepositoryTest {
 
     private val presetsEntities = listOf(
-        EqualizerPresetEntity(1, "eq 1", emptyList(), false),
-        EqualizerPresetEntity(2, "eq 2", emptyList(), true)
+        EqualizerPresetEntity(
+            1,
+            "eq 1",
+            emptyList(),
+            false
+        ),
+        EqualizerPresetEntity(
+            2,
+            "eq 2",
+            emptyList(),
+            true
+        )
     )
 
     private val domainPresets = listOf(
@@ -94,7 +104,12 @@ internal class EqualizerRepositoryTest {
         sut.addPreset(preset)
 
         // then
-        val expected = EqualizerPresetEntity(3, "new name", emptyList(), true)
+        val expected = EqualizerPresetEntity(
+            3,
+            "new name",
+            emptyList(),
+            true
+        )
         verify(dao).insertPreset(expected)
     }
 

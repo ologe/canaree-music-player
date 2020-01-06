@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
-import dev.olog.data.db.entities.FavoriteEntity
-import dev.olog.data.db.entities.FavoritePodcastEntity
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
+import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.asExecutor
@@ -24,8 +26,10 @@ internal class FavoriteDaoIntegrationTest {
 
     private val mockFavorite1 = FavoriteEntity(1)
     private val mockFavorite2 = FavoriteEntity(2)
-    private val mockPodcastFavorite1 = FavoritePodcastEntity(1)
-    private val mockPodcastFavorite2 = FavoritePodcastEntity(2)
+    private val mockPodcastFavorite1 =
+        FavoritePodcastEntity(1)
+    private val mockPodcastFavorite2 =
+        FavoritePodcastEntity(2)
 
     lateinit var db: AppDatabase
     lateinit var dao: FavoriteDao

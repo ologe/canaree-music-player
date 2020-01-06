@@ -8,9 +8,9 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.data.db.entities.FavoriteEntity
-import dev.olog.data.db.entities.FavoritePodcastEntity
+import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
+import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -152,23 +152,43 @@ internal class FavoriteRepository @Inject constructor(
         if (type == FavoriteType.TRACK) {
             favoriteDao.insertOneImpl(FavoriteEntity(id))
         } else {
-            favoriteDao.insertOnePodcastImpl(FavoritePodcastEntity(id))
+            favoriteDao.insertOnePodcastImpl(
+                FavoritePodcastEntity(
+                    id
+                )
+            )
         }
     }
 
     private suspend fun addToFavorite(type: FavoriteType, songIds: List<Long>) {
         if (type == FavoriteType.TRACK) {
-            favoriteDao.insertGroupImpl(songIds.map { FavoriteEntity(it) })
+            favoriteDao.insertGroupImpl(songIds.map {
+                FavoriteEntity(
+                    it
+                )
+            })
         } else {
-            favoriteDao.insertGroupPodcastImpl(songIds.map { FavoritePodcastEntity(it) })
+            favoriteDao.insertGroupPodcastImpl(songIds.map {
+                FavoritePodcastEntity(
+                    it
+                )
+            })
         }
     }
 
     private suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
         if (type == FavoriteType.TRACK){
-            favoriteDao.deleteGroupImpl(songId.map { FavoriteEntity(it) })
+            favoriteDao.deleteGroupImpl(songId.map {
+                FavoriteEntity(
+                    it
+                )
+            })
         } else {
-            favoriteDao.deleteGroupPodcastImpl(songId.map { FavoritePodcastEntity(it) })
+            favoriteDao.deleteGroupPodcastImpl(songId.map {
+                FavoritePodcastEntity(
+                    it
+                )
+            })
         }
     }
 

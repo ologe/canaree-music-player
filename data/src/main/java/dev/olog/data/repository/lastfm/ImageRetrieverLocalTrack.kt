@@ -3,7 +3,7 @@ package dev.olog.data.repository.lastfm
 import android.util.Log
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.base.Id
-import dev.olog.data.db.dao.LastFmDao
+import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
 import dev.olog.data.utils.assertBackgroundThread

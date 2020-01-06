@@ -7,9 +7,9 @@ import dev.olog.core.entity.favorite.FavoriteType
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.Mocks
-import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.data.db.entities.FavoriteEntity
-import dev.olog.data.db.entities.FavoritePodcastEntity
+import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
+import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.flow.first
@@ -220,7 +220,11 @@ internal class FavoriteRepositoryTest {
         sut.addSingle(FavoriteType.PODCAST, id)
 
         // then
-        verify(dao).insertOnePodcastImpl(FavoritePodcastEntity(id))
+        verify(dao).insertOnePodcastImpl(
+            FavoritePodcastEntity(
+                id
+            )
+        )
         verifyNoMoreInteractions(dao)
     }
 
@@ -240,7 +244,11 @@ internal class FavoriteRepositoryTest {
         sut.addSingle(FavoriteType.PODCAST, id)
 
         // then
-        verify(dao).insertOnePodcastImpl(FavoritePodcastEntity(id))
+        verify(dao).insertOnePodcastImpl(
+            FavoritePodcastEntity(
+                id
+            )
+        )
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST),
             sut.getState()
@@ -258,7 +266,11 @@ internal class FavoriteRepositoryTest {
         sut.addGroup(FavoriteType.TRACK, list)
 
         // then
-        verify(dao).insertGroupImpl(list.map { FavoriteEntity(it) })
+        verify(dao).insertGroupImpl(list.map {
+            FavoriteEntity(
+                it
+            )
+        })
         verifyNoMoreInteractions(dao)
     }
 
@@ -279,7 +291,11 @@ internal class FavoriteRepositoryTest {
         sut.addGroup(FavoriteType.TRACK, list)
 
         // then
-        verify(dao).insertGroupImpl(list.map { FavoriteEntity(it) })
+        verify(dao).insertGroupImpl(list.map {
+            FavoriteEntity(
+                it
+            )
+        })
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK),
             sut.getState()
@@ -297,7 +313,11 @@ internal class FavoriteRepositoryTest {
         sut.addGroup(FavoriteType.PODCAST, list)
 
         // then
-        verify(dao).insertGroupPodcastImpl(list.map { FavoritePodcastEntity(it) })
+        verify(dao).insertGroupPodcastImpl(list.map {
+            FavoritePodcastEntity(
+                it
+            )
+        })
         verifyNoMoreInteractions(dao)
     }
 
@@ -318,7 +338,11 @@ internal class FavoriteRepositoryTest {
         sut.addGroup(FavoriteType.PODCAST, list)
 
         // then
-        verify(dao).insertGroupPodcastImpl(list.map { FavoritePodcastEntity(it) })
+        verify(dao).insertGroupPodcastImpl(list.map {
+            FavoritePodcastEntity(
+                it
+            )
+        })
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST),
             sut.getState()
@@ -335,7 +359,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteSingle(FavoriteType.TRACK, id)
 
         // then
-        verify(dao).deleteGroupImpl(listOf(FavoriteEntity(id)))
+        verify(dao).deleteGroupImpl(listOf(
+            FavoriteEntity(
+                id
+            )
+        ))
         verifyNoMoreInteractions(dao)
     }
 
@@ -349,7 +377,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteSingle(FavoriteType.TRACK, id)
 
         // then
-        verify(dao).deleteGroupImpl(listOf(FavoriteEntity(id)))
+        verify(dao).deleteGroupImpl(listOf(
+            FavoriteEntity(
+                id
+            )
+        ))
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
             sut.getState()
@@ -366,7 +398,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteSingle(FavoriteType.PODCAST, id)
 
         // then
-        verify(dao).deleteGroupPodcastImpl((listOf(FavoritePodcastEntity(id))))
+        verify(dao).deleteGroupPodcastImpl((listOf(
+            FavoritePodcastEntity(
+                id
+            )
+        )))
         verifyNoMoreInteractions(dao)
     }
 
@@ -386,7 +422,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteSingle(FavoriteType.PODCAST, id)
 
         // then
-        verify(dao).deleteGroupPodcastImpl(listOf(FavoritePodcastEntity(id)))
+        verify(dao).deleteGroupPodcastImpl(listOf(
+            FavoritePodcastEntity(
+                id
+            )
+        ))
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.PODCAST),
             sut.getState()
@@ -405,7 +445,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteGroup(FavoriteType.TRACK, list)
 
         // then
-        verify(dao).deleteGroupImpl(list.map { FavoriteEntity(it) })
+        verify(dao).deleteGroupImpl(list.map {
+            FavoriteEntity(
+                it
+            )
+        })
         verifyNoMoreInteractions(dao)
     }
 
@@ -420,7 +464,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteGroup(FavoriteType.TRACK, list)
 
         // then
-        verify(dao).deleteGroupImpl(list.map { FavoriteEntity(it) })
+        verify(dao).deleteGroupImpl(list.map {
+            FavoriteEntity(
+                it
+            )
+        })
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
             sut.getState()
@@ -438,7 +486,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteGroup(FavoriteType.PODCAST, list)
 
         // then
-        verify(dao).deleteGroupPodcastImpl(list.map { FavoritePodcastEntity(it) })
+        verify(dao).deleteGroupPodcastImpl(list.map {
+            FavoritePodcastEntity(
+                it
+            )
+        })
         verifyNoMoreInteractions(dao)
     }
 
@@ -455,7 +507,11 @@ internal class FavoriteRepositoryTest {
         sut.deleteGroup(FavoriteType.PODCAST, list)
 
         // then
-        verify(dao).deleteGroupPodcastImpl(list.map { FavoritePodcastEntity(it) })
+        verify(dao).deleteGroupPodcastImpl(list.map {
+            FavoritePodcastEntity(
+                it
+            )
+        })
         assertEquals(
             FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.PODCAST),
             sut.getState()
@@ -586,7 +642,11 @@ internal class FavoriteRepositoryTest {
             FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
             sut.getState()
         )
-        verify(dao).deleteGroupImpl(listOf(FavoriteEntity(id)))
+        verify(dao).deleteGroupImpl(listOf(
+            FavoriteEntity(
+                id
+            )
+        ))
     }
 
 }

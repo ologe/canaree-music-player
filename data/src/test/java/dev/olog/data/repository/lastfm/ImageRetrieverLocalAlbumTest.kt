@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.data.db.dao.LastFmDao
-import dev.olog.data.db.entities.LastFmAlbumEntity
+import dev.olog.data.db.LastFmDao
+import dev.olog.data.model.db.LastFmAlbumEntity
 import dev.olog.data.mapper.millisToFormattedDate
 import org.junit.Assert.*
 import org.junit.Test

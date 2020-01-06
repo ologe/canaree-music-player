@@ -2,15 +2,14 @@ package dev.olog.data.repository.podcast
 
 import android.content.ContentUris
 import android.content.Context
-import android.provider.MediaStore
 import android.util.Log
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.db.dao.PodcastPositionDao
-import dev.olog.data.db.entities.PodcastPositionEntity
+import dev.olog.data.db.PodcastPositionDao
+import dev.olog.data.model.db.PodcastPositionEntity
 import dev.olog.data.di.qualifier.Podcast
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
@@ -98,7 +97,12 @@ internal class PodcastRepository @Inject constructor(
 
     override fun saveCurrentPosition(podcastId: Long, position: Long) {
         assertBackgroundThread()
-        podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
+        podcastPositionDao.setPosition(
+            PodcastPositionEntity(
+                podcastId,
+                position
+            )
+        )
     }
 
     override fun getByAlbumId(albumId: Id): Song? {

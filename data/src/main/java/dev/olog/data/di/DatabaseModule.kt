@@ -2,7 +2,21 @@ package dev.olog.data.di
 
 import dagger.Module
 import dagger.Provides
-import dev.olog.data.db.dao.*
+import dev.olog.data.db.*
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.db.EqualizerPresetsDao
+import dev.olog.data.db.FavoriteDao
+import dev.olog.data.db.FolderMostPlayedDao
+import dev.olog.data.db.GenreMostPlayedDao
+import dev.olog.data.db.HistoryDao
+import dev.olog.data.db.LastPlayedAlbumDao
+import dev.olog.data.db.LastPlayedArtistDao
+import dev.olog.data.db.LastPlayedPodcastAlbumDao
+import dev.olog.data.db.LastPlayedPodcastArtistDao
+import dev.olog.data.db.OfflineLyricsDao
+import dev.olog.data.db.PlayingQueueDao
+import dev.olog.data.db.PlaylistMostPlayedDao
+import dev.olog.data.db.PodcastPlaylistDao
 
 @Module
 class DatabaseModule {

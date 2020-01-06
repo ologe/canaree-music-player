@@ -13,10 +13,10 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.data.R
-import dev.olog.data.db.dao.HistoryDao
-import dev.olog.data.db.dao.PodcastPlaylistDao
-import dev.olog.data.db.entities.PodcastPlaylistEntity
-import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
+import dev.olog.data.db.HistoryDao
+import dev.olog.data.db.PodcastPlaylistDao
+import dev.olog.data.model.db.PodcastPlaylistEntity
+import dev.olog.data.model.db.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
@@ -127,7 +127,12 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     override suspend fun createPlaylist(playlistName: String): Long {
         assertBackgroundThread()
-        return podcastPlaylistDao.createPlaylist(PodcastPlaylistEntity(name = playlistName, size = 0))
+        return podcastPlaylistDao.createPlaylist(
+            PodcastPlaylistEntity(
+                name = playlistName,
+                size = 0
+            )
+        )
     }
 
     override suspend fun renamePlaylist(playlistId: Id, newTitle: String) {

@@ -2,10 +2,10 @@ package dev.olog.data.repository
 
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.data.db.dao.LyricsSyncAdjustmentDao
-import dev.olog.data.db.dao.OfflineLyricsDao
-import dev.olog.data.db.entities.LyricsSyncAdjustmentEntity
-import dev.olog.data.db.entities.OfflineLyricsEntity
+import dev.olog.data.db.LyricsSyncAdjustmentDao
+import dev.olog.data.db.OfflineLyricsDao
+import dev.olog.data.model.db.LyricsSyncAdjustmentEntity
+import dev.olog.data.model.db.OfflineLyricsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -40,11 +40,21 @@ internal class OfflineLyricsRepository @Inject constructor(
 
     override fun observeSyncAdjustment(id: Long): Flow<Long> {
         return syncDao.observeSync(id)
-            .onStart { syncDao.insertSyncIfEmpty(LyricsSyncAdjustmentEntity(id, 0)) }
+            .onStart { syncDao.insertSyncIfEmpty(
+                LyricsSyncAdjustmentEntity(
+                    id,
+                    0
+                )
+            ) }
             .map { it.millis }
     }
 
     override suspend fun setSyncAdjustment(id: Long, millis: Long) {
-        syncDao.setSync(LyricsSyncAdjustmentEntity(id, millis))
+        syncDao.setSync(
+            LyricsSyncAdjustmentEntity(
+                id,
+                millis
+            )
+        )
     }
 }

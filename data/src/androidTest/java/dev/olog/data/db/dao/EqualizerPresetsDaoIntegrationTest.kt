@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
-import dev.olog.data.db.entities.EqualizerBandEntity
-import dev.olog.data.db.entities.EqualizerPresetEntity
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.db.EqualizerPresetsDao
+import dev.olog.data.model.db.EqualizerBandEntity
+import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.asExecutor
