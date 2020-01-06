@@ -3,11 +3,11 @@ package dev.olog.data.mapper
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.data.api.lastfm.album.AlbumInfo
-import dev.olog.data.api.lastfm.album.AlbumSearch
-import dev.olog.data.api.lastfm.artist.ArtistInfo
-import dev.olog.data.api.lastfm.track.TrackInfo
-import dev.olog.data.api.lastfm.track.TrackSearch
+import dev.olog.data.model.lastfm.AlbumInfo
+import dev.olog.data.model.lastfm.AlbumSearch
+import dev.olog.data.model.lastfm.ArtistInfo
+import dev.olog.data.model.lastfm.TrackInfo
+import dev.olog.data.model.lastfm.TrackSearch
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
 fun TrackInfo.toDomain(id: Long): LastFmTrack {

@@ -1,5 +1,5 @@
 
-package dev.olog.data.api.lastfm.track;
+package dev.olog.data.model.lastfm;
 
 import com.google.gson.annotations.SerializedName;
 

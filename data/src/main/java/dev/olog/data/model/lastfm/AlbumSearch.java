@@ -1,5 +1,5 @@
 
-package dev.olog.data.api.lastfm.album;
+package dev.olog.data.model.lastfm;
 
 public class AlbumSearch {
 

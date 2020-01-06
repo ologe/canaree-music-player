@@ -1,14 +1,15 @@
 
-package dev.olog.data.api.lastfm.album;
+package dev.olog.data.model.lastfm;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumInfo {
+public class Albummatches {
 
-    public Album album;
+    @SerializedName("album")
+    public List<Album> album = new ArrayList<>();
 
     public static class Album {
 
@@ -16,31 +17,21 @@ public class AlbumInfo {
 
         public String artist;
 
-        public String mbid;
-
         public String url;
 
         public List<Image> image = new ArrayList<>();
 
-        public Wiki wiki;
+        public String mbid;
 
         public static class Image {
 
             @SerializedName("#text")
             public String text;
-            public String size;
-
-        }
-
-        public static class Wiki {
-
-            public String published;
-            public String summary;
-            public String content;
 
         }
 
 
     }
+
 
 }

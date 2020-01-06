@@ -2,12 +2,12 @@ package dev.olog.data.api
 
 import androidx.annotation.IntRange
 import dev.olog.data.BuildConfig
-import dev.olog.data.api.lastfm.album.AlbumInfo
-import dev.olog.data.api.lastfm.album.AlbumSearch
-import dev.olog.data.api.lastfm.artist.ArtistInfo
-import dev.olog.data.api.lastfm.artist.ArtistSearch
-import dev.olog.data.api.lastfm.track.TrackInfo
-import dev.olog.data.api.lastfm.track.TrackSearch
+import dev.olog.data.model.lastfm.AlbumInfo
+import dev.olog.data.model.lastfm.AlbumSearch
+import dev.olog.data.model.lastfm.ArtistInfo
+import dev.olog.data.model.lastfm.ArtistSearch
+import dev.olog.data.model.lastfm.TrackInfo
+import dev.olog.data.model.lastfm.TrackSearch
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
