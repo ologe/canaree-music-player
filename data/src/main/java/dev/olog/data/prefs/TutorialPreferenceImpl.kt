@@ -5,7 +5,7 @@ import androidx.core.content.edit
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import javax.inject.Inject
 
-class TutorialPreferenceImpl @Inject constructor(
+internal class TutorialPreferenceImpl @Inject constructor(
         private val preferences: SharedPreferences
 
 ) : TutorialPreferenceGateway {

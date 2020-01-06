@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
-class AppPreferencesImpl @Inject constructor(
+internal class AppPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 

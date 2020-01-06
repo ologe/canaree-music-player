@@ -34,7 +34,7 @@ private const val LAST_ID_IN_PLAYLIST = "$TAG.last_id_in_playlist_2"
 
 private const val MUSIC_VOLUME = "$TAG.music_volume"
 
-class MusicPreferencesImpl @Inject constructor(
+internal class MusicPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 

@@ -8,7 +8,7 @@ import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class EqualizerPreferenceImpl @Inject constructor(
+internal class EqualizerPreferenceImpl @Inject constructor(
     private val preferences: SharedPreferences
 
 ) : EqualizerPreferencesGateway {

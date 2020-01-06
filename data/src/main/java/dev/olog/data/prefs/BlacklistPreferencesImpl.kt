@@ -6,7 +6,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.data.utils.assertBackgroundThread
 import javax.inject.Inject
 
-class BlacklistPreferenceImpl @Inject constructor(
+internal class BlacklistPreferencesImpl @Inject constructor(
     private val preferences: SharedPreferences
 ) : BlacklistPreferences {
 
