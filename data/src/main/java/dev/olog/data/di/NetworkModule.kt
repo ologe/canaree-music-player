@@ -1,6 +1,7 @@
 package dev.olog.data.di
 
 import android.content.Context
+import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,8 @@ import javax.inject.Singleton
 
 @Module
 object NetworkModule {
+
+    val gson by lazy { Gson() }
 
     @Provides
     @JvmStatic
@@ -64,7 +67,7 @@ object NetworkModule {
     internal fun provideLastFmRetrofit(client: Lazy<OkHttpClient>): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://ws.audioscrobbler.com/2.0/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .callFactory(object: Call.Factory{
                 override fun newCall(request: Request): Call {
                     return client.get().newCall(request)
