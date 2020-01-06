@@ -7,7 +7,7 @@ import dev.olog.data.model.db.*
 
 
 @Database(
-    entities = arrayOf(
+    entities = [
         PlayingQueueEntity::class,
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
@@ -43,7 +43,7 @@ import dev.olog.data.model.db.*
         LyricsSyncAdjustmentEntity::class,
         EqualizerPresetEntity::class
 
-    ), version = 18, exportSchema = true
+    ], version = 18, exportSchema = true
 )
 @TypeConverters(CustomTypeConverters::class)
 internal abstract class AppDatabase : RoomDatabase() {
