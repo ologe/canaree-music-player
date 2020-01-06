@@ -27,14 +27,14 @@ data class LastFmTrackmatchesTrack(
  * track.getInfo
  */
 data class LastFmTrackInfo(
-    val track: LastFmTrack
+    val track: LastFmTrackRemote
 )
 
-data class LastFmTrack(
+data class LastFmTrackRemote(
     val name: String,
     val mbid: String,
-    val artist: LastFmArtist,
-    val album: LastFmAlbum,
+    val artist: LastFmArtistRemote,
+    val album: LastFmAlbumRemote,
     val image: List<LastFmImage>,
     val wiki: LastFmWiki? = null
 )

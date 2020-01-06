@@ -14,14 +14,14 @@ fun LastFmTrackInfo.toDomain(id: Long): LastFmTrack {
     val image = track.album.image.findBest()
 
     return LastFmTrack(
-        id,
-        title,
-        artist,
-        album,
-        image,
-        track.mbid,
-        track.artist.mbid,
-        track.album.mbid
+        id = id,
+        title = title,
+        artist = artist,
+        album = album,
+        image = image,
+        mbid = track.mbid,
+        artistMbid = track.artist.mbid,
+        albumMbid = track.album.mbid
     )
 }
 
@@ -30,26 +30,26 @@ fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack {
         val track = this.results.trackmatches.track[0]
 
         return LastFmTrack(
-            id,
-            track.name,
-            track.artist,
-            "",
-            "",
-            "",
-            "",
-            ""
+            id = id,
+            title = track.name,
+            artist = track.artist,
+            album = "",
+            image = "",
+            mbid = "",
+            artistMbid = "",
+            albumMbid = ""
         )
     } catch (ex: Throwable) {
         ex.printStackTrace()
         return LastFmTrack(
-            id,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            id = id,
+            title = "",
+            artist = "",
+            album = "",
+            image = "",
+            mbid = "",
+            artistMbid = "",
+            albumMbid = ""
         )
     }
 }
@@ -57,12 +57,12 @@ fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack {
 fun LastFmAlbumInfo.toDomain(id: Long): LastFmAlbum {
     val album = this.album
     return LastFmAlbum(
-        id,
-        album.name,
-        album.artist,
-        album.image.findBest(),
-        album.mbid,
-        album.wiki?.content ?: ""
+        id = id,
+        title = album.name,
+        artist = album.artist,
+        image = album.image.findBest(),
+        mbid = album.mbid,
+        wiki = album.wiki?.content ?: ""
     )
 }
 
@@ -73,22 +73,22 @@ fun LastFmAlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
         val best = results.first { it.artist == bestArtist }
 
         return LastFmAlbum(
-            id,
-            best.name,
-            best.artist,
-            "",
-            "",
-            ""
+            id = id,
+            title = best.name,
+            artist = best.artist,
+            image = "",
+            mbid = "",
+            wiki = ""
         )
     } catch (ex: Throwable) {
         ex.printStackTrace()
         return LastFmAlbum(
-            id,
-            "",
-            "",
-            "",
-            "",
-            ""
+            id = id,
+            title = "",
+            artist = "",
+            image = "",
+            mbid = "",
+            wiki = ""
         )
     }
 }
@@ -96,10 +96,10 @@ fun LastFmAlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
 fun LastFmArtistInfo.toDomain(id: Long): LastFmArtist? {
     val artist = this.artist
     return LastFmArtist(
-        id,
-        "",
-        artist.mbid,
-        artist.bio?.content ?: ""
+        id = id,
+        image = "",
+        mbid = artist.mbid,
+        wiki = artist.bio?.content ?: ""
     )
 }
 

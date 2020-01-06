@@ -29,10 +29,10 @@ data class LastFmAlbummatchesAlbum(
  * album.getInfo
  */
 data class LastFmAlbumInfo(
-    val album: LastFmAlbum
+    val album: LastFmAlbumRemote
 )
 
-data class LastFmAlbum(
+data class LastFmAlbumRemote(
     @SerializedName(value = "name", alternate = ["title"]) val name: String,
     val artist: String,
     val mbid: String,
