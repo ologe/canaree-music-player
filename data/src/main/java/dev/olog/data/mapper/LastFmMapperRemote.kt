@@ -25,7 +25,7 @@ fun LastFmTrackInfo.toDomain(id: Long): LastFmTrack {
     )
 }
 
-fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack? {
+fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack {
     try {
         val track = this.results.trackmatches.track[0]
 
