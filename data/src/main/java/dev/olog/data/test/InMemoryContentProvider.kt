@@ -17,7 +17,6 @@ internal class InMemoryContentProvider : ContentProvider() {
     companion object {
         private const val AUTHORITY = "canaree_media"
         const val AUDIO = "audio"
-        const val PLAYLISTS = "playlists"
         const val GENRES = "genres"
 
         private val MATCHER = UriMatcher(UriMatcher.NO_MATCH)
@@ -37,9 +36,6 @@ internal class InMemoryContentProvider : ContentProvider() {
         init {
             MATCHER.addURI(AUTHORITY, AUDIO, CODE_ALL)
             MATCHER.addURI(AUTHORITY, "$AUDIO/*", CODE_ITEM)
-
-            MATCHER.addURI(AUTHORITY, PLAYLISTS, CODE_ALL)
-            MATCHER.addURI(AUTHORITY, "$PLAYLISTS/*", CODE_ITEM)
 
             MATCHER.addURI(AUTHORITY, GENRES, CODE_ALL)
             MATCHER.addURI(AUTHORITY, "$GENRES/*", CODE_ITEM)
@@ -131,12 +127,6 @@ internal class InMemoryContentProvider : ContentProvider() {
             return getContentUri(GENRES, id)
         }
 
-        if (uri.path!!.contains(PLAYLISTS)) {
-            val item = MediaStorePlaylist.fromContentValues(values)
-            val id = room.mediaDao().insertPlaylist(item)
-            return getContentUri(PLAYLISTS, id)
-        }
-
         throw IllegalArgumentException("Unknown URI: $uri")
     }
 
@@ -158,12 +148,6 @@ internal class InMemoryContentProvider : ContentProvider() {
         if (uri.path!!.contains(GENRES)) {
             val tracks = values.map { MediaStoreGenre.fromContentValues(it) }
             room.mediaDao().insertMultipleGenre(tracks)
-            return 1
-        }
-
-        if (uri.path!!.contains(PLAYLISTS)) {
-            val tracks = values.map { MediaStorePlaylist.fromContentValues(it) }
-            room.mediaDao().insertMultiplePlaylist(tracks)
             return 1
         }
 
@@ -190,10 +174,6 @@ internal class InMemoryContentProvider : ContentProvider() {
                 room.mediaDao().deleteSingleGenre(id.toLong())
                 return 1
             }
-            if (uri.path!!.contains(PLAYLISTS)) {
-                room.mediaDao().deleteSinglePlaylist(id.toLong())
-                return 1
-            }
         }
         if (uri.path!!.contains(AUDIO)) {
             room.mediaDao().deleteTracks()
@@ -203,10 +183,7 @@ internal class InMemoryContentProvider : ContentProvider() {
             room.mediaDao().deleteGenres()
             return 1
         }
-        if (uri.path!!.contains(PLAYLISTS)) {
-            room.mediaDao().deletePlaylists()
-            return 1
-        }
+
         throw IllegalArgumentException("Unknown URI: $uri")
     }
 

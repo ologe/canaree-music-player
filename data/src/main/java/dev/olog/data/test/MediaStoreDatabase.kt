@@ -8,7 +8,6 @@ import androidx.sqlite.db.SupportSQLiteQuery
 @Database(
     entities = [
         MediaStoreTrack::class,
-        MediaStorePlaylist::class,
         MediaStoreGenre::class
     ],
     version = 1,
@@ -33,12 +32,6 @@ internal interface MediaDao {
     fun insertMultipleTrack(audio: List<MediaStoreTrack>)
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertPlaylist(audio: MediaStorePlaylist): Long
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertMultiplePlaylist(audio: List<MediaStorePlaylist>)
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertGenre(audio: MediaStoreGenre): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -47,17 +40,12 @@ internal interface MediaDao {
     @Query("DELETE FROM ${InMemoryContentProvider.AUDIO} WHERE _id = :id")
     fun deleteSingleTrack(id: Long)
 
-    @Query("DELETE FROM ${InMemoryContentProvider.PLAYLISTS} WHERE _id = :id")
-    fun deleteSinglePlaylist(id: Long)
 
     @Query("DELETE FROM ${InMemoryContentProvider.GENRES} WHERE _id = :id")
     fun deleteSingleGenre(id: Long)
 
     @Query("DELETE FROM ${InMemoryContentProvider.AUDIO}")
     fun deleteTracks()
-
-    @Query("DELETE FROM ${InMemoryContentProvider.PLAYLISTS}")
-    fun deletePlaylists()
 
     @Query("DELETE FROM ${InMemoryContentProvider.GENRES}")
     fun deleteGenres()
@@ -101,25 +89,6 @@ internal data class MediaStoreTrack(
                 dateModified = values.getAsInteger("date_modified"),
                 isPodcast = values.getAsInteger("is_podcast"),
                 displayName = values.getAsString("_display_name")
-            )
-        }
-    }
-
-}
-
-@Entity(tableName = InMemoryContentProvider.PLAYLISTS)
-internal data class MediaStorePlaylist(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id") val id: Int,
-    val name: String
-) {
-
-    companion object {
-        @JvmStatic
-        fun fromContentValues(values: ContentValues): MediaStorePlaylist {
-            return MediaStorePlaylist(
-                id = values.getAsInteger("_id"),
-                name = values.getAsString("name")
             )
         }
     }
