@@ -9,7 +9,6 @@ data class Folder(
     val size: Int
 ) {
 
-
     fun getMediaId(): MediaId {
         return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path)
     }

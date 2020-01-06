@@ -1,5 +1,6 @@
 package dev.olog.data.repository.track
 
+import android.content.ContentValues
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.google.gson.Gson
@@ -979,6 +980,25 @@ internal class SongRepositoryIntegrationTest {
         val gson = Gson()
         val collectionType = object : TypeToken<MutableList<Song>>() {}.type
         return gson.fromJson<MutableList<Song>>(json, collectionType)
+    }
+
+    private fun Song.toContentValues(): ContentValues {
+        return ContentValues().apply {
+            put("_id", id)
+            put("artist_id", artistId)
+            put("album_id", albumId)
+            put("title", title)
+            put("artist", artist)
+            put("album", album)
+            put("album_artist", albumArtist)
+            put("duration", duration)
+            put("date_added", dateAdded)
+            put("date_modified", dateModified)
+            put("_data", path)
+            put("track", trackColumn)
+            put("is_podcast", if (isPodcast) 1 else 0)
+            put("_display_name", displayName)
+        }
     }
 
 }

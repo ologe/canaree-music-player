@@ -14,7 +14,6 @@ data class Album(
     val isPodcast: Boolean
 ) {
 
-
     fun getMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
         return MediaId.createCategoryValue(category, this.id.toString())

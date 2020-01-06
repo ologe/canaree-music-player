@@ -1,4 +1,4 @@
-package dev.olog.data
+package dev.olog.core
 
 import dev.olog.core.entity.track.*
 
