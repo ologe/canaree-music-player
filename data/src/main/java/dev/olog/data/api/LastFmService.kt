@@ -60,9 +60,7 @@ interface LastFmService {
 
     @GET("$BASE_URL&method=album.search")
     suspend fun searchAlbumAsync(
-        @Query("album", encoded = true) album: String,
-        @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
-        @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
+        @Query("album", encoded = true) album: String
     ): Response<LastFmAlbumSearch>
 
 }
