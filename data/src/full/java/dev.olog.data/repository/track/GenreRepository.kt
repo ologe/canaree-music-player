@@ -108,7 +108,7 @@ internal class GenreRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        mostPlayedDao.insertOne(
+        mostPlayedDao.insert(
             GenreMostPlayedEntity(
                 0,
                 mediaId.leaf!!,

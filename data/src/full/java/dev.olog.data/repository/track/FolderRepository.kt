@@ -123,7 +123,7 @@ internal class FolderRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        mostPlayedDao.insertOne(
+        mostPlayedDao.insert(
             FolderMostPlayedEntity(
                 0,
                 mediaId.leaf!!,

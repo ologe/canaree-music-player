@@ -139,7 +139,7 @@ internal class PlaylistRepository @Inject constructor(
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
-        mostPlayedDao.insertOne(
+        mostPlayedDao.insert(
             PlaylistMostPlayedEntity(
                 0,
                 mediaId.leaf!!,

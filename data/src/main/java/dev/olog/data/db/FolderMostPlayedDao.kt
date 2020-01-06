@@ -27,7 +27,7 @@ internal abstract class FolderMostPlayedDao {
     abstract fun query(folderPath: String): Flow<List<MostTimesPlayedSongEntity>>
 
     @Insert
-    abstract suspend fun insertOne(item: FolderMostPlayedEntity)
+    abstract suspend fun insert(vararg item: FolderMostPlayedEntity)
 
     fun getAll(folderPath: String, songGateway2: SongGateway): Flow<List<Song>> {
         return this.query(folderPath)
