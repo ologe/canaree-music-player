@@ -1,7 +1,7 @@
 package dev.olog.data.repository
 
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.data.db.HistoryDao
@@ -50,7 +50,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     override suspend fun clearPlaylist(playlistId: Long) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
         when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteTrackType.TRACK)
             AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
         }
     }
@@ -67,7 +67,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteTrackType.TRACK, songId)
             AutoPlaylist.HISTORY.id -> historyDao.deleteSingle(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }

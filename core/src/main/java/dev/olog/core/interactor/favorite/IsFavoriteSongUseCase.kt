@@ -1,6 +1,6 @@
 package dev.olog.core.interactor.favorite
 
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
 import javax.inject.Inject
 
@@ -14,6 +14,6 @@ class IsFavoriteSongUseCase @Inject constructor(
 
     class Input(
         val songId: Long,
-        val type: FavoriteType
+        val type: FavoriteTrackType
     )
 }

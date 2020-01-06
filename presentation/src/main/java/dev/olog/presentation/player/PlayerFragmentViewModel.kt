@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.favorite.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
@@ -34,7 +34,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
 
-    private val favoriteLiveData = MutableLiveData<FavoriteEnum>()
+    private val favoriteLiveData = MutableLiveData<FavoriteState>()
 
     init {
         viewModelScope.launch {
@@ -79,7 +79,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
         )
     }
 
-    val onFavoriteStateChanged: LiveData<FavoriteEnum> = favoriteLiveData
+    val onFavoriteStateChanged: LiveData<FavoriteState> = favoriteLiveData
 
     val skipToNextVisibility = musicPrefsUseCase
             .observeSkipToNextVisibility()

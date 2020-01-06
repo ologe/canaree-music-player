@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.entity.favorite.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
@@ -20,7 +20,7 @@ class LottieFavorite(
     private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
     private var isSlidingPanelExpanded = false
 
-    private var state: FavoriteEnum? = null
+    private var state: FavoriteState? = null
 
     init {
         if (!isInEditMode){
@@ -72,7 +72,7 @@ class LottieFavorite(
 
     fun toggleFavorite(){
         this.state = this.state?.reverse()
-        animateFavorite(this.state == FavoriteEnum.FAVORITE)
+        animateFavorite(this.state == FavoriteState.FAVORITE)
     }
 
     private fun animateFavorite(toFavorite: Boolean) {
@@ -85,15 +85,15 @@ class LottieFavorite(
         }
     }
 
-    fun onNextState(favoriteEnum: FavoriteEnum) {
+    fun onNextState(favoriteEnum: FavoriteState) {
         if (this.state == favoriteEnum) {
             return
         }
-        this.state = FavoriteEnum.valueOf(favoriteEnum.name)
+        this.state = FavoriteState.valueOf(favoriteEnum.name)
 
         when (favoriteEnum) {
-            FavoriteEnum.FAVORITE -> toggleFavorite(true)
-            FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
+            FavoriteState.FAVORITE -> toggleFavorite(true)
+            FavoriteState.NOT_FAVORITE -> toggleFavorite(false)
         }
     }
 

@@ -1,14 +1,12 @@
 package dev.olog.data.repository
 
 import com.nhaarman.mockitokotlin2.*
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.entity.favorite.FavoriteStateEntity
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteState
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.Mocks
 import dev.olog.data.db.FavoriteDao
-import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
@@ -37,7 +35,7 @@ internal class FavoriteRepositoryTest {
     @Test
     fun `should update state`() = coroutinesRule.runBlocking {
         // given
-        val state = FavoriteStateEntity(1, FavoriteEnum.FAVORITE, FavoriteType.TRACK)
+        val state = dev.olog.core.entity.favorite.FavoriteEntity(1, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
         sut.getState()
 
         // when
@@ -180,7 +178,7 @@ internal class FavoriteRepositoryTest {
         val id = 1L
 
         // when
-        sut.addSingle(FavoriteType.TRACK, id)
+        sut.addSingle(FavoriteTrackType.TRACK, id)
 
         // then
         verify(dao).insertOneImpl(FavoriteEntity(id))
@@ -192,20 +190,20 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(
+            dev.olog.core.entity.favorite.FavoriteEntity(
                 id,
-                FavoriteEnum.NOT_FAVORITE,
-                FavoriteType.TRACK
+                FavoriteState.NOT_FAVORITE,
+                FavoriteTrackType.TRACK
             )
         )
 
         // when
-        sut.addSingle(FavoriteType.TRACK, id)
+        sut.addSingle(FavoriteTrackType.TRACK, id)
 
         // then
         verify(dao).insertOneImpl(FavoriteEntity(id))
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -217,7 +215,7 @@ internal class FavoriteRepositoryTest {
         val id = 1L
 
         // when
-        sut.addSingle(FavoriteType.PODCAST, id)
+        sut.addSingle(FavoriteTrackType.PODCAST, id)
 
         // then
         verify(dao).insertOnePodcastImpl(
@@ -233,15 +231,15 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(
+            dev.olog.core.entity.favorite.FavoriteEntity(
                 id,
-                FavoriteEnum.NOT_FAVORITE,
-                FavoriteType.PODCAST
+                FavoriteState.NOT_FAVORITE,
+                FavoriteTrackType.PODCAST
             )
         )
 
         // when
-        sut.addSingle(FavoriteType.PODCAST, id)
+        sut.addSingle(FavoriteTrackType.PODCAST, id)
 
         // then
         verify(dao).insertOnePodcastImpl(
@@ -250,7 +248,7 @@ internal class FavoriteRepositoryTest {
             )
         )
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.PODCAST),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -263,7 +261,7 @@ internal class FavoriteRepositoryTest {
         val list = listOf(id)
 
         // when
-        sut.addGroup(FavoriteType.TRACK, list)
+        sut.addGroup(FavoriteTrackType.TRACK, list)
 
         // then
         verify(dao).insertGroupImpl(list.map {
@@ -280,15 +278,15 @@ internal class FavoriteRepositoryTest {
         val id = 1L
         val list = listOf(1L)
         sut.updateFavoriteState(
-            FavoriteStateEntity(
+            dev.olog.core.entity.favorite.FavoriteEntity(
                 id,
-                FavoriteEnum.NOT_FAVORITE,
-                FavoriteType.TRACK
+                FavoriteState.NOT_FAVORITE,
+                FavoriteTrackType.TRACK
             )
         )
 
         // when
-        sut.addGroup(FavoriteType.TRACK, list)
+        sut.addGroup(FavoriteTrackType.TRACK, list)
 
         // then
         verify(dao).insertGroupImpl(list.map {
@@ -297,7 +295,7 @@ internal class FavoriteRepositoryTest {
             )
         })
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -310,7 +308,7 @@ internal class FavoriteRepositoryTest {
         val list = listOf(id)
 
         // when
-        sut.addGroup(FavoriteType.PODCAST, list)
+        sut.addGroup(FavoriteTrackType.PODCAST, list)
 
         // then
         verify(dao).insertGroupPodcastImpl(list.map {
@@ -327,15 +325,15 @@ internal class FavoriteRepositoryTest {
         val id = 1L
         val list = listOf(id)
         sut.updateFavoriteState(
-            FavoriteStateEntity(
+            dev.olog.core.entity.favorite.FavoriteEntity(
                 id,
-                FavoriteEnum.NOT_FAVORITE,
-                FavoriteType.PODCAST
+                FavoriteState.NOT_FAVORITE,
+                FavoriteTrackType.PODCAST
             )
         )
 
         // when
-        sut.addGroup(FavoriteType.PODCAST, list)
+        sut.addGroup(FavoriteTrackType.PODCAST, list)
 
         // then
         verify(dao).insertGroupPodcastImpl(list.map {
@@ -344,7 +342,7 @@ internal class FavoriteRepositoryTest {
             )
         })
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.PODCAST),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -356,7 +354,7 @@ internal class FavoriteRepositoryTest {
         val id = 1L
 
         // when
-        sut.deleteSingle(FavoriteType.TRACK, id)
+        sut.deleteSingle(FavoriteTrackType.TRACK, id)
 
         // then
         verify(dao).deleteGroupImpl(listOf(
@@ -371,10 +369,10 @@ internal class FavoriteRepositoryTest {
     fun `should delete single track and update favorite state`() = coroutinesRule.runBlocking {
         // given
         val id = 1L
-        sut.updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK))
+        sut.updateFavoriteState(dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK))
 
         // when
-        sut.deleteSingle(FavoriteType.TRACK, id)
+        sut.deleteSingle(FavoriteTrackType.TRACK, id)
 
         // then
         verify(dao).deleteGroupImpl(listOf(
@@ -383,7 +381,7 @@ internal class FavoriteRepositoryTest {
             )
         ))
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -395,7 +393,7 @@ internal class FavoriteRepositoryTest {
         val id = 1L
 
         // when
-        sut.deleteSingle(FavoriteType.PODCAST, id)
+        sut.deleteSingle(FavoriteTrackType.PODCAST, id)
 
         // then
         verify(dao).deleteGroupPodcastImpl((listOf(
@@ -411,15 +409,15 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(
+            dev.olog.core.entity.favorite.FavoriteEntity(
                 id,
-                FavoriteEnum.FAVORITE,
-                FavoriteType.PODCAST
+                FavoriteState.FAVORITE,
+                FavoriteTrackType.PODCAST
             )
         )
 
         // when
-        sut.deleteSingle(FavoriteType.PODCAST, id)
+        sut.deleteSingle(FavoriteTrackType.PODCAST, id)
 
         // then
         verify(dao).deleteGroupPodcastImpl(listOf(
@@ -428,7 +426,7 @@ internal class FavoriteRepositoryTest {
             )
         ))
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.PODCAST),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.PODCAST),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -442,7 +440,7 @@ internal class FavoriteRepositoryTest {
         val list = listOf(id)
 
         // when
-        sut.deleteGroup(FavoriteType.TRACK, list)
+        sut.deleteGroup(FavoriteTrackType.TRACK, list)
 
         // then
         verify(dao).deleteGroupImpl(list.map {
@@ -458,10 +456,10 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         val list = listOf(1L)
-        sut.updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK))
+        sut.updateFavoriteState(dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK))
 
         // when
-        sut.deleteGroup(FavoriteType.TRACK, list)
+        sut.deleteGroup(FavoriteTrackType.TRACK, list)
 
         // then
         verify(dao).deleteGroupImpl(list.map {
@@ -470,7 +468,7 @@ internal class FavoriteRepositoryTest {
             )
         })
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -483,7 +481,7 @@ internal class FavoriteRepositoryTest {
         val list = listOf(id)
 
         // when
-        sut.deleteGroup(FavoriteType.PODCAST, list)
+        sut.deleteGroup(FavoriteTrackType.PODCAST, list)
 
         // then
         verify(dao).deleteGroupPodcastImpl(list.map {
@@ -500,11 +498,11 @@ internal class FavoriteRepositoryTest {
         val id = 1L
         val list = listOf(id)
         sut.updateFavoriteState(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST)
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.PODCAST)
         )
 
         // when
-        sut.deleteGroup(FavoriteType.PODCAST, list)
+        sut.deleteGroup(FavoriteTrackType.PODCAST, list)
 
         // then
         verify(dao).deleteGroupPodcastImpl(list.map {
@@ -513,7 +511,7 @@ internal class FavoriteRepositoryTest {
             )
         })
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.PODCAST),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.PODCAST),
             sut.getState()
         )
         verifyNoMoreInteractions(dao)
@@ -522,7 +520,7 @@ internal class FavoriteRepositoryTest {
     @Test
     fun `should delete all tracks`() = coroutinesRule.runBlocking {
         // when
-        sut.deleteAll(FavoriteType.TRACK)
+        sut.deleteAll(FavoriteTrackType.TRACK)
 
         // then
         verify(dao).deleteAllTracks()
@@ -532,15 +530,15 @@ internal class FavoriteRepositoryTest {
     fun `should delete all tracks and update favorite state`() = coroutinesRule.runBlocking {
         // given
         val id = 1L
-        sut.updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK))
+        sut.updateFavoriteState(dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK))
 
         // when
-        sut.deleteAll(FavoriteType.TRACK)
+        sut.deleteAll(FavoriteTrackType.TRACK)
 
         // then
         verify(dao).deleteAllTracks()
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
     }
@@ -548,7 +546,7 @@ internal class FavoriteRepositoryTest {
     @Test
     fun `should delete all podcasts`() = coroutinesRule.runBlocking {
         // when
-        sut.deleteAll(FavoriteType.PODCAST)
+        sut.deleteAll(FavoriteTrackType.PODCAST)
 
         // then
         verify(dao).deleteAllPodcasts()
@@ -559,16 +557,16 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.PODCAST)
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.PODCAST)
         )
 
         // when
-        sut.deleteAll(FavoriteType.PODCAST)
+        sut.deleteAll(FavoriteTrackType.PODCAST)
 
         // then
         verify(dao).deleteAllPodcasts()
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.PODCAST),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.PODCAST),
             sut.getState()
         )
     }
@@ -580,7 +578,7 @@ internal class FavoriteRepositoryTest {
         whenever(dao.isFavorite(id)).thenReturn(true)
 
         // then
-        sut.isFavorite(id, FavoriteType.TRACK)
+        sut.isFavorite(id, FavoriteTrackType.TRACK)
 
         // then
         verify(dao).isFavorite(id)
@@ -593,7 +591,7 @@ internal class FavoriteRepositoryTest {
         whenever(dao.isFavoritePodcast(id)).thenReturn(true)
 
         // when
-        sut.isFavorite(id, FavoriteType.PODCAST)
+        sut.isFavorite(id, FavoriteTrackType.PODCAST)
 
         // then
         verify(dao).isFavoritePodcast(id)
@@ -612,7 +610,7 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK)
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.TRACK)
         )
 
         // when
@@ -620,7 +618,7 @@ internal class FavoriteRepositoryTest {
 
         // then
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verify(dao).insertOneImpl(FavoriteEntity(id))
@@ -631,7 +629,7 @@ internal class FavoriteRepositoryTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
-            FavoriteStateEntity(id, FavoriteEnum.FAVORITE, FavoriteType.TRACK)
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
         )
 
         // when
@@ -639,7 +637,7 @@ internal class FavoriteRepositoryTest {
 
         // then
         assertEquals(
-            FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, FavoriteType.TRACK),
+            dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.NOT_FAVORITE, FavoriteTrackType.TRACK),
             sut.getState()
         )
         verify(dao).deleteGroupImpl(listOf(

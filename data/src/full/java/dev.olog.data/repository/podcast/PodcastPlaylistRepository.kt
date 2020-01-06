@@ -3,7 +3,7 @@ package dev.olog.data.repository.podcast
 import android.content.Context
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -146,7 +146,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override suspend fun clearPlaylist(playlistId: Id) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
         when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteType.PODCAST)
+            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteTrackType.PODCAST)
             AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
         }
     }
@@ -173,7 +173,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
 
     private suspend fun removeFromAutoPlaylist(playlistId: Long, songId: Long) {
         return when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteType.PODCAST, songId)
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteSingle(FavoriteTrackType.PODCAST, songId)
             AutoPlaylist.HISTORY.id -> historyDao.deleteSinglePodcast(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }

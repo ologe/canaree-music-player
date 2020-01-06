@@ -1,7 +1,7 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class AddToFavoriteUseCase @Inject constructor(
 
     class Input(
         val mediaId: MediaId,
-        val type: FavoriteType
+        val type: FavoriteTrackType
     )
 
 }

@@ -1,15 +1,13 @@
 package dev.olog.data.repository
 
 import androidx.annotation.VisibleForTesting
-import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.core.entity.favorite.FavoriteStateEntity
-import dev.olog.core.entity.favorite.FavoriteType
+import dev.olog.core.entity.favorite.FavoriteState
+import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.FavoriteDao
-import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
@@ -26,16 +24,16 @@ internal class FavoriteRepository @Inject constructor(
 
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
+    private val favoriteStatePublisher = ConflatedBroadcastChannel<dev.olog.core.entity.favorite.FavoriteEntity>()
 
     @VisibleForTesting
-    internal fun getState(): FavoriteStateEntity? = favoriteStatePublisher.valueOrNull
+    internal fun getState(): dev.olog.core.entity.favorite.FavoriteEntity? = favoriteStatePublisher.valueOrNull
 
-    override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
+    override fun observeToggleFavorite(): Flow<FavoriteState> = favoriteStatePublisher
         .asFlow()
         .map { it.enum }
 
-    override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
+    override suspend fun updateFavoriteState(state: dev.olog.core.entity.favorite.FavoriteEntity) {
         favoriteStatePublisher.offer(state)
     }
 
@@ -71,72 +69,78 @@ internal class FavoriteRepository @Inject constructor(
             }.assertBackground()
     }
 
-    override suspend fun addSingle(type: FavoriteType, songId: Long) {
+    override suspend fun addSingle(type: FavoriteTrackType, songId: Long) {
         addToFavoriteSingle(type, songId)
         val id = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songId == id) {
             updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type)
+                dev.olog.core.entity.favorite.FavoriteEntity(songId, FavoriteState.FAVORITE, type)
             )
         }
     }
 
-    override suspend fun addGroup(type: FavoriteType, songListId: List<Long>) {
+    override suspend fun addGroup(type: FavoriteTrackType, songListId: List<Long>) {
         addToFavorite(type, songListId)
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songListId.contains(songId)) {
-            updateFavoriteState(FavoriteStateEntity(
-                songId = songId,
-                enum = FavoriteEnum.FAVORITE,
-                favoriteType = type
-            ))
-        }
-    }
-
-    override suspend fun deleteSingle(type: FavoriteType, songId: Long) {
-        removeFromFavorite(type, listOf(songId))
-        val id = favoriteStatePublisher.valueOrNull?.songId ?: return
-        if (songId == id) {
-            updateFavoriteState(FavoriteStateEntity(
-                songId = songId,
-                enum = FavoriteEnum.NOT_FAVORITE,
-                favoriteType = type
-            ))
-        }
-    }
-
-    override suspend fun deleteGroup(type: FavoriteType, songListId: List<Long>) {
-        removeFromFavorite(type, songListId)
-        val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
-        if (songListId.contains(songId)) {
             updateFavoriteState(
-                FavoriteStateEntity(
+                dev.olog.core.entity.favorite.FavoriteEntity(
                     songId = songId,
-                    enum = FavoriteEnum.NOT_FAVORITE,
+                    enum = FavoriteState.FAVORITE,
                     favoriteType = type
                 )
             )
         }
     }
 
-    override suspend fun deleteAll(type: FavoriteType) {
+    override suspend fun deleteSingle(type: FavoriteTrackType, songId: Long) {
+        removeFromFavorite(type, listOf(songId))
+        val id = favoriteStatePublisher.valueOrNull?.songId ?: return
+        if (songId == id) {
+            updateFavoriteState(
+                dev.olog.core.entity.favorite.FavoriteEntity(
+                    songId = songId,
+                    enum = FavoriteState.NOT_FAVORITE,
+                    favoriteType = type
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteGroup(type: FavoriteTrackType, songListId: List<Long>) {
+        removeFromFavorite(type, songListId)
+        val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
+        if (songListId.contains(songId)) {
+            updateFavoriteState(
+                dev.olog.core.entity.favorite.FavoriteEntity(
+                    songId = songId,
+                    enum = FavoriteState.NOT_FAVORITE,
+                    favoriteType = type
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteAll(type: FavoriteTrackType) {
         when (type) {
-            FavoriteType.TRACK -> favoriteDao.deleteAllTracks()
-            FavoriteType.PODCAST -> favoriteDao.deleteAllPodcasts()
+            FavoriteTrackType.TRACK -> favoriteDao.deleteAllTracks()
+            FavoriteTrackType.PODCAST -> favoriteDao.deleteAllPodcasts()
         }
 
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
-        updateFavoriteState(FavoriteStateEntity(
-            songId = songId,
-            enum = FavoriteEnum.NOT_FAVORITE,
-            favoriteType = type
-        ))
+        updateFavoriteState(
+            dev.olog.core.entity.favorite.FavoriteEntity(
+                songId = songId,
+                enum = FavoriteState.NOT_FAVORITE,
+                favoriteType = type
+            )
+        )
     }
 
-    override suspend fun isFavorite(songId: Long, type: FavoriteType): Boolean {
+    override suspend fun isFavorite(songId: Long, type: FavoriteTrackType): Boolean {
         return when (type){
-            FavoriteType.TRACK -> favoriteDao.isFavorite(songId)
-            FavoriteType.PODCAST -> favoriteDao.isFavoritePodcast(songId)
+            FavoriteTrackType.TRACK -> favoriteDao.isFavorite(songId)
+            FavoriteTrackType.PODCAST -> favoriteDao.isFavoritePodcast(songId)
         }
     }
 
@@ -149,21 +153,21 @@ internal class FavoriteRepository @Inject constructor(
         val type = value.favoriteType
 
         when (state) {
-            FavoriteEnum.NOT_FAVORITE -> {
+            FavoriteState.NOT_FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(
+                    dev.olog.core.entity.favorite.FavoriteEntity(
                         songId = id,
-                        enum = FavoriteEnum.FAVORITE,
+                        enum = FavoriteState.FAVORITE,
                         favoriteType = type
                     )
                 )
                 addToFavoriteSingle(type, id)
             }
-            FavoriteEnum.FAVORITE -> {
+            FavoriteState.FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(
+                    dev.olog.core.entity.favorite.FavoriteEntity(
                         songId = id,
-                        enum = FavoriteEnum.NOT_FAVORITE,
+                        enum = FavoriteState.NOT_FAVORITE,
                         favoriteType = type
                     )
                 )
@@ -172,8 +176,8 @@ internal class FavoriteRepository @Inject constructor(
         }
     }
 
-    private suspend fun addToFavoriteSingle(type: FavoriteType, id: Long) {
-        if (type == FavoriteType.TRACK) {
+    private suspend fun addToFavoriteSingle(type: FavoriteTrackType, id: Long) {
+        if (type == FavoriteTrackType.TRACK) {
             favoriteDao.insertOneImpl(FavoriteEntity(songId = id))
         } else {
             favoriteDao.insertOnePodcastImpl(
@@ -182,8 +186,8 @@ internal class FavoriteRepository @Inject constructor(
         }
     }
 
-    private suspend fun addToFavorite(type: FavoriteType, songIds: List<Long>) {
-        if (type == FavoriteType.TRACK) {
+    private suspend fun addToFavorite(type: FavoriteTrackType, songIds: List<Long>) {
+        if (type == FavoriteTrackType.TRACK) {
             favoriteDao.insertGroupImpl(songIds.map {
                 FavoriteEntity(songId = it)
             })
@@ -194,8 +198,8 @@ internal class FavoriteRepository @Inject constructor(
         }
     }
 
-    private suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
-        if (type == FavoriteType.TRACK){
+    private suspend fun removeFromFavorite(type: FavoriteTrackType, songId: List<Long>) {
+        if (type == FavoriteTrackType.TRACK){
             favoriteDao.deleteGroupImpl(songId.map {
                 FavoriteEntity(songId = it)
             })

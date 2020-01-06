@@ -1,5 +1,5 @@
 package dev.olog.core.entity.favorite
 
-enum class FavoriteType {
+enum class FavoriteTrackType {
     TRACK, PODCAST
 }

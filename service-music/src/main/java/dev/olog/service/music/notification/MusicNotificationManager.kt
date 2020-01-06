@@ -6,7 +6,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.entity.favorite.FavoriteEnum
+import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
@@ -75,7 +75,7 @@ internal class MusicNotificationManager @Inject constructor(
 
         launch {
             observeFavoriteUseCase()
-                .map { it == FavoriteEnum.FAVORITE }
+                .map { it == FavoriteState.FAVORITE }
                 .collect { onNextFavorite(it) }
         }
     }
