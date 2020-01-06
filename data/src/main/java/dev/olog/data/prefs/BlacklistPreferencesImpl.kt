@@ -12,7 +12,7 @@ internal class BlacklistPreferencesImpl @Inject constructor(
 
     companion object {
         private const val TAG = "AppPreferencesDataStoreImpl"
-        private const val BLACKLIST = "$TAG.BLACKLIST"
+        internal const val BLACKLIST = "$TAG.BLACKLIST"
     }
 
     override fun getBlackList(): Set<String> {

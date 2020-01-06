@@ -37,7 +37,7 @@ abstract class PreferenceModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferenceImpl): BlacklistPreferences
+    internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferencesImpl): BlacklistPreferences
 
     @Module
     companion object {
