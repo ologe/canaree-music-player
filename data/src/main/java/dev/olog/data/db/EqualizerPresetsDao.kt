@@ -20,17 +20,15 @@ internal abstract class EqualizerPresetsDao {
         SELECT * 
         FROM equalizer_preset
         WHERE id = :id
-        ORDER BY id
     """
     )
-    abstract fun getPresetById(id: Long): EqualizerPresetEntity
+    abstract fun getPresetById(id: Long): EqualizerPresetEntity?
 
     @Query(
         """
         SELECT * 
         FROM equalizer_preset
         WHERE id = :id
-        ORDER BY id
     """
     )
     abstract fun observePresetById(id: Long): Flow<EqualizerPresetEntity>
@@ -39,9 +37,6 @@ internal abstract class EqualizerPresetsDao {
     abstract suspend fun deletePreset(preset: EqualizerPresetEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertPresets(preset: List<EqualizerPresetEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertPreset(preset: EqualizerPresetEntity)
+    abstract suspend fun insertPresets(vararg preset: EqualizerPresetEntity)
 
 }

@@ -3,50 +3,40 @@ package dev.olog.data.db
 import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.runner.AndroidJUnit4
 import dev.olog.data.model.db.EqualizerBandEntity
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.IOException
 
-@RunWith(AndroidJUnit4::class)
-internal class EqualizerPresetsDaoIntegrationTest {
+class EqualizerPresetsDaoIntegrationTest {
 
-    private val mockPreset1 = EqualizerPresetEntity(
-        1, "rock", listOf(
+    private val mockData = EqualizerPresetEntity(
+        1L, "preset", listOf(
             EqualizerBandEntity(10f, 16000f)
-        ),
-        true
+        ), false
     )
-
-    private val mockPreset2 = mockPreset1.copy(id = 2)
-
-    lateinit var db: AppDatabase
-    lateinit var dao: EqualizerPresetsDao
 
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
+    private lateinit var db: AppDatabase
+    private lateinit var sut: EqualizerPresetsDao
+
     @Before
-    fun setup() = coroutinesRule.runBlocking {
+    fun setup() {
         val context = ApplicationProvider.getApplicationContext<Application>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
             .build()
-        dao = db.equalizerPresetsDao()
-
-        dao.insertPresets(listOf(mockPreset1, mockPreset2))
+        sut = db.equalizerPresetsDao()
     }
 
     @After
@@ -56,84 +46,99 @@ internal class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testInsertAndGetAll() = coroutinesRule.runBlocking {
+    fun testGetPresets() = coroutinesRule.runBlocking {
         // given
-        val presets = listOf(mockPreset1, mockPreset2)
+        sut.insertPresets(mockData)
 
         // when
-        val actual = dao.getPresets()
+        val actual = sut.getPresets()
 
         // then
-        assertEquals(presets, actual)
+        val expected = listOf(mockData)
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun shouldReturnItemWhenGetById() {
-        // when
-        val preset = dao.getPresetById(mockPreset1.id)
-
-        assertEquals(mockPreset1, preset)
-    }
-
-    @Test
-    fun shouldReturnNullItemWhenGetById() {
-        // when
-        val preset = dao.getPresetById(-1)
-
-        // then
-        assertNull(preset)
-    }
-
-    @Test
-    fun shouldReturnItemWhenObserveById() = coroutinesRule.runBlocking {
-        // when
-        val preset = dao.observePresetById(mockPreset1.id)
-            .take(1)
-            .first()
-
-        // then
-        assertEquals(mockPreset1, preset)
-    }
-
-    @Test
-    fun shouldDeletePreset() = coroutinesRule.runBlocking {
-        // when
-        dao.deletePreset(mockPreset1)
-
-        // then
-        assertEquals(listOf(mockPreset2), dao.getPresets())
-    }
-
-    @Test
-    fun shouldInsertPreset() = coroutinesRule.runBlocking {
+    fun testGetPresetsById() = coroutinesRule.runBlocking {
         // given
-        val preset = mockPreset1.copy(id = 10)
+        val id = 10L
+        val inserted = mockData.copy(id = id)
+        sut.insertPresets(inserted)
 
         // when
-        dao.insertPreset(preset)
+        val actual = sut.getPresetById(id)
+
+        // then
+        assertEquals(inserted, actual)
+    }
+
+    @Test
+    fun testGetPresetsByIdReturnNull() = coroutinesRule.runBlocking {
+        // given
+        val id = 10L
+        sut.insertPresets(mockData.copy(id = 1L))
+
+        // when
+        val item = sut.getPresetById(id)
+
+        // then
+        assertNull(item)
+    }
+
+    @Test
+    fun testObservePresets() = coroutinesRule.runBlocking {
+        // given
+        val id = 1L
+        sut.insertPresets(mockData)
+
+        // when
+        val actual = sut.observePresetById(id).first()
+
+        // then
+        assertEquals(mockData, actual)
+    }
+
+    @Test
+    fun testDeletePresets() = coroutinesRule.runBlocking {
+        // given
+        sut.insertPresets(mockData)
+
+        // when
+        sut.deletePreset(mockData)
+
+        // then
+        assertTrue("should be empty", sut.getPresets().isEmpty())
+    }
+
+    @Test
+    fun testInsertPresets() = coroutinesRule.runBlocking {
+        // given
+        assertTrue("should be empty", sut.getPresets().isEmpty())
+
+        // when
+        sut.insertPresets(mockData)
 
         // then
         assertEquals(
-            listOf(mockPreset1, mockPreset2, preset),
-            dao.getPresets()
+            listOf(mockData),
+            sut.getPresets()
         )
     }
 
     @Test
-    fun shouldInsertPresets() = coroutinesRule.runBlocking {
+    fun testReplacePresets() = coroutinesRule.runBlocking {
         // given
-        val presets = listOf(
-            mockPreset1.copy(id = 10),
-            mockPreset1.copy(id = 11)
-        )
+        assertTrue("should be empty", sut.getPresets().isEmpty())
+        sut.insertPresets(mockData.copy(isCustom = false))
 
         // when
-        dao.insertPresets(presets)
+        val newItem = mockData.copy(isCustom = true)
+        sut.insertPresets(newItem)
 
         // then
         assertEquals(
-            (listOf(mockPreset1, mockPreset2) + presets),
-            dao.getPresets()
+            listOf(newItem),
+            sut.getPresets()
         )
     }
 

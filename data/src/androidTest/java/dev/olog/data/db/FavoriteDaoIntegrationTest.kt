@@ -3,7 +3,6 @@ package dev.olog.data.db
 import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.runner.AndroidJUnit4
 import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
@@ -16,10 +15,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.IOException
 
-@RunWith(AndroidJUnit4::class)
 internal class FavoriteDaoIntegrationTest {
 
     private val mockFavorite1 = FavoriteEntity(1)

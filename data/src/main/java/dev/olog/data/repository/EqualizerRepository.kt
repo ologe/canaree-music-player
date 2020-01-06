@@ -27,7 +27,7 @@ internal class EqualizerRepository @Inject constructor(
             if (equalizerDao.getPresets().isEmpty()) {
                 // called only first time
                 val presets = EqualizerDefaultPresets.createDefaultPresets()
-                GlobalScope.launch(schedulers.io) { equalizerDao.insertPresets(presets) }
+                GlobalScope.launch(schedulers.io) { equalizerDao.insertPresets(*presets.toTypedArray()) }
             }
         }
     }
@@ -38,7 +38,7 @@ internal class EqualizerRepository @Inject constructor(
 
     override fun getCurrentPreset(): EqualizerPreset {
         val currentPresetId = prefs.getCurrentPresetId()
-        return equalizerDao.getPresetById(currentPresetId).toDomain()
+        return equalizerDao.getPresetById(currentPresetId)!!.toDomain()
     }
 
     override fun observeCurrentPreset(): Flow<EqualizerPreset> {
@@ -53,11 +53,11 @@ internal class EqualizerRepository @Inject constructor(
         require(preset.isCustom)
 
         val newId = getPresets().maxBy { it.id }!!.id + 1
-        equalizerDao.insertPreset(preset.toEntity().copy(id = newId))
+        equalizerDao.insertPresets(preset.toEntity().copy(id = newId))
     }
 
     override suspend fun updatePreset(preset: EqualizerPreset) {
-        equalizerDao.insertPreset(preset.toEntity())
+        equalizerDao.insertPresets(preset.toEntity())
     }
 
     override suspend fun deletePreset(preset: EqualizerPreset) {

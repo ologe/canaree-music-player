@@ -110,7 +110,7 @@ internal class EqualizerRepositoryTest {
             emptyList(),
             true
         )
-        verify(dao).insertPreset(expected)
+        verify(dao).insertPresets(expected)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -140,7 +140,7 @@ internal class EqualizerRepositoryTest {
         sut.updatePreset(item)
 
         // then
-        verify(dao).insertPreset(presetsEntities[0])
+        verify(dao).insertPresets(presetsEntities[0])
     }
 
     @Test
