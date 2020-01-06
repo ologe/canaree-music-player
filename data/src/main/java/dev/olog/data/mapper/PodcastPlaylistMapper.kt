@@ -8,18 +8,18 @@ import dev.olog.data.model.db.PodcastPlaylistEntity
 
 internal inline fun PodcastPlaylistEntity.toDomain(): Playlist {
     return Playlist(
-        this.id,
-        this.name,
-        this.size,
-        true
+        id = this.id,
+        title = this.name,
+        size = this.size,
+        isPodcast = true
     )
 }
 
 internal inline fun PlaylistEntity.toDomain(): Playlist {
     return Playlist(
-        this.id,
-        this.name,
-        this.size,
-        false
+        id = this.id,
+        title = this.name,
+        size = this.size,
+        isPodcast = false
     )
 }

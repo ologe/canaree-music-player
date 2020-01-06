@@ -7,23 +7,22 @@ import dev.olog.data.model.db.EqualizerPresetEntity
 
 internal fun EqualizerPresetEntity.toDomain(): EqualizerPreset {
     return EqualizerPreset(
-        id,
-        name,
-        bands.map { EqualizerBand(it.gain, it.frequency) },
-        isCustom
+        id = id,
+        name = name,
+        bands = bands.map {
+            EqualizerBand(gain = it.gain, frequency = it.frequency)
+        },
+        isCustom = isCustom
     )
 }
 
 internal fun EqualizerPreset.toEntity(): EqualizerPresetEntity {
     return EqualizerPresetEntity(
-        id,
-        name,
-        bands.map {
-            EqualizerBandEntity(
-                it.gain,
-                it.frequency
-            )
+        id = id,
+        name = name,
+        bands = bands.map {
+            EqualizerBandEntity(gain = it.gain, frequency = it.frequency)
         },
-        isCustom
+        isCustom = isCustom
     )
 }
