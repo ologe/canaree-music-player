@@ -85,7 +85,11 @@ internal class FavoriteRepository @Inject constructor(
         addToFavorite(type, songListId)
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songListId.contains(songId)) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type))
+            updateFavoriteState(FavoriteStateEntity(
+                songId = songId,
+                enum = FavoriteEnum.FAVORITE,
+                favoriteType = type
+            ))
         }
     }
 
@@ -93,7 +97,11 @@ internal class FavoriteRepository @Inject constructor(
         removeFromFavorite(type, listOf(songId))
         val id = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songId == id) {
-            updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
+            updateFavoriteState(FavoriteStateEntity(
+                songId = songId,
+                enum = FavoriteEnum.NOT_FAVORITE,
+                favoriteType = type
+            ))
         }
     }
 
@@ -102,7 +110,11 @@ internal class FavoriteRepository @Inject constructor(
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songListId.contains(songId)) {
             updateFavoriteState(
-                FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type)
+                FavoriteStateEntity(
+                    songId = songId,
+                    enum = FavoriteEnum.NOT_FAVORITE,
+                    favoriteType = type
+                )
             )
         }
     }
@@ -114,7 +126,11 @@ internal class FavoriteRepository @Inject constructor(
         }
 
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
-        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
+        updateFavoriteState(FavoriteStateEntity(
+            songId = songId,
+            enum = FavoriteEnum.NOT_FAVORITE,
+            favoriteType = type
+        ))
     }
 
     override suspend fun isFavorite(songId: Long, type: FavoriteType): Boolean {
@@ -135,13 +151,21 @@ internal class FavoriteRepository @Inject constructor(
         when (state) {
             FavoriteEnum.NOT_FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.FAVORITE, type)
+                    FavoriteStateEntity(
+                        songId = id,
+                        enum = FavoriteEnum.FAVORITE,
+                        favoriteType = type
+                    )
                 )
                 addToFavoriteSingle(type, id)
             }
             FavoriteEnum.FAVORITE -> {
                 updateFavoriteState(
-                    FavoriteStateEntity(id, FavoriteEnum.NOT_FAVORITE, type)
+                    FavoriteStateEntity(
+                        songId = id,
+                        enum = FavoriteEnum.NOT_FAVORITE,
+                        favoriteType = type
+                    )
                 )
                 removeFromFavorite(type, listOf(id))
             }
@@ -150,12 +174,10 @@ internal class FavoriteRepository @Inject constructor(
 
     private suspend fun addToFavoriteSingle(type: FavoriteType, id: Long) {
         if (type == FavoriteType.TRACK) {
-            favoriteDao.insertOneImpl(FavoriteEntity(id))
+            favoriteDao.insertOneImpl(FavoriteEntity(songId = id))
         } else {
             favoriteDao.insertOnePodcastImpl(
-                FavoritePodcastEntity(
-                    id
-                )
+                FavoritePodcastEntity(podcastId = id)
             )
         }
     }
@@ -163,15 +185,11 @@ internal class FavoriteRepository @Inject constructor(
     private suspend fun addToFavorite(type: FavoriteType, songIds: List<Long>) {
         if (type == FavoriteType.TRACK) {
             favoriteDao.insertGroupImpl(songIds.map {
-                FavoriteEntity(
-                    it
-                )
+                FavoriteEntity(songId = it)
             })
         } else {
             favoriteDao.insertGroupPodcastImpl(songIds.map {
-                FavoritePodcastEntity(
-                    it
-                )
+                FavoritePodcastEntity(podcastId = it)
             })
         }
     }
@@ -179,15 +197,11 @@ internal class FavoriteRepository @Inject constructor(
     private suspend fun removeFromFavorite(type: FavoriteType, songId: List<Long>) {
         if (type == FavoriteType.TRACK){
             favoriteDao.deleteGroupImpl(songId.map {
-                FavoriteEntity(
-                    it
-                )
+                FavoriteEntity(songId = it)
             })
         } else {
             favoriteDao.deleteGroupPodcastImpl(songId.map {
-                FavoritePodcastEntity(
-                    it
-                )
+                FavoritePodcastEntity(podcastId = it)
             })
         }
     }
