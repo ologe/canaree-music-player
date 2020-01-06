@@ -5,7 +5,7 @@ import dev.olog.data.model.db.EqualizerPresetEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class EqualizerPresetsDao {
+internal interface EqualizerPresetsDao {
 
     @Query(
         """
@@ -13,7 +13,7 @@ internal abstract class EqualizerPresetsDao {
         ORDER BY id
     """
     )
-    abstract fun getPresets(): List<EqualizerPresetEntity>
+    fun getPresets(): List<EqualizerPresetEntity>
 
     @Query(
         """
@@ -22,7 +22,7 @@ internal abstract class EqualizerPresetsDao {
         WHERE id = :id
     """
     )
-    abstract fun getPresetById(id: Long): EqualizerPresetEntity?
+    fun getPresetById(id: Long): EqualizerPresetEntity?
 
     @Query(
         """
@@ -31,12 +31,12 @@ internal abstract class EqualizerPresetsDao {
         WHERE id = :id
     """
     )
-    abstract fun observePresetById(id: Long): Flow<EqualizerPresetEntity>
+    fun observePresetById(id: Long): Flow<EqualizerPresetEntity>
 
     @Delete
-    abstract suspend fun deletePreset(preset: EqualizerPresetEntity)
+    suspend fun deletePreset(preset: EqualizerPresetEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertPresets(vararg preset: EqualizerPresetEntity)
+    suspend fun insertPresets(vararg preset: EqualizerPresetEntity)
 
 }

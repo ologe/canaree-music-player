@@ -8,7 +8,7 @@ import dev.olog.data.model.db.LyricsSyncAdjustmentEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class LyricsSyncAdjustmentDao {
+internal interface LyricsSyncAdjustmentDao {
 
     @Query(
         """
@@ -17,7 +17,7 @@ abstract class LyricsSyncAdjustmentDao {
         WHERE id = :id
     """
     )
-    abstract fun getSync(id: Long): LyricsSyncAdjustmentEntity?
+    fun getSync(id: Long): LyricsSyncAdjustmentEntity?
 
     @Query(
         """
@@ -26,12 +26,12 @@ abstract class LyricsSyncAdjustmentDao {
         WHERE id = :id
     """
     )
-    abstract fun observeSync(id: Long): Flow<LyricsSyncAdjustmentEntity>
+    fun observeSync(id: Long): Flow<LyricsSyncAdjustmentEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun setSync(entity: LyricsSyncAdjustmentEntity)
+    fun setSync(entity: LyricsSyncAdjustmentEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertSyncIfEmpty(entity: LyricsSyncAdjustmentEntity)
+    fun insertSyncIfEmpty(entity: LyricsSyncAdjustmentEntity)
 
 }

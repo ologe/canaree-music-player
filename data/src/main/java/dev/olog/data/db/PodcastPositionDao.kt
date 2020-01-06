@@ -7,16 +7,18 @@ import androidx.room.Query
 import dev.olog.data.model.db.PodcastPositionEntity
 
 @Dao
-internal abstract class PodcastPositionDao {
+internal interface PodcastPositionDao {
 
-    @Query("""
+    @Query(
+        """
         SELECT position
         FROM podcast_position
         WHERE id = :podcastId
-    """)
-    abstract fun getPosition(podcastId: Long): Long?
+    """
+    )
+    fun getPosition(podcastId: Long): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun setPosition(entity: PodcastPositionEntity)
+    fun setPosition(entity: PodcastPositionEntity)
 
 }
