@@ -19,17 +19,14 @@ internal class OfflineLyricsRepository @Inject constructor(
 
     override fun observeLyrics(id: Long): Flow<String> {
         return offlineLyricsDao.observeLyrics(id)
-            .map {
-                if (it.isEmpty()) ""
-                else it[0].lyrics
-            }
+            .map { it.getOrNull(0)?.lyrics ?: "" }
     }
 
     override suspend fun saveLyrics(offlineLyrics: OfflineLyrics) {
         return offlineLyricsDao.saveLyrics(
             OfflineLyricsEntity(
-                offlineLyrics.trackId,
-                offlineLyrics.lyrics
+                trackId = offlineLyrics.trackId,
+                lyrics = offlineLyrics.lyrics
             )
         )
     }
@@ -42,8 +39,8 @@ internal class OfflineLyricsRepository @Inject constructor(
         return syncDao.observeSync(id)
             .onStart { syncDao.insertSyncIfEmpty(
                 LyricsSyncAdjustmentEntity(
-                    id,
-                    0
+                    id = id,
+                    millis = 0
                 )
             ) }
             .map { it.millis }
@@ -52,8 +49,8 @@ internal class OfflineLyricsRepository @Inject constructor(
     override suspend fun setSyncAdjustment(id: Long, millis: Long) {
         syncDao.setSync(
             LyricsSyncAdjustmentEntity(
-                id,
-                millis
+                id = id,
+                millis = millis
             )
         )
     }
