@@ -137,16 +137,8 @@ internal class ImageRetrieverRepository @Inject constructor(
             "$trackTitle - $trackArtist"
         }
         try {
-            return safeNetworkCall { deezerService.getTrack(query) }?.data?.get(0)?.album?.let {
-                when {
-                    it.coverXl.isNotEmpty() -> it.coverXl
-                    it.coverBig.isNotEmpty() -> it.coverBig
-                    it.coverMedium.isNotEmpty() -> it.coverMedium
-                    it.coverSmall.isNotEmpty() -> it.coverSmall
-                    it.cover.isNotEmpty() -> it.cover
-                    else -> ""
-                }
-            } ?: ""
+            return safeNetworkCall { deezerService.getTrack(query) }?.data?.get(0)?.album
+                ?.getBestImage() ?: ""
         } catch (ex: Throwable){
             ex.printStackTrace()
             return null
@@ -240,16 +232,8 @@ internal class ImageRetrieverRepository @Inject constructor(
             "${album.artist} - ${album.title}"
         }
         try {
-            return safeNetworkCall { deezerService.getAlbum(query) }?.data?.get(0)?.let {
-                when {
-                    it.coverXl.isNotEmpty() -> it.coverXl
-                    it.coverBig.isNotEmpty() -> it.coverBig
-                    it.coverMedium.isNotEmpty() -> it.coverMedium
-                    it.coverSmall.isNotEmpty() -> it.coverSmall
-                    it.cover.isNotEmpty() -> it.cover
-                    else -> ""
-                }
-            } ?: ""
+            return safeNetworkCall { deezerService.getAlbum(query) }?.data?.get(0)
+                ?.getBestImage() ?: ""
         } catch (ex: Throwable){
             ex.printStackTrace()
             return null
@@ -306,16 +290,7 @@ internal class ImageRetrieverRepository @Inject constructor(
             return null
         }
 
-        val imageUrl = deezerResponse?.data?.get(0)?.let {
-            when {
-                it.pictureXl.isNotEmpty() -> it.pictureXl
-                it.pictureBig.isNotEmpty() -> it.pictureBig
-                it.pictureMedium.isNotEmpty() -> it.pictureMedium
-                it.pictureSmall.isNotEmpty() -> it.pictureSmall
-                it.picture.isNotEmpty() -> it.picture
-                else -> ""
-            }
-        } ?: ""
+        val imageUrl = deezerResponse?.data?.get(0)?.getBestImage() ?: ""
 
         return LastFmArtist(
             artist.id,
