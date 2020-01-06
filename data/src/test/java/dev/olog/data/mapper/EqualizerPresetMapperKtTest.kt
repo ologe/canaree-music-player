@@ -19,19 +19,19 @@ class EqualizerPresetMapperKtTest {
             isCustom = true
         )
 
-        val domain = EqualizerPreset(
+        // when
+        val actual = entity.toDomain()
+
+        // then
+        val expected = EqualizerPreset(
             id = 1,
             name = "name",
             bands = listOf(EqualizerBand(10.0f, 10.0f)),
             isCustom = true
         )
 
-        // when
-        val actual = entity.toDomain()
-
-        // then
         assertEquals(
-            domain,
+            expected,
             actual
         )
     }
@@ -46,19 +46,19 @@ class EqualizerPresetMapperKtTest {
             isCustom = true
         )
 
-        val entity = EqualizerPresetEntity(
+        // when
+        val actual = domain.toEntity()
+
+        // then
+        val expected = EqualizerPresetEntity(
             id = 1,
             name = "name",
             bands = listOf(EqualizerBandEntity(10.0f, 10.0f)),
             isCustom = true
         )
 
-        // when
-        val actual = domain.toEntity()
-
-        // then
         assertEquals(
-            entity,
+            expected,
             actual
         )
     }
