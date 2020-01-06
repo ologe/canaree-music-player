@@ -6,7 +6,7 @@ import androidx.room.Query
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.model.db.GenreMostPlayedEntity
-import dev.olog.data.model.db.SongMostTimesPlayedEntity
+import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -24,7 +24,7 @@ internal abstract class GenreMostPlayedDao {
         LIMIT 10
     """
     )
-    abstract fun query(genreId: Long): Flow<List<SongMostTimesPlayedEntity>>
+    abstract fun query(genreId: Long): Flow<List<MostTimesPlayedSongEntity>>
 
     @Insert
     abstract fun insertOne(item: GenreMostPlayedEntity)

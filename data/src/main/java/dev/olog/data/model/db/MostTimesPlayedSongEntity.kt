@@ -1,6 +1,6 @@
 package dev.olog.data.model.db
 
-data class SongMostTimesPlayedEntity(
+data class MostTimesPlayedSongEntity(
     val songId: Long,
     val timesPlayed: Int
 )

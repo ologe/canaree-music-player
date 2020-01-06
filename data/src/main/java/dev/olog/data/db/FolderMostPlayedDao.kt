@@ -6,7 +6,7 @@ import androidx.room.Query
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.model.db.FolderMostPlayedEntity
-import dev.olog.data.model.db.SongMostTimesPlayedEntity
+import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -24,7 +24,7 @@ internal abstract class FolderMostPlayedDao {
         LIMIT 10
     """
     )
-    abstract fun query(folderPath: String): Flow<List<SongMostTimesPlayedEntity>>
+    abstract fun query(folderPath: String): Flow<List<MostTimesPlayedSongEntity>>
 
     @Insert
     abstract suspend fun insertOne(item: FolderMostPlayedEntity)
