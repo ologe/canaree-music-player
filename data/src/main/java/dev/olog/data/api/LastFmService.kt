@@ -42,13 +42,6 @@ interface LastFmService {
         @Query("lang") language: String = "en"
     ): Response<LastFmArtistInfo>
 
-    @GET("$BASE_URL&method=artist.search")
-    suspend fun searchArtistAsync(
-        @Query("artist", encoded = true) artist: String,
-        @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
-        @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<LastFmArtistSearch>
-
     @GET("$BASE_URL&method=album.getinfo")
     suspend fun getAlbumInfoAsync(
         @Query("album", encoded = true) album: String,
