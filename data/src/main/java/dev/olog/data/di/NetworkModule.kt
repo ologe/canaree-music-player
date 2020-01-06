@@ -1,14 +1,17 @@
 package dev.olog.data.di
 
 import android.content.Context
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
 import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
+import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,11 +27,7 @@ object NetworkModule {
     internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor())
-            .addInterceptor(
-                headerInterceptor(
-                    context
-                )
-            )
+            .addInterceptor(headerInterceptor(context))
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1, TimeUnit.SECONDS)
             .build()
@@ -62,11 +61,15 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
+    internal fun provideLastFmRetrofit(client: Lazy<OkHttpClient>): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://ws.audioscrobbler.com/2.0/")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
+            .callFactory(object: Call.Factory{
+                override fun newCall(request: Request): Call {
+                    return client.get().newCall(request)
+                }
+            })
             .build()
     }
 
