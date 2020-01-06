@@ -13,14 +13,17 @@ class EqualizerPresetMapperKtTest {
     fun testToDomain() {
         // given
         val entity = EqualizerPresetEntity(
-            1,
-            "name",
-            listOf(EqualizerBandEntity(10.0f, 10.0f)),
-            true
+            id = 1,
+            name = "name",
+            bands = listOf(EqualizerBandEntity(10.0f, 10.0f)),
+            isCustom = true
         )
 
         val domain = EqualizerPreset(
-            1, "name", listOf(EqualizerBand(10.0f, 10.0f)), true
+            id = 1,
+            name = "name",
+            bands = listOf(EqualizerBand(10.0f, 10.0f)),
+            isCustom = true
         )
 
         // when
@@ -37,14 +40,17 @@ class EqualizerPresetMapperKtTest {
     fun testToEntity() {
         // given
         val domain = EqualizerPreset(
-            1, "name", listOf(EqualizerBand(10.0f, 10.0f)), true
+            id = 1,
+            name = "name",
+            bands = listOf(EqualizerBand(10.0f, 10.0f)),
+            isCustom = true
         )
 
         val entity = EqualizerPresetEntity(
-            1,
-            "name",
-            listOf(EqualizerBandEntity(10.0f, 10.0f)),
-            true
+            id = 1,
+            name = "name",
+            bands = listOf(EqualizerBandEntity(10.0f, 10.0f)),
+            isCustom = true
         )
 
         // when
