@@ -1,11 +1,9 @@
-package dev.olog.data.db.dao
+package dev.olog.data.db
 
 import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
-import dev.olog.data.db.AppDatabase
-import dev.olog.data.db.EqualizerPresetsDao
 import dev.olog.data.model.db.EqualizerBandEntity
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule

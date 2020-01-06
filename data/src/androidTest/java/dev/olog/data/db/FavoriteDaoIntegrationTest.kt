@@ -1,11 +1,9 @@
-package dev.olog.data.db.dao
+package dev.olog.data.db
 
 import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
-import dev.olog.data.db.AppDatabase
-import dev.olog.data.db.FavoriteDao
 import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
