@@ -1,5 +1,8 @@
-package dev.olog.data.api.deezer
+package dev.olog.data.api
 
+import dev.olog.data.model.deezer.DeezerAlbumResponse
+import dev.olog.data.model.deezer.DeezerArtistResponse
+import dev.olog.data.model.DeezerTrackResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

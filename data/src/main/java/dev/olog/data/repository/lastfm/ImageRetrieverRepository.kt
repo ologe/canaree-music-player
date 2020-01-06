@@ -13,9 +13,9 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.data.api.deezer.DeezerService
-import dev.olog.data.api.deezer.DeezerArtistResponse
-import dev.olog.data.api.lastfm.LastFmService
+import dev.olog.data.api.DeezerService
+import dev.olog.data.model.deezer.DeezerArtistResponse
+import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.shared.TextUtils

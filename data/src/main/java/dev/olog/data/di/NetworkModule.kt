@@ -1,11 +1,12 @@
-package dev.olog.data.api.lastfm
+package dev.olog.data.di
 
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
-import dev.olog.data.api.deezer.DeezerService
+import dev.olog.data.api.DeezerService
+import dev.olog.data.api.LastFmService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +24,11 @@ object NetworkModule {
     internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor())
-            .addInterceptor(headerInterceptor(context))
+            .addInterceptor(
+                headerInterceptor(
+                    context
+                )
+            )
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1, TimeUnit.SECONDS)
             .build()

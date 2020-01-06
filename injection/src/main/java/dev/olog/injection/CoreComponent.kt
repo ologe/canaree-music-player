@@ -20,7 +20,7 @@ import dev.olog.core.prefs.*
 import dev.olog.data.di.DataModule
 import dev.olog.data.di.PreferenceModule
 import dev.olog.data.di.RepositoryHelperModule
-import dev.olog.data.api.lastfm.NetworkModule
+import dev.olog.data.di.NetworkModule
 import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
