@@ -16,13 +16,4 @@ data class Playlist(
         return MediaId.createCategoryValue(category, id.toString())
     }
 
-    fun withSongs(songs: Int): Playlist {
-        return Playlist(
-            id = id,
-            title = title,
-            size = songs,
-            isPodcast = isPodcast
-        )
-    }
-
 }

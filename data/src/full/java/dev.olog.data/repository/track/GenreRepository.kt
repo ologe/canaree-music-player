@@ -16,10 +16,10 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.GenreMostPlayedDao
-import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.mapper.toPlaylistSong
+import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -64,7 +64,7 @@ internal class GenreRepository @Inject constructor(
             if (sizeQuery == 0){
                 null
             } else {
-                genre.withSongs(sizeQuery)
+                genre.copy(size = sizeQuery)
             }
         }
     }
@@ -138,7 +138,7 @@ internal class GenreRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.withSongs(list.size)
+                artist.copy(songs = list.size)
             }
     }
 }

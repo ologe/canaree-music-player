@@ -16,6 +16,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.LastPlayedAlbumDao
 import dev.olog.data.mapper.toAlbum
 import dev.olog.data.mapper.toSong
+import dev.olog.data.model.db.LastPlayedAlbumEntity
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -50,7 +51,7 @@ internal class AlbumRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val album = list[0]
-                album.withSongs(list.size)
+                album.copy(songs = list.size)
             }
     }
 

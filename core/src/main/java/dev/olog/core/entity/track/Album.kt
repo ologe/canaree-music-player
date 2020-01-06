@@ -25,17 +25,4 @@ data class Album(
         return MediaId.createCategoryValue(category, this.artistId.toString())
     }
 
-    fun withSongs(songs: Int): Album {
-        return Album(
-            id = id,
-            artistId = artistId,
-            title = title,
-            artist = artist,
-            albumArtist = albumArtist,
-            songs = songs,
-            hasSameNameAsFolder = hasSameNameAsFolder,
-            isPodcast = isPodcast
-        )
-    }
-
 }

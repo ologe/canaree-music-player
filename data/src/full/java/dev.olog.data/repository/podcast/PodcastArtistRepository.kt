@@ -50,7 +50,7 @@ internal class PodcastArtistRepository @Inject constructor(
             .groupBy { it.id }
             .map { (_, list) ->
                 val artist = list[0]
-                artist.withSongs(songs = list.size)
+                artist.copy(songs = list.size)
             }
     }
 
