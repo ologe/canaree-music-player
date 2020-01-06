@@ -16,6 +16,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.LastPlayedPodcastArtistDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toSong
+import dev.olog.data.model.db.LastPlayedPodcastArtistEntity
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
@@ -100,7 +101,7 @@ internal class PodcastArtistRepository @Inject constructor(
 
     override suspend fun addLastPlayed(id: Id) {
         assertBackgroundThread()
-        lastPlayedDao.insertOne(id)
+        lastPlayedDao.insert(LastPlayedPodcastArtistEntity(id = id))
     }
 
     override fun observeRecentlyAdded(): Flow<List<Artist>> {

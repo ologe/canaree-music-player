@@ -2,13 +2,13 @@ package dev.olog.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import dev.olog.data.model.db.LastPlayedArtistEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class LastPlayedArtistDao {
+internal interface LastPlayedArtistDao {
 
     @Query(
         """
@@ -17,23 +17,9 @@ internal abstract class LastPlayedArtistDao {
         LIMIT 20
     """
     )
-    abstract fun getAll(): Flow<List<LastPlayedArtistEntity>>
+    fun getAll(): Flow<List<LastPlayedArtistEntity>>
 
-    @Insert
-    internal abstract suspend fun insertImpl(entity: LastPlayedArtistEntity)
-
-    @Query(
-        """
-        DELETE FROM last_played_artists
-        WHERE id = :artistId
-    """
-    )
-    internal abstract suspend fun deleteImpl(artistId: Long)
-
-    @Transaction
-    open suspend fun insertOne(id: Long) {
-        deleteImpl(id)
-        insertImpl(LastPlayedArtistEntity(id))
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entity: LastPlayedArtistEntity)
 
 }

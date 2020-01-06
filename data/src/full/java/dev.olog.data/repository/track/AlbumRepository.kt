@@ -100,7 +100,7 @@ internal class AlbumRepository @Inject constructor(
 
     override suspend fun addLastPlayed(id: Id) {
         assertBackgroundThread()
-        lastPlayedDao.insertOne(id)
+        lastPlayedDao.insert(LastPlayedAlbumEntity(id = id))
     }
 
     override fun observeRecentlyAdded(): Flow<List<Album>> {
