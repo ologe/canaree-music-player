@@ -24,7 +24,7 @@ interface LastFmService {
         @Query("track", encoded = true) track: String,
         @Query("artist", encoded = true) artist: String,
         @IntRange(from = 0, to = 1) @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT
-    ): Response<TrackInfo>
+    ): Response<LastFmTrackInfo>
 
     @GET("$BASE_URL&method=track.search")
     suspend fun searchTrackAsync(
@@ -32,7 +32,7 @@ interface LastFmService {
         @Query("artist", encoded = true) artist: String = "",
         @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
         @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<TrackSearch>
+    ): Response<LastFmTrackSearch>
 
     @GET("$BASE_URL&method=artist.getinfo")
     suspend fun getArtistInfoAsync(
@@ -40,14 +40,14 @@ interface LastFmService {
         @IntRange(from = 0, to = 1)
         @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT,
         @Query("lang") language: String = "en"
-    ): Response<ArtistInfo>
+    ): Response<LastFmArtistInfo>
 
     @GET("$BASE_URL&method=artist.search")
     suspend fun searchArtistAsync(
         @Query("artist", encoded = true) artist: String,
         @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
         @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<ArtistSearch>
+    ): Response<LastFmArtistSearch>
 
     @GET("$BASE_URL&method=album.getinfo")
     suspend fun getAlbumInfoAsync(
@@ -56,13 +56,13 @@ interface LastFmService {
         @IntRange(from = 0, to = 1)
         @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT,
         @Query("lang") language: String = "en"
-    ): Response<AlbumInfo>
+    ): Response<LastFmAlbumInfo>
 
     @GET("$BASE_URL&method=album.search")
     suspend fun searchAlbumAsync(
         @Query("album", encoded = true) album: String,
         @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
         @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
-    ): Response<AlbumSearch>
+    ): Response<LastFmAlbumSearch>
 
 }

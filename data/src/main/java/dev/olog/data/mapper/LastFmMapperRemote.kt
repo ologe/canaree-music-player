@@ -3,19 +3,15 @@ package dev.olog.data.mapper
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
-import dev.olog.data.model.lastfm.AlbumInfo
-import dev.olog.data.model.lastfm.AlbumSearch
-import dev.olog.data.model.lastfm.ArtistInfo
-import dev.olog.data.model.lastfm.TrackInfo
-import dev.olog.data.model.lastfm.TrackSearch
+import dev.olog.data.model.lastfm.*
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
-fun TrackInfo.toDomain(id: Long): LastFmTrack {
+fun LastFmTrackInfo.toDomain(id: Long): LastFmTrack {
     val track = this.track
     val title = track.name
     val artist = track.artist.name
-    val album = track.album.title
-    val image = track.album.image.reversed().find { it.text.isNotBlank() }!!.text
+    val album = track.album.name
+    val image = track.album.image.findBest()
 
     return LastFmTrack(
         id,
@@ -23,20 +19,20 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
         artist,
         album,
         image,
-        track.mbid ?: "",
-        track.artist.mbid ?: "",
-        track.album.mbid ?: ""
+        track.mbid,
+        track.artist.mbid,
+        track.album.mbid
     )
 }
 
-fun TrackSearch.toDomain(id: Long): LastFmTrack? {
+fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack? {
     try {
         val track = this.results.trackmatches.track[0]
 
         return LastFmTrack(
             id,
-            track.name ?: "",
-            track.artist ?: "",
+            track.name,
+            track.artist,
             "",
             "",
             "",
@@ -58,19 +54,19 @@ fun TrackSearch.toDomain(id: Long): LastFmTrack? {
     }
 }
 
-fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
+fun LastFmAlbumInfo.toDomain(id: Long): LastFmAlbum {
     val album = this.album
     return LastFmAlbum(
         id,
         album.name,
         album.artist,
-        album.image.reversed().find { it.text.isNotBlank() }?.text!!,
-        album.mbid ?: "",
-        album.wiki.content ?: ""
+        album.image.findBest(),
+        album.mbid,
+        album.wiki?.content ?: ""
     )
 }
 
-fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
+fun LastFmAlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
     try {
         val results = this.results.albummatches.album
         val bestArtist = FuzzySearch.extractOne(originalArtist, results.map { it.artist }).string
@@ -97,12 +93,16 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
     }
 }
 
-fun ArtistInfo.toDomain(id: Long): LastFmArtist? {
+fun LastFmArtistInfo.toDomain(id: Long): LastFmArtist? {
     val artist = this.artist
     return LastFmArtist(
         id,
         "",
-        artist.mbid ?: "",
-        artist.bio.content ?: ""
+        artist.mbid,
+        artist.bio?.content ?: ""
     )
+}
+
+private fun List<LastFmImage>.findBest(): String {
+    return this.reversed().first { it.text.isNotBlank() }.text
 }
