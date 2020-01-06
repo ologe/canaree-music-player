@@ -7,7 +7,6 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -106,7 +105,6 @@ internal class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun setDefault() {
-        assertBackgroundThread()
         setMidnightMode(false)
         setCrossFade(0)
         setGapless(false)
