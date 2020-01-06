@@ -1,12 +1,12 @@
 package dev.olog.data.repository
 
 import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.data.db.PlayingQueueDao
+import dev.olog.data.mapper.toPlayingQueueSong
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,6 @@ internal class PlayingQueueRepository @Inject constructor(
 
     override fun getAll(): List<PlayingQueueSong> {
         try {
-//            assertBackgroundThread()
             val playingQueue =
                 playingQueueDao.getAllAsSongs(songGateway.getAll(), podcastGateway.getAll())
             if (playingQueue.isNotEmpty()) {
@@ -43,13 +42,6 @@ internal class PlayingQueueRepository @Inject constructor(
     override fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
         assertBackgroundThread()
         playingQueueDao.insert(list)
-    }
-
-    private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
-        return PlayingQueueSong(
-            this.copy(idInPlaylist = progressive),
-            getMediaId()
-        )
     }
 
 }
