@@ -8,10 +8,12 @@ import dev.olog.data.model.db.LastFmAlbumEntity
 import dev.olog.data.model.db.LastFmArtistEntity
 import dev.olog.data.model.db.LastFmTrackEntity
 
-private const val CACHE_TIME = "1 month"
-
 @Dao
 internal abstract class LastFmDao {
+
+    companion object {
+        private const val CACHE_TIME = "1 month"
+    }
 
     // track
 
