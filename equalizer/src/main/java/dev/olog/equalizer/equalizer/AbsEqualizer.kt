@@ -25,7 +25,7 @@ abstract class AbsEqualizer(
     override suspend fun updateCurrentPresetIfCustom() = withContext(Dispatchers.IO) {
         var preset = gateway.getCurrentPreset()
         if (preset.isCustom) {
-            preset = preset.withBands(
+            preset = preset.copy(
                 bands = getAllBandsCurrentLevel()
             )
             gateway.updatePreset(preset)
