@@ -3,8 +3,6 @@ package dev.olog.core.interactor.playlist
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoveFromPlaylistUseCase @Inject constructor(
@@ -13,19 +11,24 @@ class RemoveFromPlaylistUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(input: Input) = withContext(Dispatchers.Default){
-
-        if (input.type == PlaylistType.PODCAST){
-            podcastGateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
-        } else {
-            playlistGateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
+    suspend operator fun invoke(input: Input) {
+        return when (input.type) {
+            PlaylistType.PODCAST -> podcastGateway.removeFromPlaylist(
+                input.playlistId,
+                input.idInPlaylist
+            )
+            PlaylistType.TRACK -> playlistGateway.removeFromPlaylist(
+                input.playlistId,
+                input.idInPlaylist
+            )
+            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${input.type}")
         }
     }
 
     class Input(
-            val playlistId: Long,
-            val idInPlaylist: Long,
-            val type: PlaylistType
+        val playlistId: Long,
+        val idInPlaylist: Long,
+        val type: PlaylistType
     )
 
 }
