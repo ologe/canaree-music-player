@@ -23,7 +23,7 @@ class InsertRecentSearchUseCase @Inject constructor(
             mediaId.isPodcastPlaylist -> recentSearchesGateway.insertPodcastPlaylist(id)
             mediaId.isPodcastAlbum -> recentSearchesGateway.insertPodcastAlbum(id)
             mediaId.isPodcastArtist -> recentSearchesGateway.insertPodcastArtist(id)
-            else -> throw IllegalArgumentException("invalid category ${mediaId.resolveId}")
+            else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
         }
     }
 }
