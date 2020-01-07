@@ -15,6 +15,8 @@ class AddToPlaylistUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(playlist: Playlist, mediaId: MediaId) {
+        sanitize(playlist, mediaId)
+
         if (mediaId.isLeaf && mediaId.isPodcast) {
             podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId))
             return
@@ -32,4 +34,11 @@ class AddToPlaylistUseCase @Inject constructor(
             playlistGateway.addSongsToPlaylist(playlist.id, songList)
         }
     }
+
+    private fun sanitize(playlist: Playlist, mediaId: MediaId) {
+        if (playlist.isPodcast != mediaId.isAnyPodcast) {
+            throw IllegalArgumentException("playlist is ${playlist.isPodcast} but media id is ${mediaId.isAnyPodcast}")
+        }
+    }
+
 }
