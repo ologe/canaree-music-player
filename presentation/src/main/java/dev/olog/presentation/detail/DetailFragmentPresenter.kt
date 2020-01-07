@@ -38,7 +38,7 @@ class DetailFragmentPresenter @Inject constructor(
     suspend fun moveInPlaylist(moveList: List<Pair<Int, Int>>){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
-        moveItemInPlaylistUseCase.execute(
+        moveItemInPlaylistUseCase(
             MoveItemInPlaylistUseCase.Input(playlistId, moveList,
                 if (mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         ))

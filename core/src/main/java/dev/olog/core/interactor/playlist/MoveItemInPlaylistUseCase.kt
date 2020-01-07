@@ -10,11 +10,11 @@ class MoveItemInPlaylistUseCase @Inject constructor(
     private val podcastPlaylistGateway: PodcastPlaylistGateway
 ) {
 
-    suspend fun execute(input: Input) {
-        if (input.type == PlaylistType.PODCAST) {
-            podcastPlaylistGateway.moveItem(input.playlistId, input.moveList)
-        } else {
-            playlistGateway.moveItem(input.playlistId, input.moveList)
+    suspend operator fun invoke(input: Input) {
+        when (input.type){
+            PlaylistType.PODCAST -> podcastPlaylistGateway.moveItem(input.playlistId, input.moveList)
+            PlaylistType.TRACK -> playlistGateway.moveItem(input.playlistId, input.moveList)
+            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${input.type}")
         }
     }
 
