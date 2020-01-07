@@ -11,22 +11,26 @@ class InsertCustomTrackListToPlaylist @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(param: InsertCustomTrackListRequest) {
+    suspend operator fun invoke(param: Request) {
+        when (param.type){
+            PlaylistType.PODCAST -> {
+                val playlistId = podcastPlaylistGateway.createPlaylist(param.playlistTitle)
 
-        if (param.type == PlaylistType.PODCAST) {
-            val playlistId = podcastPlaylistGateway.createPlaylist(param.playlistTitle)
+                podcastPlaylistGateway.addSongsToPlaylist(playlistId, param.tracksId)
+            }
+            PlaylistType.TRACK -> {
+                val playlistId = playlistGateway.createPlaylist(param.playlistTitle)
 
-            podcastPlaylistGateway.addSongsToPlaylist(playlistId, param.tracksId)
-        } else {
-            val playlistId = playlistGateway.createPlaylist(param.playlistTitle)
-
-            playlistGateway.addSongsToPlaylist(playlistId, param.tracksId)
+                playlistGateway.addSongsToPlaylist(playlistId, param.tracksId)
+            }
+            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${param.type}")
         }
     }
-}
 
-data class InsertCustomTrackListRequest(
-    val playlistTitle: String,
-    val tracksId: List<Long>,
-    val type: PlaylistType
-)
+    data class Request(
+        val playlistTitle: String,
+        val tracksId: List<Long>,
+        val type: PlaylistType
+    )
+
+}

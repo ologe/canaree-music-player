@@ -5,7 +5,6 @@ import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +29,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
             mediaId.isLeaf -> listOf(songGateway.getByParam(mediaId.resolveId)!!.id)
             else -> getSongListByParamUseCase(mediaId).map { it.id }
         }
-        insertCustomTrackListToPlaylist(InsertCustomTrackListRequest(playlistTitle, trackToInsert, playlistType))
+        insertCustomTrackListToPlaylist(InsertCustomTrackListToPlaylist.Request(playlistTitle, trackToInsert, playlistType))
     }
 
 }
