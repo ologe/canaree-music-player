@@ -14,7 +14,7 @@ class ClearPlaylistUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId) {
         val playlistId = mediaId.resolveId
-        when (mediaId.category){
+        return when (mediaId.category){
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.clearPlaylist(playlistId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.clearPlaylist(playlistId)
             else -> throw IllegalArgumentException("invalid media id $mediaId")

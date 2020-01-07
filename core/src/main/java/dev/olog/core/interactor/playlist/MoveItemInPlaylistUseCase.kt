@@ -11,7 +11,7 @@ class MoveItemInPlaylistUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(input: Input) {
-        when (input.type){
+        return when (input.type){
             PlaylistType.PODCAST -> podcastPlaylistGateway.moveItem(input.playlistId, input.moveList)
             PlaylistType.TRACK -> playlistGateway.moveItem(input.playlistId, input.moveList)
             PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${input.type}")

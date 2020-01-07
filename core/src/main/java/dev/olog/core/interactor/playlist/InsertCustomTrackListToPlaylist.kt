@@ -12,7 +12,7 @@ class InsertCustomTrackListToPlaylist @Inject constructor(
 ) {
 
     suspend operator fun invoke(param: Input) {
-        when (param.type){
+        return when (param.type){
             PlaylistType.PODCAST -> {
                 val playlistId = podcastPlaylistGateway.createPlaylist(param.playlistTitle)
 
