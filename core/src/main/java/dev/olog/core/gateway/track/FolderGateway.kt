@@ -16,6 +16,7 @@ interface FolderGateway :
     /**
      * Hashcode = path.tohashCode()
      */
+    // TODO maybe not
     fun getByHashCode(hashCode: Int): Folder?
 
 }

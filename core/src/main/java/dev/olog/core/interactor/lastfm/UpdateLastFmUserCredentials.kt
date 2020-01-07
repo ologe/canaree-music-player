@@ -18,8 +18,8 @@ class UpdateLastFmUserCredentials @Inject constructor(
 
     private fun encryptUser(user: UserCredentials): UserCredentials {
         return UserCredentials(
-            lastFmEncrypter.encrypt(user.username),
-            lastFmEncrypter.encrypt(user.password)
+            username = lastFmEncrypter.encrypt(user.username),
+            password = lastFmEncrypter.encrypt(user.password)
         )
     }
 

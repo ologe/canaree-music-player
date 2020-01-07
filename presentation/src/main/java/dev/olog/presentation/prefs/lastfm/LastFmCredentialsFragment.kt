@@ -56,7 +56,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
         val userName = view.findViewById<EditText>(R.id.username)
         val password = view.findViewById<EditText>(R.id.password)
 
-        val credentials = getLastFmUserCredentials.execute()
+        val credentials = getLastFmUserCredentials()
         userName.setText(credentials.username)
         password.setText(credentials.password)
 

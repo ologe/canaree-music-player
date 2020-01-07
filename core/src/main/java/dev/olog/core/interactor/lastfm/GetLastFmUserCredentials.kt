@@ -11,14 +11,14 @@ class GetLastFmUserCredentials @Inject constructor(
 
 ) {
 
-    fun execute(): UserCredentials {
+    operator fun invoke(): UserCredentials {
         return decryptUser(gateway.getLastFmCredentials())
     }
 
     private fun decryptUser(user: UserCredentials): UserCredentials {
         return UserCredentials(
-            lastFmEncrypter.decrypt(user.username),
-            lastFmEncrypter.decrypt(user.password)
+            username = lastFmEncrypter.decrypt(user.username),
+            password = lastFmEncrypter.decrypt(user.password)
         )
     }
 
