@@ -1,7 +1,5 @@
 package dev.olog.core.entity
 
-import android.provider.MediaStore
-
 data class LastMetadata(
     val title: String,
     val subtitle: String,
@@ -14,7 +12,7 @@ data class LastMetadata(
 
     val description: String
         get() {
-            if (subtitle == MediaStore.UNKNOWN_STRING) {
+            if (subtitle == "<unknown>") {
                 return title
             }
             return "$title $subtitle"
