@@ -29,7 +29,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
             mediaId.isLeaf -> listOf(songGateway.getByParam(mediaId.resolveId)!!.id)
             else -> getSongListByParamUseCase(mediaId).map { it.id }
         }
-        insertCustomTrackListToPlaylist(InsertCustomTrackListToPlaylist.Request(playlistTitle, trackToInsert, playlistType))
+        insertCustomTrackListToPlaylist(InsertCustomTrackListToPlaylist.Input(playlistTitle, trackToInsert, playlistType))
     }
 
 }

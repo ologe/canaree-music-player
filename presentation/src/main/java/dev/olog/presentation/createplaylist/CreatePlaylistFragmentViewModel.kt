@@ -107,7 +107,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         }
         withContext(Dispatchers.IO){
             insertCustomTrackListToPlaylist(
-                InsertCustomTrackListToPlaylist.Request(
+                InsertCustomTrackListToPlaylist.Input(
                     playlistTitle,
                     selectedIds.toList(),
                     playlistType

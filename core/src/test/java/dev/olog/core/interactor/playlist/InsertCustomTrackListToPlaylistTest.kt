@@ -25,7 +25,7 @@ class InsertCustomTrackListToPlaylistTest {
         val trackId = 100L
         val name = "playlist"
         val tracks = listOf(trackId)
-        val request = InsertCustomTrackListToPlaylist.Request(name, tracks, PODCAST)
+        val request = InsertCustomTrackListToPlaylist.Input(name, tracks, PODCAST)
         whenever(podcastGateway.createPlaylist(name)).thenReturn(id)
 
         // when
@@ -45,7 +45,7 @@ class InsertCustomTrackListToPlaylistTest {
         val trackId = 100L
         val name = "playlist"
         val tracks = listOf(trackId)
-        val request = InsertCustomTrackListToPlaylist.Request(name, tracks, TRACK)
+        val request = InsertCustomTrackListToPlaylist.Input(name, tracks, TRACK)
         whenever(playlistGateway.createPlaylist(name)).thenReturn(id)
 
         // when
@@ -60,7 +60,7 @@ class InsertCustomTrackListToPlaylistTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun testInvokeAuto() = coroutineRule.runBlocking {
-        val request = InsertCustomTrackListToPlaylist.Request("any", emptyList(), AUTO)
+        val request = InsertCustomTrackListToPlaylist.Input("any", emptyList(), AUTO)
         sut(request)
     }
 
