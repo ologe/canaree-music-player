@@ -1,6 +1,5 @@
 package dev.olog.presentation.popup.song
 
-import android.app.Activity
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.MediaId

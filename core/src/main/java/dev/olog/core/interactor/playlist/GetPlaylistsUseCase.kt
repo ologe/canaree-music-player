@@ -12,10 +12,11 @@ class GetPlaylistsUseCase @Inject internal constructor(
 
 ) {
 
-    fun execute(type: PlaylistType): List<Playlist> {
-        if (type == PlaylistType.PODCAST) {
-            return podcastPlaylistgateway.getAll()
+    operator fun invoke(type: PlaylistType): List<Playlist> {
+        return when (type) {
+            PlaylistType.PODCAST -> podcastPlaylistgateway.getAll()
+            PlaylistType.TRACK -> playlistGateway.getAll()
+            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type $type")
         }
-        return playlistGateway.getAll()
     }
 }

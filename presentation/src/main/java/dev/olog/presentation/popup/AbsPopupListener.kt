@@ -30,7 +30,7 @@ abstract class AbsPopupListener(
 ) : PopupMenu.OnMenuItemClickListener {
 
     val playlists by lazyFast {
-        getPlaylistBlockingUseCase.execute(
+        getPlaylistBlockingUseCase(
             if (podcastPlaylist) PlaylistType.PODCAST
             else PlaylistType.TRACK
         )
