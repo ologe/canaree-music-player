@@ -5,10 +5,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastMetadata
-import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteEntity
+import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
-import dev.olog.core.interactor.*
+import dev.olog.core.interactor.InsertHistorySongUseCase
+import dev.olog.core.interactor.InsertMostPlayedUseCase
 import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
@@ -100,7 +101,7 @@ internal class CurrentSong @Inject constructor(
         isFavoriteJob = launch {
             val type = if (mediaEntity.isPodcast) FavoriteTrackType.PODCAST else FavoriteTrackType.TRACK
             val isFavorite =
-                isFavoriteSongUseCase(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
+                isFavoriteSongUseCase(mediaEntity.id, type)
             val isFavoriteEnum =
                 if (isFavorite) FavoriteState.FAVORITE else FavoriteState.NOT_FAVORITE
             updateFavoriteStateUseCase(FavoriteEntity(mediaEntity.id, isFavoriteEnum, type))

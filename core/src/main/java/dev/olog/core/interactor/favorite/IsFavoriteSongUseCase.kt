@@ -8,12 +8,7 @@ class IsFavoriteSongUseCase @Inject constructor(
     private val gateway: FavoriteGateway
 ) {
 
-    suspend operator fun invoke(param: Input): Boolean {
-        return gateway.isFavorite(param.songId, param.type)
+    suspend operator fun invoke(songId: Long, type: FavoriteTrackType): Boolean {
+        return gateway.isFavorite(songId, type)
     }
-
-    class Input(
-        val songId: Long,
-        val type: FavoriteTrackType
-    )
 }
