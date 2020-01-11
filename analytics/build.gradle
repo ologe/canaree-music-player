@@ -28,7 +28,7 @@ dependencies {
     kapt lib_core.dagger_processor
 
     implementation lib_x.lifecycle_java8
-    implementation lib_x.core_ktx
+    implementation lib_x.core
 
     implementation lib_analytics.analytics
 

@@ -64,7 +64,7 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
 
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.preference
     implementation lib_x.lifecycle_extensions
 
