@@ -1,5 +1,6 @@
 package dev.olog.presentation.tab.adapter
 
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -11,7 +12,6 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
-import dev.olog.shared.android.extensions.setGone
 import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
@@ -108,7 +108,7 @@ internal class TabFragmentAdapter(
             quickAction?.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle
-            explicit?.setGone()
+            explicit?.isVisible = false
         }
     }
 

@@ -26,18 +26,6 @@ fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
     }
 }
 
-inline fun View.setGone() {
-    this.visibility = View.GONE
-}
-
-inline fun View.setVisible() {
-    this.visibility = View.VISIBLE
-}
-
-inline fun View.setInvisible() {
-    this.visibility = View.INVISIBLE
-}
-
 inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }

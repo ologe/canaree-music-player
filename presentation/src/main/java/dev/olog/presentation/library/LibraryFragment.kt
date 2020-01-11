@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
@@ -86,7 +87,7 @@ class LibraryFragment : BaseFragment() {
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
         if (!presenter.canShowPodcasts()){
-            podcasts.setGone()
+            podcasts.isVisible = false
         }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {

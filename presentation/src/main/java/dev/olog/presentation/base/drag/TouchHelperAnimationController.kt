@@ -7,6 +7,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.*
@@ -98,7 +99,7 @@ internal class TouchHelperAnimationController {
             background, cx.toInt(), cy.toInt(),
             0f, endRadius
         )
-        background.setVisible()
+        background.isVisible = true
         anim.duration = 400
         anim.interpolator = accelerateInterpolator
         anim.start()
