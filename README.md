@@ -53,7 +53,7 @@ Open `setting.gradle` and comment the last three lines like below:
 #### Method 2
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
 * In `settings.gradle`:
-  - Update `gradle.ext.exoplayerRoot` to match your ExoPlayer repo path
+  - Update `gradle.ext.exoplayerRoot` to match your the cloned ExoPlayer path
   - Change <br> 
       ```gradle 
       apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
@@ -64,7 +64,7 @@ Open `setting.gradle` and comment the last three lines like below:
       ```
 
 #### After both
-* Add to `local.properties`.
+* Add to `local.properties`
 ```groovy
 last_fm_key="your_key"
 last_fm_secret="your_secret"
