@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
@@ -12,7 +14,6 @@ import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*
@@ -33,7 +34,9 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val presenter by lazyFast { act.viewModelProvider<EqualizerFragmentViewModel>(factory) }
+    private val presenter by viewModels<EqualizerFragmentViewModel> {
+        factory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

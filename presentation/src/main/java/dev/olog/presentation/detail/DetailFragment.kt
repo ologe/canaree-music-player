@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import dev.olog.core.MediaId
@@ -57,10 +58,8 @@ class DetailFragment : BaseFragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast {
-        viewModelProvider<DetailFragmentViewModel>(
-            viewModelFactory
-        )
+    private val viewModel by viewModels<DetailFragmentViewModel> {
+        viewModelFactory
     }
 
     private val mediaId by lazyFast {

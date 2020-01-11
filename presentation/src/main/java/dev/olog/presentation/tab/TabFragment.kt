@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,8 +81,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
         )
     }
 
-    private val viewModel by lazyFast {
-        parentViewModelProvider<TabFragmentViewModel>(viewModelFactory)
+    private val viewModel by activityViewModels<TabFragmentViewModel> {
+        viewModelFactory
     }
 
     internal val category: TabCategory by lazyFast {

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.core.view.updatePadding
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,9 +39,11 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<PlayerFragmentViewModel>(viewModelFactory)
+
+    private val viewModel by viewModels<PlayerFragmentViewModel> {
+        viewModelFactory
     }
+
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject

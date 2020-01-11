@@ -2,6 +2,8 @@ package dev.olog.presentation.edit.artist
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
@@ -33,15 +35,13 @@ class EditArtistFragment : BaseEditItemFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditArtistFragmentViewModel>(
-            viewModelFactory
-        )
+
+    private val viewModel by viewModels<EditArtistFragmentViewModel> {
+        viewModelFactory
     }
-    private val editItemViewModel by lazyFast {
-        activity!!.viewModelProvider<EditItemViewModel>(
-            viewModelFactory
-        )
+
+    private val editItemViewModel by activityViewModels<EditItemViewModel> {
+        viewModelFactory
     }
 
     private val mediaId by lazyFast {

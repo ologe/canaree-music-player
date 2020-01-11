@@ -2,6 +2,8 @@ package dev.olog.presentation.edit.album
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
@@ -31,11 +33,12 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory)
+    private val viewModel by viewModels<EditAlbumFragmentViewModel> {
+        viewModelFactory
     }
-    private val editItemViewModel by lazyFast {
-        act.viewModelProvider<EditItemViewModel>(viewModelFactory)
+    
+    private val editItemViewModel by activityViewModels<EditItemViewModel> {
+        viewModelFactory
     }
     private val mediaId: MediaId by lazyFast {
         MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
