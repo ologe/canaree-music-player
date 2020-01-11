@@ -5,11 +5,12 @@ import android.app.Service
 import android.content.Intent
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.HoverView
+import dev.olog.service.floating.api.window.HoverMenuService
 import dev.olog.service.floating.di.inject
 import dev.olog.service.floating.notification.FloatingWindowNotification
 import javax.inject.Inject
 
-class FloatingWindowService : BaseFloatingService() {
+class FloatingWindowService : HoverMenuService() {
 
     @Inject
     lateinit var hoverMenu: CustomHoverMenu
