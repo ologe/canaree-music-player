@@ -22,5 +22,5 @@ dependencies {
 
     // google architecture components
     implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_extensions
+    implementation lib_x.lifecycle_livedata
 }
