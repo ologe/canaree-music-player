@@ -11,6 +11,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
+import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.setDarkMode
 import kotlin.properties.Delegates
 
@@ -39,7 +40,7 @@ abstract class WebViewContent(
         lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
         try {
-            webView.setDarkMode(context.resources.getBoolean(R.bool.is_dark_mode))
+            webView.setDarkMode(context.isDarkMode())
 
             webView.webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {

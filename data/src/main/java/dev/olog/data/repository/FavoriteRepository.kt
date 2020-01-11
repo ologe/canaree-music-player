@@ -8,6 +8,7 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread

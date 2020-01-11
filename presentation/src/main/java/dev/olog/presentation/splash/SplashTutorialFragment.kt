@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -17,7 +18,6 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*

@@ -66,7 +66,7 @@ dependencies {
 
     implementation lib_x.core
     implementation lib_x.preference
-    implementation lib_x.lib_x.lifecycle_livedata
+    implementation lib_x.lifecycle_livedata
 
     implementation lib_utils.fuzzy
     implementation lib_network.gson

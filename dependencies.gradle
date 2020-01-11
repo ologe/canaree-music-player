@@ -17,7 +17,7 @@ ext {
     android_x_coordinator = '1.1.0'
     android_x_fragments = '1.1.0'
     constraint_layout = '2.0.0-beta4'
-    lifecycle = '2.1.0'
+    lifecycle = '2.2.0-rc03'
     android_x_webview = '1.1.0'
     billing = '1.2.2'
 
@@ -75,8 +75,7 @@ ext {
     ]
 
     lib_x = [
-            core                : "androidx.core:core:$android_x_core",
-            core_ktx            : "androidx.core:core-ktx:$android_x_core",
+            core                : "androidx.core:core-ktx:$android_x_core",
             legacyV4            : "androidx.legacy:legacy-support-v4:$android_x_legacy",
             appcompat           : "androidx.appcompat:appcompat:$android_x_appcompat",
             media               : "androidx.media:media:$android_x_media",
@@ -88,9 +87,10 @@ ext {
             annotations         : "androidx.annotation:annotation:$android_x_annotations",
             constraint_layout   : "androidx.constraintlayout:constraintlayout:$constraint_layout",
             coordinator         : "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator",
-            fragments           : "androidx.fragment:fragment:$android_x_fragments",
+            fragments           : "androidx.fragment:fragment-ktx:$android_x_fragments",
             // lifecycle
-            lifecycle_runtime   : "androidx.lifecycle:lifecycle-runtime:$lifecycle",
+            lifecycle_core      : "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycle",
+            lifecycle_runtime   : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle",
             lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle",
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",

@@ -1,7 +1,7 @@
 package dev.olog.presentation.playermini
 
+import androidx.lifecycle.asLiveData
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

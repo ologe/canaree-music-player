@@ -10,6 +10,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.distinctUntilChanged
 import dev.olog.core.MediaId
 import dev.olog.intents.Classes
 import dev.olog.media.connection.IMediaConnectionCallback
@@ -20,7 +21,6 @@ import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
-import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

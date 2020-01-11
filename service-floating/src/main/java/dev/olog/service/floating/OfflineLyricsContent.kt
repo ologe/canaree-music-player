@@ -4,12 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.asLiveData
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.animateBackgroundColor
+import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
@@ -65,10 +69,10 @@ class OfflineLyricsContent(
         content.image.observePaletteColors()
             .map { it.accent }
             .asLiveData()
-            .subscribe(this, {
+            .subscribe(this) {
                 content.edit.animateBackgroundColor(it)
                 content.subHeader.animateTextColor(it)
-            })
+            }
 
         glueService.observeMetadata()
             .subscribe(this) {

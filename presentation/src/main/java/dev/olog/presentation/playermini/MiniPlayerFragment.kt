@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.map
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.MediaId
 import dev.olog.media.model.PlayerState
@@ -13,7 +15,9 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.filter
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
