@@ -6,7 +6,7 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.utils.runOnMainThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 
 class RxWaveSideBarView(
         context: Context,
@@ -27,6 +27,8 @@ class RxWaveSideBarView(
         if (scrollableLayoutId == 0){
             throw IllegalStateException("provide a real layout id to filter")
         }
+
+        assertBackgroundThread()
 
         val list = data.asSequence()
                 .filter { it.type == scrollableLayoutId }
@@ -49,10 +51,8 @@ class RxWaveSideBarView(
     }
 
     private fun updateLetters(letters: List<String>){
-        runOnMainThread {
-            this.mLetters = letters
-            invalidate()
-        }
+        this.mLetters = letters
+        invalidate()
     }
 
 }

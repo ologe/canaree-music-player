@@ -23,11 +23,3 @@ inline fun assertBackgroundThread() {
         throw AssertionError("not on worker thread, current=${Thread.currentThread()}")
     }
 }
-
-fun runOnMainThread(func: () -> Unit) {
-    if (isMainThread()) {
-        func()
-    } else {
-        handler.post(func)
-    }
-}
