@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.lazyFast
 
-open class AdaptiveColorImageView(
+class AdaptiveColorImageView(
         context: Context,
         attr: AttributeSet
 

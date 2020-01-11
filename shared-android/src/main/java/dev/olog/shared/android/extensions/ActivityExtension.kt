@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-inline fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+inline fun FragmentActivity.fragmentTransaction(crossinline func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
         .beginTransaction()
         .func()
@@ -22,7 +22,7 @@ fun FragmentManager.getTopFragment(): Fragment? {
     return null
 }
 
-inline fun FragmentActivity.alertDialog(builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder) {
+inline fun FragmentActivity.alertDialog(crossinline builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder) {
     MaterialAlertDialogBuilder(this)
         .builder()
         .show()
