@@ -64,30 +64,8 @@ Open `setting.gradle` and comment the last three lines like below:
       ```
 
 #### After both
-* Create `gradle.properties` in project root folder.
+* Add to `local.properties`.
 ```groovy
-# OPTIONAL properties
-org.gradle.jvmargs=-Xmx4096m
-org.gradle.parallel=true
-org.gradle.daemon=true
-
-android.useAndroidX=true
-android.enableJetifier=true
-android.enableSeparateAnnotationProcessing=true
-
-# incremental
-kotlin.incremental=true
-kapt.incremental.apt=true
-# parallel
-kapt.use.worker.api=true
-# compilation avoidance
-kapt.include.compile.classpath=false
-
-# proguard
-android.enableR8=true
-android.enableR8.fullMode=true
-
-# MANDATORY properties (keys)
 last_fm_key="your_key"
 last_fm_secret="your_secret"
 
