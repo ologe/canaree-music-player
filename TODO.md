@@ -1,6 +1,7 @@
 ## TODO now
 sort by play count
 - check podcast favorites if it's working
+- update french and chinese locales
 
 ## TODO
 - revamp blacklist fragment, with a tree based architecture
