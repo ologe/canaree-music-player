@@ -14,6 +14,8 @@ internal class FirebaseTracker @Inject constructor(
 
     override fun trackScreen(name: String, bundle: Bundle?) = GlobalScope.launchUnit {
         try {
+            // TODO replace string arguent that contains `.`
+
             firebase.logEvent(name.take(40), bundle)
         } catch (ignored: Throwable) {
         }
