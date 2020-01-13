@@ -147,7 +147,7 @@ internal class BillingImpl @Inject constructor(
     }
 
     private fun setDefault() = launch(Dispatchers.Default) {
-        resetPreferencesUseCase.execute()
+        resetPreferencesUseCase()
         presentationPreferences.setDefault()
     }
 }

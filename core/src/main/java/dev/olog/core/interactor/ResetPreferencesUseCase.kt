@@ -13,7 +13,7 @@ class ResetPreferencesUseCase @Inject constructor(
     private val blacklistPreferences: BlacklistPreferences
 ) {
 
-    fun execute() {
+    operator fun invoke() {
         appPrefsUseCase.setDefault()
         musicPreferencesUseCase.setDefault()
         equalizerPrefsUseCase.setDefault()
