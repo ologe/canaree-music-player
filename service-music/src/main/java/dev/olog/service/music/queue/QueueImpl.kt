@@ -9,7 +9,6 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
@@ -96,7 +95,7 @@ internal class QueueImpl @Inject constructor(
             assertBackgroundThread()
 
             val request = songList.map {
-                UpdatePlayingQueueUseCaseRequest(
+                UpdatePlayingQueueUseCase.Request(
                     it.mediaId,
                     it.id,
                     it.idInPlaylist

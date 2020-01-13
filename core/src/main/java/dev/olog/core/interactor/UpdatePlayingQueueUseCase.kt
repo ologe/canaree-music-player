@@ -8,14 +8,14 @@ class UpdatePlayingQueueUseCase @Inject constructor(
     private val gateway: PlayingQueueGateway
 ) {
 
-    operator fun invoke(param: List<UpdatePlayingQueueUseCaseRequest>) {
+    operator fun invoke(param: List<Request>) {
         gateway.update(param)
     }
 
-}
+    data class Request(
+        val mediaId: MediaId,
+        val songId: Long,
+        val idInPlaylist: Int
+    )
 
-data class UpdatePlayingQueueUseCaseRequest(
-    val mediaId: MediaId,
-    val songId: Long,
-    val idInPlaylist: Int
-)
+}

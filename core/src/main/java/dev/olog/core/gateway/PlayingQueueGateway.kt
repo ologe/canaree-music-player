@@ -1,7 +1,7 @@
 package dev.olog.core.gateway
 
 import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import kotlinx.coroutines.flow.Flow
 
 interface PlayingQueueGateway {
@@ -14,6 +14,6 @@ interface PlayingQueueGateway {
 
     fun getAll(): List<PlayingQueueSong>
 
-    fun update(list: List<UpdatePlayingQueueUseCaseRequest>)
+    fun update(list: List<UpdatePlayingQueueUseCase.Request>)
 
 }

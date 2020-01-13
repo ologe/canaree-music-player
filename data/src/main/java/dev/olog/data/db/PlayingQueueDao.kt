@@ -10,7 +10,7 @@ import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.model.db.PlayingQueueEntity
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
@@ -86,7 +86,7 @@ internal abstract class PlayingQueueDao {
     }
 
     @Transaction
-    open fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) {
+    open fun insert(list: List<UpdatePlayingQueueUseCase.Request>) {
         assertBackgroundThread()
 
         deleteAllImpl()

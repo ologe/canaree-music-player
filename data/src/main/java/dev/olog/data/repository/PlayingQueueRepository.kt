@@ -4,7 +4,7 @@ import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCaseRequest
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.db.PlayingQueueDao
 import dev.olog.data.mapper.toPlayingQueueSong
 import dev.olog.data.utils.assertBackground
@@ -39,7 +39,7 @@ internal class PlayingQueueRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>) {
+    override fun update(list: List<UpdatePlayingQueueUseCase.Request>) {
         assertBackgroundThread()
         playingQueueDao.insert(list)
     }
