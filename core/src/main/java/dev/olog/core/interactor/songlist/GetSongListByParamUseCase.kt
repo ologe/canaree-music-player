@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GetSongListByParamUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val songDataStore: SongGateway,
+    private val songGateway: SongGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
@@ -29,7 +29,7 @@ class GetSongListByParamUseCase @Inject constructor(
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.SONGS -> songDataStore.getAll()
+            MediaIdCategory.SONGS -> songGateway.getAll()
             MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.ARTISTS -> artistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.GENRES -> genreGateway.getTrackListByParam(mediaId.categoryId)
