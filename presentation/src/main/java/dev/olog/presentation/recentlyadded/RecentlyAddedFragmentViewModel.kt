@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,6 +42,7 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             getItemTitleUseCase(mediaId)
                 .flowOn(Dispatchers.IO)
+                .map { it ?: "" }
                 .collect { titleLiveData.value = it }
         }
     }

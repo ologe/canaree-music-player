@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +44,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             getItemTitleUseCase(mediaId)
                 .flowOn(Dispatchers.IO)
+                .map { it ?: "" }
                 .collect { titleLiveData.value = it }
         }
     }
