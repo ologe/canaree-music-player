@@ -10,6 +10,7 @@ import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import org.junit.Assert
 import org.junit.Test
 
 class GetItemTitleUseCaseTest {
@@ -204,6 +205,46 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastAlbumGateway)
         verifyNoMoreInteractions(podcastArtistGateway)
+    }
+
+    @Test
+    fun testNotAllowed()  {
+        // given
+        val allowed = listOf(
+            MediaIdCategory.FOLDERS,
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.ARTISTS,
+            MediaIdCategory.GENRES,
+            MediaIdCategory.PODCASTS_PLAYLIST,
+            MediaIdCategory.PODCASTS_ARTISTS,
+            MediaIdCategory.PODCASTS_ALBUMS
+        )
+
+        for (value in MediaIdCategory.values()) {
+            if (value in allowed) {
+                continue
+            }
+            try {
+                val mediaId = MediaId.createCategoryValue(value, "1")
+
+                // when
+                sut(mediaId)
+                Assert.fail("only $allowed is allow, instead was $value")
+            } catch (ex: IllegalArgumentException) {
+            }
+        }
+
+        // then
+        verifyZeroInteractions(folderGateway)
+        verifyZeroInteractions(playlistGateway)
+        verifyZeroInteractions(albumGateway)
+        verifyZeroInteractions(artistGateway)
+        verifyZeroInteractions(genreGateway)
+
+        verifyZeroInteractions(podcastPlaylistGateway)
+        verifyZeroInteractions(podcastAlbumGateway)
+        verifyZeroInteractions(podcastArtistGateway)
     }
 
 }
