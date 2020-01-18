@@ -6,44 +6,48 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.LastFmAlbum
+import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
-class GlideAlbumFetcherTest {
+class GlideSongFetcherTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
     private val context = mock<Context>()
-    private val albumId = 10L
-    private val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, albumId.toString())
+    private val songId = 10L
+    private val mediaId = MediaId.playableItem(
+        MediaId.createCategoryValue(MediaIdCategory.ALBUMS, ""), songId
+    )
     private val gateway = mock<ImageRetrieverGateway>()
-    private val sut = GlideAlbumFetcher(context, mediaId, gateway, mock())
+    private val sut = GlideSongFetcher(context, mediaId, gateway, mock())
 
     @Test
     fun testExecute() = coroutineRule.runBlocking {
         // given
         val expectedImage = "image"
-        val lastFmAlbum = LastFmAlbum(
-            id = albumId,
+        val lastFmTrack = LastFmTrack(
+            id = songId,
             title = "",
             artist = "",
+            album = "",
             image = expectedImage,
             mbid = "",
-            wiki = ""
+            albumMbid = "",
+            artistMbid = ""
         )
-        whenever(gateway.getAlbum(albumId)).thenReturn(lastFmAlbum)
+        whenever(gateway.getTrack(songId)).thenReturn(lastFmTrack)
 
         // when
         val image = sut.execute()
 
         // then
-        verify(gateway).getAlbum(albumId)
+        verify(gateway).getTrack(songId)
         assertEquals(
             expectedImage,
             image
@@ -53,13 +57,13 @@ class GlideAlbumFetcherTest {
     @Test
     fun testMustFetchTrue() = coroutineRule.runBlocking {
         // given
-        whenever(gateway.mustFetchAlbum(albumId)).thenReturn(true)
+        whenever(gateway.mustFetchTrack(songId)).thenReturn(true)
 
         // when
         val actual = sut.mustFetch()
 
         // then
-        verify(gateway).mustFetchAlbum(albumId)
+        verify(gateway).mustFetchTrack(songId)
         assertEquals(
             true,
             actual
@@ -69,13 +73,13 @@ class GlideAlbumFetcherTest {
     @Test
     fun testMustFetchFalse() = coroutineRule.runBlocking {
         // given
-        whenever(gateway.mustFetchAlbum(albumId)).thenReturn(false)
+        whenever(gateway.mustFetchTrack(songId)).thenReturn(false)
 
         // when
         val actual = sut.mustFetch()
 
         // then
-        verify(gateway).mustFetchAlbum(albumId)
+        verify(gateway).mustFetchTrack(songId)
         assertEquals(
             false,
             actual

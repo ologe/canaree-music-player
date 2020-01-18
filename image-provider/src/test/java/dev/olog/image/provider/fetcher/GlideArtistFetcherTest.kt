@@ -29,8 +29,13 @@ class GlideArtistFetcherTest {
     fun testExecute() = coroutineRule.runBlocking {
         // given
         val expectedImage = "image"
-        val lastFmAlbum = LastFmArtist(artistId, expectedImage, "", "")
-        whenever(gateway.getArtist(artistId)).thenReturn(lastFmAlbum)
+        val lastFmArtist = LastFmArtist(
+            id = artistId,
+            image = expectedImage,
+            mbid = "",
+            wiki = ""
+        )
+        whenever(gateway.getArtist(artistId)).thenReturn(lastFmArtist)
 
         // when
         val image = sut.execute()
@@ -47,8 +52,13 @@ class GlideArtistFetcherTest {
     fun testExecuteLastFmPlaceholder() = coroutineRule.runBlocking {
         // given
         val artistImage = GlideArtistFetcher.LAST_FM_PLACEHOLDER
-        val lastFmAlbum = LastFmArtist(artistId, artistImage, "", "")
-        whenever(gateway.getArtist(artistId)).thenReturn(lastFmAlbum)
+        val lastFmArtist = LastFmArtist(
+            id = artistId,
+            image = artistImage,
+            mbid = "",
+            wiki = ""
+        )
+        whenever(gateway.getArtist(artistId)).thenReturn(lastFmArtist)
 
         // when
         val image = sut.execute()
@@ -65,8 +75,13 @@ class GlideArtistFetcherTest {
     fun testExecuteDeezerPlaceholder() = coroutineRule.runBlocking {
         // given
         val artistImage = GlideArtistFetcher.DEEZER_PLACEHOLDER
-        val lastFmAlbum = LastFmArtist(artistId, artistImage, "", "")
-        whenever(gateway.getArtist(artistId)).thenReturn(lastFmAlbum)
+        val lastFmArtist = LastFmArtist(
+            id = artistId,
+            image = artistImage,
+            mbid = "",
+            wiki = ""
+        )
+        whenever(gateway.getArtist(artistId)).thenReturn(lastFmArtist)
 
         // when
         val image = sut.execute()
