@@ -36,9 +36,7 @@ class MediaId private constructor(
         }
 
         @JvmStatic
-        fun shuffleId(): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "shuffle")
-        }
+        val shuffleId: MediaId = MediaId(MediaIdCategory.SONGS, "shuffle")
 
         @JvmStatic
         fun fromString(mediaId: String): MediaId {
@@ -124,7 +122,10 @@ class MediaId private constructor(
             return source
         }
 
-    val isHeader: Boolean = category == MediaIdCategory.HEADER
+    val isHeader: Boolean
+        get() {
+            return category == MediaIdCategory.HEADER
+        }
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
     val isAll: Boolean = category == MediaIdCategory.SONGS

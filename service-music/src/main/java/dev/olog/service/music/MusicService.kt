@@ -104,7 +104,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
-        callback.onPlayFromMediaId(MediaId.shuffleId().toString(), null)
+        callback.onPlayFromMediaId(MediaId.shuffleId.toString(), null)
     }
 
     override fun handlePlayPause(intent: Intent) {
