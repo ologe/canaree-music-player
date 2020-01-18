@@ -13,6 +13,7 @@ import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
@@ -115,7 +116,7 @@ class SplashTutorialFragment : Fragment(),
         GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(ctx, position))
+                .placeholder(CoverUtils.getGradient(ctx, position, MediaIdCategory.SONGS.ordinal))
                 .into(cover)
     }
 }

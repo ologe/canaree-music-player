@@ -54,7 +54,7 @@ object CoverUtils {
         return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
     }
 
-    fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
+    fun getGradient(context: Context, position: Int, source: Int): Drawable {
         return get(
             context,
             position,
