@@ -1,6 +1,7 @@
 package dev.olog.image.provider.loader
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 internal class GlideImageRetrieverLoader(
     private val context: Context,
-    private val imageRetrieverGateway: ImageRetrieverGateway
+    private val imageRetrieverGateway: ImageRetrieverGateway,
+    private val prefs: SharedPreferences
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -40,7 +42,8 @@ internal class GlideImageRetrieverLoader(
                 GlideSongFetcher(
                     context,
                     mediaId,
-                    imageRetrieverGateway
+                    imageRetrieverGateway,
+                    prefs
                 )
             )
         } else if (mediaId.isAlbum) {
@@ -50,7 +53,8 @@ internal class GlideImageRetrieverLoader(
                 GlideAlbumFetcher(
                     context,
                     mediaId,
-                    imageRetrieverGateway
+                    imageRetrieverGateway,
+                    prefs
                 )
             )
         } else {
@@ -60,7 +64,8 @@ internal class GlideImageRetrieverLoader(
                 GlideArtistFetcher(
                     context,
                     mediaId,
-                    imageRetrieverGateway
+                    imageRetrieverGateway,
+                    prefs
                 )
             )
         }
@@ -68,14 +73,16 @@ internal class GlideImageRetrieverLoader(
 
     class Factory @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val imageRetrieverGateway: ImageRetrieverGateway
+        private val imageRetrieverGateway: ImageRetrieverGateway,
+        private val prefs: SharedPreferences
 
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             return GlideImageRetrieverLoader(
                 context,
-                imageRetrieverGateway
+                imageRetrieverGateway,
+                prefs
             )
         }
 

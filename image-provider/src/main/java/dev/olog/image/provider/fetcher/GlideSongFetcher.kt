@@ -1,22 +1,24 @@
 package dev.olog.image.provider.fetcher
 
 import android.content.Context
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.data.DataFetcher
+import android.content.SharedPreferences
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.ImageRetrieverGateway
-import java.io.InputStream
 
 class GlideSongFetcher(
     context: Context,
     mediaId: MediaId,
-    private val imageRetrieverGateway: ImageRetrieverGateway
+    private val imageRetrieverGateway: ImageRetrieverGateway,
+    prefs: SharedPreferences
+) : BaseDataFetcher(context, prefs) {
 
-) : BaseDataFetcher(context) {
+    companion object {
+        private const val THRESHOLD = 600L
+    }
 
     private val id = mediaId.resolveId
 
-    override suspend fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): String {
+    override suspend fun execute(): String {
         return imageRetrieverGateway.getTrack(id)!!.image
     }
 
@@ -24,5 +26,5 @@ class GlideSongFetcher(
         return imageRetrieverGateway.mustFetchTrack(id)
     }
 
-    override val threshold: Long = 600L
+    override val threshold: Long = THRESHOLD
 }

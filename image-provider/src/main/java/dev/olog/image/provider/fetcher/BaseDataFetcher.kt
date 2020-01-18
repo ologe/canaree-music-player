@@ -1,6 +1,7 @@
 package dev.olog.image.provider.fetcher
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -12,7 +13,6 @@ import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
-import java.lang.RuntimeException
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicLong
  * Because LastFm allows 5 request per second for user
  */
 abstract class BaseDataFetcher(
-    private val context: Context
-
+    private val context: Context,
+    private val prefs: SharedPreferences
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 
     companion object {
@@ -29,8 +29,6 @@ abstract class BaseDataFetcher(
         @JvmStatic
         private var requestCounter = AtomicLong(1)
     }
-
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     private var hasIncremented = false
     private var hasDecremented = false
@@ -77,7 +75,7 @@ abstract class BaseDataFetcher(
     ): Boolean {
         if (networkSafeAction()) {
             // load local
-            val image = execute(priority, callback)
+            val image = execute()
             yield()
             loadUrl(image, priority, callback)
             return true
@@ -98,7 +96,7 @@ abstract class BaseDataFetcher(
         yield()
 
         // rest call to last fm
-        val image = execute(priority, callback)
+        val image = execute()
         yield()
 
         if (image.isNotBlank()) {
@@ -145,12 +143,9 @@ abstract class BaseDataFetcher(
         }
     }
 
-    protected abstract suspend fun execute(
-        priority: Priority,
-        callback: DataFetcher.DataCallback<in InputStream>
-    ): String
+    internal abstract suspend fun execute(): String
 
-    protected abstract suspend fun mustFetch(): Boolean
+    internal abstract suspend fun mustFetch(): Boolean
 
     protected abstract val threshold: Long
 
