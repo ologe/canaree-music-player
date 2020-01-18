@@ -24,12 +24,13 @@ object ImagesFolderUtils {
             postfix = ")"
         )
 
-        val builder = StringBuilder() // using a builder for readability
-            .append(itemId)
-            .append("_")
-            .append(progressive)
-            .append(albumsIdAsString)
-        return builder.toString()
+        // using a builder for readability
+        return buildString {
+            append(itemId)
+            append("_")
+            append(progressive)
+            append(albumsIdAsString)
+        }
     }
 
 }
