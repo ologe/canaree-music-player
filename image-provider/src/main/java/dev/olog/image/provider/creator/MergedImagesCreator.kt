@@ -79,7 +79,7 @@ internal object MergedImagesCreator {
         if (oldImage != null) { // image found
             val fileImageName = oldImage.extractImageName()
 
-            val albumIdsInFilename = fileImageName.containedAlbums() ?: return null
+            val albumIdsInFilename = fileImageName.albums
 
             val sameImages = albumsId.sorted() == albumIdsInFilename.sorted()
             if (sameImages) {
@@ -87,7 +87,7 @@ internal object MergedImagesCreator {
                 return oldImage
             } else {
                 // images are different
-                val progr = fileImageName.progressive()
+                val progr = fileImageName.progressive
 
                 // image already exist, create new with a new progr
                 oldImage.delete() // first delete old

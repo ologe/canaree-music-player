@@ -1,36 +1,58 @@
 package dev.olog.image.provider.creator
 
-import java.io.File
-
 /**
- * File name structure -> artistId_progressive(albumsIdSeparatedByUnderscores).webp
+ * File name structure -> groupId_progressive(albumsIdSeparatedByUnderscores).webp
+ *  eg: 10_1(15_20_25)
  */
-internal class ImageName(file: File) {
+/*
+    regex tested for:
 
-    private val name = file.name
+    valid
+    10_1()
+    10_1(1)
+    10_1(1_2_3)
+    10_1(10)
+    10_1(10_11)
 
-    fun containedAlbums(): List<Long>? {
-        try {
-            val indexOfStart = name.indexOf("(") + 1
-            val indexOfEnd = name.indexOf(")")
-            return name.substring(indexOfStart, indexOfEnd)
+    invalid
+    ()
+    _()
+    10
+    10_1
+    10_1(
+    10_1)
+    10_11_10_11)
+    10_()
+    10_(1)
+    10_(1_11)
+ */
+internal class ImageName(
+    private val fileName: String
+) {
+
+    init {
+        require(Regex("(\\d)+_(\\d)+\\((((\\d)+(_)*)*)\\)").matches(fileName))
+    }
+
+    val albums: List<Long>
+        get() {
+            val indexOfStart = fileName.indexOf("(")
+            val indexOfEnd = fileName.indexOf(")")
+            val images = fileName.substring(indexOfStart + 1, indexOfEnd)
                 .split("_")
-                .map { it.toLong() }
-        } catch (ex: NumberFormatException){
-            ex.printStackTrace()
-            return null
-        }
-    }
 
-    fun progressive(): Long {
-        try {
-            val indexOfStart = name.indexOf("_") + 1
-            val indexOfEnd = name.indexOf("(")
-            return name.substring(indexOfStart, indexOfEnd).toLong()
-        } catch (ex: Exception){
-            ex.printStackTrace()
-            return 0
+            if (images.isEmpty() || images[0].isBlank()) {
+                return emptyList()
+            }
+
+            return images.map { it.toLong() }
         }
-    }
+
+    val progressive: Long
+        get() {
+            val indexOfStart = fileName.indexOf("_")
+            val indexOfEnd = fileName.indexOf("(")
+            return fileName.substring(indexOfStart + 1, indexOfEnd).toLong()
+        }
 
 }

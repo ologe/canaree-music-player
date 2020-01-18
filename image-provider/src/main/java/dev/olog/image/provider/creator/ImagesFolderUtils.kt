@@ -3,7 +3,7 @@ package dev.olog.image.provider.creator
 import android.content.Context
 import java.io.File
 
-internal object ImagesFolderUtils {
+object ImagesFolderUtils {
 
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
@@ -35,6 +35,6 @@ internal object ImagesFolderUtils {
 }
 
 internal fun File.extractImageName(): ImageName {
-    return ImageName(this)
+    return ImageName(this.name)
 }
 
