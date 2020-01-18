@@ -55,6 +55,10 @@ ext {
     firebase_crashlytics = '2.10.1'
     firebase_perf = '19.0.0'
 
+    // test
+    junit = '4.12'
+    robolectric = '4.3.1'
+
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
@@ -71,7 +75,6 @@ ext {
             dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
             coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
             coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
-            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
     ]
 
     lib_x = [
@@ -142,11 +145,14 @@ ext {
     ]
 
     lib_test = [
-            junit         : "junit:junit:4.12",
-            mockito       : "org.mockito:mockito-android:3.2.4",
-            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            livedata      : "com.jraska.livedata:testing-ktx:1.1.0",
-            ext_junit     : "androidx.test.ext:junit-ktx:1.1.0",
+            junit              : "junit:junit:$junit",
+            mockito            : "org.mockito:mockito-android:3.2.4",
+            mockito_kotlin     : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
+            livedata           : "com.jraska.livedata:testing-ktx:1.1.0",
+            ext_junit          : "androidx.test.ext:junit-ktx:1.1.0",
+            robolectric        : "org.robolectric:robolectric:$robolectric",
+            robolectric_support: "org.robolectric:shadows-supportv4:$robolectric",
     ]
 
 }

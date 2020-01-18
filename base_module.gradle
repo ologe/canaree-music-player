@@ -43,8 +43,11 @@ android {
 
     useLibrary 'android.test.runner'
 
-    useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 
 }
 
@@ -57,18 +60,19 @@ dependencies {
     testImplementation lib_test.junit
     testImplementation lib_test.mockito
     testImplementation lib_test.mockito_kotlin
-    testImplementation lib_core.coroutines_test
-    testImplementation project (':test-shared')
+    testImplementation lib_test.coroutines_test
+    testImplementation lib_test.robolectric
+    testImplementation project(':test-shared')
 
     androidTestImplementation lib_test.junit
     androidTestImplementation lib_test.mockito
     androidTestImplementation lib_test.mockito_kotlin
-    androidTestImplementation lib_core.coroutines_test
+    androidTestImplementation lib_test.coroutines_test
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation project (':test-shared')
+    androidTestImplementation project(':test-shared')
 
 
 //    testImplementation 'junit:junit:4.12'
