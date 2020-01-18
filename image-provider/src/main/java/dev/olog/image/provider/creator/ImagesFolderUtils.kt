@@ -3,12 +3,9 @@ package dev.olog.image.provider.creator
 import android.content.Context
 import java.io.File
 
-object ImagesFolderUtils {
+internal object ImagesFolderUtils {
 
     const val FOLDER = "folder"
-    const val SONG = "song"
-    const val ALBUM = "album"
-    const val ARTIST = "artist"
     const val PLAYLIST = "playlist"
     const val GENRE = "genre"
 
@@ -37,14 +34,14 @@ object ImagesFolderUtils {
 
 }
 
-fun File.extractImageName(): ImageName {
+internal fun File.extractImageName(): ImageName {
     return ImageName(this)
 }
 
 /**
  * File name structure -> artistId_progressive(albumsIdSeparatedByUnderscores).webp
  */
-class ImageName(file: File) {
+internal class ImageName(file: File) {
 
     private val name = file.name
 
