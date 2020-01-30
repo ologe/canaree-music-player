@@ -6,15 +6,11 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IPlayerDelegate
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
@@ -30,7 +26,7 @@ internal abstract class AbsPlayer<T>(
     volume: IMaxAllowedPlayerVolume
 
 ) : IPlayerDelegate<T>,
-    ExoPlayerListenerWrapper,
+    Player.EventListener,
     DefaultLifecycleObserver {
 
     private val trackSelector = DefaultTrackSelector()

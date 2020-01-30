@@ -12,7 +12,6 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
-import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
@@ -37,7 +36,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper,
+    Player.EventListener,
     CoroutineScope by MainScope() {
 
     companion object {

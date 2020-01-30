@@ -89,7 +89,7 @@ internal class MediaSessionCallback @Inject constructor(
             updatePodcastPosition()
 
             when (val mediaId = MediaId.fromString(stringMediaId)) {
-                MediaId.shuffleId() -> {
+                MediaId.shuffleId -> {
                     // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
                     queue.handlePlayShuffle(mediaId, null)
                 }
