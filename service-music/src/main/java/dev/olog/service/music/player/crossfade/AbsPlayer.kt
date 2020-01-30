@@ -32,9 +32,9 @@ internal abstract class AbsPlayer<T>(
     private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context).apply {
         setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-
     }
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+//    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+    protected val player = SimpleExoPlayer.Builder(context, factory)/*.setAnalyticsCollector()*/.build()
 
     init {
         lifecycle.addObserver(this)
