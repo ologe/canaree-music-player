@@ -28,8 +28,6 @@ android {
         }
     }
 
-//    kotlinOptions.allWarningsAsErrors = true
-
 }
 
 androidExtensions {

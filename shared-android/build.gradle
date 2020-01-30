@@ -6,7 +6,6 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-    kotlinOptions.allWarningsAsErrors = true
 }
 
 dependencies {

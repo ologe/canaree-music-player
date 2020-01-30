@@ -27,8 +27,6 @@ android {
         }
     }
 
-    kotlinOptions.allWarningsAsErrors = true
-
 }
 
 apply from: '../kapt.gradle'

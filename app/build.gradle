@@ -58,9 +58,6 @@ android {
         disable 'MissingTranslation'
     }
 
-//    dynamicFeatures = [":feature_stylize"]
-
-//    kotlinOptions.allWarningsAsErrors = true
 }
 
 apply from: '../kapt.gradle'
