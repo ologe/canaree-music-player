@@ -1,0 +1,29 @@
+language: android
+jdk: oraclejdk8
+sudo: false
+dist: trusty
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+    - build-tools-29.0.2
+    - android-29
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - sys-img-x86-android-29
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+script:
+  - ./gradlew assembleFullDebug testDebugUnitTest
