@@ -17,6 +17,7 @@ Canaree: Music Player
 [![minsdk-badge]][github]
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
+[![Build Status](https://travis-ci.org/ologe/canaree-music-player.svg?branch=master)](https://travis-ci.org/ologe/canaree-music-player)
 
 Complete music player published in the Play Store. Heavily relies on Dagger, ~~RxJava~~ kotlin coroutines and Clean architecture.
 
