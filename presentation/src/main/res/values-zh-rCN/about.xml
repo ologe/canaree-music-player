@@ -13,8 +13,5 @@
     <string name="about_special_thanks_to_description">点击查看</string>
     <string name="about_privacy_policy">隐私协议</string>
     <string name="about_privacy_policy_description">对你我来说都十分重要</string>
-    <string name="about_buy_pro">购买专业版</string>
-    <string name="about_buy_pro_description">购买以解锁全部功能</string>
-    <string name="about_buy_pro_description_trial">解锁全部共功能的试用版本</string>
     <string name="about_icon_made_by_x_from_y">图标由%2%s网站的%1%s制作</string>
 </resources>

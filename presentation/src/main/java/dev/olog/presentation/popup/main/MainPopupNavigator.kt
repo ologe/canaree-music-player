@@ -9,19 +9,16 @@ import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
-import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.shared.android.extensions.toast
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(
-    activity: FragmentActivity,
-    billing: IBilling
+    activity: FragmentActivity
 ) {
 
     private val activityRef = WeakReference(activity)
-    private val billingRef = WeakReference(billing)
 
     fun toAboutActivity() {
         val activity = activityRef.get() ?: return
@@ -31,12 +28,11 @@ class MainPopupNavigator @Inject constructor(
 
     fun toEqualizer() {
         val activity = activityRef.get() ?: return
-        val billing = billingRef.get() ?: return
 
         val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
                 .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
-        if (billing.getBillingsState().isPremiumEnabled() && useCustomEqualizer) {
+        if (useCustomEqualizer) {
             toBuiltInEqualizer()
         } else {
             searchForEqualizer()

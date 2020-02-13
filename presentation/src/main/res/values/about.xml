@@ -3,7 +3,6 @@
 
     <string name="about">About</string>
 
-    <string name="about_havoc" translatable="false">Check out my game HAVOC</string>
     <string name="about_author">Author</string>
     <string name="about_version">Version</string>
 
@@ -27,10 +26,6 @@
 
     <string name="about_privacy_policy">Privacy Policy</string>
     <string name="about_privacy_policy_description">Important for both of us</string>
-
-    <string name="about_buy_pro">Buy Pro version</string>
-    <string name="about_buy_pro_description">Buy pro version to unlock all features</string>
-    <string name="about_buy_pro_description_trial">Trial version, all features are unlocked</string>
 
     <string name="about_icon_made_by_x_from_y">Icon made by %1$s from %2$s</string>
 

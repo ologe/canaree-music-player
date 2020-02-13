@@ -24,8 +24,6 @@ import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.pro.HasBilling
-import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
@@ -35,7 +33,6 @@ import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
@@ -45,7 +42,6 @@ import javax.inject.Inject
 
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
-    HasBilling,
     HasBottomNavigation,
     OnPermissionChanged {
 
@@ -58,8 +54,6 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var navigator: Navigator
     // handles lifecycle itself
-    @Inject
-    override lateinit var billing: IBilling
 
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway

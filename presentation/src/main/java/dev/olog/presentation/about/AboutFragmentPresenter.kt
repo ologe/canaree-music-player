@@ -8,21 +8,15 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.pro.IBilling
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
 class AboutFragmentPresenter(
-    context: Context,
-    private val billing: IBilling
+    context: Context
 ) : CoroutineScope by MainScope() {
 
     companion object {
-        @JvmStatic
-        val HAVOC_ID = MediaId.headerId("havoc id")
         @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
         @JvmStatic
@@ -40,8 +34,6 @@ class AboutFragmentPresenter(
         @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
         @JvmStatic
-        val BUY_PRO = MediaId.headerId("pro")
-        @JvmStatic
         val CHANGELOG = MediaId.headerId("changelog")
         @JvmStatic
         val GITHUB = MediaId.headerId("github")
@@ -49,12 +41,6 @@ class AboutFragmentPresenter(
 
 
     private val data = listOf(
-        DisplayableHeader(
-            type = R.layout.item_about_promotion,
-            mediaId = HAVOC_ID,
-            title = context.getString(R.string.about_havoc),
-            subtitle = context.getString(R.string.about_translations_description)
-        ),
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
@@ -166,10 +152,4 @@ class AboutFragmentPresenter(
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
-
-    fun buyPro() {
-        if (!billing.getBillingsState().isPremiumStrict()) {
-            billing.purchasePremium()
-        }
-    }
 }
