@@ -25,8 +25,6 @@ buildscript {
         classpath "io.fabric.tools:gradle:$fabric"
         classpath "com.google.firebase:perf-plugin:$firebase_perf_plugin"
     }
-
-
     
     
 }
@@ -36,7 +34,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-//        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
     gradle.projectsEvaluated { // TODO remove after coroutines became stable
         tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
@@ -60,7 +57,7 @@ ext {
     buildToolsVersion = '29.0.2'
 
     /*  version code
-        999 - for old compatibility
+        999 - for compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */

@@ -20,10 +20,6 @@ android {
         release {
             debuggable false
         }
-
-        debug {
-//            debuggable false
-        }
     }
 
     flavorDimensions "version"
@@ -42,12 +38,6 @@ android {
     }
 
     useLibrary 'android.test.runner'
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
 
 }
 
