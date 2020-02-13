@@ -11,9 +11,6 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
 
     buildTypes {
         debug {
@@ -25,8 +22,6 @@ android {
     }
 
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')

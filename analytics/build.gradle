@@ -4,11 +4,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    defaultConfig {
-
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
     buildTypes {
         release {
             minifyEnabled false

@@ -12,10 +12,6 @@ if (localPropertiesFile.exists()) {
 
 android {
 
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
     buildTypes {
         release {
             buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
@@ -28,8 +24,6 @@ android {
     }
 
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')

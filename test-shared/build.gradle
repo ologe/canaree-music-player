@@ -13,18 +13,6 @@ android {
         versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables.useSupportLibrary = true
-    }
-
-    buildTypes {
-        release {
-            debuggable false
-        }
-
-        debug {
-//            debuggable false
-        }
     }
 
     compileOptions {
@@ -32,14 +20,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dexOptions {
-        preDexLibraries true
-    }
-
     useLibrary 'android.test.runner'
-
-    useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'
 
 }
 

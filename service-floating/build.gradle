@@ -3,16 +3,6 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-}
-
-apply from: '../kapt.gradle'
-
 dependencies {
     implementation project(':core')
     implementation project(':injection')
