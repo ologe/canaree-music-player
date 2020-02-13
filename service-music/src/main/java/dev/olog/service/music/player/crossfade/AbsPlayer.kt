@@ -7,7 +7,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IPlayerDelegate
@@ -29,11 +28,10 @@ internal abstract class AbsPlayer<T>(
     Player.EventListener,
     DefaultLifecycleObserver {
 
-    private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context).apply {
         setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
     }
-//    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
+
     protected val player = SimpleExoPlayer.Builder(context, factory)/*.setAnalyticsCollector()*/.build()
 
     init {
