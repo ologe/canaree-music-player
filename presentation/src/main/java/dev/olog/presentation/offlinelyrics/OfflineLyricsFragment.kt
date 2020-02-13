@@ -1,5 +1,6 @@
 package dev.olog.presentation.offlinelyrics
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -185,14 +186,16 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri) { _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (act.packageManager.isIntentSafe(intent)) {
-                startActivity(intent)
-            } else {
-                act.toast(R.string.common_browser_not_found)
+        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, object : CustomTabsHelper.CustomTabFallback {
+            override fun openUri(context: Context?, uri: Uri?) {
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                if (act.packageManager.isIntentSafe(intent)) {
+                    startActivity(intent)
+                } else {
+                    act.toast(R.string.common_browser_not_found)
+                }
             }
-        }
+        })
     }
 
 
