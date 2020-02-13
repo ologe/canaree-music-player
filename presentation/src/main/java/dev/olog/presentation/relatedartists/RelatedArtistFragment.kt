@@ -36,7 +36,9 @@ class RelatedArtistFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    private val adapter by lazyFast {
+        RelatedArtistFragmentAdapter(navigator)
+    }
 
     private val viewModel by viewModels<RelatedArtistFragmentViewModel> {
         viewModelFactory
@@ -48,7 +50,7 @@ class RelatedArtistFragment : BaseFragment() {
         list.setHasFixedSize(true)
 
         viewModel.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
 
         viewModel.observeTitle()
             .subscribe(viewLifecycleOwner) { itemTitle ->

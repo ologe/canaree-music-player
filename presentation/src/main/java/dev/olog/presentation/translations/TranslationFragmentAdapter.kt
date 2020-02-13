@@ -7,9 +7,8 @@ import dev.olog.presentation.navigator.NavigatorAbout
 import kotlinx.android.synthetic.main.item_translations_contributor.view.*
 
 class TranslationFragmentAdapter(
-    data: MutableList<String>,
     private val navigator: NavigatorAbout
-) : SimpleAdapter<String>(data) {
+) : SimpleAdapter<String>() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         if (viewType == R.layout.item_translations_help){

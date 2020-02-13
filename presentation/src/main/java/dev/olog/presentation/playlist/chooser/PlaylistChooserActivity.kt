@@ -22,7 +22,9 @@ class PlaylistChooserActivity : BaseActivity() {
         factory
     }
 
-    private val adapter by lazyFast { PlaylistChooserActivityAdapter(this) }
+    private val adapter by lazyFast {
+        PlaylistChooserActivityAdapter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
@@ -32,10 +34,10 @@ class PlaylistChooserActivity : BaseActivity() {
         viewModel.observeData()
             .subscribe(this) { list ->
                 if (list.isEmpty()){
-                    toast("No playlist found")
+                    toast("No playlist found") // TODO localization
                     finish()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                 }
             }
 

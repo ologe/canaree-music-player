@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
@@ -91,10 +92,11 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-            launch {
-                delay(500)
-                TutorialTapTarget.floatingWindow(floatingWindow)
-            }
+            viewLifecycleOwner.lifecycleScope
+                .launchWhenResumed {
+                    delay(500) // TODO try
+                    TutorialTapTarget.floatingWindow(floatingWindow)
+                }
         }
     }
 

@@ -3,8 +3,10 @@ package dev.olog.presentation.createplaylist
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
@@ -19,10 +21,10 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_create_playlist.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
@@ -47,10 +49,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            lifecycle,
-            viewModel
-        )
+        CreatePlaylistFragmentAdapter(viewModel)
     }
 
     private var toast: Toast? = null
@@ -76,27 +75,21 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
+                adapter.submitList(it) {
+                    // TODO
+                    emptyStateText.isVisible = it.isEmpty()
+                }
                 sidebar.onDataChanged(it)
                 restoreUpperWidgetsTranslation()
             }
 
-        launch {
-            adapter.observeData(false)
-                .filter { it.isNotEmpty() }
-                .collect { emptyStateText.toggleVisibility(it.isEmpty(), true) }
-        }
-
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 
-        launch {
-            editText.afterTextChange()
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .debounce(250)
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .debounce(250)
+            .onEach { viewModel.updateFilter(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {

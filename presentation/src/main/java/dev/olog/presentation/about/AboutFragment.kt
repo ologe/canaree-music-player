@@ -26,7 +26,7 @@ class AboutFragment : BaseFragment() {
         AboutFragmentPresenter(ctx.applicationContext)
     }
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator)
+        AboutFragmentAdapter(navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class AboutFragment : BaseFragment() {
         list.adapter = adapter
 
         presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onResume() {

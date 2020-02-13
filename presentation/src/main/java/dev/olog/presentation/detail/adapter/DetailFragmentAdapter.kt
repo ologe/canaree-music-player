@@ -2,7 +2,6 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
@@ -41,18 +40,15 @@ import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaId: MediaId,
     private val setupNestedList: SetupNestedList,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle, DiffCallbackDetailDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDetailDisplayableItem), TouchableAdapter {
 
-    private val headers by lazy { dataSet.indexOfFirst { it is DisplayableTrack } }
+    private val headers by lazy { currentList.indexOfFirst { it is DisplayableTrack } }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -136,8 +132,7 @@ internal class DetailFragmentAdapter(
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
-                adapter.observeData(false)
-                    .asLiveData()
+                adapter.observeData
                     .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
             }
             R.layout.item_detail_header_all_song -> {
@@ -265,7 +260,7 @@ internal class DetailFragmentAdapter(
     override fun onMoved(from: Int, to: Int) {
         val realFrom = from - headers
         val realTo = to - headers
-        dataSet.swap(from, to)
+        currentList.swap(from, to) // TODO check if works
         notifyItemMoved(from, to)
         viewModel.addMove(realFrom, realTo)
     }
@@ -273,9 +268,9 @@ internal class DetailFragmentAdapter(
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
-        dataSet.removeAt(position)
+        currentList.removeAt(position) // TODO check if works
         notifyItemRemoved(position)
-        viewModel.removeFromPlaylist(item!!)
+        viewModel.removeFromPlaylist(item)
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
@@ -283,7 +278,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
-        val item = getItem(viewHolder.adapterPosition)!!
+        val item = getItem(viewHolder.adapterPosition)
         mediaProvider.addToPlayNext(item.mediaId)
     }
 

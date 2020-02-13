@@ -18,13 +18,13 @@ class TranslationsFragment : BaseFragment() {
     internal lateinit var navigator: NavigatorAbout
 
     private val adapter by lazyFast {
-        val data = listOf("", "") + contributors
-        TranslationFragmentAdapter(data.toMutableList(), navigator)
+        TranslationFragmentAdapter(navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
+        adapter.submitList(listOf("", "") + contributors)
     }
 
     override fun onResume() {
@@ -50,6 +50,7 @@ class TranslationsFragment : BaseFragment() {
         }
 
         @JvmStatic
+        // TODO update??
         val contributors: List<String>
             get() {
                 return listOf(

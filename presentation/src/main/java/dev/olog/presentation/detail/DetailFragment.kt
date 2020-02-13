@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
@@ -26,9 +27,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -68,28 +67,20 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(navigator, act as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(navigator, act as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(lifecycle, navigator)
+        DetailRelatedArtistsAdapter(navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(lifecycle, navigator)
+        DetailSiblingsAdapter(navigator)
     }
 
     private val adapter by lazyFast {
-        DetailFragmentAdapter(
-            lifecycle,
-            mediaId,
-            this,
-            navigator,
-            act as MediaProvider,
-            viewModel,
-            this
-        )
+        DetailFragmentAdapter(mediaId, this, navigator, act as MediaProvider, viewModel, this)
     }
 
     private val recyclerOnScrollListener by lazyFast {
@@ -121,17 +112,17 @@ class DetailFragment : BaseFragment(),
         fastScroller.showBubble(false)
 
         viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, mostPlayedAdapter::submitList)
 
         viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::submitList)
 
         viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, relatedArtistAdapter::submitList)
 
         viewModel.observeSiblings()
             .subscribe(viewLifecycleOwner) {
-                albumsAdapter.updateDataSet(it)
+                albumsAdapter.submitList(it)
             }
 
         viewModel.observeSongs()
@@ -139,7 +130,7 @@ class DetailFragment : BaseFragment(),
                 if (list.isEmpty()) {
                     act.onBackPressed()
                 } else {
-                    adapter.updateDataSet(list)
+                    adapter.submitList(list)
                     restoreUpperWidgetsTranslation()
                 }
             }
@@ -149,14 +140,11 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isEmpty() || it.length >= 2 }
-                .collect {
-                    viewModel.updateFilter(it)
-                }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isEmpty() || it.length >= 2 }
+            .onEach { viewModel.updateFilter(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {

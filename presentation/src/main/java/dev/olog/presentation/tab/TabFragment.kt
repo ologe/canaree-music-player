@@ -7,6 +7,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,9 +34,9 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class TabFragment : BaseFragment(), SetupNestedList {
@@ -57,28 +58,16 @@ class TabFragment : BaseFragment(), SetupNestedList {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val lastAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator)
     }
     private val lastArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator)
     }
     private val newAlbumsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator)
     }
     private val newArtistsAdapter by lazyFast {
-        TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
-        )
+        TabFragmentNestedAdapter(navigator)
     }
 
     private val viewModel by activityViewModels<TabFragmentViewModel> {
@@ -91,7 +80,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(navigator, act as MediaProvider, viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
@@ -137,55 +126,57 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     category == TabCategory.PODCASTS_PLAYLIST, true
         )
 
-        launch {
-            viewModel.observeData(category)
-                .subscribe(viewLifecycleOwner) { list ->
-                    handleEmptyStateVisibility(list.isEmpty())
-                    adapter.updateDataSet(list)
-                    sidebar.onDataChanged(list)
-                }
-        }
+        viewModel.observeData(category)
+            .onEach { list ->
+                handleEmptyStateVisibility(list.isEmpty())
+                adapter.submitList(list)
+                sidebar.onDataChanged(list)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        launch {
-            viewModel.observeSpanCount(category)
-                .drop(1) // drop initial value, already used
-                .collect {
-                    if (list != null && list.isLaidOut) {
-                        TransitionManager.beginDelayedTransition(list)
-                        (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
-                        adapter.notifyDataSetChanged()
-                    }
+        viewModel.observeSpanCount(category)
+            .drop(1) // drop initial value, already used
+            .onEach {
+                if (list != null && list.isLaidOut) {
+                    TransitionManager.beginDelayedTransition(list)
+                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
+                    adapter.notifyDataSetChanged()
                 }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        launch {
-            when (category) {
-                TabCategory.ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ALBUMS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
-                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.updateDataSet(it) }
-                }
-                TabCategory.PODCASTS_ARTISTS -> {
-                    viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.updateDataSet(it) }
-                    viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
-                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.updateDataSet(it) }
-                }
-                else -> {/*making lint happy*/
-                }
+        when (category) {
+            TabCategory.ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
+                    .onEach { lastAlbumsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
+                    .onEach { newAlbumsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            TabCategory.ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
+                    .onEach { lastArtistsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
+                    .onEach { newArtistsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            TabCategory.PODCASTS_ALBUMS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ALBUMS)
+                    .onEach { lastAlbumsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS)
+                    .onEach { newAlbumsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            TabCategory.PODCASTS_ARTISTS -> {
+                viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
+                    .onEach { lastArtistsAdapter.submitList(it) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+                viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
+                    .onEach {  newArtistsAdapter.submitList(it)}
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            else -> {/*making lint happy*/
             }
         }
 

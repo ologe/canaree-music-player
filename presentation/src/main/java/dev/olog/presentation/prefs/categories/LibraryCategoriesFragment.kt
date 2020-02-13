@@ -1,5 +1,6 @@
 package dev.olog.presentation.prefs.categories
 
+import android.content.DialogInterface
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,7 +18,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"
-        const val TYPE = "$TAG.TYPE"
+        private const val TYPE = "$TAG.TYPE"
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
@@ -30,13 +31,11 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
     @Inject
     internal lateinit var presenter: LibraryCategoriesFragmentPresenter
     private val adapter by lazyFast {
-        LibraryCategoriesFragmentAdapter(presenter.getDataSet(category), this)
+        LibraryCategoriesFragmentAdapter(this)
     }
 
     private val category by lazyFast {
-        MediaIdCategory.values()[arguments!!.getInt(
-            TYPE
-        )]
+        MediaIdCategory.values()[arguments!!.getInt(TYPE)]
     }
 
     override fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
@@ -52,6 +51,11 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
         setupDragListener(list, 0)
+        adapter.submitList(presenter.getDataSet(category))
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
     }
 
     override fun positiveAction() {
@@ -62,7 +66,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     override fun neutralAction() {
         val defaultData = presenter.getDefaultDataSet(category)
-        adapter.updateDataSet(defaultData)
+        adapter.submitList(defaultData)
     }
 
 }

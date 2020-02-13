@@ -11,7 +11,7 @@ class ArtistSpanSizeLookup(
 
 
     override fun getSpanSize(position: Int): Int {
-        when (adapter.getItem(position)!!.type) {
+        when (adapter.item(position).type) {
             R.layout.item_tab_header,
             R.layout.item_tab_last_played_artist_horizontal_list,
             R.layout.item_tab_new_artist_horizontal_list -> return getSpanCount()

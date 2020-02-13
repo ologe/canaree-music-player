@@ -9,11 +9,8 @@ import dagger.android.support.DaggerFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
-abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : DaggerFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,11 +25,6 @@ abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
 
     fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
         return (activity as HasSlidingPanel).getSlidingPanel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cancel()
     }
 
     fun restoreUpperWidgetsTranslation(){

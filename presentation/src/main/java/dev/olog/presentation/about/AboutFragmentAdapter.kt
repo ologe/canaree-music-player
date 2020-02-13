@@ -1,6 +1,5 @@
 package dev.olog.presentation.about
 
-import androidx.lifecycle.Lifecycle
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -9,16 +8,10 @@ import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
 import kotlinx.android.synthetic.main.item_about.view.*
-
-
 class AboutFragmentAdapter(
-    lifecycle: Lifecycle,
     private val navigator: NavigatorAbout
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -40,7 +33,7 @@ class AboutFragmentAdapter(
         require(item is DisplayableHeader)
         holder.itemView.apply {
             title.text = item.title
-            subtitle.text = item.subtitle   
+            subtitle.text = item.subtitle
         }
     }
 

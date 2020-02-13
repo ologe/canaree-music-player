@@ -33,12 +33,12 @@ class SpecialThanksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val layoutManager = OverScrollLinearLayoutManager(list)
-        val adapter = SpecialThanksFragmentAdapter(lifecycle)
+        val adapter = SpecialThanksFragmentAdapter()
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
 
-        adapter.updateDataSet(presenter.data)
+        adapter.submitList(presenter.data)
     }
 
     override fun onResume() {

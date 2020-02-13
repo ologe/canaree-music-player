@@ -7,10 +7,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class BlacklistFragment : ListDialog() {
@@ -23,7 +19,8 @@ class BlacklistFragment : ListDialog() {
         }
     }
 
-    @Inject lateinit var presenter: BlacklistFragmentPresenter
+    @Inject
+    lateinit var presenter: BlacklistFragmentPresenter
 
     private lateinit var adapter: BlacklistFragmentAdapter
 
@@ -36,19 +33,15 @@ class BlacklistFragment : ListDialog() {
     }
 
     override fun setupRecyclerView(list: RecyclerView) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val data = withContext(Dispatchers.Default) {
-                presenter.data
-            }
-            adapter = BlacklistFragmentAdapter(data)
-            list.adapter = adapter
-            list.layoutManager = GridLayoutManager(context, 3)
-        }
+        adapter = BlacklistFragmentAdapter()
+        list.adapter = adapter
+        list.layoutManager = GridLayoutManager(context, 3)
+        adapter.submitList(presenter.data)
     }
 
     override fun positiveAction() {
         val allIsBlacklisted = adapter.getData().all { it.isBlacklisted }
-        if (allIsBlacklisted){
+        if (allIsBlacklisted) {
             showErrorMessage()
         } else {
             presenter.saveBlacklisted(adapter.getData())
@@ -57,14 +50,14 @@ class BlacklistFragment : ListDialog() {
         }
     }
 
-    private fun notifyMediaStore(){
+    private fun notifyMediaStore() {
         val contentResolver = context!!.contentResolver
         contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
     }
 
-    private fun showErrorMessage(){
+    private fun showErrorMessage() {
         activity!!.toast(R.string.prefs_blacklist_error)
     }
 

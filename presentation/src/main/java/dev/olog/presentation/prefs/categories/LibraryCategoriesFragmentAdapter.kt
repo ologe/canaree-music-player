@@ -9,18 +9,11 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-class LibraryCategoriesFragmentAdapter (
-        data: List<LibraryCategoryBehavior>,
-        private val dragListener: IDragListener
-) : SimpleAdapter<LibraryCategoryBehavior>(data.toMutableList()),
+class LibraryCategoriesFragmentAdapter(
+    private val dragListener: IDragListener
+) : SimpleAdapter<LibraryCategoryBehavior>(),
     TouchableAdapter {
-
-    private var job: Job? = null
 
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
@@ -47,13 +40,9 @@ class LibraryCategoriesFragmentAdapter (
     }
 
     override fun onMoved(from: Int, to: Int) {
-        job?.cancel()
-        job = GlobalScope.launch {
-            delay(200)
-            dataSet.forEachIndexed { index, item -> item.order = index }
-        }
-
-        dataSet.swap(from, to)
+        // TODO check
+        currentList.forEachIndexed { index, item -> item.order = index }
+        currentList.swap(from, to)
         notifyItemMoved(from, to)
     }
 }

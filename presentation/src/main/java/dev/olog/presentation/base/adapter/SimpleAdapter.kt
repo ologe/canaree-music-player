@@ -1,13 +1,25 @@
 package dev.olog.presentation.base.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 
-abstract class SimpleAdapter<T>(
-    protected val dataSet: MutableList<T>
-) : RecyclerView.Adapter<DataBoundViewHolder>() {
+private class SimpleItemCallback<T> : DiffUtil.ItemCallback<T>() {
+
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem == newItem
+    }
+
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem == newItem
+    }
+}
+
+abstract class SimpleAdapter<T> : ListAdapter<T, DataBoundViewHolder>(SimpleItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -17,30 +29,19 @@ abstract class SimpleAdapter<T>(
         return viewHolder
     }
 
-    fun getData(): List<T> = dataSet.toList()
+    fun getData(): List<T> = currentList
 
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
 
-    override fun getItemCount(): Int = dataSet.size
-
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        val item = dataSet[position]
+        val item = getItem(position)
         bind(holder, item, position)
     }
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
 
-    fun getItem(position: Int): T? {
-        if (position in 0..dataSet.size) {
-            return dataSet[position]
-        }
-        return null
-    }
-
-    fun updateDataSet(data: List<T>) {
-        this.dataSet.clear()
-        this.dataSet.addAll(data)
-        notifyDataSetChanged()
+    override fun getItem(position: Int): T {
+        return super.getItem(position)
     }
 
     @CallSuper

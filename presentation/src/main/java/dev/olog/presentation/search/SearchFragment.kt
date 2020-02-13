@@ -5,6 +5,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,9 +26,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,49 +52,23 @@ class SearchFragment : BaseFragment(),
     }
 
     private val adapter by lazyFast {
-        SearchFragmentAdapter(
-            lifecycle,
-            this,
-            requireActivity() as MediaProvider,
-            navigator,
-            viewModel
-        )
+        SearchFragmentAdapter(this, requireActivity() as MediaProvider, navigator, viewModel)
     }
     private val albumAdapter by lazyFast {
-        SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
-        )
+        SearchFragmentNestedAdapter(navigator, viewModel)
     }
     private val artistAdapter by lazyFast {
-        SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
-        )
+        SearchFragmentNestedAdapter(navigator, viewModel)
     }
     private val genreAdapter by lazyFast {
-        SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
-        )
+        SearchFragmentNestedAdapter(navigator, viewModel)
     }
     private val playlistAdapter by lazyFast {
-        SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
-        )
+        SearchFragmentNestedAdapter(navigator, viewModel)
     }
 
     private val folderAdapter by lazyFast {
-        SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
-        )
+        SearchFragmentNestedAdapter(navigator, viewModel)
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
@@ -114,32 +87,31 @@ class SearchFragment : BaseFragment(),
 
         viewModel.observeData()
             .subscribe(viewLifecycleOwner) {
-                adapter.updateDataSet(it)
+                adapter.submitList(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
             }
 
         viewModel.observeAlbumsData()
-            .subscribe(viewLifecycleOwner, albumAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, albumAdapter::submitList)
 
         viewModel.observeArtistsData()
-            .subscribe(viewLifecycleOwner, artistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, artistAdapter::submitList)
 
         viewModel.observePlaylistsData()
-            .subscribe(viewLifecycleOwner, playlistAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, playlistAdapter::submitList)
 
         viewModel.observeFoldersData()
-            .subscribe(viewLifecycleOwner, folderAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, folderAdapter::submitList)
 
         viewModel.observeGenresData()
-            .subscribe(viewLifecycleOwner, genreAdapter::updateDataSet)
+            .subscribe(viewLifecycleOwner, genreAdapter::submitList)
 
-        launch {
-            editText.afterTextChange()
-                .debounce(200)
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .collect { viewModel.updateQuery(it) }
-        }
+        editText.afterTextChange()
+            .debounce(200)
+            .filter { it.isBlank() || it.trim().length >= 2 }
+            .onEach { viewModel.updateQuery(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 

@@ -1,6 +1,5 @@
 package dev.olog.presentation.folder.tree
 
-import androidx.lifecycle.Lifecycle
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
@@ -8,18 +7,16 @@ import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 class FolderTreeFragmentAdapter(
-    @FragmentLifecycle lifecycle: Lifecycle,
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableFile>(lifecycle, DiffCallbackDisplayableFile) {
+) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {

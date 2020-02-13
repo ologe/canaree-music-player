@@ -1,15 +1,12 @@
 package dev.olog.presentation.tab
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class TabFragmentViewModel @Inject constructor(
@@ -19,17 +16,12 @@ internal class TabFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> =
+    private val liveDataMap: MutableMap<TabCategory, Flow<List<DisplayableItem>>> =
         mutableMapOf()
 
-    @Suppress("UNNECESSARY_NOT_NULL_ASSERTION") // kotlin compiler error
-    suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
-        return withContext(Dispatchers.Default) {
-            var liveData = liveDataMap[category]
-            if (liveData == null) {
-                liveData = dataProvider.get(category).asLiveData()
-            }
-            liveData!!
+    fun observeData(category: TabCategory): Flow<List<DisplayableItem>> {
+        return liveDataMap.getOrPut(category) {
+            dataProvider.get(category)
         }
     }
 
@@ -44,9 +36,9 @@ internal class TabFragmentViewModel @Inject constructor(
         return appPreferencesUseCase.getAllAlbumsSort()
     }
 
-    fun getAllArtistsSortOrder(): SortEntity {
-        return appPreferencesUseCase.getAllArtistsSort()
-    }
+//    fun getAllArtistsSortOrder(): SortEntity {
+//        return appPreferencesUseCase.getAllArtistsSort()
+//    }
 
     fun getSpanCount(category: TabCategory) = presentationPrefs.getSpanCount(category)
     fun observeSpanCount(category: TabCategory) = presentationPrefs.observeSpanCount(category)

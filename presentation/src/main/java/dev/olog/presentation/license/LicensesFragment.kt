@@ -28,12 +28,12 @@ class LicensesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val presenter = LicensesFragmentPresenter(act.applicationContext)
-        val adapter = LicensesFragmentAdapter(lifecycle)
+        val adapter = LicensesFragmentAdapter()
 
         view.list.adapter = adapter
         view.list.layoutManager = OverScrollLinearLayoutManager(list)
 
-        adapter.updateDataSet(presenter.data)
+        adapter.submitList(presenter.data)
     }
 
     override fun onResume() {

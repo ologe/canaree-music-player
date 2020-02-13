@@ -3,67 +3,20 @@ package dev.olog.presentation.base.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import dev.olog.presentation.model.BaseModel
-import dev.olog.shared.CustomScope
-import dev.olog.shared.android.utils.assertBackgroundThread
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
 
 abstract class ObservableAdapter<T : BaseModel>(
-    lifecycle: Lifecycle,
-    private val itemCallback: DiffUtil.ItemCallback<T>
+    itemCallback: DiffUtil.ItemCallback<T>
+) : ListAdapter<T, DataBoundViewHolder>(itemCallback){
 
-) : RecyclerView.Adapter<DataBoundViewHolder>(),
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    private val _observeData = MutableLiveData<List<T>>(currentList)
+    val observeData: LiveData<List<T>> = _observeData // TODO check if workds
 
-    protected val dataSet = mutableListOf<T>()
-    private var neverEmitted = true
-
-    private val channel = ConflatedBroadcastChannel<List<T>>()
-
-    fun getData(): List<T> = dataSet.toList()
-
-    fun observeData(skipInitialValue: Boolean): Flow<List<T>> {
-        return flow {
-            if (!skipInitialValue && !neverEmitted) {
-                // emit first only if has a valid value
-                emit(dataSet)
-            }
-            for (t in channel.openSubscription()) {
-                emit(t)
-            }
-        }
-    }
-
-    init {
-        lifecycle.addObserver(this)
-
-        launch {
-            channel.asFlow()
-                .distinctUntilChanged()
-                .collect { list ->
-                    assertBackgroundThread()
-                    val diffCallback = AdapterDiffUtil(dataSet.toList(), list, itemCallback)
-                    val diff = DiffUtil.calculateDiff(diffCallback, true)
-                    withContext(Dispatchers.Main) {
-                        updateDataSetInternal(list)
-                        diff.dispatchUpdatesTo(this@ObservableAdapter)
-                    }
-                }
-        }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        channel.close()
-        cancel()
-    }
+    fun getData(): List<T> = currentList
 
     @CallSuper
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
@@ -77,15 +30,18 @@ abstract class ObservableAdapter<T : BaseModel>(
         holder.onDisappear()
     }
 
-    fun getItem(position: Int): T? {
-        if (position in 0..dataSet.size) {
-            return dataSet[position]
-        }
-        return null
+    override fun submitList(list: List<T>?) {
+        super.submitList(list)
+        _observeData.value = list
+    }
+
+    override fun submitList(list: List<T>?, commitCallback: Runnable?) {
+        super.submitList(list, commitCallback)
+        _observeData.value = list
     }
 
     fun indexOf(predicate: (T) -> Boolean): Int {
-        return dataSet.indexOfFirst(predicate)
+        return currentList.indexOfFirst(predicate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
@@ -98,27 +54,25 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
 
-    override fun getItemCount(): Int = dataSet.size
+    fun lastIndex(): Int = currentList.lastIndex
 
-    fun lastIndex(): Int = dataSet.lastIndex
+    // keep it to remove platform nullabity
+    override fun getItem(position: Int): T {
+        return super.getItem(position)
+    }
 
-    override fun getItemViewType(position: Int): Int = dataSet[position].type
+    // expose to external
+    fun item(position: Int): T {
+        return getItem(position)
+    }
+
+    override fun getItemViewType(position: Int): Int = getItem(position).type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        val item = dataSet[position]
+        val item = getItem(position)
         bind(holder, item, position)
     }
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
-
-    fun updateDataSet(data: List<T>) {
-        channel.offer(data)
-    }
-
-    private fun updateDataSetInternal(data: List<T>) {
-        this.dataSet.clear()
-        this.dataSet.addAll(data)
-        neverEmitted = false
-    }
 
 }

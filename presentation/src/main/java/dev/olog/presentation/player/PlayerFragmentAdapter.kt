@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
@@ -57,7 +56,6 @@ import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.flow.filter
 
 internal class PlayerFragmentAdapter(
-    lifecycle: Lifecycle,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
@@ -66,10 +64,7 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem>(
-    lifecycle,
-    DiffCallbackDisplayableItem
-), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -395,7 +390,7 @@ internal class PlayerFragmentAdapter(
         val realFrom = from - 1
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
-        dataSet.swap(from, to)
+        currentList.swap(from, to) // TODO check if workks
         notifyItemMoved(from, to)
     }
 
@@ -405,7 +400,7 @@ internal class PlayerFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        dataSet.removeAt(viewHolder.adapterPosition)
+        currentList.removeAt(viewHolder.adapterPosition) // TODO check if workks
         notifyItemRemoved(viewHolder.adapterPosition)
     }
 

@@ -1,5 +1,6 @@
 package dev.olog.presentation.base.adapter
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
@@ -16,7 +17,7 @@ fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
 
     this.itemView.setOnClickListener {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) }
+            func(data.item(adapterPosition), adapterPosition, it)
         }
     }
 }
@@ -29,7 +30,7 @@ fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
 
     this.itemView.findViewById<View>(resId)?.setOnClickListener {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) }
+            func(data.item(adapterPosition), adapterPosition, it)
         }
     }
 }
@@ -41,8 +42,7 @@ fun <T : BaseModel> RecyclerView.ViewHolder.setOnLongClickListener(
 
     itemView.setOnLongClickListener inner@{
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) }
-                ?: return@inner false
+            func(data.item(adapterPosition), adapterPosition, it)
             return@inner true
         }
         false
@@ -58,6 +58,7 @@ fun RecyclerView.ViewHolder.elevateSongOnTouch() {
     itemView.setOnTouchListener(ScaleInOnTouch(viewToAnimate))
 }
 
+@SuppressLint("ClickableViewAccessibility")
 fun RecyclerView.ViewHolder.setOnDragListener(dragHandleId: Int, dragListener: IDragListener) {
     itemView.findViewById<View>(dragHandleId)?.setOnTouchListener { _, event ->
         when (event.actionMasked) {

@@ -6,18 +6,15 @@ import dev.olog.presentation.base.adapter.SimpleAdapter
 import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*
 
-class BlacklistFragmentAdapter(
-    data: List<BlacklistModel>
-) : SimpleAdapter<BlacklistModel>(data.toMutableList()) {
+class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
 
-    override fun getItemViewType(position: Int): Int = dataSet[position].type
+    override fun getItemViewType(position: Int): Int = getItem(position).type
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.itemView.setOnClickListener {
-            getItem(viewHolder.adapterPosition)?.let { item ->
-                item.isBlacklisted = !item.isBlacklisted
-                notifyItemChanged(viewHolder.adapterPosition)
-            }
+            val item = getItem(viewHolder.adapterPosition)
+            item.isBlacklisted = !item.isBlacklisted
+            notifyItemChanged(viewHolder.adapterPosition)
         }
     }
 
