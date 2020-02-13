@@ -53,7 +53,7 @@ ext {
     firebase_core = '17.2.2'
     firebase_analytics = '17.2.2'
     firebase_crashlytics = '2.10.1'
-    firebase_perf = '19.0.5'
+//    firebase_perf = '19.0.5'
 
     // test
     junit = '4.12'
@@ -63,7 +63,7 @@ ext {
             core       : "com.google.firebase:firebase-core:$firebase_core",
             analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
-            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
+//            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 
     lib_core = [
