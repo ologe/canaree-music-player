@@ -9,6 +9,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,8 +21,10 @@ abstract class BaseEditTextDialog : BaseDialog() {
     private lateinit var editText: TextInputEditText
     private lateinit var editTextLayout: TextInputLayout
 
-    private var errorJob: Job? = null
-    private var showJeyboardJob: Job? = null
+    // TODO check
+    private var errorJob by autoDisposeJob()
+
+    private var showJeyboardJob by autoDisposeJob()
 
     @CallSuper
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
@@ -33,9 +37,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
 
-        showJeyboardJob?.cancel()
-        showJeyboardJob = launch {
-            delay(500)
+        showJeyboardJob = launchWhenResumed {
             editText.showIme()
         }
     }
@@ -49,7 +51,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
         } else if (!isStringValid(string)) {
             showError(provideMessageForInvalid())
         } else {
-            launch(Dispatchers.Main) {
+            launchWhenResumed {
                 onItemValid(string)
                 dismiss()
             }
@@ -72,17 +74,10 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.error = errorString
         editTextLayout.isErrorEnabled = true
 
-        errorJob?.cancel()
-        errorJob = launch(Dispatchers.Main) {
+        errorJob = launchWhenResumed {
             delay(2000)
             editTextLayout.isErrorEnabled = false
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        showJeyboardJob?.cancel()
-        errorJob?.cancel()
     }
 
 

@@ -11,9 +11,9 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -29,11 +29,10 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     private val currentPresetLiveData = MutableLiveData<EqualizerPreset>()
 
     init {
-        viewModelScope.launch {
-            equalizer.observeCurrentPreset()
-                .flowOn(Dispatchers.IO)
-                .collect { currentPresetLiveData.value = it }
-        }
+        equalizer.observeCurrentPreset()
+            .flowOn(Dispatchers.IO)
+            .onEach { currentPresetLiveData.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun getBandLimit() = equalizer.getBandLimit()
@@ -43,10 +42,6 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     }
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 

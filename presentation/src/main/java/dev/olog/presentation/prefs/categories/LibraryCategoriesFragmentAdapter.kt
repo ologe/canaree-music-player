@@ -28,10 +28,9 @@ class LibraryCategoriesFragmentAdapter(
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
 
         viewHolder.itemView.setOnClickListener {
-            getItem(viewHolder.adapterPosition)?.let { item ->
-                item.visible = !item.visible
-                viewHolder.itemView.checkBox.isChecked = item.visible
-            }
+            val item = getItem(viewHolder.adapterPosition)
+            item.visible = !item.visible
+            viewHolder.itemView.checkBox.isChecked = item.visible
         }
     }
 

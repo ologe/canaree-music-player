@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 
 class ExplicitView(
@@ -13,7 +14,7 @@ class ExplicitView(
     attrs: AttributeSet
 ) : AppCompatImageView(context, attrs), CoroutineScope by MainScope() {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     init {
         imageTintList = ColorStateList.valueOf(context.textColorPrimary())
@@ -22,13 +23,17 @@ class ExplicitView(
     fun onItemChanged(title: String) {
         toggleVisibility(visible = false, gone = true)
 
-        job?.cancel()
-        job = launch(Dispatchers.Default) {
-            val show = title.contains("explicit", ignoreCase = true)
-            withContext(Dispatchers.Main) {
-                toggleVisibility(visible = show, gone = true)
+        job = launch {
+            val show = withContext(Dispatchers.Default) {
+                title.contains("explicit", ignoreCase = true)
             }
+            toggleVisibility(visible = show, gone = true)
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        job = null
     }
 
 }

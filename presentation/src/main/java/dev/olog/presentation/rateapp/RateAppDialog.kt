@@ -5,11 +5,13 @@ import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -19,25 +21,22 @@ private var counterAlreadyIncreased = false
 private const val PREFS_APP_STARTED_COUNT = "prefs.app.started.count"
 private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
+// TODO check implementation
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
-    activity: FragmentActivity
+    private val activity: FragmentActivity
 
 ) : DefaultLifecycleObserver {
 
-    private val activityRef = WeakReference(activity)
-
-    private var disposable: Job? = null
+    private var job by autoDisposeJob()
 
     init {
-        activityRef.get()?.let {
-            it.lifecycle.addObserver(this)
-            check(it)
-        }
+        activity.lifecycle.addObserver(this)
+        check(activity)
     }
 
     private fun check(activity: FragmentActivity) {
-        disposable = GlobalScope.launch {
+        job = activity.lifecycleScope.launchWhenResumed {
             val show = updateCounter(activity)
             delay(2000)
             if (show) {
@@ -47,7 +46,6 @@ class RateAppDialog @Inject constructor(
     }
 
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
-        val activity = activityRef.get() ?: return@withContext
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.rate_app_title)
             .setMessage(R.string.rate_app_message)
@@ -62,7 +60,7 @@ class RateAppDialog @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
+        job = null
     }
 
     /**

@@ -35,8 +35,7 @@ import javax.inject.Inject
 @Keep
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener,
-    CoroutineScope by MainScope() {
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
         @JvmStatic
@@ -169,7 +168,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
         MaterialAlertDialogBuilder(ctx)
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.popup_positive_ok) { _, _ -> launch { clearGlideCache() } }
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                launchWhenResumed { clearGlideCache() }
+            }
             .setNegativeButton(R.string.popup_negative_no, null)
             .show()
     }

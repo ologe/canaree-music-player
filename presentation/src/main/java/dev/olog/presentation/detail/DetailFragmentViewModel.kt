@@ -60,44 +60,43 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     init {
         // header
-        viewModelScope.launch {
-            dataProvider.observeHeader(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { itemLiveData.value = it[0] }
-        }
+        dataProvider.observeHeader(mediaId)
+            .flowOn(Dispatchers.Default)
+            .onEach { itemLiveData.value = it[0] }
+            .launchIn(viewModelScope)
+
         // most played
-        viewModelScope.launch {
-            dataProvider.observeMostPlayed(mediaId)
-                .mapListItem { it as DisplayableTrack }
-                .flowOn(Dispatchers.Default)
-                .collect { mostPlayedLiveData.value = it }
-        }
+        dataProvider.observeMostPlayed(mediaId)
+            .mapListItem { it as DisplayableTrack }
+            .flowOn(Dispatchers.Default)
+            .onEach { mostPlayedLiveData.value = it }
+            .launchIn(viewModelScope)
+
         // related artists
-        viewModelScope.launch {
-            dataProvider.observeRelatedArtists(mediaId)
-                .map { it.take(RELATED_ARTISTS_TO_SEE) }
-                .flowOn(Dispatchers.Default)
-                .collect { relatedArtistsLiveData.value = it }
-        }
+        dataProvider.observeRelatedArtists(mediaId)
+            .map { it.take(RELATED_ARTISTS_TO_SEE) }
+            .flowOn(Dispatchers.Default)
+            .onEach { relatedArtistsLiveData.value = it }
+            .launchIn(viewModelScope)
+
         // siblings
-        viewModelScope.launch {
-            dataProvider.observeSiblings(mediaId)
-                .flowOn(Dispatchers.Default)
-                .collect { siblingsLiveData.value = it }
-        }
+        dataProvider.observeSiblings(mediaId)
+            .flowOn(Dispatchers.Default)
+            .onEach { siblingsLiveData.value = it }
+            .launchIn(viewModelScope)
+
         // recent
-        viewModelScope.launch {
-            dataProvider.observeRecentlyAdded(mediaId)
-                .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-                .flowOn(Dispatchers.Default)
-                .collect { recentlyAddedLiveData.value = it }
-        }
+        dataProvider.observeRecentlyAdded(mediaId)
+            .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
+            .flowOn(Dispatchers.Default)
+            .onEach { recentlyAddedLiveData.value = it }
+            .launchIn(viewModelScope)
+
         // songs
-        viewModelScope.launch {
-            dataProvider.observe(mediaId, filterChannel.asFlow())
-                .flowOn(Dispatchers.Default)
-                .collect { songLiveData.value = it }
-        }
+        dataProvider.observe(mediaId, filterChannel.asFlow())
+            .flowOn(Dispatchers.Default)
+            .onEach { songLiveData.value = it }
+            .launchIn(viewModelScope)
 
         // biography
         viewModelScope.launch(Dispatchers.IO) {
@@ -116,10 +115,6 @@ internal class DetailFragmentViewModel @Inject constructor(
                 ex.printStackTrace()
             }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData

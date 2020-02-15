@@ -17,10 +17,11 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,15 +38,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
     private val favoriteLiveData = MutableLiveData<FavoriteState>()
 
     init {
-        viewModelScope.launch {
-            observeFavoriteAnimationUseCase()
-                .flowOn(Dispatchers.Default)
-                .collect { favoriteLiveData.value = it }
-        }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
+        observeFavoriteAnimationUseCase()
+            .flowOn(Dispatchers.Default)
+            .onEach { favoriteLiveData.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!

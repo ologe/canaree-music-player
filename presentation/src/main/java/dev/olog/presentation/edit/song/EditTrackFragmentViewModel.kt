@@ -10,6 +10,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -27,7 +28,7 @@ class EditTrackFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private var fetchJob: Job? = null
+    private var fetchJob by autoDisposeJob()
 
     private val songLiveData = MutableLiveData<Song>()
     private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
@@ -44,16 +45,10 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     fun getOriginalSong(): Song = songLiveData.value!!
 
-    override fun onCleared() {
-        fetchJob?.cancel()
-        viewModelScope.cancel()
-    }
-
     fun fetchSongInfo(mediaId: MediaId): Boolean {
         if (!NetworkUtils.isConnected(context)) {
             return false
         }
-        fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
             try {
                 val lastFmTrack = withContext(Dispatchers.IO) {
@@ -74,7 +69,7 @@ class EditTrackFragmentViewModel @Inject constructor(
     }
 
     fun stopFetch() {
-        fetchJob?.cancel()
+        fetchJob = null
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {

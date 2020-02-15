@@ -17,6 +17,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.prefs.*
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.di.DataModule
 import dev.olog.data.di.PreferenceModule
 import dev.olog.data.di.RepositoryHelperModule
@@ -86,6 +87,8 @@ interface CoreComponent {
     fun encrypter(): IEncrypter
 
     fun trackerFacade(): TrackerFacade
+
+    fun schedulers(): Schedulers
 
     @Component.Factory
     interface Factory {

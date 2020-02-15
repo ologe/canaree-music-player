@@ -6,7 +6,11 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 class RxWaveSideBarView(
         context: Context,
@@ -15,20 +19,22 @@ class RxWaveSideBarView(
 
     var scrollableLayoutId : Int = 0
 
-    fun onDataChanged(list: List<DisplayableItem>){
-        updateLetters(generateLetters(list))
+    private var job by autoDisposeJob()
+
+    fun onDataChanged(list: List<DisplayableItem>) {
+        job = launchWhenResumed {
+            updateLetters(generateLetters(list))
+        }
     }
 
     fun setListener(listener: OnTouchLetterChangeListener?){
         this.listener = listener
     }
 
-    private fun generateLetters(data: List<DisplayableItem>): List<String> {
+    private suspend fun generateLetters(data: List<DisplayableItem>): List<String> = withContext(Dispatchers.Default) {
         if (scrollableLayoutId == 0){
             throw IllegalStateException("provide a real layout id to filter")
         }
-
-        assertBackgroundThread()
 
         val list = data.asSequence()
                 .filter { it.type == scrollableLayoutId }
@@ -47,7 +53,10 @@ class RxWaveSideBarView(
                 .toMutableList()
         list.firstOrNull { it < "A" }?.let { letters[0] = "#" }
         list.firstOrNull { it > "Z" }?.let { letters[letters.lastIndex] = "?" }
-        return letters
+
+        yield()
+
+        return@withContext letters
     }
 
     private fun updateLetters(letters: List<String>){

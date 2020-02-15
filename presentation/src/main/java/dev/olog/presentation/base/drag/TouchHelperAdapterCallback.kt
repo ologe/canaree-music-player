@@ -3,14 +3,13 @@ package dev.olog.presentation.base.drag
 import android.graphics.Canvas
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import kotlinx.android.synthetic.main.item_detail_song.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class TouchHelperAdapterCallback(
@@ -20,7 +19,7 @@ class TouchHelperAdapterCallback(
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
-), CoroutineScope by MainScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -56,16 +55,17 @@ class TouchHelperAdapterCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
+            require(viewHolder is DataBoundViewHolder)
             when (direction) {
                 ItemTouchHelper.RIGHT -> {
-                    launch {
+                    viewHolder.lifecycleScope.launchWhenResumed {
                         adapter.onSwipedRight(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeRight(viewHolder)
                     }
                 }
                 ItemTouchHelper.LEFT -> {
-                    launch {
+                    viewHolder.lifecycleScope.launchWhenResumed {
                         adapter.onSwipedLeft(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeLeft(viewHolder)

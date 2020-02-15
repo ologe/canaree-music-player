@@ -9,24 +9,21 @@ import android.widget.Button
 import dev.olog.core.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
-    ScrollHmsPickerDialog.HmsPickHandler,
-    CoroutineScope by MainScope() {
+    ScrollHmsPickerDialog.HmsPickHandler {
 
-    private var countDownDisposable: Job? = null
+    private var countDownDisposable by autoDisposeJob()
 
     private lateinit var fakeView: View
     private lateinit var okButton: Button
@@ -56,7 +53,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
         if (sleepTime > 0) {
 
-            countDownDisposable = launch {
+            countDownDisposable = launchWhenResumed {
                 try {
                     flowInterval(1, TimeUnit.SECONDS)
                         .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
@@ -82,7 +79,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
             if (it.isSelected) {
                 // as reset button
                 setTimeInMilliseconds(0, true)
-                countDownDisposable?.cancel()
+                countDownDisposable = null
                 toggleButtons(false)
                 resetAlarmManager()
                 resetAlarmManager()
@@ -112,11 +109,6 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
     override fun onPause() {
         super.onPause()
         okButton.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        countDownDisposable?.cancel()
     }
 
     private fun toggleButtons(isCountDown: Boolean) {

@@ -9,10 +9,8 @@ import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,7 +20,6 @@ import javax.inject.Inject
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     playingQueueGateway: PlayingQueueGateway
-
 ) : ViewModel() {
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
@@ -32,31 +29,22 @@ class PlayingQueueFragmentViewModel @Inject constructor(
     private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
 
     init {
-        viewModelScope.launch {
-            playingQueueGateway.observeAll().distinctUntilChanged()
-                .flowOn(Dispatchers.Default)
-                .collect { queueLiveData.offer(it) }
-        }
+        playingQueueGateway.observeAll().distinctUntilChanged()
+            .flowOn(Dispatchers.Default)
+            .onEach { queueLiveData.offer(it) }
+            .launchIn(viewModelScope)
 
-        viewModelScope.launch {
-            queueLiveData.asFlow()
-                .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
-                { queue, idInPlaylist ->
-                    val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
-                    queue.mapIndexed { index, item ->
-                        item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
-                    }
+        queueLiveData.asFlow()
+            .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
+            { queue, idInPlaylist ->
+                val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+                queue.mapIndexed { index, item ->
+                    item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
                 }
-                .assertBackground()
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    data.value = it
-                }
-        }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
+            }
+            .flowOn(Dispatchers.Default)
+            .onEach { data.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data

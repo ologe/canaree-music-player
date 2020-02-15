@@ -47,10 +47,5 @@ class AboutFragment : BaseFragment() {
         back.setOnClickListener(null)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleared()
-    }
-
     override fun provideLayoutId(): Int = R.layout.fragment_about
 }

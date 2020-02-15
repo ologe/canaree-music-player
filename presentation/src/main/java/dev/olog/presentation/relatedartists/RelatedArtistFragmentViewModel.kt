@@ -14,10 +14,7 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,26 +32,22 @@ class RelatedArtistFragmentViewModel @Inject constructor(
     private val titleLiveData = MutableLiveData<String>()
 
     init {
-        viewModelScope.launch {
-            useCase(mediaId)
-                .mapListItem { it.toRelatedArtist(resources) }
-                .flowOn(Dispatchers.IO)
-                .collect { liveData.value = it }
-        }
-        viewModelScope.launch {
-            getItemTitleUseCase(mediaId)
-                .flowOn(Dispatchers.IO)
-                .map { it ?: "" }
-                .collect { titleLiveData.value = it }
-        }
+        useCase(mediaId)
+            .mapListItem { it.toRelatedArtist(resources) }
+            .flowOn(Dispatchers.IO)
+            .onEach { liveData.value = it }
+            .launchIn(viewModelScope)
+
+        getItemTitleUseCase(mediaId)
+            .flowOn(Dispatchers.IO)
+            .map { it ?: "" }
+            .onEach { titleLiveData.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
 
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         val songs =

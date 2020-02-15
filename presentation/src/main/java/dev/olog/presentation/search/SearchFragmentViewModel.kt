@@ -10,9 +10,9 @@ import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
 import dev.olog.presentation.model.DisplayableItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,41 +33,36 @@ class SearchFragmentViewModel @Inject constructor(
 
     init {
         // all
-        viewModelScope.launch {
-            dataProvider.observe()
-                .flowOn(Dispatchers.Default)
-                .collect { data.value = it }
-        }
+        dataProvider.observe()
+            .flowOn(Dispatchers.Default)
+            .onEach { data.value = it }
+            .launchIn(viewModelScope)
+        
         // albums
-        viewModelScope.launch {
-            dataProvider.observeAlbums()
-                .flowOn(Dispatchers.Default)
-                .collect { albumData.value = it }
-        }
+        dataProvider.observeAlbums()
+            .flowOn(Dispatchers.Default)
+            .onEach { albumData.value = it }
+            .launchIn(viewModelScope)
         // artists
-        viewModelScope.launch {
-            dataProvider.observeArtists()
-                .flowOn(Dispatchers.Default)
-                .collect { artistsData.value = it }
-        }
+        dataProvider.observeArtists()
+            .flowOn(Dispatchers.Default)
+            .onEach { artistsData.value = it }
+            .launchIn(viewModelScope)
         // genres
-        viewModelScope.launch {
-            dataProvider.observeGenres()
-                .flowOn(Dispatchers.Default)
-                .collect { genresData.value = it }
-        }
+        dataProvider.observeGenres()
+            .flowOn(Dispatchers.Default)
+            .onEach { genresData.value = it }
+            .launchIn(viewModelScope)
         // playlist
-        viewModelScope.launch {
-            dataProvider.observePlaylists()
-                .flowOn(Dispatchers.Default)
-                .collect { playlistsData.value = it }
-        }
+        dataProvider.observePlaylists()
+            .flowOn(Dispatchers.Default)
+            .onEach { playlistsData.value = it }
+            .launchIn(viewModelScope)
         // folders
-        viewModelScope.launch {
-            dataProvider.observeFolders()
-                .flowOn(Dispatchers.Default)
-                .collect { foldersData.value = it }
-        }
+        dataProvider.observeFolders()
+            .flowOn(Dispatchers.Default)
+            .onEach { foldersData.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
@@ -76,11 +71,7 @@ class SearchFragmentViewModel @Inject constructor(
     fun observeGenresData(): LiveData<List<DisplayableItem>> = genresData
     fun observePlaylistsData(): LiveData<List<DisplayableItem>> = playlistsData
     fun observeFoldersData(): LiveData<List<DisplayableItem>> = foldersData
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
+    
 
     fun updateQuery(newQuery: String) {
         dataProvider.updateQuery(newQuery.trim())

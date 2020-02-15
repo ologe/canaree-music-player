@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.utils.isQ
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
-abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() {
+abstract class BaseDialog : BaseDialogFragment() {
 
     companion object {
         const val ACCESS_CODE = 101
@@ -79,7 +77,9 @@ abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACCESS_CODE && resultCode == Activity.RESULT_OK){
-            launch { onRecoverableSecurityExceptionRecovered() }
+            launchWhenResumed {
+                onRecoverableSecurityExceptionRecovered()
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -45,7 +46,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     override fun positionButtonAction(context: Context) {
-        launch {
+        launchWhenResumed {
             var message: String
             try {
                 presenter.execute(mediaId)

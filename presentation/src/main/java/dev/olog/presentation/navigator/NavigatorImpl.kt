@@ -4,6 +4,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.lifecycleScope
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -144,11 +145,9 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()) {
-            GlobalScope.launch {
+            activityRef.get()?.lifecycleScope?.launchWhenResumed {
                 val popup = popupFactory.get().create(anchor, mediaId)
-                withContext(Dispatchers.Main) {
-                    popup.show()
-                }
+                popup.show()
             }
         }
     }

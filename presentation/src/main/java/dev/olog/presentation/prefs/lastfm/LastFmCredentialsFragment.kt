@@ -18,11 +18,14 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
+class LastFmCredentialsFragment : BaseDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
@@ -40,7 +43,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
 
     private var loader: ProgressDialog? = null
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
@@ -63,7 +66,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = launch {
+            job = launchWhenResumed {
 
                 val user = UserCredentials(
                     userName.text.toString(),
@@ -94,7 +97,7 @@ class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainSc
             setCanceledOnTouchOutside(true)
             setOnCancelListener {
                 setOnCancelListener {
-                    job?.cancel()
+                    job = null
                     loader = null
                 }
             }

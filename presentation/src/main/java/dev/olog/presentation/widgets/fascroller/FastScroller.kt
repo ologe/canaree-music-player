@@ -87,7 +87,7 @@ class FastScroller(
 
     private var mHeight: Int = 0
     private var mHideScrollbar: Boolean = false
-     var mSectionIndexer: ((Int) -> String?)? = null
+    var mSectionIndexer: ((Int) -> String?)? = null
     private var mScrollbarAnimator: ViewPropertyAnimator? = null
     private var mBubbleAnimator: ViewPropertyAnimator? = null
     private var mRecyclerView: RecyclerView? = null

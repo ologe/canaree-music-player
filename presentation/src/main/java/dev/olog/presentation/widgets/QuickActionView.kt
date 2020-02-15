@@ -7,27 +7,26 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlin.properties.Delegates
 
-class QuickActionView (
-        context: Context,
-        attrs: AttributeSet
+class QuickActionView(
+    context: Context,
+    attrs: AttributeSet
 
-) : AppCompatImageView(context, attrs),
-        View.OnClickListener,
-        CoroutineScope by MainScope() {
+) : AppCompatImageView(context, attrs), View.OnClickListener {
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
 
@@ -50,17 +49,17 @@ class QuickActionView (
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setOnClickListener(this)
-        job = launch {
-            for (type in hasQuickAction.observeQuickAction()) {
-                setImage()
-            }
-        }
+
+        job = hasQuickAction.observeQuickAction()
+            .consumeAsFlow()
+            .onEach { setImage() }
+            .launchIn(lifecycleScope)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnClickListener(null)
-        job?.cancel()
+        job = null
     }
 
     fun setId(mediaId: MediaId) {

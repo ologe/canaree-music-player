@@ -111,7 +111,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <dev.olog.presentation.widgets.fascroller.RxFastScroller
+    <dev.olog.presentation.widgets.fascroller.FastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

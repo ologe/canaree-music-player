@@ -6,11 +6,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.android.extensions.dpToPx
-import kotlinx.coroutines.*
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.android.awaitFrame
 
 class BlurShadowHelper(
     private val view: AppCompatImageView
-) : CoroutineScope by MainScope() {
+) {
 
     companion object {
         private const val BRIGHTNESS = -25f
@@ -19,7 +21,7 @@ class BlurShadowHelper(
         private const val PADDING = 22f
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     init {
         BlurShadow.init(view.context.applicationContext)
@@ -38,15 +40,14 @@ class BlurShadowHelper(
     }
 
     private fun tryMakeBlurShadow() {
-        job?.cancel()
-        job = launch {
+        job = view.launchWhenResumed {
             loopUntilSizeIsValid()
         }
     }
 
     private suspend fun loopUntilSizeIsValid() {
         while (!(view.width > 0 || view.height > 0)) {
-            delay(16) // wait a frame
+            awaitFrame()
         }
         makeBlurShadow()
     }

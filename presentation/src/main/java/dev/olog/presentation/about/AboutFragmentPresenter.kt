@@ -8,13 +8,10 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
 class AboutFragmentPresenter(
     context: Context
-) : CoroutineScope by MainScope() {
+) {
 
     companion object {
         @JvmStatic
@@ -109,47 +106,8 @@ class AboutFragmentPresenter(
             subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
-//
-//    private val trial = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description_trial)
-//    )
-//    private val noPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description)
-//    )
-//    private val alreadyPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.premium_already_premium)
-//    )
 
-    private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
-
-    init {
-//        launch {
-//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-//                when {
-//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-//                    state.isTrial -> listOf(havoc, trial) + (data)
-//                    else -> listOf(havoc, noPro) + (data)
-//                }
-//            }.flowOn(Dispatchers.Default)
-//                .collect {
-//                    dataLiveData.value = it
-//                }
-//        }
-        dataLiveData.value = data
-    }
-
-    fun onCleared() {
-        cancel()
-    }
+    private val dataLiveData = MutableLiveData<List<DisplayableItem>>(data)
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 }

@@ -45,7 +45,7 @@ abstract class AbsPopupListener(
         title: String
     ) {
         playlists.firstOrNull { it.id == itemId.toLong() }?.run {
-            GlobalScope.launch {
+            GlobalScope.launch { // TODO use a correct scope
                 try {
                     addToPlaylistUseCase(this@run, mediaId)
                     createSuccessMessage(

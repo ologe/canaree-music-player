@@ -40,5 +40,4 @@ class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
         return lifecycleRegistry
     }
 
-
 }

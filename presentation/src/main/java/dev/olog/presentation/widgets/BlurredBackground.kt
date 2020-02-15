@@ -9,9 +9,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.getCachedDrawable
 import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
@@ -21,7 +21,7 @@ class BlurredBackground(
     attrs: AttributeSet
 ) : AppCompatImageView(context, attrs) {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     companion object {
         private const val LIGHT_MODE_SIZE = 250
@@ -40,8 +40,7 @@ class BlurredBackground(
         if (drawable == null){
             return
         }
-        job?.cancel()
-        job = GlobalScope.launch(Dispatchers.IO) {
+        job = launchWhenResumed {
             try {
                 loadImageInternal(mediaId, drawable.mutate())
             } catch (ex: Throwable){
@@ -51,9 +50,10 @@ class BlurredBackground(
 
     }
 
-    private suspend fun loadImageInternal(mediaId: MediaId, drawable: Drawable) {
-
-        assertBackgroundThread()
+    private suspend fun loadImageInternal(
+        mediaId: MediaId,
+        drawable: Drawable
+    ) = withContext(Dispatchers.Default){
 
         val size = if (isDarkMode) DARK_MODE_SIZE else LIGHT_MODE_SIZE
 
@@ -72,7 +72,7 @@ class BlurredBackground(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        job?.cancel()
+        job = null
     }
 
 }

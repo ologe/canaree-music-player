@@ -15,6 +15,8 @@ import dev.olog.presentation.popup.folder.FolderPopup
 import dev.olog.presentation.popup.genre.GenrePopup
 import dev.olog.presentation.popup.playlist.PlaylistPopup
 import dev.olog.presentation.popup.song.SongPopup
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PopupMenuFactory @Inject constructor(
@@ -32,9 +34,8 @@ class PopupMenuFactory @Inject constructor(
 
 ) {
 
-    fun create(view: View, mediaId: MediaId): PopupMenu {
-        val category = mediaId.category
-        return when (category) {
+    suspend fun create(view: View, mediaId: MediaId): PopupMenu = withContext(Dispatchers.IO) {
+        return@withContext when (val category = mediaId.category) {
             MediaIdCategory.FOLDERS -> getFolderPopup(view, mediaId)
             MediaIdCategory.PLAYLISTS -> getPlaylistPopup(view, mediaId)
             MediaIdCategory.SONGS -> getSongPopup(view, mediaId)

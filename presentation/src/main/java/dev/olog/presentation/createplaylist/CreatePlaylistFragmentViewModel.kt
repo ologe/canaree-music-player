@@ -19,10 +19,8 @@ import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -43,32 +41,27 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     private val filterChannel = ConflatedBroadcastChannel("")
 
     init {
-        viewModelScope.launch {
-            showOnlyFiltered.asFlow()
-                .flatMapLatest { onlyFiltered ->
-                    if (onlyFiltered){
-                        getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
-                    } else {
-                        getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
-                            if (filter.isNotEmpty()) {
-                                tracks.filter {
-                                    it.title.contains(filter, true) ||
-                                            it.artist.contains(filter, true) ||
-                                            it.album.contains(filter, true)
-                                }
-                            } else {
-                                tracks
+        showOnlyFiltered.asFlow()
+            .flatMapLatest { onlyFiltered ->
+                if (onlyFiltered){
+                    getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
+                } else {
+                    getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
+                        if (filter.isNotEmpty()) {
+                            tracks.filter {
+                                it.title.contains(filter, true) ||
+                                        it.artist.contains(filter, true) ||
+                                        it.album.contains(filter, true)
                             }
+                        } else {
+                            tracks
                         }
                     }
-                }.mapListItem { it.toDisplayableItem() }
-                .flowOn(Dispatchers.Default)
-                .collect { data.value = it }
-        }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
+                }
+            }.mapListItem { it.toDisplayableItem() }
+            .flowOn(Dispatchers.Default)
+            .onEach { data.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun updateFilter(filter: String) {

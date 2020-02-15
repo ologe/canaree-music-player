@@ -13,15 +13,19 @@ import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 open class ShapeImageView(
     context: Context,
     attrs: AttributeSet
 
-) : ForegroundImageView(context, attrs) {
+) : ForegroundImageView(context, attrs), CoroutineScope by MainScope() {
 
     companion object {
         private const val DEFAULT_RADIUS = 5
@@ -31,10 +35,17 @@ open class ShapeImageView(
 
     private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val radius: Int
     private var mask: Bitmap? = null
+        get() {
+            if (field == null) {
+                field = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
+            }
+            return field
+        }
+
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private val cutCornerShapeModel: ShapeAppearanceModel
@@ -74,23 +85,24 @@ open class ShapeImageView(
         setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
         val hasImageShape = context.applicationContext as HasImageShape
-        job = GlobalScope.launch(Dispatchers.Default) {
-            for (imageShape in hasImageShape.observeImageShape()) {
+        job = hasImageShape
+            .observeImageShape()
+            .onEach {
                 mask = null
-                updateBackground(getShapeModel(imageShape))
-            }
-        }
+                updateBackground(getShapeModel(it))
+            }.launchIn(this)
+
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        job?.cancel()
+        job = null
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (!isInEditMode) {
-            getMask()?.let {
+            mask?.let {
                 canvas.drawBitmap(it, 0f, 0f, paint)
             }
         }
@@ -99,16 +111,10 @@ open class ShapeImageView(
     override fun requestLayout() {
         super.requestLayout()
         mask = null
+//        job = null
     }
 
-    private fun getMask(): Bitmap? {
-        if (mask == null) {
-            mask = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
-        }
-        return mask
-    }
-
-    private fun getShapeModel(imageShape: ImageShape): ShapeAppearanceModel{
+    private fun getShapeModel(imageShape: ImageShape): ShapeAppearanceModel {
         return when (imageShape) {
             ImageShape.ROUND -> roundedShapeModel
             ImageShape.CUT_CORNER -> cutCornerShapeModel
@@ -117,7 +123,7 @@ open class ShapeImageView(
     }
 
     private fun buildMaskShape(shape: ShapeAppearanceModel): Bitmap? {
-        if (width > 0 && height > 0){
+        if (width > 0 && height > 0) {
             val drawable = MaterialShapeDrawable(shape)
             return drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
         } else {
@@ -125,7 +131,7 @@ open class ShapeImageView(
         }
     }
 
-    private suspend fun updateBackground(shape: ShapeAppearanceModel) = withContext(Dispatchers.Main){
+    private fun updateBackground(shape: ShapeAppearanceModel) {
         val drawable = MaterialShapeDrawable(shape)
         background = drawable
     }

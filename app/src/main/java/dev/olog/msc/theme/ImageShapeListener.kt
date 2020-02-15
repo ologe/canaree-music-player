@@ -6,6 +6,8 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.ImageShape
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 internal class ImageShapeListener @Inject constructor(
@@ -13,8 +15,14 @@ internal class ImageShapeListener @Inject constructor(
     prefs: SharedPreferences
 ) : BaseThemeUpdater<ImageShape>(context, prefs, context.getString(R.string.prefs_icon_shape_key)) {
 
-    val imageShapePublisher by lazy { ConflatedBroadcastChannel(getValue()) }
+    private val imageShapePublisher by lazy {
+        ConflatedBroadcastChannel(getValue())
+    }
+
     fun imageShape() = imageShapePublisher.value
+    fun observeImageShape(): Flow<ImageShape> {
+        return imageShapePublisher.asFlow()
+    }
 
     override fun onPrefsChanged() {
         val imageShape = getValue()

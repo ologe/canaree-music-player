@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by MainScope() {
+internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
         const val TAG = "EqualizerFragment"
@@ -73,7 +73,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
             }
     }
 
-    private fun animateBar(bar: BoxedVertical, gain: Float) = launch {
+    private fun animateBar(bar: BoxedVertical, gain: Float) = launchWhenResumed {
         var duration = 150f
         val timeDelta = 16f
         val progressDelta = (gain - bar.value) * (timeDelta / duration)
@@ -141,7 +141,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment(), CoroutineScope by 
     }
 
     private fun changePreset() {
-        launch {
+        launchWhenResumed {
             val presets = withContext(Dispatchers.IO) {
                 presenter.getPresets()
             }

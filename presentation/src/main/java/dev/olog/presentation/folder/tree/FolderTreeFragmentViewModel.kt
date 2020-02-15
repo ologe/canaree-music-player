@@ -16,10 +16,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -43,26 +41,19 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val currentDirectoryChildrenLiveData = MutableLiveData<List<DisplayableFile>>()
 
     init {
-        viewModelScope.launch {
-            currentDirectory.asFlow()
-                .flatMapLatest { file ->
-                    gateway.observeFolderChildren(file)
-                        .map { addHeaders(file, it) }
-                }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    currentDirectoryChildrenLiveData.value = it
-                }
-        }
-        viewModelScope.launch {
-            currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
-            { current, default -> current.path == default.path }
-                .collect { isCurrentFolderDefaultFolder.value = it }
-        }
-    }
+        currentDirectory.asFlow()
+            .flatMapLatest { file ->
+                gateway.observeFolderChildren(file)
+                    .map { addHeaders(file, it) }
+            }
+            .flowOn(Dispatchers.Default)
+            .onEach { currentDirectoryChildrenLiveData.value = it }
+            .launchIn(viewModelScope)
 
-    override fun onCleared() {
-        viewModelScope.cancel()
+        currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
+        { current, default -> current.path == default.path }
+            .onEach { isCurrentFolderDefaultFolder.value = it }
+            .launchIn(viewModelScope)
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {

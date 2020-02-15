@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -32,11 +31,6 @@ class EditArtistFragmentViewModel @Inject constructor(
     }
 
     fun observeData(): LiveData<DisplayableArtist> = displayableArtistLiveData
-
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     private fun Artist.toDisplayableArtist(): DisplayableArtist {
         return DisplayableArtist(
