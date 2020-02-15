@@ -14,10 +14,9 @@ internal class FirebaseTracker @Inject constructor(
 
     override fun trackScreen(name: String, bundle: Bundle?) = GlobalScope.launchUnit {
         try {
-            // TODO replace string arguent that contains `.`
-
             firebase.logEvent(name.take(40), bundle)
-        } catch (ignored: Throwable) {
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 
@@ -28,7 +27,8 @@ internal class FirebaseTracker @Inject constructor(
                 .toTypedArray()
 
             firebase.logEvent(name.take(40), bundleOf(*map))
-        } catch (ignored: Throwable) {
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 
