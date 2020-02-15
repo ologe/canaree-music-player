@@ -29,8 +29,9 @@ import javax.inject.Inject
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
-        private const val TAG = "MiniPlayerFragment"
-        private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
+        @JvmStatic
+        private val TAG = MiniPlayerFragment::class.java.name
+        private const val BUNDLE_IS_VISIBLE = "bundle__is_visible"
     }
 
     @Inject lateinit var presenter: MiniPlayerFragmentPresenter

@@ -29,7 +29,7 @@ class LibraryFragment : BaseFragment() {
         val TAG_TRACK = LibraryFragment::class.java.name
         @JvmStatic
         val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
-        const val IS_PODCAST = "IS_PODCAST"
+        const val IS_PODCAST = "is_podcast"
 
         @JvmStatic
         fun newInstance(isPodcast: Boolean): LibraryFragment {

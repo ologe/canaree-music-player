@@ -34,7 +34,8 @@ import javax.inject.Inject
 class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
-        const val TAG = "OfflineLyricsFragment"
+        @JvmStatic
+        val TAG = OfflineLyricsFragment::class.java.name
 
         @JvmStatic
         fun newInstance(): OfflineLyricsFragment {

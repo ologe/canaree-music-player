@@ -41,8 +41,7 @@ class DetailFragment : BaseFragment(),
     companion object {
         @JvmStatic
         val TAG = DetailFragment::class.java.name
-        @JvmStatic
-        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = "media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {

@@ -42,13 +42,15 @@ import javax.inject.Inject
 class TabFragment : BaseFragment(), SetupNestedList {
 
     companion object {
-
-        private const val TAG = "TabFragment"
-        const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
+        @JvmStatic
+        private val TAG = TabFragment::class.java.name
+        const val ARGUMENTS_SOURCE = "dataSource"
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
-            return TabFragment().withArguments(ARGUMENTS_SOURCE to category.toString())
+            return TabFragment().withArguments(
+                ARGUMENTS_SOURCE to category.toString()
+            )
         }
     }
 

@@ -31,7 +31,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name
-        val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
+        const val ARGUMENT_PLAYLIST_TYPE = "playlist_type"
 
         @JvmStatic
         fun newInstance(type: PlaylistType): CreatePlaylistFragment {
