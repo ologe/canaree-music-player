@@ -22,26 +22,23 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
-import kotlinx.coroutines.*
+import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.shared.autoDisposeJob
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import java.lang.Runnable
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
 private const val SCROLL_BAR_HIDE_DELAY = 1000
 private const val TRACK_SNAP_RANGE = 5
 
-class RxFastScroller(
-        context: Context,
-        attrs: AttributeSet
+class FastScroller(
+    context: Context,
+    attrs: AttributeSet
 
-) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
-
-
-    interface SectionIndexer {
-        fun getSectionText(position: Int): String?
-    }
+) : LinearLayout(context, attrs) {
 
     init {
         layout(context, attrs)
@@ -83,32 +80,34 @@ class RxFastScroller(
         setHideScrollbar(hideScrollbar)
     }
 
-    @ColorInt private var mBubbleColor: Int = 0
-    @ColorInt private var mHandleColor: Int = 0
+    @ColorInt
+    private var mBubbleColor: Int = 0
+    @ColorInt
+    private var mHandleColor: Int = 0
 
     private var mHeight: Int = 0
     private var mHideScrollbar: Boolean = false
-    private var mSectionIndexer: SectionIndexer? = null
+     var mSectionIndexer: ((Int) -> String?)? = null
     private var mScrollbarAnimator: ViewPropertyAnimator? = null
     private var mBubbleAnimator: ViewPropertyAnimator? = null
     private var mRecyclerView: RecyclerView? = null
-    private var mBubbleView: TextView? = null
-    private var mHandleView: ImageView? = null
-    private var mScrollbar: View? = null
+    private lateinit var mBubbleView: TextView
+    private lateinit var mHandleView: ImageView
+    private lateinit var mScrollbar: View
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
 
     private val bubbleTextPublisher = ConflatedBroadcastChannel("")
     private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
-    private var bubbleTextDisposable : Job? = null
-    private var scrollDisposable : Job? = null
+    private var bubbleTextDisposable by autoDisposeJob()
+    private var scrollDisposable by autoDisposeJob()
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
     private val mScrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (!mHandleView!!.isSelected && isEnabled) {
+            if (!mHandleView.isSelected && isEnabled) {
                 setViewPositions(getScrollProportion(recyclerView))
             }
         }
@@ -127,7 +126,7 @@ class RxFastScroller(
                         }
                     }
 
-                    RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView!!.isSelected) {
+                    RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView.isSelected) {
                         handler.postDelayed(mScrollbarHider, SCROLL_BAR_HIDE_DELAY.toLong())
                     }
                 }
@@ -156,7 +155,12 @@ class RxFastScroller(
             val layoutId = id
 
             constraintSet.connect(layoutId, ConstraintSet.TOP, recyclerViewId, ConstraintSet.TOP)
-            constraintSet.connect(layoutId, ConstraintSet.BOTTOM, recyclerViewId, ConstraintSet.BOTTOM)
+            constraintSet.connect(
+                layoutId,
+                ConstraintSet.BOTTOM,
+                recyclerViewId,
+                ConstraintSet.BOTTOM
+            )
             constraintSet.connect(layoutId, ConstraintSet.END, recyclerViewId, ConstraintSet.END)
             constraintSet.applyTo(viewGroup)
 
@@ -165,7 +169,8 @@ class RxFastScroller(
             setLayoutParams(layoutParams)
 
         } else if (viewGroup is androidx.coordinatorlayout.widget.CoordinatorLayout) {
-            val layoutParams = layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+            val layoutParams =
+                layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
 
             layoutParams.anchorId = recyclerViewId
             layoutParams.anchorGravity = GravityCompat.END
@@ -194,11 +199,7 @@ class RxFastScroller(
         }
     }
 
-    fun setSectionIndexer(sectionIndexer: SectionIndexer?) {
-        mSectionIndexer = sectionIndexer
-    }
-
-    fun showBubble(show: Boolean){
+    fun showBubble(show: Boolean) {
         showBubble = show
     }
 
@@ -214,38 +215,34 @@ class RxFastScroller(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        if (!isInEditMode){
-            if (showBubble){
-                launch {
-                    bubbleTextDisposable = launch {
-                        bubbleTextPublisher.asFlow()
-                            .distinctUntilChanged()
-                            .flowOn(Dispatchers.Default)
-                            .map {
-                                when {
-                                    it < "A" -> "#"
-                                    it > "Z" -> "?"
-                                    else -> it
-                                }
-                            }.collect { mBubbleView!!.text = it }
-                    }
-                }
-            }
-
-            scrollDisposable = launch {
-                scrollPublisher.asFlow()
-                    .filter { it != RecyclerView.NO_POSITION }
+        if (!isInEditMode) {
+            if (showBubble) {
+                bubbleTextDisposable = bubbleTextPublisher.asFlow()
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
-                    .collect { mRecyclerView?.layoutManager?.scrollToPosition(it) }
+                    .map {
+                        when {
+                            it < "A" -> "#"
+                            it > "Z" -> "?"
+                            else -> it
+                        }
+                    }.onEach { mBubbleView.text = it }
+                    .launchIn(lifecycleScope)
             }
+
+            scrollDisposable = scrollPublisher.asFlow()
+                .filter { it != RecyclerView.NO_POSITION }
+                .distinctUntilChanged()
+                .flowOn(Dispatchers.Default)
+                .onEach { mRecyclerView?.layoutManager?.scrollToPosition(it) }
+                .launchIn(lifecycleScope)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        bubbleTextDisposable?.cancel()
-        scrollDisposable?.cancel()
+        bubbleTextDisposable = null
+        scrollDisposable = null
     }
 
     fun detachRecyclerView() {
@@ -262,7 +259,7 @@ class RxFastScroller(
      */
     fun setHideScrollbar(hideScrollbar: Boolean) {
         mHideScrollbar = hideScrollbar
-        mScrollbar!!.visibility = if (hideScrollbar) View.GONE else View.VISIBLE
+        mScrollbar.visibility = if (hideScrollbar) View.GONE else View.VISIBLE
     }
 
     /**
@@ -274,12 +271,17 @@ class RxFastScroller(
         mHandleColor = color
 
         if (mHandleImage == null) {
-            mHandleImage = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.fastscroll_handle)!!)
+            mHandleImage = DrawableCompat.wrap(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.fastscroll_handle
+                )!!
+            )
             mHandleImage!!.mutate()
         }
 
         DrawableCompat.setTint(mHandleImage!!, mHandleColor)
-        mHandleView!!.setImageDrawable(mHandleImage)
+        mHandleView.setImageDrawable(mHandleImage)
     }
 
     /**
@@ -291,13 +293,18 @@ class RxFastScroller(
         mBubbleColor = color
 
         if (mBubbleImage == null) {
-            mBubbleImage = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.fastscroll_bubble)!!)
+            mBubbleImage = DrawableCompat.wrap(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.fastscroll_bubble
+                )!!
+            )
             mBubbleImage!!.mutate()
         }
 
         DrawableCompat.setTint(mBubbleImage!!, mBubbleColor)
 
-        mBubbleView!!.background = mBubbleImage
+        mBubbleView.background = mBubbleImage
     }
 
     /**
@@ -306,7 +313,7 @@ class RxFastScroller(
      * @param color The text color for the index bubble
      */
     fun setBubbleTextColor(@ColorInt color: Int) {
-        mBubbleView!!.setTextColor(color)
+        mBubbleView.setTextColor(color)
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -318,7 +325,7 @@ class RxFastScroller(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 mRecyclerView?.stopScroll()
-                if (event.x < mHandleView!!.x - ViewCompat.getPaddingStart(mHandleView!!)) {
+                if (event.x < mHandleView.x - ViewCompat.getPaddingStart(mHandleView)) {
                     return false
                 }
 
@@ -375,18 +382,19 @@ class RxFastScroller(
             val itemCount = mRecyclerView!!.adapter!!.itemCount
             val proportion: Float
 
-            if (mHandleView!!.y == 0f) {
+            if (mHandleView.y == 0f) {
                 proportion = 0f
-            } else if (mHandleView!!.y + mHandleView!!.height >= mHeight - TRACK_SNAP_RANGE) {
+            } else if (mHandleView.y + mHandleView.height >= mHeight - TRACK_SNAP_RANGE) {
                 proportion = 1f
             } else {
                 proportion = y / mHeight.toFloat()
             }
 
-            val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
+            val targetPos =
+                getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
             scrollPublisher.offer(targetPos)
 
-            val letter = mSectionIndexer?.getSectionText(targetPos)
+            val letter = mSectionIndexer?.invoke(targetPos)
             letter?.let { bubbleTextPublisher.offer(it) }
         }
     }
@@ -405,11 +413,16 @@ class RxFastScroller(
     }
 
     private fun setViewPositions(y: Float) {
-        val bubbleHeight = mBubbleView!!.height
-        val handleHeight = mHandleView!!.height
+        val bubbleHeight = mBubbleView.height
+        val handleHeight = mHandleView.height
 
-        mBubbleView!!.y = getValueInRange(0, mHeight - bubbleHeight - handleHeight / 2, (y - bubbleHeight).toInt()).toFloat()
-        mHandleView!!.y = getValueInRange(0, mHeight - handleHeight, (y - handleHeight / 2).toInt()).toFloat()
+        mBubbleView.y = getValueInRange(
+            0,
+            mHeight - bubbleHeight - handleHeight / 2,
+            (y - bubbleHeight).toInt()
+        ).toFloat()
+        mHandleView.y =
+            getValueInRange(0, mHeight - handleHeight, (y - handleHeight / 2).toInt()).toFloat()
     }
 
     private fun isViewVisible(view: View?): Boolean {
@@ -421,73 +434,75 @@ class RxFastScroller(
     }
 
     private fun showBubble() {
-        mBubbleView!!.visibility = View.VISIBLE
-        mBubbleAnimator = mBubbleView!!.animate().alpha(1f)
-                .setDuration(BUBBLE_ANIMATION_DURATION.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
+        mBubbleView.visibility = View.VISIBLE
+        mBubbleAnimator = mBubbleView.animate().alpha(1f)
+            .setDuration(BUBBLE_ANIMATION_DURATION.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
 
-                    // adapter required for new alpha value to stick
-                })
+                // adapter required for new alpha value to stick
+            })
     }
 
     private fun hideBubble() {
-        mBubbleAnimator = mBubbleView!!.animate().alpha(0f)
-                .setDuration(BUBBLE_ANIMATION_DURATION.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
+        mBubbleAnimator = mBubbleView.animate().alpha(0f)
+            .setDuration(BUBBLE_ANIMATION_DURATION.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
 
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        mBubbleView!!.visibility = View.GONE
-                        mBubbleAnimator = null
-                    }
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    mBubbleView.visibility = View.GONE
+                    mBubbleAnimator = null
+                }
 
-                    override fun onAnimationCancel(animation: Animator) {
-                        super.onAnimationCancel(animation)
-                        mBubbleView!!.visibility = View.GONE
-                        mBubbleAnimator = null
-                    }
-                })
+                override fun onAnimationCancel(animation: Animator) {
+                    super.onAnimationCancel(animation)
+                    mBubbleView.visibility = View.GONE
+                    mBubbleAnimator = null
+                }
+            })
     }
 
     private fun showScrollbar() {
         if (mRecyclerView!!.computeVerticalScrollRange() - mHeight > 0) {
-            val transX = resources.getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding_end).toFloat()
+            val transX =
+                resources.getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding_end).toFloat()
 
-            mScrollbar!!.translationX = transX
-            mScrollbar!!.visibility = View.VISIBLE
-            mScrollbarAnimator = mScrollbar!!.animate().translationX(0f).alpha(1f)
-                    .setDuration(SCROLL_BAR_ANIMATION_DURATION.toLong())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        // adapter required for new alpha value to stick
-                    })
+            mScrollbar.translationX = transX
+            mScrollbar.visibility = View.VISIBLE
+            mScrollbarAnimator = mScrollbar.animate().translationX(0f).alpha(1f)
+                .setDuration(SCROLL_BAR_ANIMATION_DURATION.toLong())
+                .setListener(object : AnimatorListenerAdapter() {
+                    // adapter required for new alpha value to stick
+                })
         }
     }
 
     private fun hideScrollbar() {
-        val transX = resources.getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding_end).toFloat()
+        val transX =
+            resources.getDimensionPixelSize(R.dimen.fastscroll_scrollbar_padding_end).toFloat()
 
-        mScrollbarAnimator = mScrollbar!!.animate()
-                .translationX(transX)
-                .alpha(0f)
-                .setDuration(SCROLL_BAR_ANIMATION_DURATION.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
+        mScrollbarAnimator = mScrollbar.animate()
+            .translationX(transX)
+            .alpha(0f)
+            .setDuration(SCROLL_BAR_ANIMATION_DURATION.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
 
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        mScrollbar!!.visibility = View.GONE
-                        mScrollbarAnimator = null
-                    }
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    mScrollbar.visibility = View.GONE
+                    mScrollbarAnimator = null
+                }
 
-                    override fun onAnimationCancel(animation: Animator) {
-                        super.onAnimationCancel(animation)
-                        mScrollbar!!.visibility = View.GONE
-                        mScrollbarAnimator = null
-                    }
-                })
+                override fun onAnimationCancel(animation: Animator) {
+                    super.onAnimationCancel(animation)
+                    mScrollbar.visibility = View.GONE
+                    mScrollbarAnimator = null
+                }
+            })
     }
 
     private fun setHandleSelected(selected: Boolean) {
-        mHandleView!!.isSelected = selected
+        mHandleView.isSelected = selected
         DrawableCompat.setTint(mHandleImage!!, if (selected) mBubbleColor else mHandleColor)
     }
 
