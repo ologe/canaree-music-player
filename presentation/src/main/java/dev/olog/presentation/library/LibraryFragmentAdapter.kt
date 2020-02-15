@@ -14,14 +14,14 @@ import dev.olog.shared.isInBounds
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 class LibraryFragmentAdapter(
-        private val context: Context,
-        fragmentManager: FragmentManager,
-        private val categories : List<LibraryCategoryBehavior>
+    private val context: Context,
+    fragmentManager: FragmentManager,
+    private val categories: List<LibraryCategoryBehavior>
 
 ) : FragmentPagerAdapter(fragmentManager) {
 
     fun getCategoryAtPosition(position: Int): MediaIdCategory? {
-        if (categories.isNotEmpty() && categories.isInBounds(position)){
+        if (categories.isNotEmpty() && categories.isInBounds(position)) {
             return categories[position].category
         }
         return null
@@ -30,7 +30,7 @@ class LibraryFragmentAdapter(
     override fun getItem(position: Int): Fragment {
         val category = categories[position].category
 
-        return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()){
+        return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()) {
             FolderTreeFragment.newInstance()
         } else TabFragment.newInstance(category)
     }
