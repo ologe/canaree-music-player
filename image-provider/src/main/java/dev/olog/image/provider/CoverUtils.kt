@@ -51,7 +51,7 @@ object CoverUtils {
     }
 
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
-        return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
+        return getGradient(context, mediaId.resolveId.toInt(), mediaId.source)
     }
 
     fun getGradient(context: Context, position: Int, source: Int): Drawable {
@@ -63,7 +63,7 @@ object CoverUtils {
     }
 
     fun onlyGradient(context: Context, mediaId: MediaId): Drawable {
-        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.resolveSource))!!.mutate() as LayerDrawable
+        val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.source))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
         val position = mediaId.resolveId.toInt()

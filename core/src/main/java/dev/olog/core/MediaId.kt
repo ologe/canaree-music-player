@@ -6,7 +6,16 @@ class MediaId private constructor(
     val leaf: Long? = null
 ) {
 
-    val source : Int = category.ordinal
+    val source : Int
+        get() {
+            if (isLeaf && isPodcast){
+                return MediaIdCategory.PODCASTS.ordinal
+            }
+            if (isLeaf){
+                return MediaIdCategory.SONGS.ordinal
+            }
+            return category.ordinal
+        }
 
     companion object {
         private const val CATEGORY_SEPARATOR = '/'
@@ -109,17 +118,6 @@ class MediaId private constructor(
                 isFolder || isHeader -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
-        }
-
-    val resolveSource : Int
-        get() {
-            if (isLeaf && isPodcast){
-                return MediaIdCategory.PODCASTS.ordinal
-            }
-            if (isLeaf){
-                return MediaIdCategory.SONGS.ordinal
-            }
-            return source
         }
 
     val isHeader: Boolean
