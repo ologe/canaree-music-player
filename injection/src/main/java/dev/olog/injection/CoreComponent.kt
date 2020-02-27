@@ -18,10 +18,7 @@ import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.prefs.*
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.di.DataModule
-import dev.olog.data.di.PreferenceModule
-import dev.olog.data.di.RepositoryHelperModule
-import dev.olog.data.di.NetworkModule
+import dev.olog.data.di.*
 import dev.olog.equalizer.EqualizerModule
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
@@ -34,6 +31,7 @@ import javax.inject.Singleton
         CoreModule::class,
         SchedulersModule::class,
         NetworkModule::class,
+        ServiceModule::class,
         AnalyticsModule::class,
 
 //        // data
@@ -48,6 +46,7 @@ interface CoreComponent {
 
     @ApplicationContext
     fun context(): Context
+
     fun resources(): Resources
 
     fun lastFmGateway(): ImageRetrieverGateway
@@ -58,7 +57,7 @@ interface CoreComponent {
     fun equalizerPrefs(): EqualizerPreferencesGateway
     fun sortPrefs(): SortPreferences
     fun blacklistPrefs(): BlacklistPreferences
-    
+
     fun playingQueueGateway(): PlayingQueueGateway
     fun favoriteGateway(): FavoriteGateway
     fun recentSearches(): RecentSearchesGateway
@@ -89,6 +88,8 @@ interface CoreComponent {
     fun trackerFacade(): TrackerFacade
 
     fun schedulers(): Schedulers
+
+    fun provideAlarmService(): AlarmService
 
     @Component.Factory
     interface Factory {
