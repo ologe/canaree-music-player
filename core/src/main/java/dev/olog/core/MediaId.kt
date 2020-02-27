@@ -1,27 +1,5 @@
 package dev.olog.core
 
-sealed class Canaree {
-
-    data class Category(
-        val category: MediaIdCategory
-    )
-
-    data class PodcastCategory(
-        val category: MediaIdCategory
-    )
-
-    data class Track(
-        val category: MediaIdCategory,
-        val id: Long
-    )
-
-    data class Podcast(
-        val category: MediaIdCategory,
-        val id: Long
-    )
-
-}
-
 class MediaId private constructor(
     val category: MediaIdCategory,
     val categoryValue: String,
