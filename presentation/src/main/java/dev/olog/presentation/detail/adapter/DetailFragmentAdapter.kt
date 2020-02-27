@@ -169,7 +169,7 @@ internal class DetailFragmentAdapter(
         payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()){
-            val payload = payloads[0] as List<String>
+            val payload = payloads.filterIsInstance<List<String>>().first()
             holder.itemView.apply {
                 title.text = payload[0]
                 subtitle.text = payload[1]
