@@ -7,6 +7,7 @@ import android.provider.MediaStore.Audio
 import android.util.Log
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
@@ -82,9 +83,10 @@ internal class SongRepository @Inject constructor(
         }
     }
 
-    override fun getByUri(uri: Uri): Song? {
+    override fun getByUri(uri: PureUri): Song? {
+        val realUri = Uri.fromParts(uri.scheme, uri.ssp, uri.fragment)
         try {
-            val id = getByUriInternal(uri) ?: return null
+            val id = getByUriInternal(realUri) ?: return null
             return getByParam(id)
         } catch (ex: Exception){
             ex.printStackTrace()
