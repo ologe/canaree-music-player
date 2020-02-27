@@ -34,13 +34,6 @@ fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     return this
 }
 
-fun <T> List<T>.startWithIfNotEmpty(item: List<T>): List<T> {
-    if (this.isNotEmpty()){
-        return startWith(item)
-    }
-    return this
-}
-
 fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any): MutableList<T> {
     if (predicate){
         this.action()
@@ -49,21 +42,11 @@ fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any
 }
 
 fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): Boolean {
-    for (t in this) {
-        if (predicate(t)) {
-            this.remove(t)
-            return true
-        }
+    val index = indexOfFirst(predicate)
+    if (isInBounds(index)) {
+        return removeAt(index) != null
     }
     return false
 }
 
-operator fun<T> List<T>.component1() = get(0)
-operator fun<T> List<T>.component2() = get(1)
-operator fun<T> List<T>.component3() = get(2)
-operator fun<T> List<T>.component4() = get(3)
-operator fun<T> List<T>.component5() = get(4)
 operator fun<T> List<T>.component6() = get(5)
-operator fun<T> List<T>.component7() = get(6)
-operator fun<T> List<T>.component8() = get(7)
-operator fun<T> List<T>.component9() = get(8)

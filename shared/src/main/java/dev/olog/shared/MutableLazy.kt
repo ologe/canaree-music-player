@@ -3,7 +3,7 @@ package dev.olog.shared
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class MutableLazy<T>(val init: () -> T) : ReadWriteProperty<Any?, T> {
+private class MutableLazy<T>(val init: () -> T) : ReadWriteProperty<Any?, T> {
 
     private var value: T? = null
 
@@ -19,5 +19,4 @@ class MutableLazy<T>(val init: () -> T) : ReadWriteProperty<Any?, T> {
     }
 }
 
-fun <T> mutableLazy(initializer: () -> T): MutableLazy<T> =
-    MutableLazy(initializer)
+fun <T> mutableLazy(initializer: () -> T): ReadWriteProperty<Any?, T> = MutableLazy(initializer)
