@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import dev.olog.core.C.ACTION_STOP_SLEEP_END
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.AlarmService
 import javax.inject.Inject
@@ -13,9 +14,6 @@ internal class AlarmServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : AlarmService {
 
-    companion object {
-        const val ACTION_STOP_SLEEP_END = "action.stop_sleep_timer"
-    }
 
     private val manager: AlarmManager by lazy {
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

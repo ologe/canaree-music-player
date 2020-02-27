@@ -1,5 +1,4 @@
-apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
@@ -8,6 +7,7 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_core.coroutines
-
-    implementation lib_x.annotations
 }
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

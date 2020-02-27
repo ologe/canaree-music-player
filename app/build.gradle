@@ -57,6 +57,10 @@ android {
         disable 'MissingTranslation'
     }
 
+    packagingOptions {
+        exclude 'META-INF/core.kotlin_module'
+    }
+
 }
 
 dependencies {
