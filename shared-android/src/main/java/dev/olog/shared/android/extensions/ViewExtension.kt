@@ -117,15 +117,6 @@ fun <T> ViewGroup.map(action: (View) -> T): List<T> {
     return result
 }
 
-fun View.findFragmentOrNull(): Fragment? {
-    try {
-        return findFragment()
-    } catch (ex: IllegalStateException) {
-        ex.printStackTrace()
-        return null
-    }
-}
-
 val View.lifecycle: Lifecycle
     get() = findFragment<Fragment>().viewLifecycleOwner.lifecycle
 
