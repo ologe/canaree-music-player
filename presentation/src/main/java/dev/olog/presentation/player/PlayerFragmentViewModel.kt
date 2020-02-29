@@ -14,15 +14,13 @@ import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class PlayerFragmentViewModel @Inject constructor(
@@ -57,8 +55,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
     )
 
     fun playerControls(): DisplayableItem {
-        val hasPlayerAppearance = context.hasPlayerAppearance()
-        val id = when (hasPlayerAppearance.playerAppearance()) {
+        val id = when (context.themeManager.playerAppearance) {
             PlayerAppearance.DEFAULT -> R.layout.player_layout_default
             PlayerAppearance.FLAT -> R.layout.player_layout_flat
             PlayerAppearance.SPOTIFY -> R.layout.player_layout_spotify

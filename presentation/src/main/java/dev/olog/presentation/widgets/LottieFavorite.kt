@@ -7,9 +7,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
 
 class LottieFavorite(
     context: Context,
@@ -25,8 +25,8 @@ class LottieFavorite(
     init {
         if (!isInEditMode){
             val isDarkMode = context.isDarkMode()
-            val playerAppearance = context.hasPlayerAppearance()
-            var useWhiteIcon = playerAppearance.isFullscreen()
+            val playerAppearance = context.themeManager.playerAppearance
+            var useWhiteIcon = playerAppearance.isFullscreen
 
             useWhiteIcon = useWhiteIcon || isDarkMode
 

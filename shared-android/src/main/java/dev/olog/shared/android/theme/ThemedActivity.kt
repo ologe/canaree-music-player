@@ -1,16 +1,15 @@
-package dev.olog.presentation.base
+package dev.olog.shared.android.theme
 
 import android.content.Context
 import android.content.res.Resources
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import dev.olog.presentation.R
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.android.R
 
 interface ThemedActivity {
 
     fun themeAccentColor(context: Context, theme: Resources.Theme){
-        if (context.isImmersiveMode()){
+        if (context.themeManager.isImmersive){
             theme.applyStyle(R.style.ThemeImmersive, true)
         }
         theme.applyStyle(getAccentStyle(context.applicationContext), true)

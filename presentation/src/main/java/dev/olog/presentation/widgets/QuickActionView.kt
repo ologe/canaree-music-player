@@ -7,15 +7,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.lifecycleScope
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
-import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlin.properties.Delegates
 
 class QuickActionView(
@@ -26,17 +20,13 @@ class QuickActionView(
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 
-    private var job by autoDisposeJob()
-
-    private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
-
     init {
         setImage()
         setBackgroundResource(R.drawable.background_quick_action)
     }
 
     private fun setImage() {
-        val quickAction = hasQuickAction.getQuickAction()
+        val quickAction = context.themeManager.quickAction
         toggleVisibility(quickAction != QuickAction.NONE, true)
 
         when (quickAction) {
@@ -49,17 +39,11 @@ class QuickActionView(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setOnClickListener(this)
-
-        job = hasQuickAction.observeQuickAction()
-            .consumeAsFlow()
-            .onEach { setImage() }
-            .launchIn(lifecycleScope)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnClickListener(null)
-        job = null
     }
 
     fun setId(mediaId: MediaId) {
@@ -68,7 +52,7 @@ class QuickActionView(
 
     override fun onClick(v: View?) {
         val mediaProvider = context as MediaProvider
-        when (hasQuickAction.getQuickAction()) {
+        when (context.themeManager.quickAction) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
             QuickAction.NONE -> {

@@ -9,10 +9,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import java.lang.ref.WeakReference
@@ -97,8 +97,8 @@ class StatusBarColorBehavior @Inject constructor(
 
             when (newState) {
                 BottomSheetBehavior.STATE_EXPANDED -> {
-                    val playerApperance = (activity.hasPlayerAppearance())
-                    if (playerApperance.isFullscreen() || playerApperance.isBigImage()) {
+                    val playerAppearance = (activity.themeManager.playerAppearance)
+                    if (playerAppearance.isFullscreen || playerAppearance.isBigImage) {
                         activity.window.removeLightStatusBar()
                     } else {
                         activity.window.setLightStatusBar()

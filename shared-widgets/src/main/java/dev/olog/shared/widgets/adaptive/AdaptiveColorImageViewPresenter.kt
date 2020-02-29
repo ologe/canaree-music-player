@@ -11,6 +11,7 @@ import androidx.palette.graphics.Palette
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,7 @@ class AdaptiveColorImageViewPresenter(
     private val context: Context
 ) {
 
-    private val isDarkMode by lazy(LazyThreadSafetyMode.NONE) {
+    private val isDarkMode by lazyFast {
         context.isDarkMode()
     }
 

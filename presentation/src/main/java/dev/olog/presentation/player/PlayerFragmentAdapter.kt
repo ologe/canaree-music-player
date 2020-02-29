@@ -25,6 +25,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.StatusBarView
@@ -35,14 +36,12 @@ import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.repeat
 import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_big_image.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.artist
 import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
 import kotlinx.android.synthetic.main.player_layout_default.view.duration
@@ -194,9 +193,9 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
-        val playerAppearance = view.context.hasPlayerAppearance()
+        val playerAppearance = view.context.themeManager.playerAppearance
 
-        if (!playerAppearance.isSpotify() && !playerAppearance.isBigImage()){
+        if (!playerAppearance.isSpotify && !playerAppearance.isBigImage){
             view.next.setDefaultColor()
             view.previous.setDefaultColor()
             view.playPause.setDefaultColor()
@@ -270,10 +269,10 @@ internal class PlayerFragmentAdapter(
             .subscribe(holder, view.previous::updateVisibility)
 
         presenter.observePlayerControlsVisibility()
-            .filter { !playerAppearance.isFullscreen()
-                    && !playerAppearance.isMini()
-                    && !playerAppearance.isSpotify()
-                    && !playerAppearance.isBigImage()
+            .filter { !playerAppearance.isFullscreen
+                    && !playerAppearance.isMini
+                    && !playerAppearance.isSpotify
+                    && !playerAppearance.isBigImage
             }
             .asLiveData()
             .subscribe(holder) { visible ->
@@ -304,7 +303,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {
-        if (view.context.hasPlayerAppearance().isFlat()){
+        if (view.context.themeManager.playerAppearance.isFlat){
             // WORKAROUND, all caps attribute is not working for some reason
             view.title.text = metadata.title.toUpperCase()
         } else {

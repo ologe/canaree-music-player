@@ -8,11 +8,11 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.widgets.ColorDelegateImpl
 import dev.olog.shared.widgets.IColorDelegate
 import java.lang.IllegalStateException
@@ -25,7 +25,6 @@ class ShuffleButton(
     private var enabledColor: Int
     private var shuffleMode = PlayerShuffleMode.NOT_SET
 
-    private val playerAppearance by lazyFast { context.hasPlayerAppearance() }
     private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
@@ -33,6 +32,7 @@ class ShuffleButton(
         enabledColor = context.colorAccent()
         background = null
         if (!isInEditMode){
+            val playerAppearance = context.themeManager.playerAppearance
             val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
             setColorFilter(defaultColor)
         }
@@ -62,6 +62,7 @@ class ShuffleButton(
     }
 
     private fun disable() {
+        val playerAppearance = context.themeManager.playerAppearance
         val defaultColor = getDefaultColor(context, playerAppearance, isDarkMode)
         animateAvd(defaultColor)
     }

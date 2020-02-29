@@ -23,21 +23,17 @@ import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.main.di.clearComponent
 import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.android.theme.hasPlayerAppearance
-import dev.olog.shared.android.theme.isImmersiveMode
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -54,6 +50,7 @@ class MainActivity : MusicGlueActivity(),
     }
     @Inject
     lateinit var navigator: Navigator
+
     // handles lifecycle itself
 
     @Inject
@@ -62,6 +59,7 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var statusBarColorBehavior: StatusBarColorBehavior
+
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
@@ -71,14 +69,14 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (isImmersiveMode()){
+        if (themeManager.isImmersive){
             // workaround, on some device on immersive mode bottom navigation disappears
             rootView.fitsSystemWindows = true
             slidingPanel.fitsSystemWindows = true
             bottomWrapper.fitsSystemWindows = true
         }
 
-        if (hasPlayerAppearance().isMini()){
+        if (themeManager.playerAppearance.isMini){
             // TODO made a resource value
             slidingPanelFade.parallax = 0
             slidingPanel.setHeight(dip(300))

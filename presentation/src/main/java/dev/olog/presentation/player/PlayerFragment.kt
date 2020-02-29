@@ -21,8 +21,8 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mapListItem
@@ -59,12 +59,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val hasPlayerAppearance = requireContext().hasPlayerAppearance()
+        val playerAppearance = themeManager.playerAppearance
 
         val adapter = PlayerFragmentAdapter(
             activity as MediaProvider,
             navigator, viewModel, presenter, musicPrefs,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            this, IPlayerAppearanceAdaptiveBehavior.get(playerAppearance)
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
@@ -80,7 +80,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         mediaProvider.observeQueue()
             .mapListItem { it.toDisplayableItem() }
             .map { queue ->
-                if (!hasPlayerAppearance.isMini()) {
+                if (!playerAppearance.isMini) {
                     val copy = queue.toMutableList()
                     if (copy.size > PlayingQueueGateway.MINI_QUEUE_SIZE - 1) {
                         copy.add(viewModel.footerLoadMore)
@@ -112,8 +112,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     }
 
     override fun provideLayoutId(): Int {
-        val appearance = requireContext().hasPlayerAppearance()
-        return when (appearance.playerAppearance()) {
+        return when (themeManager.playerAppearance) {
             PlayerAppearance.FULLSCREEN -> R.layout.fragment_player_fullscreen
             PlayerAppearance.CLEAN -> R.layout.fragment_player_clean
             PlayerAppearance.MINI -> R.layout.fragment_player_mini

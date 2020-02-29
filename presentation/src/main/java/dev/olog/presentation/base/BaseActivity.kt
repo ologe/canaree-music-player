@@ -11,7 +11,8 @@ import dagger.android.HasAndroidInjector
 import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.android.theme.isImmersiveMode
+import dev.olog.shared.android.theme.ThemedActivity
+import dev.olog.shared.android.theme.themeManager
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInjector {
@@ -30,7 +31,7 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInj
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus && isImmersiveMode()) {
+        if (hasFocus && themeManager.isImmersive) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or

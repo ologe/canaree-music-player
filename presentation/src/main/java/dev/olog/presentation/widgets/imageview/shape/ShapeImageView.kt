@@ -10,22 +10,16 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import dev.olog.presentation.R
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.extensions.dipf
-import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
-import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 open class ShapeImageView(
     context: Context,
     attrs: AttributeSet
 
-) : ForegroundImageView(context, attrs), CoroutineScope by MainScope() {
+) : ForegroundImageView(context, attrs) {
 
     companion object {
         private const val DEFAULT_RADIUS = 5
@@ -33,15 +27,12 @@ open class ShapeImageView(
         private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
     }
 
-    private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
-
-    private var job by autoDisposeJob()
-
     private val radius: Int
     private var mask: Bitmap? = null
         get() {
             if (field == null) {
-                field = buildMaskShape(getShapeModel(hasImageShape.getImageShape()))
+                val shape = context.themeManager.imageShape
+                field = buildMaskShape(getShapeModel(shape))
             }
             return field
         }
@@ -75,28 +66,12 @@ open class ShapeImageView(
             .build()
 
         squareShapeModel = ShapeAppearanceModel()
-    }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (isInEditMode) {
-            return
+        if (!isInEditMode) {
+            setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            val shape = context.themeManager.imageShape
+            updateBackground(getShapeModel(shape))
         }
-        setLayerType(View.LAYER_TYPE_HARDWARE, null)
-
-        val hasImageShape = context.applicationContext as HasImageShape
-        job = hasImageShape
-            .observeImageShape()
-            .onEach {
-                mask = null
-                updateBackground(getShapeModel(it))
-            }.launchIn(this)
-
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        job = null
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -111,7 +86,6 @@ open class ShapeImageView(
     override fun requestLayout() {
         super.requestLayout()
         mask = null
-//        job = null
     }
 
     private fun getShapeModel(imageShape: ImageShape): ShapeAppearanceModel {
