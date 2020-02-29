@@ -9,6 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
@@ -25,6 +26,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
+import dev.olog.presentation.utils.TextUpdateTransition
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
@@ -32,27 +34,21 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.fragmentTransaction
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.repeat
 import kotlinx.android.synthetic.main.player_controls_default.view.shuffle
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.bookmark
-import kotlinx.android.synthetic.main.player_layout_default.view.duration
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.swipeableView
-import kotlinx.android.synthetic.main.player_layout_default.view.title
+import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.favorite
 import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
 import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
+import java.util.*
 
 internal class PlayerFragmentAdapter(
     private val mediaProvider: MediaProvider,
@@ -205,7 +201,9 @@ internal class PlayerFragmentAdapter(
             .subscribe(holder) {
                 viewModel.updateCurrentTrackId(it.id)
 
-                updateMetadata(view, it)
+                holder.doSuspend {
+                    updateMetadata(view, it)
+                }
                 updateImage(view, it)
             }
 
@@ -302,14 +300,7 @@ internal class PlayerFragmentAdapter(
             }
     }
 
-    private fun updateMetadata(view: View, metadata: PlayerMetadata) {
-        if (view.context.themeManager.playerAppearance.isFlat){
-            // WORKAROUND, all caps attribute is not working for some reason
-            view.title.text = metadata.title.toUpperCase()
-        } else {
-            view.title.text = metadata.title
-        }
-        view.artist.text = metadata.artist
+    private suspend fun updateMetadata(view: View, metadata: PlayerMetadata) {
 
         val duration = metadata.duration
 
@@ -320,6 +311,25 @@ internal class PlayerFragmentAdapter(
         val isPodcast = metadata.isPodcast
         val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
         playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
+
+        TransitionManager.beginDelayedTransition(view.textWrapper, TextUpdateTransition)
+        val title = view.textWrapper.title
+        val artist = view.textWrapper.artist
+
+        title.isSelected = false
+        artist.isSelected = false
+
+        title.text = if (view.context.themeManager.playerAppearance.isFlat){
+            // WORKAROUND, all caps attribute is not working for some reason
+            metadata.title.toUpperCase(Locale.getDefault())
+        } else {
+            metadata.title
+        }
+        artist.text = metadata.artist
+
+        delay(TextUpdateTransition.DURATION * 2)
+        title.isSelected = true
+        artist.isSelected = true
     }
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {

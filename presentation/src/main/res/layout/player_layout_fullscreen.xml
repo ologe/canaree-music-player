@@ -135,7 +135,8 @@
             <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
                 android:id="@+id/title"
                 tools:text="In Da Club"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:textSize="26dp"
                 android:textColor="@android:color/white"
@@ -150,8 +151,9 @@
             <TextView
                 android:id="@+id/artist"
                 tools:text="50 Cent"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:textColor="#BDBDBD"

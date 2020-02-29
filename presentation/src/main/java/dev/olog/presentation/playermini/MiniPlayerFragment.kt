@@ -7,21 +7,26 @@ import androidx.core.math.MathUtils
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.map
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
+import dev.olog.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.utils.TextUpdateTransition
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.filter
+import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -38,6 +43,8 @@ class MiniPlayerFragment : BaseFragment(){
 
     private val media by lazyFast { requireActivity() as MediaProvider }
 
+    private var updateTitlesJob by autoDisposeJob()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
@@ -48,11 +55,9 @@ class MiniPlayerFragment : BaseFragment(){
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
-                    title.text = it.title
                     presenter.startShowingLeftTime(it.isPodcast, it.duration)
-                    if (!it.isPodcast){
-                        artist.text = it.artist
-                    }
+                    updateTitlesJob = launchWhenResumed { updateTitles(it) }
+
                     updateProgressBarMax(it.duration)
                 }
 
@@ -93,6 +98,21 @@ class MiniPlayerFragment : BaseFragment(){
                 .subscribe(viewLifecycleOwner) {
                     previous.updateVisibility(it)
                 }
+    }
+
+    private suspend fun updateTitles(metadata: PlayerMetadata) {
+        title.isSelected = false
+        artist.isSelected = false
+
+        TransitionManager.beginDelayedTransition(textWrapper, TextUpdateTransition)
+        title.text = metadata.title
+        if (!metadata.isPodcast){
+            artist.text = metadata.artist
+        }
+
+        delay(TextUpdateTransition.DURATION * 2)
+        title.isSelected = true
+        artist.isSelected = true
     }
 
     override fun onResume() {

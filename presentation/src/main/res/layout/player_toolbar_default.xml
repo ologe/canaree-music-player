@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/nowPlaying"
         android:text="@string/player_now_playing"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"

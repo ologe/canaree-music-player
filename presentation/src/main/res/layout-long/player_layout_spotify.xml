@@ -65,8 +65,9 @@
         <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
             android:id="@+id/title"
             tools:text="In Da Club"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="@dimen/player_title_text_size"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-black"
@@ -79,8 +80,9 @@
         <TextView
             android:id="@+id/artist"
             tools:text="50 Cent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textSize="@dimen/player_artist_text_size"
             android:textColor="?android:attr/textColorSecondary"
             android:singleLine="true"
