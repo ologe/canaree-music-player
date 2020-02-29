@@ -150,6 +150,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         when (key) {
+            getString(R.string.prefs_icon_shape_key),
+            getString(R.string.prefs_dark_mode_key),
+            getString(R.string.prefs_immersive_key),
+            getString(R.string.prefs_appearance_key),
+            getString(R.string.prefs_quick_action_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
             }
