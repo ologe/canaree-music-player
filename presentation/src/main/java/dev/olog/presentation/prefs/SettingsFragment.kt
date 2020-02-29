@@ -149,10 +149,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
-        if (context == null) {
-            return
-            // crash workaround, don't know if crashes because of a leak or what else
-        }
         when (key) {
             getString(R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()
