@@ -52,10 +52,6 @@ class MainActivity : MusicGlueActivity(),
     lateinit var navigator: Navigator
 
     // handles lifecycle itself
-
-    @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
-
     @Suppress("unused")
     @Inject
     lateinit var statusBarColorBehavior: StatusBarColorBehavior
