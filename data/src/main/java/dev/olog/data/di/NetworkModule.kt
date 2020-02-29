@@ -5,10 +5,10 @@ import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.data.BuildConfig
 import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
+import dev.olog.shared.ApplicationContext
 import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

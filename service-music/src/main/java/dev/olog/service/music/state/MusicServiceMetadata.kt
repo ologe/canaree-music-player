@@ -8,8 +8,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.bumptech.glide.request.target.Target
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap

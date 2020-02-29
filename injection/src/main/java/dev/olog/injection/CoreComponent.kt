@@ -9,7 +9,7 @@ import dagger.Component
 import dev.olog.analytics.AnalyticsModule
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.IEncrypter
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway

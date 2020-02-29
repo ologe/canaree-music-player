@@ -1,8 +1,6 @@
 package dev.olog.equalizer.equalizer
 
-import android.content.Context
 import android.media.audiofx.AudioEffect
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
@@ -14,7 +12,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway
 

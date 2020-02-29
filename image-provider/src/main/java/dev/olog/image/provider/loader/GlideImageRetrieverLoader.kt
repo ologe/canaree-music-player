@@ -7,7 +7,7 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher

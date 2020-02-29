@@ -2,7 +2,6 @@ package dev.olog.data.repository
 
 import android.content.Context
 import android.provider.MediaStore
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
@@ -10,6 +9,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.assertBackground
+import dev.olog.shared.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow

@@ -1,7 +1,9 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
+    implementation project(':shared')
     implementation project(':prefs-keys')
 
     implementation lib_core.kotlin
@@ -16,4 +18,7 @@ dependencies {
     // google architecture components
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_livedata
+
+    implementation lib_core.dagger
+    kapt lib_core.dagger_processor
 }

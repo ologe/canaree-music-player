@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import dev.olog.core.C.ACTION_STOP_SLEEP_END
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.gateway.AlarmService
+import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
 internal class AlarmServiceImpl @Inject constructor(

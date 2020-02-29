@@ -3,7 +3,7 @@ package dev.olog.data.repository.podcast
 import android.content.ContentUris
 import android.content.Context
 import android.util.Log
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway

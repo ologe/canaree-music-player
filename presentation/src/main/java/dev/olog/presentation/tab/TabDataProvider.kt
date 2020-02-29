@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway

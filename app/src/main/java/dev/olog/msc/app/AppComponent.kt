@@ -4,12 +4,14 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.appwidgets.WidgetBindingModule
+import dev.olog.shared.android.theme.ThemeModule
 import javax.inject.Scope
 
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        WidgetBindingModule::class
+        WidgetBindingModule::class,
+        ThemeModule::class
     ], dependencies = [CoreComponent::class]
 )
 @PerApp

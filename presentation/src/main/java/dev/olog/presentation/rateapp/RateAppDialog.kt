@@ -8,12 +8,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.PlayStoreUtils
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 private var counterAlreadyIncreased = false

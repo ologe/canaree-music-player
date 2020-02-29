@@ -14,7 +14,6 @@ import dev.olog.msc.R
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import dev.olog.shared.android.theme.ThemeUtils.THEME_SERVICE
 import dev.olog.shared.android.theme.ThemeManager
-import dev.olog.shared.android.theme.ThemeManagerImpl
 import io.alterac.blurkit.BlurKit
 import javax.inject.Inject
 
@@ -31,9 +30,8 @@ class App : Application(), HasAndroidInjector {
     @Inject
     lateinit var trackerFacade: TrackerFacade
 
-    private val themeManager: ThemeManager by lazy {
-        ThemeManagerImpl(this, PreferenceManager.getDefaultSharedPreferences(this))
-    }
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     override fun onCreate() {
         super.onCreate()

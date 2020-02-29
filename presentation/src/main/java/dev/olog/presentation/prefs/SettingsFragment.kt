@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -28,6 +29,7 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
+import dev.olog.shared.android.DarkModeUtils
 import dev.olog.shared.android.extensions.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -150,8 +152,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         when (key) {
+            getString(R.string.prefs_dark_mode_key) -> {
+                val value = prefs.getString(key, getString(R.string.prefs_dark_mode_2_entry_value_follow_system))!!
+                val darkMode = DarkModeUtils.fromString(requireContext(), value)
+                AppCompatDelegate.setDefaultNightMode(darkMode)
+            }
             getString(R.string.prefs_icon_shape_key),
-            getString(R.string.prefs_dark_mode_key),
             getString(R.string.prefs_immersive_key),
             getString(R.string.prefs_appearance_key),
             getString(R.string.prefs_quick_action_key),

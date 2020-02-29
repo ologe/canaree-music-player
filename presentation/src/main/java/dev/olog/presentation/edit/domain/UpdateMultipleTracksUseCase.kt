@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject

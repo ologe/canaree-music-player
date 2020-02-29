@@ -2,7 +2,7 @@ package dev.olog.presentation.search
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableHeader

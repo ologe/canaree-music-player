@@ -1,7 +1,7 @@
 package dev.olog.service.floating
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase

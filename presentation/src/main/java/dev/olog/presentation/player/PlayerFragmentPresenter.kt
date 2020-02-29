@@ -1,7 +1,7 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.widgets.adaptive.*

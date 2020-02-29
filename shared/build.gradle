@@ -3,6 +3,8 @@ apply plugin: 'kotlin'
 dependencies {
     implementation lib_core.kotlin
     implementation lib_core.coroutines
+
+    implementation lib_core.dagger
 }
 
 sourceCompatibility = "8"

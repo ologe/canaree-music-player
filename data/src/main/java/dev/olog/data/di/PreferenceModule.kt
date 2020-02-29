@@ -6,10 +6,10 @@ import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.prefs.*
 import dev.olog.data.prefs.*
 import dev.olog.data.prefs.sort.AppSortingImpl
+import dev.olog.shared.ApplicationContext
 import javax.inject.Singleton
 
 @Module

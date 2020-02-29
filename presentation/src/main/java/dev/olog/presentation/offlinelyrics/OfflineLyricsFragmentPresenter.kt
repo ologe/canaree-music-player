@@ -1,7 +1,7 @@
 package dev.olog.presentation.offlinelyrics
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
+import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.intents.AppConstants
