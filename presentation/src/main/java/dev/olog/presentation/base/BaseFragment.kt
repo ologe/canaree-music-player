@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerFragment
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 
 abstract class BaseFragment : DaggerFragment() {
 
@@ -23,7 +23,7 @@ abstract class BaseFragment : DaggerFragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
+    fun getSlidingPanel(): BottomSheetBehavior<*>? {
         return (activity as HasSlidingPanel).getSlidingPanel()
     }
 
