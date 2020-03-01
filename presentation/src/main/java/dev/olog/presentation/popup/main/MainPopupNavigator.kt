@@ -6,11 +6,16 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
+import dev.olog.presentation.animations.setupEnterAnimation
+import dev.olog.presentation.animations.setupExitAnimation
 import dev.olog.presentation.equalizer.EqualizerFragment
-import dev.olog.presentation.navigator.superCerealTransition
+import dev.olog.presentation.navigator.allowed
+import dev.olog.presentation.navigator.findFirstVisibleFragment
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
+import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.mandatory
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -23,7 +28,16 @@ class MainPopupNavigator @Inject constructor(
     fun toAboutActivity() {
         val activity = activityRef.get() ?: return
 
-        superCerealTransition(activity, AboutFragment(), AboutFragment.TAG)
+        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        current!!.setupExitAnimation(activity)
+
+        val fragment = AboutFragment()
+        fragment.setupEnterAnimation(activity)
+
+        activity.fragmentTransaction {
+            replace(R.id.fragmentContainer, fragment, AboutFragment.TAG)
+            addToBackStack(AboutFragment.TAG)
+        }
     }
 
     fun toEqualizer() {
@@ -58,12 +72,23 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toSettingsActivity() {
+        mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
-        superCerealTransition(activity, SettingsFragmentWrapper(), SettingsFragmentWrapper.TAG)
+        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        current!!.setupExitAnimation(activity)
+
+        val fragment = SettingsFragmentWrapper()
+        fragment.setupEnterAnimation(activity)
+
+        activity.fragmentTransaction {
+            replace(R.id.fragmentContainer, fragment, SettingsFragmentWrapper.TAG)
+            addToBackStack(SettingsFragmentWrapper.TAG)
+        }
     }
 
     fun toSleepTimer() {
+        mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
         SleepTimerPickerDialogBuilder(activity, activity.supportFragmentManager).show()

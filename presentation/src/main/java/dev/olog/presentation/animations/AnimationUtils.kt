@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialFadeThrough
 
-private const val DURATION = 300L
+//private const val DURATION = 2000L
 
 // Fragment context can't be initialized yet, so don't use `Fragment#requireContext()`
 
 fun Fragment.setupExitAnimation(context: Context) {
     val transition = MaterialFadeThrough.create(context).apply {
-        //        duration = DURATION
+//        duration = DURATION
     }
     exitTransition = transition
     reenterTransition = transition
@@ -18,7 +18,7 @@ fun Fragment.setupExitAnimation(context: Context) {
 
 fun Fragment.setupEnterAnimation(context: Context) {
     val transition = MaterialFadeThrough.create(context).apply {
-        //        duration = DURATION
+//        duration = DURATION
     }
     enterTransition = transition
     returnTransition = transition

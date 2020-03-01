@@ -5,10 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
+import dev.olog.presentation.R
+import dev.olog.presentation.animations.*
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
@@ -32,11 +35,9 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
+import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.fragmentTransaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dev.olog.shared.mandatory
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -138,18 +139,13 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toOfflineLyrics() {
+        mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
-        if (!allowed()) {
-            return
-        }
+
         activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(
-                android.R.id.content,
-                OfflineLyricsFragment.newInstance(),
-                OfflineLyricsFragment.TAG
-            )
+            add(android.R.id.content, OfflineLyricsFragment.newInstance(), OfflineLyricsFragment.TAG)
             addToBackStack(OfflineLyricsFragment.TAG)
         }
     }
