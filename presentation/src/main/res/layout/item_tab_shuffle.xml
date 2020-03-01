@@ -1,52 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp"
+    android:paddingStart="@dimen/item_song_cover_margin_start"
+    android:paddingEnd="@dimen/item_song_cover_margin_start"
+    android:background="?attr/selectableItemBackground"
+    android:layout_marginBottom="12dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/img"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="@dimen/item_song_cover_size"
+        android:layout_height="@dimen/item_song_cover_size"
+        android:src="@drawable/vd_shuffle"
+        android:clickable="false"
+        android:focusable="false"
+        android:background="@null"/>
+
+    <TextView
+        android:id="@+id/text"
+        app:layout_constraintTop_toTopOf="@+id/img"
+        app:layout_constraintBottom_toBottomOf="@+id/img"
+        app:layout_constraintStart_toEndOf="@+id/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/common_shuffle"
+        android:textSize="@dimen/item_shuffle_text_size"
+        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp">
+        android:textColor="?android:attr/textColorPrimary"
+        android:gravity="center_vertical" />
 
-        <ImageButton
-            android:id="@+id/img"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="@dimen/item_song_cover_size"
-            android:layout_height="@dimen/item_song_cover_size"
-            android:src="@drawable/vd_shuffle"
-            android:layout_marginStart="@dimen/item_song_cover_margin_start"
-            android:clickable="false"
-            android:focusable="false"
-            android:background="@null"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/text"
-            app:layout_constraintTop_toTopOf="@+id/img"
-            app:layout_constraintBottom_toBottomOf="@+id/img"
-            app:layout_constraintStart_toEndOf="@+id/img"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/common_shuffle"
-            android:textSize="@dimen/item_shuffle_text_size"
-            android:layout_marginStart="16dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:gravity="center_vertical" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <dev.olog.shared.widgets.DottedSeparator
-        android:id="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginEnd="@dimen/item_song_cover_margin_start"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="@dimen/item_song_cover_margin_start" />
-
-</LinearLayout>

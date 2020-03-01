@@ -22,7 +22,6 @@ public class DottedSeparator extends View {
         super(context, attrs, defStyleAttr);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setBackgroundResource(R.drawable.dotted_line);
-        setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
-        setAlpha(.1f);
+        setBackgroundTintList(ColorStateList.valueOf(Color.MAGENTA));
     }
 }

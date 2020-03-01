@@ -17,6 +17,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -110,6 +111,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
         list.layoutManager = gridLayoutManager
         list.adapter = adapter
         list.setHasFixedSize(true)
+        list.addItemDecoration(DottedDividerDecorator(
+            requireContext(), listOf(R.layout.item_tab_header, R.layout.item_tab_shuffle)
+        ))
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
             list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))

@@ -1,3 +1,7 @@
+## TODO leaks?
+- bottom navigator crash
+
+
 ## TODO now
 sort by play count
 - check podcast favorites if it's working
