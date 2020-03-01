@@ -19,7 +19,6 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LibraryFragment : BaseFragment() {
@@ -47,9 +46,7 @@ class LibraryFragment : BaseFragment() {
     lateinit var trackerFacade: TrackerFacade
 
     private val isPodcast by lazyFast {
-        getArgument<Boolean>(
-            IS_PODCAST
-        )
+        getArgument<Boolean>(IS_PODCAST)
     }
 
     private val pagerAdapter by lazyFast {
@@ -78,7 +75,6 @@ class LibraryFragment : BaseFragment() {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-        viewPager.offscreenPageLimit = 2
 
         pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 
