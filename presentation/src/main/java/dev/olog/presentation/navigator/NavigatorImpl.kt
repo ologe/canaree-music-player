@@ -155,29 +155,29 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toEditInfoFragment(mediaId: MediaId) {
+        mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
-        if (allowed()) {
-            when {
-                mediaId.isLeaf -> {
-                    editItemDialogFactory.get().toEditTrack(mediaId) {
-                        val instance = EditTrackFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
-                    }
+
+        when {
+            mediaId.isLeaf -> {
+                editItemDialogFactory.get().toEditTrack(mediaId) {
+                    val instance = EditTrackFragment.newInstance(mediaId)
+                    instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
                 }
-                mediaId.isAlbum || mediaId.isPodcastAlbum -> {
-                    editItemDialogFactory.get().toEditAlbum(mediaId) {
-                        val instance = EditAlbumFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
-                    }
-                }
-                mediaId.isArtist || mediaId.isPodcastArtist -> {
-                    editItemDialogFactory.get().toEditArtist(mediaId) {
-                        val instance = EditArtistFragment.newInstance(mediaId)
-                        instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
-                    }
-                }
-                else -> throw IllegalArgumentException("invalid media id $mediaId")
             }
+            mediaId.isAlbum || mediaId.isPodcastAlbum -> {
+                editItemDialogFactory.get().toEditAlbum(mediaId) {
+                    val instance = EditAlbumFragment.newInstance(mediaId)
+                    instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
+                }
+            }
+            mediaId.isArtist || mediaId.isPodcastArtist -> {
+                editItemDialogFactory.get().toEditArtist(mediaId) {
+                    val instance = EditArtistFragment.newInstance(mediaId)
+                    instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
+                }
+            }
+            else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }
 
@@ -205,11 +205,12 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
-        if (allowed()) {
-            activityRef.get()?.lifecycleScope?.launchWhenResumed {
-                val popup = popupFactory.get().create(anchor, mediaId)
-                popup.show()
-            }
+        mandatory(allowed()) ?: return
+        val activity = activityRef.get() ?: return
+
+        activity.lifecycleScope.launchWhenResumed {
+            val popup = popupFactory.get().create(anchor, mediaId)
+            popup.show()
         }
     }
 
