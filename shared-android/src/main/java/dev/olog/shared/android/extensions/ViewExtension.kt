@@ -13,12 +13,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import java.lang.Exception
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -118,10 +120,22 @@ fun <T> ViewGroup.map(action: (View) -> T): List<T> {
 }
 
 val View.lifecycle: Lifecycle
-    get() = findFragment<Fragment>().viewLifecycleOwner.lifecycle
+    get() {
+        return try {
+            findFragment<Fragment>().lifecycle
+        } catch (ex: Exception) {
+            (context as FragmentActivity).lifecycle
+        }
+    }
 
 val View.lifecycleScope: LifecycleCoroutineScope
-    get() = findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
+    get() {
+        return try {
+            findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
+        } catch (ex: Exception) {
+            (context as FragmentActivity).lifecycleScope
+        }
+    }
 
 fun View.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
     return lifecycleScope.launchWhenResumed(block)
