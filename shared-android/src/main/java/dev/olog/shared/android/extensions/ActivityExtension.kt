@@ -17,7 +17,10 @@ fun FragmentManager.getTopFragment(): Fragment? {
     val topFragment = this.backStackEntryCount - 1
     if (topFragment > -1) {
         val tag = this.getBackStackEntryAt(topFragment).name
-        return this.findFragmentByTag(tag)
+        val fragment = this.findFragmentByTag(tag)
+        if (fragment?.isVisible == true) {
+            return fragment
+        }
     }
     return null
 }

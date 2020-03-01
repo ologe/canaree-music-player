@@ -177,6 +177,7 @@ class MainActivity : MusicGlueActivity(),
                     super.onBackPressed()
                     return
                 }
+                // TODO scroll sliding panel list to top first
                 getSlidingPanel().isExpanded() -> {
                     getSlidingPanel().collapse()
                     return
@@ -195,11 +196,12 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun tryPopFolderBack(): Boolean {
-        val categoriesFragment =
-            supportFragmentManager.findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
+        val categoriesFragment = supportFragmentManager
+            .findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
 
-        if (categoriesFragment.isCurrentFragmentFolderTree()){
+        if (categoriesFragment.isVisible && categoriesFragment.isCurrentFragmentFolderTree()){
             val folderTree = categoriesFragment.childFragmentManager.fragments
+                .filter { it.isVisible }
                 .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
             return folderTree?.handleOnBackPressed() == true
         }
