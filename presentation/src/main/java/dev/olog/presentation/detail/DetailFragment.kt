@@ -110,29 +110,27 @@ class DetailFragment : BaseFragment(),
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        viewModel.observeMostPlayed()
-            .subscribe(viewLifecycleOwner, mostPlayedAdapter::submitList)
+        viewModel.observeSongs().combine(
+            viewModel.observeMostPlayed(),
+            viewModel.observeRecentlyAdded(),
+            viewModel.observeRelatedArtists(),
+            viewModel.observeSiblings()
+        ) { songs, most, recent, related, siblings ->
+            DetailValues(songs, most, recent, related, siblings)
+        }.subscribe(viewLifecycleOwner) {
+            if (it.songs.isEmpty()) {
+                act.onBackPressed()
+            } else {
+                mostPlayedAdapter.submitList(it.mostPlayed)
+                recentlyAddedAdapter.submitList(it.recentlyAdded)
+                relatedArtistAdapter.submitList(it.relatedArtists)
+                albumsAdapter.submitList(it.siblings)
+                mostPlayedAdapter.submitList(it.mostPlayed)
 
-        viewModel.observeRecentlyAdded()
-            .subscribe(viewLifecycleOwner, recentlyAddedAdapter::submitList)
-
-        viewModel.observeRelatedArtists()
-            .subscribe(viewLifecycleOwner, relatedArtistAdapter::submitList)
-
-        viewModel.observeSiblings()
-            .subscribe(viewLifecycleOwner) {
-                albumsAdapter.submitList(it)
+                adapter.submitList(it.songs)
+                restoreUpperWidgetsTranslation()
             }
-
-        viewModel.observeSongs()
-            .subscribe(viewLifecycleOwner) { list ->
-                if (list.isEmpty()) {
-                    act.onBackPressed()
-                } else {
-                    adapter.submitList(list)
-                    restoreUpperWidgetsTranslation()
-                }
-            }
+        }
 
         viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
             require(item is DisplayableHeader)
