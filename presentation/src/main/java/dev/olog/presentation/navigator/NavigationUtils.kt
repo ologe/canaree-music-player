@@ -56,28 +56,3 @@ fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
     }
     return topFragment
 }
-
-fun superCerealTransition(
-    activity: FragmentActivity,
-    fragment: Fragment,
-    tag: String,
-    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
-) {
-    if (!allowed()) {
-        return
-    }
-
-    val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
-
-    activity.fragmentTransaction {
-        setReorderingAllowed(true)
-        setTransition(transition)
-        topFragment?.let { hide(it) }
-        add(
-            R.id.fragmentContainer,
-            fragment,
-            tag
-        )
-        addToBackStack(tag)
-    }
-}

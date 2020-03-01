@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:background="?android:colorBackground"
+    android:transitionName="@string/create_playlist_shared">
 
     <FrameLayout
         android:id="@+id/toolbar"

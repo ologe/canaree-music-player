@@ -1,24 +1,27 @@
 package dev.olog.presentation.widgets.bottomnavigator
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.analytics.TrackerFacade
+import dev.olog.presentation.R
+import dev.olog.presentation.animations.setupEnterAnimation
+import dev.olog.presentation.animations.setupExitAnimation
 import dev.olog.presentation.library.LibraryFragment
+import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
-import dev.olog.presentation.R
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.LibraryPage
 
 internal class BottomNavigator {
 
     private val tags = listOf(
-            LibraryFragment.TAG_TRACK,
-            LibraryFragment.TAG_PODCAST,
-            SearchFragment.TAG,
-            PlayingQueueFragment.TAG
+        LibraryFragment.TAG_TRACK,
+        LibraryFragment.TAG_PODCAST,
+        SearchFragment.TAG,
+        PlayingQueueFragment.TAG
     )
 
     fun navigate(
@@ -29,40 +32,61 @@ internal class BottomNavigator {
     ) {
         val fragmentTag = page.toFragmentTag(libraryPage)
 
-        if (!tags.contains(fragmentTag)) {
-            throw IllegalArgumentException("invalid fragment tag $fragmentTag")
-        }
+        val current = tags.mapNotNull { activity.supportFragmentManager.findFragmentByTag(it) }
+            .find { it.isVisible }
 
-        for (index in 0..activity.supportFragmentManager.backStackEntryCount) {
-            // clear the backstack
-            activity.supportFragmentManager.popBackStack()
-        }
+
+        current?.let { setupExitAnimation(activity, it, fragmentTag) }
 
         activity.fragmentTransaction {
-            disallowAddToBackStack()
-            setReorderingAllowed(true)
-            // hide other categories fragment
-            hidesAllBottomNavigationFragments(activity)
+            current?.let { hide(it) }
 
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            val toAdd = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
+            if (toAdd != null) {
+                trackerFacade.trackScreen(toAdd::class.java.simpleName, toAdd.arguments)
 
-            val fragment = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
-            if (fragment == null) {
-                val newFragment = tagToInstance(fragmentTag)
-                trackerFacade.trackScreen(newFragment::class.java.simpleName, newFragment.arguments)
-                add(R.id.fragmentContainer, newFragment, fragmentTag)
+                setupEnterAnimation(activity, current!!, toAdd, fragmentTag)
+                show(toAdd)
             } else {
-                trackerFacade.trackScreen(fragment::class.java.simpleName, fragment.arguments)
-                show(fragment)
+                val newInstance = tagToInstance(fragmentTag)
+                trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
+
+                current?.let {
+                    setupEnterAnimation(activity, it, newInstance, fragmentTag)
+                }
+
+                replace(R.id.fragmentContainer, newInstance, fragmentTag)
             }
         }
     }
 
-    private fun FragmentTransaction.hidesAllBottomNavigationFragments(activity: FragmentActivity){
-        activity.supportFragmentManager.fragments
-                .asSequence()
-                .filter { tags.contains(it.tag) }
-                .forEach { hide(it) }
+    private fun setupEnterAnimation(
+        context: Context,
+        current: Fragment,
+        new: Fragment,
+        newTag: String
+    ) {
+        if (current.tag == LibraryFragment.TAG_TRACK && newTag == LibraryFragment.TAG_PODCAST) {
+            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
+        } else if (current.tag == LibraryFragment.TAG_PODCAST && newTag == LibraryFragment.TAG_TRACK) {
+            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
+        } else {
+            new.setupEnterAnimation(context)
+        }
+    }
+
+    private fun setupExitAnimation(
+        context: Context,
+        current: Fragment,
+        newTag: String
+    ) {
+        if (current.tag == LibraryFragment.TAG_TRACK && newTag == LibraryFragment.TAG_PODCAST) {
+            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
+        } else if (current.tag == LibraryFragment.TAG_PODCAST && newTag == LibraryFragment.TAG_TRACK) {
+            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
+        } else {
+            current.setupExitAnimation(context)
+        }
     }
 
     private fun BottomNavigationPage.toFragmentTag(libraryPage: LibraryPage): String {

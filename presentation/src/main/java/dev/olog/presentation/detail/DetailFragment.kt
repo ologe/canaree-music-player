@@ -1,6 +1,5 @@
 package dev.olog.presentation.detail
 
-
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -27,8 +26,10 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -42,13 +43,16 @@ class DetailFragment : BaseFragment(),
         @JvmStatic
         val TAG = DetailFragment::class.java.name
         const val ARGUMENTS_MEDIA_ID = "media_id"
+        const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId): DetailFragment {
+        fun newInstance(mediaId: MediaId, transition: String): DetailFragment {
             return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_TRANSITION to transition
             )
         }
+
     }
 
     @Inject
@@ -79,7 +83,15 @@ class DetailFragment : BaseFragment(),
     }
 
     private val adapter by lazyFast {
-        DetailFragmentAdapter(mediaId, this, navigator, act as MediaProvider, viewModel, this)
+        DetailFragmentAdapter(
+            mediaId = mediaId,
+            setupNestedList = this,
+            navigator = navigator,
+            mediaProvider = act as MediaProvider,
+            viewModel = viewModel,
+            dragListener = this,
+            afterImageLoad = { startPostponedEnterTransition() }
+        )
     }
 
     private val recyclerOnScrollListener by lazyFast {
@@ -96,6 +108,8 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
+
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
@@ -203,11 +217,6 @@ class DetailFragment : BaseFragment(),
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        list.adapter = null
     }
 
     override fun adjustStatusBarColor() {

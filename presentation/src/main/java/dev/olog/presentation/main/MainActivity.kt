@@ -210,6 +210,10 @@ class MainActivity : MusicGlueActivity(),
         return BottomSheetBehavior.from(slidingPanel)
     }
 
+    override fun getSlidingPanelView(): View {
+        return slidingPanel
+    }
+
     override fun navigate(page: BottomNavigationPage) {
         bottomNavigation.navigate(page)
     }

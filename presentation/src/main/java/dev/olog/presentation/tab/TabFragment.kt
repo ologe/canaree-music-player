@@ -2,8 +2,11 @@ package dev.olog.presentation.tab
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -223,11 +226,14 @@ class TabFragment : BaseFragment(), SetupNestedList {
     override fun onResume() {
         super.onResume()
         sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener {
+        fab.setOnClickListener { fab ->
             val type =
                 if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
-            navigator.toChooseTracksForPlaylistFragment(type)
 
+            val sharedFab = (parentFragment!!.requireView() as ViewGroup).findViewById<View>(R.id.sharedFab)
+            matchFabs(sharedFab, fab)
+
+            navigator.toChooseTracksForPlaylistFragment(sharedFab, type)
         }
     }
 
@@ -235,6 +241,19 @@ class TabFragment : BaseFragment(), SetupNestedList {
         super.onPause()
         sidebar.setListener(null)
         fab.setOnClickListener(null)
+    }
+
+    /**
+     * Workaround: copy the current position of [fab] to [sharedFab] in [LibraryFragment] to start
+     * shared element transition. Bad solution bad move fab from [TabFragment] to [LibraryFragment]
+     * and observe various scroll requires too much work!!
+     */
+    private fun matchFabs(sharedFab: View, fab: View) {
+        sharedFab.isVisible = true
+        sharedFab.translationY = fab.translationY
+        sharedFab.updatePadding(bottom = fab.paddingBottom)
+        sharedFab.setMargin(bottom = fab.marginBottom)
+        fab.visibility = View.INVISIBLE
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->

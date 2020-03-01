@@ -11,11 +11,17 @@ interface Navigator {
 
     fun toDetailFragment(mediaId: MediaId)
 
+    fun toDetailFragment(mediaId: MediaId, view: View)
+
     fun toRelatedArtists(mediaId: MediaId)
 
     fun toRecentlyAdded(mediaId: MediaId)
 
-    fun toChooseTracksForPlaylistFragment(type: PlaylistType)
+    fun toChooseTracksForPlaylistFragment(
+        view: View,
+        type:
+        PlaylistType
+    )
 
     fun toEditInfoFragment(mediaId: MediaId)
 

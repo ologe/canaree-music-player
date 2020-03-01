@@ -40,3 +40,11 @@ inline fun <T> Continuation<T?>.safeResume(item: T?) {
         // already resumed
     }
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun mandatory(condition: Boolean): Unit? {
+    if (!condition) {
+        return null
+    }
+    return Unit
+}

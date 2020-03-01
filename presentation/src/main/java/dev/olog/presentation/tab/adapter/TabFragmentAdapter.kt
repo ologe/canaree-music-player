@@ -1,5 +1,6 @@
 package dev.olog.presentation.tab.adapter
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -36,8 +37,8 @@ internal class TabFragmentAdapter(
             }
             R.layout.item_tab_song,
             R.layout.item_tab_podcast -> {
-                viewHolder.setOnClickListener(this) { item, _, _ ->
-                    onItemClick(item)
+                viewHolder.setOnClickListener(this) { item, _, view ->
+                    onItemClick(view, item)
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -48,8 +49,8 @@ internal class TabFragmentAdapter(
             R.layout.item_tab_album,
             R.layout.item_tab_artist,
             R.layout.item_tab_auto_playlist -> {
-                viewHolder.setOnClickListener(this) { item, _, _ ->
-                    onItemClick(item)
+                viewHolder.setOnClickListener(this) { item, _, view ->
+                    onItemClick(view, item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item.mediaId, viewHolder.itemView)
@@ -66,12 +67,12 @@ internal class TabFragmentAdapter(
         }
     }
 
-    private fun onItemClick(item: DisplayableItem){
+    private fun onItemClick(view: View, item: DisplayableItem){
         if (item is DisplayableTrack){
             val sort = viewModel.getAllTracksSortOrder(item.mediaId)
             mediaProvider.playFromMediaId(item.mediaId, null, sort)
         } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(item.mediaId)
+            navigator.toDetailFragment(item.mediaId, view)
         }
     }
 
@@ -99,6 +100,7 @@ internal class TabFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
+            transitionName = item.mediaId.toString()
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction?.setId(item.mediaId)
             firstText.text = item.title

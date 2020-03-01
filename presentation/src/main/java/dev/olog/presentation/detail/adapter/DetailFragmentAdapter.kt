@@ -45,7 +45,8 @@ internal class DetailFragmentAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     private val viewModel: DetailFragmentViewModel,
-    private val dragListener: IDragListener
+    private val dragListener: IDragListener,
+    private val afterImageLoad: () -> Unit
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDetailDisplayableItem), TouchableAdapter {
 
     private val headers by lazy { currentList.indexOfFirst { it is DisplayableTrack } }
@@ -211,6 +212,7 @@ internal class DetailFragmentAdapter(
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         when (holder.itemViewType){
             R.layout.item_detail_image -> {
+                holder.imageView!!.post { afterImageLoad() }
                 BindingsAdapter.loadBigAlbumImage(holder.imageView!!, mediaId)
                 holder.itemView.title.text = item.title
                 holder.itemView.subtitle.text = item.subtitle
