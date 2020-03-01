@@ -13,8 +13,8 @@ class RelatedArtistFragmentAdapter(
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            navigator.toDetailFragment(item.mediaId)
+        viewHolder.setOnClickListener(this) { item, _, view ->
+            navigator.toDetailFragment(item.mediaId, view)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId, viewHolder.itemView)
@@ -26,6 +26,7 @@ class RelatedArtistFragmentAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
+            transitionName = item.mediaId.toString()
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title

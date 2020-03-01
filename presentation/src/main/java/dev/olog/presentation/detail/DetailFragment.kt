@@ -107,6 +107,11 @@ class DetailFragment : BaseFragment(),
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
 

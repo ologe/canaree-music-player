@@ -15,8 +15,8 @@ class SearchFragmentNestedAdapter(
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            navigator.toDetailFragment(item.mediaId)
+        viewHolder.setOnClickListener(this) { item, _, view ->
+            navigator.toDetailFragment(item.mediaId, view)
             viewModel.insertToRecent(item.mediaId)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -29,6 +29,7 @@ class SearchFragmentNestedAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
+            transitionName = item.mediaId.toString()
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title

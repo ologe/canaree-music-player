@@ -12,8 +12,8 @@ class DetailSiblingsAdapter(
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        viewHolder.setOnClickListener(this) { item, _, _ ->
-            navigator.toDetailFragment(item.mediaId)
+        viewHolder.setOnClickListener(this) { item, _, view ->
+            navigator.toDetailFragment(item.mediaId, view)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId, viewHolder.itemView)

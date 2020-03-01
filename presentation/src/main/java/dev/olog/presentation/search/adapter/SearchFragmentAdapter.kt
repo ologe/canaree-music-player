@@ -58,11 +58,11 @@ class SearchFragmentAdapter(
             R.layout.item_search_recent,
             R.layout.item_search_recent_album,
             R.layout.item_search_recent_artist -> {
-                viewHolder.setOnClickListener(this) { item, _, _ ->
+                viewHolder.setOnClickListener(this) { item, _, view ->
                     if (item is DisplayableTrack) {
                         mediaProvider.playFromMediaId(item.mediaId, null, null)
                     } else {
-                        navigator.toDetailFragment(item.mediaId)
+                        navigator.toDetailFragment(item.mediaId, view)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -105,6 +105,7 @@ class SearchFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
+            transitionName = item.mediaId.toString()
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

@@ -58,35 +58,83 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDetailFragment(mediaId: MediaId) {
+        mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
         (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
 
         val newTag = createBackStackTag(DetailFragment.TAG)
-        superCerealTransition(
-            activity,
-            DetailFragment.newInstance(mediaId),
-            newTag
-        )
+
+        findFirstVisibleFragment(activity.supportFragmentManager)
+            ?.setupExitAnimation(activity)
+
+        activity.fragmentTransaction {
+            val fragment = DetailFragment.newInstance(mediaId, "")
+            fragment.setupEnterAnimation(activity)
+
+            replace(R.id.fragmentContainer, fragment, newTag)
+            addToBackStack(newTag)
+        }
+    }
+
+    override fun toDetailFragment(mediaId: MediaId, view: View) {
+        val activity = activityRef.get() ?: return
+        val slidingPanel = (activity as HasSlidingPanel?)?.getSlidingPanel()
+        if (slidingPanel.isExpanded()) {
+            slidingPanel.collapse()
+            toDetailFragment(mediaId)
+            return
+        }
+        mandatory(allowed()) ?: return
+
+        val newTag = createBackStackTag(DetailFragment.TAG)
+
+        findFirstVisibleFragment(activity.supportFragmentManager)
+            ?.setupExitSharedAnimation()
+
+        activity.fragmentTransaction {
+            val fragment = DetailFragment.newInstance(mediaId, view.transitionName)
+            fragment.setupEnterSharedAnimation(activity)
+
+            replace(R.id.fragmentContainer, fragment, newTag)
+            addToBackStack(newTag)
+            addSharedElement(view, view.transitionName)
+        }
     }
 
     override fun toRelatedArtists(mediaId: MediaId) {
+        mandatory(allowed()) ?: return
+
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
-        superCerealTransition(
-            activity,
-            RelatedArtistFragment.newInstance(mediaId),
-            newTag
-        )
+
+        findFirstVisibleFragment(activity.supportFragmentManager)
+            ?.setupExitAnimation(activity)
+
+        activity.fragmentTransaction {
+            val fragment = RelatedArtistFragment.newInstance(mediaId)
+            fragment.setupEnterAnimation(activity)
+
+            replace(R.id.fragmentContainer, fragment, newTag)
+            addToBackStack(newTag)
+        }
     }
 
     override fun toRecentlyAdded(mediaId: MediaId) {
+        mandatory(allowed()) ?: return
+
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
-        superCerealTransition(
-            activity,
-            RecentlyAddedFragment.newInstance(mediaId),
-            newTag
-        )
+
+        findFirstVisibleFragment(activity.supportFragmentManager)
+            ?.setupExitAnimation(activity)
+
+        activity.fragmentTransaction {
+            val fragment = RecentlyAddedFragment.newInstance(mediaId)
+            fragment.setupEnterAnimation(activity)
+
+            replace(R.id.fragmentContainer, fragment, newTag)
+            addToBackStack(newTag)
+        }
     }
 
     override fun toOfflineLyrics() {
@@ -133,14 +181,27 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toChooseTracksForPlaylistFragment(type: PlaylistType) {
+    override fun toChooseTracksForPlaylistFragment(
+        view: View,
+        type: PlaylistType
+    ) {
+        mandatory(allowed()) ?: return
+
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
-        superCerealTransition(
-            activity,
-            CreatePlaylistFragment.newInstance(type),
-            newTag
-        )
+
+        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        current?.setupExitSharedAnimation()
+        current?.reenterTransition = MaterialFadeThrough.create(activity)
+
+        activity.fragmentTransaction {
+            val fragment = CreatePlaylistFragment.newInstance(type)
+            fragment.setupEnterSharedAnimation(activity)
+
+            replace(R.id.fragmentContainer, fragment, newTag)
+            addToBackStack(newTag)
+            addSharedElement(view, view.transitionName)
+        }
     }
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
