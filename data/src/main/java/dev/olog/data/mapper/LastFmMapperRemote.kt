@@ -20,7 +20,7 @@ fun LastFmTrackInfo.toDomain(id: Long): LastFmTrack {
         album = album,
         image = image,
         mbid = track.mbid,
-        artistMbid = track.artist.mbid,
+        artistMbid = track.artist.mbid ?: "",
         albumMbid = track.album.mbid
     )
 }
@@ -98,7 +98,7 @@ fun LastFmArtistInfo.toDomain(id: Long): LastFmArtist? {
     return LastFmArtist(
         id = id,
         image = "",
-        mbid = artist.mbid,
+        mbid = artist.mbid ?: "",
         wiki = artist.bio?.content ?: ""
     )
 }

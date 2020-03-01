@@ -11,7 +11,7 @@ data class LastFmArtistInfo(
 
 data class LastFmArtistRemote(
     val name: String,
-    val mbid: String,
+    val mbid: String?,
     val image: List<LastFmImage> = ArrayList(),
     val bio: LastFmWiki? = null
 )
