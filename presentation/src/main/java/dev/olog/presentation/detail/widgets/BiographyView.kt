@@ -5,7 +5,9 @@ import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.transition.TransitionManager
 import kotlin.properties.Delegates
 
 internal class BiographyView(
@@ -18,6 +20,7 @@ internal class BiographyView(
     }
 
     private var isExpanded by Delegates.observable(false) { _, _, new ->
+        TransitionManager.beginDelayedTransition(parent as ViewGroup)
         if (new){
             maxLines = Int.MAX_VALUE
         } else {
