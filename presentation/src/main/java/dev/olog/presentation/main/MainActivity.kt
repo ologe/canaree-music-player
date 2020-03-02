@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
@@ -189,7 +190,10 @@ class MainActivity : MusicGlueActivity(),
                     super.onBackPressed()
                     return
                 }
-                // TODO scroll sliding panel list to top first
+                getSlidingPanelView().findViewById<RecyclerView>(R.id.list).canScrollVertically(-1) -> {
+                    getSlidingPanelView().findViewById<RecyclerView>(R.id.list).smoothScrollToPosition(0)
+                    return
+                }
                 getSlidingPanel().isExpanded() -> {
                     getSlidingPanel().collapse()
                     return
