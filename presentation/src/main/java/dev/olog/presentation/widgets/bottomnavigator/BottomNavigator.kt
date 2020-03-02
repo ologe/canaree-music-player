@@ -45,7 +45,7 @@ internal class BottomNavigator {
             if (toAdd != null) {
                 trackerFacade.trackScreen(toAdd::class.java.simpleName, toAdd.arguments)
 
-                setupEnterAnimation(activity, current!!, toAdd, fragmentTag)
+                current?.let { setupEnterAnimation(activity, it, toAdd, fragmentTag) }
                 show(toAdd)
             } else {
                 val newInstance = tagToInstance(fragmentTag)
