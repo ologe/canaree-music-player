@@ -5,7 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_height="300dp">
+    tools:layout_height="220dp"
+    android:clipChildren="false">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?android:colorBackground"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
@@ -13,7 +23,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="@dimen/sliding_panel_peek">
+        android:layout_height="@dimen/sliding_panel_peek"
+        android:layout_margin="8dp">
 
         <dev.olog.presentation.widgets.imageview.PlayerImageView
             android:id="@+id/miniCover"
@@ -21,12 +32,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             tools:src="@drawable/placeholder_folder"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-            android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
+            android:elevation="8dp"
+            android:translationY="-12dp"
+            android:layout_marginStart="8dp" />
 
         <LinearLayout
             android:id="@+id/textWrapper"

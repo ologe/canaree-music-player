@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:colorBackground">
+    android:background="?android:colorBackground"
+    android:alpha="0">
 
     <dev.olog.presentation.widgets.StatusBarView
         android:id="@+id/statusBar"
