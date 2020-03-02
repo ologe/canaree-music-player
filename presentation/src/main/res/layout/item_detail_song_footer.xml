@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="16dp"
+    android:layout_marginStart="@dimen/detail_header_margin_start"
     android:paddingTop="24dp"
-    android:paddingEnd="16dp"
+    android:layout_marginEnd="@dimen/detail_header_margin_start"
     android:paddingBottom="8dp">
 
     <dev.olog.shared.widgets.DottedSeparator

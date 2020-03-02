@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -119,6 +120,14 @@ class DetailFragment : BaseFragment(),
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
+        list.addItemDecoration(DottedDividerDecorator(
+            requireContext(), listOf(
+                R.layout.item_detail_header,
+                R.layout.item_detail_header_albums,
+                R.layout.item_detail_header_all_song,
+                R.layout.item_detail_header_recently_added
+            )
+        ))
 
         var swipeDirections = ItemTouchHelper.LEFT
         if (adapter.canSwipeRight) {

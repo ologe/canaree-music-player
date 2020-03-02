@@ -9,7 +9,7 @@
     <dimen name="detail_album_margin_horizontal">8dp</dimen>
 
     <dimen name="detail_header_margin_start">16dp</dimen>
-    <dimen name="detail_header_margin_end">8dp</dimen>
+    <dimen name="detail_header_margin_end">16dp</dimen>
 
     <dimen name="detail_dimen">500dp</dimen>
 

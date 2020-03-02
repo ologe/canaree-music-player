@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/detail_header_margin_start"
-    android:paddingTop="@dimen/item_detail_header_padding_top"
-    android:paddingEnd="@dimen/detail_header_margin_end">
+    android:layout_marginStart="@dimen/detail_header_margin_start"
+    android:layout_marginTop="@dimen/item_detail_header_padding_top"
+    android:layout_marginEnd="@dimen/detail_header_margin_end"
+    android:paddingBottom="12dp">
 
     <TextView
         android:id="@+id/title"

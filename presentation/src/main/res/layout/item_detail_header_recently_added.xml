@@ -5,9 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/detail_header_margin_start"
-    android:paddingEnd="@dimen/detail_header_margin_end"
-    android:paddingTop="@dimen/item_detail_header_padding_top"
+    android:layout_marginStart="@dimen/detail_header_margin_start"
+    android:layout_marginEnd="@dimen/detail_header_margin_end"
+    android:layout_marginTop="@dimen/item_detail_header_padding_top"
+    android:layout_marginBottom="12dp"
     android:paddingBottom="12dp">
 
     <TextView
@@ -25,6 +26,7 @@
         tools:text="Recently played"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         app:layout_constraintTop_toBottomOf="@+id/subtitle"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/Headline6"/>
@@ -32,22 +34,11 @@
     <ImageButton
         android:id="@+id/seeMore"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/sep"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_arrow_forward"/>
-
-    <dev.olog.shared.widgets.DottedSeparator
-        android:id="@+id/sep"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="@dimen/detail_header_margin_end"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
