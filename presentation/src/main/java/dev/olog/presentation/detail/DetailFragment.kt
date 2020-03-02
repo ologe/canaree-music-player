@@ -242,9 +242,6 @@ class DetailFragment : BaseFragment(),
         more.setColorFilter(color)
         filter.setColorFilter(color)
 
-        if (requireContext().isTablet){
-            return
-        }
         act.window.removeLightStatusBar()
     }
 
@@ -256,10 +253,6 @@ class DetailFragment : BaseFragment(),
         back.setColorFilter(color)
         more.setColorFilter(color)
         filter.setColorFilter(color)
-
-        if (requireContext().isTablet){
-            return
-        }
 
         act.window.setLightStatusBar()
     }

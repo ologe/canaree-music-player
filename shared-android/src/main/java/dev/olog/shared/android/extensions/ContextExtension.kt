@@ -43,9 +43,6 @@ inline fun Context.toast(message: CharSequence): Toast = Toast
 inline val Context.configuration: android.content.res.Configuration
     get() = resources.configuration
 
-inline val Context.isTablet: Boolean
-    get() = configuration.smallestScreenWidthDp >= 600
-
 inline fun Context.scrimBackground(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
 }
