@@ -29,6 +29,7 @@
             android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
 
         <LinearLayout
+            android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:weightSum="2"
