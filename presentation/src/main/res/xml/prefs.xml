@@ -1,194 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <PreferenceCategory
-        app:title="@string/prefs_category_library">
+    <PreferenceCategory app:title="@string/prefs_category_library">
 
         <Preference
-            app:title="@string/prefs_library_categories_title"
-            app:summary="@string/prefs_library_categories_summary"
             app:key="@string/prefs_library_categories_key"
-            tools:enabled="false"/>
+            app:summary="@string/prefs_library_categories_summary"
+            app:title="@string/prefs_library_categories_title"
+            tools:enabled="false" />
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
             app:key="@string/prefs_show_podcasts_key"
-            app:title="@string/prefs_show_podcasts_title"
             app:summary="@string/prefs_show_podcasts_summary"
-            app:defaultValue="true"/>
+            app:title="@string/prefs_show_podcasts_title" />
 
         <Preference
-            app:title="@string/prefs_podcast_library_categories_title"
-            app:summary="@string/prefs_podcast_library_categories_summary"
+            app:dependency="@string/prefs_show_podcasts_key"
             app:key="@string/prefs_podcast_library_categories_key"
-            tools:enabled="false"
-            app:dependency="@string/prefs_show_podcasts_key"/>
+            app:summary="@string/prefs_podcast_library_categories_summary"
+            app:title="@string/prefs_podcast_library_categories_title"
+            tools:enabled="false" />
 
         <Preference
-            app:title="@string/prefs_blacklist_title"
-            app:summary="@string/prefs_blacklist_summary"
             app:key="@string/prefs_blacklist_key"
-            tools:enabled="false"/>
+            app:summary="@string/prefs_blacklist_summary"
+            app:title="@string/prefs_blacklist_title"
+            tools:enabled="false" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_folder_tree_view_title"
-            app:summaryOn="@string/prefs_folder_tree_view_summary_on"
-            app:summaryOff="@string/prefs_folder_tree_view_summary_off"
-            app:key="@string/prefs_folder_tree_view_key"
             app:defaultValue="false"
-            tools:enabled="false"/>
+            app:key="@string/prefs_folder_tree_view_key"
+            app:summaryOff="@string/prefs_folder_tree_view_summary_off"
+            app:summaryOn="@string/prefs_folder_tree_view_summary_on"
+            app:title="@string/prefs_folder_tree_view_title"
+            tools:enabled="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/prefs_category_audio">
+    <PreferenceCategory app:title="@string/prefs_category_audio">
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_used_equalizer_title"
             app:defaultValue="true"
             app:key="@string/prefs_used_equalizer_key"
+            app:summaryOff="@string/prefs_used_equalizer_summary_off"
             app:summaryOn="@string/prefs_used_equalizer_summary_on"
-            app:summaryOff="@string/prefs_used_equalizer_summary_off"/>
+            app:title="@string/prefs_used_equalizer_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_lower_volume_on_night_title"
-            app:summary="@string/prefs_lower_volume_on_night_summary"
+            app:defaultValue="false"
             app:key="@string/prefs_midnight_mode_key"
-            app:defaultValue="false" />
+            app:summary="@string/prefs_lower_volume_on_night_summary"
+            app:title="@string/prefs_lower_volume_on_night_title" />
 
         <androidx.preference.SeekBarPreference
-            app:key="@string/prefs_cross_fade_key"
-            app:title="@string/prefs_cross_fade_title"
-            app:summary="@string/prefs_cross_fade_summary"
+            android:max="12"
             app:defaultValue="0"
-            app:showSeekBarValue="true"
+            app:key="@string/prefs_cross_fade_key"
             app:min="0"
-            android:max="12"/>
+            app:showSeekBarValue="true"
+            app:summary="@string/prefs_cross_fade_summary"
+            app:title="@string/prefs_cross_fade_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_gapless_title"
-            app:summary="@string/prefs_gapless_summary"
+            app:defaultValue="false"
             app:key="@string/prefs_gapless_key"
-            app:defaultValue="false" />
+            app:summary="@string/prefs_gapless_summary"
+            app:title="@string/prefs_gapless_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/prefs_category_ui">
+    <PreferenceCategory app:title="@string/prefs_category_ui">
 
         <ListPreference
-                app:defaultValue="@string/prefs_dark_mode_2_entry_value_follow_system"
-                app:entries="@array/prefs_dark_mode_entries"
-                app:entryValues="@array/prefs_dark_mode_entry_values"
-                app:key="@string/prefs_dark_mode_key"
-                app:summary="%s"
-                app:title="@string/prefs_dark_mode_title" />
+            app:defaultValue="@string/prefs_dark_mode_2_entry_value_follow_system"
+            app:entries="@array/prefs_dark_mode_entries"
+            app:entryValues="@array/prefs_dark_mode_entry_values"
+            app:key="@string/prefs_dark_mode_key"
+            app:summary="%s"
+            app:title="@string/prefs_dark_mode_title" />
 
         <ListPreference
-                app:defaultValue="@string/prefs_appearance_entry_value_default"
-                app:entries="@array/prefs_appearance_entries"
-                app:entryValues="@array/prefs_appearance_entry_values"
-                app:key="@string/prefs_appearance_key"
-                app:summary="%s"
-                app:title="@string/prefs_appearance_title" />
+            app:defaultValue="@string/prefs_appearance_entry_value_default"
+            app:entries="@array/prefs_appearance_entries"
+            app:entryValues="@array/prefs_appearance_entry_values"
+            app:key="@string/prefs_appearance_key"
+            app:summary="%s"
+            app:title="@string/prefs_appearance_title" />
 
         <Preference
-                app:key="@string/prefs_color_accent_key"
-                app:summary="@string/prefs_accent_color_summary"
-                app:title="@string/prefs_accent_color_title" />
+            app:key="@string/prefs_color_accent_key"
+            app:summary="@string/prefs_accent_color_summary"
+            app:title="@string/prefs_accent_color_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_adaptive_colors_title"
-            app:summaryOn="@string/prefs_adaptive_colors_summary_on"
-            app:summaryOff="@string/prefs_adaptive_colors_summary_off"
+            app:defaultValue="false"
             app:key="@string/prefs_adaptive_colors_key"
-            app:defaultValue="false" />
+            app:summaryOff="@string/prefs_adaptive_colors_summary_off"
+            app:summaryOn="@string/prefs_adaptive_colors_summary_on"
+            app:title="@string/prefs_adaptive_colors_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_immersive_title"
-            app:summaryOn="@string/prefs_immersive_summary_on"
-            app:summaryOff="@string/prefs_immersive_summary_off"
+            app:defaultValue="false"
             app:key="@string/prefs_immersive_key"
-            app:defaultValue="false"/>
+            app:summaryOff="@string/prefs_immersive_summary_off"
+            app:summaryOn="@string/prefs_immersive_summary_on"
+            app:title="@string/prefs_immersive_title" />
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
             app:key="@string/prefs_show_recent_albums_artists_key"
-            app:title="@string/prefs_show_recent_albums_artists_title"
             app:summary="@string/prefs_show_recent_albums_artists_summary"
-            app:defaultValue="true"/>
+            app:title="@string/prefs_show_recent_albums_artists_title" />
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
             app:key="@string/prefs_show_new_albums_artists_key"
-            app:title="@string/prefs_show_new_albums_artists_title"
             app:summary="@string/prefs_show_new_albums_artists_summary"
-            app:defaultValue="true"/>
+            app:title="@string/prefs_show_new_albums_artists_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_player_controls_visibility_title"
-            app:summaryOn="@string/prefs_player_controls_visibility_summary_on"
-            app:summaryOff="@string/prefs_player_controls_visibility_summary_off"
+            app:defaultValue="false"
             app:key="@string/prefs_player_controls_visibility_key"
-            app:defaultValue="false" />
+            app:summaryOff="@string/prefs_player_controls_visibility_summary_off"
+            app:summaryOn="@string/prefs_player_controls_visibility_summary_on"
+            app:title="@string/prefs_player_controls_visibility_title" />
 
         <ListPreference
-            app:title="@string/prefs_quick_action_title"
-            app:summary="@string/prefs_quick_action_summary"
+            app:defaultValue="@string/prefs_quick_action_entry_value_hide"
             app:entries="@array/prefs_quick_action_entries"
             app:entryValues="@array/prefs_quick_action_entry_values"
-            app:defaultValue="@string/prefs_quick_action_entry_value_hide"
-            app:key="@string/prefs_quick_action_key" />
+            app:key="@string/prefs_quick_action_key"
+            app:summary="@string/prefs_quick_action_summary"
+            app:title="@string/prefs_quick_action_title" />
 
         <ListPreference
-            app:title="@string/prefs_icon_shape_title"
-            app:summary="%s"
+            app:defaultValue="@string/prefs_icon_shape_rounded"
             app:entries="@array/prefs_icon_shape_entries"
             app:entryValues="@array/prefs_icon_shape_entry_values"
-            app:defaultValue="@string/prefs_icon_shape_rounded"
-            app:key="@string/prefs_icon_shape_key"/>
+            app:key="@string/prefs_icon_shape_key"
+            app:summary="%s"
+            app:title="@string/prefs_icon_shape_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        app:title="@string/prefs_category_other">
+    <PreferenceCategory app:title="@string/prefs_category_other">
 
         <SwitchPreferenceCompat
+            app:defaultValue="false"
             app:key="@string/prefs_lockscreen_artwork_key"
-            app:title="@string/prefs_lockscreen_artwork_title"
-            app:summaryOn="@string/prefs_lockscreen_artwork_summary_on"
             app:summaryOff="@string/prefs_lockscreen_artwork_summary_off"
-            app:defaultValue="false"/>
+            app:summaryOn="@string/prefs_lockscreen_artwork_summary_on"
+            app:title="@string/prefs_lockscreen_artwork_title" />
 
 
         <Preference
             app:key="@string/prefs_last_fm_credentials_key"
-            app:title="@string/prefs_last_fm_credentials_title"
-            app:summary="@string/prefs_last_fm_credentials_summary"/>
+            app:summary="@string/prefs_last_fm_credentials_summary"
+            app:title="@string/prefs_last_fm_credentials_title" />
 
         <ListPreference
-            app:title="@string/prefs_auto_download_images_title"
-            app:summary="%s"
-            app:key="@string/prefs_auto_download_images_key"
+            app:defaultValue="@string/prefs_auto_download_images_entry_value_wifi"
             app:entries="@array/prefs_auto_download_images_entries"
             app:entryValues="@array/prefs_auto_download_images_entry_values"
-            app:defaultValue="@string/prefs_auto_download_images_entry_value_wifi" />
+            app:key="@string/prefs_auto_download_images_key"
+            app:summary="%s"
+            app:title="@string/prefs_auto_download_images_title" />
 
         <SwitchPreferenceCompat
-            app:title="@string/prefs_auto_create_images_title"
-            app:summaryOn="@string/prefs_auto_create_images_summary_on"
-            app:summaryOff="@string/prefs_auto_create_images_summary_off"
-            app:key="@string/prefs_auto_create_images_key"
             app:defaultValue="true"
-            app:singleLineTitle="false"/>
+            app:key="@string/prefs_auto_create_images_key"
+            app:singleLineTitle="false"
+            app:summaryOff="@string/prefs_auto_create_images_summary_off"
+            app:summaryOn="@string/prefs_auto_create_images_summary_on"
+            app:title="@string/prefs_auto_create_images_title" />
 
         <Preference
             app:key="@string/prefs_reset_tutorial_key"
             app:title="@string/prefs_reset_tutorial_title" />
 
         <Preference
-            app:title="@string/prefs_delete_cached_images_title"
+            app:key="@string/prefs_delete_cached_images_key"
             app:summary="@string/prefs_delete_cached_images_summary"
-            app:key="@string/prefs_delete_cached_images_key"/>
+            app:title="@string/prefs_delete_cached_images_title" />
 
     </PreferenceCategory>
 
