@@ -29,7 +29,7 @@ class SearchFragmentNestedAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            transitionName = item.mediaId.toString()
+            transitionName = "nested ${item.mediaId}"
             BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
