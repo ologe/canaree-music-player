@@ -14,7 +14,7 @@ class SharedElementTransition(
 
     init {
         containerColor = context.colorBackground()
-        drawingViewId = R.id.sharedElementContainer
+        drawingViewId = R.id.fragmentContainer
     }
 
 }

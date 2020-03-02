@@ -5,17 +5,10 @@
     android:layout_height="match_parent"
     android:id="@+id/rootView">
 
-    <dev.olog.presentation.animations.SharedElementContainer
-        android:id="@+id/sharedElementContainer"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </dev.olog.presentation.animations.SharedElementContainer>
+        android:layout_height="match_parent"/>
 
     <include layout="@layout/activity_main_navigation"/>
 
