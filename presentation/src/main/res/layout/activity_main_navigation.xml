@@ -7,13 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
+    <dev.olog.presentation.widgets.BottomSheet
         android:id="@+id/slidingPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        android:elevation="8dp"
-        android:background="?android:colorBackground"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/sliding_panel_peek_plus_navigation"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -27,10 +25,10 @@
         <fragment
             android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
+            android:layout_height="wrap_content"
             android:tag="@string/mini_player_fragment_tag" />
 
-    </FrameLayout>
+    </dev.olog.presentation.widgets.BottomSheet>
 
     <LinearLayout
         android:id="@+id/bottomWrapper"
@@ -42,6 +40,7 @@
         android:background="?colorSurface">
 
         <dev.olog.shared.widgets.DottedSeparator
+            android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="16dp"

@@ -160,6 +160,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             getString(R.string.prefs_icon_shape_key),
             getString(R.string.prefs_immersive_key),
             getString(R.string.prefs_appearance_key),
+            getString(R.string.prefs_mini_player_appearance_key),
             getString(R.string.prefs_quick_action_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
                 act.recreate()

@@ -59,4 +59,16 @@ internal class ThemeManagerImpl @Inject constructor(
             }
         }
 
+    override val bottomSheetType: BottomSheetType
+        get() {
+            val value = prefs.getString(
+                context.getString(R.string.prefs_mini_player_appearance_key),
+                context.getString(R.string.prefs_mini_player_appearance_entry_value_default)
+            )!!
+            return when (value) {
+                context.getString(R.string.prefs_mini_player_appearance_entry_value_default) -> BottomSheetType.DEFAULT
+                context.getString(R.string.prefs_mini_player_appearance_entry_value_floating) -> BottomSheetType.FLOATING
+                else -> throw IllegalStateException("invalid preference value $value for key:${context.getString(R.string.prefs_mini_player_appearance_key)}")
+            }
+        }
 }

@@ -90,6 +90,14 @@
             app:summary="%s"
             app:title="@string/prefs_appearance_title" />
 
+        <ListPreference
+            app:defaultValue="@string/prefs_mini_player_appearance_entry_value_default"
+            app:entries="@array/prefs_mini_player_appearance_entries"
+            app:entryValues="@array/prefs_mini_player_appearance_entry_values"
+            app:key="@string/prefs_mini_player_appearance_key"
+            app:summary="%s"
+            app:title="@string/prefs_mini_player_appearance_title" />
+
         <Preference
             app:key="@string/prefs_color_accent_key"
             app:summary="@string/prefs_accent_color_summary"

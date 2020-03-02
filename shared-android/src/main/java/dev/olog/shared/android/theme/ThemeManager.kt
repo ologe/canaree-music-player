@@ -10,4 +10,6 @@ interface ThemeManager {
 
     val quickAction: QuickAction
 
+    val bottomSheetType: BottomSheetType
+
 }

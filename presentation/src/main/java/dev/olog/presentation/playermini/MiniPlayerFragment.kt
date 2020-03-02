@@ -12,19 +12,25 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.utils.TextUpdateTransition
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.subscribe
-import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_mini_player.*
+import kotlinx.android.synthetic.main.fragment_mini_player.artist
+import kotlinx.android.synthetic.main.fragment_mini_player.next
+import kotlinx.android.synthetic.main.fragment_mini_player.playPause
+import kotlinx.android.synthetic.main.fragment_mini_player.previous
+import kotlinx.android.synthetic.main.fragment_mini_player.progressBar
+import kotlinx.android.synthetic.main.fragment_mini_player.textWrapper
+import kotlinx.android.synthetic.main.fragment_mini_player.title
+import kotlinx.android.synthetic.main.fragment_mini_player_floating.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.lang.IllegalArgumentException
@@ -55,6 +61,10 @@ class MiniPlayerFragment : BaseFragment(){
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
+                    cover?.let { view ->
+                        BindingsAdapter.loadSongImage(view, it.mediaId)
+                    }
+
                     presenter.startShowingLeftTime(it.isPodcast, it.duration)
                     updateTitlesJob = launchWhenResumed { updateTitles(it) }
 
@@ -172,5 +182,10 @@ class MiniPlayerFragment : BaseFragment(){
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_mini_player
+    override fun provideLayoutId(): Int {
+        return when (themeManager.bottomSheetType) {
+            BottomSheetType.DEFAULT -> R.layout.fragment_mini_player
+            BottomSheetType.FLOATING -> R.layout.fragment_mini_player_floating
+        }
+    }
 }

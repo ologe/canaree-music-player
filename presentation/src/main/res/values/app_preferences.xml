@@ -190,6 +190,21 @@
         <item>@string/prefs_appearance_mini</item>
     </string-array>
 
+<!--    mini player-->
+    <string name="prefs_mini_player_appearance_title">Mini player appearance</string>
+    <string name="prefs_mini_player_appearance_default">Default</string>
+    <string name="prefs_mini_player_appearance_floating">Floating</string>
+
+    <string-array name="prefs_mini_player_appearance_entry_values">
+        <item>@string/prefs_mini_player_appearance_entry_value_default</item>
+        <item>@string/prefs_mini_player_appearance_entry_value_floating</item>
+    </string-array>
+
+    <string-array name="prefs_mini_player_appearance_entries">
+        <item>@string/prefs_mini_player_appearance_default</item>
+        <item>@string/prefs_mini_player_appearance_floating</item>
+    </string-array>
+
     <!--dark mode-->
     <string name="prefs_dark_mode_title">Dark mode</string>
     <string name="prefs_dark_mode_follow_system">Set by Battery Saver</string>

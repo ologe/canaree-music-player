@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -30,6 +31,7 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
@@ -103,13 +105,25 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun setupSlidingPanel(){
+        getSlidingPanel().peekHeight = when (themeManager.bottomSheetType) {
+            BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek_plus_navigation)
+            BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek_plus_navigation) + dip(16)
+        }
+        val peekHeight = when (themeManager.bottomSheetType) {
+            BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek)
+            BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek) + dip(16)
+        }
+        if (themeManager.bottomSheetType == BottomSheetType.FLOATING) {
+            separator.isVisible = false
+        }
+
         val scrollHelper = SuperCerealScrollHelper(
             this, ScrollType.Full(
                 slidingPanel = slidingPanel,
                 bottomNavigation = bottomWrapper,
                 toolbarHeight = dimen(R.dimen.toolbar),
                 tabLayoutHeight = dimen(R.dimen.tab),
-                realSlidingPanelPeek = dimen(R.dimen.sliding_panel_peek)
+                realSlidingPanelPeek = peekHeight
             )
         )
         lifecycle.addObserver(scrollHelper)

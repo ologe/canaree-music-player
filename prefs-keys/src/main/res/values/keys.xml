@@ -25,6 +25,7 @@
     <string name="prefs_color_accent_key" translatable="false">color_accent_2</string>
     <string name="prefs_immersive_key" translatable="false">key_immersive</string>
     <string name="prefs_appearance_key" translatable="false">key_appearance</string>
+    <string name="prefs_mini_player_appearance_key" translatable="false">key_mini_player_appearance</string>
     <string name="prefs_dark_mode_key" translatable="false">key_dark_mode_3</string>
     <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
     <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>

@@ -10,6 +10,10 @@
     <string name="prefs_appearance_entry_value_clean" translatable="false">clean</string>
     <string name="prefs_appearance_entry_value_mini" translatable="false">mini</string>
 
+<!--    mini player-->
+    <string name="prefs_mini_player_appearance_entry_value_default" translatable="false">default</string>
+    <string name="prefs_mini_player_appearance_entry_value_floating" translatable="false">floating</string>
+
     <!--    dark mode Q-->
     <string name="prefs_dark_mode_2_entry_value_light" translatable="false">light</string>
     <string name="prefs_dark_mode_2_entry_value_dark" translatable="false">dark</string>

@@ -1,5 +1,11 @@
 # Release notes 
 
+## 4.0.0
+- 🥳🥳 ANIMATIONS 🥳🥳
+- Added Floating mini player
+- Bug fixes
+- Removed tablet support
+
 ## 3.3.1
 - added dark mode to floating window on Q
 
@@ -16,9 +22,6 @@
 - libraries update
 - crash fixes
 - fixed equalizer when using gapless playback
-
-## 3.2.0
-- libraries update
 
 ## 3.1.1
 - Added link to HAVOC in About section
@@ -78,9 +81,6 @@
 
 ## 3.0.1.3
 - Fixed image loading cache miss
-
-## 3.0.1.2
-- More crashes fixes
 
 ## 3.0.1.2
 - Fixed screen color issues on some devices
