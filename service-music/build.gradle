@@ -26,8 +26,6 @@ android {
 }
 
 dependencies {
-    lintChecks project(':lint')
-
     implementation project(':app-shortcuts')
     implementation project(':jaudiotagger')
     implementation project(':core')

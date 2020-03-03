@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
 dependencies {
-    lintChecks project(':lint')
 
     implementation project(':core')
     implementation project(':image-provider')

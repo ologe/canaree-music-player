@@ -3,7 +3,6 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    lintChecks project(':lint')
     implementation project(':core')
 
     implementation lib_core.dagger
