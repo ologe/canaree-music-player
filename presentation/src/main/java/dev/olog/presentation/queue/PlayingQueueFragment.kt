@@ -9,6 +9,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
@@ -49,6 +50,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
@@ -92,6 +94,10 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun startServiceOrRequestOverlayPermission() {

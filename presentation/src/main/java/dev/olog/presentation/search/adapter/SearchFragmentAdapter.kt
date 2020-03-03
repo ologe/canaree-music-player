@@ -24,7 +24,9 @@ class SearchFragmentAdapter(
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter,
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -89,9 +91,23 @@ class SearchFragmentAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: DataBoundViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            isPlaying?.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             if (item.album.isBlank()){
                 secondText.text = item.artist

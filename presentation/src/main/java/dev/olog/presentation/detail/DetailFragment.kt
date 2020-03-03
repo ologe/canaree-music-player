@@ -114,6 +114,7 @@ class DetailFragment : BaseFragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
 
         list.layoutManager = OverScrollLinearLayoutManager(list)
@@ -231,6 +232,12 @@ class DetailFragment : BaseFragment(),
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
+        mostPlayedAdapter.onCurrentPlayingChanged(mostPlayedAdapter, mediaId)
+        recentlyAddedAdapter.onCurrentPlayingChanged(recentlyAddedAdapter, mediaId)
     }
 
     override fun adjustStatusBarColor() {

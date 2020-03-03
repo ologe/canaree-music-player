@@ -22,7 +22,9 @@ class PlayingQueueFragmentAdapter(
     private val dragListener: IDragListener,
     private val viewModel: PlayingQueueFragmentViewModel
 
-) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue), TouchableAdapter {
+) : ObservableAdapter<DisplayableQueueSong>(DiffCallbackPlayingQueue),
+    TouchableAdapter,
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     private val moves = mutableListOf<Pair<Int, Int>>()
 
@@ -40,9 +42,9 @@ class PlayingQueueFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
         holder.itemView.apply {
+            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             index.text = item.relativePosition
-            BindingsAdapter.setBoldIfTrue(firstText, item.isCurrentSong)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
@@ -63,24 +65,21 @@ class PlayingQueueFragmentAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if (payloads.isNotEmpty()) {
-            val payload = payloads[0] as List<Any>
-            for (currentPayload in payload) {
-                when (currentPayload) {
-                    is Boolean -> BindingsAdapter.setBoldIfTrue(holder.itemView.firstText, currentPayload)
-                    is String -> {
-                        val item = getItem(position)
-                        val textColor = calculateTextColor(
-                            holder.itemView.context,
-                            item.relativePosition
-                        )
-                        holder.itemView.index.updateText(currentPayload, textColor)
-                    }
-                }
-            }
-        } else {
+        val text = payloads.filterIsInstance<String>().firstOrNull()
+        if (text != null) {
+            val item = getItem(position)
+            val textColor = calculateTextColor(
+                holder.itemView.context,
+                item.relativePosition
+            )
+            holder.itemView.index.updateText(text, textColor)
+        }
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        }
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
-
         }
     }
 
@@ -132,17 +131,8 @@ object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() 
         oldItem: DisplayableQueueSong,
         newItem: DisplayableQueueSong
     ): Any? {
-        val mutableList = mutableListOf<Any>()
         if (oldItem.relativePosition != newItem.relativePosition) {
-            mutableList.add(newItem.relativePosition)
-        }
-        if (!oldItem.isCurrentSong && newItem.isCurrentSong) {
-            mutableList.add(true)
-        } else if (oldItem.isCurrentSong && !newItem.isCurrentSong) {
-            mutableList.add(false)
-        }
-        if (mutableList.isNotEmpty()) {
-            return mutableList
+            return newItem.relativePosition
         }
         return super.getChangePayload(oldItem, newItem)
     }

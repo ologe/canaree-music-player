@@ -1,8 +1,6 @@
 package dev.olog.presentation
 
-import android.graphics.Typeface
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
@@ -96,12 +94,6 @@ object BindingsAdapter {
             .error(CoverUtils.getGradient(context, mediaId))
             .onlyRetrieveFromCache(true)
             .into(RippleTarget(view))
-    }
-
-    @JvmStatic
-    fun setBoldIfTrue(view: TextView, setBold: Boolean) {
-        val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
-        view.setTypeface(null, style)
     }
 
 }

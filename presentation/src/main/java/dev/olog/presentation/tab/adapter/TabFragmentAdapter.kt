@@ -26,7 +26,9 @@ internal class TabFragmentAdapter(
     private val viewModel: TabFragmentViewModel,
     private val setupNestedList: SetupNestedList
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
+
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -67,6 +69,19 @@ internal class TabFragmentAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: DataBoundViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
     private fun onItemClick(view: View, item: DisplayableItem){
         if (item is DisplayableTrack){
             val sort = viewModel.getAllTracksSortOrder(item.mediaId)
@@ -95,6 +110,7 @@ internal class TabFragmentAdapter(
                 it.text = durationString
             }
             explicit?.onItemChanged(item.title)
+            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
         }
     }
 

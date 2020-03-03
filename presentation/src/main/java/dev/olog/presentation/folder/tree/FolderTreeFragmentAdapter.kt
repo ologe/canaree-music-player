@@ -3,20 +3,19 @@ package dev.olog.presentation.folder.tree
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
+import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
+import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator
 
-) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
+) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile),
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -46,7 +45,19 @@ class FolderTreeFragmentAdapter(
                 }
             }
         }
+    }
 
+    override fun onBindViewHolder(
+        holder: DataBoundViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
@@ -58,6 +69,7 @@ class FolderTreeFragmentAdapter(
                 BindingsAdapter.loadDirImage(holder.imageView!!, item)
             }
             R.layout.item_folder_tree_track -> {
+                holder.itemView.isPlaying.toggleVisibility(item.mediaId == playingMediaId)
                 BindingsAdapter.loadFile(holder.imageView!!, item)
             }
         }

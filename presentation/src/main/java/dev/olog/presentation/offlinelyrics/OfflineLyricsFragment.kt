@@ -51,6 +51,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (presenter.showAddLyricsIfNeverShown()) {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
         }

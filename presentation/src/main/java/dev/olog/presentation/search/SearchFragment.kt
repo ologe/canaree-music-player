@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
@@ -76,6 +77,7 @@ class SearchFragment : BaseFragment(),
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.layoutManager = layoutManager
@@ -161,6 +163,10 @@ class SearchFragment : BaseFragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun startServiceOrRequestOverlayPermission() {

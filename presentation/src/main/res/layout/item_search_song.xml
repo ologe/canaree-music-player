@@ -12,7 +12,18 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground">
+        android:background="?android:colorBackground"
+        android:clipToPadding="false">
+
+        <dev.olog.presentation.widgets.IsPlayingView
+            android:id="@+id/isPlaying"
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/cover"
+            android:translationX="-5dp"
+            android:background="@android:color/holo_red_light"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/cover"/>
 
         <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
             android:id="@+id/cover"

@@ -17,7 +17,9 @@ class RecentlyAddedFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val dragListener: IDragListener
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter,
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -37,10 +39,24 @@ class RecentlyAddedFragmentAdapter(
         require(item is DisplayableTrack)
 
         holder.itemView.apply {
+            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit.onItemChanged(item.title)
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: DataBoundViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
         }
     }
 

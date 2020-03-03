@@ -14,7 +14,17 @@
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
         android:paddingStart="@dimen/detail_margin_horizontal"
-        android:paddingEnd="@dimen/detail_margin_horizontal">
+        android:paddingEnd="@dimen/detail_margin_horizontal"
+        android:clipToPadding="false">
+
+        <dev.olog.presentation.widgets.IsPlayingView
+            android:id="@+id/isPlaying"
+            android:layout_width="2dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/index"
+            android:background="@android:color/holo_red_light"
+            app:layout_constraintBottom_toBottomOf="@+id/index"
+            app:layout_constraintTop_toTopOf="@+id/index"/>
 
         <TextView
             android:id="@+id/index"

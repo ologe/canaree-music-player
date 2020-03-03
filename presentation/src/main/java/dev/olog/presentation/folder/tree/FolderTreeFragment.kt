@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -40,8 +41,12 @@ class FolderTreeFragment : BaseFragment(),
         viewModelFactory
     }
 
+    private val adapter by lazyFast {
+        FolderTreeFragmentAdapter(viewModel, activity as MediaProvider, navigator)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = FolderTreeFragmentAdapter(viewModel, activity as MediaProvider, navigator)
+        super.onViewCreated(view, savedInstanceState)
         fab.shrink()
 
         list.adapter = adapter
@@ -86,6 +91,10 @@ class FolderTreeFragment : BaseFragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun onFabClick(){

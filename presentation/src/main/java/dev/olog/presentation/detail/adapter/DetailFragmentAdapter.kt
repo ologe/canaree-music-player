@@ -37,7 +37,8 @@ import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
+import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
+import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
 
 internal class DetailFragmentAdapter(
     private val mediaId: MediaId,
@@ -47,7 +48,9 @@ internal class DetailFragmentAdapter(
     private val viewModel: DetailFragmentViewModel,
     private val dragListener: IDragListener,
     private val afterImageLoad: () -> Unit
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDetailDisplayableItem), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDetailDisplayableItem),
+    TouchableAdapter,
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     private val headers by lazy { currentList.indexOfFirst { it is DisplayableTrack } }
 
@@ -169,15 +172,20 @@ internal class DetailFragmentAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if (payloads.isNotEmpty()){
-            val payload = payloads.filterIsInstance<List<String>>().first()
+        val payload = payloads.filterIsInstance<List<String>>().firstOrNull()
+        if (payload != null) {
             holder.itemView.apply {
                 title.text = payload[0]
                 subtitle.text = payload[1]
             }
-            return
         }
-        super.onBindViewHolder(holder, position, payloads)
+        val currentPayload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (currentPayload != null) {
+            holder.itemView.isPlaying.animateVisibility(currentPayload)
+        }
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        }
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
@@ -191,6 +199,8 @@ internal class DetailFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
+            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+
             holder.imageView?.let {
                 BindingsAdapter.loadSongImage(it, item.mediaId)
             }

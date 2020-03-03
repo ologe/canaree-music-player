@@ -59,6 +59,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val playerAppearance = themeManager.playerAppearance
 
         val adapter = PlayerFragmentAdapter(

@@ -109,6 +109,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val requestedSpanSize = viewModel.getSpanCount(category)
         val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
         list.layoutManager = gridLayoutManager
@@ -254,6 +256,10 @@ class TabFragment : BaseFragment(), SetupNestedList {
         sharedFab.updatePadding(bottom = fab.paddingBottom)
         sharedFab.setMargin(bottom = fab.marginBottom)
         fab.visibility = View.INVISIBLE
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->

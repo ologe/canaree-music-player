@@ -48,6 +48,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
@@ -77,6 +78,10 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_recently_added

@@ -55,6 +55,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     private var toast: Toast? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
         list.setHasFixedSize(true)

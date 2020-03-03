@@ -13,7 +13,8 @@ class DetailMostPlayedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
-) : ObservableAdapter<DisplayableTrack>(DiffCallbackMostPlayed) {
+) : ObservableAdapter<DisplayableTrack>(DiffCallbackMostPlayed),
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
@@ -33,6 +34,7 @@ class DetailMostPlayedAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
         holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             index.text = (item.idInPlaylist + 1).toString()
@@ -45,10 +47,16 @@ class DetailMostPlayedAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if (payloads.isNotEmpty()) {
-            val positionInList = (payloads[0] as Int + 1).toString()
+        val index = payloads.filterIsInstance<Int>().firstOrNull()
+        if (index != null) {
+            val positionInList = (index as Int + 1).toString()
             holder.itemView.index.text = positionInList
-        } else {
+        }
+        val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
+        if (payload != null) {
+            holder.itemView.isPlaying.animateVisibility(payload)
+        }
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         }
     }

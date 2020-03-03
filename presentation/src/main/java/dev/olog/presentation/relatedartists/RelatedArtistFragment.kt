@@ -44,6 +44,7 @@ class RelatedArtistFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         list.layoutManager = OverScrollGridLayoutManager(list, 2)
         list.adapter = adapter
         list.setHasFixedSize(true)

@@ -52,6 +52,7 @@ class MiniPlayerFragment : BaseFragment(){
     private var updateTitlesJob by autoDisposeJob()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }

@@ -30,6 +30,7 @@ class AboutFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
 
