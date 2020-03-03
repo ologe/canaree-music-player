@@ -88,7 +88,7 @@
                 android:id="@+id/editText"
                 style="@style/SearchThemeEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="@string/common_filter" />
 
         </com.google.android.material.textfield.TextInputLayout>

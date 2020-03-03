@@ -90,21 +90,21 @@
             app:layout_constraintEnd_toStartOf="@+id/filter"
             app:layout_constraintStart_toEndOf="@+id/back"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="invisible"
+            tools:visibility="visible"
             android:translationX="-2dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/SearchThemeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="center_vertical">
+                android:layout_gravity="center">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editText"
                     style="@style/SearchThemeEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/common_filter" />
+                    android:layout_height="match_parent"
+                    android:hint="@string/search_hint" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
