@@ -16,6 +16,7 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -45,15 +46,15 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     private val spannableBuilder = SpannableStringBuilder()
 
-    private var insertLyricsJob: Job? = null
+    private var insertLyricsJob by autoDisposeJob()
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
     private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
 
     private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
 
-    private var observeLyricsJob: Job? = null
-    private var transformLyricsJob: Job? = null
-    private var syncJob: Job? = null
+    private var observeLyricsJob by autoDisposeJob()
+    private var transformLyricsJob by autoDisposeJob()
+    private var syncJob by autoDisposeJob()
 
     private var originalLyrics = MutableLiveData<CharSequence>()
     private val observedLyrics = MutableLiveData<Pair<CharSequence, Lyrics>>()
@@ -100,9 +101,9 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun onStop() {
-        observeLyricsJob?.cancel()
-        transformLyricsJob?.cancel()
-        syncJob?.cancel()
+        observeLyricsJob = null
+        transformLyricsJob = null
+        syncJob = null
     }
 
     fun onStateChanged(position: Int, speed: Float) {
@@ -218,7 +219,6 @@ abstract class BaseOfflineLyricsPresenter constructor(
         if (currentTrackIdPublisher.valueOrNull == null) {
             return
         }
-        insertLyricsJob?.cancel()
         insertLyricsJob = GlobalScope.launch {
             insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
         }

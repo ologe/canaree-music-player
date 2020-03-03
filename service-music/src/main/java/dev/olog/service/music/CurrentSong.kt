@@ -20,6 +20,7 @@ import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.CustomScope
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject
@@ -44,7 +45,7 @@ internal class CurrentSong @Inject constructor(
         private val TAG = "SM:${CurrentSong::class.java.simpleName}"
     }
 
-    private var isFavoriteJob: Job? = null
+    private var isFavoriteJob by autoDisposeJob()
 
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
@@ -79,7 +80,7 @@ internal class CurrentSong @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        isFavoriteJob?.cancel()
+        isFavoriteJob = null
         cancel()
     }
 
@@ -97,7 +98,6 @@ internal class CurrentSong @Inject constructor(
     private fun updateFavorite(mediaEntity: MediaEntity) {
         Log.v(TAG, "updateFavorite ${mediaEntity.title}")
 
-        isFavoriteJob?.cancel()
         isFavoriteJob = launch {
             val type = if (mediaEntity.isPodcast) FavoriteTrackType.PODCAST else FavoriteTrackType.TRACK
             val isFavorite =

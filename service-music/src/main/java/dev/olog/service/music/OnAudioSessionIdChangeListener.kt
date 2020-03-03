@@ -9,6 +9,7 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         internal const val DELAY = 500L
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val hash by lazy { hashCode() }
 
@@ -37,11 +38,10 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        job?.cancel()
+        job = null
     }
 
     override fun onAudioSessionId(audioSessionId: Int) {
-        job?.cancel()
         job = launch {
             delay(DELAY)
             onAudioSessionIdInternal(audioSessionId)

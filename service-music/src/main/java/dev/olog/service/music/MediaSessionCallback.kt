@@ -22,6 +22,7 @@ import dev.olog.shared.CustomScope
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -42,7 +43,7 @@ internal class MediaSessionCallback @Inject constructor(
         private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
     }
 
-    private var retrieveDataJob: Job? = null
+    private var retrieveDataJob by autoDisposeJob()
 
     override fun onPrepare() {
         onPrepareInternal(forced = true)
@@ -61,7 +62,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
-        retrieveDataJob?.cancel()
         retrieveDataJob = launch {
             assertBackgroundThread()
             val entity = retrieve()

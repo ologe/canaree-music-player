@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
+import kotlin.math.abs
 
 class NoScrollTouchListener(
     context: Context,
@@ -22,7 +22,7 @@ class NoScrollTouchListener(
     var userHasControl: Boolean = false
         private set
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val configuration = ViewConfiguration.get(context)
 
@@ -45,7 +45,6 @@ class NoScrollTouchListener(
 
                 if ((diffX > 25 || diffY > 25)) {
                     userHasControl = true
-                    job?.cancel()
                     job = GlobalScope.launch {
                         delay(TOUCH_DELAY)
                         userHasControl = false
@@ -59,8 +58,8 @@ class NoScrollTouchListener(
                 if (System.currentTimeMillis() - timePressed <= ViewConfiguration.getTapTimeout()) {
                     val xUp = event.x
                     val yUp = event.y
-                    if (abs(xUp - xDown) < configuration.scaledTouchSlop &&
-                        abs(yUp - yDown) < configuration.scaledTouchSlop
+                    if (kotlin.math.abs(xUp - xDown) < configuration.scaledTouchSlop &&
+                        kotlin.math.abs(yUp - yDown) < configuration.scaledTouchSlop
                     ) {
                         action()
                         return false

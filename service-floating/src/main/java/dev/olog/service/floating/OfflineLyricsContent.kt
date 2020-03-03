@@ -14,12 +14,15 @@ import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -28,7 +31,7 @@ class OfflineLyricsContent(
 
 ) : Content() {
 
-    private var lyricsJob: Job? = null
+    private var lyricsJob by autoDisposeJob()
 
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
 
@@ -142,7 +145,7 @@ class OfflineLyricsContent(
         content.scrollView.setOnTouchListener(null)
         content.seekBar.setOnSeekBarChangeListener(null)
 
-        lyricsJob?.cancel()
+        lyricsJob = null
     }
 
 }

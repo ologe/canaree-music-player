@@ -2,11 +2,14 @@ package dev.olog.media.widget
 
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
-import dev.olog.shared.android.utils.isNougat
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
@@ -21,12 +24,12 @@ class ProgressDeletegate(
 ) : IProgressDeletegate,
     CoroutineScope by MainScope() {
 
-    private var incrementJob: Job? = null
+    private var incrementJob by autoDisposeJob()
 
     private val channel = ConflatedBroadcastChannel<Long>()
 
     override fun stopAutoIncrement(startMillis: Int) {
-        incrementJob?.cancel()
+        incrementJob = null
         setProgress(progressBar, startMillis)
     }
 

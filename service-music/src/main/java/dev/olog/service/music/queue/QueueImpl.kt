@@ -18,6 +18,7 @@ import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
 import kotlinx.coroutines.*
@@ -39,7 +40,7 @@ internal class QueueImpl @Inject constructor(
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope() {
 
-    private var savePlayingQueueJob: Job? = null
+    private var savePlayingQueueJob by autoDisposeJob()
 
     private val playingQueue = Vector<MediaEntity>()
 
@@ -90,7 +91,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob?.cancel()
         savePlayingQueueJob = launch {
             assertBackgroundThread()
 

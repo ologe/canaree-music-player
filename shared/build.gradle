@@ -5,6 +5,10 @@ dependencies {
     implementation lib_core.coroutines
 
     implementation lib_core.dagger
+
+    testImplementation lib_test.junit
+    testImplementation lib_test.coroutines_test
+
 }
 
 sourceCompatibility = "8"

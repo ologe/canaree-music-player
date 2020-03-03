@@ -15,6 +15,7 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
@@ -46,7 +47,7 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     private var isCurrentSongPodcast = false
 
-    private var fadeDisposable: Job? = null
+    private var fadeDisposable by autoDisposeJob()
 
     private var gapless = false
     private var crossFadeTime = 0
@@ -170,7 +171,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         )
         player.volume = min
 
-        fadeDisposable?.cancel()
         fadeDisposable = launch {
             flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume < max }
@@ -188,7 +188,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         }
 
 //        debug("fading out, was already fading?=$isFadingOut")
-        fadeDisposable?.cancel()
+        fadeDisposable = null
         requestNextSong()
 
         val (min, max, interval, delta) = CrossFadeInternals(
@@ -215,7 +215,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     }
 
     private fun cancelFade() {
-        fadeDisposable?.cancel()
+        fadeDisposable = null
     }
 
     private fun restoreDefaultVolume() {

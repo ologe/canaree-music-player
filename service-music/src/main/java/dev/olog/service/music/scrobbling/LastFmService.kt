@@ -9,6 +9,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -25,7 +26,7 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
     private var session: Session? = null
     private var userCredentials: UserCredentials? = null
 
-    private var scrobbleJob: Job? = null
+    private var scrobbleJob by autoDisposeJob()
 
     init {
         Caller.getInstance().userAgent = "dev.olog.msc"
@@ -47,7 +48,7 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
     }
 
     fun dispose(){
-        scrobbleJob?.cancel()
+        scrobbleJob = null
     }
 
     fun scrobble(entity: MediaEntity){
@@ -55,7 +56,6 @@ internal class LastFmService @Inject constructor(): CoroutineScope by CustomScop
             return
         }
 
-        scrobbleJob?.cancel()
         scrobbleJob = launch {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()

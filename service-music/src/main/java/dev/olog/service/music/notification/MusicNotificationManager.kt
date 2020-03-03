@@ -17,6 +17,7 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.isOreo
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -43,7 +44,7 @@ internal class MusicNotificationManager @Inject constructor(
 
     private val publisher = Channel<Event>(Channel.UNLIMITED)
     private val currentState = MusicNotificationState()
-    private var publishJob: Job? = null
+    private var publishJob by autoDisposeJob()
 
     private val playerListener = object : IPlayerLifecycle.Listener {
         override fun onPrepare(metadata: MetadataEntity) {
@@ -83,7 +84,6 @@ internal class MusicNotificationManager @Inject constructor(
     private suspend fun consumeEvent(event: Event){
         Log.v(TAG, "on next event $event")
 
-        publishJob?.cancel()
         when (event){
             is Event.Metadata -> {
                 if (currentState.updateMetadata(event.entity)) {
@@ -131,7 +131,7 @@ internal class MusicNotificationManager @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
-        publishJob?.cancel()
+        publishJob = null
         cancel()
     }
 

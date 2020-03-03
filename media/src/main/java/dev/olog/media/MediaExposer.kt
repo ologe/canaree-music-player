@@ -21,6 +21,7 @@ import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -45,7 +46,7 @@ class MediaExposer(
         )
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
@@ -62,7 +63,6 @@ class MediaExposer(
             Log.w("MediaExposer", "Storage permission is not granted")
             return
         }
-        job?.cancel()
         job = launch {
             for (state in connectionPublisher.openSubscription()) {
                 Log.d("MediaExposer", "Connection state=$state")
@@ -90,7 +90,7 @@ class MediaExposer(
     }
 
     fun disconnect() {
-        job?.cancel()
+        job = null
         if (mediaBrowser.isConnected){
             mediaBrowser.disconnect()
         }
