@@ -14,6 +14,7 @@
         android:gravity="bottom"
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/sliding_panel_peek_plus_navigation"
+        android:clipChildren="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <fragment
