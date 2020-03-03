@@ -9,7 +9,8 @@
     android:paddingStart="@dimen/item_song_cover_margin_start"
     android:paddingEnd="@dimen/item_song_cover_margin_start"
     android:background="?attr/selectableItemBackground"
-    android:layout_marginBottom="12dp">
+    android:layout_marginBottom="12dp"
+    android:layout_marginEnd="12dp">
 
     <ImageButton
         android:id="@+id/img"
