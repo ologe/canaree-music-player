@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
+    lintChecks project(':lint')
+
     implementation project(':core')
     implementation project(':injection')
     implementation project(':image-provider')

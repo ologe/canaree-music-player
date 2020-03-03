@@ -1,0 +1,19 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    def lint = '26.6.1'
+    compileOnly "com.android.tools.lint:lint-api:$lint"
+    compileOnly "com.android.tools.lint:lint-checks:$lint"
+
+    compileOnly lib_core.kotlin
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+jar {
+    manifest {
+        attributes 'Lint-Registry': 'dev.olog.lint.CustomLintRegistry'
+    }
+}

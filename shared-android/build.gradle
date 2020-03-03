@@ -3,6 +3,8 @@ apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
+    lintChecks project(':lint')
+
     implementation project(':shared')
     implementation project(':prefs-keys')
 

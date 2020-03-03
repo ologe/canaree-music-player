@@ -31,6 +31,8 @@ androidExtensions {
 }
 
 dependencies {
+    lintChecks project(':lint')
+
     implementation project(':app-shortcuts')
     implementation project(':analytics')
     implementation project(':core')
