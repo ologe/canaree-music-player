@@ -13,6 +13,6 @@
     <dimen name="default_corner_radius">8dp</dimen>
     <dimen name="big_default_corner_radius">16dp</dimen>
 
-    <dimen name="search_round_corner">25dp</dimen>
+    <dimen name="search_round_corner">20dp</dimen>
 
 </resources>
