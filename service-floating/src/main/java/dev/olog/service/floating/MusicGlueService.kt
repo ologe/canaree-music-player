@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.shared.ApplicationContext
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -24,14 +25,16 @@ import javax.inject.Inject
 @PerService
 class MusicGlueService @Inject constructor(
     @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val schedulers: Schedulers
 
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
         MediaExposer(
             context,
-            this
+            this,
+            schedulers
         )
     }
     private var mediaController: MediaControllerCompat? = null

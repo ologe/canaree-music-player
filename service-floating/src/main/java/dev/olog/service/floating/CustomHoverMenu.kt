@@ -39,7 +39,12 @@ class CustomHoverMenu @Inject constructor(
     private val lyricsContent =
         LyricsContent(lifecycle, context, musicServiceBinder)
     private val videoContent = VideoContent(lifecycle, context)
-    private val offlineLyricsContent = OfflineLyricsContent(context, musicServiceBinder, offlineLyricsContentPresenter)
+    private val offlineLyricsContent = OfflineLyricsContent(
+        context,
+        musicServiceBinder,
+        offlineLyricsContentPresenter,
+        schedulers
+    )
 
     private var disposable by autoDisposeJob()
 
