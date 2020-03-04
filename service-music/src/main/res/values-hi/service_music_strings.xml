@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="music_channel_id_notification" translatable="false">Media playback</string>
-    <string name="music_channel_id_notification_description" translatable="false">Media playback controls</string>
-
     <string name="music_error_empty_queue">संगीत ढूढ़ने में असमर्थ</string>
     <string name="music_player_error">प्लेयर में त्रुटि</string>
 
