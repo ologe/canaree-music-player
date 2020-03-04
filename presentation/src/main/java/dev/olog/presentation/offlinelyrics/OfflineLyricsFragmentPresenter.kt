@@ -1,13 +1,14 @@
 package dev.olog.presentation.offlinelyrics
 
 import android.content.Context
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
+import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
 class OfflineLyricsFragmentPresenter @Inject constructor(
@@ -15,9 +16,16 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
     observeUseCase: ObserveOfflineLyricsUseCase,
     insertUseCase: InsertOfflineLyricsUseCase,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
-    lyricsGateway: OfflineLyricsGateway
+    lyricsGateway: OfflineLyricsGateway,
+    schedulers: Schedulers
 
-) : BaseOfflineLyricsPresenter(context, lyricsGateway, observeUseCase, insertUseCase) {
+) : BaseOfflineLyricsPresenter(
+    context,
+    lyricsGateway,
+    observeUseCase,
+    insertUseCase,
+    schedulers
+) {
 
     private var currentTitle: String = ""
     private var currentArtist: String = ""

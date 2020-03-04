@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.android.extensions.dpToPx
@@ -32,9 +33,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
     private val observeUseCase: ObserveOfflineLyricsUseCase,
-    private val insertUseCase: InsertOfflineLyricsUseCase
+    private val insertUseCase: InsertOfflineLyricsUseCase,
+    private val schedulers: Schedulers
 
-) {
+): CoroutineScope by MainScope() {
 
     companion object {
         const val DEFAULT_SPAN_SIZE_DP = 25f
@@ -68,36 +70,29 @@ abstract class BaseOfflineLyricsPresenter constructor(
         private set
 
     fun onStart() {
-        observeLyricsJob = GlobalScope.launch(Dispatchers.Default) {
-            currentTrackIdPublisher.asFlow()
-                .flatMapLatest { id -> observeUseCase(id) }
-                .flowOn(Dispatchers.IO)
-                .collect { onNextLyrics(it) }
-        }
-        transformLyricsJob = GlobalScope.launch {
-            lyricsPublisher.asFlow()
-                .flatMapLatest {
-                    when (it) {
-                        is Lyrics.Normal -> {
-                            flowOf(it.lyrics to it)
-                        }
-                        is Lyrics.Synced -> {
-                            handleSyncedLyrics(it)
-                        }
-                    }
+        observeLyricsJob = currentTrackIdPublisher.asFlow()
+            .flatMapLatest { id -> observeUseCase(id) }
+            .onEach { onNextLyrics(it) }
+            .flowOn(schedulers.cpu)
+            .launchIn(this)
+
+        transformLyricsJob = lyricsPublisher.asFlow()
+            .flatMapLatest {
+                when (it) {
+                    is Lyrics.Normal -> flowOf(it.lyrics to it)
+                    is Lyrics.Synced -> handleSyncedLyrics(it)
                 }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    withContext(Dispatchers.Main) {
-                        observedLyrics.value = it
-                    }
-                }
-        }
-        syncJob = GlobalScope.launch {
-            currentTrackIdPublisher.asFlow()
-                .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
-                .collect { syncAdjustmentPublisher.offer(it) }
-        }
+            }
+            .flowOn(schedulers.cpu)
+            .onEach { observedLyrics.value = it }
+            .flowOn(schedulers.main)
+            .launchIn(this)
+
+        syncJob = currentTrackIdPublisher.asFlow()
+            .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
+            .onEach { syncAdjustmentPublisher.offer(it) }
+            .flowOn(schedulers.cpu)
+            .launchIn(this)
     }
 
     fun onStop() {
@@ -118,7 +113,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     fun observeLyrics(): LiveData<Pair<CharSequence, Lyrics>> = observedLyrics
 
     private suspend fun onNextLyrics(lyrics: String) {
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             originalLyrics.value = lyrics
         }
         // add a newline to ensure that last word is matched correctly
@@ -211,7 +206,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         }
     }
 
-    suspend fun getSyncAdjustment(): String = withContext(Dispatchers.IO) {
+    suspend fun getSyncAdjustment(): String = withContext(schedulers.io) {
         "${lyricsGateway.getSyncAdjustment(currentTrackIdPublisher.value)}"
     }
 

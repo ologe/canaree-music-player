@@ -1,5 +1,6 @@
 package dev.olog.offlinelyrics
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.MotionEvent
 import android.view.View
@@ -30,6 +31,7 @@ class NoScrollTouchListener(
     private var xDown = -1f
     private var yDown = -1f
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
