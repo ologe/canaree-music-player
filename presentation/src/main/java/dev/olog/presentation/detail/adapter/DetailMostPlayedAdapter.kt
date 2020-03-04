@@ -49,7 +49,7 @@ class DetailMostPlayedAdapter(
     ) {
         val index = payloads.filterIsInstance<Int>().firstOrNull()
         if (index != null) {
-            val positionInList = (index as Int + 1).toString()
+            val positionInList = (index + 1).toString()
             holder.itemView.index.text = positionInList
         }
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
