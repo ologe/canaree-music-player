@@ -9,7 +9,9 @@ import android.util.Log
 import android.view.KeyEvent
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
+import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.PlayerMediaEntity
@@ -19,11 +21,13 @@ import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
 import dev.olog.shared.CustomScope
-import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @PerService
@@ -34,9 +38,10 @@ internal class MediaSessionCallback @Inject constructor(
     private val shuffleMode: MusicServiceShuffleMode,
     private val mediaButton: MediaButton,
     private val playerState: MusicServicePlaybackState,
-    private val favoriteGateway: FavoriteGateway
+    private val favoriteGateway: FavoriteGateway,
+    private val schedulers: Schedulers
 
-) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope() {
+) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
         @JvmStatic
@@ -66,7 +71,7 @@ internal class MediaSessionCallback @Inject constructor(
             assertBackgroundThread()
             val entity = retrieve()
             if (entity != null) {
-                withContext(Dispatchers.Main) {
+                withContext(schedulers.main) {
                     player.play(entity)
                 }
             } else {
@@ -129,7 +134,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPause() {
         Log.v(TAG, "onPause")
-        launch(Dispatchers.Main) {
+        launch(schedulers.main) {
             updatePodcastPosition()
             player.pause(true)
         }
@@ -146,7 +151,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        launch(Dispatchers.Main) {
+        launch(schedulers.main) {
             Log.v(TAG, "onSkipToPrevious")
 
             updatePodcastPosition()
@@ -167,7 +172,7 @@ internal class MediaSessionCallback @Inject constructor(
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
-    private fun onSkipToNext(trackEnded: Boolean) = launch(Dispatchers.Main) {
+    private fun onSkipToNext(trackEnded: Boolean) = launch(schedulers.main) {
         Log.v(TAG, "onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
@@ -187,7 +192,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        launch(Dispatchers.Main) {
+        launch(schedulers.main) {
             Log.v(TAG, "onSkipToQueueItem id=$id")
 
             updatePodcastPosition()
@@ -202,7 +207,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         Log.v(TAG, "onSeekTo pos=$pos")
-        launch(Dispatchers.Main) {
+        launch(schedulers.main) {
             updatePodcastPosition()
             player.seekTo(pos)
         }
@@ -366,8 +371,8 @@ internal class MediaSessionCallback @Inject constructor(
     private suspend fun updatePodcastPosition() {
         Log.v(TAG, "updatePodcastPosition")
 
-        val bookmark = withContext(Dispatchers.Main) { player.getBookmark() }
-        withContext(Dispatchers.IO){
+        val bookmark = withContext(schedulers.main) { player.getBookmark() }
+        withContext(schedulers.io){
             queue.updatePodcastPosition(bookmark)
         }
     }
