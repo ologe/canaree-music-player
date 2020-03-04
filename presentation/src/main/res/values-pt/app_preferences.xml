@@ -69,9 +69,6 @@
     <string name="prefs_auto_download_images_summary_mobile">Sempre</string>
     <string name="prefs_auto_download_images_summary_wifi">Apenas em Wi-Fi</string>
     <string name="prefs_auto_download_images_summary_never">Nunca</string>
-    <string name="prefs_auto_download_images_entry_value_always">sempre</string>
-    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
-    <string name="prefs_auto_download_images_entry_value_never">nunca</string>
 
     <!-- auto create images -->
     <string name="prefs_auto_create_images_title">Criar automaticamente imagens de pasta, lista de reprodução e género</string>
