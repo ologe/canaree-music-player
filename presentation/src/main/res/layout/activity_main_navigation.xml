@@ -17,13 +17,13 @@
         android:clipChildren="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:name="dev.olog.presentation.player.PlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tag="@string/player_fragment_tag" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:name="dev.olog.presentation.playermini.MiniPlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
