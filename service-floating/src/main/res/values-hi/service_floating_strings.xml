@@ -1,6 +1,4 @@
 <resources>
 
-    <string name="floating_window_notification_channel_title" translatable="false">Floating window</string>
-    <string name="floating_window_notification_channel_description" translatable="false">Floating window</string>
     <string name="floating_window_notification_content_text">बंद करने के लिए टैप करें</string>
 </resources>

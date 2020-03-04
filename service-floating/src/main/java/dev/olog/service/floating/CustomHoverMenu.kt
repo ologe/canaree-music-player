@@ -6,17 +6,18 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -26,9 +27,10 @@ class CustomHoverMenu @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    offlineLyricsContentPresenter: OfflineLyricsContentPresenter
+    offlineLyricsContentPresenter: OfflineLyricsContentPresenter,
+    private val schedulers: Schedulers
 
-) : HoverMenu(), DefaultLifecycleObserver {
+) : HoverMenu(), DefaultLifecycleObserver, CoroutineScope by MainScope() {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
@@ -54,14 +56,11 @@ class CustomHoverMenu @Inject constructor(
     }
 
     fun startObserving(){
-        disposable = GlobalScope.launch(Dispatchers.Main) {
-            musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.isNotEmpty() }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    item = it.description
-                }
-        }
+        disposable = musicPreferencesUseCase.observeLastMetadata()
+            .filter { it.isNotEmpty() }
+            .flowOn(schedulers.cpu)
+            .onEach { item = it.description }
+            .launchIn(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

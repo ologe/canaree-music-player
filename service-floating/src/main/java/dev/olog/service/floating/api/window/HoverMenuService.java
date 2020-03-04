@@ -62,6 +62,7 @@ public abstract class HoverMenuService extends LifecycleService {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         Log.d(TAG, "onCreate()");
         Notification foregroundNotification = getForegroundNotification();
         int notificationId = getForegroundNotificationId();
@@ -70,6 +71,7 @@ public abstract class HoverMenuService extends LifecycleService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
         // Stop and return immediately if we don't have permission to display things above other
         // apps.
         if (!OverlayPermission.hasRuntimePermissionToDrawOverlay(getApplicationContext())) {
@@ -95,6 +97,7 @@ public abstract class HoverMenuService extends LifecycleService {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Log.d(TAG, "onDestroy()");
         if (mIsRunning) {
             mHoverView.removeFromWindow();
@@ -105,7 +108,7 @@ public abstract class HoverMenuService extends LifecycleService {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return super.onBind(intent);
     }
 
     private void initHoverMenu(@NonNull Intent intent) {

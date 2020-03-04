@@ -7,6 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
@@ -14,8 +15,8 @@ import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.isOreo
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
@@ -27,9 +28,10 @@ class FloatingWindowNotification @Inject constructor(
     private val service: Service,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val notificationManager: NotificationManager,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val schedulers: Schedulers
 
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver, CoroutineScope by MainScope() {
 
     companion object {
         const val NOTIFICATION_ID = 0xABC
@@ -53,7 +55,7 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     fun startObserving() {
-        disposable = GlobalScope.launch {
+        disposable = launch(schedulers.cpu) {
             // keeps playing song in sync
             musicPreferencesUseCase.observeLastMetadata()
                 .filter { it.isNotEmpty() }

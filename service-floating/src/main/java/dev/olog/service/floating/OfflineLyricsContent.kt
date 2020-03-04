@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.asLiveData
 import dev.olog.core.MediaId
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
@@ -18,18 +19,16 @@ import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class OfflineLyricsContent(
     private val context: Context,
     private val glueService: MusicGlueService,
-    private val presenter: OfflineLyricsContentPresenter
+    private val presenter: OfflineLyricsContentPresenter,
+    private val schedulers: Schedulers
 
-) : Content() {
+) : Content(), CoroutineScope by MainScope() {
 
     private var lyricsJob by autoDisposeJob()
 
@@ -41,7 +40,7 @@ class OfflineLyricsContent(
         try {
             val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
             val blurred = BlurKit.getInstance().blur(original, 20)
-            withContext(Dispatchers.Main){
+            withContext(schedulers.main){
                 content.image.setImageBitmap(blurred)
             }
         } catch (ex: Throwable){
@@ -62,7 +61,7 @@ class OfflineLyricsContent(
             .subscribe(this) { content.seekBar.onStateChanged(it) }
 
         content.edit.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+            launch(schedulers.main) {
                 EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -88,7 +87,7 @@ class OfflineLyricsContent(
             }
 
         content.sync.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
+            launch(schedulers.main) {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         context,
