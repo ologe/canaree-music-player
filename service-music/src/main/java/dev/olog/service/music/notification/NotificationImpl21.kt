@@ -1,5 +1,6 @@
 package dev.olog.service.music.notification
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -101,6 +102,7 @@ internal open class NotificationImpl21 @Inject constructor(
         return notification
     }
 
+    @SuppressLint("RestrictedApi")
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
         builder.mActions[2] = NotificationActions.playPause(service, isPlaying)
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
@@ -113,10 +115,12 @@ internal open class NotificationImpl21 @Inject constructor(
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun updateFavorite(isFavorite: Boolean) {
         builder.mActions[0] = NotificationActions.favorite(service, isFavorite)
     }
 
+    @SuppressLint("RestrictedApi")
     protected open suspend fun updateMetadataImpl(
         id: Long,
         title: SpannableString,
