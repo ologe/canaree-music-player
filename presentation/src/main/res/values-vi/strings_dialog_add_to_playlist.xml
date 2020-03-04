@@ -7,18 +7,16 @@
     <string name="queue_saved_as_playlist">Các bài hát phát sau đã được thêm vào danh sách phát %s</string>
 
     <plurals name="add_xx_songs_to_playlist">
-        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
     </plurals>
 
     <string name="added_song_x_to_playlist_y">%1$s đã được thêm vào danh sách phát %2$s</string>
     <plurals name="xx_songs_added_to_playlist_y">
-        <item quantity="one">%1$d bài hát đã được thêm vào danh sách phát %2$s</item>
         <item quantity="other">%1$d bài hát đã được thêm vào danh sách phát %2$s</item>
     </plurals>
 
     <string name="popup_new_playlist">Danh sách phát mới</string>
-    <string name="popup_no_playlist">Chưa có danh sách phát nào...</string>
+    <string name="popup_no_playlist">Chưa có danh sách phát nào…</string>
 
     <string name="new_playlist_hint">Tên danh sách phát</string>
 
