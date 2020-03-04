@@ -24,6 +24,6 @@
     <string name="about_privacy_policy">गोपनीयता नीति</string>
     <string name="about_privacy_policy_description">हम दोनों के लिए मत्वपूर्ण</string>
 
-    <string name="about_icon_made_by_x_from_y">आइकन %1$s ने बनाया %2$s से</string>
+    <string name="about_icon_made_by_x_from_y">आइकन %s ने बनाया %s से</string>
 
 </resources>
