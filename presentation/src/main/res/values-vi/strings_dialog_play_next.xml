@@ -4,13 +4,11 @@
 <string name="add_song_x_to_play_next"><![CDATA[Play <b>%1$s</b> next?]]></string>
 
 <plurals name="add_xx_songs_to_play_next">
-    <item quantity="one"><![CDATA[Play <b>%1$d song</b> next?]]></item>
     <item quantity="other"><![CDATA[Play <b>%1$d songs</b> next?]]></item>
 </plurals>
 
 <string name="song_x_added_to_play_next">%1$s đã được thêm vào danh sách nghe tiếp</string>
 <plurals name="xx_songs_added_to_play_next">
-    <item quantity="one">%1$d bài hát đã được thêm vào danh sách nghe tiếp</item>
     <item quantity="other">%1$d bài hát đã được thêm vào danh sách nghe tiếp</item>
 </plurals>
 
