@@ -7,19 +7,19 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import dev.olog.core.MediaId
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AppShortcutsImp(
-    private val context: Context
-
+    private val context: Context,
+    private val schedulers: Schedulers
 ) {
 
     private var job by autoDisposeJob()
@@ -49,7 +49,7 @@ class AppShortcutsImp(
                     .build()
 
                 ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
-                withContext(Dispatchers.Main) {
+                withContext(schedulers.main) {
                     onAddedSuccess(context)
                 }
             }

@@ -15,9 +15,6 @@
     <string name="common_favorites">Favoritos</string>
     <string name="common_history">Cronología</string>
     <string name="common_all_tracks">Todas las pistas</string>
-    <string name="common_placeholder_title">Un titolo fantastico</string>
-    <string name="common_placeholder_artist">Un artista fantastico</string>
-    <string name="common_placeholder_album">Un album fantastico</string>
     <string name="common_empty_list">Lista vacía</string>
     <string name="are_you_sure">Estás seguro?</string>
     <plurals name="common_plurals_hours">

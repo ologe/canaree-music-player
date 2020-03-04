@@ -1,5 +1,6 @@
 package dev.olog.msc.appwidgets
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,12 +14,13 @@ import kotlinx.coroutines.*
 
 private const val IMAGE_SIZE = 300
 
-open class WidgetColored : BaseWidget() {
+open class WidgetColored : BaseWidget(), CoroutineScope by MainScope() {
 
     private var job by autoDisposeJob()
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
-        job = GlobalScope.launch(Dispatchers.Main) {
+        job = launch(Dispatchers.Main) {
             val bitmap = withContext(Dispatchers.IO){
                 context.getCachedBitmap(MediaId.songId(metadata.id), IMAGE_SIZE)
             } ?: return@launch

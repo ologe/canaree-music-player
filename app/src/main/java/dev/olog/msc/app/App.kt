@@ -8,6 +8,7 @@ import dagger.android.HasAndroidInjector
 import dev.olog.analytics.TrackerFacade
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
@@ -33,6 +34,9 @@ class App : Application(), HasAndroidInjector {
     @Inject
     lateinit var themeManager: ThemeManager
 
+    @Inject
+    lateinit var schedulers: Schedulers
+
     override fun onCreate() {
         super.onCreate()
         inject()
@@ -45,7 +49,7 @@ class App : Application(), HasAndroidInjector {
     }
 
     private fun initializeComponents() {
-        appShortcuts = AppShortcuts.instance(this)
+        appShortcuts = AppShortcuts.instance(this, schedulers)
 
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {

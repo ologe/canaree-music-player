@@ -5,8 +5,5 @@
     <string name="app_shortcut_add_to_home_screen_not_supported">Ο launcher σας δεν υποστηρίζει την προσθήκη συντομεύσεων στην κύρια οθόνη σας</string>
 
     <string name="shortcut_playlist_chooser">Πρόσθεσε μια λίστα αναπαραγωγής</string>
-    <string name="shortcut_play" translatable="false">@string/common_play</string>
-    <string name="shortcut_shuffle" translatable="false">@string/common_shuffle</string>
-    <string name="shortcut_search" translatable="false">@string/common_search</string>
 
 </resources>

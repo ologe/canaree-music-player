@@ -30,27 +30,22 @@
     <string name="are_you_sure">Bạn có chắc không?</string>
 
     <plurals name="common_plurals_hours">
-        <item quantity="one">%d giờ</item>
         <item quantity="other">%d giờ</item>
     </plurals>
 
     <plurals name="common_plurals_minutes">
-        <item quantity="one">%d phút</item>
         <item quantity="other">%d phút</item>
     </plurals>
 
     <plurals name="common_plurals_song">
-        <item quantity="one">%d bài hát</item>
         <item quantity="other">%d bài hát</item>
     </plurals>
 
     <plurals name="common_plurals_album">
-        <item quantity="one">%d album</item>
         <item quantity="other">%d album</item>
     </plurals>
 
     <plurals name="common_plurals_folder">
-        <item quantity="one">%d thư mục</item>
         <item quantity="other">%d thư mục</item>
     </plurals>
 
