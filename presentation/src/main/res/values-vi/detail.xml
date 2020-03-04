@@ -24,7 +24,6 @@
     <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
 
     <plurals name="detail_xx_new_songs">
-        <item quantity="one">%d bài hát mới</item>
         <item quantity="other">%d bài hát mới</item>
     </plurals>
 
