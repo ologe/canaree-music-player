@@ -8,7 +8,6 @@ import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -25,10 +24,9 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 
-) : FlowUseCaseWithParam<List<Song>, MediaId>() {
+) {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCase(mediaId: MediaId): Flow<List<Song>> {
+    operator fun invoke(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)

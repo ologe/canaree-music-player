@@ -13,11 +13,12 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -28,7 +29,8 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
-    private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
+    private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -59,7 +61,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
                     }
                 }
             }.mapListItem { it.toDisplayableItem() }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { data.value = it }
             .launchIn(viewModelScope)
     }
@@ -98,7 +100,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         if (selectedIds.isEmpty()) {
             throw IllegalStateException("not supposed to happen, save button must be invisible")
         }
-        withContext(Dispatchers.IO){
+        withContext(schedulers.io){
             insertCustomTrackListToPlaylist(
                 InsertCustomTrackListToPlaylist.Input(
                     playlistTitle,

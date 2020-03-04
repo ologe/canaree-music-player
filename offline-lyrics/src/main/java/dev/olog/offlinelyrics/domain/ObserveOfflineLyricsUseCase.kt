@@ -3,7 +3,6 @@ package dev.olog.offlinelyrics.domain
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.interactor.base.FlowUseCaseWithParam
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -18,9 +17,9 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
     private val gateway: OfflineLyricsGateway,
     private val schedulers: Schedulers
 
-) : FlowUseCaseWithParam<String, Long>() {
+) {
 
-    override fun buildUseCase(param: Long): Flow<String> {
+    operator fun invoke(param: Long): Flow<String> {
         return gateway.observeLyrics(param)
             .map { lyrics -> mapLyrics(param, lyrics) }
             .flowOn(schedulers.io)
