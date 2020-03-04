@@ -24,8 +24,8 @@
     <string name="edit_track_update_success">Đã cập nhật thông tin bài hát</string>
     <string name="edit_album_update_success">Đã cập nhật thông tin album</string>
     <string name="edit_artist_update_success">Đã cập nhật thông tin nghệ sĩ</string>
-    <string name="edit_album_update_start">Đang cập nhật album...</string>
-    <string name="edit_artist_update_start">Đang cập nhật nghệ sĩ...</string>
+    <string name="edit_album_update_start">Đang cập nhật album…</string>
+    <string name="edit_artist_update_start">Đang cập nhật nghệ sĩ…</string>
 
     <string name="edit_song_invalid_title">Không được bỏ trống tên bài hát</string>
     <string name="edit_artist_invalid_title">Không được bỏ trống tên nghệ sĩ</string>
@@ -42,7 +42,6 @@
     <string name="edit_song_error">Có lỗi xảy ra, không thể cập nhật tệp</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">
-        <item quantity="one">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
         <item quantity="other">Các thay đổi sẽ được áp dụng cho %d bài hát</item>
     </plurals>
 
