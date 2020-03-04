@@ -3,12 +3,14 @@
     <string-array name="detail_album_header">
         <item>Folder lainnya</item>
         <item>Daftar putar lainnya</item>
-        <item>" "</item>
+        <item/>
         <item>Album lainnya</item>
+        <item>@string/common_albums</item>
         <item>Aliran lainnya</item>
         <item>Daftar putar lainnya</item>
-        <item>" "</item>
+        <item/>
         <item>Album lainnya</item>
+        <item>@string/common_albums</item>
     </string-array>
     <string name="detail_more_albums_by">Lainnya oleh %s</string>
     <plurals name="detail_xx_new_songs">

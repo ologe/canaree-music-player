@@ -4,6 +4,7 @@
     <string-array name="tab_empty_state">
         <item>无文件夹</item>
         <item>无播放列表</item>
+        <item>@string/common_no_tracks</item>
         <item>无专辑</item>
         <item>无艺术家</item>
         <item>无流派</item>

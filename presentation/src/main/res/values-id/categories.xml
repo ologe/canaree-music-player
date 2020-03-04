@@ -4,6 +4,7 @@
     <string-array name="tab_empty_state">
         <item>Tidak ada Folder</item>
         <item>Tidak ada daftar putar</item>
+        <item>@string/common_no_tracks</item>
         <item>Tidak ada album</item>
         <item>Tidak ada artis</item>
         <item>Tidak ada aliran</item>
