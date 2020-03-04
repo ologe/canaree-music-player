@@ -8,14 +8,17 @@ import dev.olog.core.entity.EqualizerBand
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
 internal class EqualizerImpl28 @Inject constructor(
     gateway: EqualizerGateway,
-    prefs: EqualizerPreferencesGateway
-) : AbsEqualizer(gateway, prefs),
+    prefs: EqualizerPreferencesGateway,
+    private val schedulers: Schedulers
+
+) : AbsEqualizer(gateway, prefs, schedulers),
     IEqualizerInternal,
     CoroutineScope by MainScope() {
 
@@ -25,7 +28,7 @@ internal class EqualizerImpl28 @Inject constructor(
         private const val BAND_LIMIT = 12f
     }
 
-    private suspend fun createConfig() = withContext(Dispatchers.IO) {
+    private suspend fun createConfig() = withContext(schedulers.io) {
         DynamicsProcessing.Config.Builder(
             DynamicsProcessing.VARIANT_FAVOR_FREQUENCY_RESOLUTION,
             CHANNELS,
