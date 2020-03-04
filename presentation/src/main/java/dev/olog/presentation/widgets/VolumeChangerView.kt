@@ -7,9 +7,8 @@ import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.onEach
 class VolumeChangerView(
     context: Context,
     attrs: AttributeSet
-) : AppCompatImageButton(context, attrs), CoroutineScope by MainScope() {
+) : AppCompatImageButton(context, attrs) {
 
     init {
         setImageResource(R.drawable.vd_volume_up)
@@ -50,7 +49,7 @@ class VolumeChangerView(
         job = musicPrefs!!.observeVolume()
             .flowOn(Dispatchers.Default)
             .onEach { updateImage(it) }
-            .launchIn(this)
+            .launchIn(GlobalScope)
     }
 
     private fun updateImage(volume: Int) {

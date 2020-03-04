@@ -98,6 +98,10 @@ class MediaExposer(
         }
     }
 
+    fun dispose() {
+        cancel()
+    }
+
     /**
      * Populate publishers with current data
      */

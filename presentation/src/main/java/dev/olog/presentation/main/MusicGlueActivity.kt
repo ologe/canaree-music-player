@@ -58,6 +58,12 @@ abstract class MusicGlueActivity : BaseActivity(),
         unregisterMediaController()
     }
 
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaExposer.dispose()
+    }
+
     override fun onConnectedSuccess(
         mediaBrowser: MediaBrowserCompat,
         callback: MediaControllerCompat.Callback

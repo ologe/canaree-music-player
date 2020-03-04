@@ -1,7 +1,11 @@
 package dev.olog.service.music
 
 import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
@@ -10,15 +14,24 @@ import javax.inject.Inject
 
 @PerService
 internal class MediaButton @Inject internal constructor(
+    @ServiceLifecycle lifecycle: Lifecycle,
     private val eventDispatcher: EventDispatcher
 
-) : CoroutineScope by MainScope() {
+) : DefaultLifecycleObserver, CoroutineScope by MainScope() {
 
     companion object {
         @JvmStatic
         private val TAG = "SM:${MediaButton::class.java.simpleName}"
         internal const val DELAY = 300L
         internal const val MAX_ALLOWED_CLICKS = 3
+    }
+
+    init {
+        lifecycle.addObserver(this)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        cancel()
     }
 
     private var clicks = 0

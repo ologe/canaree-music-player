@@ -9,6 +9,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -64,6 +65,7 @@ internal class EqualizerImpl @Inject constructor(
 
     override fun onDestroy() {
         release()
+        cancel()
     }
 
     override fun setEnabled(enabled: Boolean) {

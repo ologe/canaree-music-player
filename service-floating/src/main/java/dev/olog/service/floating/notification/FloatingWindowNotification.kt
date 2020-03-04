@@ -17,6 +17,7 @@ import dev.olog.shared.android.utils.isOreo
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,6 +52,7 @@ class FloatingWindowNotification @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         disposable = null
+        cancel()
     }
 
     fun startObserving() {

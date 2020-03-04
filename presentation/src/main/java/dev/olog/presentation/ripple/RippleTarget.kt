@@ -35,6 +35,11 @@ class RippleTarget(
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
+
     private suspend fun generateRipple(drawable: Drawable) {
         val bitmap = drawable.toBitmap()
         yield()

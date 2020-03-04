@@ -7,10 +7,14 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
@@ -25,12 +29,14 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @PerService
 internal class MediaSessionCallback @Inject constructor(
+    @ServiceLifecycle lifecycle: Lifecycle,
     private val queue: IQueue,
     private val player: IPlayer,
     private val repeatMode: MusicServiceRepeatMode,
@@ -41,6 +47,7 @@ internal class MediaSessionCallback @Inject constructor(
     private val schedulers: Schedulers
 
 ) : MediaSessionCompat.Callback(),
+    DefaultLifecycleObserver,
     CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
@@ -49,6 +56,14 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private var retrieveDataJob by autoDisposeJob()
+
+    init {
+        lifecycle.addObserver(this)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        cancel()
+    }
 
     override fun onPrepare() {
         onPrepareInternal(forced = true)

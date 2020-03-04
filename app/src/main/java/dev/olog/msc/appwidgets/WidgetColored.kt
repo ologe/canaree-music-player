@@ -14,6 +14,7 @@ import kotlinx.coroutines.*
 
 private const val IMAGE_SIZE = 300
 
+// TODO cancel scope
 open class WidgetColored : BaseWidget(), CoroutineScope by MainScope() {
 
     private var job by autoDisposeJob()

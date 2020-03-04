@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.OnImageLoadingError
@@ -19,16 +20,19 @@ import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+// TODO cancel presenter scope
 class OfflineLyricsContent(
     private val context: Context,
     private val glueService: MusicGlueService,
     private val presenter: OfflineLyricsContentPresenter,
     private val schedulers: Schedulers
 
-) : Content(), CoroutineScope by MainScope() {
+) : Content() {
 
     private var lyricsJob by autoDisposeJob()
 
@@ -61,7 +65,7 @@ class OfflineLyricsContent(
             .subscribe(this) { content.seekBar.onStateChanged(it) }
 
         content.edit.setOnClickListener {
-            launch(schedulers.main) {
+            lifecycleScope.launchWhenResumed {
                 EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
@@ -87,7 +91,7 @@ class OfflineLyricsContent(
             }
 
         content.sync.setOnClickListener {
-            launch(schedulers.main) {
+            lifecycleScope.launchWhenResumed {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
                         context,

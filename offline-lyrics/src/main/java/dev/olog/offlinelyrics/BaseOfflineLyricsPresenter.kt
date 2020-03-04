@@ -101,6 +101,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
         syncJob = null
     }
 
+    fun dispose() {
+        cancel()
+    }
+
     fun onStateChanged(position: Int, speed: Float) {
         currentStartMillis = position
         currentSpeed = speed

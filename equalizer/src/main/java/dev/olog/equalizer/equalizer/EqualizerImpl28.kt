@@ -91,6 +91,7 @@ internal class EqualizerImpl28 @Inject constructor(
 
     override fun onDestroy() {
         release()
+        cancel()
     }
 
     override fun setEnabled(enabled: Boolean) {

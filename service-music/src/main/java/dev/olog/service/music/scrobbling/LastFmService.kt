@@ -1,5 +1,8 @@
 package dev.olog.service.music.scrobbling
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
@@ -7,11 +10,13 @@ import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jaudiotagger.audio.AudioFileIO
@@ -21,8 +26,10 @@ import java.util.logging.Level
 import javax.inject.Inject
 
 internal class LastFmService @Inject constructor(
+    @ServiceLifecycle lifecycle: Lifecycle,
     schedulers: Schedulers
-): CoroutineScope by CustomScope(schedulers.io) {
+): DefaultLifecycleObserver,
+    CoroutineScope by CustomScope(schedulers.io) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -34,8 +41,13 @@ internal class LastFmService @Inject constructor(
     private var scrobbleJob by autoDisposeJob()
 
     init {
+        lifecycle.addObserver(this)
         Caller.getInstance().userAgent = "dev.olog.msc"
         Caller.getInstance().logger.level = Level.OFF
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        cancel()
     }
 
     fun tryAuthenticate(credentials: UserCredentials) {

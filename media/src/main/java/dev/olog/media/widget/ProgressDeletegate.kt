@@ -19,6 +19,7 @@ interface IProgressDeletegate {
     fun observeProgress(): Flow<Long>
 }
 
+// TODO cancel scope
 class ProgressDeletegate(
     private val progressBar: ProgressBar
 ) : IProgressDeletegate,

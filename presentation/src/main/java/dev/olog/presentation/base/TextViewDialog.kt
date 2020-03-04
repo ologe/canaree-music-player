@@ -20,6 +20,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// TODO cancel scope
 class TextViewDialog(
     private val context: Context,
     private val title: String,

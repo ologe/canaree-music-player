@@ -14,6 +14,7 @@ import dev.olog.service.floating.api.view.TabView
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -70,6 +71,7 @@ class CustomHoverMenu @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         disposable = null
+        cancel()
     }
 
     private val lyricsSection = Section(

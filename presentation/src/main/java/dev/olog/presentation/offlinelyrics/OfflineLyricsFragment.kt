@@ -168,6 +168,11 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         presenter.onStop()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.dispose()
+    }
+
     @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
         try {

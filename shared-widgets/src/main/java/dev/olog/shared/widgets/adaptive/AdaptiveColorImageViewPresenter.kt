@@ -19,6 +19,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 
+// TODO cancel scope
 class AdaptiveColorImageViewPresenter(
     private val context: Context
 ): CoroutineScope by MainScope() {

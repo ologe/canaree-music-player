@@ -22,10 +22,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
+import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -60,6 +57,7 @@ internal class QueueImpl @Inject constructor(
         playingQueue.getOrNull(currentSongPosition)?.let {
             musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
         }
+//        cancel() TODO mmm cancelling will not persist queue, is needed persist here??
     }
 
     internal fun isEmpty() = playingQueue.isEmpty()
