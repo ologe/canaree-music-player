@@ -18,9 +18,6 @@
     <string name="about_special_thanks_to">विशेष धन्यवाद</string>
     <string name="about_special_thanks_to_description">देखने के लिए क्लिक करें</string>
 
-    <string name="about_support_rate" translatable="false">@string/rate_app_title</string>
-    <string name="about_support_rate_description" translatable="false">@string/rate_app_message</string>
-
     <string name="about_privacy_policy">गोपनीयता नीति</string>
     <string name="about_privacy_policy_description">हम दोनों के लिए मत्वपूर्ण</string>
 
