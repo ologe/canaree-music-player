@@ -1,7 +1,6 @@
 package dev.olog.data.repository.podcast
 
 import android.content.Context
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Artist
@@ -12,18 +11,23 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PodcastPlaylistDao
+import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.db.PodcastPlaylistEntity
 import dev.olog.data.model.db.PodcastPlaylistTrackEntity
-import dev.olog.data.mapper.toDomain
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
@@ -32,7 +36,8 @@ internal class PodcastPlaylistRepository @Inject constructor(
     private val favoriteGateway: FavoriteGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     private val historyDao: HistoryDao,
-    private val podcastPlaylistDao: PodcastPlaylistDao
+    private val podcastPlaylistDao: PodcastPlaylistDao,
+    private val schedulers: Schedulers
 ) : PodcastPlaylistGateway {
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
@@ -203,7 +208,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     }
 
     override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
-        kotlinx.coroutines.withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
             var trackList = podcastPlaylistDao.getPlaylistTracksImpl(playlistId)
             for ((from, to) in moveList) {
                 trackList.swap(from, to)

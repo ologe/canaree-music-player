@@ -4,20 +4,21 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.track.PlaylistOperations
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
 import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.swap
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PlaylistRepositoryHelper @Inject constructor(
     private val playlistDao: PlaylistDao,
     private val historyDao: HistoryDao,
-    private val favoriteGateway: FavoriteGateway
+    private val favoriteGateway: FavoriteGateway,
+    private val schedulers: Schedulers
 
 ) : PlaylistOperations {
 
@@ -78,7 +79,7 @@ internal class PlaylistRepositoryHelper @Inject constructor(
     }
 
     override suspend fun moveItem(playlistId: Long, moveList: List<Pair<Int, Int>>) =
-        withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
             var trackList = playlistDao.getPlaylistTracksImpl(playlistId)
             for ((from, to) in moveList) {
                 trackList.swap(from, to)
