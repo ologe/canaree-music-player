@@ -1,5 +1,6 @@
 package dev.olog.shared.widgets.adaptive
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -13,17 +14,14 @@ import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
-) {
+): CoroutineScope by MainScope() {
 
     private val isDarkMode by lazyFast {
         context.isDarkMode()
@@ -52,6 +50,7 @@ class AdaptiveColorImageViewPresenter(
         onNextImage(drawable?.toBitmap())
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     fun onNextImage(bitmap: Bitmap?) {
 
         if (bitmap == null) {
@@ -60,7 +59,7 @@ class AdaptiveColorImageViewPresenter(
             return
         }
 
-        processorJob = GlobalScope.launch(Dispatchers.Default) {
+        processorJob = launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
             yield()
             processorPalettePublisher.offer(
@@ -72,7 +71,7 @@ class AdaptiveColorImageViewPresenter(
             )
         }
 
-        paletteJob = GlobalScope.launch(Dispatchers.Default) {
+        paletteJob = launch(Dispatchers.Default) {
             val palette = Palette.from(bitmap)
                 .maximumColorCount(24)
                 .generate()
