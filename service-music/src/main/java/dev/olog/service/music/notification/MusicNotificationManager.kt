@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.IPlayerLifecycle
@@ -28,9 +29,10 @@ internal class MusicNotificationManager @Inject constructor(
     private val service: Service,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
-    playerLifecycle: IPlayerLifecycle
+    playerLifecycle: IPlayerLifecycle,
+    schedulers: Schedulers
 
-) : DefaultLifecycleObserver, CoroutineScope by CustomScope() {
+) : DefaultLifecycleObserver, CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
         @JvmStatic

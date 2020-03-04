@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
@@ -18,9 +19,10 @@ import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
-    private val mediaSession: MediaSessionCompat
+    private val mediaSession: MediaSessionCompat,
+    schedulers: Schedulers
 ) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
         @JvmStatic

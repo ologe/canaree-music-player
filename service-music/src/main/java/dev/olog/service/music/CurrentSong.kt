@@ -39,7 +39,7 @@ internal class CurrentSong @Inject constructor(
     private val schedulers: Schedulers
 
 ) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(),
+    CoroutineScope by CustomScope(schedulers.cpu),
     IPlayerLifecycle.Listener {
 
     companion object {

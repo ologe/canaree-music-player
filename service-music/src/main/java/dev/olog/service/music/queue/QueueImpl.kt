@@ -10,6 +10,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
@@ -36,9 +37,10 @@ internal class QueueImpl @Inject constructor(
     private val queueMediaSession: MediaSessionQueue,
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val podcastGateway: PodcastGateway,
+    schedulers: Schedulers
 ) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    CoroutineScope by CustomScope(schedulers.cpu) {
 
     private var savePlayingQueueJob by autoDisposeJob()
 

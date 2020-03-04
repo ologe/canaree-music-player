@@ -25,7 +25,6 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -41,7 +40,8 @@ internal class MediaSessionCallback @Inject constructor(
     private val favoriteGateway: FavoriteGateway,
     private val schedulers: Schedulers
 
-) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope(schedulers.cpu) {
+) : MediaSessionCompat.Callback(),
+    CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
         @JvmStatic
