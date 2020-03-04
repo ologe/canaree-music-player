@@ -11,7 +11,6 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -24,7 +23,7 @@ import javax.inject.Inject
 internal class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val mediaSession: MediaSessionCompat,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope(schedulers.cpu) {
 
@@ -54,7 +53,7 @@ internal class MediaSessionQueue @Inject constructor(
         Log.v(TAG, "publish")
         val queue = list.map { it.toQueueItem() }
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             mediaSession.setQueue(queue)
         }
     }

@@ -1,5 +1,6 @@
 package dev.olog.presentation.rateapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
@@ -44,6 +45,7 @@ class RateAppDialog @Inject constructor(
         }
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun showAlert() = withContext(Dispatchers.Main) {
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.rate_app_title)
@@ -65,6 +67,7 @@ class RateAppDialog @Inject constructor(
     /**
      * @return true when is requested to show rate dialog
      */
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun updateCounter(context: Context): Boolean = withContext(Dispatchers.IO) {
         if (!counterAlreadyIncreased) {
             counterAlreadyIncreased = true

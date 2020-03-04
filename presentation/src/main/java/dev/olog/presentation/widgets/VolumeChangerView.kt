@@ -1,12 +1,15 @@
 package dev.olog.presentation.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -42,6 +45,7 @@ class VolumeChangerView(
         job = null
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private fun startObserving() {
         job = musicPrefs!!.observeVolume()
             .flowOn(Dispatchers.Default)

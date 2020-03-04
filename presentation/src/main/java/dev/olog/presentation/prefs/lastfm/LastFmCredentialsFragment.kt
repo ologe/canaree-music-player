@@ -2,6 +2,7 @@
 
 package dev.olog.presentation.prefs.lastfm
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -104,6 +105,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
         }
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun tryAuthenticate(user: UserCredentials): Boolean =
         withContext(Dispatchers.IO) {
             Authenticator.getMobileSession(

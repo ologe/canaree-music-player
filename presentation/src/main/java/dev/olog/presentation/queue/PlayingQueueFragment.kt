@@ -1,5 +1,6 @@
 package dev.olog.presentation.queue
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -19,7 +20,10 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -49,6 +53,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         PlayingQueueFragmentAdapter(act as MediaProvider, navigator, this, viewModel)
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = OverScrollLinearLayoutManager(list)

@@ -6,14 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 class PlaylistChooserActivityViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val playlistGateway: PlaylistGateway
+    private val playlistGateway: PlaylistGateway,
+    private val schedulers: Schedulers
 ) : ViewModel() {
 
     private val data = MutableLiveData<List<DisplayableItem>>()
@@ -29,7 +30,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
     init {
         playlistGateway.observeAll()
             .mapListItem { it.toDisplayableItem(context.resources) }
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .onEach { data.value = it }
             .launchIn(viewModelScope)
     }

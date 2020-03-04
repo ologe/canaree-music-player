@@ -8,8 +8,8 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.AppConstants
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -17,7 +17,8 @@ class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val lastFmGateway: ImageRetrieverGateway,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
+    private val getSongListByParamUseCase: GetSongListByParamUseCase,
+    private val schedulers: Schedulers
 
 ) {
 
@@ -39,7 +40,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
         )
     }
 
-    suspend fun getPath(mediaId: MediaId): String = withContext(Dispatchers.IO) {
+    suspend fun getPath(mediaId: MediaId): String = withContext(schedulers.io) {
         getSongListByParamUseCase(mediaId).first().path
     }
 

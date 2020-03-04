@@ -8,11 +8,11 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -22,7 +22,8 @@ import javax.inject.Inject
 class RecentlyAddedFragmentViewModel @Inject constructor(
     mediaId: MediaId,
     useCase: ObserveRecentlyAddedUseCase,
-    getItemTitleUseCase: GetItemTitleUseCase
+    getItemTitleUseCase: GetItemTitleUseCase,
+    schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -34,12 +35,12 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
     init {
         useCase(mediaId)
             .mapListItem { it.toRecentDetailDisplayableItem(mediaId) }
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .onEach { liveData.value = it }
             .launchIn(viewModelScope)
 
         getItemTitleUseCase(mediaId)
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .map { it ?: "" }
             .onEach { titleLiveData.value = it }
             .launchIn(viewModelScope)

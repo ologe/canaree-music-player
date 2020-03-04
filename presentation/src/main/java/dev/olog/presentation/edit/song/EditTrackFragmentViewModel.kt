@@ -6,12 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.utils.safeGet
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.utils.NetworkUtils
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -20,7 +23,8 @@ import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val presenter: EditTrackFragmentPresenter
+    private val presenter: EditTrackFragmentPresenter,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -34,7 +38,7 @@ class EditTrackFragmentViewModel @Inject constructor(
     private val displayableSongLiveData = MutableLiveData<DisplayableSong>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
-        val song = withContext(Dispatchers.IO) {
+        val song = withContext(schedulers.io) {
             presenter.getSong(mediaId)
         }
         songLiveData.value = song

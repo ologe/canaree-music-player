@@ -1,5 +1,6 @@
 package dev.olog.presentation.offlinelyrics
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -167,6 +168,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         presenter.onStop()
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun loadImage(mediaId: MediaId) = withContext(Dispatchers.IO){
         try {
             val original = requireContext().getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))

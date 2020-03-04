@@ -25,7 +25,7 @@ class AlbumPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val schedulers: Schedulers
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false, schedulers) {
 
     private val activityRef = WeakReference(activity)
 

@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
-import kotlinx.coroutines.Dispatchers
+import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
 class EditArtistFragmentViewModel @Inject constructor(
-    private val presenter: EditArtistFragmentPresenter
+    private val presenter: EditArtistFragmentPresenter,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -24,7 +25,7 @@ class EditArtistFragmentViewModel @Inject constructor(
     private val displayableArtistLiveData = MutableLiveData<DisplayableArtist>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
-        val artist = withContext(Dispatchers.IO) {
+        val artist = withContext(schedulers.io) {
             presenter.getArtist(mediaId)
         }
         displayableArtistLiveData.value = artist.toDisplayableArtist()

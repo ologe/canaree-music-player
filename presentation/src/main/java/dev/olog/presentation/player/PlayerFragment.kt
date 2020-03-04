@@ -1,5 +1,6 @@
 package dev.olog.presentation.player
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
@@ -58,6 +59,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     private val mediaProvider by lazyFast { act as MediaProvider }
 
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val playerAppearance = themeManager.playerAppearance

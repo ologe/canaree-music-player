@@ -4,28 +4,29 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.net.Uri
 
 abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     private val addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val podcastPlaylist: Boolean
+    private val podcastPlaylist: Boolean,
+    private val schedulers: Schedulers
 
 ) : PopupMenu.OnMenuItemClickListener {
 
@@ -68,7 +69,7 @@ abstract class AbsPopupListener(
         mediaId: MediaId,
         listSize: Int,
         title: String
-    ) = withContext(Dispatchers.Main) {
+    ) = withContext(schedulers.main) {
         val playlist = playlists.first { it.id == playlistId }.title
         val message = if (mediaId.isLeaf) {
             context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
@@ -83,7 +84,7 @@ abstract class AbsPopupListener(
         context.toast(message)
     }
 
-    private suspend fun createErrorMessage(context: Context) = withContext(Dispatchers.Main) {
+    private suspend fun createErrorMessage(context: Context) = withContext(schedulers.main) {
         context.toast(context.getString(R.string.popup_error_message))
     }
 

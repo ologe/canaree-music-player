@@ -2,14 +2,14 @@ package dev.olog.presentation.edit
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,11 +24,15 @@ class EditItemDialogFactory @Inject constructor(
     @ApplicationContext private val context: Context,
     private val getSongUseCase: SongGateway,
     private val getPodcastUseCase: PodcastGateway,
-    private val getSongListByParamUseCase: GetSongListByParamUseCase
+    private val getSongListByParamUseCase: GetSongListByParamUseCase,
+    private val schedulers: Schedulers
 
 ) {
 
-    fun toEditTrack(mediaId: MediaId, action: () -> Unit) = GlobalScope.launch(Dispatchers.IO) {
+    fun toEditTrack(
+        mediaId: MediaId,
+        action: () -> Unit
+    ) = GlobalScope.launch(schedulers.io) {
         try {
             if (mediaId.isAnyPodcast) {
                 val song = getPodcastUseCase.getByParam(mediaId.resolveId)!!
@@ -37,40 +41,46 @@ class EditItemDialogFactory @Inject constructor(
                 val song = getSongUseCase.getByParam(mediaId.resolveId)!!
                 checkItem(song)
             }
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 action()
             }
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 showError(ex)
             }
         }
     }
 
-    fun toEditAlbum(mediaId: MediaId, action: () -> Unit) = GlobalScope.launch(Dispatchers.IO) {
+    fun toEditAlbum(
+        mediaId: MediaId,
+        action: () -> Unit
+    ) = GlobalScope.launch(schedulers.io) {
         try {
             getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 action()
             }
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 showError(ex)
             }
         }
     }
 
-    fun toEditArtist(mediaId: MediaId, action: () -> Unit) = GlobalScope.launch(Dispatchers.IO) {
+    fun toEditArtist(
+        mediaId: MediaId,
+        action: () -> Unit
+    ) = GlobalScope.launch(schedulers.io) {
         try {
             getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 action()
             }
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            withContext(Dispatchers.Main) {
+            withContext(schedulers.main) {
                 showError(ex)
             }
         }

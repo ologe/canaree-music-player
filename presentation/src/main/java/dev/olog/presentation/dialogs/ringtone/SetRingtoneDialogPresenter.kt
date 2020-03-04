@@ -11,17 +11,19 @@ import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.core.MediaId
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetRingtoneDialogPresenter @Inject constructor() {
+class SetRingtoneDialogPresenter @Inject constructor(
+    private val schedulers: Schedulers
+) {
 
     @Suppress("IMPLICIT_CAST_TO_ANY")
     suspend fun execute(activity: FragmentActivity, mediaId: MediaId) =
-        withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
             if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(activity)) {
                 setRingtone(activity, mediaId)
             } else {
@@ -30,21 +32,22 @@ class SetRingtoneDialogPresenter @Inject constructor() {
         }
 
     @TargetApi(23)
-    private suspend fun requestWritingSettingsPermission(activity: FragmentActivity) =
-        withContext(Dispatchers.Main) {
-            MaterialAlertDialogBuilder(activity)
-                .setTitle(R.string.popup_permission)
-                .setMessage(R.string.popup_request_permission_write_settings)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                    val packageName = activity.packageName
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_WRITE_SETTINGS,
-                        Uri.parse("package:$packageName")
-                    )
-                    activity.startActivity(intent)
-                }.show()
-        }
+    private suspend fun requestWritingSettingsPermission(
+        activity: FragmentActivity
+    ) = withContext(schedulers.main) {
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(R.string.popup_permission)
+            .setMessage(R.string.popup_request_permission_write_settings)
+            .setNegativeButton(R.string.popup_negative_cancel, null)
+            .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                val packageName = activity.packageName
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                    Uri.parse("package:$packageName")
+                )
+                activity.startActivity(intent)
+            }.show()
+    }
 
     private fun setRingtone(activity: FragmentActivity, mediaId: MediaId): Boolean {
         val songId = mediaId.leaf!!

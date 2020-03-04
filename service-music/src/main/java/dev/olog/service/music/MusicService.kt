@@ -12,6 +12,7 @@ import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.interactor.SleepTimerUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
@@ -60,6 +61,8 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
     internal lateinit var lastFmScrobbling: LastFmScrobbling
     @Inject
     internal lateinit var noisy: Noisy
+    @Inject
+    internal lateinit var schedulers: Schedulers
 
     override fun onCreate() {
         inject()
@@ -196,7 +199,7 @@ class MusicService : BaseMusicService(), CoroutineScope by MainScope() {
             return
         }
         result.detach()
-        launch(Dispatchers.Default) {
+        launch(schedulers.cpu) {
 
             val mediaIdCategory = MediaIdCategory.values()
                 .toList()

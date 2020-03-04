@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,21 +23,22 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     private val bassBoost: IBassBoost,
     private val virtualizer: IVirtualizer,
     private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
-    private val equalizerGateway: EqualizerGateway
+    private val equalizerGateway: EqualizerGateway,
+    private val schedulers: Schedulers
 ) : ViewModel() {
 
     private val currentPresetLiveData = MutableLiveData<EqualizerPreset>()
 
     init {
         equalizer.observeCurrentPreset()
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .onEach { currentPresetLiveData.value = it }
             .launchIn(viewModelScope)
     }
 
     fun getBandLimit() = equalizer.getBandLimit()
     fun getBandCount() = equalizer.getBandCount()
-    fun setCurrentPreset(preset: EqualizerPreset) = viewModelScope.launch(Dispatchers.IO) {
+    fun setCurrentPreset(preset: EqualizerPreset) = viewModelScope.launch(schedulers.io) {
         equalizer.setCurrentPreset(preset)
     }
     fun getPresets() = equalizer.getPresets()
@@ -70,13 +71,13 @@ internal class EqualizerFragmentViewModel @Inject constructor(
         return .1f
     }
 
-    fun deleteCurrentPreset() = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteCurrentPreset() = viewModelScope.launch(schedulers.io) {
         val currentPreset = currentPresetLiveData.value!!
         equalizerPrefsUseCase.setCurrentPresetId(0)
         equalizerGateway.deletePreset(currentPreset)
     }
 
-    suspend fun addPreset(title: String): Boolean = withContext(Dispatchers.IO){
+    suspend fun addPreset(title: String): Boolean = withContext(schedulers.io){
         val preset = EqualizerPreset(
             id = -1,
             name = title,
@@ -90,7 +91,7 @@ internal class EqualizerFragmentViewModel @Inject constructor(
         true
     }
 
-    fun updateCurrentPresetIfCustom() = viewModelScope.launch(Dispatchers.IO) {
+    fun updateCurrentPresetIfCustom() = viewModelScope.launch(schedulers.io) {
         equalizer.updateCurrentPresetIfCustom()
     }
 

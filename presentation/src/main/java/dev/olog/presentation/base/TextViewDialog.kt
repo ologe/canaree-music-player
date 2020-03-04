@@ -1,5 +1,6 @@
 package dev.olog.presentation.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -14,14 +15,17 @@ import dev.olog.presentation.utils.showIme
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TextViewDialog(
     private val context: Context,
     private val title: String,
     private val subtitle: String?,
     private val layoutEditText: Int = R.layout.layout_material_edit_text
-) {
+): CoroutineScope by MainScope() {
 
     class Action(
         val title: String,
@@ -62,6 +66,7 @@ class TextViewDialog(
      * @param positiveAction.negativeAction return to true dismiss
      * @param positiveAction.neutralAction return to true dismiss
      */
+    @SuppressLint("ConcreteDispatcherIssue")
     fun show(
         positiveAction: Action,
         negativeAction: Action? = null,
@@ -80,7 +85,7 @@ class TextViewDialog(
         dialog.setupListeners(positiveAction, negativeAction, neutralAction, dismissAction)
         dialog.show()
 
-        GlobalScope.launch(Dispatchers.Main) {
+        launch {
             delay(100)
             textViews[0].showIme()
         }
@@ -93,10 +98,10 @@ class TextViewDialog(
         neutralAction: Action? = null,
         crossinline dismissAction: AlertDialog.() -> Unit = { dismiss() }
     ) {
-        var job: Job? by autoDisposeJob()
+        var job by autoDisposeJob()
 
         getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = GlobalScope.launch(Dispatchers.Main) {
+            job = launch {
                 if (positiveAction.action(textViews)) {
                     dismissAction()
                 }
@@ -104,7 +109,7 @@ class TextViewDialog(
         }
         negativeAction?.let { negative ->
             getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-                job = GlobalScope.launch(Dispatchers.Main) {
+                job = launch {
                     if (negative.action(textViews)) {
                         dismissAction()
                     }
@@ -113,7 +118,7 @@ class TextViewDialog(
         }
         neutralAction?.let { neutral ->
             getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                job = GlobalScope.launch(Dispatchers.Main) {
+                job = launch {
                     if (neutral.action(textViews)) {
                         dismissAction()
                     }

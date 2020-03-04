@@ -13,6 +13,7 @@ import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.service.music.interfaces.IQueue
 import dev.olog.service.music.model.*
 import dev.olog.service.music.state.MusicServiceShuffleMode
@@ -37,7 +38,8 @@ internal class QueueManager @Inject constructor(
     private val songGateway: SongGateway,
     private val genreGateway: GenreGateway,
     private val enhancedShuffle: EnhancedShuffle,
-    private val podcastPosition: PodcastPositionUseCase
+    private val podcastPosition: PodcastPositionUseCase,
+    private val schedulers: Schedulers
 
 ) : IQueue {
 
@@ -321,7 +323,7 @@ internal class QueueManager @Inject constructor(
     private suspend fun getPodcastBookmarkOrDefault(
         mediaEntity: MediaEntity?,
         default: Long = 0L
-    ): Long = withContext(Dispatchers.Default) {
+    ): Long = withContext(schedulers.cpu) {
         if (mediaEntity?.isPodcast == true) {
             val bookmark = podcastPosition.get(mediaEntity.id, mediaEntity.duration)
             clamp(bookmark, 0L, mediaEntity.duration)

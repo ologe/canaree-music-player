@@ -1,5 +1,6 @@
 package dev.olog.presentation.ripple
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
@@ -24,6 +25,7 @@ class RippleTarget(
 
     private var job by autoDisposeJob()
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
@@ -48,6 +50,7 @@ class RippleTarget(
             }
         }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun onGenerated(palette: Palette?) = withContext(Dispatchers.Main) {
         if (view is ForegroundImageView) {
 

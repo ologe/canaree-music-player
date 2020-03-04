@@ -13,12 +13,14 @@ import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DetailFragmentViewModel @Inject constructor(
@@ -29,7 +31,8 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val getSortOrderUseCase: GetDetailSortUseCase,
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
-    private val imageRetrieverGateway: ImageRetrieverGateway
+    private val imageRetrieverGateway: ImageRetrieverGateway,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -61,52 +64,52 @@ internal class DetailFragmentViewModel @Inject constructor(
     init {
         // header
         dataProvider.observeHeader(mediaId)
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { itemLiveData.value = it[0] }
             .launchIn(viewModelScope)
 
         // most played
         dataProvider.observeMostPlayed(mediaId)
             .mapListItem { it as DisplayableTrack }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { mostPlayedLiveData.value = it }
             .launchIn(viewModelScope)
 
         // related artists
         dataProvider.observeRelatedArtists(mediaId)
             .map { it.take(RELATED_ARTISTS_TO_SEE) }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { relatedArtistsLiveData.value = it }
             .launchIn(viewModelScope)
 
         // siblings
         dataProvider.observeSiblings(mediaId)
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { siblingsLiveData.value = it }
             .launchIn(viewModelScope)
 
         // recent
         dataProvider.observeRecentlyAdded(mediaId)
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { recentlyAddedLiveData.value = it }
             .launchIn(viewModelScope)
 
         // songs
         dataProvider.observe(mediaId, filterChannel.asFlow())
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { songLiveData.value = it }
             .launchIn(viewModelScope)
 
         // biography
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(schedulers.io) {
             try {
                 val biography = when {
                     mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
                     mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
                     else -> null
                 }
-                withContext(Dispatchers.Main) {
+                withContext(schedulers.main) {
                     biographyLiveData.value = biography
                 }
             } catch (ex: NullPointerException) {
@@ -135,7 +138,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         action(sortEntity.type)
     }
 
-    fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateSortOrder(sortType: SortType) = viewModelScope.launch(schedulers.io) {
         setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
     }
 
@@ -158,7 +161,7 @@ internal class DetailFragmentViewModel @Inject constructor(
         moveList.clear()
     }
 
-    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
+    fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(schedulers.cpu) {
         require(item is DisplayableTrack)
         presenter.removeFromPlaylist(item)
     }

@@ -1,5 +1,6 @@
 package dev.olog.presentation.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -50,6 +51,7 @@ class BlurredBackground(
 
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun loadImageInternal(
         mediaId: MediaId,
         drawable: Drawable

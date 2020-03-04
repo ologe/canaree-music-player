@@ -1,5 +1,6 @@
 package dev.olog.presentation.widgets.textview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
@@ -20,6 +21,7 @@ class ExplicitView(
         imageTintList = ColorStateList.valueOf(context.textColorPrimary())
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     fun onItemChanged(title: String) {
         toggleVisibility(visible = false, gone = true)
 

@@ -6,17 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.theme.themeManager
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.theme.PlayerAppearance
-import kotlinx.coroutines.Dispatchers
+import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -27,7 +27,8 @@ internal class PlayerFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
-    private val tutorialPreferenceUseCase: TutorialPreferenceGateway
+    private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -37,7 +38,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
     init {
         observeFavoriteAnimationUseCase()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { favoriteLiveData.value = it }
             .launchIn(viewModelScope)
     }

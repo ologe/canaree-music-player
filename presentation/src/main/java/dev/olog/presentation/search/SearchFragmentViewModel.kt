@@ -8,6 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +21,8 @@ class SearchFragmentViewModel @Inject constructor(
     private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
-    private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
+    private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -34,33 +36,33 @@ class SearchFragmentViewModel @Inject constructor(
     init {
         // all
         dataProvider.observe()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { data.value = it }
             .launchIn(viewModelScope)
         
         // albums
         dataProvider.observeAlbums()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { albumData.value = it }
             .launchIn(viewModelScope)
         // artists
         dataProvider.observeArtists()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { artistsData.value = it }
             .launchIn(viewModelScope)
         // genres
         dataProvider.observeGenres()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { genresData.value = it }
             .launchIn(viewModelScope)
         // playlist
         dataProvider.observePlaylists()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { playlistsData.value = it }
             .launchIn(viewModelScope)
         // folders
         dataProvider.observeFolders()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { foldersData.value = it }
             .launchIn(viewModelScope)
     }
@@ -77,15 +79,15 @@ class SearchFragmentViewModel @Inject constructor(
         dataProvider.updateQuery(newQuery.trim())
     }
 
-    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch(schedulers.io) {
         insertRecentUse(mediaId)
     }
 
-    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch(schedulers.io) {
         deleteRecentSearchUseCase(mediaId)
     }
 
-    fun clearRecentSearches() = viewModelScope.launch(Dispatchers.IO) {
+    fun clearRecentSearches() = viewModelScope.launch(schedulers.io) {
         clearRecentSearchesUseCase()
     }
 

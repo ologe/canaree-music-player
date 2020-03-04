@@ -1,5 +1,6 @@
 package dev.olog.presentation.widgets.fascroller
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import dev.olog.presentation.model.DisplayableAlbum
@@ -31,6 +32,7 @@ class RxWaveSideBarView(
         this.listener = listener
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun generateLetters(data: List<DisplayableItem>): List<String> = withContext(Dispatchers.Default) {
         if (scrollableLayoutId == 0){
             throw IllegalStateException("provide a real layout id to filter")

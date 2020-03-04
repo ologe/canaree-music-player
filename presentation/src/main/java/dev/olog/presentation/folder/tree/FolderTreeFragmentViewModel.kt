@@ -8,14 +8,14 @@ import android.provider.MediaStore
 import androidx.lifecycle.*
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -24,7 +24,8 @@ import javax.inject.Inject
 class FolderTreeFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
-    private val gateway: FolderNavigatorGateway
+    private val gateway: FolderNavigatorGateway,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -46,7 +47,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 gateway.observeFolderChildren(file)
                     .map { addHeaders(file, it) }
             }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { currentDirectoryChildrenLiveData.value = it }
             .launchIn(viewModelScope)
 

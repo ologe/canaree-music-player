@@ -9,20 +9,23 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModel @Inject constructor(
     resources: Resources,
     mediaId: MediaId,
     useCase: ObserveRelatedArtistsUseCase,
-    getItemTitleUseCase: GetItemTitleUseCase
+    getItemTitleUseCase: GetItemTitleUseCase,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -34,12 +37,12 @@ class RelatedArtistFragmentViewModel @Inject constructor(
     init {
         useCase(mediaId)
             .mapListItem { it.toRelatedArtist(resources) }
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .onEach { liveData.value = it }
             .launchIn(viewModelScope)
 
         getItemTitleUseCase(mediaId)
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
             .map { it ?: "" }
             .onEach { titleLiveData.value = it }
             .launchIn(viewModelScope)

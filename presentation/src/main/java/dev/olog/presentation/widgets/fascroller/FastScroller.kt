@@ -2,6 +2,7 @@ package dev.olog.presentation.widgets.fascroller
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -25,7 +26,6 @@ import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.lifecycleScope
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 
@@ -212,6 +212,7 @@ class FastScroller(
         }
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 

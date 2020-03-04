@@ -7,7 +7,7 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import kotlinx.coroutines.Dispatchers
+import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,11 +16,15 @@ class NewPlaylistDialogPresenter @Inject constructor(
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val playingQueueGateway: PlayingQueueGateway,
     private val podcastGateway: PodcastGateway,
-    private val songGateway: SongGateway
+    private val songGateway: SongGateway,
+    private val schedulers: Schedulers
 
 ) {
 
-    suspend fun execute(mediaId: MediaId, playlistTitle: String) = withContext(Dispatchers.IO) {
+    suspend fun execute(
+        mediaId: MediaId,
+        playlistTitle: String
+    ) = withContext(schedulers.io) {
         val playlistType = if (mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
 
         val trackToInsert = when {

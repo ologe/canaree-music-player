@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.swap
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    playingQueueGateway: PlayingQueueGateway
+    playingQueueGateway: PlayingQueueGateway,
+    private val schedulers: Schedulers
 ) : ViewModel() {
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
@@ -30,7 +31,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     init {
         playingQueueGateway.observeAll().distinctUntilChanged()
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { queueLiveData.offer(it) }
             .launchIn(viewModelScope)
 
@@ -42,7 +43,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
                     item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
                 }
             }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
             .onEach { data.value = it }
             .launchIn(viewModelScope)
     }
@@ -50,7 +51,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data
 
     fun recalculatePositionsAfterRemove(position: Int) =
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(schedulers.cpu) {
             val currentList = queueLiveData.value.toMutableList()
             currentList.removeAt(position)
 
@@ -61,7 +62,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
      * @param moves contains all the movements in the list
      */
     fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(schedulers.cpu) {
             val currentList = queueLiveData.value
             for ((from, to) in moves) {
                 currentList.swap(from, to)

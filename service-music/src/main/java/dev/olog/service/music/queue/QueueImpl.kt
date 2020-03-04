@@ -22,7 +22,10 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -38,7 +41,7 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope(schedulers.cpu) {
 
@@ -408,7 +411,7 @@ internal class QueueImpl @Inject constructor(
         updateState(newQueue, currentSongPosition, false, true)
 
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             onRepeatModeChanged() // not really but updates mini queue
         }
     }
@@ -440,7 +443,7 @@ internal class QueueImpl @Inject constructor(
 
         updateState(newQueue, currentSongPosition, false, true)
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             onRepeatModeChanged() // not really but updates mini queue
         }
     }

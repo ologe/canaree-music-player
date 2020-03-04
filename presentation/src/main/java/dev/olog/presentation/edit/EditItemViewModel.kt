@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val presenter: EditItemPresenter
+    private val presenter: EditItemPresenter,
+    private val schedulers: Schedulers
 
 ) : ViewModel() {
 
@@ -29,12 +30,12 @@ class EditItemViewModel @Inject constructor(
             data.disc.isNotBlank() && !data.disc.isDigitsOnly() -> return UpdateResult.ILLEGAL_DISC_NUMBER
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
-        withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
             presenter.deleteTrack(data.originalSong.id)
             presenter.updateSingle(data)
         }
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             context.toast(R.string.edit_track_update_success)
         }
 
@@ -47,16 +48,16 @@ class EditItemViewModel @Inject constructor(
             data.year.isNotBlank() && !data.year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
         }
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             context.toast(R.string.edit_album_update_start)
         }
 
-        withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
 
             presenter.deleteAlbum(data.mediaId)
             presenter.updateAlbum(data)
         }
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             context.toast(R.string.edit_track_update_success)
         }
 
@@ -68,15 +69,15 @@ class EditItemViewModel @Inject constructor(
             data.name.isBlank() -> return UpdateResult.EMPTY_TITLE
         }
 
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             context.toast(R.string.edit_artist_update_start)
         }
 
-        withContext(Dispatchers.IO) {
+        withContext(schedulers.io) {
             presenter.deleteArtist(data.mediaId)
             presenter.updateArtist(data)
         }
-        withContext(Dispatchers.Main) {
+        withContext(schedulers.main) {
             context.toast(R.string.edit_track_update_success)
         }
 

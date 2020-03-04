@@ -1,22 +1,18 @@
 package dev.olog.presentation.tab
 
 import android.content.Context
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.doIf
-import dev.olog.shared.mapListItem
-import dev.olog.shared.startWith
-import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.Dispatchers
+import dev.olog.shared.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
@@ -38,7 +34,8 @@ internal class TabDataProvider @Inject constructor(
     private val podcastGateway: PodcastGateway,
     private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val presentationPrefs: PresentationPreferencesGateway,
+    private val schedulers: Schedulers
 ) {
 
     private val resources = context.resources
@@ -84,7 +81,7 @@ internal class TabDataProvider @Inject constructor(
                 resources
             )
         }
-    }.flowOn(Dispatchers.Default)
+    }.flowOn(schedulers.cpu)
 
     private fun getFolders(): Flow<List<DisplayableItem>> {
         return folderGateway.observeAll()

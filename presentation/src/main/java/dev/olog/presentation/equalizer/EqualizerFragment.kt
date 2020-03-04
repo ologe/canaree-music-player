@@ -1,11 +1,11 @@
 package dev.olog.presentation.equalizer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.forEachIndexed
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.presentation.R
@@ -13,10 +13,15 @@ import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class EqualizerFragment : BaseBottomSheetFragment() {
@@ -140,6 +145,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         save.setOnClickListener(null)
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private fun changePreset() {
         launchWhenResumed {
             val presets = withContext(Dispatchers.IO) {

@@ -1,5 +1,6 @@
 package dev.olog.presentation.prefs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -183,6 +184,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .show()
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun clearGlideCache() {
         GlideApp.get(ctx.applicationContext).clearMemory()
 

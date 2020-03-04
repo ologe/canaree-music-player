@@ -6,6 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
@@ -17,9 +18,10 @@ class SongPopupListener @Inject constructor(
     activity: FragmentActivity,
     private val navigator: Navigator,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    schedulers: Schedulers
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false, schedulers) {
 
     private val activityRef = WeakReference(activity)
 

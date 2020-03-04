@@ -1,18 +1,19 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.widgets.adaptive.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val presentationPrefs: PresentationPreferencesGateway
+    private val presentationPrefs: PresentationPreferencesGateway,
+    private val schedulers: Schedulers
 ) {
 
     private val processorPublisher = ConflatedBroadcastChannel<ProcessorColors>()
@@ -36,7 +37,7 @@ internal class PlayerFragmentPresenter @Inject constructor(
                 }
             }
             .filter { it is ValidProcessorColors }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
     }
 
     // allow adaptive color on flat appearance
@@ -53,7 +54,7 @@ internal class PlayerFragmentPresenter @Inject constructor(
                 }
             }
             .filter { it is ValidPaletteColors }
-            .flowOn(Dispatchers.Default)
+            .flowOn(schedulers.cpu)
     }
 
     fun updateProcessorColors(palette: ProcessorColors) {
