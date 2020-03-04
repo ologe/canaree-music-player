@@ -27,4 +27,7 @@ dependencies {
 
     implementation lib_analytics.analytics
 
+    implementation lib_x.lifecycle_runtime
+    implementation lib_x.lifecycle_livedata
+
 }
