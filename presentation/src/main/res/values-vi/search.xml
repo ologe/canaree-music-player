@@ -24,12 +24,11 @@
 
     <string name="search_recent_searches">Lượt tìm kiếm gần đây</string>
     <string name="search_clear_recent_searches">Xóa lịch sử tìm kiếm</string>
-    <string name="search_recent_empty_state">Tìm trong thư viện của bạn...</string>
+    <string name="search_recent_empty_state">Tìm trong thư viện của bạn…</string>
 
     <string name="search_no_results" translatable="false">@string/common_no_results</string>
 
     <plurals name="search_xx_results">
-        <item quantity="one">%1$s kết quả</item>
         <item quantity="other">%1$s kết quả</item>
     </plurals>
 

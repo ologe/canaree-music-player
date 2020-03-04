@@ -2,7 +2,6 @@
 <resources>
 
     <plurals name="mini_player_time_left">
-        <item quantity="one">Còn %d phút</item>
         <item quantity="other">Còn %d phút</item>
     </plurals>
 
