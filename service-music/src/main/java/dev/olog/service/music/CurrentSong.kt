@@ -15,6 +15,7 @@ import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
@@ -34,7 +35,8 @@ internal class CurrentSong @Inject constructor(
     private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
     insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
     insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
-    playerLifecycle: IPlayerLifecycle
+    playerLifecycle: IPlayerLifecycle,
+    private val schedulers: Schedulers
 
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope(),
@@ -52,7 +54,7 @@ internal class CurrentSong @Inject constructor(
     init {
         playerLifecycle.addListener(this)
 
-        launch(Dispatchers.IO) {
+        launch(schedulers.io) {
             for (entity in channel) {
                 Log.v(TAG, "on new item ${entity.title}")
                 if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
