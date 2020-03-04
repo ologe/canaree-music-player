@@ -32,9 +32,9 @@ class NavigatorAboutImpl @Inject internal constructor(
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
-        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)
-        current!!.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current!!.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
+        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
+        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
         val fragment = LicensesFragment()
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
@@ -99,9 +99,9 @@ class NavigatorAboutImpl @Inject internal constructor(
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
-        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)
-        current!!.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current!!.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
+        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
+        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
         val fragment = SpecialThanksFragment()
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
@@ -168,9 +168,9 @@ class NavigatorAboutImpl @Inject internal constructor(
 
         val activity = activityRef.get() ?: return
 
-        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)
-        current!!.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current!!.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
+        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
+        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
         val fragment = TranslationsFragment()
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
