@@ -10,11 +10,15 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
@@ -36,16 +40,14 @@ internal class MediaSessionQueue @Inject constructor(
     init {
         lifecycle.addObserver(this)
 
-        launch {
-            delayedChannel.asFlow()
-                .debounce(DELAY)
-                .collect { publish(it) }
-        }
+        delayedChannel.asFlow()
+            .debounce(DELAY)
+            .onEach { publish(it) }
+            .launchIn(this)
 
-        launch {
-            immediateChannel.asFlow()
-                .collect { publish(it) }
-        }
+        immediateChannel.asFlow()
+            .onEach { publish(it) }
+            .launchIn(this)
     }
 
     private suspend fun publish(list: List<MediaEntity>) {

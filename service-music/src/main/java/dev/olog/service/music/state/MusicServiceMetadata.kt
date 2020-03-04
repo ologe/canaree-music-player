@@ -8,23 +8,28 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
+import dev.olog.intents.Classes
+import dev.olog.intents.MusicConstants
+import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.intents.Classes
-import dev.olog.intents.MusicConstants
-import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.utils.putBoolean
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 @PerService
@@ -32,11 +37,11 @@ internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
-    private val musicPrefs: MusicPreferencesGateway
-
+    private val musicPrefs: MusicPreferencesGateway,
+    schedulers: Schedulers
 ) : IPlayerLifecycle.Listener,
     DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+    CoroutineScope by CustomScope(schedulers.cpu) {
 
     companion object {
         @JvmStatic
@@ -50,10 +55,9 @@ internal class MusicServiceMetadata @Inject constructor(
     init {
         playerLifecycle.addListener(this)
 
-        launch {
-            musicPrefs.observeShowLockscreenArtwork()
-                .collect { showLockScreenArtwork = it }
-        }
+        musicPrefs.observeShowLockscreenArtwork()
+            .onEach { showLockScreenArtwork = it }
+            .launchIn(this)
     }
 
     override fun onPrepare(metadata: MetadataEntity) {

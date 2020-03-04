@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
@@ -37,18 +36,16 @@ class ProgressDeletegate(
     @SuppressLint("ConcreteDispatcherIssue")
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
-        incrementJob = launch {
-            flowInterval(
-                AppConstants.PROGRESS_BAR_INTERVAL,
-                TimeUnit.MILLISECONDS
-            )
-                .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
-                .flowOn(Dispatchers.IO)
-                .collect {
-                    setProgress(progressBar, it.toInt())
-                    channel.offer(it.toLong())
-                }
-        }
+        incrementJob = flowInterval(
+            AppConstants.PROGRESS_BAR_INTERVAL,
+            TimeUnit.MILLISECONDS
+        )
+            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
+            .flowOn(Dispatchers.IO)
+            .onEach {
+                setProgress(progressBar, it.toInt())
+                channel.offer(it.toLong())
+            }.launchIn(this)
     }
 
     private fun setProgress(progressBar: ProgressBar, position: Int){

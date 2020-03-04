@@ -17,8 +17,7 @@ import dev.olog.shared.android.utils.isOreo
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,16 +54,15 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     fun startObserving() {
-        disposable = launch(schedulers.cpu) {
-            // keeps playing song in sync
-            musicPreferencesUseCase.observeLastMetadata()
+        // keeps playing song in sync
+        disposable = musicPreferencesUseCase.observeLastMetadata()
                 .filter { it.isNotEmpty() }
-                .collect {
+                .onEach {
                     notificationTitle = it.description
                     val notification = builder.setContentTitle(notificationTitle).build()
                     notificationManager.notify(NOTIFICATION_ID, notification)
-                }
-        }
+                }.flowOn(schedulers.cpu)
+                .launchIn(this)
     }
 
     fun buildNotification(): Notification {

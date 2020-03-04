@@ -12,8 +12,8 @@ import dev.olog.service.music.player.crossfade.CrossFadePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,10 +39,9 @@ internal class ClippedSourceFactory @Inject constructor (
     init {
         lifecycle.addObserver(this)
 
-        launch {
-            musicPrefsUseCase.observeGapless()
-                .collect { isGapless = it }
-        }
+        musicPrefsUseCase.observeGapless()
+            .onEach { isGapless = it }
+            .launchIn(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

@@ -4,19 +4,23 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.Noisy
-import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
+import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.shared.clamp
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -28,7 +32,8 @@ internal class PlayerImpl @Inject constructor(
     private val audioFocus : AudioFocusBehavior,
     private val playerDelegate: IPlayerDelegate<PlayerMediaEntity>,
     musicPrefsUseCase: MusicPreferencesGateway,
-    private val playerVolume: IMaxAllowedPlayerVolume
+    private val playerVolume: IMaxAllowedPlayerVolume,
+    schedulers: Schedulers
 
 ) : IPlayer,
     DefaultLifecycleObserver,
@@ -42,24 +47,20 @@ internal class PlayerImpl @Inject constructor(
     init {
         lifecycle.addObserver(this)
 
-        launch {
-            // TODO combine with max allowed volume changes
-            musicPrefsUseCase.observeVolume()
-                .flowOn(Dispatchers.Default)
-                .collect { volume ->
-                    val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
-                    playerDelegate.setVolume(newVolume)
-                }
-        }
+        // TODO combine with max allowed volume changes
+        musicPrefsUseCase.observeVolume()
+            .flowOn(schedulers.cpu)
+            .onEach { volume ->
+                val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
+                playerDelegate.setVolume(newVolume)
+            }.launchIn(this)
 
-        launch {
-            musicPrefsUseCase.observePlaybackSpeed()
-                .collect {
-                    currentSpeed = it
-                    playerDelegate.setPlaybackSpeed(it)
-                    playerState.updatePlaybackSpeed(it)
-                }
-        }
+        musicPrefsUseCase.observePlaybackSpeed()
+            .onEach {
+                currentSpeed = it
+                playerDelegate.setPlaybackSpeed(it)
+                playerState.updatePlaybackSpeed(it)
+            }.launchIn(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

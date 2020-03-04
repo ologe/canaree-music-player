@@ -65,22 +65,20 @@ internal class MusicNotificationManager @Inject constructor(
     init {
         playerLifecycle.addListener(playerListener)
 
-        launch {
-            publisher.consumeAsFlow()
-                .filter { event ->
-                    when (event) {
-                        is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
-                        is Event.State -> currentState.isDifferentState(event.state)
-                        is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
-                    }
-                }.collect { consumeEvent(it) }
-        }
+        publisher.consumeAsFlow()
+            .filter { event ->
+                when (event) {
+                    is Event.Metadata -> currentState.isDifferentMetadata(event.entity)
+                    is Event.State -> currentState.isDifferentState(event.state)
+                    is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
+                }
+            }.onEach { consumeEvent(it) }
+            .launchIn(this)
 
-        launch {
-            observeFavoriteUseCase()
-                .map { it == FavoriteState.FAVORITE }
-                .collect { onNextFavorite(it) }
-        }
+        observeFavoriteUseCase()
+            .map { it == FavoriteState.FAVORITE }
+            .onEach { onNextFavorite(it) }
+            .launchIn(this)
     }
 
     private suspend fun consumeEvent(event: Event){

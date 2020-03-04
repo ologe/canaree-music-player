@@ -10,9 +10,9 @@ import dev.olog.service.music.model.MetadataEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 internal class LastFmScrobbling @Inject constructor(
@@ -29,11 +29,10 @@ internal class LastFmScrobbling @Inject constructor(
         lifecycle.addObserver(this)
         playerLifecycle.addListener(this)
 
-        launch {
-            observeLastFmUserCredentials()
-                .filter { it.username.isNotBlank() }
-                .collect { lastFmService::tryAuthenticate }
-        }
+        observeLastFmUserCredentials()
+            .filter { it.username.isNotBlank() }
+            .onEach { lastFmService.tryAuthenticate(it) }
+            .launchIn(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

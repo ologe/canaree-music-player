@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
@@ -15,10 +14,13 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,21 +59,18 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
-        launch {
-            flowInterval(1, TimeUnit.SECONDS)
-                .filter { crossFadeTime > 0 } // crossFade enabled
-                .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
-                .filter { getDuration() > getBookmark() }
-                .map { getDuration() - getBookmark() <= crossFadeTime }
-                .distinctUntilChanged()
-                .filter { it }
-                .collect {
-                    fadeOut(getDuration() - getBookmark())
-                }
-        }
+        flowInterval(1, TimeUnit.SECONDS)
+            .filter { crossFadeTime > 0 } // crossFade enabled
+            .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
+            .filter { getDuration() > getBookmark() }
+            .map { getDuration() - getBookmark() <= crossFadeTime }
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                fadeOut(getDuration() - getBookmark())
+            }.launchIn(this)
 
-        launch {
-            musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
+        musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
             { crossfade, gapless ->
                 if (gapless){
                     // force song preloading
@@ -80,14 +79,12 @@ internal class CrossFadePlayer @Inject internal constructor(
                     crossfade
                 }
 
-            }.collect {
-                crossFadeTime = it
-            }
-        }
-        launch {
-            musicPreferencesUseCase.observeGapless()
-                .collect { gapless = it }
-        }
+            }.onEach { crossFadeTime = it }
+            .launchIn(this)
+
+        musicPreferencesUseCase.observeGapless()
+            .onEach { gapless = it }
+            .launchIn(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -171,14 +168,12 @@ internal class CrossFadePlayer @Inject internal constructor(
         )
         player.volume = min
 
-        fadeDisposable = launch {
-            flowInterval(interval, TimeUnit.MILLISECONDS)
-                .takeWhile { player.volume < max }
-                .collect {
-                    val current = MathUtils.clamp(player.volume + delta, min, max)
-                    player.volume = current
-                }
-        }
+        fadeDisposable = flowInterval(interval, TimeUnit.MILLISECONDS)
+            .takeWhile { player.volume < max }
+            .onEach {
+                val current = MathUtils.clamp(player.volume + delta, min, max)
+                player.volume = current
+            }.launchIn(this)
     }
 
     private fun fadeOut(time: Long) {
@@ -203,14 +198,12 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeDisposable = launch {
-            flowInterval(interval, TimeUnit.MILLISECONDS)
-                .takeWhile { player.volume > min }
-                .collect {
-                    val current = MathUtils.clamp(player.volume - delta, min, max)
-                    player.volume = current
-                }
-        }
+        fadeDisposable = flowInterval(interval, TimeUnit.MILLISECONDS)
+            .takeWhile { player.volume > min }
+            .onEach {
+                val current = MathUtils.clamp(player.volume - delta, min, max)
+                player.volume = current
+            }.launchIn(this)
 
     }
 
