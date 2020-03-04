@@ -30,7 +30,6 @@ import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject

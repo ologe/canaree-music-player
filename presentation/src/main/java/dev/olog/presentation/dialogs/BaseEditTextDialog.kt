@@ -11,10 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 abstract class BaseEditTextDialog : BaseDialog() {
 

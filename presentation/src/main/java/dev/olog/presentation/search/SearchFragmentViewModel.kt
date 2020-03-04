@@ -10,7 +10,6 @@ import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
