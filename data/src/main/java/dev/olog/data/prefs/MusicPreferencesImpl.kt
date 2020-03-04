@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.utils.observeKey
 import dev.olog.shared.ApplicationContext
@@ -35,7 +36,8 @@ private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 internal class MusicPreferencesImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val preferences: SharedPreferences
+    private val preferences: SharedPreferences,
+    private val schedulers: Schedulers
 
 ): MusicPreferencesGateway {
 
@@ -157,7 +159,7 @@ internal class MusicPreferencesImpl @Inject constructor(
 
     override fun observeLastIdInPlaylist(): Flow<Int> {
         return preferences.observeKey(LAST_ID_IN_PLAYLIST, -1)
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
     }
 
     override fun getLastIdInPlaylist(): Int {
@@ -176,11 +178,11 @@ internal class MusicPreferencesImpl @Inject constructor(
 
     override fun observeVolume(): Flow<Int> {
         return preferences.observeKey(MUSIC_VOLUME, 100)
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
     }
 
     override fun observeShowLockscreenArtwork(): Flow<Boolean> {
         return preferences.observeKey(context.getString(R.string.prefs_lockscreen_artwork_key), false)
-            .flowOn(Dispatchers.IO)
+            .flowOn(schedulers.io)
     }
 }
