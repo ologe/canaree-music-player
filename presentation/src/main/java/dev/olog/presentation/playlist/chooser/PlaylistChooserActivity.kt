@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.presentation.playlist.chooser.di.inject
@@ -18,12 +19,15 @@ class PlaylistChooserActivity : BaseActivity() {
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var schedulers: Schedulers
+
     private val viewModel by viewModels<PlaylistChooserActivityViewModel> {
         factory
     }
 
     private val adapter by lazyFast {
-        PlaylistChooserActivityAdapter(this)
+        PlaylistChooserActivityAdapter(this, schedulers)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,6 +8,7 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
@@ -21,7 +22,8 @@ class AlbumPopupListener @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val schedulers: Schedulers
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -66,7 +68,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
+            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers).addDetailShortcut(
                 getMediaId(),
                 album.title
             )

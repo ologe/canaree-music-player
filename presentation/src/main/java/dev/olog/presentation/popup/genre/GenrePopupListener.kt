@@ -7,6 +7,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.*
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
@@ -20,7 +21,8 @@ class GenrePopupListener @Inject constructor(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
-    addToPlaylistUseCase: AddToPlaylistUseCase
+    addToPlaylistUseCase: AddToPlaylistUseCase,
+    private val schedulers: Schedulers
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
@@ -64,7 +66,7 @@ class GenrePopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity).addDetailShortcut(
+            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers).addDetailShortcut(
                 getMediaId(),
                 genre.name
             )
