@@ -1,5 +1,6 @@
 package dev.olog.media.widget
 
+import android.annotation.SuppressLint
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
 import dev.olog.shared.autoDisposeJob
@@ -33,6 +34,7 @@ class ProgressDeletegate(
         setProgress(progressBar, startMillis)
     }
 
+    @SuppressLint("ConcreteDispatcherIssue")
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
         incrementJob = launch {

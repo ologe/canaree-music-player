@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
 import dev.olog.core.MediaId
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.Classes
 import dev.olog.media.connection.IMediaConnectionCallback
 import dev.olog.media.connection.MusicServiceConnection
@@ -32,7 +33,8 @@ import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
-    private val onConnectionChanged: OnConnectionChanged
+    private val onConnectionChanged: OnConnectionChanged,
+    private val schedulers: Schedulers
 ) : CoroutineScope by MainScope(),
     IMediaControllerCallback,
     IMediaConnectionCallback {
@@ -135,7 +137,7 @@ class MediaExposer(
         if (queue == null) {
             return
         }
-        launch(Dispatchers.Default) {
+        launch(schedulers.cpu) {
             val result = queue.map { it.toDisplayableItem() }
             queuePublisher.offer(result)
         }

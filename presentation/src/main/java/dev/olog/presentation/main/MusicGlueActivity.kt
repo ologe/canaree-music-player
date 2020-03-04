@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.media.MediaExposer
@@ -30,11 +31,11 @@ abstract class MusicGlueActivity : BaseActivity(),
     @Inject
     internal lateinit var trackerFacade: TrackerFacade
 
+    @Inject
+    internal lateinit var schedulers: Schedulers
+
     private val mediaExposer by lazyFast {
-        MediaExposer(
-            this,
-            this
-        )
+        MediaExposer(this, this, schedulers)
     }
 
     fun connect() {
