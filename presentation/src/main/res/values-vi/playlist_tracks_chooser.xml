@@ -7,7 +7,6 @@
     <string name="playlist_tracks_chooser_show_all">Hiển thị tất cả</string>
 
     <plurals name="playlist_tracks_chooser_count">
-        <item quantity="one">Đã chọn 1 bài hát</item>
         <item quantity="other">Đã chọn %d bài hát</item>
     </plurals>
 
