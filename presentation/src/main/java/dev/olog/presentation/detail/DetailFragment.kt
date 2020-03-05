@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
+import androidx.transition.TransitionManager
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
@@ -221,6 +222,7 @@ class DetailFragment : BaseFragment(),
         back.setOnClickListener { act.onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
         filter.setOnClickListener {
+            TransitionManager.beginDelayedTransition(toolbar)
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }
     }
