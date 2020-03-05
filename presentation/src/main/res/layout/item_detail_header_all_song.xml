@@ -41,7 +41,6 @@
         android:id="@+id/sortImage"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
-        android:layout_marginEnd="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:tint="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
