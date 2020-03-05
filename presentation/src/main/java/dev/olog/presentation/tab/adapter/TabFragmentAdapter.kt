@@ -17,8 +17,9 @@ import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
 import kotlinx.android.synthetic.main.item_tab_album.view.secondText
 import kotlinx.android.synthetic.main.item_tab_header.view.*
-import kotlinx.android.synthetic.main.item_tab_podcast.view.*
+import kotlinx.android.synthetic.main.item_tab_podcast.view.duration as durationView
 import kotlinx.android.synthetic.main.item_tab_song.view.*
+import kotlinx.android.synthetic.main.item_tab_song.view.isPlaying
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -105,7 +106,7 @@ internal class TabFragmentAdapter(
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
-            duration?.let {
+            durationView?.let {
                 val durationString = item.idInPlaylist.toString() + "m"
                 it.text = durationString
             }
