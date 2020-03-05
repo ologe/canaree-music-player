@@ -18,6 +18,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -97,7 +98,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
             currentDirectory.offer(current.parentFile!!)
             return true
         } catch (e: Throwable) {
-            e.printStackTrace()
+            Timber.e(e)
             return false
         }
     }
@@ -132,7 +133,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
                 return MediaId.playableItem(folderMediaId, trackId)
             }
         } catch (ex: CursorIndexOutOfBoundsException) {
-            ex.printStackTrace()
+            Timber.e(ex)
         }
         return null
     }

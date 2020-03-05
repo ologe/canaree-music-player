@@ -24,6 +24,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import timber.log.Timber;
+
 /**
  * Controls {@code View}s' positions, visibility, etc within a {@code Window}.
  */
@@ -88,7 +90,7 @@ public class WindowViewController {
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
             mWindowManager.addView(view, params);
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            Timber.e(e);
             // The view is already visible.
         }
     }
@@ -97,7 +99,7 @@ public class WindowViewController {
         try {
             mWindowManager.removeView(view);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            Timber.e(e);
             // The View wasn't visible to begin with.
         }
     }

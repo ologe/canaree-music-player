@@ -24,6 +24,7 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class LastFmCredentialsFragment : BaseDialogFragment() {
@@ -81,6 +82,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
                         onFail()
                     }
                 } catch (ex: Throwable) {
+                    Timber.e(ex)
                     onFail()
                 } finally {
                     loader?.dismiss()

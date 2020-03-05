@@ -15,6 +15,7 @@ import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class DeleteDialog: BaseDialog() {
@@ -65,10 +66,10 @@ class DeleteDialog: BaseDialog() {
             presenter.execute(mediaId)
             message = successMessage(act)
         } catch (ex: Throwable) {
+            Timber.e(ex)
             if (isQ() && ex is RecoverableSecurityException){
                 throw ex
             }
-            ex.printStackTrace()
             message = failMessage(act)
         }
         act.toast(message)

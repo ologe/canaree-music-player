@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class DetailFragmentViewModel @Inject constructor(
@@ -113,8 +114,10 @@ internal class DetailFragmentViewModel @Inject constructor(
                     biographyLiveData.value = biography
                 }
             } catch (ex: NullPointerException) {
+                Timber.e(ex)
                 ex.printStackTrace()
             } catch (ex: IndexOutOfBoundsException) {
+                Timber.e(ex)
                 ex.printStackTrace()
             }
         }

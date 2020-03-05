@@ -12,6 +12,7 @@ import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.Tag
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class UpdateTrackUseCase @Inject constructor(
             intent.data = Uri.fromFile(File((param.path)))
             context.sendBroadcast(intent)
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 
@@ -48,7 +49,7 @@ class UpdateTrackUseCase @Inject constructor(
         try {
             tag.setEncoding("UTF-8")
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
         }
         return tag
     }
@@ -69,7 +70,7 @@ class UpdateTrackUseCase @Inject constructor(
             try {
                 tag.setField(field.key, field.value)
             } catch (ex: Throwable) {
-                ex.printStackTrace()
+                Timber.e(ex)
             }
         }
     }

@@ -20,6 +20,7 @@ import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.lazyFast
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -59,7 +60,7 @@ class MusicGlueService @Inject constructor(
             mediaController!!.registerCallback(callback)
             mediaExposer.initialize(mediaController!!)
         } catch (e: RemoteException) {
-            e.printStackTrace()
+            Timber.e(e)
             onConnectedFailed(mediaBrowser, callback)
         }
     }

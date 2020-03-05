@@ -14,6 +14,7 @@ import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.utils.isQ
+import timber.log.Timber
 
 abstract class BaseDialog : BaseDialogFragment() {
 
@@ -61,6 +62,7 @@ abstract class BaseDialog : BaseDialogFragment() {
             try {
                 action()
             } catch (rse: RecoverableSecurityException) {
+                Timber.w(rse)
                 val requestAccessIntentSender = rse.userAction.actionIntent.intentSender
 
                 // In your code, handle IntentSender.SendIntentException.

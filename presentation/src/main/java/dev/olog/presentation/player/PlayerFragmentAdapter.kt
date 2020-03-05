@@ -48,6 +48,7 @@ import kotlinx.android.synthetic.main.player_toolbar_default.view.lyrics
 import kotlinx.android.synthetic.main.player_toolbar_default.view.playbackSpeed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
+import timber.log.Timber
 import java.util.*
 
 internal class PlayerFragmentAdapter(
@@ -102,7 +103,7 @@ internal class PlayerFragmentAdapter(
                         val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                         navigator.toDialog(mediaId, view)
                     } catch (ex: NullPointerException){
-                        ex.printStackTrace()
+                        Timber.e(ex)
                     }
                 }
                 viewHolder.itemView.volume?.musicPrefs = musicPrefs

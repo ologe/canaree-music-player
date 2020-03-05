@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -30,6 +31,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
         try {
             return getLyricsFromMetadata(song)
         } catch (ex: Throwable) {
+            Timber.e(ex)
             return lyrics
         }
     }

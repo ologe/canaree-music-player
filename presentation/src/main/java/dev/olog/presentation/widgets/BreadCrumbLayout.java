@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import dev.olog.presentation.R;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
 import dev.olog.shared.android.utils.ThreadUtilsKt;
+import timber.log.Timber;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 
@@ -211,7 +212,7 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
             mCrumbs.clear();
             mChildFrame.removeAllViews();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 

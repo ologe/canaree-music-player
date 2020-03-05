@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
+import timber.log.Timber
 import java.io.InputStream
 import java.lang.RuntimeException
 import java.util.concurrent.CancellationException
@@ -56,6 +57,7 @@ class GlideOriginalImageFetcher(
                 val stream = OriginalImageFetcher.loadImage(context, song)
                 callback.onDataReady(stream)
             } catch (ex: Throwable) {
+                Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }
         }

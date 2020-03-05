@@ -258,7 +258,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
                 selectedDotX = dotCenterX[currentPage];
             }
         } catch (Throwable ex){
-            ex.printStackTrace();
+            Timber.e(ex);
         }
     }
 

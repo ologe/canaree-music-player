@@ -12,7 +12,7 @@ import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class PlayNextDialog : BaseDialog() {
@@ -67,7 +67,7 @@ class PlayNextDialog : BaseDialog() {
                 presenter.execute(mediaController, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
-                ex.printStackTrace()
+                Timber.e(ex)
                 message = failMessage(act)
             }
             act.toast(message)

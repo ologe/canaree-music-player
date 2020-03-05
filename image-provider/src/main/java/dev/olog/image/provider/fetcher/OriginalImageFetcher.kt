@@ -8,6 +8,7 @@ import android.provider.MediaStore.Audio.Media
 import dev.olog.core.entity.track.Song
 import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
+import timber.log.Timber
 import java.io.*
 import java.util.*
 
@@ -55,6 +56,7 @@ object OriginalImageFetcher {
                 }
             }
         } catch (ex: IOException) {
+            Timber.w(ex)
             ex.printStackTrace()
         }
         yield()

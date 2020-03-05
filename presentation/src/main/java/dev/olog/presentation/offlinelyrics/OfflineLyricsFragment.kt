@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -136,7 +137,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                         presenter.updateSyncAdjustment(it)
                     }
                 } catch (ex: Throwable){
-                    ex.printStackTrace()
+                    Timber.e(ex)
                 }
             }
         }
@@ -182,7 +183,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 image.setImageBitmap(blurred)
             }
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 

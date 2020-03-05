@@ -22,6 +22,7 @@ import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class MusicGlueActivity : BaseActivity(),
@@ -73,7 +74,7 @@ abstract class MusicGlueActivity : BaseActivity(),
             mediaExposer.initialize(MediaControllerCompat.getMediaController(this))
             trackerFacade.trackServiceEvent("onConnectedSuccess")
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             onConnectedFailed(mediaBrowser, callback)
         }
     }

@@ -8,6 +8,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import kotlinx.coroutines.yield
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 
@@ -27,6 +28,7 @@ internal object MergedImagesCreator {
             try {
                 getBitmap(context, id)?.let { uris.add(IdWithBitmap(id, it)) }
             } catch (ex: Throwable) {
+                Timber.e(ex)
             }
             if (uris.size == 9) {
                 break
@@ -42,6 +44,7 @@ internal object MergedImagesCreator {
                 itemId
             )
         } catch (ex: OutOfMemoryError) {
+            Timber.e(ex)
             // Romain Guy says it's bad
             return null
         }

@@ -12,6 +12,7 @@ import dev.olog.image.provider.R
 import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicLong
 
@@ -64,6 +65,7 @@ abstract class BaseDataFetcher(
 
                 throw NoSuchElementException()
             } catch (ex: Throwable) {
+                Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }
         }

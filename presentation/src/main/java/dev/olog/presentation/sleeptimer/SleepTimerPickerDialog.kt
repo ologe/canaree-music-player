@@ -17,6 +17,7 @@ import dev.olog.shared.flowInterval
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -62,6 +63,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                             setTimeInMilliseconds(it, true)
                         }
                 } catch (ex: Throwable) {
+                    Timber.e(ex)
                     resetAlarmManager()
                     toggleButtons(false)
                 }

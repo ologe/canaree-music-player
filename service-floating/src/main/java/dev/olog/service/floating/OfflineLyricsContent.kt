@@ -24,6 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 // TODO cancel presenter scope
 class OfflineLyricsContent(
@@ -48,7 +49,7 @@ class OfflineLyricsContent(
                 content.image.setImageBitmap(blurred)
             }
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 
@@ -100,7 +101,7 @@ class OfflineLyricsContent(
                         presenter.updateSyncAdjustment(it)
                     }
                 } catch (ex: Throwable){
-                    ex.printStackTrace()
+                    Timber.e(ex)
                 }
             }
         }

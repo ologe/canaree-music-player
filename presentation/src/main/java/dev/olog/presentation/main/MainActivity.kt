@@ -37,6 +37,7 @@ import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -211,7 +212,7 @@ class MainActivity : MusicGlueActivity(),
             super.onBackPressed()
         } catch (ex: IllegalStateException) {
             /*random fragment manager crashes */
-            ex.printStackTrace()
+            Timber.e(ex)
         }
 
     }

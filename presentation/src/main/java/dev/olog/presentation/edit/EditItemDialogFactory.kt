@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class EditItemDialogFactory @Inject constructor(
                 action()
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
             }
@@ -62,7 +63,7 @@ class EditItemDialogFactory @Inject constructor(
                 action()
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
             }
@@ -79,7 +80,7 @@ class EditItemDialogFactory @Inject constructor(
                 action()
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
             }

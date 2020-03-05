@@ -11,6 +11,7 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
+import timber.log.Timber
 import javax.inject.Inject
 
 class NewPlaylistDialog : BaseEditTextDialog() {
@@ -61,7 +62,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
             presenter.execute(mediaId, string)
             message = successMessage(act, string).toString()
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             message = getString(R.string.popup_error_message)
         }
         act.toast(message)

@@ -5,12 +5,7 @@ package dev.olog.shared.android.extensions
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.annotation.Px
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,7 +15,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import java.lang.Exception
+import timber.log.Timber
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -124,6 +119,7 @@ val View.lifecycle: Lifecycle
         return try {
             findFragment<Fragment>().lifecycle
         } catch (ex: Exception) {
+            Timber.e(ex)
             (context as FragmentActivity).lifecycle
         }
     }
@@ -133,6 +129,7 @@ val View.lifecycleScope: LifecycleCoroutineScope
         return try {
             findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
         } catch (ex: Exception) {
+            Timber.e(ex)
             (context as FragmentActivity).lifecycleScope
         }
     }

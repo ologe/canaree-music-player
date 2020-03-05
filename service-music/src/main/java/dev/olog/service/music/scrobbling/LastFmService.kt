@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
+import timber.log.Timber
 import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
@@ -60,7 +61,7 @@ internal class LastFmService @Inject constructor(
             )
             userCredentials = credentials
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 
@@ -88,6 +89,7 @@ internal class LastFmService @Inject constructor(
             val tag = audioFile.tag
             tag.getFirst(FieldKey.MUSICBRAINZ_TRACK_ID)
         } catch (ex: Throwable){
+            Timber.e(ex)
             null
         }
 

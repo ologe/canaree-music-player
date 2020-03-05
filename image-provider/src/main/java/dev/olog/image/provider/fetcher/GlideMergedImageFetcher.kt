@@ -15,6 +15,7 @@ import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import java.io.InputStream
 import java.lang.RuntimeException
@@ -37,6 +38,7 @@ class GlideMergedImageFetcher(
                 }
                 callback.onDataReady(inputStream)
             } catch (ex: Throwable){
+                Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }
         }

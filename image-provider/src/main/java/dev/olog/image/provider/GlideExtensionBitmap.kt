@@ -9,6 +9,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
 import dev.olog.shared.safeResume
+import timber.log.Timber
 import kotlin.coroutines.suspendCoroutine
 
 sealed class OnImageLoadingError {
@@ -70,6 +71,7 @@ suspend fun Context.getCachedBitmap(
                                 try {
                                     continuation.safeResume(null)
                                 } catch (ex: Throwable){
+                                    Timber.e(ex)
                                     // already resumed
                                 }
                             }

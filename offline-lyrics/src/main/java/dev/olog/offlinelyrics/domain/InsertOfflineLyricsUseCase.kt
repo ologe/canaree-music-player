@@ -8,6 +8,7 @@ import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -31,7 +32,7 @@ class InsertOfflineLyricsUseCase @Inject constructor(
             updateTrackMetadata(song.path, lyrics)
             updateFileIfAny(song.path, lyrics)
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 

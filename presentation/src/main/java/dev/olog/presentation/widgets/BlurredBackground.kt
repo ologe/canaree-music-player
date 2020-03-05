@@ -16,6 +16,7 @@ import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class BlurredBackground(
     context: Context,
@@ -45,7 +46,7 @@ class BlurredBackground(
             try {
                 loadImageInternal(mediaId, drawable.mutate())
             } catch (ex: Throwable){
-                ex.printStackTrace()
+                Timber.e(ex)
             }
         }
 

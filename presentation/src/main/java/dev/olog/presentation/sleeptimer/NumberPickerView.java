@@ -19,6 +19,7 @@ import android.view.ViewConfiguration;
 import androidx.core.widget.ScrollerCompat;
 
 import dev.olog.presentation.R;
+import timber.log.Timber;
 
 class NumberPickerView extends View {
 
@@ -472,7 +473,7 @@ class NumberPickerView extends View {
                     mOnValueChangeListenerRaw.onValueChangeRelativeToRaw(NumberPickerView.this, mPrevPickedIndex, currPickedIndex, mDisplayedValues);
                 }
             } catch (Throwable e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
         mPrevPickedIndex = currPickedIndex;

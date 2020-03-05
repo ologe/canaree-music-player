@@ -18,6 +18,7 @@ import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -66,6 +67,7 @@ class EditTrackFragmentViewModel @Inject constructor(
                 )
                 displayableSongLiveData.postValue(currentSong)
             } catch (ex: Throwable){
+                Timber.e(ex)
                 displayableSongLiveData.postValue(displayableSongLiveData.value)
             }
         }

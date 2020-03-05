@@ -6,6 +6,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.image.provider.model.AudioFileCover
 import org.jaudiotagger.audio.AudioFileIO
+import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
@@ -26,6 +27,7 @@ class AudioFileCoverFetcher(
             stream = ByteArrayInputStream(picture)
             callback.onDataReady(stream)
         } catch (ex: Exception){
+            Timber.w(ex)
             callback.onLoadFailed(ex)
         } finally {
             stream?.close()
@@ -37,7 +39,7 @@ class AudioFileCoverFetcher(
         try {
             stream?.close()
         } catch (ex: Exception){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
     }
 

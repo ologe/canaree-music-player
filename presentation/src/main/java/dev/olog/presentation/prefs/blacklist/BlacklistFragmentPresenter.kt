@@ -8,6 +8,7 @@ import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
 import dev.olog.shared.lazyFast
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -61,7 +62,7 @@ data class BlacklistModel(
             return try {
                 path.substring(defaultStorageDir.length)
             } catch (ex: StringIndexOutOfBoundsException){
-                ex.printStackTrace()
+                Timber.e(ex)
                 path
             }
         }

@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.setDarkMode
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
@@ -49,7 +50,7 @@ abstract class WebViewContent(
                 }
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             // chrome may not be installed
         }
     }

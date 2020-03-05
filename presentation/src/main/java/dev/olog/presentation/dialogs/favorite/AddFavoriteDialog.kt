@@ -12,6 +12,7 @@ import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class AddFavoriteDialog : BaseDialog() {
@@ -55,7 +56,7 @@ class AddFavoriteDialog : BaseDialog() {
                 presenter.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
-                ex.printStackTrace()
+                Timber.e(ex)
                 message = failMessage(act)
             }
             act.toast(message)

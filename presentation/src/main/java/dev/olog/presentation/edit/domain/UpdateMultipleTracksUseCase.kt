@@ -7,6 +7,7 @@ import dev.olog.core.MediaId
 import dev.olog.shared.ApplicationContext
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import org.jaudiotagger.tag.FieldKey
+import timber.log.Timber
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
@@ -35,7 +36,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                 updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
             }
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
 
     }

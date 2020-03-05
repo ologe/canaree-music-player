@@ -3,6 +3,7 @@ package dev.olog.shared.android
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
+import timber.log.Timber
 import java.io.File
 
 object FileProvider {
@@ -14,7 +15,7 @@ object FileProvider {
         return try {
             FileProvider.getUriForFile(context, authority, file)
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             return Uri.EMPTY
         }
     }

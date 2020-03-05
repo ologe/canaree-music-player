@@ -21,6 +21,7 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
@@ -57,6 +58,7 @@ abstract class AbsPopupListener(
                         title
                     )
                 } catch (ex: Throwable){
+                    Timber.e(ex)
                     createErrorMessage(context)
                 }
             }
@@ -103,7 +105,7 @@ abstract class AbsPopupListener(
                 activity.toast(R.string.song_not_shareable)
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex)
             activity.toast(R.string.song_not_shareable)
         }
     }

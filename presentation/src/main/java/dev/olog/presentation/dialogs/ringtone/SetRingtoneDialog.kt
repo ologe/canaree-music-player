@@ -11,6 +11,7 @@ import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
+import timber.log.Timber
 import javax.inject.Inject
 
 class SetRingtoneDialog : BaseDialog() {
@@ -48,7 +49,7 @@ class SetRingtoneDialog : BaseDialog() {
                 presenter.execute(act, mediaId)
                 message = successMessage(act)
             } catch (ex: Throwable) {
-                ex.printStackTrace()
+                Timber.e(ex)
                 message = failMessage(act)
             }
             act.toast(message)
