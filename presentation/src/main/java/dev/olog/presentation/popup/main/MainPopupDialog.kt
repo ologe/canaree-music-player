@@ -3,14 +3,12 @@ package dev.olog.presentation.popup.main
 import android.app.Activity
 import android.content.Context
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
@@ -20,6 +18,8 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.presentation.tab.toTabCategory
+import dev.olog.shared.ApplicationContext
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
@@ -87,7 +87,7 @@ internal class MainPopupDialog @Inject constructor(
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
                         MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
                         MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
-                        else -> Log.w("MainPopup", "not handled $category")
+                        else -> Timber.w("MainPopup: not handled $category")
                     }
                 }
             }

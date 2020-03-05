@@ -9,6 +9,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 
 import dev.olog.shared.android.extensions.ContextExtensionKt;
+import timber.log.Timber;
 
 public class ColorUtil {
 
@@ -46,7 +47,7 @@ public class ColorUtil {
      */
     public static double calculateContrast(@ColorInt int foreground, @ColorInt int background) {
         if (Color.alpha(background) != 255) {
-            Log.wtf(TAG, "background can not be translucent: #"
+            Timber.wtf(TAG +"background can not be translucent: #"
                     + Integer.toHexString(background));
         }
         if (Color.alpha(foreground) < 255) {

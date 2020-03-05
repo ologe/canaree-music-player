@@ -4,9 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
-import android.util.Log
 import dev.olog.contentresolversql.querySql
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
@@ -18,8 +16,10 @@ import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
+import dev.olog.shared.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -73,7 +73,7 @@ internal class SongRepository @Inject constructor(
         val uri = ContentUris.withAppendedId(queries.tableUri, id)
         val deleted = contentResolver.delete(uri, null, null)
         if (deleted < 1) {
-            Log.w("SongRepo", "song not found $id")
+            Timber.w("SongRepo: song not found $id")
             return
         }
 

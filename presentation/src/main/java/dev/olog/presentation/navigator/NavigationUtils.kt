@@ -1,16 +1,12 @@
 package dev.olog.presentation.navigator
 
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import dev.olog.presentation.R
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.getTopFragment
+import timber.log.Timber
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
 
@@ -52,7 +48,7 @@ fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {
             .firstOrNull { basicFragments.contains(it.tag) }
     }
     if (topFragment == null) {
-        Log.e("Navigator", "Something went wrong, for some reason no fragment was found")
+        Timber.e("Navigator: Something went wrong, for some reason no fragment was found")
     }
     return topFragment
 }

@@ -1,19 +1,21 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.exoplayer2.*
-import dev.olog.service.music.BuildConfig
+import com.google.android.exoplayer2.DefaultRenderersFactory
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import dev.olog.service.music.R
-import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
+import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
+import timber.log.Timber
 
 /**
  * This class handles playback
@@ -113,9 +115,7 @@ internal abstract class AbsPlayer<T>(
         }
         error.printStackTrace()
 
-        if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError $what")
-        }
+        Timber.e("Player: onPlayerError $what")
         context.applicationContext.toast(R.string.music_player_error)
     }
 

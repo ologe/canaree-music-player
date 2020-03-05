@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.provider.MediaStore
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -12,11 +11,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dev.olog.core.C.ACTION_STOP_SLEEP_END
-import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.service.music.interfaces.IPlayer
-import dev.olog.service.music.interfaces.IServiceLifecycleController
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.service.music.interfaces.IPlayer
+import dev.olog.service.music.interfaces.IServiceLifecycleController
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -68,7 +67,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         intent ?: return
 
         if (intent.action == null){
-            Log.w("MusicService", "Service started with null action, killing")
+            Timber.w("MusicService: Service started with null action, killing")
             stop()
             return
         }
