@@ -5,7 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/item_song_cover_margin_start">
+    android:layout_marginStart="@dimen/item_song_cover_margin_start"
+    android:layout_marginEnd="@dimen/item_song_cover_margin_start"
+    android:paddingBottom="12dp"
+    android:layout_marginBottom="12dp">
 
     <TextView
         android:id="@+id/title"
@@ -29,22 +32,8 @@
         android:textColor="?attr/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingBottom="16dp"
-        android:layout_gravity="end|bottom"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp" />
-
-    <dev.olog.shared.widgets.DottedSeparator
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="@dimen/detail_header_margin_end" />
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

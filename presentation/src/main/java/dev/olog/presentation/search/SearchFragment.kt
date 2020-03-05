@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -83,6 +84,9 @@ class SearchFragment : BaseFragment(),
         list.layoutManager = layoutManager
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
+        list.addItemDecoration(DottedDividerDecorator(requireContext(),
+            listOf(R.layout.item_search_header, R.layout.item_search_recent_header))
+        )
 
         setupDragListener(list, ItemTouchHelper.LEFT)
 
