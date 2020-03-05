@@ -2,7 +2,6 @@ package dev.olog.service.music.queue
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class MediaSessionQueue @Inject constructor(
@@ -50,7 +50,7 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     private suspend fun publish(list: List<MediaEntity>) {
-        Log.v(TAG, "publish")
+        Timber.v("$TAG publish")
         val queue = list.map { it.toQueueItem() }
 
         withContext(schedulers.main) {
@@ -59,12 +59,12 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     fun onNext(list: List<MediaEntity>) {
-        Log.v(TAG, "on next delayed")
+        Timber.v("$TAG on next delayed")
         delayedChannel.offer(list)
     }
 
     fun onNextImmediate(list: List<MediaEntity>) {
-        Log.v(TAG, "on next immediate")
+        Timber.v("$TAG on next immediate")
         immediateChannel.offer(list)
     }
 

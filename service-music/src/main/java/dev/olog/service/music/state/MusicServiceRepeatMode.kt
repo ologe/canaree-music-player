@@ -2,9 +2,9 @@ package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
-import android.util.Log
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -27,7 +27,7 @@ internal class MusicServiceRepeatMode @Inject constructor(
 
     init {
         state = musicPreferencesUseCase.getRepeatMode()
-        Log.v(TAG, "setup state=$state")
+        Timber.v("$TAG setup state=$state")
     }
 
     fun isRepeatNone(): Boolean = state == REPEAT_MODE_NONE
@@ -46,7 +46,7 @@ internal class MusicServiceRepeatMode @Inject constructor(
         }
 
 
-        Log.v(TAG, "update old state=$oldState, new state=${this.state}")
+        Timber.v("$TAG update old state=$oldState, new state=${this.state}")
     }
 
 }

@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -11,6 +10,7 @@ import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class OnAudioSessionIdChangeListener @Inject constructor(
@@ -50,7 +50,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     private fun onAudioSessionIdInternal(audioSessionId: Int) {
-        Log.v(TAG, "on audio session id changed =$audioSessionId")
+        Timber.v("$TAG on audio session id changed =$audioSessionId")
 
         equalizer.onAudioSessionIdChanged(hash, audioSessionId)
         virtualizer.onAudioSessionIdChanged(hash, audioSessionId)
@@ -58,7 +58,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     fun release() {
-        Log.v(TAG, "onDestroy")
+        Timber.v("$TAG onDestroy")
         equalizer.onDestroy(hash)
         virtualizer.onDestroy(hash)
         bassBoost.onDestroy(hash)

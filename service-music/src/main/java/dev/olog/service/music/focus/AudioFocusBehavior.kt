@@ -2,7 +2,6 @@ package dev.olog.service.music.focus
 
 import android.content.Context
 import android.media.AudioManager
-import android.util.Log
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
@@ -11,9 +10,10 @@ import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState
+import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
-import dev.olog.shared.android.utils.assertMainThread
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class AudioFocusBehavior @Inject constructor(
@@ -45,12 +45,12 @@ internal class AudioFocusBehavior @Inject constructor(
         }
 
         return (focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED).also {
-            Log.v(TAG, "request focus, granted=$it")
+            Timber.v("$TAG request focus, granted=$it")
         }
     }
 
     fun abandonFocus() {
-        Log.v(TAG, "release focus")
+        Timber.v("$TAG release focus")
         assertMainThread()
 
         currentFocus = FocusState.NONE
@@ -82,7 +82,7 @@ internal class AudioFocusBehavior @Inject constructor(
     }
 
     private fun onAudioFocusChangeInternal(focus: AudioFocusType){
-        Log.v(TAG, "on focus=$focus")
+        Timber.v("$TAG on focus=$focus")
         when (focus) {
             AudioFocusType.GAIN -> {
                 player.get().setVolume(this.volume.normal())
@@ -105,7 +105,7 @@ internal class AudioFocusBehavior @Inject constructor(
                 player.get().setVolume(this.volume.ducked())
             }
             else -> {
-                Log.w(TAG, "not handled $focus")
+                Timber.w("$TAG not handled $focus")
             }
         }
     }

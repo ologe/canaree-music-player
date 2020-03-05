@@ -5,16 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -40,7 +40,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun prepare(bookmark: Long) {
-        Log.v(TAG, "prepare bookmark=$bookmark")
+        Timber.v("$TAG prepare bookmark=$bookmark")
         mediaSession.setPlaybackState(builder.build())
 
         notifyWidgetsOfStateChanged(false, bookmark)
@@ -50,7 +50,7 @@ internal class MusicServicePlaybackState @Inject constructor(
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
     fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
-        Log.v(TAG, "update state=$state, bookmark=$bookmark, speed=$speed")
+        Timber.v("$TAG update state=$state, bookmark=$bookmark, speed=$speed")
 
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
@@ -68,7 +68,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun updatePlaybackSpeed(speed: Float) {
-        Log.v(TAG, "updatePlaybackSpeed speed=$speed")
+        Timber.v("$TAG updatePlaybackSpeed speed=$speed")
         val currentState = mediaSession.controller?.playbackState
         if (currentState == null) {
             builder.setState(
@@ -85,7 +85,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {
-        Log.v(TAG, "toggleSkipToActions positionInQueue=$positionInQueue")
+        Timber.v("$TAG toggleSkipToActions positionInQueue=$positionInQueue")
         when {
             positionInQueue === PositionInQueue.FIRST -> {
                 musicPreferencesUseCase.setSkipToPreviousVisibility(false)
@@ -112,7 +112,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     fun skipTo(skipType: SkipType) {
-        Log.v(TAG, "skipTo skipType=$skipType")
+        Timber.v("$TAG skipTo skipType=$skipType")
 
         val state = when (skipType){
             SkipType.SKIP_NEXT -> PlaybackStateCompat.STATE_SKIPPING_TO_NEXT
@@ -144,7 +144,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
-        Log.v(TAG, "notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
+        Timber.v("$TAG notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
@@ -160,7 +160,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     }
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
-        Log.v(TAG, "notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
+        Timber.v("$TAG notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 

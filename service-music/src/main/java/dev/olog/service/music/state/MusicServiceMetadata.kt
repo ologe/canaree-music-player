@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -30,6 +29,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -74,7 +74,7 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     private fun update(metadata: MetadataEntity) {
-        Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
+        Timber.v("$TAG update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
         launch {
 
@@ -105,7 +105,7 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     private fun notifyWidgets(entity: MediaEntity) {
-        Log.v(TAG, "notify widgets ${entity.title}")
+        Timber.v("$TAG notify widgets ${entity.title}")
 
         for (clazz in Classes.widgets) {
             val ids = context.getAppWidgetsIdsFor(clazz)

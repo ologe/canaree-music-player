@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.service.music.EventDispatcher.Event
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -35,21 +35,21 @@ internal class Noisy @Inject constructor(
 
     fun register() {
         if (registered){
-            Log.w(TAG, "trying to re-register")
+            Timber.w("$TAG trying to re-register")
             return
         }
-        Log.v(TAG, "register")
+        Timber.v("$TAG register")
         context.registerReceiver(receiver, noisyFilter)
         registered = true
     }
 
     fun unregister() {
         if (!registered) {
-            Log.w(TAG, "trying to unregister but never registered")
+            Timber.w("$TAG trying to unregister but never registered")
             return
         }
 
-        Log.v(TAG, "unregister")
+        Timber.v("$TAG unregister")
         context.unregisterReceiver(receiver)
         registered = false
     }
@@ -57,7 +57,7 @@ internal class Noisy @Inject constructor(
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
-                Log.v(TAG, "on receiver noisy broadcast")
+                Timber.v("$TAG on receiver noisy broadcast")
                 eventDispatcher.dispatchEvent(Event.PLAY_PAUSE)
             }
 
