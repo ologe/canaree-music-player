@@ -12,7 +12,6 @@
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/sliding_panel_peek"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
