@@ -40,7 +40,7 @@ fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack {
             artistMbid = "",
             albumMbid = ""
         )
-    } catch (ex: Throwable) {
+    } catch (ex: Exception) {
         Timber.w(ex)
         return LastFmTrack(
             id = id,
@@ -81,7 +81,7 @@ fun LastFmAlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
             mbid = "",
             wiki = ""
         )
-    } catch (ex: Throwable) {
+    } catch (ex: Exception) {
         Timber.w(ex)
         return LastFmAlbum(
             id = id,

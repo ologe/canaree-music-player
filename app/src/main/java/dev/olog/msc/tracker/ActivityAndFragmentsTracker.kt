@@ -30,7 +30,7 @@ class ActivityAndFragmentsTracker @Inject constructor(
         try {
             (activity as FragmentActivity).supportFragmentManager
                 .registerFragmentLifecycleCallbacks(fragmentObserver, true)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
     }
@@ -39,7 +39,7 @@ class ActivityAndFragmentsTracker @Inject constructor(
         try {
             (activity as FragmentActivity).supportFragmentManager
                 .unregisterFragmentLifecycleCallbacks(fragmentObserver)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
     }

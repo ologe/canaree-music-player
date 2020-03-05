@@ -49,7 +49,7 @@ abstract class WebViewContent(
                     progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
                 }
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             // chrome may not be installed
         }

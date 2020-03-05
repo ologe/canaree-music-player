@@ -14,7 +14,7 @@ object FileProvider {
     fun getUriForFile(context: Context, file: File): Uri {
         return try {
             FileProvider.getUriForFile(context, authority, file)
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             return Uri.EMPTY
         }

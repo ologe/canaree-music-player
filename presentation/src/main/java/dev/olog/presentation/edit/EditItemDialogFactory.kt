@@ -45,7 +45,7 @@ class EditItemDialogFactory @Inject constructor(
             withContext(schedulers.main) {
                 action()
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
@@ -62,7 +62,7 @@ class EditItemDialogFactory @Inject constructor(
             withContext(schedulers.main) {
                 action()
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
@@ -79,7 +79,7 @@ class EditItemDialogFactory @Inject constructor(
             withContext(schedulers.main) {
                 action()
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             withContext(schedulers.main) {
                 showError(ex)
@@ -93,7 +93,7 @@ class EditItemDialogFactory @Inject constructor(
         audioFile.tagOrCreateAndSetDefault
     }
 
-    private fun showError(error: Throwable) {
+    private fun showError(error: Exception) {
         when (error) {
             is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
             is IOException -> context.toast(R.string.edit_song_error_io)

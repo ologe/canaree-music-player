@@ -136,7 +136,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                     ) {
                         presenter.updateSyncAdjustment(it)
                     }
-                } catch (ex: Throwable){
+                } catch (ex: Exception){
                     Timber.e(ex)
                 }
             }
@@ -182,7 +182,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             withContext(Dispatchers.Main){
                 image.setImageBitmap(blurred)
             }
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
     }

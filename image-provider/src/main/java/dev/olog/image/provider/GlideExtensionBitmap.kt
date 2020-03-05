@@ -70,7 +70,7 @@ suspend fun Context.getCachedBitmap(
                             override fun onLoadCleared(placeholder: Drawable?) {
                                 try {
                                     continuation.safeResume(null)
-                                } catch (ex: Throwable){
+                                } catch (ex: Exception){
                                     Timber.e(ex)
                                     // already resumed
                                 }

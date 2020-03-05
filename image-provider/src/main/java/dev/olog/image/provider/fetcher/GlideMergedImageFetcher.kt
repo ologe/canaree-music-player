@@ -37,7 +37,7 @@ class GlideMergedImageFetcher(
                     else -> makePlaylistImage(mediaId.categoryId)
                 }
                 callback.onDataReady(inputStream)
-            } catch (ex: Throwable){
+            } catch (ex: Exception){
                 Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }

@@ -65,7 +65,7 @@ class DeleteDialog: BaseDialog() {
         try {
             presenter.execute(mediaId)
             message = successMessage(act)
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             if (isQ() && ex is RecoverableSecurityException){
                 throw ex

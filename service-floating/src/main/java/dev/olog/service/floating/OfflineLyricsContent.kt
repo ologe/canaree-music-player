@@ -48,7 +48,7 @@ class OfflineLyricsContent(
             withContext(schedulers.main){
                 content.image.setImageBitmap(blurred)
             }
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
     }
@@ -100,7 +100,7 @@ class OfflineLyricsContent(
                     ) {
                         presenter.updateSyncAdjustment(it)
                     }
-                } catch (ex: Throwable){
+                } catch (ex: Exception){
                     Timber.e(ex)
                 }
             }

@@ -57,7 +57,7 @@ abstract class AbsPopupListener(
                         listSize,
                         title
                     )
-                } catch (ex: Throwable){
+                } catch (ex: Exception){
                     Timber.e(ex)
                     createErrorMessage(context)
                 }
@@ -104,7 +104,7 @@ abstract class AbsPopupListener(
             } else {
                 activity.toast(R.string.song_not_shareable)
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             activity.toast(R.string.song_not_shareable)
         }

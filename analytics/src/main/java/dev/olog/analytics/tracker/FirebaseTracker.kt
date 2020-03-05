@@ -16,7 +16,7 @@ internal class FirebaseTracker @Inject constructor(
     override fun trackScreen(name: String, bundle: Bundle?) = GlobalScope.launchUnit {
         try {
             firebase.logEvent(name.take(40), bundle)
-        } catch (ex: Throwable) {
+        } catch (ex: `Exception`) {
             Timber.w(ex, "screen $name")
         }
     }
@@ -28,7 +28,7 @@ internal class FirebaseTracker @Inject constructor(
                 .toTypedArray()
 
             firebase.logEvent(name.take(40), bundleOf(*map))
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.w(ex, "service event $name")
         }
     }

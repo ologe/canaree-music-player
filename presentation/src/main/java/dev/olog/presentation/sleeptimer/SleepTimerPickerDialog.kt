@@ -62,7 +62,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
                         .collect {
                             setTimeInMilliseconds(it, true)
                         }
-                } catch (ex: Throwable) {
+                } catch (ex: Exception) {
                     Timber.e(ex)
                     resetAlarmManager()
                     toggleButtons(false)

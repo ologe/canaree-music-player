@@ -56,7 +56,7 @@ class GlideOriginalImageFetcher(
             try {
                 val stream = OriginalImageFetcher.loadImage(context, song)
                 callback.onDataReady(stream)
-            } catch (ex: Throwable) {
+            } catch (ex: Exception) {
                 Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }

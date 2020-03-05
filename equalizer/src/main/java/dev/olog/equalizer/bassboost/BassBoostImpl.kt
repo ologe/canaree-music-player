@@ -68,7 +68,7 @@ class BassBoostImpl @Inject constructor(
                     properties = BassBoost.Settings(lastProperties)
                 }
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex, "session id $audioSessionId")
         }
     }

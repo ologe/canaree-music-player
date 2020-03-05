@@ -69,7 +69,7 @@ class VirtualizerImpl @Inject constructor(
                     properties = Virtualizer.Settings(lastProperties)
                 }
             }
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex, "session id $audioSessionId")
         }
     }

@@ -52,7 +52,7 @@ class ClearPlaylistDialog : BaseDialog() {
             try {
                 presenter.execute(mediaId)
                 message = successMessage(act)
-            } catch (ex: Throwable) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 message = failMessage(act)
             }

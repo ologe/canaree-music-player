@@ -66,7 +66,7 @@ class PlayLaterDialog : BaseDialog() {
                 val mediaController = MediaControllerCompat.getMediaController(act)
                 presenter.execute(mediaController, mediaId)
                 message = successMessage(act)
-            } catch (ex: Throwable) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 message = failMessage(act)
             }

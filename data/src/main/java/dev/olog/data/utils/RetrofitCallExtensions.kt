@@ -36,7 +36,7 @@ internal suspend fun <T> safeNetworkCall(
             }
             yield()
         }
-    } catch (ex: Throwable) {
+    } catch (ex: Exception) {
         Timber.e(ex)
         ex.printStackTrace()
     }

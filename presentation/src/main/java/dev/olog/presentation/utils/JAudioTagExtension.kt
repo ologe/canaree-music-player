@@ -7,7 +7,7 @@ import timber.log.Timber
 fun Tag?.safeGet(fieldKey: FieldKey): String {
     return try {
         this!!.getFirst(fieldKey)
-    } catch (ex: Throwable){
+    } catch (ex: Exception){
         Timber.e(ex)
         ""
     }

@@ -35,7 +35,7 @@ inline val <T> T.exhaustive: T
 inline fun <T> Continuation<T?>.safeResume(item: T?) {
     try {
         resume(item)
-    } catch (ex: Throwable) {
+    } catch (ex: Exception) {
         ex.printStackTrace()
         // already resumed
     }

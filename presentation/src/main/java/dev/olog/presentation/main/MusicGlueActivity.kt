@@ -73,7 +73,7 @@ abstract class MusicGlueActivity : BaseActivity(),
             registerMediaController(mediaBrowser.sessionToken, callback)
             mediaExposer.initialize(MediaControllerCompat.getMediaController(this))
             trackerFacade.trackServiceEvent("onConnectedSuccess")
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             onConnectedFailed(mediaBrowser, callback)
         }

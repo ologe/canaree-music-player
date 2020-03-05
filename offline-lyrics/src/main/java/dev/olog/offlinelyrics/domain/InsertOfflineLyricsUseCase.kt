@@ -31,7 +31,7 @@ class InsertOfflineLyricsUseCase @Inject constructor(
         try {
             updateTrackMetadata(song.path, lyrics)
             updateFileIfAny(song.path, lyrics)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
     }

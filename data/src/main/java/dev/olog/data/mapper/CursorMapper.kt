@@ -5,7 +5,10 @@ package dev.olog.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Album
+import dev.olog.core.entity.track.Artist
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
@@ -106,7 +109,7 @@ fun Cursor.toAlbum(): Album {
         val data = getStringOrNull(MediaStore.Audio.AudioColumns.DATA) ?: ""
         val path = data.substring(1, data.lastIndexOf(File.separator))
         path.substring(path.lastIndexOf(File.separator) + 1)
-    } catch (ex: Throwable){
+    } catch (ex: Exception){
         Timber.e(ex, "path='${getStringOrNull(MediaStore.Audio.AudioColumns.DATA)}'")
         ""
     }

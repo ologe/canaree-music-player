@@ -35,7 +35,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
             } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum) {
                 updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
             }
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
 

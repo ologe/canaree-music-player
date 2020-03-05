@@ -84,7 +84,7 @@ class EditItemViewModel @Inject constructor(
         return UpdateResult.OK
     }
 
-    private fun showErrorMessage(throwable: Throwable) {
+    private fun showErrorMessage(throwable: Exception) {
         // TODO
         when (throwable) {
             is CannotReadException -> context.toast(R.string.edit_song_cannot_read)

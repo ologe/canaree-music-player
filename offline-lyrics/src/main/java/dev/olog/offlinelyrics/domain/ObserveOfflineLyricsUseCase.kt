@@ -30,7 +30,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
         val song = songGateway.getByParam(id) ?: return lyrics
         try {
             return getLyricsFromMetadata(song)
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             return lyrics
         }

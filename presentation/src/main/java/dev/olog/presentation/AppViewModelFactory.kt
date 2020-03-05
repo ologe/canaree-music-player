@@ -18,7 +18,7 @@ class AppViewModelFactory @Inject constructor(
         try {
             @Suppress("UNCHECKED_CAST")
             return creator.get() as T
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             Timber.e(e)
             throw RuntimeException(e)
         }

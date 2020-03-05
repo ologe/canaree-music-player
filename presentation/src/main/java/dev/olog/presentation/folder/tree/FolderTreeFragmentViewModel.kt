@@ -97,7 +97,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         try {
             currentDirectory.offer(current.parentFile!!)
             return true
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             Timber.e(e)
             return false
         }

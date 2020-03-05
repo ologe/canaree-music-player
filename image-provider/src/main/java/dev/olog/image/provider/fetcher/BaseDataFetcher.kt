@@ -64,7 +64,7 @@ abstract class BaseDataFetcher(
                 }
 
                 throw NoSuchElementException()
-            } catch (ex: Throwable) {
+            } catch (ex: Exception) {
                 Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
             }

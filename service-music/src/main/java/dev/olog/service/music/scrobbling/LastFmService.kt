@@ -60,7 +60,7 @@ internal class LastFmService @Inject constructor(
                 BuildConfig.LAST_FM_SECRET
             )
             userCredentials = credentials
-        } catch (ex: Throwable) {
+        } catch (ex: Exception) {
             Timber.e(ex)
         }
     }
@@ -88,7 +88,7 @@ internal class LastFmService @Inject constructor(
             audioFile.tagAndConvertOrCreateAndSetDefault
             val tag = audioFile.tag
             tag.getFirst(FieldKey.MUSICBRAINZ_TRACK_ID)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
             null
         }

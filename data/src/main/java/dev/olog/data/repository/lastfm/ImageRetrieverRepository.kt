@@ -121,7 +121,7 @@ internal class ImageRetrieverRepository @Inject constructor(
                 }
             }
             return result
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.w(ex)
             return LastFmNulls.createNullTrack(song.id).toDomain()
         }
@@ -139,7 +139,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         try {
             return safeNetworkCall { deezerService.getTrack(query) }?.data?.get(0)?.album
                 ?.getBestImage() ?: ""
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.w(ex)
             return null
         }
@@ -219,7 +219,7 @@ internal class ImageRetrieverRepository @Inject constructor(
                 }
             }
             return result
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.w(ex)
             return LastFmNulls.createNullAlbum(album.id).toDomain()
         }
@@ -234,7 +234,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         try {
             return safeNetworkCall { deezerService.getAlbum(query) }?.data?.get(0)
                 ?.getBestImage() ?: ""
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.w(ex)
             return null
         }

@@ -20,7 +20,7 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
     override fun onActivityResumed(activity: Activity) {
         try {
             tabHelper?.bindCustomTabsService(activity)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
 
@@ -29,7 +29,7 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
     override fun onActivityPaused(activity: Activity) {
         try {
             tabHelper?.unbindCustomTabsService(activity)
-        } catch (ex: Throwable){
+        } catch (ex: Exception){
             Timber.e(ex)
         }
 

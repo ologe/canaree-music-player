@@ -81,7 +81,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
                     } else {
                         onFail()
                     }
-                } catch (ex: Throwable) {
+                } catch (ex: Exception) {
                     Timber.e(ex)
                     onFail()
                 } finally {

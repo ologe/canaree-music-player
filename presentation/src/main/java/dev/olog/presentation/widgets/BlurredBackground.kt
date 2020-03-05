@@ -45,7 +45,7 @@ class BlurredBackground(
         job = launchWhenResumed {
             try {
                 loadImageInternal(mediaId, drawable.mutate())
-            } catch (ex: Throwable){
+            } catch (ex: Exception){
                 Timber.e(ex)
             }
         }
