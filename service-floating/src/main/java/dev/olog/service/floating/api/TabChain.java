@@ -16,14 +16,15 @@
 package dev.olog.service.floating.api;
 
 import android.graphics.Point;
-import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import timber.log.Timber;
 
 /**
  * Connects one {@link FloatingTab}s position to that of another {@link FloatingTab}. The space
@@ -50,7 +51,7 @@ class TabChain {
 
         @Override
         public void onDockChange(@NonNull Point dock) {
-            Log.d(TAG, hashCode() + "'s predecessor dock moved to: " + dock);
+            Timber.d(TAG + hashCode() + "'s predecessor dock moved to: " + dock);
             moveToChainedPosition(false);
         }
     };
@@ -74,7 +75,7 @@ class TabChain {
             mPredecessorTab.removeOnPositionChangeListener(mOnPredecessorPositionChange);
         }
 
-        Log.d(TAG, mTab.getTabId() + " is now chained to " + tab.getTabId());
+        Timber.d(TAG + mTab.getTabId() + " is now chained to " + tab.getTabId());
         mPredecessorTab = tab;
         mLockedPosition = null;
         Point myPosition = getMyChainPositionRelativeTo(mPredecessorTab);
@@ -90,7 +91,7 @@ class TabChain {
             mPredecessorTab.removeOnPositionChangeListener(mOnPredecessorPositionChange);
         }
 
-        Log.d(TAG, mTab.getTabId() + " is now chained to position " + lockedPosition);
+        Timber.d(TAG + mTab.getTabId() + " is now chained to position " + lockedPosition);
         mPredecessorTab = null;
         mLockedPosition = lockedPosition;
         mTab.setDock(new PositionDock(mLockedPosition));
@@ -123,7 +124,7 @@ class TabChain {
 
     private Point getMyChainPositionRelativeTo(@NonNull FloatingTab tab) {
         Point predecessorTabPosition = tab.getDockPosition();
-        Log.d(TAG, "Predecessor position: " + predecessorTabPosition);
+        Timber.d(TAG + "Predecessor position: " + predecessorTabPosition);
         return new Point(
                 predecessorTabPosition.x - mTabSpacingInPx,
                 predecessorTabPosition.y

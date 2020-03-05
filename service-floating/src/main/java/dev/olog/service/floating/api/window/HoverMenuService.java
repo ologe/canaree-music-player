@@ -20,7 +20,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -31,6 +30,7 @@ import dev.olog.service.floating.api.HoverView;
 import dev.olog.service.floating.api.OnExitListener;
 import dev.olog.service.floating.api.SideDock;
 import dev.olog.service.floating.api.overlay.OverlayPermission;
+import timber.log.Timber;
 
 
 /**
@@ -53,7 +53,7 @@ public abstract class HoverMenuService extends LifecycleService {
     private OnExitListener mOnMenuOnExitListener = new OnExitListener() {
         @Override
         public void onExit() {
-            Log.d(TAG, "Menu exit requested. Exiting.");
+            Timber.d(TAG + "Menu exit requested. Exiting.");
             mHoverView.removeFromWindow();
             onHoverMenuExitingByUserRequest();
             stopSelf();
@@ -63,7 +63,7 @@ public abstract class HoverMenuService extends LifecycleService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate()");
+        Timber.d(TAG + "onCreate()");
         Notification foregroundNotification = getForegroundNotification();
         int notificationId = getForegroundNotificationId();
         startForeground(notificationId, foregroundNotification);
@@ -75,19 +75,19 @@ public abstract class HoverMenuService extends LifecycleService {
         // Stop and return immediately if we don't have permission to display things above other
         // apps.
         if (!OverlayPermission.hasRuntimePermissionToDrawOverlay(getApplicationContext())) {
-            Log.e(TAG, "Cannot display a Hover menu in a Window without the draw overlay permission.");
+            Timber.e(TAG + "Cannot display a Hover menu in a Window without the draw overlay permission.");
             stopSelf();
             return START_NOT_STICKY;
         }
 
         if (null == intent) {
-            Log.e(TAG, "Received null Intent. Not creating Hover menu.");
+            Timber.e(TAG + "Received null Intent. Not creating Hover menu.");
             stopSelf();
             return START_NOT_STICKY;
         }
 
         if (!mIsRunning) {
-            Log.d(TAG, "onStartCommand() - showing Hover menu.");
+            Timber.d(TAG + "onStartCommand() - showing Hover menu.");
             mIsRunning = true;
             initHoverMenu(intent);
         }
@@ -98,7 +98,7 @@ public abstract class HoverMenuService extends LifecycleService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy()");
+        Timber.d(TAG + "onDestroy()");
         if (mIsRunning) {
             mHoverView.removeFromWindow();
             mIsRunning = false;

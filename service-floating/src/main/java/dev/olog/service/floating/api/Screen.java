@@ -1,15 +1,16 @@
 package dev.olog.service.floating.api;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import timber.log.Timber;
 
 import static android.view.View.GONE;
 
@@ -76,14 +77,14 @@ class Screen {
 
     @NonNull
     public FloatingTab createChainedTab(@NonNull String tabId, @NonNull View tabView) {
-        Log.d(TAG, "Existing tabs...");
+        Timber.d(TAG + "Existing tabs...");
         for (String existingTabId : mTabs.keySet()) {
-            Log.d(TAG, existingTabId);
+            Timber.d(TAG + existingTabId);
         }
         if (mTabs.containsKey(tabId)) {
             return mTabs.get(tabId);
         } else {
-            Log.d(TAG, "Creating new tab with ID: " + tabId);
+            Timber.d(TAG + "Creating new tab with ID: " + tabId);
             FloatingTab chainedTab = new FloatingTab(mContainer.getContext(), tabId);
             chainedTab.setTabView(tabView);
             chainedTab.enableDebugMode(mIsDebugMode);

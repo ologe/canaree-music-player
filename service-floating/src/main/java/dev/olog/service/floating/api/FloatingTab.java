@@ -21,7 +21,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -34,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import dev.olog.service.floating.R;
+import timber.log.Timber;
 
 /**
  * {@code FloatingTab} is the cornerstone of a {@link HoverView}.  When a {@code HoverView} is
@@ -225,7 +225,7 @@ class FloatingTab extends FrameLayout {
 
     public void dock(@Nullable final Runnable onDocked) {
         Point destinationCornerPosition = convertCenterToCorner(mDock.position());
-        Log.d(TAG, "Docking to destination point: " + destinationCornerPosition);
+        Timber.d(TAG + "Docking to destination point: " + destinationCornerPosition);
 
         ObjectAnimator xAnimation = ObjectAnimator.ofFloat(this, "x", destinationCornerPosition.x);
         xAnimation.setDuration(ANIMATION_DURATION);

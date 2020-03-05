@@ -19,10 +19,10 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Point
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.*
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -30,6 +30,7 @@ import androidx.core.view.isVisible
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.lazyFast
+import timber.log.Timber
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -70,7 +71,7 @@ internal class ExitView constructor(
     fun isInExitZone(position: Point): Boolean {
         val exitCenter = exitZoneCenter
         val distanceToExit = calculateDistance(position, exitCenter)
-        Log.d(TAG, "Drop point: $position, Exit center: $exitCenter, Distance: $distanceToExit")
+        Timber.d(TAG + "Drop point: $position, Exit center: $exitCenter, Distance: $distanceToExit")
         return distanceToExit <= mExitRadiusInPx
     }
 

@@ -16,14 +16,15 @@
 package dev.olog.service.floating.api;
 
 import android.graphics.Point;
-import android.util.Log;
 import android.view.ViewGroup;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
+import timber.log.Timber;
 
 /**
  * {@link Dock} that always positions itself either on the left or right side of its container. A
@@ -80,7 +81,7 @@ public class SideDock extends Dock {
 
         @NonNull
         public Point calculateDockPosition(@NonNull Point screenSize, int tabSize) {
-            Log.d(TAG, "Calculating dock position. Screen size: " + screenSize + ", tab size: " + tabSize);
+            Timber.d(TAG + "Calculating dock position. Screen size: " + screenSize + ", tab size: " + tabSize);
             int x = LEFT == mSide
                     ? ((int) (tabSize * 0.25))
                     : screenSize.x - ((int) (tabSize * 0.25));

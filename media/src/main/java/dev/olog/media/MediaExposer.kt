@@ -7,7 +7,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
@@ -24,12 +23,15 @@ import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.lang.IllegalStateException
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MediaExposer(
     private val context: Context,
@@ -62,12 +64,12 @@ class MediaExposer(
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
-            Log.w("MediaExposer", "Storage permission is not granted")
+            Timber.w("MediaExposer: Storage permission is not granted")
             return
         }
         job = launch {
             for (state in connectionPublisher.openSubscription()) {
-                Log.d("MediaExposer", "Connection state=$state")
+                Timber.d("MediaExposer: Connection state=$state")
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> {
                         onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
@@ -84,6 +86,7 @@ class MediaExposer(
             try {
                 mediaBrowser.connect()
             } catch (ex: IllegalStateException){
+                Timber.e(ex)
 //                TODO leak ??
 //                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
 //                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)

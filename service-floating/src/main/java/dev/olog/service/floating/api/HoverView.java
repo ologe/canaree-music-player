@@ -21,20 +21,21 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import dev.olog.service.floating.R;
 import dev.olog.service.floating.api.view.InViewDragger;
 import dev.olog.service.floating.api.window.InWindowDragger;
 import dev.olog.service.floating.api.window.WindowViewController;
+import timber.log.Timber;
 
 
 /**
@@ -230,7 +231,7 @@ public class HoverView extends RelativeLayout {
 
     void restoreVisualState() {
         if (null == mMenu) {
-            Log.d(TAG, "Tried to restore visual state but no menu set.");
+            Timber.d(TAG + "Tried to restore visual state but no menu set.");
             return;
         }
 
@@ -240,7 +241,7 @@ public class HoverView extends RelativeLayout {
     }
 
     public void release() {
-        Log.d(TAG, "Released.");
+        Timber.d(TAG + "Released.");
         mDragger.deactivate();
     }
 
@@ -289,42 +290,42 @@ public class HoverView extends RelativeLayout {
     }
 
     void notifyListenersExpanding() {
-        Log.d(TAG, "Notifying listeners that Hover is expanding.");
+        Timber.d(TAG + "Notifying listeners that Hover is expanding.");
         for (Listener listener : mListeners) {
             listener.onExpanding();
         }
     }
 
     void notifyListenersExpanded() {
-        Log.d(TAG, "Notifying listeners that Hover is now expanded.");
+        Timber.d(TAG + "Notifying listeners that Hover is now expanded.");
         for (Listener listener : mListeners) {
             listener.onExpanded();
         }
     }
 
     void notifyListenersCollapsing() {
-        Log.d(TAG, "Notifying listeners that Hover is collapsing.");
+        Timber.d(TAG + "Notifying listeners that Hover is collapsing.");
         for (Listener listener : mListeners) {
             listener.onCollapsing();
         }
     }
 
     void notifyListenersCollapsed() {
-        Log.d(TAG, "Notifying listeners that Hover is now collapsed.");
+        Timber.d(TAG + "Notifying listeners that Hover is now collapsed.");
         for (Listener listener : mListeners) {
             listener.onCollapsed();
         }
     }
 
     void notifyListenersClosing() {
-        Log.d(TAG, "Notifying listeners that Hover is closing.");
+        Timber.d(TAG + "Notifying listeners that Hover is closing.");
         for (Listener listener : mListeners) {
             listener.onClosing();
         }
     }
 
     void notifyListenersClosed() {
-        Log.d(TAG, "Notifying listeners that Hover is closed.");
+        Timber.d(TAG + "Notifying listeners that Hover is closed.");
         for (Listener listener : mListeners) {
             listener.onClosed();
         }
@@ -393,7 +394,7 @@ public class HoverView extends RelativeLayout {
             setSidePosition(hoverView.mCollapsedDock.sidePosition());
             setSelectedSectionId(hoverView.mSelectedSectionId);
 
-            Log.d(TAG, "Saving instance state. Dock side: " + mSidePosition
+            Timber.d(TAG + "Saving instance state. Dock side: " + mSidePosition
                     + ", Selected section: " + mSelectedSectionId);
         }
 
@@ -414,7 +415,7 @@ public class HoverView extends RelativeLayout {
             );
 
             HoverMenu.SectionId savedSelectedSectionId = getSelectedSectionId();
-            Log.d(TAG, "Restoring instance state. Dock: " + hoverView.mCollapsedDock
+            Timber.d(TAG + "Restoring instance state. Dock: " + hoverView.mCollapsedDock
                     + ", Selected section: " + savedSelectedSectionId);
 
             // If no menu is set on this HoverMenuView then we should hold onto this saved section
@@ -471,7 +472,7 @@ public class HoverView extends RelativeLayout {
             HoverMenu.SectionId selectedSectionId = getSelectedSectionId(menu.getId());
             hoverView.mSelectedSectionId = selectedSectionId;
 
-            Log.d(TAG, "Restoring from PersistentState. Position: "
+            Timber.d(TAG + "Restoring from PersistentState. Position: "
                     + sidePosition.getVerticalDockPositionPercentage()
                     + ", Side: " + sidePosition
                     + ", Section ID: " + selectedSectionId);
@@ -500,7 +501,7 @@ public class HoverView extends RelativeLayout {
             editor.putString(menuId + SAVED_STATE_SELECTED_SECTION, null != sectionId ? sectionId.toString() : null);
             editor.apply();
 
-            Log.d(TAG, "saveVisualState(). Position: "
+            Timber.d(TAG + "saveVisualState(). Position: "
                     + sidePosition.getVerticalDockPositionPercentage()
                     + ", Side: " + sidePosition.getSide()
                     + ", Section ID: " + sectionId);

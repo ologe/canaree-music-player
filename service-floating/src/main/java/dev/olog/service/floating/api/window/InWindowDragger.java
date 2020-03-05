@@ -18,7 +18,6 @@ package dev.olog.service.floating.api.window;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +26,10 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.math.MathUtils;
+
 import dev.olog.service.floating.api.Dragger;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
+import timber.log.Timber;
 
 /**
  * {@link Dragger} implementation that works within a {@code Window}.
@@ -65,7 +66,7 @@ public class InWindowDragger implements Dragger {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.d(TAG, "ACTION_DOWN");
+                    Timber.d(TAG + "ACTION_DOWN");
                     mIsDragging = false;
 
                     mOriginalViewPosition = getDragViewCenterPosition();
@@ -76,7 +77,7 @@ public class InWindowDragger implements Dragger {
 
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    Log.d(TAG, "ACTION_MOVE. motionX: " + motionEvent.getRawX() + ", motionY: " + motionEvent.getRawY());
+                    Timber.d(TAG + "ACTION_MOVE. motionX: " + motionEvent.getRawX() + ", motionY: " + motionEvent.getRawY());
                     float dragDeltaX = motionEvent.getRawX() - mOriginalTouchPosition.x;
                     float dragDeltaY = motionEvent.getRawY() - mOriginalTouchPosition.y;
                     mCurrentViewPosition = new PointF(
@@ -88,7 +89,7 @@ public class InWindowDragger implements Dragger {
                     if (mIsDragging || !isTouchWithinSlopOfOriginalTouch(dragDeltaX, dragDeltaY)) {
                         if (!mIsDragging) {
                             // Dragging just started
-                            Log.d(TAG, "MOVE Start Drag.");
+                            Timber.d(TAG + "MOVE Start Drag.");
                             mIsDragging = true;
                             mDragListener.onDragStart(mCurrentViewPosition.x, mCurrentViewPosition.y);
                         } else {
@@ -99,12 +100,12 @@ public class InWindowDragger implements Dragger {
 
                     return true;
                 case MotionEvent.ACTION_UP:
-                    Log.d(TAG, "ACTION_UP");
+                    Timber.d(TAG + "ACTION_UP");
                     if (!mIsDragging) {
-                        Log.d(TAG, "Reporting as a tap.");
+                        Timber.d(TAG + "Reporting as a tap.");
                         mDragListener.onTap();
                     } else {
-                        Log.d(TAG, "Reporting as a drag release at: " + mCurrentViewPosition);
+                        Timber.d(TAG + "Reporting as a drag release at: " + mCurrentViewPosition);
                         mDragListener.onReleasedAt(mCurrentViewPosition.x, mCurrentViewPosition.y);
                     }
 
@@ -139,7 +140,7 @@ public class InWindowDragger implements Dragger {
 
     public void activate(@NonNull DragListener dragListener, @NonNull Point dragStartCenterPosition) {
         if (!mIsActivated) {
-            Log.d(TAG, "Activating.");
+            Timber.d(TAG + "Activating.");
             createTouchControlView(dragStartCenterPosition);
             mDragListener = dragListener;
             mDragView.setOnTouchListener(mDragTouchListener);
@@ -149,7 +150,7 @@ public class InWindowDragger implements Dragger {
 
     public void deactivate() {
         if (mIsActivated) {
-            Log.d(TAG, "Deactivating.");
+            Timber.d(TAG + "Deactivating.");
             mDragView.setOnTouchListener(null);
             destroyTouchControlView();
             mIsActivated = false;
@@ -188,7 +189,7 @@ public class InWindowDragger implements Dragger {
 
     private boolean isTouchWithinSlopOfOriginalTouch(float dx, float dy) {
         double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        Log.d(TAG, "Drag distance " + distance + " vs slop allowance " + mTapTouchSlop);
+        Timber.d(TAG + "Drag distance " + distance + " vs slop allowance " + mTapTouchSlop);
         return distance < mTapTouchSlop;
     }
 
@@ -201,9 +202,9 @@ public class InWindowDragger implements Dragger {
     }
 
     private void moveDragViewTo(@NonNull PointF centerPosition) {
-        Log.d(TAG, "Center position: " + centerPosition);
+        Timber.d(TAG + "Center position: " + centerPosition);
         PointF cornerPosition = convertCenterToCorner(centerPosition);
-        Log.d(TAG, "Corner position: " + cornerPosition);
+        Timber.d(TAG + "Corner position: " + cornerPosition);
         mWindowViewController.moveViewTo(mDragView, (int) cornerPosition.x, (int) cornerPosition.y);
     }
 

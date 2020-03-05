@@ -15,10 +15,10 @@
  */
 package dev.olog.service.floating.api;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import timber.log.Timber;
 
 import static android.view.View.GONE;
 
@@ -36,7 +36,7 @@ class HoverViewStateClosed extends BaseHoverViewState {
 
     @Override
     public void takeControl(@NonNull HoverView hoverView) {
-        Log.d(TAG, "Taking control.");
+        Timber.d(TAG + "Taking control.");
         super.takeControl(hoverView);
         mHoverView = hoverView;
         mHoverView.notifyListenersClosing();
@@ -65,26 +65,26 @@ class HoverViewStateClosed extends BaseHoverViewState {
     @Override
     public void expand() {
         if (null != mHoverView.mMenu) {
-            Log.d(TAG, "Expanding.");
+            Timber.d(TAG + "Expanding.");
             changeState(mHoverView.mExpanded);
         } else {
-            Log.d(TAG, "Asked to expand, but there is no menu set. Can't expand until a menu is available.");
+            Timber.d(TAG + "Asked to expand, but there is no menu set. Can't expand until a menu is available.");
         }
     }
 
     @Override
     public void collapse() {
         if (null != mHoverView.mMenu) {
-            Log.d(TAG, "Collapsing.");
+            Timber.d(TAG + "Collapsing.");
             changeState(mHoverView.mCollapsed);
         } else {
-            Log.d(TAG, "Asked to collapse, but there is no menu set. Can't collapse until a menu is available.");
+            Timber.d(TAG + "Asked to collapse, but there is no menu set. Can't collapse until a menu is available.");
         }
     }
 
     @Override
     public void close() {
-        Log.d(TAG, "Instructed to close, but Hover is already closed.");
+        Timber.d(TAG + "Instructed to close, but Hover is already closed.");
     }
 
     @Override

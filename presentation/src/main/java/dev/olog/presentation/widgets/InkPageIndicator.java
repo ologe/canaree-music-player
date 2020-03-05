@@ -23,6 +23,7 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.Arrays;
 
 import dev.olog.presentation.R;
+import timber.log.Timber;
 
 
 /**
@@ -643,7 +644,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         if (leftDot < joiningFractions.length) {
 
             if (leftDot == 1) {
-                Log.d("PageIndicator", "dot 1 fraction:\t" + fraction);
+                Timber.d("PageIndicator:" + "dot 1 fraction:\t" + fraction);
             }
 
             joiningFractions[leftDot] = fraction;

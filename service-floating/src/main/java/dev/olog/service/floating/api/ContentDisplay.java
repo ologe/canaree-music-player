@@ -18,7 +18,6 @@ package dev.olog.service.floating.api;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,9 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import dev.olog.service.floating.R;
+import timber.log.Timber;
 
 
 /**
@@ -65,7 +66,7 @@ class ContentDisplay extends RelativeLayout {
     private final FloatingTab.OnPositionChangeListener mOnTabPositionChangeListener = new FloatingTab.OnPositionChangeListener() {
         @Override
         public void onPositionChange(@NonNull Point position) {
-            Log.d(TAG, mSelectedTab + " tab moved to " + position);
+            Timber.d(TAG + mSelectedTab + " tab moved to " + position);
             updateTabSelectorPosition();
 
             setPadding(0, position.y + (mSelectedTab.getTabSize() / 2), 0, 0);
@@ -138,7 +139,7 @@ class ContentDisplay extends RelativeLayout {
 
     private void updateTabSelectorPosition() {
         Point tabPosition = mSelectedTab.getPosition();
-        Log.d(TAG, "Updating tab position to " + tabPosition.x);
+        Timber.d(TAG +"Updating tab position to " + tabPosition.x);
         mTabSelectorView.setSelectorPosition(tabPosition.x);
     }
 

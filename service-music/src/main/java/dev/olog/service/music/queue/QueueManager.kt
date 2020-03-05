@@ -24,6 +24,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class QueueManager @Inject constructor(
@@ -205,7 +206,7 @@ internal class QueueManager @Inject constructor(
         query: String,
         extras: Bundle
     ): PlayerMediaEntity? {
-//        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")
+        Timber.d("VoiceSearch: Creating playing queue for musics from search: $query, params=$extras")
 
         val params = VoiceSearchParams(query, extras)
 
