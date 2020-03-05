@@ -67,16 +67,14 @@ internal class EqualizerImpl28 @Inject constructor(
         }
     }
 
-    override fun onAudioSessionIdChanged(audioSessionId: Int) {
+    override fun onAudioSessionIdChanged(audioSessionId: Int) = runBlocking {
         if (!isImplementedByDevice){
-            return
+            return@runBlocking
         }
 
-        launch {
-            release()
-            dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
-                enabled = prefs.isEqualizerEnabled()
-            }
+        release()
+        dynamicProcessing = DynamicsProcessing(0, audioSessionId, createConfig()).apply {
+            enabled = prefs.isEqualizerEnabled()
         }
     }
 
