@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -9,6 +8,7 @@ import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -39,7 +39,7 @@ internal class MediaButton @Inject internal constructor(
     private var job by autoDisposeJob()
 
     fun onHeatSetHookClick() {
-        Log.v(TAG, "onHeatSetHookClick")
+        Timber.v("$TAG onHeatSetHookClick")
         clicks++
 
         if (clicks <= MAX_ALLOWED_CLICKS) {
@@ -52,7 +52,7 @@ internal class MediaButton @Inject internal constructor(
     }
 
     private fun dispatchEvent(clicks: Int) {
-        Log.v(TAG, "dispatchEvent clicks=$clicks")
+        Timber.v("$TAG dispatchEvent clicks=$clicks")
 
         when (clicks) {
             0 -> {

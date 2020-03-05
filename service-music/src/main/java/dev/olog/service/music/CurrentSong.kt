@@ -1,6 +1,5 @@
 package dev.olog.service.music
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
@@ -22,8 +21,11 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.shared.CustomScope
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -56,20 +58,20 @@ internal class CurrentSong @Inject constructor(
 
         launch(schedulers.io) {
             for (entity in channel) {
-                Log.v(TAG, "on new item ${entity.title}")
+                Timber.v("$TAG on new item ${entity.title}")
                 if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
-                    Log.v(TAG, "insert last played artist ${entity.title}")
+                    Timber.v("$TAG insert last played artist ${entity.title}")
                     insertLastPlayedArtistUseCase(entity.mediaId)
                 } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
-                    Log.v(TAG, "insert last played album ${entity.title}")
+                    Timber.v("$TAG insert last played album ${entity.title}")
                     insertLastPlayedAlbumUseCase(entity.mediaId)
                 }
 
-                Log.v(TAG, "insert most played ${entity.title}")
+                Timber.v("$TAG insert most played ${entity.title}")
                 MediaId.playableItem(entity.mediaId, entity.id)
                 insertMostPlayedUseCase(entity.mediaId)
 
-                Log.v(TAG, "insert to history ${entity.title}")
+                Timber.v("$TAG insert to history ${entity.title}")
                 insertHistorySongUseCase(
                     InsertHistorySongUseCase.Input(
                         entity.id,
@@ -98,7 +100,7 @@ internal class CurrentSong @Inject constructor(
     }
 
     private fun updateFavorite(mediaEntity: MediaEntity) {
-        Log.v(TAG, "updateFavorite ${mediaEntity.title}")
+        Timber.v("$TAG updateFavorite ${mediaEntity.title}")
 
         isFavoriteJob = launch {
             val type = if (mediaEntity.isPodcast) FavoriteTrackType.PODCAST else FavoriteTrackType.TRACK
@@ -111,7 +113,7 @@ internal class CurrentSong @Inject constructor(
     }
 
     private fun saveLastMetadata(entity: MediaEntity) {
-        Log.v(TAG, "saveLastMetadata ${entity.title}")
+        Timber.v("$TAG saveLastMetadata ${entity.title}")
         launch {
             musicPreferencesUseCase.setLastMetadata(
                 LastMetadata(

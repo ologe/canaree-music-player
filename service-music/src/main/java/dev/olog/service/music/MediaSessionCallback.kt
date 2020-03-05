@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import android.view.KeyEvent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -32,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerService
@@ -74,7 +74,7 @@ internal class MediaSessionCallback @Inject constructor(
 
         if (queue.isEmpty() || forced){
             val track = queue.prepare()
-            Log.v(TAG, "onPrepare with track=${track?.mediaEntity?.title}")
+            Timber.v("$TAG onPrepare with track=${track?.mediaEntity?.title}")
             if (track != null){
                 player.prepare(track)
             }
@@ -96,12 +96,12 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onEmptyQueue() {
-        Log.v(TAG, "onEmptyQueue")
+        Timber.v("$TAG onEmptyQueue")
         onStop()
     }
 
     override fun onPlayFromMediaId(stringMediaId: String, extras: Bundle?) {
-        Log.v(TAG, "onPlayFromMediaId mediaId=$stringMediaId, extras=$extras")
+        Timber.v("$TAG onPlayFromMediaId mediaId=$stringMediaId, extras=$extras")
 
         onPrepareInternal(false)
 
@@ -123,13 +123,13 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPlay() {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlay")
+        Timber.v("$TAG onPlay")
         player.resume()
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlayFromSearch query=$query, extras=$extras")
+        Timber.v("$TAG onPlayFromSearch query=$query, extras=$extras")
 
         retrieveAndPlay {
             updatePodcastPosition()
@@ -139,7 +139,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
         onPrepareInternal(false)
-        Log.v(TAG, "onPlayFromUri uri=$uri, extras=$extras")
+        Timber.v("$TAG onPlayFromUri uri=$uri, extras=$extras")
 
         retrieveAndPlay {
             updatePodcastPosition()
@@ -148,7 +148,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPause() {
-        Log.v(TAG, "onPause")
+        Timber.v("$TAG onPause")
         launch(schedulers.main) {
             updatePodcastPosition()
             player.pause(true)
@@ -156,18 +156,18 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onStop() {
-        Log.v(TAG, "onStop")
+        Timber.v("$TAG onStop")
         onPause()
     }
 
     override fun onSkipToNext() {
-        Log.v(TAG, "onSkipToNext")
+        Timber.v("$TAG onSkipToNext")
         onSkipToNext(false)
     }
 
     override fun onSkipToPrevious() {
         launch(schedulers.main) {
-            Log.v(TAG, "onSkipToPrevious")
+            Timber.v("$TAG onSkipToPrevious")
 
             updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
@@ -180,7 +180,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun onTrackEnded() {
-        Log.v(TAG, "onTrackEnded")
+        Timber.v("$TAG onTrackEnded")
         onSkipToNext(true)
     }
 
@@ -188,7 +188,7 @@ internal class MediaSessionCallback @Inject constructor(
      * Try to skip to next song, if can't, restart current and pause
      */
     private fun onSkipToNext(trackEnded: Boolean) = launch(schedulers.main) {
-        Log.v(TAG, "onSkipToNext internal track ended=$trackEnded")
+        Timber.v("$TAG onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
         if (metadata != null) {
@@ -208,7 +208,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToQueueItem(id: Long) {
         launch(schedulers.main) {
-            Log.v(TAG, "onSkipToQueueItem id=$id")
+            Timber.v("$TAG onSkipToQueueItem id=$id")
 
             updatePodcastPosition()
             val mediaEntity = queue.handleSkipToQueueItem(id)
@@ -221,7 +221,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSeekTo(pos: Long) {
-        Log.v(TAG, "onSeekTo pos=$pos")
+        Timber.v("$TAG onSeekTo pos=$pos")
         launch(schedulers.main) {
             updatePodcastPosition()
             player.seekTo(pos)
@@ -233,13 +233,13 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        Log.v(TAG, "onSetRating rating=$rating, extras=$extras")
+        Timber.v("$TAG onSetRating rating=$rating, extras=$extras")
         launch { favoriteGateway.toggleFavorite() }
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
         onPrepareInternal(false)
-        Log.v(TAG, "onCustomAction action=$action, extras=$extras")
+        Timber.v("$TAG onCustomAction action=$action, extras=$extras")
 
         val musicAction = MusicServiceCustomAction.values().find { it.name == action }
             ?: return // other apps can request custom action
@@ -328,7 +328,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
-        Log.v(TAG, "onSetRepeatMode")
+        Timber.v("$TAG onSetRepeatMode")
 
         this.repeatMode.update()
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
@@ -336,7 +336,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSetShuffleMode(unused: Int) {
-        Log.v(TAG, "onSetShuffleMode")
+        Timber.v("$TAG onSetShuffleMode")
 
         val newShuffleMode = this.shuffleMode.update()
         if (newShuffleMode) {
@@ -351,7 +351,7 @@ internal class MediaSessionCallback @Inject constructor(
         onPrepareInternal(false)
 
         val event = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)!!
-        Log.v(TAG, "onMediaButtonEvent, action=${event.action}, keycode=${event.keyCode}")
+        Timber.v("$TAG onMediaButtonEvent, action=${event.action}, keycode=${event.keyCode}")
         if (event.action == KeyEvent.ACTION_DOWN) {
 
             when (event.keyCode) {
@@ -374,7 +374,7 @@ internal class MediaSessionCallback @Inject constructor(
      * this function DO NOT KILL service on pause
      */
     fun handlePlayPause() {
-        Log.v(TAG, "handlePlayPause")
+        Timber.v("$TAG handlePlayPause")
 
         if (player.isPlaying()) {
             player.pause(false)
@@ -384,7 +384,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private suspend fun updatePodcastPosition() {
-        Log.v(TAG, "updatePodcastPosition")
+        Timber.v("$TAG updatePodcastPosition")
 
         val bookmark = withContext(schedulers.main) { player.getBookmark() }
         withContext(schedulers.io){

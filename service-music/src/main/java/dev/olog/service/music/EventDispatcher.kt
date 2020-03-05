@@ -2,9 +2,9 @@ package dev.olog.service.music
 
 import android.content.Context
 import android.media.AudioManager
-import android.util.Log
 import android.view.KeyEvent
 import dev.olog.injection.dagger.ServiceContext
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class EventDispatcher @Inject constructor(
@@ -29,7 +29,7 @@ internal class EventDispatcher @Inject constructor(
     }
 
     fun dispatchEvent(event: Event) {
-        Log.v(TAG, "dispatchEvent $event")
+        Timber.v("$TAG dispatchEvent $event")
 
         val keycode = when (event) {
             Event.PLAY_PAUSE -> KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
