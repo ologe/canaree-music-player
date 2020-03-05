@@ -9,7 +9,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.android.extensions.launchWhenResumed
 import javax.inject.Inject
 
 internal class CustomBottomNavigator(
@@ -64,9 +63,7 @@ internal class CustomBottomNavigator(
     }
 
     private fun saveLastPage(page: BottomNavigationPage) {
-        launchWhenResumed {
-            presentationPrefs.setLastBottomViewPage(page)
-        }
+        presentationPrefs.setLastBottomViewPage(page)
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this) {
