@@ -86,10 +86,19 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
+        val thumbnail = GlideApp.with(context)
+            .load(mediaId)
+            .override(GlideUtils.OVERRIDE_SMALL)
+            .priority(Priority.IMMEDIATE)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
+            .error(CoverUtils.getGradient(context, mediaId))
+            .onlyRetrieveFromCache(true)
+
         GlideApp.with(context)
             .load(mediaId)
+            .thumbnail(thumbnail)
             .override(GlideUtils.OVERRIDE_BIG)
-            .priority(Priority.IMMEDIATE)
+            .priority(Priority.HIGH)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .onlyRetrieveFromCache(true)
