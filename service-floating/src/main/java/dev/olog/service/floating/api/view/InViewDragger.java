@@ -17,15 +17,16 @@ package dev.olog.service.floating.api.view;
 
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import dev.olog.service.floating.R;
 import dev.olog.service.floating.api.Dragger;
+import timber.log.Timber;
 
 /**
  * {@link Dragger} implementation that works within a {@link ViewGroup}.
@@ -56,7 +57,7 @@ public class InViewDragger implements Dragger {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.d(TAG, "ACTION_DOWN");
+                    Timber.d(TAG + "ACTION_DOWN");
                     mIsDragging = false;
 
                     mOriginalViewPosition = getDragViewCenterPosition();
@@ -67,7 +68,7 @@ public class InViewDragger implements Dragger {
 
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    Log.v(TAG, "ACTION_MOVE. motionX: " + motionEvent.getRawX() + ", motionY: " + motionEvent.getRawY());
+                    Timber.v(TAG + "ACTION_MOVE. motionX: " + motionEvent.getRawX() + ", motionY: " + motionEvent.getRawY());
                     float dragDeltaX = motionEvent.getRawX() - mOriginalTouchPosition.x;
                     float dragDeltaY = motionEvent.getRawY() - mOriginalTouchPosition.y;
                     mCurrentViewPosition = new PointF(
@@ -78,7 +79,7 @@ public class InViewDragger implements Dragger {
                     if (mIsDragging || !isTouchWithinSlopOfOriginalTouch(dragDeltaX, dragDeltaY)) {
                         if (!mIsDragging) {
                             // Dragging just started
-                            Log.d(TAG, "MOVE Start Drag.");
+                            Timber.d(TAG + "MOVE Start Drag.");
                             mIsDragging = true;
                             mDragListener.onDragStart(mCurrentViewPosition.x, mCurrentViewPosition.y);
                         } else {
@@ -90,10 +91,10 @@ public class InViewDragger implements Dragger {
                     return true;
                 case MotionEvent.ACTION_UP:
                     if (!mIsDragging) {
-                        Log.d(TAG, "ACTION_UP: Tap.");
+                        Timber.d(TAG + "ACTION_UP: Tap.");
                         mDragListener.onTap();
                     } else {
-                        Log.d(TAG, "ACTION_UP: Released from dragging.");
+                        Timber.d(TAG + "ACTION_UP: Released from dragging.");
                         mDragListener.onReleasedAt(mCurrentViewPosition.x, mCurrentViewPosition.y);
                     }
 
@@ -119,7 +120,7 @@ public class InViewDragger implements Dragger {
     @Override
     public void activate(@NonNull DragListener dragListener, @NonNull Point dragStartCenterPosition) {
         if (!mIsActivated) {
-            Log.d(TAG, "Activating.");
+            Timber.d(TAG + "Activating.");
             mIsActivated = true;
             mDragListener = dragListener;
             createTouchControlView(dragStartCenterPosition);
@@ -129,7 +130,7 @@ public class InViewDragger implements Dragger {
     @Override
     public void deactivate() {
         if (mIsActivated) {
-            Log.d(TAG, "Deactivating.");
+            Timber.d(TAG + "Deactivating.");
             mIsActivated = false;
             destroyTouchControlView();
         }
@@ -156,7 +157,7 @@ public class InViewDragger implements Dragger {
     private void updateTouchControlViewAppearance() {
         if (null != mDragView) {
             if (mIsDebugMode) {
-                Log.d(TAG, "Making mDragView red: " + mDragView.hashCode());
+                Timber.d(TAG + "Making mDragView red: " + mDragView.hashCode());
                 mDragView.setBackgroundColor(0x44FF0000);
             } else {
                 mDragView.setBackgroundColor(0x00000000);
@@ -177,7 +178,7 @@ public class InViewDragger implements Dragger {
     }
 
     private void moveDragViewTo(@NonNull PointF centerPosition) {
-        Log.d(TAG, "Moving drag view (" + mDragView.hashCode() + ") to: " + centerPosition);
+        Timber.d(TAG + "Moving drag view (" + mDragView.hashCode() + ") to: " + centerPosition);
         PointF cornerPosition = convertCenterToCorner(centerPosition);
         mDragView.setX(cornerPosition.x);
         mDragView.setY(cornerPosition.y);

@@ -1,12 +1,12 @@
 package dev.olog.data.repository.lastfm
 
-import android.util.Log
 import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
 import dev.olog.data.utils.assertBackgroundThread
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class ImageRetrieverLocalAlbum @Inject constructor(
@@ -29,14 +29,14 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
     }
 
     fun cache(model: LastFmAlbum) {
-        Log.v(TAG, "cache ${model.id}")
+        Timber.v("$TAG cache ${model.id}")
         assertBackgroundThread()
         val entity = model.toModel()
         lastFmDao.insertAlbum(entity)
     }
 
     fun delete(albumId: Long) {
-        Log.v(TAG, "delete $albumId")
+        Timber.v("$TAG delete $albumId")
         assertBackgroundThread()
         lastFmDao.deleteAlbum(albumId)
     }
