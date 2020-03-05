@@ -57,7 +57,8 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
             artist = artist,
             album = album,
             idInPlaylist = idInPlaylist,
-            dataModified = this.dateModified
+            dataModified = this.dateModified,
+            duration = this.duration
         )
     }
 

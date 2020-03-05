@@ -154,6 +154,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        observePodcastPositions()
+
         when (category) {
             TabCategory.ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
@@ -191,6 +193,15 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }
         }
 
+    }
+
+    private fun observePodcastPositions() {
+        if (category != TabCategory.PODCASTS) {
+            return
+        }
+        viewModel.observeAllCurrentPositions()
+            .onEach { adapter.updatePodcastPositions(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onDestroyView() {

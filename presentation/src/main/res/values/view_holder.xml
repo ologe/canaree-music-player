@@ -33,4 +33,6 @@
     <!--item search footer-->
     <dimen name="item_search_footer_text_size">16dp</dimen>
 
+    <string name="item_podcast_ratio" translatable="false">0.85</string>
+
 </resources>

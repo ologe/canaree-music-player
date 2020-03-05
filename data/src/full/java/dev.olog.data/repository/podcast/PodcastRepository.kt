@@ -2,6 +2,7 @@ package dev.olog.data.repository.podcast
 
 import android.content.ContentUris
 import android.content.Context
+import dev.olog.core.entity.PodcastPosition
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -18,6 +19,7 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
@@ -92,6 +94,11 @@ internal class PodcastRepository @Inject constructor(
             return 0L
         }
         return position
+    }
+
+    override fun observeAllCurrentPositions(): Flow<List<PodcastPosition>> {
+        return podcastPositionDao.getAllPositions()
+            .mapListItem { PodcastPosition(it.id, it.position) }
     }
 
     override fun saveCurrentPosition(podcastId: Long, position: Long) {

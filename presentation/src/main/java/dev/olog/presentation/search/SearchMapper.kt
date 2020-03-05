@@ -43,7 +43,8 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
             artist = subtitle,
             album = "",
             idInPlaylist = -1,
-            dataModified = -1
+            dataModified = -1,
+            duration = 0 // TODO ??
         )
     }
     return DisplayableAlbum(
@@ -62,7 +63,8 @@ internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
         artist = artist,
         album = album,
         idInPlaylist = idInPlaylist,
-        dataModified = this.dateModified
+        dataModified = this.dateModified,
+        duration = this.duration
     )
 }
 

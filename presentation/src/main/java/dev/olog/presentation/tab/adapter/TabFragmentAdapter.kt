@@ -1,5 +1,7 @@
 package dev.olog.presentation.tab.adapter
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +14,14 @@ import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
+import dev.olog.shared.android.extensions.colorAccent
+import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
 import kotlinx.android.synthetic.main.item_tab_album.view.secondText
 import kotlinx.android.synthetic.main.item_tab_header.view.*
-import kotlinx.android.synthetic.main.item_tab_podcast.view.duration as durationView
+import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.android.synthetic.main.item_tab_song.view.*
 import kotlinx.android.synthetic.main.item_tab_song.view.isPlaying
 
@@ -75,10 +79,21 @@ internal class TabFragmentAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
+        val item = getItem(position)
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
             holder.itemView.isPlaying.animateVisibility(payload)
-        } else {
+            if (item is DisplayableTrack) {
+                bindPodcastProgressBarTint(holder.itemView, item)
+            }
+        }
+
+        val test = payloads.filterIsInstance<Unit>().firstOrNull()
+        if (test != null && item is DisplayableTrack) {
+            bindPodcast(holder.itemView, item)
+        }
+
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         }
     }
@@ -101,18 +116,37 @@ internal class TabFragmentAdapter(
         }.exhaustive
     }
 
-    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
+    private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack) {
         holder.itemView.apply {
             BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
-            durationView?.let {
-                val durationString = item.idInPlaylist.toString() + "m"
-                it.text = durationString
-            }
             explicit?.onItemChanged(item.title)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+
+            bindPodcast(this, item)
+            bindPodcastProgressBarTint(this, item)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun bindPodcast(view: View, item: DisplayableTrack) {
+        val duration = item.duration.toInt()
+        val progress = podcastPositions[item.mediaId.resolveId] ?: 0
+        view.progressBar?.max = duration
+        view.progressBar?.progress = progress
+
+        val percentage = (progress.toFloat() / duration.toFloat() * 100f).toInt()
+        view.percentage?.text = "$percentage%"
+    }
+
+    private fun bindPodcastProgressBarTint(view: View, item: DisplayableTrack) {
+        val color = if (item.mediaId == playingMediaId) {
+            view.context.colorAccent()
+        } else {
+            view.context.textColorPrimary()
+        }
+        view.progressBar?.progressTintList = ColorStateList.valueOf(color)
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
@@ -129,6 +163,15 @@ internal class TabFragmentAdapter(
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_tab_header){
             holder.itemView.title.text = item.title
+        }
+    }
+
+    private var podcastPositions = emptyMap<Long, Int>()
+
+    fun updatePodcastPositions(positions: Map<Long, Int>) {
+        this.podcastPositions = positions
+        for (index in currentList.indices) {
+            notifyItemChanged(index, Unit)
         }
     }
 

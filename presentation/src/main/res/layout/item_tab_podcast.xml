@@ -19,8 +19,9 @@
 
     <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
         android:id="@+id/cover"
-        android:layout_width="@dimen/item_song_cover_size"
-        android:layout_height="@dimen/item_song_cover_size"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="@string/item_podcast_ratio"
         android:layout_marginStart="@dimen/item_song_cover_margin_start"
         android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
         android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
@@ -34,6 +35,7 @@
         style="@style/Song.MainText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/secondText"
@@ -49,25 +51,39 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cover"
-        app:layout_constraintEnd_toStartOf="@+id/duration"
+        app:layout_constraintEnd_toEndOf="@+id/firstText"
         app:layout_constraintStart_toEndOf="@id/cover"
         app:layout_constraintTop_toBottomOf="@+id/firstText"
         tools:text="@tools:sample/lorem" />
 
+    <dev.olog.media.widget.CustomProgressBar
+        android:id="@+id/progressBar"
+        style="@style/DefaultHorizontalProgressBar"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:progressTint="?colorAccent"
+        android:progressBackgroundTint="?android:textColorSecondary"
+        android:backgroundTint="?android:textColorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/secondText"
+        app:layout_constraintTop_toBottomOf="@+id/secondText"
+        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintVertical_bias=".75"
+        android:layout_marginEnd="72dp"
+        tools:max="100"
+        tools:progress="40" />
+
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/percentage"
         style="@style/Song.SecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textColor="?colorAccent"
+        android:textColor="?android:textColorSecondary"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="@+id/firstText"
-        app:layout_constraintTop_toBottomOf="@+id/firstText"
-        tools:text="56m" />
+        app:layout_constraintTop_toTopOf="@+id/progressBar"
+        tools:text="40%"
+        android:layout_marginEnd="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
