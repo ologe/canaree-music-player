@@ -100,7 +100,6 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             tools:src="@drawable/placeholder_musical_note"
-            android:stateListAnimator="@animator/scale_on_activated"
             android:elevation="8dp"
             android:translationY="-12dp"
             android:layout_marginStart="8dp"/>
