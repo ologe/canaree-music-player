@@ -20,9 +20,8 @@ object FileProvider {
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
     @JvmStatic
-    inline fun getUriForPath(context: Context, path: String): Uri {
+    fun getUriForPath(context: Context, path: String): Uri {
         return getUriForFile(context, File(path))
     }
 
