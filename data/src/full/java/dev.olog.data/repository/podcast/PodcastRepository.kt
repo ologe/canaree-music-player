@@ -86,7 +86,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getCurrentPosition(podcastId: Long, duration: Long): Long {
-        assertBackgroundThread()
         val position = podcastPositionDao.getPosition(podcastId) ?: 0L
         if (position > duration - 1000 * 5) {
             // if last 5 sec, restart
