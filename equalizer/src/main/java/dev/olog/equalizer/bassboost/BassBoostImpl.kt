@@ -3,6 +3,7 @@ package dev.olog.equalizer.bassboost
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import timber.log.Timber
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
@@ -29,7 +30,7 @@ class BassBoostImpl @Inject constructor(
         try {
             return bassBoost?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex)
             // sometimes throws getParameter() called on uninitialized AudioEffect.
             return 0
         }
@@ -68,7 +69,7 @@ class BassBoostImpl @Inject constructor(
                 }
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex, "session id $audioSessionId")
         }
     }
 
@@ -91,7 +92,7 @@ class BassBoostImpl @Inject constructor(
         try {
             action()
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex)
             // sometimes throws getParameter() called on uninitialized AudioEffect.
         }
     }

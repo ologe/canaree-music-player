@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import saschpe.android.customtabs.CustomTabsHelper
+import timber.log.Timber
 
 class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
 
@@ -20,7 +21,7 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
         try {
             tabHelper?.bindCustomTabsService(activity)
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
 
     }
@@ -29,7 +30,7 @@ class CustomTabsActivityLifecycleCallback : Application.ActivityLifecycleCallbac
         try {
             tabHelper?.unbindCustomTabsService(activity)
         } catch (ex: Throwable){
-            ex.printStackTrace()
+            Timber.e(ex)
         }
 
     }

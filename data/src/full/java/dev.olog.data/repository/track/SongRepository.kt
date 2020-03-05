@@ -89,7 +89,7 @@ internal class SongRepository @Inject constructor(
             val id = getByUriInternal(realUri) ?: return null
             return getByParam(id)
         } catch (ex: Exception){
-            ex.printStackTrace()
+            Timber.e(ex)
             return null
         }
     }

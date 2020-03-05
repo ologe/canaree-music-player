@@ -14,6 +14,7 @@ import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.equalizer.virtualizer.IVirtualizerInternal
 import dev.olog.equalizer.virtualizer.VirtualizerImpl
 import dev.olog.equalizer.virtualizer.VirtualizerProxy
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -53,11 +54,12 @@ abstract class EqualizerModule {
             equalizerImpl28: Lazy<EqualizerImpl28>
         ): IEqualizerInternal {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                // TODO
                 try {
                     // crashes on some devices
                     return equalizerImpl28.get()
                 } catch (ex: Exception) {
-                    ex.printStackTrace()
+                    Timber.e(ex)
                     return equalizerImpl.get()
                 }
             }

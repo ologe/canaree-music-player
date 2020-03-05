@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
@@ -21,15 +20,17 @@ import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
 import dev.olog.data.db.PlaylistMostPlayedDao
+import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
-import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -194,7 +195,7 @@ internal class PlaylistRepository @Inject constructor(
                     playlistDao.createPlaylist(playlist)
                     populatePlaylistWithTracks(playlistId)
                 } catch (ex: Exception){
-                    ex.printStackTrace()
+                    Timber.e(ex)
                 }
             }
         }

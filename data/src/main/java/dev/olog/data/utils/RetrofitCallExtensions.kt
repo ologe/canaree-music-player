@@ -3,6 +3,7 @@ package dev.olog.data.utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 import retrofit2.Response
+import timber.log.Timber
 
 internal suspend fun <T> networkCall(repeatTimes: Int = 3, call: suspend () -> Response<T>): T? {
     var errorCode: Int? = null
@@ -36,6 +37,7 @@ internal suspend fun <T> safeNetworkCall(
             yield()
         }
     } catch (ex: Throwable) {
+        Timber.e(ex)
         ex.printStackTrace()
     }
     return null

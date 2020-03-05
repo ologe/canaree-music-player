@@ -5,6 +5,7 @@ import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.data.model.lastfm.*
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import timber.log.Timber
 
 fun LastFmTrackInfo.toDomain(id: Long): LastFmTrack {
     val track = this.track
@@ -40,7 +41,7 @@ fun LastFmTrackSearch.toDomain(id: Long): LastFmTrack {
             albumMbid = ""
         )
     } catch (ex: Throwable) {
-        ex.printStackTrace()
+        Timber.w(ex)
         return LastFmTrack(
             id = id,
             title = "",
@@ -81,7 +82,7 @@ fun LastFmAlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
             wiki = ""
         )
     } catch (ex: Throwable) {
-        ex.printStackTrace()
+        Timber.w(ex)
         return LastFmAlbum(
             id = id,
             title = "",

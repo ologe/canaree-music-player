@@ -10,6 +10,7 @@ import dev.olog.data.mapper.toPlayingQueueSong
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class PlayingQueueRepository @Inject constructor(
@@ -29,7 +30,7 @@ internal class PlayingQueueRepository @Inject constructor(
             return songGateway.getAll().mapIndexed { index, song -> song.toPlayingQueueSong(index) }
         } catch (ex: SecurityException) {
             // sometimes this method is called without having storage permission
-            ex.printStackTrace()
+            Timber.e(ex)
             return emptyList()
         }
     }

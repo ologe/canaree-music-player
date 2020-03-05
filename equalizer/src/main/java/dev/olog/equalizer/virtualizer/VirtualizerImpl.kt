@@ -3,6 +3,7 @@ package dev.olog.equalizer.virtualizer
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.Virtualizer
 import dev.olog.core.prefs.EqualizerPreferencesGateway
+import timber.log.Timber
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(
@@ -30,7 +31,7 @@ class VirtualizerImpl @Inject constructor(
         try {
             return virtualizer?.roundedStrength?.toInt() ?: 0
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex)
             // sometimes throws getParameter() called on uninitialized AudioEffect.
             return 0
         }
@@ -69,7 +70,7 @@ class VirtualizerImpl @Inject constructor(
                 }
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.e(ex, "session id $audioSessionId")
         }
     }
 
@@ -93,7 +94,7 @@ class VirtualizerImpl @Inject constructor(
         try {
             action()
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex)
             // sometimes throws getParameter() called on uninitialized AudioEffect.
         }
     }

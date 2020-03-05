@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import dev.olog.analytics.TrackerFacade
+import timber.log.Timber
 import javax.inject.Inject
 
 class ActivityAndFragmentsTracker @Inject constructor(
@@ -29,14 +30,18 @@ class ActivityAndFragmentsTracker @Inject constructor(
         try {
             (activity as FragmentActivity).supportFragmentManager
                 .registerFragmentLifecycleCallbacks(fragmentObserver, true)
-        } catch (ignored: Throwable){}
+        } catch (ex: Throwable){
+            Timber.e(ex)
+        }
     }
 
     override fun onActivityPaused(activity: Activity) {
         try {
             (activity as FragmentActivity).supportFragmentManager
                 .unregisterFragmentLifecycleCallbacks(fragmentObserver)
-        } catch (ignored: Throwable){}
+        } catch (ex: Throwable){
+            Timber.e(ex)
+        }
     }
 
     override fun onActivityStarted(activity: Activity) {

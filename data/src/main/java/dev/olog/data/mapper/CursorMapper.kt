@@ -11,6 +11,7 @@ import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.getStringOrNull
+import timber.log.Timber
 import java.io.File
 
 fun Cursor.toSong(): Song {
@@ -106,7 +107,7 @@ fun Cursor.toAlbum(): Album {
         val path = data.substring(1, data.lastIndexOf(File.separator))
         path.substring(path.lastIndexOf(File.separator) + 1)
     } catch (ex: Throwable){
-        ex.printStackTrace()
+        Timber.e(ex, "path='${getStringOrNull(MediaStore.Audio.AudioColumns.DATA)}'")
         ""
     }
     val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L

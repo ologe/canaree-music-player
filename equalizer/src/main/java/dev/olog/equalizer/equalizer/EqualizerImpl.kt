@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class EqualizerImpl @Inject constructor(
@@ -50,7 +51,7 @@ internal class EqualizerImpl @Inject constructor(
                     enabled = prefs.isEqualizerEnabled()
                 }
             } catch (ex: Exception) {
-                ex.printStackTrace()
+                Timber.e(ex, "session id $audioSessionId")
             }
 
         }
@@ -94,7 +95,7 @@ internal class EqualizerImpl @Inject constructor(
         try {
             return equalizer?.getBandLevel(band) ?: 0f
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex, "band $band")
             // throws getParameter() called on uninitialized AudioEffect.
             return 0f
         }
@@ -140,7 +141,7 @@ internal class EqualizerImpl @Inject constructor(
         try {
             action()
         } catch (ex: IllegalStateException){
-            ex.printStackTrace()
+            Timber.e(ex)
             // sometimes throws getParameter() called on uninitialized AudioEffect.
         }
     }

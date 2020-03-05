@@ -6,6 +6,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import dev.olog.analytics.TrackerFacade
 import dev.olog.shared.launchUnit
 import kotlinx.coroutines.GlobalScope
+import timber.log.Timber
 import javax.inject.Inject
 
 internal class FirebaseTracker @Inject constructor(
@@ -16,7 +17,7 @@ internal class FirebaseTracker @Inject constructor(
         try {
             firebase.logEvent(name.take(40), bundle)
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.w(ex, "screen $name")
         }
     }
 
@@ -28,7 +29,7 @@ internal class FirebaseTracker @Inject constructor(
 
             firebase.logEvent(name.take(40), bundleOf(*map))
         } catch (ex: Throwable) {
-            ex.printStackTrace()
+            Timber.w(ex, "service event $name")
         }
     }
 
