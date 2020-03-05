@@ -36,8 +36,7 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
     )
 }
 
-@Suppress("NOTHING_TO_INLINE")
-private inline fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+private fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
     return when {
         parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
         (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {

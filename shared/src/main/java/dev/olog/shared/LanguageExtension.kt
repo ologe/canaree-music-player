@@ -7,8 +7,7 @@ inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThre
     operation()
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun throwNotHandled(message: String): Nothing {
+fun throwNotHandled(message: String): Nothing {
     throw IllegalStateException("state not handled $message")
 }
 
@@ -31,8 +30,7 @@ inline fun throwNotHandled(message: String): Nothing {
 inline val <T> T.exhaustive: T
     get() = this
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun <T> Continuation<T?>.safeResume(item: T?) {
+fun <T> Continuation<T?>.safeResume(item: T?) {
     try {
         resume(item)
     } catch (ex: Exception) {

@@ -92,8 +92,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         )
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun computeRelativePosition(
+    private fun computeRelativePosition(
         currentPosition: Int,
         currentPlayingIndex: Int
     ): String {
