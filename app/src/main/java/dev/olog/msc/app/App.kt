@@ -12,10 +12,12 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
+import dev.olog.msc.debug.CrashlyticsLogTree
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
-import dev.olog.shared.android.theme.ThemeUtils.THEME_SERVICE
 import dev.olog.shared.android.theme.ThemeManager
+import dev.olog.shared.android.theme.ThemeUtils.THEME_SERVICE
 import io.alterac.blurkit.BlurKit
+import timber.log.Timber
 import javax.inject.Inject
 
 class App : Application(), HasAndroidInjector {
@@ -40,6 +42,7 @@ class App : Application(), HasAndroidInjector {
     override fun onCreate() {
         super.onCreate()
         inject()
+        initializeTimber()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
@@ -59,6 +62,13 @@ class App : Application(), HasAndroidInjector {
 
     private fun initializeConstants() {
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+    }
+
+    private fun initializeTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+        Timber.plant(CrashlyticsLogTree())
     }
 
     private fun resetSleepTimer() {

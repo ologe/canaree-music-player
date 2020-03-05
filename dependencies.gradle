@@ -48,6 +48,7 @@ ext {
 //    debug
     leak_canary = '2.2'
     stetho = '1.5.1'
+    timber = '4.7.1'
 
 //    firebase
     firebase_core = '17.2.2'
@@ -142,13 +143,14 @@ ext {
     lib_debug = [
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
             stetho           : "com.facebook.stetho:stetho:$stetho",
+            timber           : "com.jakewharton.timber:timber:$timber",
     ]
 
     lib_test = [
             junit              : "junit:junit:$junit",
             mockito            : "org.mockito:mockito-android:3.2.4",
             mockito_kotlin     : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            coroutines_test         : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
+            coroutines_test    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             livedata           : "com.jraska.livedata:testing-ktx:1.1.0",
             ext_junit          : "androidx.test.ext:junit-ktx:1.1.0",
             robolectric        : "org.robolectric:robolectric:$robolectric",
