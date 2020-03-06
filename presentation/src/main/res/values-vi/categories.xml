@@ -12,14 +12,6 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_folders" translatable="false">@string/common_folders</string>
-    <string name="category_playlists" translatable="false">@string/common_playlists</string>
-    <string name="category_songs" translatable="false">@string/common_tracks</string>
-    <string name="category_albums" translatable="false">@string/common_albums</string>
-    <string name="category_artists" translatable="false">@string/common_artists</string>
-    <string name="category_genres" translatable="false">@string/common_genres</string>
-    <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
-
     <string name="category_no_tab_visible">Giờ sao?</string>
 
     <string-array name="tab_empty_state">
@@ -37,12 +29,6 @@
         <item>Không có người làm</item>
     </string-array>
 
-    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
-    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
-    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
-    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
-    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
-    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
     <string name="category_sort_by_date">Ngày</string>
     <string name="category_sort_by_ascending">Tăng dần</string>
     <string name="category_sort_by_descending">Giảm dần</string>
