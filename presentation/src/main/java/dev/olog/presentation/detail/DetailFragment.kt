@@ -167,6 +167,12 @@ class DetailFragment : BaseFragment(),
             headerText.text = item.title
         }
 
+        if (mediaId.isAnyPodcast) {
+            viewModel.observeAllCurrentPositions()
+                .onEach { adapter.updatePodcastPositions(it) }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+
         editText.afterTextChange()
             .debounce(200)
             .filter { it.isEmpty() || it.length >= 2 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <dev.olog.presentation.widgets.IsPlayingView
+        android:id="@+id/isPlaying"
+        android:layout_width="2dp"
+        android:layout_height="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/cover"
+        android:translationX="-5dp"
+        android:background="@android:color/holo_red_light"
+        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintTop_toTopOf="@+id/cover"/>
+
+    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        android:id="@+id/cover"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="@string/item_podcast_ratio"
+        android:layout_marginStart="@dimen/item_song_cover_margin_start"
+        android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/placeholder_folder" />
+
+    <TextView
+        android:id="@+id/firstText"
+        style="@style/Song.MainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/secondText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cover"
+        app:layout_constraintTop_toTopOf="@+id/cover"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/secondText"
+        style="@style/Song.SecondaryText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/firstText"
+        app:layout_constraintStart_toEndOf="@id/cover"
+        app:layout_constraintTop_toBottomOf="@+id/firstText"
+        tools:text="@tools:sample/lorem" />
+
+    <dev.olog.media.widget.CustomProgressBar
+        android:id="@+id/progressBar"
+        style="@style/DefaultHorizontalProgressBar"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:progressTint="?colorAccent"
+        android:progressBackgroundTint="?android:textColorSecondary"
+        android:backgroundTint="?android:textColorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/secondText"
+        app:layout_constraintTop_toBottomOf="@+id/secondText"
+        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintVertical_bias=".75"
+        android:layout_marginEnd="72dp"
+        tools:max="100"
+        tools:progress="40" />
+
+    <TextView
+        android:id="@+id/percentage"
+        style="@style/Song.SecondaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorSecondary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/firstText"
+        app:layout_constraintTop_toTopOf="@+id/progressBar"
+        tools:text="40%"
+        android:layout_marginEnd="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,8 @@ package dev.olog.presentation.detail.adapter
 
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
@@ -25,7 +27,9 @@ import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
@@ -39,6 +43,7 @@ import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
+import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 
 internal class DetailFragmentAdapter(
     private val mediaId: MediaId,
@@ -52,6 +57,8 @@ internal class DetailFragmentAdapter(
     TouchableAdapter,
     CanShowIsPlaying by CanShowIsPlayingImpl() {
 
+    private var podcastPositions = emptyMap<Long, Int>()
+
     private val headers by lazy { currentList.indexOfFirst { it is DisplayableTrack } }
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -63,7 +70,16 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_list_albums -> {
                 setupNestedList.setupNestedList(viewType, viewHolder.itemView as RecyclerView)
             }
-
+            R.layout.item_detail_podcast -> {
+                viewHolder.setOnClickListener(this) { item, _, _ ->
+                    viewModel.detailSortDataUseCase(item.mediaId) {
+                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
+                    }
+                }
+                viewHolder.setOnLongClickListener(this) { item, _, _ ->
+                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                }
+            }
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle,
@@ -172,6 +188,8 @@ internal class DetailFragmentAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
+        val item = getItem(position)
+
         val payload = payloads.filterIsInstance<List<String>>().firstOrNull()
         if (payload != null) {
             holder.itemView.apply {
@@ -182,7 +200,16 @@ internal class DetailFragmentAdapter(
         val currentPayload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (currentPayload != null) {
             holder.itemView.isPlaying.animateVisibility(currentPayload)
+            if (item is DisplayableTrack) {
+                bindPodcastProgressBarTint(holder.itemView, item)
+            }
         }
+
+        val updatePodcastPosition = payloads.filterIsInstance<Unit>().firstOrNull()
+        if (updatePodcastPosition != null && item is DisplayableTrack) {
+            bindPodcast(holder.itemView, item)
+        }
+
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -206,7 +233,10 @@ internal class DetailFragmentAdapter(
             }
             firstText.text = item.title
             secondText?.text = item.subtitle
-            explicit.onItemChanged(item.title)
+            explicit?.onItemChanged(item.title)
+
+            bindPodcast(this, item)
+            bindPodcastProgressBarTint(this, item)
         }
         when (holder.itemViewType){
             R.layout.item_detail_song_with_track,
@@ -244,6 +274,33 @@ internal class DetailFragmentAdapter(
                     sort.text = item.subtitle
                 }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun bindPodcast(view: View, item: DisplayableTrack) {
+        val duration = item.duration.toInt()
+        val progress = podcastPositions[item.mediaId.resolveId] ?: 0
+        view.progressBar?.max = duration
+        view.progressBar?.progress = progress
+
+        val percentage = (progress.toFloat() / duration.toFloat() * 100f).toInt()
+        view.percentage?.text = "$percentage%"
+    }
+
+    private fun bindPodcastProgressBarTint(view: View, item: DisplayableTrack) {
+        val color = if (item.mediaId == playingMediaId) {
+            view.context.colorAccent()
+        } else {
+            view.context.textColorPrimary()
+        }
+        view.progressBar?.progressTintList = ColorStateList.valueOf(color)
+    }
+
+    fun updatePodcastPositions(positions: Map<Long, Int>) {
+        this.podcastPositions = positions
+        for (index in currentList.indices) {
+            notifyItemChanged(index, Unit)
         }
     }
 

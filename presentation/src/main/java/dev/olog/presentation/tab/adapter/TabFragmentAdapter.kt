@@ -34,6 +34,7 @@ internal class TabFragmentAdapter(
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
     CanShowIsPlaying by CanShowIsPlayingImpl() {
 
+    private var podcastPositions = emptyMap<Long, Int>()
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
@@ -90,8 +91,8 @@ internal class TabFragmentAdapter(
             }
         }
 
-        val test = payloads.filterIsInstance<Unit>().firstOrNull()
-        if (test != null && item is DisplayableTrack) {
+        val updatePodcastPosition = payloads.filterIsInstance<Unit>().firstOrNull()
+        if (updatePodcastPosition != null && item is DisplayableTrack) {
             bindPodcast(holder.itemView, item)
         }
 
@@ -167,8 +168,6 @@ internal class TabFragmentAdapter(
             holder.itemView.title.text = item.title
         }
     }
-
-    private var podcastPositions = emptyMap<Long, Int>()
 
     fun updatePodcastPositions(positions: Map<Long, Int>) {
         this.podcastPositions = positions

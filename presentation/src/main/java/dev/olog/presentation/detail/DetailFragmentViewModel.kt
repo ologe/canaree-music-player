@@ -9,6 +9,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
@@ -33,7 +34,8 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val observeSortOrderUseCase: ObserveDetailSortUseCase,
     private val toggleSortArrangingUseCase: ToggleDetailSortArrangingUseCase,
     private val imageRetrieverGateway: ImageRetrieverGateway,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val podcastGateway: PodcastGateway
 
 ) : ViewModel() {
 
@@ -130,6 +132,11 @@ internal class DetailFragmentViewModel @Inject constructor(
     fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
     fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
     fun observeBiography(): LiveData<String?> = biographyLiveData
+
+    fun observeAllCurrentPositions() = podcastGateway.observeAllCurrentPositions()
+        .map {
+            it.groupBy { it.id }.mapValues { it.value[0].position.toInt() }
+        }.flowOn(schedulers.cpu)
 
     fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
         val sortOrder = getSortOrderUseCase(mediaId)
