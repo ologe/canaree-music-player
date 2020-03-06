@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <dev.olog.shared.widgets.AnimatedImageView
         android:id="@+id/previous"
@@ -69,10 +69,11 @@
         android:scaleY="1.1"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay"
@@ -82,10 +83,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/replay30"
         android:tint="?android:textColorPrimary"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay_30"
@@ -95,10 +97,11 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         android:tint="?android:textColorPrimary"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward_30"
@@ -108,10 +111,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/replay30"
         android:tint="?android:textColorPrimary"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward"

@@ -10,42 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/sliding_panel_peek">
 
-        <dev.olog.shared.widgets.AnimatedImageView
-            android:id="@+id/next"
-            android:layout_width="40dp"
+        <dev.olog.presentation.playermini.MiniPlayerButtons
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:background="@null"
-            android:padding="5dp"
-            app:avd="@drawable/avd_music_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/vd_music_next" />
-
-        <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
-            android:id="@+id/playPause"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:background="@null"
-            android:padding="5dp"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/next"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/vd_playpause_play" />
-
-        <dev.olog.shared.widgets.AnimatedImageView
-            android:id="@+id/previous"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:background="@null"
-            android:padding="5dp"
-            app:avd="@drawable/avd_music_previous"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/playPause"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/vd_music_previous" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
             android:id="@+id/textWrapper"
@@ -54,7 +25,7 @@
             android:orientation="vertical"
             android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/previous"
+            app:layout_constraintEnd_toStartOf="@+id/buttons"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/mini_player_margin_start">

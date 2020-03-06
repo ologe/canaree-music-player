@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/player"
@@ -82,8 +82,9 @@
         android:focusable="true"
         android:layout_marginEnd="16dp" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay"
+        app:direction="left"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:clickable="true"
@@ -94,10 +95,11 @@
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintBottom_toBottomOf="@+id/replay30" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay_30"
@@ -106,10 +108,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward_30"
@@ -118,10 +121,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/replay30" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward"

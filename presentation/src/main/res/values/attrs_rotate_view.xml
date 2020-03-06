@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RotateView">
+        <attr name="direction" format="enum">
+            <enum name="left" value="-30" />
+            <enum name="right" value="30" />
+            <enum name="left_big" value="-50" />
+            <enum name="right_big" value="50" />
+        </attr>
+    </declare-styleable>
+
+</resources>

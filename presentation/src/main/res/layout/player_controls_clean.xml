@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/player"
@@ -97,10 +97,11 @@
         app:layout_constraintStart_toEndOf="@+id/next"
         app:layout_constraintBottom_toBottomOf="@+id/playPause" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay_30"
@@ -109,10 +110,11 @@
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintHorizontal_chainStyle="packed" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_replay"
@@ -120,10 +122,11 @@
         app:layout_constraintStart_toEndOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="@+id/replay30" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward"
@@ -131,10 +134,11 @@
         app:layout_constraintStart_toEndOf="@+id/replay"
         app:layout_constraintEnd_toStartOf="@+id/forward30" />
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right_big"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_forward_30"

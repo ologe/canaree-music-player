@@ -157,22 +157,18 @@ internal class PlayerFragmentAdapter(
         view.previous.setOnClickListener { mediaProvider.skipToPrevious() }
 
         view.replay.setOnClickListener {
-            it.rotate(-30f)
             mediaProvider.replayTenSeconds()
         }
 
         view.replay30.setOnClickListener {
-            it.rotate(-50f)
             mediaProvider.replayThirtySeconds()
         }
 
         view.forward.setOnClickListener {
-            it.rotate(30f)
             mediaProvider.forwardTenSeconds()
         }
 
         view.forward30.setOnClickListener {
-            it.rotate(50f)
             mediaProvider.forwardThirtySeconds()
         }
 

@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="forward,forward30,replay,replay30"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <!-- shuffle -->
     <dev.olog.presentation.widgets.ShuffleButton
@@ -72,10 +73,11 @@
         android:focusable="true"
         android:layout_marginEnd="16dp"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left"
         android:src="@drawable/vd_replay"
         app:layout_constraintEnd_toStartOf="@+id/forward"
         app:layout_constraintStart_toEndOf="@+id/replay30"
@@ -83,10 +85,11 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/replay30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="left_big"
         android:src="@drawable/vd_replay_30"
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +98,11 @@
         tools:visibility="visible"
         app:layout_constraintHorizontal_chainStyle="packed"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward30"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right_big"
         android:src="@drawable/vd_forward_30"
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/forward"
@@ -106,10 +110,11 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <ImageButton
+    <dev.olog.presentation.widgets.RotateView
         android:id="@+id/forward"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
+        app:direction="right"
         android:src="@drawable/vd_forward"
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/replay"

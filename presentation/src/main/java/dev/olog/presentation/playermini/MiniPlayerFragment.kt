@@ -24,13 +24,11 @@ import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.artist
-import kotlinx.android.synthetic.main.fragment_mini_player.next
-import kotlinx.android.synthetic.main.fragment_mini_player.playPause
-import kotlinx.android.synthetic.main.fragment_mini_player.previous
 import kotlinx.android.synthetic.main.fragment_mini_player.progressBar
 import kotlinx.android.synthetic.main.fragment_mini_player.textWrapper
 import kotlinx.android.synthetic.main.fragment_mini_player.title
 import kotlinx.android.synthetic.main.fragment_mini_player_floating.*
+import kotlinx.android.synthetic.main.fragment_mini_player_floating.buttons
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.lang.IllegalArgumentException
@@ -62,6 +60,8 @@ class MiniPlayerFragment : BaseFragment(){
 
         media.observeMetadata()
                 .subscribe(viewLifecycleOwner) {
+                    buttons.onTrackChanged(it.isPodcast)
+
                     cover?.let { view ->
                         BindingsAdapter.loadSongImage(view, it.mediaId)
                     }
@@ -102,12 +102,12 @@ class MiniPlayerFragment : BaseFragment(){
 
         presenter.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
-                    next.updateVisibility(it)
+                    buttons.toggleNextButton(it)
                 }
 
         presenter.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
-                    previous.updateVisibility(it)
+                    buttons.togglePreviousButton(it)
                 }
     }
 
@@ -131,18 +131,12 @@ class MiniPlayerFragment : BaseFragment(){
         getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
-        next.setOnClickListener { media.skipToNext() }
-        playPause.setOnClickListener { media.playPause() }
-        previous.setOnClickListener { media.skipToPrevious() }
     }
 
     override fun onPause() {
         super.onPause()
         getSlidingPanel()!!.removeBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener(null)
-        next.setOnClickListener(null)
-        playPause.setOnClickListener(null)
-        previous.setOnClickListener(null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -151,20 +145,20 @@ class MiniPlayerFragment : BaseFragment(){
     }
 
     private fun playAnimation() {
-        playPause.animationPlay(getSlidingPanel().isCollapsed())
+        buttons.startPlayAnimation(getSlidingPanel().isCollapsed())
     }
 
     private fun pauseAnimation() {
-        playPause.animationPause(getSlidingPanel().isCollapsed())
+        buttons.startPauseAnimation(getSlidingPanel().isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {
         if (getSlidingPanel().isExpanded()) return
 
         if (toNext) {
-            next.playAnimation()
+            buttons.startSkipNextAnimation()
         } else {
-            previous.playAnimation()
+            buttons.startSkipPreviousAnimation()
         }
     }
 
