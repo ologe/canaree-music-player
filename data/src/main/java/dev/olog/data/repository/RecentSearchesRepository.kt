@@ -2,7 +2,7 @@ package dev.olog.data.repository
 
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -21,7 +21,7 @@ internal class RecentSearchesRepository @Inject constructor(
 
     private val podcastGateway: PodcastGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
+    private val podcastAuthorGateway: PodcastAuthorGateway
 
 ) : RecentSearchesGateway {
 
@@ -35,7 +35,7 @@ internal class RecentSearchesRepository @Inject constructor(
             folderGateway,
             podcastGateway,
             podcastPlaylistGateway,
-            podcastArtistGateway
+            podcastAuthorGateway
         )
     }
 

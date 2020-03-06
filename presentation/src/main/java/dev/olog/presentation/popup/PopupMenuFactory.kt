@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -27,7 +27,7 @@ class PopupMenuFactory @Inject constructor(
     private val getGenreUseCase: GenreGateway,
     private val getPodcastUseCase: PodcastGateway,
     private val getPodcastPlaylistUseCase: PodcastPlaylistGateway,
-    private val getPodcastArtistUseCase: PodcastArtistGateway,
+    private val getPodcastAuthorUseCase: PodcastAuthorGateway,
     private val listenerFactory: MenuListenerFactory,
     private val schedulers: Schedulers
 
@@ -119,7 +119,7 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPodcastArtistPopup(view: View, mediaId: MediaId): PopupMenu {
-        val artist = getPodcastArtistUseCase.getByParam(mediaId.categoryId)!!
+        val artist = getPodcastAuthorUseCase.getByParam(mediaId.categoryId)!!
         return if (mediaId.isLeaf) {
             val song = getSongUseCase.getByParam(mediaId.leaf!!)
             ArtistPopup(view, artist, song, listenerFactory.artist(artist, song))

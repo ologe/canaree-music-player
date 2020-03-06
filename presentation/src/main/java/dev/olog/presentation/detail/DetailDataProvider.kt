@@ -5,7 +5,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
@@ -37,7 +37,7 @@ internal class DetailDataProvider @Inject constructor(
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAuthorGateway: PodcastAuthorGateway,
 
     private val recentlyAddedUseCase: ObserveRecentlyAddedUseCase,
     private val mostPlayedUseCase: ObserveMostPlayedSongsUseCase,
@@ -63,7 +63,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_AUTHOR -> podcastArtistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_AUTHOR -> podcastAuthorGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,

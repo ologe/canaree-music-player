@@ -2,7 +2,7 @@ package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class GetItemTitleUseCase @Inject constructor(
     private val genreGateway: GenreGateway,
 
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway
+    private val podcastAuthorGateway: PodcastAuthorGateway
 
 ) {
 
@@ -30,7 +30,7 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS_AUTHOR -> podcastArtistGateway.observeByParam(mediaId.categoryId).map { it?.name }
+            MediaIdCategory.PODCASTS_AUTHOR -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it?.name }
             else -> throw IllegalArgumentException("invalid media category ${mediaId.category}")
         }
     }

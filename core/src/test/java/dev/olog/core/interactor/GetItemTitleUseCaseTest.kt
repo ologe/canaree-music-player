@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import org.junit.Assert
@@ -21,7 +21,7 @@ class GetItemTitleUseCaseTest {
     private val genreGateway = mock<GenreGateway>()
 
     private val podcastPlaylistGateway = mock<PodcastPlaylistGateway>()
-    private val podcastArtistGateway = mock<PodcastArtistGateway>()
+    private val podcastArtistGateway = mock<PodcastAuthorGateway>()
 
     private val sut = GetItemTitleUseCase(
         folderGateway, playlistGateway, albumGateway, artistGateway, genreGateway,

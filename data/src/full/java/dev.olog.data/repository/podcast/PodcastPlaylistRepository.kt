@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.schedulers.Schedulers
@@ -34,7 +34,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val podcastGateway: PodcastGateway,
     private val favoriteGateway: FavoriteGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAuthorGateway: PodcastAuthorGateway,
     private val historyDao: HistoryDao,
     private val podcastPlaylistDao: PodcastPlaylistDao,
     private val schedulers: Schedulers
@@ -202,7 +202,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .map {  songList ->
                 val artists = songList.groupBy { it.artistId }
                     .map { it.key }
-                podcastArtistGateway.getAll()
+                podcastAuthorGateway.getAll()
                     .filter { artists.contains(it.id) }
             }
     }

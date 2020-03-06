@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -23,7 +23,7 @@ class GetSongListByParamUseCaseTest {
     
     private val podcastPlaylistGateway = mock<PodcastPlaylistGateway>()
     private val podcastGateway = mock<PodcastGateway>()
-    private val podcastArtistGateway = mock<PodcastArtistGateway>()
+    private val podcastArtistGateway = mock<PodcastAuthorGateway>()
     
     private val sut = GetSongListByParamUseCase(
         folderGateway, playlistGateway, songGateway, albumGateway, artistGateway, 

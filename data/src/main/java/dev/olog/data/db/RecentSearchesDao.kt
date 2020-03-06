@@ -12,7 +12,7 @@ import dev.olog.core.RecentSearchesTypes.PODCAST_PLAYLIST
 import dev.olog.core.RecentSearchesTypes.SONG
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -43,7 +43,7 @@ internal abstract class RecentSearchesDao {
         folderList: FolderGateway,
         podcastList: PodcastGateway,
         podcastPlaylistList: PodcastPlaylistGateway,
-        podcastArtistList: PodcastArtistGateway
+        podcastAuthorList: PodcastAuthorGateway
     ): Flow<List<SearchResult>> {
 
         return getAllImpl()
@@ -84,7 +84,7 @@ internal abstract class RecentSearchesDao {
                             playlistMapper(recentEntity, item)
                         }
                         PODCAST_ARTIST -> {
-                            val item = podcastArtistList.getByParam(recentEntity.itemId)
+                            val item = podcastAuthorList.getByParam(recentEntity.itemId)
                             artistMapper(recentEntity, item)
                         }
                         else -> throw IllegalArgumentException("invalid recent element type ${recentEntity.dataType}")

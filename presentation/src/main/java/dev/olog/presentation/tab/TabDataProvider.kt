@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab
 
 import android.content.Context
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -31,7 +31,7 @@ internal class TabDataProvider @Inject constructor(
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAuthorGateway: PodcastAuthorGateway,
     private val presentationPrefs: PresentationPreferencesGateway,
     private val schedulers: Schedulers
 ) {
@@ -66,12 +66,12 @@ internal class TabDataProvider @Inject constructor(
             it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
         }
         TabCategory.PODCASTS_ARTISTS -> getPodcastArtists()
-        TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastArtistGateway.observeRecentlyAdded().mapListItem {
+        TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastAuthorGateway.observeRecentlyAdded().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
             )
         }
-        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastArtistGateway.observeLastPlayed().mapListItem {
+        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastAuthorGateway.observeLastPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
             )
@@ -179,17 +179,17 @@ internal class TabDataProvider @Inject constructor(
     }
 
     private fun getPodcastArtists(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = podcastArtistGateway.observeRecentlyAdded()
+        val recentlyAddedFlow = podcastAuthorGateway.observeRecentlyAdded()
             .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
-        val recentlyPlayedFlow = podcastArtistGateway.observeLastPlayed()
+        val recentlyPlayedFlow = podcastAuthorGateway.observeLastPlayed()
             .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
                 if (canShow) data else emptyList()
             }
 
         return combine(
-            podcastArtistGateway.observeAll()
+            podcastAuthorGateway.observeAll()
                 .map { artists ->
                     val requestedSpanSize =
                         presentationPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)

@@ -9,7 +9,7 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.HasLastPlayed
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
@@ -26,14 +26,14 @@ import dev.olog.data.utils.queryAll
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-internal class PodcastArtistRepository @Inject constructor(
+internal class PodcastAuthorRepository @Inject constructor(
     @ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedPodcastArtistDao,
     schedulers: Schedulers
-) : BaseRepository<Artist, Id>(context, schedulers), PodcastArtistGateway {
+) : BaseRepository<Artist, Id>(context, schedulers), PodcastAuthorGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
 

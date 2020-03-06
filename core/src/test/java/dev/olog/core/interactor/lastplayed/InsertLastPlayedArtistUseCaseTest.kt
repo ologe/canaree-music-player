@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
@@ -33,7 +33,7 @@ class InsertLastPlayedArtistUseCaseTest {
         // given
         val id = 1L
 
-        val gateway = mock<PodcastArtistGateway>()
+        val gateway = mock<PodcastAuthorGateway>()
 
         val sut = InsertLastPlayedArtistUseCase(mock(), gateway)
 

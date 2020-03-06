@@ -10,7 +10,7 @@ import dev.olog.analytics.AnalyticsModule
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.IEncrypter
 import dev.olog.core.gateway.*
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -77,7 +77,7 @@ interface CoreComponent {
     fun genreGateway(): GenreGateway
     fun podcastPlaylistGateway(): PodcastPlaylistGateway
     fun podcastGateway(): PodcastGateway
-    fun podcastArtistGateway(): PodcastArtistGateway
+    fun podcastArtistGateway(): PodcastAuthorGateway
 
     fun equalizerGateway(): EqualizerGateway
 

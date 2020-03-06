@@ -3,7 +3,7 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.gateway.podcast.PodcastArtistGateway
+import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -31,7 +31,7 @@ class SearchDataProvider @Inject constructor(
     // podcasts
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
+    private val podcastAuthorGateway: PodcastAuthorGateway,
     // recent
     private val recentSearchesGateway: RecentSearchesGateway
 
@@ -166,7 +166,7 @@ class SearchDataProvider @Inject constructor(
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
         }.combine(
-            podcastArtistGateway.observeAll().map {
+            podcastAuthorGateway.observeAll().map {
                 if (query.isBlank()) {
                     return@map listOf<DisplayableItem>()
                 }
