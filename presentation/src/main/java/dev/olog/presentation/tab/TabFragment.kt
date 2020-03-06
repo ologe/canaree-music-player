@@ -309,7 +309,8 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     private fun getCurrentSorting(item: DisplayableItem): String {
         return when (category) {
-            TabCategory.SONGS -> {
+            TabCategory.SONGS,
+            TabCategory.PODCASTS -> {
                 require(item is DisplayableTrack)
                 val sortOrder = viewModel.getAllTracksSortOrder(MediaId.songId(-1))!!
                 when (sortOrder.type) {
