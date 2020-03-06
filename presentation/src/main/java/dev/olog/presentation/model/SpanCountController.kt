@@ -11,13 +11,13 @@ internal object SpanCountController {
     fun getDefaultSpan(category: TabCategory): Int {
         return when (category) {
             TabCategory.FOLDERS -> 3
-            TabCategory.PLAYLISTS -> 3
-            TabCategory.PODCASTS_PLAYLIST -> 2
+            TabCategory.PLAYLISTS,
+            TabCategory.PODCASTS_PLAYLIST -> 3
             TabCategory.SONGS,
             TabCategory.PODCASTS -> 1
             TabCategory.ALBUMS -> 2
-            TabCategory.ARTISTS -> 3
-            TabCategory.PODCASTS_AUTHORS -> 2
+            TabCategory.ARTISTS,
+            TabCategory.PODCASTS_AUTHORS -> 3
             TabCategory.GENRES -> 3
             else -> throwNotHandled("invalid $category")
         }
