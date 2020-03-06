@@ -62,7 +62,7 @@ internal class CurrentSong @Inject constructor(
                 if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
                     Timber.v("$TAG insert last played artist ${entity.title}")
                     insertLastPlayedArtistUseCase(entity.mediaId)
-                } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
+                } else if (entity.mediaId.isAlbum) {
                     Timber.v("$TAG insert last played album ${entity.title}")
                     insertLastPlayedAlbumUseCase(entity.mediaId)
                 }

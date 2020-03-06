@@ -6,22 +6,17 @@ import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.entity.PlaylistType.*
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class MoveItemInPlaylistUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val playlistGateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
     private val sut = MoveItemInPlaylistUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = coroutineRule.runBlocking {
+    fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
         val from = 10
@@ -37,7 +32,7 @@ class MoveItemInPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = coroutineRule.runBlocking {
+    fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
         val from = 10
@@ -53,7 +48,7 @@ class MoveItemInPlaylistUseCaseTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testInvokeAuto() = coroutineRule.runBlocking {
+    fun testInvokeAuto() = runBlocking {
         // given
         val input = MoveItemInPlaylistUseCase.Input(1, emptyList(), AUTO)
 

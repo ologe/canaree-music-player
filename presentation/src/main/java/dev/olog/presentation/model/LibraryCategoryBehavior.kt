@@ -16,8 +16,7 @@ data class LibraryCategoryBehavior(
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> R.string.category_playlists
             MediaIdCategory.SONGS -> R.string.category_songs
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> R.string.category_albums
+            MediaIdCategory.ALBUMS -> R.string.category_albums
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> R.string.category_artists
             MediaIdCategory.GENRES -> R.string.category_genres

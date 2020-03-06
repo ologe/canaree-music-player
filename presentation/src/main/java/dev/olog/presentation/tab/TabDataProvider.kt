@@ -1,7 +1,6 @@
 package dev.olog.presentation.tab
 
 import android.content.Context
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -32,7 +31,6 @@ internal class TabDataProvider @Inject constructor(
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     private val presentationPrefs: PresentationPreferencesGateway,
     private val schedulers: Schedulers
@@ -67,15 +65,12 @@ internal class TabDataProvider @Inject constructor(
         TabCategory.PODCASTS -> podcastGateway.observeAll().map {
             it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
         }
-        TabCategory.PODCASTS_ALBUMS -> getPodcastAlbums()
         TabCategory.PODCASTS_ARTISTS -> getPodcastArtists()
-        TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS -> podcastAlbumGateway.observeRecentlyAdded().mapListItem { it.toTabLastPlayedDisplayableItem() }
         TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastArtistGateway.observeRecentlyAdded().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
             )
         }
-        TabCategory.LAST_PLAYED_PODCAST_ALBUMS -> podcastAlbumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
         TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastArtistGateway.observeLastPlayed().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
@@ -180,34 +175,6 @@ internal class TabDataProvider @Inject constructor(
                 .toMutableList()
                 .startWithIfNotEmpty(headers.allPlaylistHeader)
                 .startWith(autoPlaylist)
-        }
-    }
-
-    private fun getPodcastAlbums(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = podcastAlbumGateway.observeRecentlyAdded()
-            .combine(presentationPrefs.observeLibraryNewVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-        val recentlyPlayedFlow = podcastAlbumGateway.observeLastPlayed()
-            .combine(presentationPrefs.observeLibraryRecentPlayedVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-
-        return combine(
-            podcastAlbumGateway.observeAll()
-                .map { albums ->
-                    val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ALBUMS)
-                    albums.map { it.toTabDisplayableItem(requestedSpanSize) }
-                },
-            recentlyAddedFlow,
-            recentlyPlayedFlow
-        ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
-                .plus(all)
         }
     }
 

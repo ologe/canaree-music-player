@@ -3,7 +3,6 @@ package dev.olog.core.interactor.songlist
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -21,7 +20,6 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 
 ) {
@@ -36,7 +34,6 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS -> podcastGateway.observeAll()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeTrackListByParam(mediaId.categoryId)
             else -> throw AssertionError("invalid media id $mediaId")
         }

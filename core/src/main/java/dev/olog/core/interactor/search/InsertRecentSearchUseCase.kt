@@ -21,7 +21,6 @@ class InsertRecentSearchUseCase @Inject constructor(
 
             mediaId.isLeaf && mediaId.isPodcast -> recentSearchesGateway.insertPodcast(id)
             mediaId.isPodcastPlaylist -> recentSearchesGateway.insertPodcastPlaylist(id)
-            mediaId.isPodcastAlbum -> recentSearchesGateway.insertPodcastAlbum(id)
             mediaId.isPodcastArtist -> recentSearchesGateway.insertPodcastArtist(id)
             else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
         }

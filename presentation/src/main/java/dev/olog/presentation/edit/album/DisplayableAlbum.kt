@@ -7,6 +7,5 @@ data class DisplayableAlbum(
     val albumArtist: String,
     val genre: String,
     val year: String,
-    val songs: Int,
-    val isPodcast: Boolean
+    val songs: Int
 )

@@ -11,7 +11,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.presentation.R
-import dev.olog.presentation.animations.*
+import dev.olog.presentation.animations.setupEnterAnimation
+import dev.olog.presentation.animations.setupEnterSharedAnimation
+import dev.olog.presentation.animations.setupExitAnimation
+import dev.olog.presentation.animations.setupExitSharedAnimation
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
@@ -161,7 +164,7 @@ class NavigatorImpl @Inject internal constructor(
                     instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
                 }
             }
-            mediaId.isAlbum || mediaId.isPodcastAlbum -> {
+            mediaId.isAlbum -> {
                 editItemDialogFactory.get().toEditAlbum(mediaId) {
                     val instance = EditAlbumFragment.newInstance(mediaId)
                     instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)

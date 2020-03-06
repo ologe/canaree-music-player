@@ -21,7 +21,6 @@ class DeleteRecentSearchUseCase @Inject constructor(
 
             mediaId.isLeaf && mediaId.isPodcast -> recentSearchesGateway.deletePodcast(id)
             mediaId.isPodcastPlaylist -> recentSearchesGateway.deletePodcastPlaylist(id)
-            mediaId.isPodcastAlbum -> recentSearchesGateway.deletePodcastAlbum(id)
             mediaId.isPodcastArtist -> recentSearchesGateway.deletePodcastArtist(id)
             else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
         }

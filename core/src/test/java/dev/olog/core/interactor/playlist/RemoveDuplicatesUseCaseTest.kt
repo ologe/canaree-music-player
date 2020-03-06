@@ -7,23 +7,18 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 
 class RemoveDuplicatesUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val playlistGateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
     private val sut = RemoveDuplicatesUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = coroutineRule.runBlocking {
+    fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -38,7 +33,7 @@ class RemoveDuplicatesUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = coroutineRule.runBlocking {
+    fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -53,7 +48,7 @@ class RemoveDuplicatesUseCaseTest {
     }
 
     @Test
-    fun testInvokeAuto() = coroutineRule.runBlocking {
+    fun testInvokeAuto() = runBlocking {
         // given
         val allowed = listOf(
             MediaIdCategory.PODCASTS_PLAYLIST, MediaIdCategory.PLAYLISTS

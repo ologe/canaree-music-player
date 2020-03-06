@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
+import dev.olog.shared.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -41,14 +41,11 @@ internal class PresentationPreferencesImpl @Inject constructor(
 
         private const val CATEGORY_PODCAST_PLAYLIST_ORDER = "$TAG.CATEGORY_PODCAST_PLAYLIST_ORDER"
         private const val CATEGORY_PODCAST_ORDER = "$TAG.CATEGORY_PODCAST_ORDER"
-        private const val CATEGORY_PODCAST_ALBUM_ORDER = "$TAG.CATEGORY_PODCAST_ALBUM_ORDER"
         private const val CATEGORY_PODCAST_ARTIST_ORDER = "$TAG.CATEGORY_PODCAST_ARTIST_ORDER"
 
         private const val CATEGORY_PODCAST_PLAYLIST_VISIBILITY =
             "$TAG.CATEGORY_PODCAST_PODCAST_PLAYLIST_VISIBILITY"
         private const val CATEGORY_PODCAST_VISIBILITY = "$TAG.CATEGORY_PODCAST_VISIBILITY"
-        private const val CATEGORY_PODCAST_ALBUM_VISIBILITY =
-            "$TAG.CATEGORY_PODCAST_ALBUM_VISIBILITY"
         private const val CATEGORY_PODCAST_ARTIST_VISIBILITY =
             "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
     }
@@ -182,11 +179,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
                 preferences.getInt(CATEGORY_PODCAST_ORDER, 1)
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS_ALBUMS,
-                preferences.getBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, true),
-                preferences.getInt(CATEGORY_PODCAST_ALBUM_ORDER, 2)
-            ),
-            LibraryCategoryBehavior(
                 MediaIdCategory.PODCASTS_ARTISTS,
                 preferences.getBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, true),
                 preferences.getInt(CATEGORY_PODCAST_ARTIST_ORDER, 3)
@@ -211,10 +203,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
             val song = behavior.first { it.category == MediaIdCategory.PODCASTS }
             putInt(CATEGORY_PODCAST_ORDER, song.order)
             putBoolean(CATEGORY_PODCAST_VISIBILITY, song.visible)
-
-            val album = behavior.first { it.category == MediaIdCategory.PODCASTS_ALBUMS }
-            putInt(CATEGORY_PODCAST_ALBUM_ORDER, album.order)
-            putBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, album.visible)
 
             val artist = behavior.first { it.category == MediaIdCategory.PODCASTS_ARTISTS }
             putInt(CATEGORY_PODCAST_ARTIST_ORDER, artist.order)

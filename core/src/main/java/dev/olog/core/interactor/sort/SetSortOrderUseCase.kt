@@ -21,8 +21,7 @@ class SetSortOrderUseCase @Inject constructor(
             MediaIdCategory.FOLDERS -> gateway.setDetailFolderSort(param.sortType)
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> gateway.setDetailPlaylistSort(param.sortType)
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.setDetailAlbumSort(param.sortType)
+            MediaIdCategory.ALBUMS -> gateway.setDetailAlbumSort(param.sortType)
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> gateway.setDetailArtistSort(param.sortType)
             MediaIdCategory.GENRES -> gateway.setDetailGenreSort(param.sortType)

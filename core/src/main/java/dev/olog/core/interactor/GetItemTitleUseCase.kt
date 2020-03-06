@@ -2,7 +2,6 @@ package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -18,7 +17,6 @@ class GetItemTitleUseCase @Inject constructor(
     private val genreGateway: GenreGateway,
 
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway
 
 ) {
@@ -33,7 +31,6 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId).map { it?.name }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId).map { it?.title }
             else -> throw IllegalArgumentException("invalid media category ${mediaId.category}")
         }
     }

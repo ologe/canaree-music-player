@@ -10,17 +10,16 @@ data class Album(
     val artist: String,
     val albumArtist: String,
     val songs: Int,
-    val hasSameNameAsFolder: Boolean,
-    val isPodcast: Boolean
+    val hasSameNameAsFolder: Boolean
 ) {
 
     fun getMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
+        val category = MediaIdCategory.ALBUMS
         return MediaId.createCategoryValue(category, this.id.toString())
     }
 
     fun getArtistMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_ARTISTS else MediaIdCategory.ARTISTS
+        val category = MediaIdCategory.ARTISTS
         return MediaId.createCategoryValue(category, this.artistId.toString())
     }
 

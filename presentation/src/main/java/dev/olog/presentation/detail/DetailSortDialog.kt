@@ -1,6 +1,5 @@
 package dev.olog.presentation.detail
 
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
@@ -45,8 +44,7 @@ class DetailSortDialog {
         return when (mediaId.category){
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> R.menu.sort_mode_playlist
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> R.menu.sort_mode_album
+            MediaIdCategory.ALBUMS -> R.menu.sort_mode_album
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> R.menu.sort_mode_artist
             MediaIdCategory.FOLDERS -> R.menu.sort_mode_folder

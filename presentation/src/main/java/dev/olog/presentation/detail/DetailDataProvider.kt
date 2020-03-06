@@ -5,7 +5,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -38,7 +37,6 @@ internal class DetailDataProvider @Inject constructor(
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
 
     private val recentlyAddedUseCase: ObserveRecentlyAddedUseCase,
@@ -65,8 +63,6 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeByParam(mediaId.categoryId)
-                .mapNotNull { it?.toHeaderItem() }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
@@ -178,16 +174,6 @@ internal class DetailDataProvider @Inject constructor(
         }
         // podcasts
         MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(
-                resources
-            )
-        }
-        MediaIdCategory.PODCASTS_ARTISTS -> podcastAlbumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
             it.toDetailDisplayableItem(
                 resources
             )

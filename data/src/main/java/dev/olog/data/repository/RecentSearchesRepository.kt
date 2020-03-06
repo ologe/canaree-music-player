@@ -1,8 +1,7 @@
 package dev.olog.data.repository
 
 import dev.olog.core.entity.SearchResult
-import dev.olog.core.gateway.*
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
+import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -22,8 +21,7 @@ internal class RecentSearchesRepository @Inject constructor(
 
     private val podcastGateway: PodcastGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastArtistGateway: PodcastArtistGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway
+    private val podcastArtistGateway: PodcastArtistGateway
 
 ) : RecentSearchesGateway {
 
@@ -37,7 +35,6 @@ internal class RecentSearchesRepository @Inject constructor(
             folderGateway,
             podcastGateway,
             podcastPlaylistGateway,
-            podcastAlbumGateway,
             podcastArtistGateway
         )
     }
@@ -51,7 +48,6 @@ internal class RecentSearchesRepository @Inject constructor(
 
     override suspend fun insertPodcast(podcastId: Long) = dao.insertPodcast(podcastId)
     override suspend fun insertPodcastPlaylist(playlistid: Long) = dao.insertPodcastPlaylist(playlistid)
-    override suspend fun insertPodcastAlbum(albumId: Long) = dao.insertPodcastAlbum(albumId)
     override suspend fun insertPodcastArtist(artistId: Long) = dao.insertPodcastArtist(artistId)
 
     override suspend fun deleteSong(itemId: Long) = dao.deleteSong(itemId)
@@ -63,7 +59,6 @@ internal class RecentSearchesRepository @Inject constructor(
 
     override suspend fun deletePodcast(podcastId: Long) = dao.deletePodcast(podcastId)
     override suspend fun deletePodcastPlaylist(playlistId: Long) = dao.deletePodcastPlaylist(playlistId)
-    override suspend fun deletePodcastAlbum(albumId: Long) = dao.deletePodcastAlbum(albumId)
     override suspend fun deletePodcastArtist(artistId: Long) = dao.deletePodcastArtist(artistId)
 
     override suspend fun deleteAll() = dao.deleteAll()

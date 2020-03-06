@@ -6,10 +6,10 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
+import dev.olog.shared.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ internal class GlideOriginalImageLoader(
         if (mediaId.isLeaf) {
             return true
         }
-        if (mediaId.isAlbum || mediaId.isPodcastAlbum) {
+        if (mediaId.isAlbum) {
             return true
         }
 

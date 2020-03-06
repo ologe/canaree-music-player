@@ -7,13 +7,11 @@ import dev.olog.core.RecentSearchesTypes.FOLDER
 import dev.olog.core.RecentSearchesTypes.GENRE
 import dev.olog.core.RecentSearchesTypes.PLAYLIST
 import dev.olog.core.RecentSearchesTypes.PODCAST
-import dev.olog.core.RecentSearchesTypes.PODCAST_ALBUM
 import dev.olog.core.RecentSearchesTypes.PODCAST_ARTIST
 import dev.olog.core.RecentSearchesTypes.PODCAST_PLAYLIST
 import dev.olog.core.RecentSearchesTypes.SONG
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -45,7 +43,6 @@ internal abstract class RecentSearchesDao {
         folderList: FolderGateway,
         podcastList: PodcastGateway,
         podcastPlaylistList: PodcastPlaylistGateway,
-        podcastAlbumList: PodcastAlbumGateway,
         podcastArtistList: PodcastArtistGateway
     ): Flow<List<SearchResult>> {
 
@@ -85,10 +82,6 @@ internal abstract class RecentSearchesDao {
                         PODCAST_PLAYLIST -> {
                             val item = podcastPlaylistList.getByParam(recentEntity.itemId)
                             playlistMapper(recentEntity, item)
-                        }
-                        PODCAST_ALBUM -> {
-                            val item = podcastAlbumList.getByParam(recentEntity.itemId)
-                            albumMapper(recentEntity, item)
                         }
                         PODCAST_ARTIST -> {
                             val item = podcastArtistList.getByParam(recentEntity.itemId)
@@ -146,10 +139,6 @@ internal abstract class RecentSearchesDao {
 
     suspend fun deletePodcastArtist(artistId: Long) {
         deleteImpl(PODCAST_ARTIST, artistId)
-    }
-
-    suspend fun deletePodcastAlbum(albumId: Long) {
-        deleteImpl(PODCAST_ALBUM, albumId)
     }
 
     suspend fun deleteAll() {
@@ -240,17 +229,6 @@ internal abstract class RecentSearchesDao {
             RecentSearchesEntity(
                 dataType = PODCAST_PLAYLIST,
                 itemId = playlistId
-            )
-        )
-    }
-
-    @Transaction
-    open suspend fun insertPodcastAlbum(albumId: Long) {
-        deletePodcastAlbum(albumId)
-        insertImpl(
-            RecentSearchesEntity(
-                dataType = PODCAST_ALBUM,
-                itemId = albumId
             )
         )
     }

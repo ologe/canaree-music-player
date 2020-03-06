@@ -31,11 +31,8 @@ internal object Mocks {
         artist = "artist",
         albumArtist = "album artist",
         songs = 10,
-        hasSameNameAsFolder = true,
-        isPodcast = false
+        hasSameNameAsFolder = true
     )
-
-    val podcastAlbum = album.copy(isPodcast = true)
 
     val artist = Artist(
         id = 1,

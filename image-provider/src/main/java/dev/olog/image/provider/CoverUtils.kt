@@ -96,8 +96,7 @@ object CoverUtils {
         MediaIdCategory.PLAYLISTS.ordinal,
         MediaIdCategory.PODCASTS_PLAYLIST.ordinal -> R.drawable.placeholder_playlist
         MediaIdCategory.SONGS.ordinal -> R.drawable.placeholder_musical_note
-        MediaIdCategory.ALBUMS.ordinal,
-        MediaIdCategory.PODCASTS_ALBUMS.ordinal -> R.drawable.placeholder_album
+        MediaIdCategory.ALBUMS.ordinal -> R.drawable.placeholder_album
         MediaIdCategory.ARTISTS.ordinal,
         MediaIdCategory.PODCASTS_ARTISTS.ordinal -> R.drawable.placeholder_artist
         MediaIdCategory.GENRES.ordinal -> R.drawable.placeholder_genre

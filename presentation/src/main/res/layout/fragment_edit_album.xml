@@ -141,16 +141,6 @@
 
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/podcast"
-                android:layout_marginStart="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/okButton"
-                app:layout_constraintTop_toTopOf="@+id/okButton"
-                android:text="Podcast"/>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/okButton"
                 app:layout_constraintEnd_toEndOf="parent"

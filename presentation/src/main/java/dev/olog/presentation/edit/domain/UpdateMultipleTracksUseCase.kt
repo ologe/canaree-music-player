@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.shared.ApplicationContext
 import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
             }
             if (param.mediaId.isArtist || param.mediaId.isPodcastArtist) {
                 updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
-            } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum) {
+            } else if (param.mediaId.isAlbum) {
                 updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
             }
         } catch (ex: Exception){

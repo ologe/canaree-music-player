@@ -16,7 +16,6 @@ interface RecentSearchesGateway {
 
     suspend fun insertPodcast(podcastId: Long)
     suspend fun insertPodcastPlaylist(playlistid: Long)
-    suspend fun insertPodcastAlbum(albumId: Long)
     suspend fun insertPodcastArtist(artistId: Long)
 
     suspend fun deleteSong(itemId: Long)
@@ -28,7 +27,6 @@ interface RecentSearchesGateway {
 
     suspend fun deletePodcast(podcastId: Long)
     suspend fun deletePodcastPlaylist(playlistId: Long)
-    suspend fun deletePodcastAlbum(albumId: Long)
     suspend fun deletePodcastArtist(artistId: Long)
 
     suspend fun deleteAll()

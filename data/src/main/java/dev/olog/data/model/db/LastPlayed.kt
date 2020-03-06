@@ -25,16 +25,6 @@ data class LastPlayedAlbumEntity(
 )
 
 @Entity(
-    tableName = "last_played_podcast_albums",
-    indices = [(Index("id"))]
-)
-data class LastPlayedPodcastAlbumEntity(
-    @PrimaryKey
-    val id: Long,
-    val dateAdded: Long = System.currentTimeMillis()
-)
-
-@Entity(
     tableName = "last_played_podcast_artists",
     indices = [(Index("id"))]
 )

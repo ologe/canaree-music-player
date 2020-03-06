@@ -19,8 +19,7 @@ internal object SpanCountController {
             TabCategory.PODCASTS_PLAYLIST -> if (isTablet) 4 else 3
             TabCategory.SONGS,
             TabCategory.PODCASTS -> 1
-            TabCategory.ALBUMS,
-            TabCategory.PODCASTS_ALBUMS -> if (isTablet) 4 else 2
+            TabCategory.ALBUMS -> if (isTablet) 4 else 2
             TabCategory.ARTISTS,
             TabCategory.PODCASTS_ARTISTS -> if (isTablet) 4 else 3
             TabCategory.GENRES -> if (isTablet) 4 else 3

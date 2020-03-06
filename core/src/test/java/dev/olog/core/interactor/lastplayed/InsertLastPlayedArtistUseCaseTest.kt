@@ -6,19 +6,14 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
-import org.junit.Rule
 import org.junit.Test
 
 class InsertLastPlayedArtistUseCaseTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
-
     @Test
-    fun testInvokeWithTrack() = coroutineRule.runBlocking {
+    fun testInvokeWithTrack() = runBlocking {
         // given
         val id = 1L
 
@@ -34,7 +29,7 @@ class InsertLastPlayedArtistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithPodcast() = coroutineRule.runBlocking {
+    fun testInvokeWithPodcast() = runBlocking {
         // given
         val id = 1L
 
@@ -50,7 +45,7 @@ class InsertLastPlayedArtistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithOtherCategories() = coroutineRule.runBlocking {
+    fun testInvokeWithOtherCategories() = runBlocking {
         // given
         val id = 1L
         val allowed = listOf(MediaIdCategory.ARTISTS, MediaIdCategory.PODCASTS_ARTISTS)

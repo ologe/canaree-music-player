@@ -9,6 +9,7 @@
     <string name="popup_play_next">Play next</string>
     <string name="popup_play_later">Play later</string>
     <string name="popup_edit_song_info">Edit song</string>
+    <string name="popup_edit_podcast_info">Edit podcast</string>
     <string name="popup_edit_album_info">Edit album</string>
     <string name="popup_edit_artist_info">Edit artist</string>
     <string name="popup_view_album">View album</string>

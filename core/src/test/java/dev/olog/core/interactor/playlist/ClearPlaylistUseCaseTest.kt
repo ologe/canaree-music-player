@@ -7,16 +7,11 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
 
 class ClearPlaylistUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val playlistGateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
@@ -25,7 +20,7 @@ class ClearPlaylistUseCaseTest {
     )
 
     @Test
-    fun testInvokePodcast() = coroutineRule.runBlocking {
+    fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, id.toString())
@@ -39,7 +34,7 @@ class ClearPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = coroutineRule.runBlocking {
+    fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, id.toString())
@@ -53,7 +48,7 @@ class ClearPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithWrongMediaId() = coroutineRule.runBlocking {
+    fun testInvokeWithWrongMediaId() = runBlocking {
         // given
         val allowed = listOf(
             MediaIdCategory.PLAYLISTS, MediaIdCategory.PODCASTS_PLAYLIST

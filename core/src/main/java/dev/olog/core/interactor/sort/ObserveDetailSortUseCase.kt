@@ -17,8 +17,7 @@ class ObserveDetailSortUseCase @Inject constructor(
             MediaIdCategory.FOLDERS -> gateway.observeDetailFolderSort()
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> gateway.observeDetailPlaylistSort()
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.observeDetailAlbumSort()
+            MediaIdCategory.ALBUMS -> gateway.observeDetailAlbumSort()
             MediaIdCategory.ARTISTS,
             MediaIdCategory.PODCASTS_ARTISTS -> gateway.observeDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.observeDetailGenreSort()

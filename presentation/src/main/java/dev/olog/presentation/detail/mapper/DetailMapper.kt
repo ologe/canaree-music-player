@@ -39,7 +39,7 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
 
 private fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
     return when {
-        parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
+        parentId.isAlbum -> R.layout.item_detail_song_with_track
         (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
             if (AutoPlaylist.isAutoPlaylist(playlistId)) {

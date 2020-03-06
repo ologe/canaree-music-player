@@ -19,31 +19,11 @@ class AlbumTest {
     }
 
     @Test
-    fun testPodcastGetMediaId() {
-        val id = 1L
-        val album = Mocks.podcastAlbum.copy(id = id)
-        assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ALBUMS, id.toString()),
-            album.getMediaId()
-        )
-    }
-
-    @Test
     fun testTrackGetArtistMediaId() {
         val id = 1L
         val album = Mocks.album.copy(artistId = id)
         assertEquals(
             MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString()),
-            album.getArtistMediaId()
-        )
-    }
-
-    @Test
-    fun testPodcastGetArtistMediaId() {
-        val id = 1L
-        val album = Mocks.podcastAlbum.copy(artistId = id)
-        assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ARTISTS, id.toString()),
             album.getArtistMediaId()
         )
     }

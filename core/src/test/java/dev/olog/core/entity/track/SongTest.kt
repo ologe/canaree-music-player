@@ -59,16 +59,6 @@ class SongTest {
     }
 
     @Test
-    fun testPodcastGetAlbumMediaId() {
-        val id = 1L
-        val album = Mocks.podcast.copy(albumId = id)
-        assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ALBUMS, id.toString()),
-            album.getAlbumMediaId()
-        )
-    }
-
-    @Test
     fun testDiscAndTrackNumber() {
         val song1 = Mocks.song.copy(trackColumn = 10)
         assertEquals(0, song1.discNumber)

@@ -6,7 +6,6 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -24,13 +23,12 @@ class GetSongListByParamUseCaseTest {
     
     private val podcastPlaylistGateway = mock<PodcastPlaylistGateway>()
     private val podcastGateway = mock<PodcastGateway>()
-    private val podcastAlbumGateway = mock<PodcastAlbumGateway>()
     private val podcastArtistGateway = mock<PodcastArtistGateway>()
     
     private val sut = GetSongListByParamUseCase(
         folderGateway, playlistGateway, songGateway, albumGateway, artistGateway, 
         genreGateway, podcastPlaylistGateway, podcastGateway, 
-        podcastAlbumGateway, podcastArtistGateway
+        podcastArtistGateway
     )
     
     @Test
@@ -52,7 +50,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -75,7 +72,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -98,7 +94,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -121,7 +116,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -144,7 +138,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -167,7 +160,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -190,12 +182,11 @@ class GetSongListByParamUseCaseTest {
 
         verifyNoMoreInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
     @Test
-    fun testPodcasts(){
+    fun testPodcasts() {
         // given
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, "")
 
@@ -212,30 +203,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyNoMoreInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
-        verifyZeroInteractions(podcastArtistGateway)
-    }
-
-    @Test
-    fun testPodcastAlbum(){
-        // given
-        val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ALBUMS, id.toString())
-
-        // when
-        sut(mediaId)
-
-        verify(podcastAlbumGateway).getTrackListByParam(id)
-        verifyZeroInteractions(folderGateway)
-        verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
-        verifyZeroInteractions(albumGateway)
-        verifyZeroInteractions(artistGateway)
-        verifyZeroInteractions(genreGateway)
-
-        verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
-        verifyNoMoreInteractions(podcastAlbumGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -258,7 +225,6 @@ class GetSongListByParamUseCaseTest {
 
         verifyZeroInteractions(podcastPlaylistGateway)
         verifyZeroInteractions(podcastGateway)
-        verifyZeroInteractions(podcastAlbumGateway)
         verifyNoMoreInteractions(podcastArtistGateway)
     }
     

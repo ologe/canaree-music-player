@@ -67,7 +67,6 @@ class EditAlbumFragment : BaseEditItemFragment() {
             val text = resources.getQuantityString(
                 R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs)
             albumsUpdated.text =  text
-            podcast.isChecked = it.isPodcast
         }
     }
 
@@ -93,8 +92,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
                 artist.extractText().trim(),
                 albumArtist.extractText().trim(),
                 genre.extractText().trim(),
-                year.extractText().trim(),
-                podcast.isChecked
+                year.extractText().trim()
             )
         )
 

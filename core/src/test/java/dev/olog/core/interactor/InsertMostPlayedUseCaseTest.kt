@@ -9,15 +9,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class InsertMostPlayedUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val folderGateway = mock<FolderGateway>()
     private val playlistGateway = mock<PlaylistGateway>()
@@ -27,7 +22,7 @@ class InsertMostPlayedUseCaseTest {
     )
 
     @Test
-    fun testFolderInvoke() = coroutineRule.runBlocking {
+    fun testFolderInvoke() = runBlocking {
         // given
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, "")
 
@@ -42,7 +37,7 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testPlaylistInvoke() = coroutineRule.runBlocking {
+    fun testPlaylistInvoke() = runBlocking {
         // given
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, "")
 
@@ -57,7 +52,7 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testGenreInvoke() = coroutineRule.runBlocking {
+    fun testGenreInvoke() = runBlocking {
         // given
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.GENRES, "")
 
@@ -72,7 +67,7 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testNotAllowed() = coroutineRule.runBlocking {
+    fun testNotAllowed() = runBlocking {
         val allowed = listOf(
             MediaIdCategory.FOLDERS,
             MediaIdCategory.PLAYLISTS,

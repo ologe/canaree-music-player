@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import timber.log.Timber
 import java.io.InputStream
-import java.lang.RuntimeException
 import java.util.concurrent.CancellationException
 
 class GlideOriginalImageFetcher(
@@ -39,7 +38,6 @@ class GlideOriginalImageFetcher(
 
             val song: Song? = when {
                 mediaId.isAlbum -> songGateway.getByAlbumId(id) // TODO not sure why
-                mediaId.isPodcastAlbum -> podcastGateway.getByAlbumId(id) // TODO not sure why
                 mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
                 mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
                 else -> {
@@ -66,7 +64,7 @@ class GlideOriginalImageFetcher(
 
 
     private fun getId(): Long {
-        if (mediaId.isAlbum || mediaId.isPodcastAlbum){
+        if (mediaId.isAlbum){
             return mediaId.categoryId
         }
         if (mediaId.isLeaf){

@@ -23,7 +23,6 @@ import dev.olog.data.model.db.*
 
         LastPlayedAlbumEntity::class,
         LastPlayedArtistEntity::class,
-        LastPlayedPodcastAlbumEntity::class,
         LastPlayedPodcastArtistEntity::class,
 
         LastFmTrackEntity::class,
@@ -65,7 +64,6 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun lastPlayedAlbumDao(): LastPlayedAlbumDao
     abstract fun lastPlayedArtistDao(): LastPlayedArtistDao
     abstract fun lastPlayedPodcastArtistDao(): LastPlayedPodcastArtistDao
-    abstract fun lastPlayedPodcastAlbumDao(): LastPlayedPodcastAlbumDao
 
     abstract fun lastFmDao(): LastFmDao
 

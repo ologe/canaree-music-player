@@ -6,21 +6,16 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class InsertRecentSearchUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val gateway = mock<RecentSearchesGateway>()
     private val sut = InsertRecentSearchUseCase(gateway)
 
     @Test
-    fun testInsertTrack() = coroutineRule.runBlocking {
+    fun testInsertTrack() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.playableItem(
@@ -36,7 +31,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertArtist() = coroutineRule.runBlocking {
+    fun testInsertArtist() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -52,7 +47,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertAlbum() = coroutineRule.runBlocking {
+    fun testInsertAlbum() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -68,7 +63,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPlaylist() = coroutineRule.runBlocking {
+    fun testInsertPlaylist() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -84,7 +79,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertFolder() = coroutineRule.runBlocking {
+    fun testInsertFolder() = runBlocking {
         // given
         val id = "path".hashCode().toLong()
         val mediaId = MediaId.createCategoryValue(
@@ -100,7 +95,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertGenre() = coroutineRule.runBlocking {
+    fun testInsertGenre() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -116,7 +111,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcast() = coroutineRule.runBlocking {
+    fun testInsertPodcast() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.playableItem(
@@ -132,7 +127,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcastPlaylist() = coroutineRule.runBlocking {
+    fun testInsertPodcastPlaylist() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
@@ -148,23 +143,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcastAlbum() = coroutineRule.runBlocking {
-        // given
-        val id = 1L
-        val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_ALBUMS, id.toString()
-        )
-
-        // when
-        sut(mediaId)
-
-        // then
-        verify(gateway).insertPodcastAlbum(id)
-        verifyNoMoreInteractions(gateway)
-    }
-
-    @Test
-    fun testInsertPodcastArtist() = coroutineRule.runBlocking {
+    fun testInsertPodcastArtist() = runBlocking {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(

@@ -6,15 +6,10 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class InsertHistorySongUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val gateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
@@ -23,7 +18,7 @@ class InsertHistorySongUseCaseTest {
     )
 
     @Test
-    fun testInvokeTrack() = coroutineRule.runBlocking {
+    fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
         val isPodcast = false
@@ -39,7 +34,7 @@ class InsertHistorySongUseCaseTest {
     }
 
     @Test
-    fun testInvokePodcast() = coroutineRule.runBlocking {
+    fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
         val isPodcast = true

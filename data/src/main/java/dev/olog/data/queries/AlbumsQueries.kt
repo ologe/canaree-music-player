@@ -15,9 +15,8 @@ import dev.olog.core.prefs.SortPreferences
 internal class AlbumsQueries(
     private val contentResolver: ContentResolver,
     blacklistPrefs: BlacklistPreferences,
-    sortPrefs: SortPreferences,
-    isPodcast: Boolean
-) : BaseQueries(blacklistPrefs, sortPrefs, isPodcast) {
+    sortPrefs: SortPreferences
+) : BaseQueries(blacklistPrefs = blacklistPrefs, sortPrefs = sortPrefs, isPodcast = false) {
 
     fun getAll(): Cursor {
         val (blacklist, params) = notBlacklisted()

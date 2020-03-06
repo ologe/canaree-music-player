@@ -8,15 +8,10 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class AddToPlaylistUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val playlistGateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
@@ -26,7 +21,7 @@ class AddToPlaylistUseCaseTest {
     )
 
     @Test(expected = IllegalArgumentException::class)
-    fun testInvokeWithWrongPlaylistAndMediaId() = coroutineRule.runBlocking {
+    fun testInvokeWithWrongPlaylistAndMediaId() = runBlocking {
         val playlist = Playlist(1, "", 0, true)
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, "")
 
@@ -34,7 +29,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithPodcast() = coroutineRule.runBlocking {
+    fun testInvokeWithPodcast() = runBlocking {
         // given
         val playlistId = 1L
         val podcastId = 10L
@@ -54,7 +49,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithTrack() = coroutineRule.runBlocking {
+    fun testInvokeWithTrack() = runBlocking {
         // given
         val playlistId = 1L
         val podcastId = 10L
@@ -74,28 +69,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithPodcastList() = coroutineRule.runBlocking {
-        // given
-        val playlistId = 1L
-        val podcastId = 10L
-        val playlist = Playlist(playlistId, "", 0, true)
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ALBUMS, "")
-        val podcast = Mocks.podcast.copy(id = podcastId)
-
-        whenever(getSongList.invoke(mediaId)).thenReturn(listOf(podcast))
-
-        // when
-        sut(playlist, mediaId)
-
-        // then
-        verify(podcastGateway).addSongsToPlaylist(playlistId, listOf(podcastId))
-        verifyNoMoreInteractions(podcastGateway)
-        verifyZeroInteractions(playlistGateway)
-        verify(getSongList).invoke(mediaId)
-    }
-
-    @Test
-    fun testInvokeWithTrackList() = coroutineRule.runBlocking {
+    fun testInvokeWithTrackList() = runBlocking {
         // given
         val playlistId = 1L
         val songId = 10L

@@ -132,9 +132,8 @@ class MediaId private constructor(
     val isGenre : Boolean = category == MediaIdCategory.GENRES
     val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
     val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
-    val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
     val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
-    val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
+    val isAnyPodcast : Boolean = isPodcast || isPodcastArtist || isPodcastPlaylist
 
     val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 

@@ -7,23 +7,18 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
-import org.junit.Rule
 import org.junit.Test
 
 class RenameUseCaseTest {
-
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
 
     private val playlistGateway = mock<PlaylistGateway>()
     private val podcastGateway = mock<PodcastPlaylistGateway>()
     private val sut = RenameUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = coroutineRule.runBlocking {
+    fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
         val newTitle = "new title"
@@ -39,7 +34,7 @@ class RenameUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = coroutineRule.runBlocking {
+    fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
         val newTitle = "new title"
@@ -55,7 +50,7 @@ class RenameUseCaseTest {
     }
 
     @Test
-    fun testInvokeAuto() = coroutineRule.runBlocking {
+    fun testInvokeAuto() = runBlocking {
         val allowed = listOf(
             MediaIdCategory.PLAYLISTS, MediaIdCategory.PODCASTS_PLAYLIST
         )

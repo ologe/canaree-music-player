@@ -49,7 +49,7 @@ data class Song(
     }
 
     fun getAlbumMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_ALBUMS else MediaIdCategory.ALBUMS
+        val category = MediaIdCategory.ALBUMS
         return MediaId.createCategoryValue(category, this.albumId.toString())
     }
 

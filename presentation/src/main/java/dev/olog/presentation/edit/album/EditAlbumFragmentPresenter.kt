@@ -5,7 +5,6 @@ import dev.olog.core.entity.LastFmAlbum
 import dev.olog.core.entity.track.Album
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.schedulers.Schedulers
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val lastFmGateway: ImageRetrieverGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val schedulers: Schedulers
@@ -23,11 +21,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 ) {
 
     fun getAlbum(mediaId: MediaId): Album {
-        val album = if (mediaId.isPodcastAlbum) {
-            podcastAlbumGateway.getByParam(mediaId.categoryId)!!
-        } else {
-            albumGateway.getByParam(mediaId.categoryId)!!
-        }
+        val album = albumGateway.getByParam(mediaId.categoryId)!!
         return Album(
             id = album.id,
             artistId = album.artistId,
@@ -35,8 +29,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
             title = album.title,
             artist = if (album.artist == AppConstants.UNKNOWN) "" else album.artist,
             hasSameNameAsFolder = album.hasSameNameAsFolder,
-            songs = album.songs,
-            isPodcast = album.isPodcast
+            songs = album.songs
         )
     }
 

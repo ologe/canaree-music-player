@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/playNext"
+        android:title="@string/popup_play_next"/>
+
+    <item android:id="@+id/playLater"
+        android:title="@string/popup_play_later"/>
+
+    <item android:id="@+id/addToFavorite"
+        android:title="@string/popup_add_to_favorites"/>
+
+    <group>
+
+        <item
+            android:id="@+id/addToPlaylist"
+            android:title="@string/popup_add_to_playlist">
+
+            <menu/>
+
+        </item>
+
+    </group>
+
+    <item android:id="@+id/viewInfo"
+        android:title="@string/popup_edit_podcast_info"/>
+
+    <item android:id="@+id/viewArtist"
+        android:title="@string/popup_view_artist"/>
+
+    <item android:id="@+id/share"
+        android:title="@string/popup_share"/>
+
+    <item android:id="@+id/delete"
+        android:title="@string/popup_delete"/>
+
+</menu>

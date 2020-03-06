@@ -115,8 +115,7 @@ data class UpdateAlbumInfo(
     val artist: String,
     val albumArtist: String,
     val genre: String,
-    val year: String,
-    val isPodcast: Boolean
+    val year: String
 )
 
 data class UpdateArtistInfo(

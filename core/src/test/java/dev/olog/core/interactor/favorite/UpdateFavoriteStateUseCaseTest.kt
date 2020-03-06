@@ -6,18 +6,13 @@ import dev.olog.core.entity.favorite.FavoriteEntity
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class UpdateFavoriteStateUseCaseTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
-
     @Test
-    fun testInvoke() = coroutineRule.runBlocking {
+    fun testInvoke() = runBlocking {
         // given
         val gateway = mock<FavoriteGateway>()
         val sut = UpdateFavoriteStateUseCase(gateway)

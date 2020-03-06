@@ -56,16 +56,6 @@ class SetSortOrderUseCaseTest {
     }
 
     @Test
-    fun testPodcastAlbums() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ALBUMS, "")
-
-        val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
-
-        sut(request)
-        verify(gateway).setDetailAlbumSort(request.sortType)
-    }
-
-    @Test
     fun testArtists() {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "")
 
@@ -101,7 +91,6 @@ class SetSortOrderUseCaseTest {
             MediaIdCategory.FOLDERS,
             MediaIdCategory.PODCASTS_PLAYLIST,
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_ALBUMS,
             MediaIdCategory.ALBUMS,
             MediaIdCategory.PODCASTS_ARTISTS,
             MediaIdCategory.ARTISTS,

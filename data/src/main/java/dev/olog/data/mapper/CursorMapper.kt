@@ -113,7 +113,6 @@ fun Cursor.toAlbum(): Album {
         Timber.e(ex, "path='${getStringOrNull(MediaStore.Audio.AudioColumns.DATA)}'")
         ""
     }
-    val isPodcast = getLong(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0L
 
     return Album(
         id = getLong(MediaStore.Audio.Media.ALBUM_ID),
@@ -122,8 +121,7 @@ fun Cursor.toAlbum(): Album {
         artist = artist,
         albumArtist = albumArtist,
         songs = 0,
-        hasSameNameAsFolder = dirName == title,
-        isPodcast = isPodcast
+        hasSameNameAsFolder = dirName == title
     )
 }
 

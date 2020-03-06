@@ -2,9 +2,7 @@ package dev.olog.presentation.search
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -13,6 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
@@ -32,7 +31,6 @@ class SearchDataProvider @Inject constructor(
     // podcasts
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastGateway: PodcastGateway,
-    private val podcastAlbumGateway: PodcastAlbumGateway,
     private val podcastArtistGateway: PodcastArtistGateway,
     // recent
     private val recentSearchesGateway: RecentSearchesGateway
@@ -151,21 +149,8 @@ class SearchDataProvider @Inject constructor(
                             it.artist.contains(query, true)
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
-        }.combine(
-            podcastAlbumGateway.observeAll().map {
-                if (query.isBlank()) {
-                    return@map listOf<DisplayableItem>()
-                }
-                it.asSequence()
-                    .filter {
-                        it.title.contains(query, true) ||
-                                it.artist.contains(query, true)
-                    }.map { it.toSearchDisplayableItem() }
-                    .toList()
-            }
-        ) { track, podcast ->
-            (track + podcast)
-                .filterIsInstance<DisplayableAlbum>() // elsewhere the compiler does not recognise type
+        }.map {
+            it.filterIsInstance<DisplayableAlbum>() // elsewhere the compiler does not recognise type
                 .sortedBy { it.title }
         }
     }

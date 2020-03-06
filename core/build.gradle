@@ -7,6 +7,11 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_core.coroutines
+
+    testImplementation lib_test.junit
+    testImplementation lib_test.coroutines_test
+    testImplementation lib_test.mockito
+    testImplementation lib_test.mockito_kotlin
 }
 
 sourceCompatibility = "8"

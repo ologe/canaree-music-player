@@ -49,8 +49,7 @@ class EditAlbumFragmentViewModel @Inject constructor(
             albumArtist = tag.safeGet(FieldKey.ALBUM_ARTIST),
             genre = tag.safeGet(FieldKey.GENRE),
             year = tag.safeGet(FieldKey.YEAR),
-            songs = this.songs,
-            isPodcast = this.isPodcast
+            songs = this.songs
         )
     }
 

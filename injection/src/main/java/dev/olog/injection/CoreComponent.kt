@@ -9,9 +9,7 @@ import dagger.Component
 import dev.olog.analytics.AnalyticsModule
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.IEncrypter
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.gateway.*
-import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -24,6 +22,7 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.schedulers.SchedulersModule
+import dev.olog.shared.ApplicationContext
 import javax.inject.Singleton
 
 @Component(
@@ -78,7 +77,6 @@ interface CoreComponent {
     fun genreGateway(): GenreGateway
     fun podcastPlaylistGateway(): PodcastPlaylistGateway
     fun podcastGateway(): PodcastGateway
-    fun podcastAlbumGateway(): PodcastAlbumGateway
     fun podcastArtistGateway(): PodcastArtistGateway
 
     fun equalizerGateway(): EqualizerGateway

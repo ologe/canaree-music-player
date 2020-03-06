@@ -10,7 +10,6 @@ object RecentSearchesTypes {
 
     const val PODCAST = 6
     const val PODCAST_PLAYLIST = 7
-    const val PODCAST_ALBUM = 8
     const val PODCAST_ARTIST = 9
 
 }
