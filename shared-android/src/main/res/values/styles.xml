@@ -86,7 +86,7 @@
         <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
         <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
         <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
-        <item name="labelVisibilityMode">selected</item>
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
     <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">
