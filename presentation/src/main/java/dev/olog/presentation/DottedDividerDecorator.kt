@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findFirstVisibleItem
 import dev.olog.shared.android.extensions.findLastVisibleItem
+import dev.olog.shared.android.theme.themeManager
 
 class DottedDividerDecorator(
     context: Context,
@@ -25,7 +26,12 @@ class DottedDividerDecorator(
 
     private val rect = Rect()
 
+    private val isDarkMode = context.resources.getBoolean(R.bool.is_dark_mode)
+
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        if (isDarkMode) {
+            return
+        }
         c.save()
         for (index in parent.findFirstVisibleItem..parent.findLastVisibleItem) {
             val vh = parent.findViewHolderForLayoutPosition(index) ?: continue
