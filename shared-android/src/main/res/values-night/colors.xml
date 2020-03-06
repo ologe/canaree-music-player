@@ -5,13 +5,13 @@
 
     <color name="colorSurface">#222326</color>
     <color name="colorSurfaceSecondary">@color/colorSurface</color>
-    <color name="colorControlNormal">#F5F5F5</color>
+    <color name="colorControlNormal">@color/textColorPrimary</color>
 
     <color name="colorPrimaryTransparent">@color/transparent_black</color>
     <color name="colorSwipeBackground">@android:color/black</color>
 
-    <color name="textColorPrimary">#fff</color>
-    <color name="textColorSecondary">#7f7f7f</color>
+    <color name="textColorPrimary">#ddd</color>
+    <color name="textColorSecondary">#9d999a</color>
     <color name="textColorPrimaryDisabled">#4Dffffff</color>
     <color name="textColorSecondaryDisabled">#4Dffffff</color>
 
