@@ -64,6 +64,9 @@ abstract class BaseDataFetcher(
                 }
 
                 throw NoSuchElementException()
+            } catch (ex: NoNetworkAllowedException) {
+                // don't log
+                callback.onLoadFailed(RuntimeException(ex))
             } catch (ex: Exception) {
                 Timber.w(ex)
                 callback.onLoadFailed(RuntimeException(ex))
@@ -82,7 +85,7 @@ abstract class BaseDataFetcher(
             loadUrl(image, priority, callback)
             return true
         } else {
-            throw Exception("not allowed to make network request")
+            throw NoNetworkAllowedException()
         }
     }
 
@@ -91,7 +94,7 @@ abstract class BaseDataFetcher(
         callback: DataFetcher.DataCallback<in InputStream>
     ): Boolean {
         if (!networkSafeAction()) {
-            throw Exception("not allowed to make network request")
+            throw NoNetworkAllowedException()
         }
         // delay
         delayRequest()
