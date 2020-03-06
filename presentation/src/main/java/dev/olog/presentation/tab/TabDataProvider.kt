@@ -199,9 +199,9 @@ internal class TabDataProvider @Inject constructor(
             recentlyPlayedFlow
         ) { all, recentlyAdded, lastPlayed ->
             val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
+            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedPodcastAuthorsHeaders) }
+                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedPodcastAuthorsHeaders) }
+                .doIf(result.isNotEmpty()) { addAll(headers.allPodcastAuthorsHeader) }
                 .plus(all)
         }
     }

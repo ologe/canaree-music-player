@@ -46,6 +46,14 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
+    val allPodcastAuthorsHeader = listOf(
+        DisplayableHeader(
+            R.layout.item_tab_header,
+            MediaId.headerId("all podcast authors"),
+            resources.getString(R.string.tab_all_podcast_authors)
+        )
+    )
+
     val lastPlayedAlbumHeaders = listOf(
         DisplayableHeader(
             R.layout.item_tab_header,
@@ -70,6 +78,18 @@ class TabFragmentHeaders @Inject constructor(
         )
     )
 
+    val lastPlayedPodcastAuthorsHeaders = listOf(
+        DisplayableHeader(
+            R.layout.item_tab_header,
+            MediaId.headerId("recent podcast authors"),
+            resources.getString(R.string.tab_recent_played)
+        ),
+        DisplayableNestedListPlaceholder(
+            R.layout.item_tab_last_played_artist_horizontal_list,
+            MediaId.headerId("horiz list podcast authors")
+        )
+    )
+
     val recentlyAddedAlbumsHeaders = listOf(
         DisplayableHeader(
             R.layout.item_tab_header, MediaId.headerId("new albums"),
@@ -89,6 +109,17 @@ class TabFragmentHeaders @Inject constructor(
         DisplayableNestedListPlaceholder(
             R.layout.item_tab_new_artist_horizontal_list,
             MediaId.headerId("horiz list new artists")
+        )
+    )
+
+    val recentlyAddedPodcastAuthorsHeaders = listOf(
+        DisplayableHeader(
+            R.layout.item_tab_header, MediaId.headerId("new authors"),
+            resources.getString(R.string.tab_new_podcast_authors)
+        ),
+        DisplayableNestedListPlaceholder(
+            R.layout.item_tab_new_artist_horizontal_list,
+            MediaId.headerId("horiz list new authors")
         )
     )
 

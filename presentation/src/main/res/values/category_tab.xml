@@ -5,6 +5,7 @@
     <string name="tab_all_playlists">All playlists</string>
     <string name="tab_all_albums">All albums</string>
     <string name="tab_all_artists">All artists</string>
+    <string name="tab_all_podcast_authors">All authors</string>
     <string name="tab_recent_played">Recently played</string>
     <string name="tab_recent_added">Recently added</string>
 
@@ -12,6 +13,8 @@
         <item>New albums</item>
         <item>New artists</item>
     </string-array>
+
+    <string name="tab_new_podcast_authors">New authors</string>
 
     <string name="tab_podcast_duration" translatable="false">%d min</string>
 
