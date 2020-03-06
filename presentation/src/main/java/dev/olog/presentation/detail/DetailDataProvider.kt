@@ -178,6 +178,7 @@ internal class DetailDataProvider @Inject constructor(
                 resources
             )
         }
+        MediaIdCategory.PODCASTS_ARTISTS -> flowOf(emptyList())
         else -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
