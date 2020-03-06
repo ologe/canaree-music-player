@@ -27,10 +27,6 @@ class AnimatedPlayPauseImageView(
         setColorFilter(defaultColor)
     }
 
-    fun useLightImage() {
-        setColorFilter(lightColor())
-    }
-
     override fun animationPlay(animate: Boolean) {
         behavior.animationPlay(animate)
     }
