@@ -67,7 +67,7 @@ class SetSortOrderUseCaseTest {
 
     @Test
     fun testPodcastArtists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ARTISTS, "")
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHOR, "")
 
         val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
 
@@ -92,7 +92,7 @@ class SetSortOrderUseCaseTest {
             MediaIdCategory.PODCASTS_PLAYLIST,
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ARTISTS,
+            MediaIdCategory.PODCASTS_AUTHOR,
             MediaIdCategory.ARTISTS,
             MediaIdCategory.GENRES
         )

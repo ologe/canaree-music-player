@@ -19,6 +19,7 @@
     <string name="category_artists" translatable="false">@string/common_artists</string>
     <string name="category_genres" translatable="false">@string/common_genres</string>
     <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
+    <string name="category_podcast_authors" translatable="false">@string/common_podcast_authors</string>
 
     <string name="category_no_tab_visible">And now?</string>
 

@@ -43,7 +43,7 @@ class PopupMenuFactory @Inject constructor(
             MediaIdCategory.GENRES -> getGenrePopup(view, mediaId)
             MediaIdCategory.PODCASTS -> getPodcastPopup(view, mediaId)
             MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylistPopup(view, mediaId)
-            MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistPopup(view, mediaId)
+            MediaIdCategory.PODCASTS_AUTHOR -> getPodcastArtistPopup(view, mediaId)
             else -> throw IllegalArgumentException("invalid category $category")
         }
     }

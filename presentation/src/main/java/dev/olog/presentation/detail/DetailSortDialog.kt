@@ -46,7 +46,7 @@ class DetailSortDialog {
             MediaIdCategory.PODCASTS_PLAYLIST -> R.menu.sort_mode_playlist
             MediaIdCategory.ALBUMS -> R.menu.sort_mode_album
             MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> R.menu.sort_mode_artist
+            MediaIdCategory.PODCASTS_AUTHOR -> R.menu.sort_mode_artist
             MediaIdCategory.FOLDERS -> R.menu.sort_mode_folder
             else -> R.menu.sort_mode
         }

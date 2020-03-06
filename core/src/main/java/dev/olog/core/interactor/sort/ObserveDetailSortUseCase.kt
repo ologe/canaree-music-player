@@ -19,7 +19,7 @@ class ObserveDetailSortUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_PLAYLIST -> gateway.observeDetailPlaylistSort()
             MediaIdCategory.ALBUMS -> gateway.observeDetailAlbumSort()
             MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> gateway.observeDetailArtistSort()
+            MediaIdCategory.PODCASTS_AUTHOR -> gateway.observeDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.observeDetailGenreSort()
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }

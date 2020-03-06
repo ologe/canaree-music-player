@@ -30,7 +30,7 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId).map { it?.name }
+            MediaIdCategory.PODCASTS_AUTHOR -> podcastArtistGateway.observeByParam(mediaId.categoryId).map { it?.name }
             else -> throw IllegalArgumentException("invalid media category ${mediaId.category}")
         }
     }

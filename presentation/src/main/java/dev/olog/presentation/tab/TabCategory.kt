@@ -32,6 +32,6 @@ internal fun MediaIdCategory.toTabCategory(): TabCategory = when (this) {
     MediaIdCategory.GENRES -> TabCategory.GENRES
     MediaIdCategory.PODCASTS_PLAYLIST -> TabCategory.PODCASTS_PLAYLIST
     MediaIdCategory.PODCASTS -> TabCategory.PODCASTS
-    MediaIdCategory.PODCASTS_ARTISTS -> TabCategory.PODCASTS_ARTISTS
+    MediaIdCategory.PODCASTS_AUTHOR -> TabCategory.PODCASTS_ARTISTS
     else -> throw IllegalArgumentException("invalid category $this")
 }

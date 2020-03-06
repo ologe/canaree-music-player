@@ -63,7 +63,7 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistGateway.observeByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_AUTHOR -> podcastArtistGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
             MediaIdCategory.HEADER,
             MediaIdCategory.PLAYING_QUEUE,
@@ -178,7 +178,7 @@ internal class DetailDataProvider @Inject constructor(
                 resources
             )
         }
-        MediaIdCategory.PODCASTS_ARTISTS -> flowOf(emptyList())
+        MediaIdCategory.PODCASTS_AUTHOR -> flowOf(emptyList())
         else -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 

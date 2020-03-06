@@ -159,7 +159,7 @@ class GetItemTitleUseCaseTest {
     fun testPodcastArtists() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_ARTISTS, id.toString())
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHOR, id.toString())
 
         // when
         sut(mediaId)
@@ -186,7 +186,7 @@ class GetItemTitleUseCaseTest {
             MediaIdCategory.ARTISTS,
             MediaIdCategory.GENRES,
             MediaIdCategory.PODCASTS_PLAYLIST,
-            MediaIdCategory.PODCASTS_ARTISTS
+            MediaIdCategory.PODCASTS_AUTHOR
         )
 
         for (value in MediaIdCategory.values()) {
