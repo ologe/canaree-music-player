@@ -181,4 +181,10 @@ internal object AppDatabaseMigrations {
         }
     }
 
+    val Migration_18_19 = object : Migration(18, 19) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("DROP TABLE last_played_podcast_albums")
+        }
+    }
+
 }
