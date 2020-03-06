@@ -19,7 +19,6 @@
     <string name="search_type_folder" translatable="false">@string/common_folder</string>
     <string name="search_type_podcast" translatable="false">@string/common_podcast</string>
     <string name="search_type_podcast_playlist" translatable="false">@string/common_podcast_playlist</string>
-    <string name="search_type_podcast_album" translatable="false">@string/common_podcast_album</string>
     <string name="search_type_podcast_artist" translatable="false">@string/common_podcast_artist</string>
 
     <string name="search_recent_searches">Recent searches</string>

@@ -19,7 +19,6 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
         RecentSearchesTypes.FOLDER -> context.getString(R.string.search_type_folder)
         RecentSearchesTypes.PODCAST -> context.getString(R.string.search_type_podcast)
         RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(R.string.search_type_podcast_playlist)
-        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(R.string.search_type_podcast_album)
         RecentSearchesTypes.PODCAST_ARTIST -> context.getString(R.string.search_type_podcast_artist)
         else -> throw IllegalArgumentException("invalid item type $itemType")
     }
@@ -30,8 +29,7 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
     val layout = when (this.itemType) {
         RecentSearchesTypes.ARTIST,
         RecentSearchesTypes.PODCAST_ARTIST -> R.layout.item_search_recent_artist
-        RecentSearchesTypes.ALBUM,
-        RecentSearchesTypes.PODCAST_ALBUM -> R.layout.item_search_recent_album
+        RecentSearchesTypes.ALBUM -> R.layout.item_search_recent_album
         else -> R.layout.item_search_recent
     }
 

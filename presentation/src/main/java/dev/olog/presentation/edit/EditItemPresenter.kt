@@ -60,7 +60,7 @@ class EditItemPresenter @Inject constructor(
                     FieldKey.GENRE to info.genre,
                     FieldKey.YEAR to info.year
                 ),
-                info.isPodcast
+                false
             )
         )
     }

@@ -1,32 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <string name="search_hint" translatable="false">@string/search_recent_empty_state</string>
-
-    <string name="search_songs" translatable="false">@string/common_tracks</string>
-    <string name="search_albums" translatable="false">@string/common_albums</string>
-    <string name="search_artists" translatable="false">@string/common_artists</string>
-    <string name="search_folders" translatable="false">@string/common_folders</string>
-    <string name="search_playlists" translatable="false">@string/common_playlists</string>
-    <string name="search_genres" translatable="false">@string/common_genres</string>
-
-    <string name="search_type_track" translatable="false">@string/common_track</string>
-    <string name="search_type_album" translatable="false">@string/common_album</string>
-    <string name="search_type_artist" translatable="false">@string/common_artist</string>
-    <string name="search_type_playlist" translatable="false">@string/common_playlist</string>
-    <string name="search_type_genre" translatable="false">@string/common_genre</string>
-    <string name="search_type_folder" translatable="false">@string/common_folder</string>
-    <string name="search_type_podcast" translatable="false">@string/common_podcast</string>
-    <string name="search_type_podcast_playlist" translatable="false">@string/common_podcast_playlist</string>
-    <string name="search_type_podcast_album" translatable="false">@string/common_podcast_album</string>
-    <string name="search_type_podcast_artist" translatable="false">@string/common_podcast_artist</string>
-
     <string name="search_recent_searches">हाल की खोजें</string>
     <string name="search_clear_recent_searches">हाल की खोजें हटाएँ</string>
     <string name="search_recent_empty_state">संग्रह में खोजें..</string>
-
-    <string name="search_no_results" translatable="false">@string/common_no_results</string>
 
     <plurals name="search_xx_results">
         <item quantity="one">%1$s परिणाम</item>

@@ -35,7 +35,7 @@ internal class AlbumRepository @Inject constructor(
     schedulers: Schedulers
 ) : BaseRepository<Album, Id>(context, schedulers), AlbumGateway {
 
-    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, false)
+    private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs)
 
     init {
         firstQuery()
