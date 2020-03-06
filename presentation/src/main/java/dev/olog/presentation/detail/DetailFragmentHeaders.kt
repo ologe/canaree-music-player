@@ -95,20 +95,34 @@ class DetailFragmentHeaders @Inject constructor(
         title = ""
     )
 
-    val songs: List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_detail_header_all_song,
-            mediaId = MediaId.headerId("detail songs header"),
-            title = context.getString(R.string.detail_tracks),
-            subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
-        ),
-        shuffle
-    )
+    fun songs(isPodcast: Boolean): List<DisplayableItem> {
+        val title = if (isPodcast) {
+            R.string.detail_episodes
+        } else {
+            R.string.detail_tracks
+        }
+        return listOf(
+            DisplayableHeader(
+                type = R.layout.item_detail_header_all_song,
+                mediaId = MediaId.headerId("detail songs header"),
+                title = context.getString(title),
+                subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
+            ),
+            shuffle
+        )
+    }
 
-    val no_songs: DisplayableItem = DisplayableHeader(
-        type = R.layout.item_detail_empty_state,
-        mediaId = MediaId.headerId("detail empty state"),
-        title = ""
-    )
+    fun no_songs(isPodcast: Boolean): DisplayableItem {
+        val layout = if (isPodcast) {
+            R.layout.item_detail_empty_state_podcast
+        } else {
+            R.layout.item_detail_empty_state_songs
+        }
+        return DisplayableHeader(
+            type = layout,
+            mediaId = MediaId.headerId("detail empty state"),
+            title = ""
+        )
+    }
 
 }

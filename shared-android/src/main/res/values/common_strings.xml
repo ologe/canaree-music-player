@@ -13,6 +13,7 @@
     <string name="common_genres">Genres</string>
     <string name="common_podcasts">Podcasts</string>
     <string name="common_podcast_authors">Authors</string>
+    <string name="common_podcast_episodes">Episodes</string>
 
     <string name="common_last_added">Last added</string>
     <string name="common_favorites">Favorites</string>
@@ -43,6 +44,11 @@
     <plurals name="common_plurals_song">
         <item quantity="one">%d track</item>
         <item quantity="other">%d tracks</item>
+    </plurals>
+
+    <plurals name="common_plurals_podcast_episode">
+        <item quantity="one">%d episode</item>
+        <item quantity="other">%d episodes</item>
     </plurals>
 
     <plurals name="common_plurals_album">
@@ -85,6 +91,7 @@
     <string name="common_most_played">Most played</string>
 
     <string name="common_no_tracks">No tracks</string>
+    <string name="common_no_podcast_episodes">No episodes</string>
     <string name="common_no_results">No results</string>
 
     <string name="common_visible">Visible</string>

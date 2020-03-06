@@ -98,10 +98,12 @@ internal class DetailDataProvider @Inject constructor(
                             .toMutableList()
 
                         if (result.isNotEmpty()) {
-                            result.addAll(0, headers.songs)
-                            result.add(createDurationFooter(songListSize, songListDuration))
+                            result.addAll(0, headers.songs(mediaId.isAnyPodcast))
+                            if (!mediaId.isAnyPodcast) {
+                                result.add(createDurationFooter(songListSize, songListDuration))
+                            }
                         } else {
-                            result.add(headers.no_songs)
+                            result.add(headers.no_songs(mediaId.isAnyPodcast))
                         }
 
                         result

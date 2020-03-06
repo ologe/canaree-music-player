@@ -5,6 +5,7 @@
     <string name="detail_recently_added" translatable="false">@string/common_recently_added</string>
     <string name="detail_albums" translatable="false">@string/common_albums</string>
     <string name="detail_tracks" translatable="false">@string/common_tracks</string>
+    <string name="detail_episodes" translatable="false">@string/common_podcast_episodes</string>
 
     <string-array name="detail_album_header">
         <item>Other folders</item>
@@ -22,6 +23,7 @@
     <string name="detail_more_albums_by">More by %s</string>
     <string name="detail_related_artists" translatable="false">@string/common_related_artists</string>
     <string name="detail_no_tracks" translatable="false">@string/common_no_tracks</string>
+    <string name="detail_no_episodes" translatable="false">@string/common_no_podcast_episodes</string>
 
     <plurals name="detail_xx_new_songs">
         <item quantity="one">%d new track</item>
