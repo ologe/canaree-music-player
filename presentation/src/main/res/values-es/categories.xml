@@ -14,7 +14,6 @@
     <string-array name="tab_empty_podcast">
         <item>No listas de reproducción</item>
         <item>No podcasts</item>
-        <item>No hay álbum</item>
         <item>Ningún artista</item>
     </string-array>
 

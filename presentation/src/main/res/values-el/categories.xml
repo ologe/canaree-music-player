@@ -34,7 +34,6 @@
     <string-array name="tab_empty_podcast">
         <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
         <item>Δεν υπάρχει Podcast</item>
-        <item>Δεν υπάρχει άλμπουμ</item>
         <item>Δεν υπάρχει καλλιτέχνης</item>
     </string-array>
 

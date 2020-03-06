@@ -12,7 +12,6 @@
     <string-array name="tab_empty_podcast">
         <item>无播放列表</item>
         <item>无播客列表</item>
-        <item>无专辑</item>
         <item>无艺术家</item>
     </string-array>
     <string name="category_sort_by_date">日期</string>
