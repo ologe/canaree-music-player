@@ -21,7 +21,7 @@ internal object LayoutManagerFactory {
             TabCategory.PODCASTS_PLAYLIST -> PlaylistSpanSizeLookup(requestedSpanSize)
             TabCategory.ALBUMS -> AlbumSpanSizeLookup(adapter, requestedSpanSize)
             TabCategory.ARTISTS,
-            TabCategory.PODCASTS_ARTISTS -> ArtistSpanSizeLookup(adapter, requestedSpanSize)
+            TabCategory.PODCASTS_AUTHORS -> ArtistSpanSizeLookup(adapter, requestedSpanSize)
             TabCategory.SONGS, TabCategory.PODCASTS -> SongSpanSizeLookup(requestedSpanSize)
             else -> BaseSpanSizeLookup(requestedSpanSize)
         }

@@ -54,8 +54,10 @@ internal class TabFragmentAdapter(
                 viewHolder.elevateSongOnTouch()
             }
             R.layout.item_tab_album,
+            R.layout.item_tab_podcast_playlist,
             R.layout.item_tab_artist,
-            R.layout.item_tab_auto_playlist -> {
+            R.layout.item_tab_auto_playlist,
+            R.layout.item_tab_podcast_auto_playlist-> {
                 viewHolder.setOnClickListener(this) { item, _, view ->
                     onItemClick(view, item)
                 }

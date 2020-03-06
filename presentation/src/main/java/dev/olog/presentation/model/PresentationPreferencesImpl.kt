@@ -238,11 +238,11 @@ internal class PresentationPreferencesImpl @Inject constructor(
     }
 
     override fun getSpanCount(category: TabCategory): Int {
-        return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(context, category))
+        return preferences.getInt("${category}_span", SpanCountController.getDefaultSpan(category))
     }
 
     override fun observeSpanCount(category: TabCategory): Flow<Int> {
-        return preferences.observeKey("${category}_span", SpanCountController.getDefaultSpan(context, category))
+        return preferences.observeKey("${category}_span", SpanCountController.getDefaultSpan(category))
     }
 
     override fun setSpanCount(category: TabCategory, spanCount: Int) {

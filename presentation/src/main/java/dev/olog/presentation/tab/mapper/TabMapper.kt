@@ -21,8 +21,9 @@ internal fun Folder.toTabDisplayableItem(
 }
 
 internal fun Playlist.toAutoPlaylist(): DisplayableItem {
+    val layoutId = if (isPodcast) R.layout.item_tab_podcast_auto_playlist else R.layout.item_tab_auto_playlist
     return DisplayableAlbum(
-        type = R.layout.item_tab_auto_playlist,
+        type = layoutId,
         mediaId = getMediaId(),
         title = title,
         subtitle = ""
@@ -33,9 +34,14 @@ internal fun Playlist.toTabDisplayableItem(
     resources: Resources,
     requestedSpanSize: Int
 ): DisplayableItem {
+    val layoutId = if (requestedSpanSize == 1) {
+        R.layout.item_tab_song // TODO check on podcast
+    } else {
+        if (isPodcast) R.layout.item_tab_podcast_playlist else R.layout.item_tab_album
+    }
 
     return DisplayableAlbum(
-        type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
+        type = layoutId,
         mediaId = getMediaId(),
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)

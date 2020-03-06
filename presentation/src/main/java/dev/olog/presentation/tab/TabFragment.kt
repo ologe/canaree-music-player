@@ -105,7 +105,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     private fun isPodcastFragment(): Boolean {
         return category == TabCategory.PODCASTS ||
                 category == TabCategory.PODCASTS_PLAYLIST ||
-                category == TabCategory.PODCASTS_ARTISTS
+                category == TabCategory.PODCASTS_AUTHORS
     }
 
     @CallSuper
@@ -174,7 +174,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
                     .onEach { newArtistsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
-            TabCategory.PODCASTS_ARTISTS -> {
+            TabCategory.PODCASTS_AUTHORS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
                     .onEach { lastArtistsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)

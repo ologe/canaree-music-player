@@ -65,7 +65,7 @@ internal class TabDataProvider @Inject constructor(
         TabCategory.PODCASTS -> podcastGateway.observeAll().map {
             it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
         }
-        TabCategory.PODCASTS_ARTISTS -> getPodcastArtists()
+        TabCategory.PODCASTS_AUTHORS -> getPodcastArtists()
         TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastAuthorGateway.observeRecentlyAdded().mapListItem {
             it.toTabLastPlayedDisplayableItem(
                 resources
@@ -192,7 +192,7 @@ internal class TabDataProvider @Inject constructor(
             podcastAuthorGateway.observeAll()
                 .map { artists ->
                     val requestedSpanSize =
-                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_ARTISTS)
+                        presentationPrefs.getSpanCount(TabCategory.PODCASTS_AUTHORS)
                     artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
                 },
             recentlyAddedFlow,
