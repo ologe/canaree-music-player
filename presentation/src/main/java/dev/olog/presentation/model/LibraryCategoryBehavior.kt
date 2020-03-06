@@ -17,8 +17,8 @@ data class LibraryCategoryBehavior(
             MediaIdCategory.PODCASTS_PLAYLIST -> R.string.category_playlists
             MediaIdCategory.SONGS -> R.string.category_songs
             MediaIdCategory.ALBUMS -> R.string.category_albums
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> R.string.category_artists
+            MediaIdCategory.ARTISTS -> R.string.category_artists
+            MediaIdCategory.PODCASTS_AUTHOR -> R.string.category_podcast_authors
             MediaIdCategory.GENRES -> R.string.category_genres
             MediaIdCategory.PODCASTS -> R.string.category_podcasts
             else -> 0 //will throw an exception
