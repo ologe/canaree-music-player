@@ -3,6 +3,7 @@ package dev.olog.presentation.translations
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
@@ -25,6 +26,7 @@ class TranslationsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.addItemDecoration(DottedDividerDecorator(requireContext(), listOf(R.layout.item_translations_header)))
         adapter.submitList(listOf("", "") + contributors)
     }
 

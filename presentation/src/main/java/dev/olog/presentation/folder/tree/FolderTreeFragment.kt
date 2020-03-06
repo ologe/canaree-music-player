@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
@@ -52,6 +53,7 @@ class FolderTreeFragment : BaseFragment(),
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
+        list.addItemDecoration(DottedDividerDecorator(requireContext(), listOf(R.layout.item_folder_tree_header)))
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
