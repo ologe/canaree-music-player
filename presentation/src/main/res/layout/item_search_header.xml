@@ -7,8 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/item_song_cover_margin_start"
     android:layout_marginEnd="@dimen/item_song_cover_margin_start"
-    android:paddingBottom="12dp"
-    android:layout_marginBottom="12dp">
+    android:paddingBottom="@dimen/item_header_bottom_inset"
+    android:layout_marginBottom="@dimen/item_header_bottom_inset">
 
     <TextView
         android:id="@+id/title"

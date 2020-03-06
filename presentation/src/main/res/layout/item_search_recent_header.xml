@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp"
-    android:layout_marginBottom="12dp"
-    android:paddingBottom="12dp">
+    android:layout_marginBottom="@dimen/item_header_bottom_inset"
+    android:paddingBottom="@dimen/item_header_bottom_inset">
 
     <TextView
         android:text="@string/search_recent_searches"

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    there is no dotted divider in night mode-->
+    <dimen name="item_header_bottom_inset">4dp</dimen>
+
+</resources>

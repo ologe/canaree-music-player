@@ -8,8 +8,8 @@
     android:layout_marginStart="@dimen/detail_header_margin_start"
     android:layout_marginEnd="@dimen/detail_header_margin_end"
     android:layout_marginTop="@dimen/item_detail_header_padding_top"
-    android:layout_marginBottom="12dp"
-    android:paddingBottom="12dp">
+    android:layout_marginBottom="@dimen/item_header_bottom_inset"
+    android:paddingBottom="@dimen/item_header_bottom_inset">
 
     <TextView
         android:id="@+id/title"

@@ -35,4 +35,6 @@
 
     <string name="item_podcast_ratio" translatable="false">0.85</string>
 
+    <dimen name="item_header_bottom_inset">12dp</dimen>
+
 </resources>

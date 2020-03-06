@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/item_header_bottom_inset"
+    android:paddingBottom="@dimen/item_header_bottom_inset">
 
     <TextView
         android:id="@+id/title"
@@ -15,12 +17,5 @@
         android:textAppearance="@style/Headline6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <dev.olog.shared.widgets.DottedSeparator
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
 
 </FrameLayout>
