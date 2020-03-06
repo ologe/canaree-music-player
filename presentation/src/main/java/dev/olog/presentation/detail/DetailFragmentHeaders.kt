@@ -101,15 +101,17 @@ class DetailFragmentHeaders @Inject constructor(
         } else {
             R.string.detail_tracks
         }
-        return listOf(
-            DisplayableHeader(
-                type = R.layout.item_detail_header_all_song,
-                mediaId = MediaId.headerId("detail songs header"),
-                title = context.getString(title),
-                subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
-            ),
-            shuffle
+        val header = DisplayableHeader(
+            type = R.layout.item_detail_header_all_song,
+            mediaId = MediaId.headerId("detail songs header"),
+            title = context.getString(title),
+            subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
         )
+        return if (isPodcast) {
+            listOf(header)
+        } else {
+            listOf(header, shuffle)
+        }
     }
 
     fun no_songs(isPodcast: Boolean): DisplayableItem {

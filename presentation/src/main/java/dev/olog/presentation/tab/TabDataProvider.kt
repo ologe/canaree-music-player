@@ -63,7 +63,7 @@ internal class TabDataProvider @Inject constructor(
         // podcasts
         TabCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist()
         TabCategory.PODCASTS -> podcastGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
+            it.map { it.toTabDisplayableItem() }
         }
         TabCategory.PODCASTS_AUTHORS -> getPodcastArtists()
         TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastAuthorGateway.observeRecentlyAdded().mapListItem {
