@@ -30,9 +30,9 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.DarkModeUtils
 import dev.olog.shared.android.extensions.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Keep
@@ -154,8 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         when (key) {
             getString(R.string.prefs_dark_mode_key) -> {
-                val value = prefs.getString(key, getString(R.string.prefs_dark_mode_2_entry_value_follow_system))!!
-                val darkMode = DarkModeUtils.fromString(requireContext(), value)
+                val darkMode = themeManager.darkMode
                 AppCompatDelegate.setDefaultNightMode(darkMode)
             }
             getString(R.string.prefs_icon_shape_key),

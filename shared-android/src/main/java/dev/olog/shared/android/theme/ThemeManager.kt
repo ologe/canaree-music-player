@@ -12,4 +12,6 @@ interface ThemeManager {
 
     val bottomSheetType: BottomSheetType
 
+    val darkMode: Int
+
 }

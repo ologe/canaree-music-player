@@ -3,6 +3,7 @@ package dev.olog.shared.android.theme
 import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.DarkModeUtils
 import dev.olog.shared.android.R
 import javax.inject.Inject
 
@@ -70,5 +71,15 @@ internal class ThemeManagerImpl @Inject constructor(
                 context.getString(R.string.prefs_mini_player_appearance_entry_value_floating) -> BottomSheetType.FLOATING
                 else -> throw IllegalStateException("invalid preference value $value for key:${context.getString(R.string.prefs_mini_player_appearance_key)}")
             }
+        }
+
+
+    override val darkMode: Int
+        get() {
+            val value = prefs.getString(
+                context.getString(R.string.prefs_dark_mode_key),
+                context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system)
+            )!!
+            return DarkModeUtils.fromString(context, value)
         }
 }

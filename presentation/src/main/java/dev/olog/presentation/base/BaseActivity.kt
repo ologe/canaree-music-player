@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -24,6 +25,7 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInj
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        setDarkMode()
         themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
@@ -46,6 +48,11 @@ abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInj
             customResources = DarkDesaturatedResources(isDarkMode, res)
         }
         return customResources!!
+    }
+
+    private fun setDarkMode() {
+        val darkMode = themeManager.darkMode
+        AppCompatDelegate.setDefaultNightMode(darkMode)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
