@@ -28,9 +28,9 @@ class CustomSeekBar(
     }
 
     fun setListener(
-        onProgressChanged: (Int) -> Unit,
-        onStartTouch: (Int) -> Unit,
-        onStopTouch: (Int) -> Unit
+        onProgressChanged: (Int) -> Unit = {},
+        onStartTouch: (Int) -> Unit = {},
+        onStopTouch: (Int) -> Unit = {}
     ) {
 
         listener = object : OnSeekBarChangeListener {
