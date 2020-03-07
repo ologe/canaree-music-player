@@ -3,6 +3,7 @@ package dev.olog.shared.android.extensions
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.android.awaitFrame
 
 val RecyclerView.findFirstVisibleItem: Int
     get() {
@@ -23,3 +24,9 @@ val RecyclerView.findLastVisibleItem: Int
             else -> throw IllegalArgumentException("invalid layout manager type=${layoutManager::class.java.canonicalName}")
         }
     }
+
+suspend fun RecyclerView.awaitAnimationEnd() {
+    while (itemAnimator?.isRunning == true) {
+        awaitFrame()
+    }
+}

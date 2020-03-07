@@ -14,6 +14,7 @@ import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
+import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
@@ -94,6 +95,9 @@ class SuperCerealScrollHelper(
     override fun skipFragment(fragment: Fragment): Boolean {
         if (isViewPagerChildTag(fragment.tag)){
             return false
+        }
+        if (fragment.tag == OfflineLyricsFragment.TAG) {
+            return true
         }
         return isPlayerTag(fragment.tag) || !hasFragmentOwnership(fragment.tag)
     }

@@ -1,36 +1,23 @@
 package dev.olog.offlinelyrics
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.indexOfClosest
+import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
-sealed class Lyrics {
-    class Normal(val lyrics: Spannable) : Lyrics()
-    class Synced(val lyrics: List<Pair<Long, Spannable>>) : Lyrics()
-}
+private const val INTERVAL = 100L
 
 abstract class BaseOfflineLyricsPresenter constructor(
-    private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
     private val observeUseCase: ObserveOfflineLyricsUseCase,
     private val insertUseCase: InsertOfflineLyricsUseCase,
@@ -38,15 +25,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
 ): CoroutineScope by MainScope() {
 
-    companion object {
-        const val DEFAULT_SPAN_SIZE_DP = 25f
-        const val CURRENT_SPAN_SIZE_DP = 30f
-    }
-
-//    \[\d{2}:\d{2}.\d{2,3}\](.)*
     private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
-
-    private val spannableBuilder = SpannableStringBuilder()
 
     private var insertLyricsJob by autoDisposeJob()
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
@@ -58,16 +37,12 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private var transformLyricsJob by autoDisposeJob()
     private var syncJob by autoDisposeJob()
 
-    private var originalLyrics = MutableLiveData<CharSequence>()
-    private val observedLyrics = MutableLiveData<Pair<CharSequence, Lyrics>>()
+    private var originalLyrics = MutableLiveData("")
+    private val observedLyrics = MutableLiveData<Lyrics>()
 
-    private var currentStartMillis = -1
-    private var currentSpeed = 1f
-
-    private var tick = 0
-
-    var currentParagraph : Int = 0
-        private set
+    private var incrementJob by autoDisposeJob()
+    private val currentProgress = MutableLiveData(0L)
+    val observeCurrentProgress: LiveData<Long> = currentProgress
 
     fun onStart() {
         observeLyricsJob = currentTrackIdPublisher.asFlow()
@@ -77,15 +52,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             .launchIn(this)
 
         transformLyricsJob = lyricsPublisher.asFlow()
-            .flatMapLatest {
-                when (it) {
-                    is Lyrics.Normal -> flowOf(it.lyrics to it)
-                    is Lyrics.Synced -> handleSyncedLyrics(it)
-                }
-            }
-            .flowOn(schedulers.cpu)
             .onEach { observedLyrics.value = it }
-            .flowOn(schedulers.main)
             .launchIn(this)
 
         syncJob = currentTrackIdPublisher.asFlow()
@@ -105,16 +72,31 @@ abstract class BaseOfflineLyricsPresenter constructor(
         cancel()
     }
 
-    fun onStateChanged(position: Int, speed: Float) {
-        currentStartMillis = position
-        currentSpeed = speed
+    fun onStateChanged(isPlaying: Boolean, position: Int, speed: Float) {
+        if (isPlaying) {
+            startAutoIncrement(position, speed)
+        } else {
+            stopAutoIncrement()
+        }
     }
 
-    fun resetTick(){
-        tick = 0
+    private fun startAutoIncrement(startMillis: Int, speed: Float) {
+        stopAutoIncrement()
+        incrementJob = flowInterval(
+            INTERVAL,
+            TimeUnit.MILLISECONDS
+        )
+            .map { (it + 1) * INTERVAL * speed + startMillis + syncAdjustmentPublisher.value }
+            .flowOn(schedulers.io)
+            .onEach { currentProgress.value = it.toLong() }
+            .launchIn(this)
     }
 
-    fun observeLyrics(): LiveData<Pair<CharSequence, Lyrics>> = observedLyrics
+    private fun stopAutoIncrement() {
+        incrementJob = null
+    }
+
+    fun observeLyrics(): Flow<Lyrics> = observedLyrics.asFlow()
 
     private suspend fun onNextLyrics(lyrics: String) {
         withContext(schedulers.main) {
@@ -128,7 +110,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.offer(Lyrics.Normal(noSyncDefaultSpan(lyrics)))
+            lyricsPublisher.offer(Lyrics(listOf(OfflineLyricsLine(lyrics, 0L))))
         } else {
             // synced lyrics
             val result = matches.map {
@@ -144,56 +126,25 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 val millis = it[7].toString().toLong() * 100L + it[8].toString().toLong() * 10
                 val time = minutes + seconds + millis
 
-                val textOnly = it.substring(10)
+                val textOnly = it.drop(10)
 
-                time to SpannableStringBuilder().apply {
-                    append(textOnly)
-                    defaultSpan(this, 0, textOnly.length)
+                OfflineLyricsLine(textOnly.trim(), time)
+            }.fold(mutableListOf<OfflineLyricsLine>()) { acc, item ->
+                if (acc.isEmpty()) {
+                    acc.add(item)
+                    return@fold acc
                 }
-            }
-            lyricsPublisher.offer(Lyrics.Synced(result))
-        }
-    }
 
-    private fun handleSyncedLyrics(syncedLyrics: Lyrics.Synced): Flow<Pair<Spannable, Lyrics>> {
-        spannableBuilder.clear()
-        val words = mutableListOf<Pair<Int, Int>>()
-        for (lyric in syncedLyrics.lyrics) {
-            words.add(spannableBuilder.length to spannableBuilder.length + lyric.second.length)
-            spannableBuilder.append(lyric.second)
-            spannableBuilder.appendln()
-        }
-
-        val interval = 300L
-
-        return flow {
-            delay(250L)
-            emit(++tick)
-
-            while (true) {
-                delay(interval)
-                if (currentSpeed == 0f) {
-                    tick = 0
+                if (acc.last().value.isBlank() && item.value.isBlank()) {
+                    // don't add new, previous item is already blank
+                    return@fold acc
                 }
-                emit(++tick)
-            }
-        }.map {
-            val current = currentStartMillis - syncAdjustmentPublisher.value + // static
-                    (it + 1L) * interval * currentSpeed // dynamic
+                acc.add(item)
+                acc
+            }.map { item -> if (item.value.isBlank()) item.copy(value = "...") else item }
 
-            syncedLyrics.lyrics
-                .map { it.first }
-                .indexOfClosest(current.toLong())
-        }.distinctUntilChanged()
-            .filter { it >= 0 }
-            .map { closest ->
-                currentParagraph = closest
-
-                val (from, to) = words[closest]
-                SpannableStringBuilder(spannableBuilder).apply {
-                    currentSpan(this, from, to)
-                } to syncedLyrics
-            }
+            lyricsPublisher.offer(Lyrics(result))
+        }
     }
 
     fun updateCurrentTrackId(trackId: Long) {
@@ -201,7 +152,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun getLyrics(): String {
-        return originalLyrics.value.toString()
+        return originalLyrics.value!!
     }
 
     fun updateSyncAdjustment(value: Long) {
@@ -221,59 +172,6 @@ abstract class BaseOfflineLyricsPresenter constructor(
         insertLyricsJob = GlobalScope.launch {
             insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
         }
-    }
-
-    private fun noSyncDefaultSpan(lyrics: String): Spannable {
-        return SpannableStringBuilder(lyrics).apply {
-            setSpan(
-                ForegroundColorSpan(Color.WHITE),
-                0,
-                lyrics.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
-                0,
-                lyrics.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-    }
-
-    private fun defaultSpan(builder: SpannableStringBuilder, from: Int, to: Int) {
-        builder.setSpan(
-            ForegroundColorSpan(0xFF_757575.toInt()),
-            from,
-            to,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
-            from,
-            to,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-    }
-
-    private fun currentSpan(builder: SpannableStringBuilder, from: Int, to: Int) {
-        builder.setSpan(
-            ForegroundColorSpan(Color.WHITE),
-            from,
-            to,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(CURRENT_SPAN_SIZE_DP)),
-            from,
-            to,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        builder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            from,
-            to,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
     }
 
 }

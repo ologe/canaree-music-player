@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
     implementation project(':core')
@@ -12,6 +13,9 @@ dependencies {
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
     implementation lib_core.coroutines
+
+    implementation lib_x.lifecycle_livedata
+    implementation lib_x.recycler
 
     implementation lib_x.appcompat
     implementation lib_x.material

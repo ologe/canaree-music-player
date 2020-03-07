@@ -7,13 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.view.doOnPreDraw
-import androidx.lifecycle.asLiveData
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.media.MediaProvider
-import dev.olog.offlinelyrics.*
+import dev.olog.offlinelyrics.EditLyricsDialog
+import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
@@ -26,7 +27,9 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
 import timber.log.Timber
@@ -50,12 +53,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val mediaProvider by lazy { activity as MediaProvider }
 
-    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (presenter.showAddLyricsIfNeverShown()) {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
+        }
+
+        list.onTap = {
+            mediaProvider.playPause()
         }
 
         mediaProvider.observeMetadata()
@@ -65,7 +70,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
-                scrollView.scrollTo(0, 0)
+                list.smoothScrollToPosition(0)
                 launchWhenResumed {
                     loadImage(it.mediaId)
                 }
@@ -75,20 +80,19 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         mediaProvider.observePlaybackState()
             .subscribe(viewLifecycleOwner) {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
-                presenter.onStateChanged(it.bookmark, speed)
+                presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
             }
 
         presenter.observeLyrics()
-            .subscribe(viewLifecycleOwner) { (lyrics, type) ->
-                emptyState.toggleVisibility(lyrics.isEmpty(), true)
-                text.text = lyrics
+            .onEach {
+                emptyState.isVisible = it.lines.isEmpty()
+                list.adapter.submitList(it.lines)
 
-                text.doOnPreDraw {
-                    if (type is Lyrics.Synced && !scrollViewTouchListener.userHasControl){
-                        val scrollTo = OffsetCalculator.compute(text, lyrics, presenter.currentParagraph)
-                        scrollView.scrollTo(0, scrollTo)
-                    }
-                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        presenter.observeCurrentProgress
+            .subscribe(viewLifecycleOwner) { time ->
+                list.adapter.updateTime(time)
             }
 
         mediaProvider.observePlaybackState()
@@ -97,56 +101,46 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         view.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(viewLifecycleOwner) { accent ->
+            .onEach { accent ->
                 subHeader.animateTextColor(accent)
                 edit.animateBackgroundColor(accent)
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onStart() {
         super.onStart()
-
         presenter.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        edit.setOnClickListener {
-            launchWhenResumed {
-                EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
-                    presenter.updateLyrics(newLyrics)
-                }
+        edit.onClick {
+            EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
+                presenter.updateLyrics(newLyrics)
             }
         }
         back.setOnClickListener { act.onBackPressed() }
         search.setOnClickListener { searchLyrics() }
-        act.window.removeLightStatusBar()
+        act.window.setLightStatusBar()
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
-        scrollView.setOnTouchListener(scrollViewTouchListener)
 
-        sync.setOnClickListener { _ ->
-            launchWhenResumed {
-                try {
-                    OfflineLyricsSyncAdjustementDialog.show(
-                        ctx,
-                        presenter.getSyncAdjustment()
-                    ) {
-                        presenter.updateSyncAdjustment(it)
-                    }
-                } catch (ex: Exception){
-                    Timber.e(ex)
+        sync.onClick { _ ->
+            try {
+                OfflineLyricsSyncAdjustementDialog.show(
+                    ctx,
+                    presenter.getSyncAdjustment()
+                ) {
+                    presenter.updateSyncAdjustment(it)
                 }
+            } catch (ex: Exception){
+                Timber.e(ex)
             }
         }
 
         seekBar.setListener(onStopTouch = {
             mediaProvider.seekTo(seekBar.progress.toLong())
-            presenter.resetTick()
-        }, onStartTouch = {
-        }, onProgressChanged = {
         })
     }
 
@@ -155,11 +149,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         edit.setOnClickListener(null)
         back.setOnClickListener(null)
         search.setOnClickListener(null)
-        act.window.setLightStatusBar()
 
         fakeNext.setOnTouchListener(null)
         fakePrev.setOnTouchListener(null)
-        scrollView.setOnTouchListener(null)
         seekBar.setOnSeekBarChangeListener(null)
         sync.setOnClickListener(null)
     }

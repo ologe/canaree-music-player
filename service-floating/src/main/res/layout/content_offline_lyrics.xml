@@ -64,37 +64,18 @@
                 android:clickable="false"
                 android:focusable="false"/>
 
-            <ScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="32dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingStart="8dp"
-                android:paddingTop="128dp"
-                android:paddingEnd="8dp"
-                android:scrollbars="none"
+            <dev.olog.offlinelyrics.OfflineLyricsRecyclerView
+                android:id="@+id/list"
                 app:layout_constraintBottom_toTopOf="@+id/wrapper"
                 app:layout_constraintEnd_toStartOf="@+id/search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="48dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="start"
-                    tools:textSize="25dp"
-                    android:lineSpacingExtra="10dp"
-                    tools:text="@tools:sample/lorem/random"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:textColor="@android:color/white"/>
-
-            </ScrollView>
+                android:layout_marginStart="8dp"
+                android:paddingTop="200dp"
+                android:paddingBottom="200dp"
+                android:clipToPadding="false"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
 
             <View
                 android:id="@+id/fade"

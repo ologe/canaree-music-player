@@ -51,6 +51,10 @@ inline fun Context.textColorPrimary(): Int {
     return themeAttributeToColor(android.R.attr.textColorPrimary)
 }
 
+inline fun Context.textColorPrimaryInverse(): Int {
+    return themeAttributeToColor(android.R.attr.textColorPrimaryInverse)
+}
+
 inline fun Context.textColorSecondary(): Int {
     return themeAttributeToColor(android.R.attr.textColorSecondary)
 }

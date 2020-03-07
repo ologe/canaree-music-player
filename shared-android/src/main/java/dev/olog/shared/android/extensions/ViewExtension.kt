@@ -13,6 +13,7 @@ import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import timber.log.Timber
@@ -136,4 +137,14 @@ val View.lifecycleScope: LifecycleCoroutineScope
 
 fun View.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
     return lifecycleScope.launchWhenResumed(block)
+}
+
+fun View.onClick(block: suspend (View) -> Unit) {
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    var job by autoDisposeJob()
+    setOnClickListener {
+        job = launchWhenResumed {
+            block(it)
+        }
+    }
 }
