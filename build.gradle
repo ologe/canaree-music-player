@@ -56,11 +56,11 @@ ext {
 
     /*  version code
         999 - for compatibility
-        27 - android version
+        29 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_29_3_3_00
-    versionName = '3.3.0'
+    versionCode = 999_29_4_0_00
+    versionName = '4.0.0'
 
 }
 
