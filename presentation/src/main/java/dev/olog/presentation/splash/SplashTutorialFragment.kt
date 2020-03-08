@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -20,8 +20,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class SplashTutorialFragment : Fragment(),
     SwipeableView.SwipeListener {
@@ -38,10 +39,8 @@ class SplashTutorialFragment : Fragment(),
         viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
 
         swipeableView.isTouching()
-            .asLiveData()
-            .subscribe(this) {
-                viewPager.isSwipeEnabled = !it
-            }
+            .onEach { viewPager.isSwipeEnabled = !it }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         loadPhoneImage(view)
         loadImage(progressive)
