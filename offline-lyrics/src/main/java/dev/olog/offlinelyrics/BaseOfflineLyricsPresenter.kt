@@ -6,13 +6,10 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.flowInterval
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
-
-private const val INTERVAL = 100L
 
 abstract class BaseOfflineLyricsPresenter constructor(
     private val lyricsGateway: OfflineLyricsGateway,
@@ -36,10 +33,6 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     private var originalLyricsPublisher = ConflatedBroadcastChannel("")
     private val observedLyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
-
-    private var incrementJob by autoDisposeJob()
-    private val currentProgressPublisher = ConflatedBroadcastChannel(0L)
-    val observeCurrentProgress: Flow<Long> = currentProgressPublisher.asFlow()
 
     fun onStart() {
         observeLyricsJob = currentTrackIdPublisher.asFlow()
@@ -72,30 +65,6 @@ abstract class BaseOfflineLyricsPresenter constructor(
         originalLyricsPublisher.close()
         observedLyricsPublisher.close()
         cancel()
-    }
-
-    fun onStateChanged(isPlaying: Boolean, position: Int, speed: Float) {
-        if (isPlaying) {
-            startAutoIncrement(position, speed)
-        } else {
-            stopAutoIncrement()
-        }
-    }
-
-    private fun startAutoIncrement(startMillis: Int, speed: Float) {
-        stopAutoIncrement()
-        incrementJob = flowInterval(
-            INTERVAL,
-            TimeUnit.MILLISECONDS
-        )
-            .map { (it + 1) * INTERVAL * speed + startMillis + syncAdjustmentPublisher.value }
-            .flowOn(schedulers.io)
-            .onEach { currentProgressPublisher.offer(it.toLong()) }
-            .launchIn(this)
-    }
-
-    private fun stopAutoIncrement() {
-        incrementJob = null
     }
 
     fun observeLyrics(): Flow<Lyrics> = observedLyricsPublisher.asFlow()
