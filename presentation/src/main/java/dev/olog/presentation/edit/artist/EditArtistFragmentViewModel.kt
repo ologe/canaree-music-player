@@ -23,21 +23,21 @@ class EditArtistFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private val displayableArtistLiveData = ConflatedBroadcastChannel<DisplayableArtist>()
+    private val displayableArtistPublisher = ConflatedBroadcastChannel<DisplayableArtist>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
         val artist = withContext(schedulers.io) {
             presenter.getArtist(mediaId)
         }
-        displayableArtistLiveData.offer(artist.toDisplayableArtist())
+        displayableArtistPublisher.offer(artist.toDisplayableArtist())
     }
 
     override fun onCleared() {
         super.onCleared()
-        displayableArtistLiveData.close()
+        displayableArtistPublisher.close()
     }
 
-    fun observeData(): Flow<DisplayableArtist> = displayableArtistLiveData.asFlow()
+    fun observeData(): Flow<DisplayableArtist> = displayableArtistPublisher.asFlow()
 
     private fun Artist.toDisplayableArtist(): DisplayableArtist {
         return DisplayableArtist(

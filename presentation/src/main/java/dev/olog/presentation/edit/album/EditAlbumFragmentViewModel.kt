@@ -27,21 +27,21 @@ class EditAlbumFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private val displayableAlbumLiveData = ConflatedBroadcastChannel<DisplayableAlbum>()
+    private val displayableAlbumPublisher = ConflatedBroadcastChannel<DisplayableAlbum>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
         val album = withContext(schedulers.io) {
             presenter.getAlbum(mediaId)
         }
-        displayableAlbumLiveData.offer(album.toDisplayableAlbum(mediaId))
+        displayableAlbumPublisher.offer(album.toDisplayableAlbum(mediaId))
     }
 
     override fun onCleared() {
         super.onCleared()
-        displayableAlbumLiveData.close()
+        displayableAlbumPublisher.close()
     }
 
-    fun observeData(): Flow<DisplayableAlbum> = displayableAlbumLiveData.asFlow()
+    fun observeData(): Flow<DisplayableAlbum> = displayableAlbumPublisher.asFlow()
 
     private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {
         val path = presenter.getPath(mediaId)
