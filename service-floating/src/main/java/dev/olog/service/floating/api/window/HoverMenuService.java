@@ -101,6 +101,7 @@ public abstract class HoverMenuService extends LifecycleService {
         Timber.d(TAG + "onDestroy()");
         if (mIsRunning) {
             mHoverView.removeFromWindow();
+            mHoverView.dispose();
             mIsRunning = false;
         }
     }

@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -339,6 +340,12 @@ public class HoverView extends RelativeLayout {
     // Only call this if using HoverMenuView directly in a window.
     public void removeFromWindow() {
         mState.removeFromWindow();
+    }
+
+    public void dispose() {
+        for (HoverMenu.Section section : mMenu.getSections()) {
+            section.getContent().onDispose();
+        }
     }
 
     void makeTouchableInWindow() {

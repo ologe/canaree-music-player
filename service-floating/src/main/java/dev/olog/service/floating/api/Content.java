@@ -68,6 +68,11 @@ public abstract class Content implements LifecycleOwner {
         lifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
     }
 
+    @CallSuper
+    public void onDispose(){
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+    }
+
     @NonNull
     @Override
     public Lifecycle getLifecycle() {
