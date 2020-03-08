@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
 
 class AutoShrinkExtendedFab(
     context: Context,
@@ -17,7 +17,7 @@ class AutoShrinkExtendedFab(
     override fun extend() {
         super.extend()
         job = launchWhenResumed {
-            delay(5000)
+            delay(2000)
             shrink()
         }
     }
