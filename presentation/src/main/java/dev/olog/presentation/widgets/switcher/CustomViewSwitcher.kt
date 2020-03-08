@@ -67,6 +67,8 @@ class CustomViewSwitcher(
         }
 
         val playerAppearance = context.themeManager.playerAppearance
+
+        // some player appearance are side to side
         val useExactPosition = playerAppearance.isBigImage || playerAppearance.isFullscreen
 
         val inAnim = when (new) {
@@ -131,16 +133,40 @@ class CustomViewSwitcher(
 
         GlideApp.with(context).clear(imageView)
 
-        GlideApp.with(context)
+        loadCached(imageView, mediaId)
+        loadRemote(imageView, mediaId, currentVersion)
+
+    }
+
+    private fun loadCached(view: ImageView, mediaId: MediaId) {
+        val thumbnail = GlideApp.with(context)
             .load(mediaId)
             .placeholder(CoverUtils.onlyGradient(context, mediaId))
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
+            .override(GlideUtils.OVERRIDE_SMALL)
+            .onlyRetrieveFromCache(true)
+
+        GlideApp.with(context)
+            .load(mediaId)
+            .thumbnail(thumbnail)
+            .placeholder(CoverUtils.onlyGradient(context, mediaId))
+            .error(CoverUtils.getGradient(context, mediaId))
+            .priority(Priority.HIGH)
             .override(GlideUtils.OVERRIDE_BIG)
             .onlyRetrieveFromCache(true)
-            .listener(this@CustomViewSwitcher)
-            .into(RippleTarget(imageView)) // TODO ripple not working
+            .listener(this)
+            .into(RippleTarget(view)) // TODO ripple not working
+    }
 
+    /**
+     * @param version is used to load only last image
+     */
+    private fun loadRemote(
+        view: ImageView,
+        mediaId: MediaId,
+        version: Int
+    ) {
         GlideApp.with(context)
             .load(mediaId)
             .priority(Priority.IMMEDIATE)
@@ -154,9 +180,9 @@ class CustomViewSwitcher(
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    if (resource !== imageView.drawable && currentVersion == imageVersion) {
+                    if (resource !== view.drawable && version == imageVersion) {
                         // different image and same load
-                        imageView.setImageDrawable(resource)
+                        view.setImageDrawable(resource)
                         adaptiveImageHelper.setImageDrawable(resource)
                         blurBackground?.loadImage(mediaId, resource)
                     }

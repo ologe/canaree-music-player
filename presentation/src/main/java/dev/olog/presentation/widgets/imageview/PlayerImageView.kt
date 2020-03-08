@@ -8,6 +8,7 @@ import com.bumptech.glide.Priority
 import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.GlideUtils
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.lazyFast
@@ -46,7 +47,7 @@ open class PlayerImageView (
             .load(mediaId)
             .error(CoverUtils.getGradient(context, mediaId))
             .priority(Priority.IMMEDIATE)
-            .override(500)
+            .override(GlideUtils.OVERRIDE_SMALL)
             .onlyRetrieveFromCache(true)
             .into(RippleTarget(this@PlayerImageView))
     }
