@@ -7,9 +7,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.distinctUntilChanged
 import dev.olog.core.MediaId
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.Classes
@@ -23,14 +20,11 @@ import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MediaExposer(
@@ -56,10 +50,10 @@ class MediaExposer(
 
     private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
 
-    private val metadataPublisher = MutableLiveData<PlayerMetadata>()
-    private val statePublisher = MutableLiveData<PlayerPlaybackState>()
-    private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
-    private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
+    private val metadataPublisher = ConflatedBroadcastChannel<PlayerMetadata>()
+    private val statePublisher = ConflatedBroadcastChannel<PlayerPlaybackState>()
+    private val repeatModePublisher = ConflatedBroadcastChannel<PlayerRepeatMode>()
+    private val shuffleModePublisher = ConflatedBroadcastChannel<PlayerShuffleMode>()
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
 
     fun connect() {
@@ -103,8 +97,12 @@ class MediaExposer(
 
     fun dispose() {
         connectionPublisher.close()
+
+        metadataPublisher.close()
+        statePublisher.close()
+        repeatModePublisher.close()
+        shuffleModePublisher.close()
         queuePublisher.close()
-        cancel()
     }
 
     /**
@@ -123,23 +121,21 @@ class MediaExposer(
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        metadata?.let {
-            metadataPublisher.value = PlayerMetadata(it)
-        }
+        metadata ?: return
+        metadataPublisher.offer(PlayerMetadata(metadata))
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-        state?.let {
-            statePublisher.value = PlayerPlaybackState(it)
-        }
+        state?: return
+        statePublisher.offer(PlayerPlaybackState(state))
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
-        repeatModePublisher.value = PlayerRepeatMode.of(repeatMode)
+        repeatModePublisher.offer(PlayerRepeatMode.of(repeatMode))
     }
 
     override fun onShuffleModeChanged(shuffleMode: Int) {
-        shuffleModePublisher.value = PlayerShuffleMode.of(shuffleMode)
+        shuffleModePublisher.offer(PlayerShuffleMode.of(shuffleMode))
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
@@ -152,20 +148,19 @@ class MediaExposer(
         }
     }
 
-    fun observeMetadata(): LiveData<PlayerMetadata> = metadataPublisher
+    fun observeMetadata(): Flow<PlayerMetadata> = metadataPublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observePlaybackState(): LiveData<PlayerPlaybackState> = statePublisher
+    fun observePlaybackState(): Flow<PlayerPlaybackState> = statePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeRepeat(): LiveData<PlayerRepeatMode> = repeatModePublisher
+    fun observeRepeat(): Flow<PlayerRepeatMode> = repeatModePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeShuffle(): LiveData<PlayerShuffleMode> = shuffleModePublisher
+    fun observeShuffle(): Flow<PlayerShuffleMode> = shuffleModePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher
-        .asFlow()
+    fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher.asFlow()
         .distinctUntilChanged()
 
 

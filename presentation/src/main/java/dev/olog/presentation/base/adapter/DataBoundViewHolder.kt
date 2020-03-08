@@ -5,18 +5,16 @@ import android.widget.ImageView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.extensions.LayoutContainer
 
-class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
+class DataBoundViewHolder(
+    view: View
+) : RecyclerView.ViewHolder(view),
     LifecycleOwner,
     LayoutContainer {
-
-    private var job by autoDisposeJob()
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -38,14 +36,6 @@ class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
-
-        job = null
-    }
-
-    fun doSuspend(block: suspend () -> Unit) {
-        job = lifecycle.coroutineScope.launchWhenResumed {
-            block()
-        }
     }
 
     override fun getLifecycle(): Lifecycle {

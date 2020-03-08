@@ -7,7 +7,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -20,6 +19,7 @@ import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -72,8 +72,8 @@ class MusicGlueService @Inject constructor(
         mediaController?.unregisterCallback(callback)
     }
 
-    fun observePlaybackState(): LiveData<PlayerPlaybackState> = mediaExposer.observePlaybackState()
-    fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    fun observePlaybackState(): Flow<PlayerPlaybackState> = mediaExposer.observePlaybackState()
+    fun observeMetadata(): Flow<PlayerMetadata> = mediaExposer.observeMetadata()
 
     fun playPause() {
         mediaController?.playPause()

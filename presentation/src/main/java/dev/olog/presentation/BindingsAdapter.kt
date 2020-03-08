@@ -12,6 +12,7 @@ import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
 
+// TODO convert to extensions
 object BindingsAdapter {
 
     @JvmStatic

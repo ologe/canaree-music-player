@@ -15,11 +15,11 @@ import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.filter
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.autoDisposeJob
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -45,23 +45,21 @@ class OfflineLyricsContent(
         }
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 content.header.text = it.title
                 content.subHeader.text = it.artist
                 content.seekBar.max = it.duration.toInt()
                 content.list.smoothScrollToPosition(0)
 
-                lifecycleScope.launchWhenResumed {
-                    loadImage(it.mediaId)
-                }
-            }
+                loadImage(it.mediaId)
+            }.launchIn(lifecycleScope)
 
         glueService.observePlaybackState()
-            .subscribe(this) {
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
-            }
+            }.launchIn(lifecycleScope)
 
         presenter.observeLyrics()
             .onEach {
@@ -76,7 +74,8 @@ class OfflineLyricsContent(
 
         glueService.observePlaybackState()
             .filter { it.isPlayOrPause }
-            .subscribe(this) { content.seekBar.onStateChanged(it) }
+            .onEach { content.seekBar.onStateChanged(it) }
+            .launchIn(lifecycleScope)
 
         content.image.observePaletteColors()
             .map { it.accent }

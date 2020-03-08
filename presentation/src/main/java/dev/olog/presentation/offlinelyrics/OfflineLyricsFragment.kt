@@ -19,14 +19,13 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -64,24 +63,23 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
 
         mediaProvider.observeMetadata()
-            .subscribe(viewLifecycleOwner) {
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
                 header.text = it.title
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
                 list.smoothScrollToPosition(0)
-                launchWhenResumed {
-                    loadImage(it.mediaId)
-                }
-            }
+
+                loadImage(it.mediaId)
+            }.launchIn(lifecycleScope)
 
 
         mediaProvider.observePlaybackState()
-            .subscribe(viewLifecycleOwner) {
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.observeLyrics()
             .onEach {
@@ -97,7 +95,8 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
-            .subscribe(viewLifecycleOwner) { seekBar.onStateChanged(it) }
+            .onEach { seekBar.onStateChanged(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         view.image.observePaletteColors()
             .map { it.accent }

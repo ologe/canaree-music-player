@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.appshortcuts.Shortcuts
@@ -32,11 +31,17 @@ import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.dimen
+import dev.olog.shared.android.extensions.dip
+import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.shared.android.extensions.setHeight
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -71,7 +76,8 @@ class MainActivity : MusicGlueActivity(),
 
         observeMetadata()
             .map { it.mediaId }
-            .subscribe(this, viewModel::setCurrentPlaying)
+            .onEach { viewModel.setCurrentPlaying(it) }
+            .launchIn(lifecycleScope)
 
         if (themeManager.isImmersive){
             // workaround, on some device on immersive mode bottom navigation disappears

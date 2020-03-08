@@ -2,13 +2,11 @@ package dev.olog.service.floating
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.map
+import androidx.lifecycle.lifecycleScope
 import dev.olog.media.model.PlayerState
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
+import kotlinx.coroutines.flow.*
 
 class LyricsContent(
     lifecycle: Lifecycle,
@@ -21,32 +19,31 @@ class LyricsContent(
         super.onShown()
 
         glueService.observePlaybackState()
-            .subscribe(this) {
-                content.seekBar.onStateChanged(it)
-            }
+            .onEach { content.seekBar.onStateChanged(it) }
+            .launchIn(lifecycleScope)
 
         glueService.observePlaybackState()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(this) {
+            .onEach {
                 when (it){
                     PlayerState.PLAYING -> content.playPause.animationPlay(true)
                     PlayerState.PAUSED -> content.playPause.animationPause(true)
                     else -> throw IllegalArgumentException("state not valid $it")
                 }
-            }
+            }.launchIn(lifecycleScope)
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .onEach {
                 content.header.text = it.title
                 content.subHeader.text = it.artist
-            }
+            }.launchIn(lifecycleScope)
 
         glueService.observeMetadata()
-            .subscribe(this) {
+            .onEach {
                 content.seekBar.max = it.duration.toInt()
-            }
+            }.launchIn(lifecycleScope)
 
         content.playPause.setOnClickListener { glueService.playPause() }
 

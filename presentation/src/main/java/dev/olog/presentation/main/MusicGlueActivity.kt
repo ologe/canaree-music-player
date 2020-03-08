@@ -7,7 +7,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
@@ -104,14 +103,14 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    override fun observeMetadata(): Flow<PlayerMetadata> = mediaExposer.observeMetadata()
 
-    override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
+    override fun observePlaybackState(): Flow<PlayerPlaybackState> =
         mediaExposer.observePlaybackState()
 
-    override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
+    override fun observeRepeat(): Flow<PlayerRepeatMode> = mediaExposer.observeRepeat()
 
-    override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
+    override fun observeShuffle(): Flow<PlayerShuffleMode> = mediaExposer.observeShuffle()
 
     override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
 
