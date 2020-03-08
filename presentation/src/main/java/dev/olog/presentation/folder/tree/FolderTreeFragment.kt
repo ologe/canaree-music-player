@@ -70,7 +70,11 @@ class FolderTreeFragment : BaseFragment(),
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.children
-            .onEach { adapter.submitList(it) }
+            .onEach {
+                restoreUpperWidgetsTranslation()
+                crumbsWrapper.animate().translationY(0f)
+                adapter.submitList(it)
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.canSaveDefaultFolder
