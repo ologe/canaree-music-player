@@ -25,7 +25,7 @@ class DetailSiblingsAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            transitionName = "sibling ${item.mediaId}"
+            transitionName = "detail sibling ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title

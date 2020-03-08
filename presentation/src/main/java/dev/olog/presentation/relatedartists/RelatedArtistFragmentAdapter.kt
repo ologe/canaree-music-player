@@ -26,7 +26,7 @@ class RelatedArtistFragmentAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            transitionName = item.mediaId.toString()
+            transitionName = "related ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title

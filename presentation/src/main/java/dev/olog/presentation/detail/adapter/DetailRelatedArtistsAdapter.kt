@@ -25,7 +25,7 @@ class DetailRelatedArtistsAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            transitionName = "related ${item.mediaId}"
+            transitionName = "detail related ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

@@ -25,7 +25,7 @@ internal class TabFragmentNestedAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            transitionName = "nested ${item.mediaId}"
+            transitionName = "tab nested ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
