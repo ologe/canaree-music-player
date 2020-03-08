@@ -1,6 +1,5 @@
 package dev.olog.presentation.playermini
 
-import androidx.lifecycle.asLiveData
 import dev.olog.core.prefs.MusicPreferencesGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -16,13 +15,11 @@ class MiniPlayerFragmentPresenter @Inject constructor(
     var showTimeLeft = false
     private var currentDuration = 0L
 
-    val skipToNextVisibility = musicPrefsUseCase
+    val skipToNextVisibility: Flow<Boolean> = musicPrefsUseCase
         .observeSkipToNextVisibility()
-        .asLiveData()
 
-    val skipToPreviousVisibility = musicPrefsUseCase
+    val skipToPreviousVisibility: Flow<Boolean> = musicPrefsUseCase
         .observeSkipToPreviousVisibility()
-        .asLiveData()
 
     fun getMetadata() = musicPrefsUseCase.getLastMetadata()
 

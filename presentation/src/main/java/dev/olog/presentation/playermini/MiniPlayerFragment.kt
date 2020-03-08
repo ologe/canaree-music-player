@@ -18,7 +18,6 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.BottomSheetType
@@ -104,14 +103,12 @@ class MiniPlayerFragment : BaseFragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.skipToNextVisibility
-            .subscribe(viewLifecycleOwner) {
-                buttons.toggleNextButton(it)
-            }
+            .onEach { buttons.toggleNextButton(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.skipToPreviousVisibility
-            .subscribe(viewLifecycleOwner) {
-                buttons.togglePreviousButton(it)
-            }
+            .onEach { buttons.togglePreviousButton(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private suspend fun updateTitles(metadata: PlayerMetadata) {
