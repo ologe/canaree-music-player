@@ -330,7 +330,7 @@ internal class DetailFragmentAdapter(
     override fun onMoved(from: Int, to: Int) {
         val realFrom = from - headers
         val realTo = to - headers
-        currentList.swap(from, to) // TODO check if works
+        backedList.swap(from, to)
         notifyItemMoved(from, to)
         viewModel.addMove(realFrom, realTo)
     }
@@ -338,7 +338,7 @@ internal class DetailFragmentAdapter(
     override fun onSwipedRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
-        currentList.removeAt(position) // TODO check if works
+        backedList.removeAt(position)
         notifyItemRemoved(position)
         viewModel.removeFromPlaylist(item)
     }

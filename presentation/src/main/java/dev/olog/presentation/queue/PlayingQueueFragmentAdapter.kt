@@ -89,7 +89,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun onMoved(from: Int, to: Int) {
         mediaProvider.swap(from, to)
-        currentList.swap(from, to) // TODO check if works
+        backedList.swap(from, to)
         notifyItemMoved(from, to)
         moves.add(from to to)
     }
@@ -100,7 +100,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
-        currentList.removeAt(position) // TODO check if works
+        backedList.removeAt(position)
         notifyItemRemoved(position)
         viewModel.recalculatePositionsAfterRemove(position)
     }

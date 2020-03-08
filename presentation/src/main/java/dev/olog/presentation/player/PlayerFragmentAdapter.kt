@@ -377,7 +377,7 @@ internal class PlayerFragmentAdapter(
         val realFrom = from - 1
         val realTo = to - 1
         mediaProvider.swapRelative(realFrom, realTo)
-        currentList.swap(from, to) // TODO check if workks
+        backedList.swap(from, to)
         notifyItemMoved(from, to)
     }
 
@@ -387,7 +387,7 @@ internal class PlayerFragmentAdapter(
     }
 
     override fun afterSwipeRight(viewHolder: RecyclerView.ViewHolder) {
-        currentList.removeAt(viewHolder.adapterPosition) // TODO check if workks
+        backedList.removeAt(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
     }
 

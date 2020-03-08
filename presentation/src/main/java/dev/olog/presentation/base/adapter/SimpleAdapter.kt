@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 
 private class SimpleItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
@@ -19,7 +18,7 @@ private class SimpleItemCallback<T> : DiffUtil.ItemCallback<T>() {
     }
 }
 
-abstract class SimpleAdapter<T> : ListAdapter<T, DataBoundViewHolder>(SimpleItemCallback()) {
+abstract class SimpleAdapter<T: Any> : CustomListAdapter<T, DataBoundViewHolder>(SimpleItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,10 +38,6 @@ abstract class SimpleAdapter<T> : ListAdapter<T, DataBoundViewHolder>(SimpleItem
     }
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
-
-    override fun getItem(position: Int): T {
-        return super.getItem(position)
-    }
 
     @CallSuper
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {

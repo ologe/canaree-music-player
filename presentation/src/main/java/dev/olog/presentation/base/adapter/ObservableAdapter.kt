@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import dev.olog.presentation.model.BaseModel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -12,9 +11,9 @@ import kotlinx.coroutines.flow.asFlow
 
 abstract class ObservableAdapter<T : BaseModel>(
     itemCallback: DiffUtil.ItemCallback<T>
-) : ListAdapter<T, DataBoundViewHolder>(itemCallback){
+) : CustomListAdapter<T, DataBoundViewHolder>(itemCallback){
 
-    private val _observeData = ConflatedBroadcastChannel<List<T>>(currentList)
+    private val _observeData = ConflatedBroadcastChannel(currentList)
     val observeData: Flow<List<T>> = _observeData.asFlow()
 
     fun getData(): List<T> = currentList
@@ -64,7 +63,7 @@ abstract class ObservableAdapter<T : BaseModel>(
         bind(holder, item, position)
     }
 
-    override fun onCurrentListChanged(previousList: MutableList<T>, currentList: MutableList<T>) {
+    override fun onCurrentListChanged(previousList: List<T>, currentList: List<T>) {
         _observeData.offer(currentList)
     }
 

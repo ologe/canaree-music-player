@@ -39,9 +39,8 @@ class LibraryCategoriesFragmentAdapter(
     }
 
     override fun onMoved(from: Int, to: Int) {
-        // TODO check
-        currentList.forEachIndexed { index, item -> item.order = index }
-        currentList.swap(from, to)
+        backedList.forEachIndexed { index, item -> item.order = index }
+        backedList.swap(from, to)
         notifyItemMoved(from, to)
     }
 }
