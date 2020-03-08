@@ -125,6 +125,11 @@ internal class DetailFragmentViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        filterChannel.close()
+    }
+
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData
     fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
     fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData

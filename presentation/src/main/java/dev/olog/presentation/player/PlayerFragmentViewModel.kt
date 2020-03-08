@@ -28,7 +28,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
-    private val schedulers: Schedulers
+    schedulers: Schedulers
 
 ) : ViewModel() {
 

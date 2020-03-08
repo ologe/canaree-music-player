@@ -69,6 +69,9 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun dispose() {
+        currentTrackIdPublisher.close()
+        lyricsPublisher.close()
+        syncAdjustmentPublisher.close()
         cancel()
     }
 

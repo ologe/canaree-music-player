@@ -102,6 +102,8 @@ class MediaExposer(
     }
 
     fun dispose() {
+        connectionPublisher.close()
+        queuePublisher.close()
         cancel()
     }
 

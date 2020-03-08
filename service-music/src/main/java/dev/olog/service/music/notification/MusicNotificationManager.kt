@@ -132,6 +132,7 @@ internal class MusicNotificationManager @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
         publishJob = null
+        publisher.close()
         cancel()
     }
 

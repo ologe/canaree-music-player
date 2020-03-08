@@ -69,6 +69,8 @@ internal class MediaSessionQueue @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
+        delayedChannel.close()
+        immediateChannel.close()
         cancel()
     }
 

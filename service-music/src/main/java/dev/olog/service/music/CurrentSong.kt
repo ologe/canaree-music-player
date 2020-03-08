@@ -85,6 +85,7 @@ internal class CurrentSong @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         isFavoriteJob = null
+        channel.close()
         cancel()
     }
 

@@ -65,6 +65,13 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        filterChannel.close()
+        showOnlyFiltered.close()
+
+    }
+
     fun updateFilter(filter: String) {
         filterChannel.offer(filter)
     }

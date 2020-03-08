@@ -35,8 +35,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 
-    private val currentDirectory: ConflatedBroadcastChannel<File> =
-        ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
+    private val currentDirectory = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
     private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
 
@@ -56,6 +55,11 @@ class FolderTreeFragmentViewModel @Inject constructor(
         { current, default -> current.path == default.path }
             .onEach { isCurrentFolderDefaultFolder.value = it }
             .launchIn(viewModelScope)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        currentDirectory.close()
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {

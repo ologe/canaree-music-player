@@ -27,15 +27,15 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     private val data = MutableLiveData<List<DisplayableQueueSong>>()
 
-    private val queueLiveData = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
+    private val queuePublisher = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
 
     init {
         playingQueueGateway.observeAll().distinctUntilChanged()
             .flowOn(schedulers.cpu)
-            .onEach { queueLiveData.offer(it) }
+            .onEach { queuePublisher.offer(it) }
             .launchIn(viewModelScope)
 
-        queueLiveData.asFlow()
+        queuePublisher.asFlow()
             .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
             { queue, idInPlaylist ->
                 val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
@@ -48,14 +48,19 @@ class PlayingQueueFragmentViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        queuePublisher.close()
+    }
+
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data
 
     fun recalculatePositionsAfterRemove(position: Int) =
         viewModelScope.launch(schedulers.cpu) {
-            val currentList = queueLiveData.value.toMutableList()
+            val currentList = queuePublisher.value.toMutableList()
             currentList.removeAt(position)
 
-            queueLiveData.offer(currentList)
+            queuePublisher.offer(currentList)
         }
 
     /**
@@ -63,12 +68,12 @@ class PlayingQueueFragmentViewModel @Inject constructor(
      */
     fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
         viewModelScope.launch(schedulers.cpu) {
-            val currentList = queueLiveData.value
+            val currentList = queuePublisher.value
             for ((from, to) in moves) {
                 currentList.swap(from, to)
             }
 
-            queueLiveData.offer(currentList)
+            queuePublisher.offer(currentList)
         }
 
     private fun PlayingQueueSong.toDisplayableItem(
