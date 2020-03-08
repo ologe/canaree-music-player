@@ -11,8 +11,6 @@ interface MediaProvider {
     fun observePlaybackState(): Flow<PlayerPlaybackState>
     fun observeRepeat(): Flow<PlayerRepeatMode>
     fun observeShuffle(): Flow<PlayerShuffleMode>
-    // is a flow instead of livedata because list operations may be expensive, so they can be
-    // moved to a background thread
     fun observeQueue(): Flow<List<PlayerItem>>
 
     fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
