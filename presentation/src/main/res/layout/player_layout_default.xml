@@ -109,10 +109,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
 
-    <dev.olog.presentation.widgets.TextWrapper
+    <dev.olog.shared.widgets.TextWrapper
         android:id="@+id/textWrapper"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/playerControls"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/more"
@@ -148,7 +149,7 @@
             android:focusable="false"
             android:gravity="start|center_vertical" />
 
-    </dev.olog.presentation.widgets.TextWrapper>
+    </dev.olog.shared.widgets.TextWrapper>
 
 
     <ImageButton

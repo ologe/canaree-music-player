@@ -39,11 +39,12 @@
             android:translationY="-12dp"
             android:layout_marginStart="8dp" />
 
-        <dev.olog.presentation.widgets.TextWrapper
+        <dev.olog.shared.widgets.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:weightSum="2"
+            android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/miniCover"
@@ -78,7 +79,7 @@
                 android:layout_marginTop="2dp"
                 android:scrollHorizontally="true"/>
 
-        </dev.olog.presentation.widgets.TextWrapper>
+        </dev.olog.shared.widgets.TextWrapper>
 
         <dev.olog.presentation.widgets.LottieFavorite
             android:id="@+id/favorite"

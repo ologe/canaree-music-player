@@ -1,12 +1,13 @@
-package dev.olog.presentation.widgets
+package dev.olog.shared.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import dev.olog.presentation.R
-import dev.olog.presentation.utils.TextUpdateTransition
+import androidx.transition.TransitionSet
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
@@ -51,6 +52,20 @@ class TextWrapper(
         delay(TextUpdateTransition.DURATION * 2)
         titleView.isSelected = true
         artistView.isSelected = true
+    }
+
+}
+
+private object TextUpdateTransition : TransitionSet() {
+
+    const val DURATION = 250L
+
+    init {
+        ordering = ORDERING_SEQUENTIAL
+        duration = DURATION
+        addTransition(Fade(Fade.OUT))
+        addTransition(ChangeBounds())
+        addTransition(Fade(Fade.IN))
     }
 
 }

@@ -104,14 +104,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
-            <LinearLayout
+            <dev.olog.shared.widgets.TextWrapper
                 android:id="@+id/wrapper"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical"
                 android:background="?colorSurface">
 
                 <dev.olog.shared.widgets.AutoScrollTextView
@@ -158,7 +158,7 @@
                     tools:max="100"
                     tools:progress="40" />
 
-            </LinearLayout>
+            </dev.olog.shared.widgets.TextWrapper>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit"

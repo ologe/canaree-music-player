@@ -50,10 +50,11 @@
         android:focusable="true"
         tools:visibility="invisible"/>
 
-    <dev.olog.presentation.widgets.TextWrapper
+    <dev.olog.shared.widgets.TextWrapper
         android:id="@+id/textWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
@@ -92,7 +93,7 @@
             android:focusable="false"
             android:gravity="center" />
 
-    </dev.olog.presentation.widgets.TextWrapper>
+    </dev.olog.shared.widgets.TextWrapper>
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar

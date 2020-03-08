@@ -22,11 +22,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <dev.olog.presentation.widgets.TextWrapper
+        <dev.olog.shared.widgets.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:weightSum="2"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttons"
             app:layout_constraintStart_toEndOf="@+id/cover"
@@ -60,7 +61,7 @@
                 android:textSize="13dp"
                 tools:text="@tools:sample/lorem" />
 
-        </dev.olog.presentation.widgets.TextWrapper>
+        </dev.olog.shared.widgets.TextWrapper>
 
         <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
             android:id="@+id/cover"

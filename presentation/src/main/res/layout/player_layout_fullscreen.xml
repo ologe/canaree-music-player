@@ -120,10 +120,11 @@
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
             app:layout_constraintStart_toStartOf="@+id/seekBar"/>
 
-        <dev.olog.presentation.widgets.TextWrapper
+        <dev.olog.shared.widgets.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/seekBar"
             app:layout_constraintStart_toEndOf="@+id/favorite"
             app:layout_constraintEnd_toStartOf="@+id/more"
@@ -164,7 +165,7 @@
                 android:focusable="false"
                 android:gravity="center" />
 
-        </dev.olog.presentation.widgets.TextWrapper>
+        </dev.olog.shared.widgets.TextWrapper>
 
 
         <ImageButton

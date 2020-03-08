@@ -83,13 +83,14 @@
         android:focusable="false"
         android:translationY="-15dp" />
 
-    <dev.olog.presentation.widgets.TextWrapper
+    <dev.olog.shared.widgets.TextWrapper
         android:id="@+id/textWrapper"
         app:layout_constraintTop_toBottomOf="@+id/innerRoot"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:orientation="vertical"
         android:layout_marginStart="@dimen/player_seekBar_padding_horizontal"
         android:layout_marginEnd="@dimen/player_seekBar_padding_horizontal"
         android:layout_marginTop="42dp">
@@ -124,7 +125,7 @@
             android:focusable="false"
             android:gravity="center" />
 
-    </dev.olog.presentation.widgets.TextWrapper>
+    </dev.olog.shared.widgets.TextWrapper>
 
     <include
         android:id="@+id/playerControls"
