@@ -132,7 +132,6 @@ abstract class AbsPopupListener(
     }
 
     protected fun viewAlbum(navigator: Navigator, mediaId: MediaId) {
-        val container = container ?: return
         if (container == null) {
             navigator.toDetailFragment(mediaId)
         } else {
@@ -141,7 +140,6 @@ abstract class AbsPopupListener(
     }
 
     protected fun viewArtist(navigator: Navigator, mediaId: MediaId) {
-        val container = container ?: return
         if (container == null) {
             navigator.toDetailFragment(mediaId)
         } else {
