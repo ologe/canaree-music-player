@@ -1,7 +1,5 @@
 package dev.olog.presentation.equalizer
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.EqualizerPreset
@@ -11,9 +9,9 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,14 +25,8 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     private val schedulers: Schedulers
 ) : ViewModel() {
 
-    private val currentPresetLiveData = MutableLiveData<EqualizerPreset>()
-
-    init {
-        equalizer.observeCurrentPreset()
-            .flowOn(schedulers.io)
-            .onEach { currentPresetLiveData.value = it }
-            .launchIn(viewModelScope)
-    }
+    val currentPreset : Flow<EqualizerPreset> = equalizer.observeCurrentPreset()
+        .flowOn(schedulers.io)
 
     fun getBandLimit() = equalizer.getBandLimit()
     fun getBandCount() = equalizer.getBandCount()
@@ -43,8 +35,6 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     }
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
-
-    fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 
     fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()
 
@@ -72,7 +62,7 @@ internal class EqualizerFragmentViewModel @Inject constructor(
     }
 
     fun deleteCurrentPreset() = viewModelScope.launch(schedulers.io) {
-        val currentPreset = currentPresetLiveData.value!!
+        val currentPreset = currentPreset.first()
         equalizerPrefsUseCase.setCurrentPresetId(0)
         equalizerGateway.deletePreset(currentPreset)
     }
