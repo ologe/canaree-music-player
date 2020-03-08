@@ -1,13 +1,14 @@
 package dev.olog.presentation.edit.album
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.utils.safeGet
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
@@ -26,16 +27,21 @@ class EditAlbumFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private val displayableAlbumLiveData = MutableLiveData<DisplayableAlbum>()
+    private val displayableAlbumLiveData = ConflatedBroadcastChannel<DisplayableAlbum>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
         val album = withContext(schedulers.io) {
             presenter.getAlbum(mediaId)
         }
-        displayableAlbumLiveData.value = album.toDisplayableAlbum(mediaId)
+        displayableAlbumLiveData.offer(album.toDisplayableAlbum(mediaId))
     }
 
-    fun observeData(): LiveData<DisplayableAlbum> = displayableAlbumLiveData
+    override fun onCleared() {
+        super.onCleared()
+        displayableAlbumLiveData.close()
+    }
+
+    fun observeData(): Flow<DisplayableAlbum> = displayableAlbumLiveData.asFlow()
 
     private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {
         val path = presenter.getPath(mediaId)

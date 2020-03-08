@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
@@ -58,17 +59,18 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private val mediaProvider by lazyFast { act as MediaProvider }
 
-
-    @SuppressLint("ConcreteDispatcherIssue")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val adapter by lazyFast {
         val playerAppearance = themeManager.playerAppearance
-
-        val adapter = PlayerFragmentAdapter(
+        PlayerFragmentAdapter(
             activity as MediaProvider,
             navigator, viewModel, presenter, musicPrefs,
             this, IPlayerAppearanceAdaptiveBehavior.get(playerAppearance)
         )
+    }
+
+    @SuppressLint("ConcreteDispatcherIssue")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
@@ -79,6 +81,8 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
+
+        val playerAppearance = themeManager.playerAppearance
 
         mediaProvider.observeQueue()
             .mapListItem { it.toDisplayableItem() }
@@ -112,6 +116,10 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+    }
+
+    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     override fun provideLayoutId(): Int {

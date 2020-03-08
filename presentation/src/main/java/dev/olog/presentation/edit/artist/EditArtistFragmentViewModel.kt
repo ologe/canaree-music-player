@@ -1,12 +1,13 @@
 package dev.olog.presentation.edit.artist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -22,16 +23,21 @@ class EditArtistFragmentViewModel @Inject constructor(
         TagOptionSingleton.getInstance().isAndroid = true
     }
 
-    private val displayableArtistLiveData = MutableLiveData<DisplayableArtist>()
+    private val displayableArtistLiveData = ConflatedBroadcastChannel<DisplayableArtist>()
 
     fun requestData(mediaId: MediaId) = viewModelScope.launch {
         val artist = withContext(schedulers.io) {
             presenter.getArtist(mediaId)
         }
-        displayableArtistLiveData.value = artist.toDisplayableArtist()
+        displayableArtistLiveData.offer(artist.toDisplayableArtist())
     }
 
-    fun observeData(): LiveData<DisplayableArtist> = displayableArtistLiveData
+    override fun onCleared() {
+        super.onCleared()
+        displayableArtistLiveData.close()
+    }
+
+    fun observeData(): Flow<DisplayableArtist> = displayableArtistLiveData.asFlow()
 
     private fun Artist.toDisplayableArtist(): DisplayableArtist {
         return DisplayableArtist(

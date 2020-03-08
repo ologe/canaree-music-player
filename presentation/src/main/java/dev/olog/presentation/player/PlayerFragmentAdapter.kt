@@ -56,7 +56,9 @@ internal class PlayerFragmentAdapter(
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem), TouchableAdapter {
+) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+    TouchableAdapter,
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     private val playerViewTypes = listOf(
         R.layout.player_layout_default,
@@ -96,7 +98,7 @@ internal class PlayerFragmentAdapter(
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
-                        val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
+                        val mediaId = MediaId.songId(playingMediaId!!.resolveId)
                         navigator.toDialog(mediaId, view)
                     } catch (ex: NullPointerException){
                         Timber.e(ex)
@@ -192,7 +194,6 @@ internal class PlayerFragmentAdapter(
 
         mediaProvider.observeMetadata()
             .onEach {
-                viewModel.updateCurrentTrackId(it.id)
                 updateMetadata(view, it)
                 updateImage(view, it)
             }.launchIn(holder.lifecycleScope)
@@ -248,15 +249,16 @@ internal class PlayerFragmentAdapter(
         })
 
         viewModel.onFavoriteStateChanged
-            .subscribe(holder, view.favorite::onNextState)
+            .onEach { view.favorite.onNextState(it) }
+            .launchIn(holder.lifecycleScope)
 
         viewModel.skipToNextVisibility
-            .asLiveData()
-            .subscribe(holder, view.next::updateVisibility)
+            .onEach { view.next.updateVisibility(it) }
+            .launchIn(holder.lifecycleScope)
 
         viewModel.skipToPreviousVisibility
-            .asLiveData()
-            .subscribe(holder, view.previous::updateVisibility)
+            .onEach { view.previous.updateVisibility(it) }
+            .launchIn(holder.lifecycleScope)
 
         presenter.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen

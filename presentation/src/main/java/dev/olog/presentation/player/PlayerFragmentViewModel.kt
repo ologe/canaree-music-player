@@ -1,10 +1,7 @@
 package dev.olog.presentation.player
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
@@ -17,10 +14,8 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.themeManager
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 internal class PlayerFragmentViewModel @Inject constructor(
@@ -32,22 +27,14 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
+    val onFavoriteStateChanged: Flow<FavoriteState> = observeFavoriteAnimationUseCase()
+        .flowOn(schedulers.cpu)
 
-    private val favoriteLiveData = MutableLiveData<FavoriteState>()
+    val skipToNextVisibility = musicPrefsUseCase
+        .observeSkipToNextVisibility()
 
-    init {
-        observeFavoriteAnimationUseCase()
-            .flowOn(schedulers.cpu)
-            .onEach { favoriteLiveData.value = it }
-            .launchIn(viewModelScope)
-    }
-
-    fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!
-
-    fun updateCurrentTrackId(trackId: Long) {
-        currentTrackIdPublisher.offer(trackId)
-    }
+    val skipToPreviousVisibility = musicPrefsUseCase
+        .observeSkipToPreviousVisibility()
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(
             type = R.layout.item_mini_queue_load_more,
@@ -72,14 +59,6 @@ internal class PlayerFragmentViewModel @Inject constructor(
             title = ""
         )
     }
-
-    val onFavoriteStateChanged: LiveData<FavoriteState> = favoriteLiveData
-
-    val skipToNextVisibility = musicPrefsUseCase
-            .observeSkipToNextVisibility()
-
-    val skipToPreviousVisibility = musicPrefsUseCase
-            .observeSkipToPreviousVisibility()
 
     fun showLyricsTutorialIfNeverShown(): Boolean {
         return tutorialPreferenceUseCase.lyricsTutorial()

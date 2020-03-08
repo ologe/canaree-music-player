@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
@@ -14,9 +15,9 @@ import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class EditArtistFragment : BaseEditItemFragment() {
@@ -54,30 +55,28 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        launchWhenResumed {
-            artist.afterTextChange()
-                .map { it.isNotBlank() }
-                .collect { okButton.isEnabled = it }
-        }
+        artist.afterTextChange()
+            .map { it.isNotBlank() }
+            .onEach { okButton.isEnabled = it }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         loadImage(mediaId)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            artist.setText(it.title)
-            albumArtist.setText(it.albumArtist)
-            val text = resources.getQuantityString(
-                R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
-            )
-            albumsUpdated.text = text
-            podcast.isChecked = it.isPodcast
-        }
+        viewModel.observeData()
+            .onEach {
+                artist.setText(it.title)
+                albumArtist.setText(it.albumArtist)
+                val text = resources.getQuantityString(
+                    R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
+                )
+                albumsUpdated.text = text
+                podcast.isChecked = it.isPodcast
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {
-            launchWhenResumed { trySave() }
-        }
+        okButton.onClick { trySave() }
         cancelButton.setOnClickListener { dismiss() }
     }
 
@@ -87,7 +86,7 @@ class EditArtistFragment : BaseEditItemFragment() {
         cancelButton.setOnClickListener(null)
     }
 
-    private suspend fun trySave(){
+    private suspend fun trySave() {
         val result = editItemViewModel.updateArtist(
             UpdateArtistInfo(
                 mediaId,
@@ -97,10 +96,11 @@ class EditArtistFragment : BaseEditItemFragment() {
             )
         )
 
-        when (result){
+        when (result) {
             UpdateResult.OK -> dismiss()
             UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
-            else -> {}
+            else -> {
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,6 +44,8 @@ import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
 import kotlinx.android.synthetic.main.item_tab_podcast.view.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 internal class DetailFragmentAdapter(
     private val mediaId: MediaId,
@@ -160,8 +162,8 @@ internal class DetailFragmentAdapter(
                 val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
-                    .asLiveData()
-                    .subscribe(holder, view.sortImage::update)
+                    .onEach { view.sortImage.update(it) }
+                    .launchIn(holder.lifecycleScope)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
                     TutorialTapTarget.sortBy(sortText, sortImage)
