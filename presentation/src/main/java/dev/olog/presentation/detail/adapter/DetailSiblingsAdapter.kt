@@ -1,7 +1,7 @@
 package dev.olog.presentation.detail.adapter
 
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -25,7 +25,7 @@ class DetailSiblingsAdapter(
         require(item is DisplayableAlbum)
         holder.itemView.apply {
             transitionName = "sibling ${item.mediaId}"
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

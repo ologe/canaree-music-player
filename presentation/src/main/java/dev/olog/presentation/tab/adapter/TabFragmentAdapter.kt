@@ -7,10 +7,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.presentation.loadAlbumImage
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
@@ -121,7 +122,7 @@ internal class TabFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack) {
         holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit?.onItemChanged(item.title)
@@ -155,7 +156,7 @@ internal class TabFragmentAdapter(
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
             transitionName = item.mediaId.toString()
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction?.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle

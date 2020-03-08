@@ -14,12 +14,12 @@ import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.model.PlayerState
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -374,7 +374,7 @@ internal class PlayerFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         if (item is DisplayableTrack){
             holder.itemView.apply {
-                BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+                holder.imageView!!.loadSongImage(item.mediaId)
                 firstText.text = item.title
                 secondText.text = item.artist
                 explicit.onItemChanged(item.title)

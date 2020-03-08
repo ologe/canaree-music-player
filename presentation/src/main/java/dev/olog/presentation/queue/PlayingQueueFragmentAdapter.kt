@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
@@ -43,7 +43,7 @@ class PlayingQueueFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
         holder.itemView.apply {
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId)
             index.text = item.relativePosition
             firstText.text = item.title
             secondText.text = item.subtitle

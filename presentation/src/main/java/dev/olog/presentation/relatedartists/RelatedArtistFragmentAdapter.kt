@@ -1,7 +1,7 @@
 package dev.olog.presentation.relatedartists
 
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
@@ -27,7 +27,7 @@ class RelatedArtistFragmentAdapter(
 
         holder.itemView.apply {
             transitionName = item.mediaId.toString()
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

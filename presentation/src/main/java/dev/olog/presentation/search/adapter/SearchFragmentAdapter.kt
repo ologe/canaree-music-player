@@ -2,11 +2,12 @@ package dev.olog.presentation.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.presentation.loadAlbumImage
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
@@ -106,7 +107,7 @@ class SearchFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId)
             isPlaying?.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             if (item.album.isBlank()){
@@ -122,7 +123,7 @@ class SearchFragmentAdapter(
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
             transitionName = item.mediaId.toString()
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }

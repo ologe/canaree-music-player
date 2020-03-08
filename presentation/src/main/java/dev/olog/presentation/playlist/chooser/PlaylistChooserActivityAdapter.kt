@@ -4,12 +4,12 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import kotlinx.android.synthetic.main.item_tab_album.view.*
@@ -43,7 +43,7 @@ class PlaylistChooserActivityAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            BindingsAdapter.loadAlbumImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
         }

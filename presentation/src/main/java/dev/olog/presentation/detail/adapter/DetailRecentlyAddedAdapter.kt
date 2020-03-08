@@ -1,9 +1,9 @@
 package dev.olog.presentation.detail.adapter
 
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -49,7 +49,7 @@ class DetailRecentlyAddedAdapter(
         require(item is DisplayableTrack)
 
         holder.itemView.apply {
-            BindingsAdapter.loadSongImage(holder.imageView!!, item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

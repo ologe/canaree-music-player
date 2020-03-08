@@ -10,9 +10,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
 import dev.olog.media.model.PlayerState
-import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.utils.TextUpdateTransition
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
@@ -62,10 +62,7 @@ class MiniPlayerFragment : BaseFragment() {
             .onEach {
                 buttons.onTrackChanged(it.isPodcast)
 
-                cover?.let { view ->
-                    BindingsAdapter.loadSongImage(view, it.mediaId)
-                }
-
+                cover?.loadSongImage(it.mediaId)
                 presenter.startShowingLeftTime(it.isPodcast, it.duration)
                 updateTitlesJob = launchWhenResumed { updateTitles(it) }
 
