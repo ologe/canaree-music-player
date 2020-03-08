@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EditTrackFragment : BaseEditItemFragment() {
@@ -61,21 +60,22 @@ class EditTrackFragment : BaseEditItemFragment() {
 
         loadImage(mediaId)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            title.setText(it.title)
-            artist.setText(it.artist)
-            albumArtist.setText(it.albumArtist)
-            album.setText(it.album)
-            year.setText(it.year)
-            genre.setText(it.genre)
-            disc.setText(it.disc)
-            trackNumber.setText(it.track)
-            bitrate.text = it.bitrate
-            format.text = it.format
-            sampling.text = it.sampling
-            podcast.isChecked = it.isPodcast
-            hideLoader()
-        }
+        viewModel.observeData()
+            .onEach {
+                title.setText(it.title)
+                artist.setText(it.artist)
+                albumArtist.setText(it.albumArtist)
+                album.setText(it.album)
+                year.setText(it.year)
+                genre.setText(it.genre)
+                disc.setText(it.disc)
+                trackNumber.setText(it.track)
+                bitrate.text = it.bitrate
+                format.text = it.format
+                sampling.text = it.sampling
+                podcast.isChecked = it.isPodcast
+                hideLoader()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
