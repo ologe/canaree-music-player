@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         android:clickable="false"
         android:focusable="false"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -81,7 +81,7 @@
 
     <dev.olog.offlinelyrics.OfflineLyricsRecyclerView
         android:id="@+id/list"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         app:layout_constraintEnd_toStartOf="@+id/search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/back"
@@ -111,7 +111,7 @@
         android:background="@drawable/vd_fade"/>
 
     <dev.olog.shared.widgets.TextWrapper
-        android:id="@+id/wrapper"
+        android:id="@+id/textWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -121,8 +121,8 @@
         android:background="?colorSurface">
 
         <dev.olog.shared.widgets.AutoScrollTextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -139,8 +139,8 @@
             android:layout_marginEnd="100dp"/>
 
         <TextView
-            android:id="@+id/subHeader"
-            android:layout_width="match_parent"
+            android:id="@+id/artist"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
@@ -172,8 +172,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/vd_edit"
-        app:layout_constraintTop_toTopOf="@+id/wrapper"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintTop_toTopOf="@+id/textWrapper"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         android:layout_marginEnd="16dp"
         app:fabSize="normal"
         android:clickable="true"
@@ -183,7 +183,7 @@
         android:id="@+id/fakeNext"
         android:layout_width="48dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sync"
         android:layout_marginTop="24dp"
@@ -194,7 +194,7 @@
         android:layout_width="48dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toTopOf="@+id/textWrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back"
         android:layout_marginBottom="24dp"/>

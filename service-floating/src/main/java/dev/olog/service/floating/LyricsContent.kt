@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import dev.olog.media.model.PlayerState
-import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
+import kotlinx.android.synthetic.main.content_offline_lyrics.view.seekBar
+import kotlinx.android.synthetic.main.content_offline_lyrics.view.textWrapper
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
 import kotlinx.coroutines.flow.*
 
@@ -35,10 +36,8 @@ class LyricsContent(
             }.launchIn(lifecycleScope)
 
         glueService.observeMetadata()
-            .onEach {
-                content.header.text = it.title
-                content.subHeader.text = it.artist
-            }.launchIn(lifecycleScope)
+            .onEach { content.textWrapper.update(it.title, it.artist) }
+            .launchIn(lifecycleScope)
 
         glueService.observeMetadata()
             .onEach {

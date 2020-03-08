@@ -66,8 +66,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                header.text = it.title
-                subHeader.text = it.artist
+                textWrapper.update(it.title, it.artist)
                 seekBar.max = it.duration.toInt()
                 list.smoothScrollToPosition(0)
 
@@ -100,7 +99,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         view.image.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                subHeader.animateTextColor(accent)
+                artist.animateTextColor(accent)
                 edit.animateBackgroundColor(accent)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }

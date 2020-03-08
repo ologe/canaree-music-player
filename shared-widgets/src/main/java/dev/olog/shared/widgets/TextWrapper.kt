@@ -8,16 +8,18 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
-import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 // linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar
 class TextWrapper(
     context: Context,
     attrs: AttributeSet
-) : LinearLayout(context, attrs) {
+) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
 
     private val titleView by lazyFast { findViewById<TextView>(R.id.title) }
     private val artistView by lazyFast { findViewById<TextView>(R.id.artist) }
@@ -29,7 +31,7 @@ class TextWrapper(
     }
 
     fun update(title: String, artist: String) {
-        job = launchWhenResumed {
+        job = launch {
             updateInternal(title, artist)
         }
     }

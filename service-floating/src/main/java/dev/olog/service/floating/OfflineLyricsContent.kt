@@ -45,8 +45,7 @@ class OfflineLyricsContent(
         glueService.observeMetadata()
             .onEach {
                 presenter.updateCurrentTrackId(it.id)
-                content.header.text = it.title
-                content.subHeader.text = it.artist
+                content.textWrapper.update(it.title, it.artist)
                 content.seekBar.max = it.duration.toInt()
                 content.list.smoothScrollToPosition(0)
 
@@ -78,7 +77,7 @@ class OfflineLyricsContent(
             .map { it.accent }
             .onEach {
                 content.edit.animateBackgroundColor(it)
-                content.subHeader.animateTextColor(it)
+                content.artist.animateTextColor(it)
             }.launchIn(lifecycleScope)
     }
 
