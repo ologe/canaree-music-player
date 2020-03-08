@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
@@ -33,7 +32,6 @@ import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.fragmentTransaction
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.swap
@@ -118,21 +116,23 @@ internal class PlayerFragmentAdapter(
         if (viewType in playerViewTypes) {
 
             val view = holder.itemView
-            view.imageSwitcher?.let {
-                it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
-                it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+            view.imageSwitcher?.let { switcher ->
+                switcher.observeProcessorColors()
+                    .onEach { presenter.updateProcessorColors(it) }
+                    .launchIn(holder.lifecycleScope)
+
+                switcher.observePaletteColors()
+                    .onEach { presenter.updatePaletteColors(it) }
+                    .launchIn(holder.lifecycleScope)
             }
-            view.findViewById<PlayerImageView>(R.id.miniCover)?.let {
-                it.observeProcessorColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updateProcessorColors)
-                it.observePaletteColors()
-                    .asLiveData()
-                    .subscribe(holder, presenter::updatePaletteColors)
+            view.findViewById<PlayerImageView>(R.id.miniCover)?.let { imageView ->
+                imageView.observeProcessorColors()
+                    .onEach { presenter.updateProcessorColors(it) }
+                    .launchIn(holder.lifecycleScope)
+
+                imageView.observePaletteColors()
+                    .onEach { presenter.updatePaletteColors(it) }
+                    .launchIn(holder.lifecycleScope)
             }
 
             bindPlayerControls(holder, view)
@@ -266,13 +266,11 @@ internal class PlayerFragmentAdapter(
                     && !playerAppearance.isSpotify
                     && !playerAppearance.isBigImage
             }
-            .asLiveData()
-            .subscribe(holder) { visible ->
+            .onEach { visible ->
                 view.findViewById<View>(R.id.playerControls)
                     ?.findViewById<View>(R.id.player)
                     ?.toggleVisibility(visible, true)
-            }
-
+            }.launchIn(holder.lifecycleScope)
 
         mediaProvider.observePlaybackState()
             .filter { it.isSkipTo }
