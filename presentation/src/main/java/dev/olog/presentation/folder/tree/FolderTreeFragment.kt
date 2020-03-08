@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
@@ -16,10 +17,11 @@ import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class FolderTreeFragment : BaseFragment(),
@@ -36,6 +38,7 @@ class FolderTreeFragment : BaseFragment(),
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
     lateinit var navigator: Navigator
     private val viewModel by viewModels<FolderTreeFragmentViewModel> {
@@ -58,22 +61,22 @@ class FolderTreeFragment : BaseFragment(),
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        viewModel.observeCurrentDirectoryFileName()
-            .subscribe(viewLifecycleOwner) {
-                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
-            }
+        viewModel.currentDirectoryFileName
+            .onEach { bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeChildren()
-            .subscribe(viewLifecycleOwner, adapter::submitList)
+        viewModel.children
+            .onEach { adapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeCurrentFolderIsDefaultFolder()
-            .subscribe(viewLifecycleOwner) { isDefaultFolder ->
-                if (isDefaultFolder){
+        viewModel.currentFolderIsDefaultFolder
+            .onEach { isDefaultFolder ->
+                if (isDefaultFolder) {
                     fab.hide()
                 } else {
                     fab.show()
                 }
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {

@@ -37,9 +37,9 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     private val currentDirectory = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
-    private val isCurrentFolderDefaultFolder = MutableLiveData<Boolean>()
+    private val isCurrentFolderDefaultFolder = ConflatedBroadcastChannel<Boolean>()
 
-    private val currentDirectoryChildrenLiveData = MutableLiveData<List<DisplayableFile>>()
+    private val currentDirectoryChildrenLiveData = ConflatedBroadcastChannel<List<DisplayableFile>>()
 
     init {
         currentDirectory.asFlow()
@@ -48,18 +48,20 @@ class FolderTreeFragmentViewModel @Inject constructor(
                     .map { addHeaders(file, it) }
             }
             .flowOn(schedulers.cpu)
-            .onEach { currentDirectoryChildrenLiveData.value = it }
+            .onEach { currentDirectoryChildrenLiveData.offer(it) }
             .launchIn(viewModelScope)
 
         currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
         { current, default -> current.path == default.path }
-            .onEach { isCurrentFolderDefaultFolder.value = it }
+            .onEach { isCurrentFolderDefaultFolder.offer(it) }
             .launchIn(viewModelScope)
     }
 
     override fun onCleared() {
         super.onCleared()
         currentDirectory.close()
+        isCurrentFolderDefaultFolder.close()
+        currentDirectoryChildrenLiveData.close()
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
@@ -81,9 +83,12 @@ class FolderTreeFragmentViewModel @Inject constructor(
         return backDisplayableItem + folders + tracks
     }
 
-    fun observeChildren(): LiveData<List<DisplayableFile>> = currentDirectoryChildrenLiveData
-    fun observeCurrentDirectoryFileName(): LiveData<File> = currentDirectory.asFlow().asLiveData()
-    fun observeCurrentFolderIsDefaultFolder(): LiveData<Boolean> = isCurrentFolderDefaultFolder.distinctUntilChanged()
+    val children: Flow<List<DisplayableFile>> = currentDirectoryChildrenLiveData.asFlow()
+
+    val currentDirectoryFileName: Flow<File> = currentDirectory.asFlow()
+
+    val currentFolderIsDefaultFolder: Flow<Boolean> = isCurrentFolderDefaultFolder.asFlow()
+        .distinctUntilChanged()
 
     fun popFolder(): Boolean {
         val current = currentDirectory.value
