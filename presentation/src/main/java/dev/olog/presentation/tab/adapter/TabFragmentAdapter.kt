@@ -51,7 +51,7 @@ internal class TabFragmentAdapter(
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.elevateSongOnTouch()
             }
@@ -64,7 +64,7 @@ internal class TabFragmentAdapter(
                     onItemClick(view, item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.elevateAlbumOnTouch()
             }
@@ -112,6 +112,8 @@ internal class TabFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        holder.itemView.transitionName = item.mediaId.toString()
+
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableAlbum -> bindAlbum(holder, item)
@@ -155,7 +157,6 @@ internal class TabFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
-            transitionName = item.mediaId.toString()
             holder.imageView!!.loadAlbumImage(item.mediaId)
             quickAction?.setId(item.mediaId)
             firstText.text = item.title

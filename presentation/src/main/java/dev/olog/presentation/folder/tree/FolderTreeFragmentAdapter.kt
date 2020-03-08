@@ -40,7 +40,7 @@ class FolderTreeFragmentAdapter(
                     }
                     if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
-                            navigator.toDialog(mediaId, view)
+                            navigator.toDialog(mediaId, view, viewHolder.itemView)
                         }
                     }
                 }

@@ -1,10 +1,12 @@
 package dev.olog.presentation.popup.genre
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Genre
+import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
@@ -32,7 +34,8 @@ class GenrePopupListener @Inject constructor(
     private lateinit var genre: Genre
     private var song: Song? = null
 
-    fun setData(genre: Genre, song: Song?): GenrePopupListener {
+    fun setData(container: View?, genre: Genre, song: Song?): GenrePopupListener {
+        this.container = container
         this.genre = genre
         this.song = song
         return this

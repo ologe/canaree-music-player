@@ -1,10 +1,12 @@
 package dev.olog.presentation.popup.folder
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Folder
+import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
@@ -31,7 +33,8 @@ class FolderPopupListener @Inject constructor(
     private lateinit var folder: Folder
     private var song: Song? = null
 
-    fun setData(folder: Folder, song: Song?): FolderPopupListener {
+    fun setData(container: View?, folder: Folder, song: Song?): FolderPopupListener {
+        this.container = container
         this.folder = folder
         this.song = song
         return this

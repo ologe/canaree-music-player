@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
@@ -30,6 +31,8 @@ abstract class AbsPopupListener(
     private val schedulers: Schedulers
 
 ) : PopupMenu.OnMenuItemClickListener {
+
+    protected var container: View? = null
 
     val playlists by lazyFast {
         getPlaylistBlockingUseCase(
@@ -129,11 +132,21 @@ abstract class AbsPopupListener(
     }
 
     protected fun viewAlbum(navigator: Navigator, mediaId: MediaId) {
-        navigator.toDetailFragment(mediaId)
+        val container = container ?: return
+        if (container == null) {
+            navigator.toDetailFragment(mediaId)
+        } else {
+            navigator.toDetailFragment(mediaId, container!!)
+        }
     }
 
     protected fun viewArtist(navigator: Navigator, mediaId: MediaId) {
-        navigator.toDetailFragment(mediaId)
+        val container = container ?: return
+        if (container == null) {
+            navigator.toDetailFragment(mediaId)
+        } else {
+            navigator.toDetailFragment(mediaId, container!!)
+        }
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: MediaId, song: Song) {

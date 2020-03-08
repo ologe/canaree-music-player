@@ -1,5 +1,6 @@
 package dev.olog.presentation.popup
 
+import android.view.View
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.popup.album.AlbumPopupListener
 import dev.olog.presentation.popup.artist.ArtistPopupListener
@@ -19,13 +20,39 @@ class MenuListenerFactory @Inject constructor(
     private val genrePopupListener: Provider<GenrePopupListener>
 ) {
 
-    fun folder(folder: Folder, song: Song?) = folderPopupListener.get().setData(folder, song)
-    fun playlist(playlist: Playlist, song: Song?) =
-        playlistPopupListener.get().setData(playlist, song)
+    fun folder(
+        container: View?,
+        folder: Folder,
+        song: Song?
+    ) = folderPopupListener.get().setData(container, folder, song)
 
-    fun song(song: Song) = songPopupListener.get().setData(song)
-    fun album(album: Album, song: Song?) = albumPopupListener.get().setData(album, song)
-    fun artist(artist: Artist, song: Song?) = artistPopupListener.get().setData(artist, song)
-    fun genre(genre: Genre, song: Song?) = genrePopupListener.get().setData(genre, song)
+    fun playlist(
+        container: View?,
+        playlist: Playlist,
+        song: Song?
+    ) = playlistPopupListener.get().setData(container, playlist, song)
+
+    fun song(
+        container: View?,
+        song: Song
+    ) = songPopupListener.get().setData(container, song)
+
+    fun album(
+        container: View?,
+        album: Album,
+        song: Song?
+    ) = albumPopupListener.get().setData(container, album, song)
+
+    fun artist(
+        container: View?,
+        artist: Artist,
+        song: Song?
+    ) = artistPopupListener.get().setData(container, artist, song)
+
+    fun genre(
+        container: View?,
+        genre: Genre,
+        song: Song?
+    ) = genrePopupListener.get().setData(container, genre, song)
 
 }

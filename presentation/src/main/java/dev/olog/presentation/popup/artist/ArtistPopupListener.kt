@@ -1,6 +1,7 @@
 package dev.olog.presentation.popup.artist
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
@@ -33,7 +34,8 @@ class ArtistPopupListener @Inject constructor(
     private lateinit var artist: Artist
     private var song: Song? = null
 
-    fun setData(artist: Artist, song: Song?): ArtistPopupListener {
+    fun setData(container: View?, artist: Artist, song: Song?): ArtistPopupListener {
+        this.container = container
         this.artist = artist
         this.song = song
         return this

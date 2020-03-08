@@ -16,7 +16,7 @@ internal class TabFragmentNestedAdapter(
             navigator.toDetailFragment(item.mediaId, view)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
         }
         viewHolder.elevateAlbumOnTouch()
     }

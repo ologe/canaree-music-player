@@ -26,10 +26,10 @@ class RecentlyAddedFragmentAdapter(
             mediaProvider.playFromMediaId(item.mediaId, null, null)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView)
+            navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
         }
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item.mediaId, view)
+            navigator.toDialog(item.mediaId, view, viewHolder.itemView)
         }
         viewHolder.elevateAlbumOnTouch()
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)

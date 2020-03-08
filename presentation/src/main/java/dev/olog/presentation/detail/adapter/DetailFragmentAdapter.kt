@@ -78,7 +78,7 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
                 }
             }
             R.layout.item_detail_song,
@@ -91,10 +91,10 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    navigator.toDialog(item.mediaId, view, viewHolder.itemView)
                 }
 
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)

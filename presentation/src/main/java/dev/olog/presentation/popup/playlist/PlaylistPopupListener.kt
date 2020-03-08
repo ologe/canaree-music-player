@@ -1,10 +1,12 @@
 package dev.olog.presentation.popup.playlist
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
-import dev.olog.core.entity.track.*
+import dev.olog.core.entity.track.Playlist
+import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
@@ -33,7 +35,8 @@ class PlaylistPopupListener @Inject constructor(
     private lateinit var playlist: Playlist
     private var song: Song? = null
 
-    fun setData(playlist: Playlist, song: Song?): PlaylistPopupListener {
+    fun setData(container: View?, playlist: Playlist, song: Song?): PlaylistPopupListener {
+        this.container = container
         this.playlist = playlist
         this.song = song
         return this

@@ -73,10 +73,10 @@ internal class PlayerFragmentAdapter(
                     mediaProvider.skipToQueueItem(item.idInPlaylist)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view)
+                    navigator.toDialog(item.mediaId, view, viewHolder.itemView)
                 }
                 viewHolder.elevateAlbumOnTouch()
 
@@ -94,7 +94,7 @@ internal class PlayerFragmentAdapter(
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
                         val mediaId = MediaId.songId(playingMediaId!!.resolveId)
-                        navigator.toDialog(mediaId, view)
+                        navigator.toDialog(mediaId, view, viewHolder.itemView)
                     } catch (ex: NullPointerException){
                         Timber.e(ex)
                     }

@@ -27,7 +27,7 @@ interface Navigator {
 
     fun toOfflineLyrics()
 
-    fun toDialog(mediaId: MediaId, anchor: View)
+    fun toDialog(mediaId: MediaId, anchor: View, container: View?)
 
     fun toMainPopup(anchor: View, category: MediaIdCategory?)
 

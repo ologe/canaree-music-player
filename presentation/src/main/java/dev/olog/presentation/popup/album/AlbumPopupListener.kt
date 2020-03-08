@@ -1,6 +1,7 @@
 package dev.olog.presentation.popup.album
 
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.core.MediaId
@@ -33,7 +34,8 @@ class AlbumPopupListener @Inject constructor(
     private lateinit var album: Album
     private var song: Song? = null
 
-    fun setData(album: Album, song: Song?): AlbumPopupListener {
+    fun setData(container: View?, album: Album, song: Song?): AlbumPopupListener {
+        this.container = container
         this.album = album
         this.song = song
         return this
@@ -127,7 +129,12 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist() {
-        navigator.toDetailFragment(album.getArtistMediaId())
+        val container = container ?: return
+        if (container == null) {
+            navigator.toDetailFragment(album.getArtistMediaId())
+        } else {
+            navigator.toDetailFragment(album.getArtistMediaId(), container!!)
+        }
     }
 
 

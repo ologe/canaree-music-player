@@ -226,7 +226,7 @@ class DetailFragment : BaseFragment(),
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
         back.setOnClickListener { act.onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
+        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more, null) }
         filter.setOnClickListener {
             TransitionManager.beginDelayedTransition(toolbar)
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)

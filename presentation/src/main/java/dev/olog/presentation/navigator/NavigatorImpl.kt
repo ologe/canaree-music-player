@@ -203,12 +203,12 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toDialog(mediaId: MediaId, anchor: View) {
+    override fun toDialog(mediaId: MediaId, anchor: View, container: View?) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
         activity.lifecycleScope.launchWhenResumed {
-            val popup = popupFactory.get().create(anchor, mediaId)
+            val popup = popupFactory.get().create(anchor, container, mediaId)
             popup.show()
         }
     }
