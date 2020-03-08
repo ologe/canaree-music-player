@@ -110,7 +110,11 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
         if (matches.isEmpty()) {
             // not synced
-            lyricsPublisher.offer(Lyrics(listOf(OfflineLyricsLine(lyrics, 0L))))
+            if (lyrics.isBlank()) {
+                lyricsPublisher.offer(Lyrics(emptyList()))
+            } else {
+                lyricsPublisher.offer(Lyrics(listOf(OfflineLyricsLine(lyrics, 0L))))
+            }
         } else {
             // synced lyrics
             val result = matches.map {
