@@ -8,15 +8,12 @@ import android.view.ViewParent
 import androidx.annotation.Px
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.findFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import timber.log.Timber
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -115,25 +112,8 @@ fun <T> ViewGroup.map(action: (View) -> T): List<T> {
     return result
 }
 
-val View.lifecycle: Lifecycle
-    get() {
-        return try {
-            findFragment<Fragment>().lifecycle
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            (context as FragmentActivity).lifecycle
-        }
-    }
-
 val View.lifecycleScope: LifecycleCoroutineScope
-    get() {
-        return try {
-            findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            (context as FragmentActivity).lifecycleScope
-        }
-    }
+    get() = findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
 
 fun View.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
     return lifecycleScope.launchWhenResumed(block)
