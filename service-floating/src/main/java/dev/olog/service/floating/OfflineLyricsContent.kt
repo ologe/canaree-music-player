@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.core.schedulers.Schedulers
@@ -15,7 +14,6 @@ import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.autoDisposeJob
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
@@ -68,9 +66,8 @@ class OfflineLyricsContent(
             }.launchIn(lifecycleScope)
 
         presenter.observeCurrentProgress
-            .subscribe(this) { time ->
-                content.list.adapter.updateTime(time)
-            }
+            .onEach { content.list.adapter.updateTime(it) }
+            .launchIn(lifecycleScope)
 
         glueService.observePlaybackState()
             .filter { it.isPlayOrPause }
@@ -79,11 +76,10 @@ class OfflineLyricsContent(
 
         content.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(this) {
+            .onEach {
                 content.edit.animateBackgroundColor(it)
                 content.subHeader.animateTextColor(it)
-            }
+            }.launchIn(lifecycleScope)
     }
 
     private suspend fun loadImage(mediaId: MediaId) {
