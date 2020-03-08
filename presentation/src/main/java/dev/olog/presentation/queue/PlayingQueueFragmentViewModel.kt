@@ -1,7 +1,5 @@
 package dev.olog.presentation.queue
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.PlayingQueueSong
@@ -25,7 +23,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
     fun getLastIdInPlaylist() = musicPreferencesUseCase.getLastIdInPlaylist()
 
-    private val data = MutableLiveData<List<DisplayableQueueSong>>()
+    private val data = ConflatedBroadcastChannel<List<DisplayableQueueSong>>()
 
     private val queuePublisher = ConflatedBroadcastChannel<List<PlayingQueueSong>>()
 
@@ -38,43 +36,47 @@ class PlayingQueueFragmentViewModel @Inject constructor(
         queuePublisher.asFlow()
             .combine(musicPreferencesUseCase.observeLastIdInPlaylist().distinctUntilChanged())
             { queue, idInPlaylist ->
-                val currentPlayingIndex = queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
+                val currentPlayingIndex =
+                    queue.indexOfFirst { it.song.idInPlaylist == idInPlaylist }
                 queue.mapIndexed { index, item ->
                     item.toDisplayableItem(index, currentPlayingIndex, idInPlaylist)
                 }
             }
             .flowOn(schedulers.cpu)
-            .onEach { data.value = it }
+            .onEach { data.offer(it)  }
             .launchIn(viewModelScope)
     }
 
     override fun onCleared() {
         super.onCleared()
         queuePublisher.close()
+        data.close()
     }
 
-    fun observeData(): LiveData<List<DisplayableQueueSong>> = data
+    fun observeData(): Flow<List<DisplayableQueueSong>> = data.asFlow()
 
-    fun recalculatePositionsAfterRemove(position: Int) =
-        viewModelScope.launch(schedulers.cpu) {
-            val currentList = queuePublisher.value.toMutableList()
-            currentList.removeAt(position)
+    fun recalculatePositionsAfterRemove(
+        position: Int
+    ) = viewModelScope.launch(schedulers.cpu) {
+        val currentList = queuePublisher.value.toMutableList()
+        currentList.removeAt(position)
 
-            queuePublisher.offer(currentList)
-        }
+        queuePublisher.offer(currentList)
+    }
 
     /**
      * @param moves contains all the movements in the list
      */
-    fun recalculatePositionsAfterMove(moves: List<Pair<Int, Int>>) =
-        viewModelScope.launch(schedulers.cpu) {
-            val currentList = queuePublisher.value
-            for ((from, to) in moves) {
-                currentList.swap(from, to)
-            }
-
-            queuePublisher.offer(currentList)
+    fun recalculatePositionsAfterMove(
+        moves: List<Pair<Int, Int>>
+    ) = viewModelScope.launch(schedulers.cpu) {
+        val currentList = queuePublisher.value
+        for ((from, to) in moves) {
+            currentList.swap(from, to)
         }
+
+        queuePublisher.offer(currentList)
+    }
 
     private fun PlayingQueueSong.toDisplayableItem(
         currentPosition: Int,
