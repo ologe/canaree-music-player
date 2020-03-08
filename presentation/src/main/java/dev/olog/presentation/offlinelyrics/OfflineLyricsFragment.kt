@@ -118,7 +118,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         }
         back.setOnClickListener { act.onBackPressed() }
         search.setOnClickListener { searchLyrics() }
-        act.window.setLightStatusBar()
 
         fakeNext.setOnClickListener {
             list.adapter.debounceUpdate()
