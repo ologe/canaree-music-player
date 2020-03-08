@@ -217,7 +217,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        holder.itemView.transitionName = item.mediaId.toString()
+        holder.itemView.transitionName = "detail ${item.mediaId}"
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)

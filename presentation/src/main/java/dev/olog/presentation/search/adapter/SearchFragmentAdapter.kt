@@ -85,7 +85,7 @@ class SearchFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        holder.itemView.transitionName = item.mediaId.toString()
+        holder.itemView.transitionName = "search ${item.mediaId}"
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
