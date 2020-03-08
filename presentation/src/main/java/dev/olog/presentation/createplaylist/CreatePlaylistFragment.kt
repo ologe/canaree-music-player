@@ -61,7 +61,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
-            .subscribe(viewLifecycleOwner) { size ->
+            .onEach { size ->
                 val text = when (size) {
                     0 -> getString(R.string.popup_new_playlist)
                     else -> resources.getQuantityString(
@@ -72,17 +72,16 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                 }
                 header.text = text
                 fab.toggleVisibility(size > 0, false)
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeData()
-            .subscribe(viewLifecycleOwner) {
-                adapter.submitList(it) {
-                    // TODO
-                    emptyStateText.isVisible = it.isEmpty()
-                }
-                sidebar.onDataChanged(it)
+        viewModel.data
+            .onEach {
                 restoreUpperWidgetsTranslation()
-            }
+                adapter.suspendSubmitList(it)
+                list.awaitAnimationEnd()
+                emptyStateText.isVisible = it.isEmpty()
+                sidebar.onDataChanged(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         sidebar.scrollableLayoutId = R.layout.item_create_playlist
 

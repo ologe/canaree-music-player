@@ -3,10 +3,7 @@ package dev.olog.presentation.createplaylist
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -33,50 +30,43 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
-
     private val selectedIds = LongSparseArray<Long>()
-    private val selectionCountLiveData = MutableLiveData<Int>()
-    private val showOnlyFiltered = ConflatedBroadcastChannel(false)
+    private val selectionCountPublisher = ConflatedBroadcastChannel<Int>()
+    private val showOnlyFilteredPublisher = ConflatedBroadcastChannel(false)
 
     private val filterChannel = ConflatedBroadcastChannel("")
 
-    init {
-        showOnlyFiltered.asFlow()
-            .flatMapLatest { onlyFiltered ->
-                if (onlyFiltered){
-                    getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
-                } else {
-                    getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
-                        if (filter.isNotEmpty()) {
-                            tracks.filter {
-                                it.title.contains(filter, true) ||
-                                        it.artist.contains(filter, true) ||
-                                        it.album.contains(filter, true)
-                            }
-                        } else {
-                            tracks
+    val data: Flow<List<DisplayableItem>> = showOnlyFilteredPublisher.asFlow()
+        .flatMapLatest { onlyFiltered ->
+            if (onlyFiltered){
+                getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
+            } else {
+                getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
+                    if (filter.isNotEmpty()) {
+                        tracks.filter {
+                            it.title.contains(filter, true) ||
+                                    it.artist.contains(filter, true) ||
+                                    it.album.contains(filter, true)
                         }
+                    } else {
+                        tracks
                     }
                 }
-            }.mapListItem { it.toDisplayableItem() }
-            .flowOn(schedulers.cpu)
-            .onEach { data.value = it }
-            .launchIn(viewModelScope)
-    }
+            }
+        }.mapListItem { it.toDisplayableItem() }
+        .flowOn(schedulers.cpu)
 
     override fun onCleared() {
         super.onCleared()
         filterChannel.close()
-        showOnlyFiltered.close()
+        selectionCountPublisher.close()
+        showOnlyFilteredPublisher.close()
 
     }
 
     fun updateFilter(filter: String) {
         filterChannel.offer(filter)
     }
-
-    fun observeData(): LiveData<List<DisplayableItem>> = data
 
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
         PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
@@ -87,12 +77,12 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     fun toggleItem(mediaId: MediaId) {
         val id = mediaId.resolveId
         selectedIds.toggle(id, id)
-        selectionCountLiveData.postValue(selectedIds.size())
+        selectionCountPublisher.offer(selectedIds.size())
     }
 
     fun toggleShowOnlyFiltered() {
-        val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.offer(!onlyFiltered)
+        val onlyFiltered = showOnlyFilteredPublisher.value
+        showOnlyFilteredPublisher.offer(!onlyFiltered)
     }
 
     fun isChecked(mediaId: MediaId): Boolean {
@@ -100,7 +90,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         return selectedIds[id] != null
     }
 
-    fun observeSelectedCount(): LiveData<Int> = selectionCountLiveData
+    fun observeSelectedCount(): Flow<Int> = selectionCountPublisher.asFlow()
 
     suspend fun savePlaylist(playlistTitle: String): Boolean {
         if (selectedIds.isEmpty()) {
