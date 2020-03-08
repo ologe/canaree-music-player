@@ -80,9 +80,7 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {
-            launchWhenResumed { trySave() }
-        }
+        okButton.onClick { trySave() }
         cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {
             if (viewModel.fetchSongInfo(mediaId)) {
