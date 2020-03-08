@@ -43,6 +43,7 @@
         <item name="imageButtonStyle">@style/MaterialImageButton</item>
         <item name="seekBarStyle">@style/MaterialSeekBar</item>
         <item name="floatingActionButtonStyle">@style/MaterialFab</item>
+        <item name="extendedFloatingActionButtonStyle">@style/MaterialExtendedFab</item>
 
         <item name="elevationOverlayEnabled">false</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallShapeAppearance</item>
@@ -113,6 +114,11 @@
 <!--    fab-->
     <style name="MaterialFab" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="fabSize">normal</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="tint">?attr/colorPrimaryTransparent</item>
+    </style>
+
+    <style name="MaterialExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
         <item name="backgroundTint">?attr/colorAccent</item>
         <item name="tint">?attr/colorPrimaryTransparent</item>
     </style>
