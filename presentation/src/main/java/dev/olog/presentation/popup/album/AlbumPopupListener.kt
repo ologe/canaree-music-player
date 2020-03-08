@@ -129,7 +129,6 @@ class AlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist() {
-        val container = container ?: return
         if (container == null) {
             navigator.toDetailFragment(album.getArtistMediaId())
         } else {
