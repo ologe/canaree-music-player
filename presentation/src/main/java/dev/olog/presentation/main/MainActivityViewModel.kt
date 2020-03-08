@@ -1,13 +1,14 @@
 package dev.olog.presentation.main
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.Permissions
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 internal class MainActivityViewModel @Inject constructor(
@@ -15,7 +16,7 @@ internal class MainActivityViewModel @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    private val _currentPlaying = MutableLiveData<MediaId>()
+    private val currentPlayingPublisher = ConflatedBroadcastChannel<MediaId>()
 
     fun isFirstAccess(): Boolean {
         val canReadStorage = Permissions.canReadStorage(context)
@@ -23,10 +24,15 @@ internal class MainActivityViewModel @Inject constructor(
         return !canReadStorage || isFirstAccess
     }
 
-    fun setCurrentPlaying(mediaId: MediaId) {
-        _currentPlaying.value = mediaId
+    override fun onCleared() {
+        super.onCleared()
+        currentPlayingPublisher.close()
     }
 
-    val observeCurrentPlaying: LiveData<MediaId> = _currentPlaying
+    fun setCurrentPlaying(mediaId: MediaId) {
+        currentPlayingPublisher.offer(mediaId)
+    }
+
+    val observeCurrentPlaying: Flow<MediaId> = currentPlayingPublisher.asFlow()
 
 }

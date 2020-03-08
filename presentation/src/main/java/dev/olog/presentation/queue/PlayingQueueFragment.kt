@@ -20,10 +20,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.dip
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +43,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     private val viewModel by viewModels<PlayingQueueFragmentViewModel> {
         viewModelFactory
     }
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -65,11 +63,12 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
         setupDragListener(list, ItemTouchHelper.RIGHT)
 
-        viewModel.observeData().subscribe(viewLifecycleOwner) {
-            adapter.submitList(it) {
+        viewModel.observeData()
+            .onEach {
+                adapter.suspendSubmitList(it)
+                list.awaitAnimationEnd()
                 emptyStateText.isVisible = it.isEmpty()
-            }
-        }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         adapter.observeData.asFlow()
             .take(1)
