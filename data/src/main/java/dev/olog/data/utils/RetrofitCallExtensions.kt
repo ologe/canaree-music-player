@@ -17,7 +17,6 @@ internal suspend fun <T> networkCall(repeatTimes: Int = 3, call: suspend () -> R
         }
         errorCode = result.code()
         errorMessage = result.message()
-        yield()
     }
 
     throw InvalidNetworkCall(errorCode, errorMessage)
@@ -34,7 +33,6 @@ internal suspend fun <T> safeNetworkCall(
             if (result.isSuccessful) {
                 return result.body()
             }
-            yield()
         }
     } catch (ex: Exception) {
         Timber.e(ex)
