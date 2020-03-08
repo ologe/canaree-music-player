@@ -50,12 +50,10 @@
         android:focusable="true"
         tools:visibility="invisible"/>
 
-    <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
-    <LinearLayout
+    <dev.olog.presentation.widgets.TextWrapper
         android:id="@+id/textWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/imageSwitcher"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/imageSwitcher"
@@ -94,7 +92,7 @@
             android:focusable="false"
             android:gravity="center" />
 
-    </LinearLayout>
+    </dev.olog.presentation.widgets.TextWrapper>
 
     <!-- seekbar -->
     <dev.olog.media.widget.CustomSeekBar

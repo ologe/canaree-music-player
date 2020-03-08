@@ -18,11 +18,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
+        <dev.olog.presentation.widgets.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
             android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttons"
@@ -57,7 +56,7 @@
                 android:textSize="13dp"
                 tools:text="@tools:sample/lorem" />
 
-        </LinearLayout>
+        </dev.olog.presentation.widgets.TextWrapper>
 
         <dev.olog.media.widget.CustomProgressBar
             android:id="@+id/progressBar"

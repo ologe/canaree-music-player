@@ -5,7 +5,6 @@ import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import androidx.lifecycle.lifecycleScope
-import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
@@ -13,15 +12,12 @@ import dev.olog.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.utils.TextUpdateTransition
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.BottomSheetType
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.artist
 import kotlinx.android.synthetic.main.fragment_mini_player.progressBar
@@ -29,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_mini_player.textWrapper
 import kotlinx.android.synthetic.main.fragment_mini_player.title
 import kotlinx.android.synthetic.main.fragment_mini_player_floating.*
 import kotlinx.android.synthetic.main.fragment_mini_player_floating.buttons
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -47,8 +42,6 @@ class MiniPlayerFragment : BaseFragment() {
 
     private val media by lazyFast { requireActivity() as MediaProvider }
 
-    private var updateTitlesJob by autoDisposeJob()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
@@ -64,8 +57,8 @@ class MiniPlayerFragment : BaseFragment() {
 
                 cover?.loadSongImage(it.mediaId)
                 presenter.startShowingLeftTime(it.isPodcast, it.duration)
-                updateTitlesJob = launchWhenResumed { updateTitles(it) }
 
+                updateTitles(it)
                 updateProgressBarMax(it.duration)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -108,19 +101,9 @@ class MiniPlayerFragment : BaseFragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private suspend fun updateTitles(metadata: PlayerMetadata) {
-        title.isSelected = false
-        artist.isSelected = false
-
-        TransitionManager.beginDelayedTransition(textWrapper, TextUpdateTransition)
-        title.text = metadata.title
-        if (!metadata.isPodcast) {
-            artist.text = metadata.artist
-        }
-
-        delay(TextUpdateTransition.DURATION * 2)
-        title.isSelected = true
-        artist.isSelected = true
+    private fun updateTitles(metadata: PlayerMetadata) {
+        val artist = if (metadata.isPodcast) artist.text.toString() else metadata.artist
+        textWrapper.update(metadata.title, artist)
     }
 
     override fun onResume() {

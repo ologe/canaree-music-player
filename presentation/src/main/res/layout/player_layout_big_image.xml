@@ -90,15 +90,13 @@
         android:clickable="false"
         android:focusable="false" />
 
-    <!--       linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar -->
-    <LinearLayout
+    <dev.olog.presentation.widgets.TextWrapper
         android:id="@+id/textWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/bookmark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
         android:layout_marginTop="@dimen/player_big_image_text_margin_top"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp">
@@ -131,7 +129,7 @@
             android:focusable="false"
             android:gravity="center" />
 
-    </LinearLayout>
+    </dev.olog.presentation.widgets.TextWrapper>
 
     <include
         android:id="@+id/playerControls"
