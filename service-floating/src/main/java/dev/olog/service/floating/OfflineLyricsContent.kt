@@ -12,8 +12,7 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.animateBackgroundColor
-import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.autoDisposeJob
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
@@ -24,7 +23,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-// TODO cancel presenter scope
 class OfflineLyricsContent(
     private val context: Context,
     private val glueService: MusicGlueService,
@@ -36,50 +34,6 @@ class OfflineLyricsContent(
     private var lyricsJob by autoDisposeJob()
 
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
-
-    init {
-        content.list.onTap = {
-            glueService.playPause()
-        }
-
-        glueService.observeMetadata()
-            .onEach {
-                presenter.updateCurrentTrackId(it.id)
-                content.textWrapper.update(it.title, it.artist)
-                content.seekBar.max = it.duration.toInt()
-                content.list.smoothScrollToPosition(0)
-
-                loadImage(it.mediaId)
-            }.launchIn(lifecycleScope)
-
-        glueService.observePlaybackState()
-            .onEach {
-                val speed = if (it.isPaused) 0f else it.playbackSpeed
-                presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
-            }.launchIn(lifecycleScope)
-
-        presenter.observeLyrics()
-            .onEach {
-                content.emptyState.isVisible = it.lines.isEmpty()
-                content.list.adapter.submitList(it.lines)
-            }.launchIn(lifecycleScope)
-
-        presenter.observeCurrentProgress
-            .onEach { content.list.adapter.updateTime(it) }
-            .launchIn(lifecycleScope)
-
-        glueService.observePlaybackState()
-            .filter { it.isPlayOrPause }
-            .onEach { content.seekBar.onStateChanged(it) }
-            .launchIn(lifecycleScope)
-
-        content.image.observePaletteColors()
-            .map { it.accent }
-            .onEach {
-                content.edit.animateBackgroundColor(it)
-                content.artist.animateTextColor(it)
-            }.launchIn(lifecycleScope)
-    }
 
     private suspend fun loadImage(mediaId: MediaId) {
         try {
@@ -99,32 +53,79 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         super.onShown()
+
         presenter.onStart()
 
-        content.edit.setOnClickListener {
-            lifecycleScope.launchWhenResumed {
-                EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
-                    presenter.updateLyrics(newLyrics)
-                }
+        glueService.observeMetadata()
+            .onEach {
+                presenter.updateCurrentTrackId(it.id)
+                content.textWrapper.update(it.title, it.artist)
+                content.seekBar.max = it.duration.toInt()
+                content.list.smoothScrollToPosition(0)
+
+                loadImage(it.mediaId)
+            }.launchIn(lifecycleScope)
+
+        glueService.observePlaybackState()
+            .onEach {
+                val speed = if (it.isPaused) 0f else it.playbackSpeed
+                presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
+            }.launchIn(lifecycleScope)
+
+        presenter.observeLyrics()
+            .onEach {
+                content.list.adapter.suspendSubmitList(it.lines)
+                content.list.awaitAnimationEnd()
+                content.emptyState.isVisible = it.lines.isEmpty()
+            }.launchIn(lifecycleScope)
+
+        presenter.observeCurrentProgress
+            .onEach { content.list.adapter.updateTime(it) }
+            .launchIn(lifecycleScope)
+
+        glueService.observePlaybackState()
+            .filter { it.isPlayOrPause }
+            .onEach { content.seekBar.onStateChanged(it) }
+            .launchIn(lifecycleScope)
+
+        content.image.observePaletteColors()
+            .map { it.accent }
+            .onEach {
+                content.edit.animateBackgroundColor(it)
+                content.artist.animateTextColor(it)
+            }.launchIn(lifecycleScope)
+
+        content.list.onTap = {
+            glueService.playPause()
+        }
+
+        content.edit.onClick {
+            EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
+                presenter.updateLyrics(newLyrics)
             }
         }
 
-        content.sync.setOnClickListener {
-            lifecycleScope.launchWhenResumed {
-                try {
-                    OfflineLyricsSyncAdjustementDialog.show(
-                        context,
-                        presenter.getSyncAdjustment()
-                    ) {
-                        presenter.updateSyncAdjustment(it)
-                    }
-                } catch (ex: Exception){
-                    Timber.e(ex)
+        content.sync.onClick {
+            try {
+                OfflineLyricsSyncAdjustementDialog.show(
+                    context,
+                    presenter.getSyncAdjustment()
+                ) {
+                    presenter.updateSyncAdjustment(it)
                 }
+            } catch (ex: Exception){
+                Timber.e(ex)
             }
         }
-        content.fakeNext.setOnClickListener { glueService.skipToNext() }
-        content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
+
+        content.fakeNext.setOnClickListener {
+            content.list.adapter.debounceUpdate()
+            glueService.skipToNext()
+        }
+        content.fakePrev.setOnClickListener {
+            content.list.adapter.debounceUpdate()
+            glueService.skipToPrevious()
+        }
 
         content.seekBar.setListener(onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
@@ -139,8 +140,12 @@ class OfflineLyricsContent(
         content.fakeNext.setOnTouchListener(null)
         content.fakePrev.setOnTouchListener(null)
         content.seekBar.setOnSeekBarChangeListener(null)
+    }
 
+    override fun onDispose() {
+        super.onDispose()
         lyricsJob = null
+        presenter.dispose()
     }
 
 }

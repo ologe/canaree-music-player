@@ -8,16 +8,25 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
+import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import kotlinx.android.synthetic.main.item_offline_lyrics.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 class OfflineLyricsAdapter(
     private val onSelectedChanged: (Int) -> Unit
 ) : ListAdapter<OfflineLyricsLine, RecyclerView.ViewHolder>(OfflineLyricsDiff) {
 
+    private var canUpdateJob by autoDisposeJob()
+
+    var canUpdate = true
+        private set
+
     var selectedIndex by Delegates.observable(0) { _, old, new ->
-        if (old != new) {
+        if (canUpdate && old != new && currentList.size > 1) {
             onSelectedChanged(new)
         }
     }
@@ -68,6 +77,9 @@ class OfflineLyricsAdapter(
     }
 
     fun updateTime(time: Long) {
+        if (!canUpdate) {
+            return
+        }
         var index = currentList.indexOfFirst { it.time > time }
         index = clamp(index - 1, 0, currentList.lastIndex)
         if (index != selectedIndex) {
@@ -76,6 +88,15 @@ class OfflineLyricsAdapter(
             selectedIndex = index
         }
     }
+
+    fun debounceUpdate() {
+        canUpdateJob = GlobalScope.launch {
+            canUpdate = false
+            delay(200)
+            canUpdate = true
+        }
+    }
+
 }
 
 private object OfflineLyricsDiff : DiffUtil.ItemCallback<OfflineLyricsLine>() {

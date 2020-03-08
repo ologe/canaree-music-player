@@ -82,9 +82,9 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         presenter.observeLyrics()
             .onEach {
+                list.adapter.suspendSubmitList(it.lines)
+                list.awaitAnimationEnd()
                 emptyState.isVisible = it.lines.isEmpty()
-                list.adapter.submitList(it.lines)
-
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.observeCurrentProgress
@@ -120,8 +120,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         search.setOnClickListener { searchLyrics() }
         act.window.setLightStatusBar()
 
-        fakeNext.setOnClickListener { mediaProvider.skipToNext() }
-        fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
+        fakeNext.setOnClickListener {
+            list.adapter.debounceUpdate()
+            mediaProvider.skipToNext()
+        }
+        fakePrev.setOnClickListener {
+            list.adapter.debounceUpdate()
+            mediaProvider.skipToPrevious()
+        }
 
         sync.onClick { _ ->
             try {

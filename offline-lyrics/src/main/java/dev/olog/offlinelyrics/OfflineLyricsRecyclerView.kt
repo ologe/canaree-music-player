@@ -92,7 +92,7 @@ class OfflineLyricsRecyclerView(
         return super.getAdapter() as OfflineLyricsAdapter
     }
 
-    fun scroll(position: Int) {
+    private fun scroll(position: Int) {
         val list = this
         val vh = findViewHolderForAdapterPosition(position)
         if (vh != null ){
