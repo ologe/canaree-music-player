@@ -64,14 +64,6 @@
             android:paddingEnd="8dp"
             android:paddingStart="48dp" />
 
-        <dev.olog.shared.widgets.DottedSeparator
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:translationY="1dp"/>
-
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
