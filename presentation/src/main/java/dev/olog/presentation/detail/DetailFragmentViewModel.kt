@@ -1,7 +1,5 @@
 package dev.olog.presentation.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
@@ -21,7 +19,6 @@ import dev.olog.shared.mapListItem
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -47,63 +44,17 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterPublisher = ConflatedBroadcastChannel("")
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterPublisher.offer(filter)
     }
 
-    fun getFilter(): String = filterChannel.value
+    fun getFilter(): String = filterPublisher.value
 
-    private val itemLiveData = MutableLiveData<DisplayableItem>()
-    private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
-    private val relatedArtistsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val siblingsLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val recentlyAddedLiveData = MutableLiveData<List<DisplayableItem>>()
-    private val songLiveData = MutableLiveData<List<DisplayableItem>>()
-
-    private val biographyLiveData = MutableLiveData<String?>()
+    private val biographyPublisher = ConflatedBroadcastChannel<String?>()
 
     init {
-        // header
-        dataProvider.observeHeader(mediaId)
-            .flowOn(schedulers.cpu)
-            .onEach { itemLiveData.value = it[0] }
-            .launchIn(viewModelScope)
-
-        // most played
-        dataProvider.observeMostPlayed(mediaId)
-            .mapListItem { it as DisplayableTrack }
-            .flowOn(schedulers.cpu)
-            .onEach { mostPlayedLiveData.value = it }
-            .launchIn(viewModelScope)
-
-        // related artists
-        dataProvider.observeRelatedArtists(mediaId)
-            .map { it.take(RELATED_ARTISTS_TO_SEE) }
-            .flowOn(schedulers.cpu)
-            .onEach { relatedArtistsLiveData.value = it }
-            .launchIn(viewModelScope)
-
-        // siblings
-        dataProvider.observeSiblings(mediaId)
-            .flowOn(schedulers.cpu)
-            .onEach { siblingsLiveData.value = it }
-            .launchIn(viewModelScope)
-
-        // recent
-        dataProvider.observeRecentlyAdded(mediaId)
-            .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
-            .flowOn(schedulers.cpu)
-            .onEach { recentlyAddedLiveData.value = it }
-            .launchIn(viewModelScope)
-
-        // songs
-        dataProvider.observe(mediaId, filterChannel.asFlow())
-            .flowOn(schedulers.cpu)
-            .onEach { songLiveData.value = it }
-            .launchIn(viewModelScope)
-
         // biography
         viewModelScope.launch(schedulers.io) {
             try {
@@ -112,9 +63,7 @@ internal class DetailFragmentViewModel @Inject constructor(
                     mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
                     else -> null
                 }
-                withContext(schedulers.main) {
-                    biographyLiveData.value = biography
-                }
+                biographyPublisher.offer(biography)
             } catch (ex: NullPointerException) {
                 Timber.e(ex)
                 ex.printStackTrace()
@@ -127,16 +76,39 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        filterChannel.close()
+        filterPublisher.close()
+        biographyPublisher.close()
     }
 
-    fun observeItem(): LiveData<DisplayableItem> = itemLiveData
-    fun observeMostPlayed(): LiveData<List<DisplayableTrack>> = mostPlayedLiveData
-    fun observeRecentlyAdded(): LiveData<List<DisplayableItem>> = recentlyAddedLiveData
-    fun observeRelatedArtists(): LiveData<List<DisplayableItem>> = relatedArtistsLiveData
-    fun observeSiblings(): LiveData<List<DisplayableItem>> = siblingsLiveData
-    fun observeSongs(): LiveData<List<DisplayableItem>> = songLiveData
-    fun observeBiography(): LiveData<String?> = biographyLiveData
+    val item: Flow<DisplayableItem> = dataProvider.observeHeader(mediaId)
+        .map { it[0] }
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val mostPlayed: Flow<List<DisplayableTrack>> = dataProvider.observeMostPlayed(mediaId)
+        .mapListItem { it as DisplayableTrack }
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val recentlyAdded: Flow<List<DisplayableItem>> = dataProvider.observeRecentlyAdded(mediaId)
+        .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val relatedArtists: Flow<List<DisplayableItem>> = dataProvider.observeRelatedArtists(mediaId)
+        .map { it.take(RELATED_ARTISTS_TO_SEE) }
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val siblings: Flow<List<DisplayableItem>> = dataProvider.observeSiblings(mediaId)
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val songs: Flow<List<DisplayableItem>> = dataProvider.observe(mediaId, filterPublisher.asFlow())
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val biography: Flow<String?> = biographyPublisher.asFlow()
 
     fun observeAllCurrentPositions() = podcastGateway.observeAllCurrentPositions()
         .map {

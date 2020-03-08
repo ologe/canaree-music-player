@@ -4,9 +4,7 @@ package dev.olog.presentation.detail.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +43,7 @@ import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
 import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 internal class DetailFragmentAdapter(
@@ -170,9 +169,10 @@ internal class DetailFragmentAdapter(
                 }
             }
             R.layout.item_detail_biography -> {
-                viewModel.observeBiography()
+                viewModel.biography
                     .map { it?.asHtml() }
-                    .observe(holder, Observer { view.biography.text = it })
+                    .onEach { view.biography.text = it }
+                    .launchIn(holder.lifecycleScope)
             }
         }
     }

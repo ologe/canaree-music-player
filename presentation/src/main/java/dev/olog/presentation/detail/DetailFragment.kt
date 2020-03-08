@@ -28,10 +28,7 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -59,6 +56,7 @@ class DetailFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -104,7 +102,7 @@ class DetailFragment : BaseFragment(),
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, old, new ->
-        if (old != new){
+        if (old != new) {
             adjustStatusBarColor(new)
         }
     }
@@ -140,14 +138,15 @@ class DetailFragment : BaseFragment(),
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
 
-        viewModel.observeSongs().combine(
-            viewModel.observeMostPlayed(),
-            viewModel.observeRecentlyAdded(),
-            viewModel.observeRelatedArtists(),
-            viewModel.observeSiblings()
+        combine(
+            viewModel.songs,
+            viewModel.mostPlayed,
+            viewModel.recentlyAdded,
+            viewModel.relatedArtists,
+            viewModel.siblings
         ) { songs, most, recent, related, siblings ->
             DetailValues(songs, most, recent, related, siblings)
-        }.subscribe(viewLifecycleOwner) {
+        }.onEach {
             if (it.songs.isEmpty()) {
                 act.onBackPressed()
             } else {
@@ -160,12 +159,13 @@ class DetailFragment : BaseFragment(),
                 adapter.submitList(it.songs)
                 restoreUpperWidgetsTranslation()
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeItem().subscribe(viewLifecycleOwner) { item ->
-            require(item is DisplayableHeader)
-            headerText.text = item.title
-        }
+        viewModel.item
+            .onEach { item ->
+                require(item is DisplayableHeader)
+                headerText.text = item.title
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         if (mediaId.isAnyPodcast) {
             viewModel.observeAllCurrentPositions()
@@ -283,7 +283,7 @@ class DetailFragment : BaseFragment(),
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
 
-    private val scrollListener = object : RecyclerView.OnScrollListener(){
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val alpha = 1 - abs(toolbar.translationY) / toolbar.height
             back.alpha = alpha
