@@ -1,7 +1,5 @@
 package dev.olog.presentation.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
@@ -10,9 +8,8 @@ import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,53 +22,23 @@ class SearchFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val data = MutableLiveData<List<DisplayableItem>>()
-    private val albumData = MutableLiveData<List<DisplayableItem>>()
-    private val artistsData = MutableLiveData<List<DisplayableItem>>()
-    private val genresData = MutableLiveData<List<DisplayableItem>>()
-    private val playlistsData = MutableLiveData<List<DisplayableItem>>()
-    private val foldersData = MutableLiveData<List<DisplayableItem>>()
+    val data: Flow<List<DisplayableItem>> = dataProvider.observe()
+        .flowOn(schedulers.cpu)
 
-    init {
-        // all
-        dataProvider.observe()
-            .flowOn(schedulers.cpu)
-            .onEach { data.value = it }
-            .launchIn(viewModelScope)
-        
-        // albums
-        dataProvider.observeAlbums()
-            .flowOn(schedulers.cpu)
-            .onEach { albumData.value = it }
-            .launchIn(viewModelScope)
-        // artists
-        dataProvider.observeArtists()
-            .flowOn(schedulers.cpu)
-            .onEach { artistsData.value = it }
-            .launchIn(viewModelScope)
-        // genres
-        dataProvider.observeGenres()
-            .flowOn(schedulers.cpu)
-            .onEach { genresData.value = it }
-            .launchIn(viewModelScope)
-        // playlist
-        dataProvider.observePlaylists()
-            .flowOn(schedulers.cpu)
-            .onEach { playlistsData.value = it }
-            .launchIn(viewModelScope)
-        // folders
-        dataProvider.observeFolders()
-            .flowOn(schedulers.cpu)
-            .onEach { foldersData.value = it }
-            .launchIn(viewModelScope)
-    }
+    val artistsData: Flow<List<DisplayableItem>> = dataProvider.observeArtists()
+        .flowOn(schedulers.cpu)
 
-    fun observeData(): LiveData<List<DisplayableItem>> = data
-    fun observeArtistsData(): LiveData<List<DisplayableItem>> = artistsData
-    fun observeAlbumsData(): LiveData<List<DisplayableItem>> = albumData
-    fun observeGenresData(): LiveData<List<DisplayableItem>> = genresData
-    fun observePlaylistsData(): LiveData<List<DisplayableItem>> = playlistsData
-    fun observeFoldersData(): LiveData<List<DisplayableItem>> = foldersData
+    val albumsData: Flow<List<DisplayableItem>> = dataProvider.observeAlbums()
+        .flowOn(schedulers.cpu)
+
+    val genresData: Flow<List<DisplayableItem>> = dataProvider.observeGenres()
+        .flowOn(schedulers.cpu)
+
+    val playlistsData: Flow<List<DisplayableItem>> = dataProvider.observePlaylists()
+        .flowOn(schedulers.cpu)
+
+    val foldersData: Flow<List<DisplayableItem>> = dataProvider.observeFolders()
+        .flowOn(schedulers.cpu)
     
 
     fun updateQuery(newQuery: String) {

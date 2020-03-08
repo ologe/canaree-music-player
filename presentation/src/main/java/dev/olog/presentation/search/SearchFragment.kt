@@ -25,10 +25,15 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment(),
@@ -90,27 +95,32 @@ class SearchFragment : BaseFragment(),
 
         setupDragListener(list, ItemTouchHelper.LEFT)
 
-        viewModel.observeData()
-            .subscribe(viewLifecycleOwner) {
+        viewModel.data
+            .onEach {
                 adapter.submitList(it)
                 emptyStateText.toggleVisibility(it.isEmpty(), true)
                 restoreUpperWidgetsTranslation()
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeAlbumsData()
-            .subscribe(viewLifecycleOwner, albumAdapter::submitList)
+        viewModel.albumsData
+            .onEach { albumAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeArtistsData()
-            .subscribe(viewLifecycleOwner, artistAdapter::submitList)
+        viewModel.artistsData
+            .onEach { artistAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observePlaylistsData()
-            .subscribe(viewLifecycleOwner, playlistAdapter::submitList)
+        viewModel.playlistsData
+            .onEach { playlistAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeFoldersData()
-            .subscribe(viewLifecycleOwner, folderAdapter::submitList)
+        viewModel.foldersData
+            .onEach { folderAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.observeGenresData()
-            .subscribe(viewLifecycleOwner, genreAdapter::submitList)
+        viewModel.genresData
+            .onEach { genreAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         editText.afterTextChange()
             .debounce(200)
