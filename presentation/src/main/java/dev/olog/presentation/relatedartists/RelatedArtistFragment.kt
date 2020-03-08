@@ -24,11 +24,13 @@ class RelatedArtistFragment : BaseFragment() {
         @JvmStatic
         val TAG = RelatedArtistFragment::class.java.name
         const val ARGUMENTS_MEDIA_ID = "media_id"
+        const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId): RelatedArtistFragment {
+        fun newInstance(mediaId: MediaId, transition: String): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_TRANSITION to transition
             )
         }
     }
@@ -47,6 +49,8 @@ class RelatedArtistFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
+
         list.layoutManager = OverScrollGridLayoutManager(list, 2)
         list.adapter = adapter
         list.setHasFixedSize(true)

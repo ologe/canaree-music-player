@@ -23,6 +23,7 @@ class DetailSiblingsAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         require(item is DisplayableAlbum)
+
         holder.itemView.apply {
             transitionName = "sibling ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId)

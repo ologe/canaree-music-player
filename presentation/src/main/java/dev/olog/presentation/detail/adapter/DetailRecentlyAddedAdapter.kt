@@ -49,6 +49,7 @@ class DetailRecentlyAddedAdapter(
         require(item is DisplayableTrack)
 
         holder.itemView.apply {
+            transitionName = "recent ${item.mediaId}"
             holder.imageView!!.loadSongImage(item.mediaId)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title

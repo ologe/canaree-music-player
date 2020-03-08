@@ -239,7 +239,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             val sharedFab = (parentFragment!!.requireView() as ViewGroup).findViewById<View>(R.id.sharedFab)
             matchFabs(sharedFab, fab)
 
-            navigator.toChooseTracksForPlaylistFragment(sharedFab, type)
+            navigator.toChooseTracksForPlaylistFragment(type, sharedFab)
         }
     }
 

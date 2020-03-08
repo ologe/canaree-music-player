@@ -42,6 +42,7 @@ class PlayingQueueFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
         holder.itemView.apply {
+            transitionName = item.mediaId.toString()
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             holder.imageView!!.loadSongImage(item.mediaId)
             index.text = item.relativePosition

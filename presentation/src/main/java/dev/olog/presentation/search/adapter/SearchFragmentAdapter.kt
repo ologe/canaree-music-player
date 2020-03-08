@@ -85,6 +85,7 @@ class SearchFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        holder.itemView.transitionName = item.mediaId.toString()
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
@@ -122,7 +123,6 @@ class SearchFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
-            transitionName = item.mediaId.toString()
             holder.imageView!!.loadAlbumImage(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

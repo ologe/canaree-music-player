@@ -28,11 +28,13 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         @JvmStatic
         val TAG = RecentlyAddedFragment::class.java.name
         const val ARGUMENTS_MEDIA_ID = "media_id"
+        const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
+        fun newInstance(mediaId: MediaId, transition: String): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_TRANSITION to transition
             )
         }
     }
@@ -51,6 +53,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)

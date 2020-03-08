@@ -105,39 +105,47 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toRelatedArtists(mediaId: MediaId) {
+    override fun toRelatedArtists(
+        mediaId: MediaId,
+        view: View
+    ) {
         mandatory(allowed()) ?: return
 
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
 
         findFirstVisibleFragment(activity.supportFragmentManager)
-            ?.setupExitAnimation(activity)
+            ?.setupExitSharedAnimation()
 
         activity.fragmentTransaction {
-            val fragment = RelatedArtistFragment.newInstance(mediaId)
-            fragment.setupEnterAnimation(activity)
+            val fragment = RelatedArtistFragment.newInstance(mediaId, view.transitionName)
+            fragment.setupEnterSharedAnimation(activity)
 
             replace(R.id.fragmentContainer, fragment, newTag)
             addToBackStack(newTag)
+            addSharedElement(view, view.transitionName)
         }
     }
 
-    override fun toRecentlyAdded(mediaId: MediaId) {
+    override fun toRecentlyAdded(
+        mediaId: MediaId,
+        view: View
+    ) {
         mandatory(allowed()) ?: return
 
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
 
         findFirstVisibleFragment(activity.supportFragmentManager)
-            ?.setupExitAnimation(activity)
+            ?.setupExitSharedAnimation()
 
         activity.fragmentTransaction {
-            val fragment = RecentlyAddedFragment.newInstance(mediaId)
-            fragment.setupEnterAnimation(activity)
+            val fragment = RecentlyAddedFragment.newInstance(mediaId, view.transitionName)
+            fragment.setupEnterSharedAnimation(activity)
 
             replace(R.id.fragmentContainer, fragment, newTag)
             addToBackStack(newTag)
+            addSharedElement(view, view.transitionName)
         }
     }
 
@@ -181,8 +189,8 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toChooseTracksForPlaylistFragment(
-        view: View,
-        type: PlaylistType
+        type: PlaylistType,
+        view: View
     ) {
         mandatory(allowed()) ?: return
 

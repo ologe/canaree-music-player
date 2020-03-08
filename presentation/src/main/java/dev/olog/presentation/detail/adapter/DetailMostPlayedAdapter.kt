@@ -33,6 +33,7 @@ class DetailMostPlayedAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
         holder.itemView.apply {
+            transitionName = "most played ${item.mediaId}"
             holder.imageView!!.loadSongImage(item.mediaId)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title

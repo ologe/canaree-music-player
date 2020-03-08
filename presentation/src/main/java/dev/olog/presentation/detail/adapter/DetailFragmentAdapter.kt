@@ -106,17 +106,15 @@ internal class DetailFragmentAdapter(
             }
 
             R.layout.item_detail_header_recently_added -> {
-                viewHolder.setOnClickListener(R.id.seeMore, this) { _, _, _ ->
-                    navigator.toRecentlyAdded(mediaId)
+                viewHolder.setOnClickListener(this) { _, _, _ ->
+                    navigator.toRecentlyAdded(mediaId, viewHolder.itemView)
                 }
             }
             R.layout.item_detail_header -> {
 
-                viewHolder.setOnClickListener(R.id.seeMore, this) { item, _, _ ->
-                    when (item.mediaId) {
-                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(
-                            mediaId
-                        )
+                viewHolder.setOnClickListener(this) { item, _, _ ->
+                    if (item.mediaId == DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL) {
+                        navigator.toRelatedArtists(mediaId, viewHolder.itemView)
                     }
                 }
             }
@@ -219,6 +217,7 @@ internal class DetailFragmentAdapter(
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
+        holder.itemView.transitionName = item.mediaId.toString()
         when (item){
             is DisplayableTrack -> bindTrack(holder, item)
             is DisplayableHeader -> bindHeader(holder, item)
