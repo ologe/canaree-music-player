@@ -120,7 +120,8 @@
 
     <style name="MaterialExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
         <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="tint">?attr/colorPrimaryTransparent</item>
+        <item name="tint">?attr/colorPrimaryTransparent</item>ù
+        <item name="iconTint">?attr/colorPrimaryTransparent</item>
     </style>
 
 

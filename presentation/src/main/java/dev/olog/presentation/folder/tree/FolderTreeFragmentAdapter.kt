@@ -24,7 +24,6 @@ class FolderTreeFragmentAdapter(
             R.layout.item_folder_tree_track -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     when {
-                        item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID -> viewModel.popFolder()
                         item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
                         else -> {
                             viewModel.createMediaId(item)?.let { mediaId ->
@@ -35,9 +34,6 @@ class FolderTreeFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, view ->
-                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID) {
-                        return@setOnLongClickListener
-                    }
                     if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
                             navigator.toDialog(mediaId, view, viewHolder.itemView)

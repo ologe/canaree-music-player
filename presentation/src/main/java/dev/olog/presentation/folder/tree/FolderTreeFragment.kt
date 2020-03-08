@@ -2,7 +2,7 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +41,7 @@ class FolderTreeFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
-    private val viewModel by viewModels<FolderTreeFragmentViewModel> {
+    private val viewModel by activityViewModels<FolderTreeFragmentViewModel> {
         viewModelFactory
     }
 
@@ -51,6 +51,11 @@ class FolderTreeFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.breadCrumbState?.let {
+            bread_crumbs.restoreFromStateWrapper(it)
+        }
+
         fab.shrink()
 
         list.adapter = adapter
@@ -91,6 +96,7 @@ class FolderTreeFragment : BaseFragment(),
         bread_crumbs.setCallback(null)
         list.removeOnScrollListener(scrollListener)
         fab.setOnClickListener(null)
+        viewModel.breadCrumbState = bread_crumbs.stateWrapper
     }
 
     override fun onDestroyView() {

@@ -1,11 +1,11 @@
 package dev.olog.presentation.folder.tree
 
 import android.content.Context
-import android.database.CursorIndexOutOfBoundsException
-import android.os.Environment
+import android.database.CursorIndexOutOfBoundsException import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.FileType
@@ -14,6 +14,7 @@ import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
+import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -26,31 +27,23 @@ class FolderTreeFragmentViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
     private val gateway: FolderNavigatorGateway,
-    private val schedulers: Schedulers
+    schedulers: Schedulers
 
 ) : ViewModel() {
 
-    companion object {
-        @JvmStatic
-        val BACK_HEADER_ID = MediaId.headerId("back header")
-    }
+    var breadCrumbState: BreadCrumbLayout.SavedStateWrapper? = null
 
     private val currentDirectoryPublisher = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
     private val isCurrentFolderDefaultFolderPublisher = ConflatedBroadcastChannel<Boolean>()
 
-    private val currentDirectoryChildrenPublisher = ConflatedBroadcastChannel<List<DisplayableFile>>()
+    val children: Flow<List<DisplayableFile>> = currentDirectoryPublisher.asFlow()
+        .flatMapLatest { file ->
+            gateway.observeFolderChildren(file)
+                .map { addHeaders(it) }
+        }.flowOn(schedulers.cpu)
 
     init {
-        currentDirectoryPublisher.asFlow()
-            .flatMapLatest { file ->
-                gateway.observeFolderChildren(file)
-                    .map { addHeaders(file, it) }
-            }
-            .flowOn(schedulers.cpu)
-            .onEach { currentDirectoryChildrenPublisher.offer(it) }
-            .launchIn(viewModelScope)
-
         currentDirectoryPublisher.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
         { current, default -> current.path == default.path }
             .onEach { isCurrentFolderDefaultFolderPublisher.offer(it) }
@@ -61,10 +54,9 @@ class FolderTreeFragmentViewModel @Inject constructor(
         super.onCleared()
         currentDirectoryPublisher.close()
         isCurrentFolderDefaultFolderPublisher.close()
-        currentDirectoryChildrenPublisher.close()
     }
 
-    private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
+    private fun addHeaders(files: List<FileType>): List<DisplayableFile> {
         val folders = files.asSequence()
             .filterIsInstance(FileType.Folder::class.java)
             .map { it.toDisplayableItem() }
@@ -77,13 +69,8 @@ class FolderTreeFragmentViewModel @Inject constructor(
             .toList()
             .startWithIfNotEmpty(tracksHeader)
 
-        if (parent == Environment.getRootDirectory()) {
-            return folders + tracks
-        }
-        return backDisplayableItem + folders + tracks
+        return folders + tracks
     }
-
-    val children: Flow<List<DisplayableFile>> = currentDirectoryChildrenPublisher.asFlow()
 
     val currentDirectoryFileName: Flow<File> = currentDirectoryPublisher.asFlow()
 
@@ -146,15 +133,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
         return null
     }
-
-    private val backDisplayableItem: List<DisplayableFile> = listOf(
-        DisplayableFile(
-            R.layout.item_folder_tree_directory,
-            BACK_HEADER_ID,
-            "...",
-            null
-        )
-    )
 
     private val foldersHeader = DisplayableFile(
         R.layout.item_folder_tree_header,

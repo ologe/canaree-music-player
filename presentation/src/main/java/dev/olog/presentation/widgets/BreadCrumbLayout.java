@@ -17,13 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import dev.olog.presentation.R;
 import dev.olog.shared.android.extensions.ContextExtensionKt;
-import dev.olog.shared.android.utils.ThreadUtilsKt;
 import timber.log.Timber;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
@@ -278,46 +276,39 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     }
 
     public void setActiveOrAdd(@NonNull Crumb crumb, boolean forceRecreate) {
-        ThreadUtilsKt.assertMainThread();
+        if (forceRecreate || !setActive(crumb)) {
+            clearCrumbs();
+            final List<File> newPathSet = new ArrayList<>();
 
-        clearCrumbs();
-        final List<File> newPathSet = new ArrayList<>();
+            newPathSet.add(0, crumb.getFile());
 
-        newPathSet.add(0, crumb.getFile());
-
-        File p = crumb.getFile();
-        while ((p = p.getParentFile()) != null) {
-            newPathSet.add(0, p);
-        }
-
-        String externalDir = Environment.getExternalStorageDirectory().getPath();
-        for (File file : new Vector<>(newPathSet)) {
-            if (!file.getPath().contains(externalDir)){
-                newPathSet.remove(file);
+            File p = crumb.getFile();
+            while ((p = p.getParentFile()) != null) {
+                newPathSet.add(0, p);
             }
-        }
 
-        for (int index = 0; index < newPathSet.size(); index++) {
-            final File fi = newPathSet.get(index);
-            crumb = new Crumb(fi);
+            for (int index = 0; index < newPathSet.size(); index++) {
+                final File fi = newPathSet.get(index);
+                crumb = new Crumb(fi);
 
-            // Restore scroll positions saved before clearing
-            if (mOldCrumbs != null) {
-                for (Iterator<Crumb> iterator = mOldCrumbs.iterator(); iterator.hasNext(); ) {
-                    Crumb old = iterator.next();
-                    if (old.equals(crumb)) {
-                        crumb.setScrollPosition(old.getScrollPosition());
-                        iterator.remove(); // minimize number of linear passes by removing un-used crumbs from history
-                        break;
+                // Restore scroll positions saved before clearing
+                if (mOldCrumbs != null) {
+                    for (Iterator<Crumb> iterator = mOldCrumbs.iterator(); iterator.hasNext(); ) {
+                        Crumb old = iterator.next();
+                        if (old.equals(crumb)) {
+                            crumb.setScrollPosition(old.getScrollPosition());
+                            iterator.remove(); // minimize number of linear passes by removing un-used crumbs from history
+                            break;
+                        }
                     }
                 }
+
+                addCrumb(crumb, true);
             }
 
-            addCrumb(crumb, true);
+            // History no longer needed
+            mOldCrumbs = null;
         }
-
-        // History no longer needed
-        mOldCrumbs = null;
     }
 
     public int size() {
