@@ -18,8 +18,10 @@ import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "0xfff"
@@ -58,13 +60,13 @@ class FloatingWindowNotification @Inject constructor(
     fun startObserving() {
         // keeps playing song in sync
         disposable = musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.isNotEmpty() }
-                .onEach {
-                    notificationTitle = it.description
-                    val notification = builder.setContentTitle(notificationTitle).build()
-                    notificationManager.notify(NOTIFICATION_ID, notification)
-                }.flowOn(schedulers.cpu)
-                .launchIn(this)
+            .filter { it.isNotEmpty() }
+            .onEach {
+                notificationTitle = it.description
+                val notification = builder.setContentTitle(notificationTitle).build()
+                notificationManager.notify(NOTIFICATION_ID, notification)
+            }.flowOn(schedulers.cpu)
+            .launchIn(this)
     }
 
     fun buildNotification(): Notification {
@@ -83,11 +85,11 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     private fun createChannel() {
-        if (!isOreo()){
+        if (!isOreo()) {
             return
         }
         val nowPlayingChannelExists = notificationManager.getNotificationChannel(CHANNEL_ID) != null
-        if (nowPlayingChannelExists){
+        if (nowPlayingChannelExists) {
             return
         }
 
