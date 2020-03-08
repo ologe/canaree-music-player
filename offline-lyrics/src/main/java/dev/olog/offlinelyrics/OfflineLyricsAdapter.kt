@@ -31,7 +31,7 @@ class OfflineLyricsAdapter(
         private set
 
     var selectedIndex by Delegates.observable(NO_POSITION) { _, old, new ->
-        if (canUpdate && old != new && currentList.size > 1) {
+        if (canUpdate && old != new && hasSyncedLyrics()) {
             onSelectedChanged(new)
         }
     }
@@ -103,6 +103,10 @@ class OfflineLyricsAdapter(
             delay(200)
             canUpdate = true
         }
+    }
+
+    fun hasSyncedLyrics(): Boolean {
+        return currentList.size > 1
     }
 
 }
