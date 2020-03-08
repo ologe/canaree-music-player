@@ -82,6 +82,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
+        disposeDragListener()
     }
 
     override fun onCurrentPlayingChanged(mediaId: MediaId) {

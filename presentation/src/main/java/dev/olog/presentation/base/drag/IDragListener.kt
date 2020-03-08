@@ -10,9 +10,11 @@ interface IDragListener {
 
     fun setupDragListener(list: RecyclerView, direction: Int)
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+    fun disposeDragListener()
 }
 
 class DragListenerImpl : IDragListener {
+
     override var itemTouchHelper: ItemTouchHelper? = null
 
     override fun setupDragListener(list: RecyclerView, direction: Int){
@@ -25,6 +27,10 @@ class DragListenerImpl : IDragListener {
         itemTouchHelper = ItemTouchHelper(callback).apply {
             attachToRecyclerView(list)
         }
+    }
+
+    override fun disposeDragListener() {
+        itemTouchHelper = null
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {

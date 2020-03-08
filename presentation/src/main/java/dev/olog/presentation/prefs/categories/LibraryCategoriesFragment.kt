@@ -56,6 +56,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
+        disposeDragListener()
     }
 
     override fun positiveAction() {

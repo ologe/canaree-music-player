@@ -242,6 +242,11 @@ class DetailFragment : BaseFragment(),
         filter.setOnClickListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposeDragListener()
+    }
+
     override fun onCurrentPlayingChanged(mediaId: MediaId) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
         mostPlayedAdapter.onCurrentPlayingChanged(mostPlayedAdapter, mediaId)
