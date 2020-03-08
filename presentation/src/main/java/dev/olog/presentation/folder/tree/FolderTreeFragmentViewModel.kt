@@ -35,33 +35,33 @@ class FolderTreeFragmentViewModel @Inject constructor(
         val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 
-    private val currentDirectory = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
+    private val currentDirectoryPublisher = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 
-    private val isCurrentFolderDefaultFolder = ConflatedBroadcastChannel<Boolean>()
+    private val isCurrentFolderDefaultFolderPublisher = ConflatedBroadcastChannel<Boolean>()
 
-    private val currentDirectoryChildrenLiveData = ConflatedBroadcastChannel<List<DisplayableFile>>()
+    private val currentDirectoryChildrenPublisher = ConflatedBroadcastChannel<List<DisplayableFile>>()
 
     init {
-        currentDirectory.asFlow()
+        currentDirectoryPublisher.asFlow()
             .flatMapLatest { file ->
                 gateway.observeFolderChildren(file)
                     .map { addHeaders(file, it) }
             }
             .flowOn(schedulers.cpu)
-            .onEach { currentDirectoryChildrenLiveData.offer(it) }
+            .onEach { currentDirectoryChildrenPublisher.offer(it) }
             .launchIn(viewModelScope)
 
-        currentDirectory.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
+        currentDirectoryPublisher.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
         { current, default -> current.path == default.path }
-            .onEach { isCurrentFolderDefaultFolder.offer(it) }
+            .onEach { isCurrentFolderDefaultFolderPublisher.offer(it) }
             .launchIn(viewModelScope)
     }
 
     override fun onCleared() {
         super.onCleared()
-        currentDirectory.close()
-        isCurrentFolderDefaultFolder.close()
-        currentDirectoryChildrenLiveData.close()
+        currentDirectoryPublisher.close()
+        isCurrentFolderDefaultFolderPublisher.close()
+        currentDirectoryChildrenPublisher.close()
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {
@@ -83,15 +83,15 @@ class FolderTreeFragmentViewModel @Inject constructor(
         return backDisplayableItem + folders + tracks
     }
 
-    val children: Flow<List<DisplayableFile>> = currentDirectoryChildrenLiveData.asFlow()
+    val children: Flow<List<DisplayableFile>> = currentDirectoryChildrenPublisher.asFlow()
 
-    val currentDirectoryFileName: Flow<File> = currentDirectory.asFlow()
+    val currentDirectoryFileName: Flow<File> = currentDirectoryPublisher.asFlow()
 
-    val currentFolderIsDefaultFolder: Flow<Boolean> = isCurrentFolderDefaultFolder.asFlow()
+    val currentFolderIsDefaultFolder: Flow<Boolean> = isCurrentFolderDefaultFolderPublisher.asFlow()
         .distinctUntilChanged()
 
     fun popFolder(): Boolean {
-        val current = currentDirectory.value
+        val current = currentDirectoryPublisher.value
         if (current == Environment.getRootDirectory()) {
             // alredy in root dir
             return false
@@ -104,7 +104,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
 
         try {
-            currentDirectory.offer(current.parentFile!!)
+            currentDirectoryPublisher.offer(current.parentFile!!)
             return true
         } catch (e: Exception) {
             Timber.e(e)
@@ -114,11 +114,11 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun nextFolder(file: File) {
         require(file.isDirectory)
-        currentDirectory.offer(file)
+        currentDirectoryPublisher.offer(file)
     }
 
     fun updateDefaultFolder() {
-        val currentFolder = currentDirectory.value
+        val currentFolder = currentDirectoryPublisher.value
         require(currentFolder.isDirectory)
         appPreferencesUseCase.setDefaultMusicFolder(currentFolder)
     }
