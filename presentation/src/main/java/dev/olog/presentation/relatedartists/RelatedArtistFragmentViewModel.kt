@@ -1,10 +1,7 @@
 package dev.olog.presentation.relatedartists
 
 import android.content.res.Resources
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
@@ -14,10 +11,9 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModel @Inject constructor(
@@ -25,31 +21,19 @@ class RelatedArtistFragmentViewModel @Inject constructor(
     mediaId: MediaId,
     useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase,
-    private val schedulers: Schedulers
+    schedulers: Schedulers
 
 ) : ViewModel() {
 
     val itemOrdinal = mediaId.category.ordinal
 
-    private val liveData = MutableLiveData<List<DisplayableItem>>()
-    private val titleLiveData = MutableLiveData<String>()
+    val data: Flow<List<DisplayableItem>> = useCase(mediaId)
+        .mapListItem { it.toRelatedArtist(resources) }
+        .flowOn(schedulers.io)
 
-    init {
-        useCase(mediaId)
-            .mapListItem { it.toRelatedArtist(resources) }
-            .flowOn(schedulers.io)
-            .onEach { liveData.value = it }
-            .launchIn(viewModelScope)
-
-        getItemTitleUseCase(mediaId)
-            .flowOn(schedulers.io)
-            .map { it ?: "" }
-            .onEach { titleLiveData.value = it }
-            .launchIn(viewModelScope)
-    }
-
-    fun observeData(): LiveData<List<DisplayableItem>> = liveData
-    fun observeTitle(): LiveData<String> = titleLiveData
+    val title: Flow<String> = getItemTitleUseCase(mediaId)
+        .flowOn(schedulers.io)
+        .map { it ?: "" }
 
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
