@@ -89,9 +89,8 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.observeCurrentProgress
-            .subscribe(viewLifecycleOwner) { time ->
-                list.adapter.updateTime(time)
-            }
+            .onEach { list.adapter.updateTime(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }

@@ -8,13 +8,15 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerFragment
 import dev.olog.core.MediaId
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.MainActivityViewModel
-import dev.olog.shared.android.extensions.subscribe
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 abstract class BaseFragment : DaggerFragment() {
@@ -36,9 +38,9 @@ abstract class BaseFragment : DaggerFragment() {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val activityViewModel by activityViewModels<MainActivityViewModel> { factory }
-        activityViewModel.observeCurrentPlaying.subscribe(viewLifecycleOwner) {
-            onCurrentPlayingChanged(it)
-        }
+        activityViewModel.observeCurrentPlaying
+            .onEach { onCurrentPlayingChanged(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     fun getSlidingPanel(): BottomSheetBehavior<*>? {

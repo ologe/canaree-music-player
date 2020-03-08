@@ -26,7 +26,6 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
@@ -154,7 +153,8 @@ internal class DetailFragmentAdapter(
                 val layoutManager = list.layoutManager as GridLayoutManager
                 val adapter = list.adapter as ObservableAdapter<*>
                 adapter.observeData
-                    .subscribe(holder) { updateNestedSpanCount(layoutManager, it.size) }
+                    .onEach { updateNestedSpanCount(layoutManager, it.size) }
+                    .launchIn(holder.lifecycleScope)
             }
             R.layout.item_detail_header_all_song -> {
                 val sortText = holder.itemView.sort

@@ -3,18 +3,19 @@ package dev.olog.presentation.base.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import dev.olog.presentation.model.BaseModel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
 abstract class ObservableAdapter<T : BaseModel>(
     itemCallback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, DataBoundViewHolder>(itemCallback){
 
-    private val _observeData = MutableLiveData<List<T>>(currentList)
-    val observeData: LiveData<List<T>> = _observeData // TODO check if workds
+    private val _observeData = ConflatedBroadcastChannel<List<T>>(currentList)
+    val observeData: Flow<List<T>> = _observeData.asFlow()
 
     fun getData(): List<T> = currentList
 
@@ -28,16 +29,6 @@ abstract class ObservableAdapter<T : BaseModel>(
     override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.onDisappear()
-    }
-
-    override fun submitList(list: List<T>?) {
-        super.submitList(list)
-        _observeData.value = list
-    }
-
-    override fun submitList(list: List<T>?, commitCallback: Runnable?) {
-        super.submitList(list, commitCallback)
-        _observeData.value = list
     }
 
     fun indexOf(predicate: (T) -> Boolean): Int {
@@ -71,6 +62,10 @@ abstract class ObservableAdapter<T : BaseModel>(
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
         val item = getItem(position)
         bind(holder, item, position)
+    }
+
+    override fun onCurrentListChanged(previousList: MutableList<T>, currentList: MutableList<T>) {
+        _observeData.offer(currentList)
     }
 
     protected abstract fun bind(holder: DataBoundViewHolder, item: T, position: Int)
