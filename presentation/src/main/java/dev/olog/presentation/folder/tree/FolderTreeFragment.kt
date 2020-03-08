@@ -2,13 +2,13 @@ package dev.olog.presentation.folder.tree
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.CanHandleOnBackPressed
@@ -61,7 +61,6 @@ class FolderTreeFragment : BaseFragment(),
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
-        list.addItemDecoration(DottedDividerDecorator(requireContext(), listOf(R.layout.item_folder_tree_header)))
 
         fastScroller.attachRecyclerView(list)
         fastScroller.showBubble(false)
@@ -74,12 +73,12 @@ class FolderTreeFragment : BaseFragment(),
             .onEach { adapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.currentFolderIsDefaultFolder
-            .onEach { isDefaultFolder ->
-                if (isDefaultFolder) {
-                    fab.hide()
-                } else {
+        viewModel.canSaveDefaultFolder
+            .onEach {
+                if (it && !fab.isVisible) {
                     fab.show()
+                } else if (!it && fab.isVisible) {
+                    fab.hide()
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }

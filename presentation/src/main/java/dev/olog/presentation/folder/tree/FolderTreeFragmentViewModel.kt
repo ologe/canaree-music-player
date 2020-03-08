@@ -37,6 +37,13 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     private val isCurrentFolderDefaultFolderPublisher = ConflatedBroadcastChannel<Boolean>()
 
+    val canSaveDefaultFolder = currentDirectoryPublisher.asFlow()
+        .map {
+            it.absolutePath.length >= Environment.getExternalStorageDirectory().absolutePath.length
+        }.combine(isCurrentFolderDefaultFolderPublisher.asFlow()) { canSave, isDefault ->
+            canSave && !isDefault
+        }
+
     val children: Flow<List<DisplayableFile>> = currentDirectoryPublisher.asFlow()
         .flatMapLatest { file ->
             gateway.observeFolderChildren(file)
@@ -73,9 +80,6 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     val currentDirectoryFileName: Flow<File> = currentDirectoryPublisher.asFlow()
-
-    val currentFolderIsDefaultFolder: Flow<Boolean> = isCurrentFolderDefaultFolderPublisher.asFlow()
-        .distinctUntilChanged()
 
     fun popFolder(): Boolean {
         val current = currentDirectoryPublisher.value
