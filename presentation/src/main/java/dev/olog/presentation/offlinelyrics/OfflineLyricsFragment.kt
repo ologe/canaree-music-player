@@ -17,14 +17,14 @@ import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.presentation.interfaces.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
+import dev.olog.shared.throwNotHandled
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
-import kotlinx.android.synthetic.main.fragment_offline_lyrics.artist
-import kotlinx.android.synthetic.main.fragment_offline_lyrics.textWrapper
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
@@ -37,7 +37,7 @@ import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
+class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColor {
 
     companion object {
         @JvmStatic
@@ -166,6 +166,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.dispose()
+    }
+
+    override fun adjustStatusBarColor() {
+        act.window.removeLightStatusBar()
+    }
+
+    override fun adjustStatusBarColor(lightStatusBar: Boolean) {
+        throwNotHandled("don't call me")
     }
 
     @SuppressLint("ConcreteDispatcherIssue")
