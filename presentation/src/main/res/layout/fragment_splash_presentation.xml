@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:tint="@android:color/black"
+        android:tint="?colorControlNormal"
         android:layout_marginBottom="32dp"/>
 
     <TextView
