@@ -1,8 +1,5 @@
 package dev.olog.offlinelyrics
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.schedulers.Schedulers
@@ -37,12 +34,12 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private var transformLyricsJob by autoDisposeJob()
     private var syncJob by autoDisposeJob()
 
-    private var originalLyrics = MutableLiveData("")
-    private val observedLyrics = MutableLiveData<Lyrics>()
+    private var originalLyricsPublisher = ConflatedBroadcastChannel("")
+    private val observedLyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
 
     private var incrementJob by autoDisposeJob()
-    private val currentProgress = MutableLiveData(0L)
-    val observeCurrentProgress: LiveData<Long> = currentProgress
+    private val currentProgressPublisher = ConflatedBroadcastChannel(0L)
+    val observeCurrentProgress: Flow<Long> = currentProgressPublisher.asFlow()
 
     fun onStart() {
         observeLyricsJob = currentTrackIdPublisher.asFlow()
@@ -52,7 +49,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             .launchIn(this)
 
         transformLyricsJob = lyricsPublisher.asFlow()
-            .onEach { observedLyrics.value = it }
+            .onEach { observedLyricsPublisher.offer(it) }
             .launchIn(this)
 
         syncJob = currentTrackIdPublisher.asFlow()
@@ -72,6 +69,8 @@ abstract class BaseOfflineLyricsPresenter constructor(
         currentTrackIdPublisher.close()
         lyricsPublisher.close()
         syncAdjustmentPublisher.close()
+        originalLyricsPublisher.close()
+        observedLyricsPublisher.close()
         cancel()
     }
 
@@ -91,7 +90,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         )
             .map { (it + 1) * INTERVAL * speed + startMillis + syncAdjustmentPublisher.value }
             .flowOn(schedulers.io)
-            .onEach { currentProgress.value = it.toLong() }
+            .onEach { currentProgressPublisher.offer(it.toLong()) }
             .launchIn(this)
     }
 
@@ -99,12 +98,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
         incrementJob = null
     }
 
-    fun observeLyrics(): Flow<Lyrics> = observedLyrics.asFlow()
+    fun observeLyrics(): Flow<Lyrics> = observedLyricsPublisher.asFlow()
 
-    private suspend fun onNextLyrics(lyrics: String) {
-        withContext(schedulers.main) {
-            originalLyrics.value = lyrics
-        }
+    private fun onNextLyrics(lyrics: String) {
+        originalLyricsPublisher.offer(lyrics)
         // add a newline to ensure that last word is matched correctly
         val sanitizedString = lyrics.trim() + "\n"
         val matches = matcher.findAll(sanitizedString)
@@ -155,7 +152,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun getLyrics(): String {
-        return originalLyrics.value!!
+        return originalLyricsPublisher.value
     }
 
     fun updateSyncAdjustment(value: Long) {
