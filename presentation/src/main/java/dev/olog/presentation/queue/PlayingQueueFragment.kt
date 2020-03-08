@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -70,11 +69,11 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
                 emptyStateText.isVisible = it.isEmpty()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        adapter.observeData.asFlow()
+        adapter.observeData
             .take(1)
-            .map {
+            .map { queue ->
                 val idInPlaylist = viewModel.getLastIdInPlaylist()
-                it.indexOfFirst { it.idInPlaylist == idInPlaylist }
+                queue.indexOfFirst { it.idInPlaylist == idInPlaylist }
             }
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
