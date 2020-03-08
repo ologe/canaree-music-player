@@ -2,6 +2,7 @@ package dev.olog.media.model
 
 import android.os.SystemClock
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.intents.MusicConstants
 
 enum class PlayerState {
     PLAYING,
@@ -43,6 +44,9 @@ class PlayerPlaybackState(private val stateCompat: PlaybackStateCompat) {
     val isSkipTo = state == PlayerState.SKIP_TO_NEXT || state == PlayerState.SKIP_TO_PREVIOUS
 
     val isPlayOrPause = isPlaying || isPaused
+
+    val emissionTime: Long
+        get() = stateCompat.extras?.getLong(MusicConstants.STATE_EMISSION) ?: System.currentTimeMillis()
 
     private fun PlaybackStateCompat.extractBookmark(): Int {
         var bookmark = this.position

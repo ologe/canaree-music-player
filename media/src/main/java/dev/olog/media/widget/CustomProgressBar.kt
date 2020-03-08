@@ -10,8 +10,7 @@ class CustomProgressBar(
     context: Context,
     attrs: AttributeSet
 
-) : ProgressBar(context, attrs),
-    IProgressDeletegate {
+) : ProgressBar(context, attrs) {
 
     private val delegate: IProgressDeletegate = ProgressDeletegate(this)
 
@@ -21,22 +20,14 @@ class CustomProgressBar(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        stopAutoIncrement(0)
+        delegate.stopAutoIncrement(0)
     }
 
-    override fun startAutoIncrement(startMillis: Int, speed: Float) {
-        delegate.startAutoIncrement(startMillis, speed)
-    }
-
-    override fun stopAutoIncrement(startMillis: Int) {
-        delegate.stopAutoIncrement(startMillis)
-    }
-
-    override fun observeProgress(): Flow<Long> {
+    fun observeProgress(): Flow<Long> {
         return delegate.observeProgress()
     }
 
-    override fun onStateChanged(state: PlayerPlaybackState) {
+    fun onStateChanged(state: PlayerPlaybackState) {
         return delegate.onStateChanged(state)
     }
 }

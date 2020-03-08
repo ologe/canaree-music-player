@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
-import dev.olog.media.R
 import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
@@ -12,8 +11,7 @@ class CustomSeekBar(
     context: Context,
     attrs: AttributeSet
 
-) : AppCompatSeekBar(context, attrs),
-    IProgressDeletegate {
+) : AppCompatSeekBar(context, attrs) {
 
     private var isTouched = false
 
@@ -22,7 +20,7 @@ class CustomSeekBar(
     private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
 
     init {
-        if (!isInEditMode){
+        if (!isInEditMode) {
             max = Int.MAX_VALUE
         }
     }
@@ -63,7 +61,7 @@ class CustomSeekBar(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnSeekBarChangeListener(null)
-        stopAutoIncrement(0)
+        delegate.stopAutoIncrement(0)
     }
 
     override fun setProgress(progress: Int) {
@@ -78,20 +76,12 @@ class CustomSeekBar(
         }
     }
 
-    override fun startAutoIncrement(startMillis: Int, speed: Float) {
-        delegate.startAutoIncrement(startMillis, speed)
-    }
-
-    override fun stopAutoIncrement(startMillis: Int) {
-        delegate.stopAutoIncrement(startMillis)
-    }
-
-    override fun onStateChanged(state: PlayerPlaybackState) {
+    fun onStateChanged(state: PlayerPlaybackState) {
         delegate.onStateChanged(state)
 
     }
 
-    override fun observeProgress(): Flow<Long> {
+    fun observeProgress(): Flow<Long> {
         return delegate.observeProgress()
     }
 }

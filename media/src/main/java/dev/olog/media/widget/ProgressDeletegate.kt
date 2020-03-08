@@ -3,6 +3,7 @@ package dev.olog.media.widget
 import android.annotation.SuppressLint
 import android.widget.ProgressBar
 import dev.olog.intents.AppConstants
+import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.CoroutineScope
@@ -13,8 +14,8 @@ import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
-    fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState)
-    fun startAutoIncrement(startMillis: Int, speed: Float)
+    fun onStateChanged(state: PlayerPlaybackState)
+    fun startAutoIncrement(startMillis: Int, speed: Float, emissionTime: Long)
     fun stopAutoIncrement(startMillis: Int)
     fun observeProgress(): Flow<Long>
 }
@@ -35,13 +36,14 @@ class ProgressDeletegate(
     }
 
     @SuppressLint("ConcreteDispatcherIssue")
-    override fun startAutoIncrement(startMillis: Int, speed: Float) {
+    override fun startAutoIncrement(startMillis: Int, speed: Float, emissionTime: Long) {
+        val diff = System.currentTimeMillis() - emissionTime
         stopAutoIncrement(startMillis)
         incrementJob = flowInterval(
             AppConstants.PROGRESS_BAR_INTERVAL,
             TimeUnit.MILLISECONDS
         )
-            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
+            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis + diff }
             .flowOn(Dispatchers.IO)
             .onEach {
                 setProgress(progressBar, it.toInt())
@@ -57,9 +59,9 @@ class ProgressDeletegate(
         return channel.asFlow()
     }
 
-    override fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState) {
+    override fun onStateChanged(state: PlayerPlaybackState) {
         if (state.isPlaying) {
-            startAutoIncrement(state.bookmark, state.playbackSpeed)
+            startAutoIncrement(state.bookmark, state.playbackSpeed, state.emissionTime)
         } else {
             stopAutoIncrement(state.bookmark)
         }
