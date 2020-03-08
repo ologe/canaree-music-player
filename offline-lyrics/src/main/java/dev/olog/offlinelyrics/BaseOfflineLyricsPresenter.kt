@@ -19,6 +19,8 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
 ): CoroutineScope by MainScope() {
 
+    var firstEnter = true
+
     private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
 
     private var insertLyricsJob by autoDisposeJob()

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
+import kotlinx.coroutines.android.awaitFrame
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
@@ -22,10 +23,10 @@ class OfflineLyricsRecyclerView(
         private val TIME = TimeUnit.SECONDS.toMillis(4)
     }
 
-    var isControlledByUser: Boolean = false
-        private set
+    private var isControlledByUser: Boolean = false
 
     private var job by autoDisposeJob()
+    private var firstScrollJob by autoDisposeJob()
 
     private var downX = -1f
     private var downY = -1f
@@ -80,6 +81,15 @@ class OfflineLyricsRecyclerView(
         job = GlobalScope.launch(Dispatchers.Main) {
             delay(TIME)
             isControlledByUser = false
+            scrollToCurrent()
+        }
+    }
+
+    suspend fun scrollToCurrent() {
+        firstScrollJob = GlobalScope.launch(Dispatchers.Main) {
+            while (adapter.selectedIndex == NO_POSITION) {
+                awaitFrame()
+            }
             scroll(adapter.selectedIndex)
         }
     }
@@ -90,6 +100,12 @@ class OfflineLyricsRecyclerView(
 
     override fun getAdapter(): OfflineLyricsAdapter {
         return super.getAdapter() as OfflineLyricsAdapter
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        job = null
+        firstScrollJob = null
     }
 
     private fun scroll(position: Int) {

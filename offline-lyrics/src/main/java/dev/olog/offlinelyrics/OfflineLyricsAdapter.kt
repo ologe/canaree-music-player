@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import kotlinx.android.synthetic.main.item_offline_lyrics.view.*
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
@@ -22,10 +24,13 @@ class OfflineLyricsAdapter(
 
     private var canUpdateJob by autoDisposeJob()
 
+    /**
+     * For synchronization between autoscroll and change lyrics
+     */
     var canUpdate = true
         private set
 
-    var selectedIndex by Delegates.observable(0) { _, old, new ->
+    var selectedIndex by Delegates.observable(NO_POSITION) { _, old, new ->
         if (canUpdate && old != new && currentList.size > 1) {
             onSelectedChanged(new)
         }
@@ -76,9 +81,12 @@ class OfflineLyricsAdapter(
         }
     }
 
-    fun updateTime(time: Long) {
+    suspend fun updateTime(time: Long) {
         if (!canUpdate) {
             return
+        }
+        while (currentList.isEmpty()) {
+            awaitFrame()
         }
         var index = currentList.indexOfFirst { it.time > time }
         index = clamp(index - 1, 0, currentList.lastIndex)

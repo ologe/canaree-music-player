@@ -23,6 +23,8 @@ import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
+import kotlinx.android.synthetic.main.fragment_offline_lyrics.artist
+import kotlinx.android.synthetic.main.fragment_offline_lyrics.textWrapper
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
@@ -68,17 +70,15 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 presenter.updateCurrentMetadata(it.title, it.artist)
                 textWrapper.update(it.title, it.artist)
                 seekBar.max = it.duration.toInt()
-                list.smoothScrollToPosition(0)
-
                 loadImage(it.mediaId)
+
+                if (presenter.firstEnter) {
+                    presenter.firstEnter = false
+                    list.scrollToCurrent()
+                } else {
+                    list.smoothScrollToPosition(0)
+                }
             }.launchIn(lifecycleScope)
-
-
-        mediaProvider.observePlaybackState()
-            .onEach {
-                val speed = if (it.isPaused) 0f else it.playbackSpeed
-                presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         presenter.observeLyrics()
             .onEach {
@@ -87,7 +87,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 emptyState.isVisible = it.lines.isEmpty()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        presenter.observeCurrentProgress
+        seekBar.observeProgress()
             .onEach { list.adapter.updateTime(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

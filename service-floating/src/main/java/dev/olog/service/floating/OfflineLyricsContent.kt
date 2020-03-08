@@ -61,15 +61,14 @@ class OfflineLyricsContent(
                 presenter.updateCurrentTrackId(it.id)
                 content.textWrapper.update(it.title, it.artist)
                 content.seekBar.max = it.duration.toInt()
-                content.list.smoothScrollToPosition(0)
-
                 loadImage(it.mediaId)
-            }.launchIn(lifecycleScope)
 
-        glueService.observePlaybackState()
-            .onEach {
-                val speed = if (it.isPaused) 0f else it.playbackSpeed
-                presenter.onStateChanged(it.isPlaying, it.bookmark, speed)
+                if (presenter.firstEnter) {
+                    presenter.firstEnter = false
+                    content.list.scrollToCurrent()
+                } else {
+                    content.list.smoothScrollToPosition(0)
+                }
             }.launchIn(lifecycleScope)
 
         presenter.observeLyrics()
@@ -79,7 +78,7 @@ class OfflineLyricsContent(
                 content.emptyState.isVisible = it.lines.isEmpty()
             }.launchIn(lifecycleScope)
 
-        presenter.observeCurrentProgress
+        content.seekBar.observeProgress()
             .onEach { content.list.adapter.updateTime(it) }
             .launchIn(lifecycleScope)
 
