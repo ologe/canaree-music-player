@@ -1,13 +1,10 @@
 package dev.olog.presentation.about
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
 
 class AboutFragmentPresenter(
     context: Context
@@ -36,8 +33,7 @@ class AboutFragmentPresenter(
         val GITHUB = MediaId.headerId("github")
     }
 
-
-    private val data = listOf(
+    val data = listOf(
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
@@ -106,8 +102,4 @@ class AboutFragmentPresenter(
             subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
-
-    private val dataLiveData = MutableLiveData<List<DisplayableItem>>(data)
-
-    fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 }

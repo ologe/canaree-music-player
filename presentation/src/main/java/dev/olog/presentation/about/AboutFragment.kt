@@ -8,7 +8,6 @@ import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
@@ -34,8 +33,7 @@ class AboutFragment : BaseFragment() {
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
 
-        presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::submitList)
+        adapter.submitList(presenter.data)
     }
 
     override fun onResume() {
