@@ -45,12 +45,12 @@ class ProgressDeletegate(
             .flowOn(Dispatchers.IO)
             .onEach {
                 setProgress(progressBar, it.toInt())
-                channel.offer(it.toLong())
             }.launchIn(this)
     }
 
     private fun setProgress(progressBar: ProgressBar, position: Int){
         progressBar.progress = position
+        channel.offer(position.toLong())
     }
 
     override fun observeProgress(): Flow<Long> {
