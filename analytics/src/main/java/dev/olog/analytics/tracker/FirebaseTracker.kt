@@ -16,7 +16,7 @@ internal class FirebaseTracker @Inject constructor(
     override fun trackScreen(name: String, bundle: Bundle?) = GlobalScope.launchUnit {
         try {
             firebase.logEvent(name.take(40), bundle)
-        } catch (ex: `Exception`) {
+        } catch (ex: Exception) {
             Timber.w(ex, "screen $name")
         }
     }
@@ -24,7 +24,7 @@ internal class FirebaseTracker @Inject constructor(
     override fun trackServiceEvent(name: String, vararg args: Any?) = GlobalScope.launchUnit {
         try {
             val map = args
-                .mapIndexed { index, any -> "arg$index" to any }
+                .mapIndexed { index, any -> "arg$index" to any.toString() }
                 .toTypedArray()
 
             firebase.logEvent(name.take(40), bundleOf(*map))
