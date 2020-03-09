@@ -149,6 +149,7 @@ class DetailFragment : BaseFragment(),
             DetailValues(songs, most, recent, related, siblings)
         }.onEach {
             if (it.songs.isEmpty()) {
+                restoreUpperWidgetsTranslation()
                 act.onBackPressed()
             } else {
                 mostPlayedAdapter.submitList(it.mostPlayed)
@@ -158,7 +159,6 @@ class DetailFragment : BaseFragment(),
                 mostPlayedAdapter.submitList(it.mostPlayed)
 
                 adapter.submitList(it.songs)
-                restoreUpperWidgetsTranslation()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
