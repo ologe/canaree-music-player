@@ -18,7 +18,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.db.GenreMostPlayedDao
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.mapper.toGenre
-import dev.olog.data.mapper.toPlaylistSong
+import dev.olog.data.mapper.toSong
 import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
@@ -83,7 +83,7 @@ internal class GenreRepository @Inject constructor(
     override fun getTrackListByParam(param: Id): List<Song> {
         assertBackgroundThread()
         val cursor = queries.getSongList(param)
-        return contentResolver.queryAll(cursor) { it.toPlaylistSong() }
+        return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -128,7 +128,7 @@ internal class GenreRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) {
             val cursor = queries.getRecentlyAdded(path)
-            contentResolver.queryAll(cursor) { it.toPlaylistSong() }
+            contentResolver.queryAll(cursor) { it.toSong() }
         }
     }
 
