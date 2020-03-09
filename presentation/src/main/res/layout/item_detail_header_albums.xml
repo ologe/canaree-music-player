@@ -24,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Headline6"
-        android:layout_marginBottom="12dp"
         tools:text="More by 50 Cent" />
 
 </LinearLayout>
