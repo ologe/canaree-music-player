@@ -19,7 +19,7 @@ class HeaderVisibilityScrollListener(
 ) : RecyclerView.OnScrollListener() {
 
     private val toolbarHeight by lazyFast {
-        val statusBarHeight = fragment.view!!.statusBar.height
+        val statusBarHeight = fragment.requireView().statusBar.height
         statusBarHeight + fragment.ctx.dimen(R.dimen.toolbar)
     }
 
@@ -29,7 +29,7 @@ class HeaderVisibilityScrollListener(
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
 
-        val view = fragment.view!!
+        val view = fragment.requireView()
 
         if (holder.itemViewType == R.layout.item_detail_image) {
             if (textWrapper == null) {
