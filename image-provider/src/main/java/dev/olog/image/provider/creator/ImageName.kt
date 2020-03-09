@@ -31,7 +31,7 @@ internal class ImageName(
 ) {
 
     init {
-        require(Regex("(\\d)+_(\\d)+\\((((\\d)+(_)*)*)\\)").matches(fileName))
+        require(Regex("^.+_\\d+\\(\\d+(_\\d+)*\\)\\.webp\$").matches(fileName))
     }
 
     val albums: List<Long>
