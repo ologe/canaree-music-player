@@ -74,8 +74,8 @@ aes_password="your_aes_password"
 ```
 
 ### Extensions (Linux or macOS recommended)
-To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding 
-ExoPlayer extensions using <b>NDK-r17c</b> or older, newer version of NDK are not supported. 
+To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding
+Tested with NDK r20
 * [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
 * [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
 * [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
