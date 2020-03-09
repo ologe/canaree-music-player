@@ -161,8 +161,8 @@ internal class DetailFragmentAdapter(
                 val sortImage = holder.itemView.sortImage
 
                 // don't allow sorting on podcast
-                sortText.isVisible = !mediaId.isAnyPodcast
-                sortImage.isVisible = !mediaId.isAnyPodcast
+                sortText.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.resolveId)
+                sortImage.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.resolveId)
 
                 viewModel.observeSorting()
                     .onEach { view.sortImage.update(it) }
