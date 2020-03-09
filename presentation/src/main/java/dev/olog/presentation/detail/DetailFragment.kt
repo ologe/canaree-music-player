@@ -229,7 +229,7 @@ class DetailFragment : BaseFragment(),
         back.setOnClickListener { act.onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more, null) }
         filter.setOnClickListener {
-            TransitionManager.beginDelayedTransition(toolbar)
+            TransitionManager.beginDelayedTransition(toolbar, FastAutoTransition)
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }
     }
