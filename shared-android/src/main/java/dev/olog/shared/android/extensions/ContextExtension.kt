@@ -3,6 +3,7 @@
 package dev.olog.shared.android.extensions
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.TypedValue
 import android.widget.Toast
@@ -91,15 +92,22 @@ inline fun Context.colorSwipeBackground(): Int {
     return themeAttributeToColor(R.attr.colorSwipeBackground)
 }
 
-fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.MAGENTA): Int {
     val outValue = TypedValue()
     val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
     if (resolved) {
-        return ContextCompat.getColor(this, outValue.resourceId)
+        var colorStateList: ColorStateList? = null
+        val a = obtainStyledAttributes(outValue.resourceId, intArrayOf(themeAttributeId))
+        colorStateList = a.getColorStateList(0)
+        a.recycle()
+        if (colorStateList != null) {
+            return colorStateList.defaultColor
+        }
     }
     return fallbackColor
 }
+
 
 fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
     val outValue = TypedValue()
