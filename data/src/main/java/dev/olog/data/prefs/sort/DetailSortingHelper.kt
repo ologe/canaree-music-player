@@ -10,9 +10,10 @@ import dev.olog.core.prefs.SortDetail
 import dev.olog.data.utils.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.combineLatest
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 internal class DetailSortingHelper @Inject constructor(
     private val preferences: SharedPreferences
 ) : SortDetail {
