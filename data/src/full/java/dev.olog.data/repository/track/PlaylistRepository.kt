@@ -7,6 +7,9 @@ import androidx.preference.PreferenceManager
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.sort.SortArranging
+import dev.olog.core.entity.sort.SortEntity
+import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
@@ -16,6 +19,7 @@ import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
@@ -31,6 +35,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
+import java.text.Collator
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
@@ -41,8 +46,15 @@ internal class PlaylistRepository @Inject constructor(
     private val favoriteGateway: FavoriteGateway,
     private val historyDao: HistoryDao,
     private val mostPlayedDao: PlaylistMostPlayedDao,
-    private val playlistDao: PlaylistDao
+    private val playlistDao: PlaylistDao,
+    private val sortPreferences: SortPreferences
 ) : PlaylistGateway, PlaylistOperations by helper {
+
+    private val collator by lazy {
+        Collator.getInstance().apply {
+            strength = Collator.NO_DECOMPOSITION
+        }
+    }
 
     private val autoPlaylistTitles = context.resources.getStringArray(R.array.common_auto_playlists)
 
@@ -87,8 +99,8 @@ internal class PlaylistRepository @Inject constructor(
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
-        // TODO sort
         return playlistDao.getPlaylistTracks(param, songGateway)
+            .sortedWith(trackListComparator(sortPreferences.getDetailPlaylistSort()))
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -96,8 +108,8 @@ internal class PlaylistRepository @Inject constructor(
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
         }
-        // TODO sort
         return playlistDao.observePlaylistTracks(param, songGateway)
+            .map { it.sortedWith(trackListComparator(sortPreferences.getDetailPlaylistSort())) }
     }
 
     private fun getAutoPlaylistsTracks(param: Id): List<Song> {
@@ -115,6 +127,34 @@ internal class PlaylistRepository @Inject constructor(
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
             AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
+        }
+    }
+
+    private fun trackListComparator(sort: SortEntity): Comparator<Song> {
+        val asc = sort.arranging == SortArranging.ASCENDING
+        return Comparator { o1, o2 ->
+            when (sort.type) {
+                SortType.CUSTOM -> 0 // keep current sort
+                SortType.TITLE -> if (asc) collator.compare(o1.title, o2.title) else collator.compare(o2.title, o1.title)
+                SortType.ARTIST -> if (asc) collator.compare(o1.artist, o2.artist) else collator.compare(o2.artist, o1.artist)
+                SortType.ALBUM -> if (asc) collator.compare(o1.album, o2.album) else collator.compare(o2.album, o1.album)
+                SortType.ALBUM_ARTIST -> if (asc) collator.compare(o1.albumArtist, o2.albumArtist) else collator.compare(o2.albumArtist, o1.albumArtist)
+                SortType.DURATION -> (if (asc) o1.duration - o2.duration else o2.duration - o1.duration).toInt()
+                SortType.RECENTLY_ADDED -> (if (asc) o2.dateAdded - o1.dateAdded else o1.dateAdded - o2.dateAdded).toInt()
+                SortType.TRACK_NUMBER -> {
+                    // compare by disc number
+                    var res =  if (asc) o1.discNumber - o2.discNumber else o2.discNumber - o1.discNumber
+                    if (res == 0) {
+                        // compare by track number
+                        res = (if (asc) o1.trackNumber - o2.trackNumber else o2.trackNumber - o1.trackNumber).toInt()
+                        if (res == 0) {
+                            // compare by title
+                            if (asc) collator.compare(o1.title, o2.title) else collator.compare(o2.title, o1.title)
+                        }
+                    }
+                    res
+                }
+            }
         }
     }
 
