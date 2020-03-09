@@ -46,7 +46,7 @@ class RenameDialog : BaseEditTextDialog() {
     }
 
     override fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {
-        editText.setText(arguments!!.getString(ARGUMENTS_ITEM_TITLE))
+        editText.setText(getArgument<String>(ARGUMENTS_ITEM_TITLE))
     }
 
     override fun provideMessageForBlank(): String {

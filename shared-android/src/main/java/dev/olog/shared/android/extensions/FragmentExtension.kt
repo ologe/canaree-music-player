@@ -25,7 +25,7 @@ inline val Fragment.act: FragmentActivity
 
 @Suppress("UNCHECKED_CAST")
 inline fun <T> Fragment.getArgument(key: String): T {
-    return arguments!!.get(key) as T
+    return requireArguments().get(key) as T
 }
 
 fun Fragment.launchWhenCreated(block: suspend CoroutineScope.() -> Unit): Job {

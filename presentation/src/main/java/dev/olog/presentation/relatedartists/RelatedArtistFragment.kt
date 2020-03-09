@@ -11,6 +11,7 @@ import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
@@ -49,7 +50,7 @@ class RelatedArtistFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
+        view.transitionName = getArgument(ARGUMENTS_TRANSITION)
 
         list.layoutManager = OverScrollGridLayoutManager(list, 2)
         list.adapter = adapter

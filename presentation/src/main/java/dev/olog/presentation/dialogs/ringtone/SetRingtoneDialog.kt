@@ -7,10 +7,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.extensions.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,12 +42,12 @@ class SetRingtoneDialog : BaseDialog() {
         launchWhenResumed {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
+                val mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
                 presenter.execute(act, mediaId)
-                message = successMessage(act)
+                message = successMessage()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                message = failMessage(act)
+                message = failMessage()
             }
             act.toast(message)
             dismiss()
@@ -58,23 +55,23 @@ class SetRingtoneDialog : BaseDialog() {
         }
     }
 
-    private fun successMessage(context: Context): String {
+    private fun successMessage(): String {
         val title = generateItemDescription()
-        return context.getString(R.string.song_x_set_as_ringtone, title)
+        return getString(R.string.song_x_set_as_ringtone, title)
     }
 
-    private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+    private fun failMessage(): String {
+        return getString(R.string.popup_error_message)
     }
 
     private fun createMessage() : String{
         val title = generateItemDescription()
-        return context!!.getString(R.string.song_x_will_be_set_as_ringtone, title)
+        return getString(R.string.song_x_will_be_set_as_ringtone, title)
     }
 
     private fun generateItemDescription(): String{
-        var title = arguments!!.getString(ARGUMENTS_TITLE)!!
-        val artist = arguments!!.getString(ARGUMENTS_ARTIST)
+        var title = getArgument<String>(ARGUMENTS_TITLE)
+        val artist = getArgument<String>(ARGUMENTS_ARTIST)
         if (artist != AppConstants.UNKNOWN){
             title += " $artist"
         }

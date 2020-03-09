@@ -31,7 +31,7 @@ abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
 
     @Suppress("UNCHECKED_CAST")
     protected fun <T> getArgument(key: String): T {
-        return arguments!!.get(key) as T
+        return requireArguments().get(key) as T
     }
 
 }

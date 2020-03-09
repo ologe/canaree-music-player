@@ -236,7 +236,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
             val type =
                 if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
 
-            val sharedFab = (parentFragment!!.requireView() as ViewGroup).findViewById<View>(R.id.sharedFab)
+            val sharedFab = (requireParentFragment().requireView() as ViewGroup)
+                .findViewById<View>(R.id.sharedFab)
+
             matchFabs(sharedFab, fab)
 
             navigator.toChooseTracksForPlaylistFragment(type, sharedFab)

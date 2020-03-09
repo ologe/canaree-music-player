@@ -15,6 +15,7 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
@@ -53,7 +54,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
+        view.transitionName = getArgument(ARGUMENTS_TRANSITION)
         list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
@@ -74,7 +75,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { activity!!.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {

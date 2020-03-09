@@ -8,6 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -35,11 +36,11 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     @Inject lateinit var presenter: NewPlaylistDialogPresenter
 
     private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
-    private val title: String by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE)!! }
-    private val listSize: Int by lazyFast { arguments!!.getInt(ARGUMENTS_LIST_SIZE) }
+    private val title: String by lazyFast { getArgument(ARGUMENTS_ITEM_TITLE) }
+    private val listSize: Int by lazyFast { getArgument(ARGUMENTS_LIST_SIZE) }
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)

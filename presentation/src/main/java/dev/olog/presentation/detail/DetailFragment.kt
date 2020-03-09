@@ -13,6 +13,7 @@ import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.R
+import dev.olog.presentation.animations.FastAutoTransition
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -114,7 +115,7 @@ class DetailFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.transitionName = arguments!!.getString(ARGUMENTS_TRANSITION)
+        view.transitionName = requireArguments().getString(ARGUMENTS_TRANSITION)
 
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter

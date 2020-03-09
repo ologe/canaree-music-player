@@ -6,12 +6,8 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,7 +30,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     @Inject lateinit var presenter: RemoveDuplicatesDialogPresenter
 
 
-    private val itemTitle by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
+    private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.remove_duplicates_title)
@@ -47,7 +43,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
         launchWhenResumed {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
+                val mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
                 presenter.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Exception) {
@@ -69,7 +65,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_duplicates_message, itemTitle)
+        return getString(R.string.remove_duplicates_message, itemTitle)
     }
 
 }

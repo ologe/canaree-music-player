@@ -6,10 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -32,10 +29,10 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private val mediaId: MediaId by lazyFast {
-        val mediaId = arguments!!.getString(ARGUMENTS_MEDIA_ID)!!
+        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
-    private val title by lazy { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
+    private val title by lazy { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 
     @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
