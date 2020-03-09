@@ -24,7 +24,7 @@ class EditArtistFragment : BaseEditItemFragment() {
 
     companion object {
         const val TAG = "EditArtistFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): EditArtistFragment {

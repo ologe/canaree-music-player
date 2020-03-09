@@ -18,9 +18,9 @@ class SetRingtoneDialog : BaseDialog() {
 
     companion object {
         const val TAG = "SetRingtoneDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_TITLE = "$TAG.arguments.title"
-        const val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
+        const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
+        const val ARGUMENTS_TITLE = "${TAG}_arguments_title"
+        const val ARGUMENTS_ARTIST = "${TAG}_arguments_artist"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {

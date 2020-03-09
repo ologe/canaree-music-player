@@ -19,7 +19,7 @@ class FloatingWindowService : HoverMenuService() {
 
     companion object {
         const val TAG = "FloatingWindowService"
-        const val ACTION_STOP = "$TAG.ACTION_STOP"
+        const val ACTION_STOP = "${TAG}_ACTION_STOP"
     }
 
     override fun onCreate() {

@@ -19,8 +19,8 @@ class RenameDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+        const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
+        const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {

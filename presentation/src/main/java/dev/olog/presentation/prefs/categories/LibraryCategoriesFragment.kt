@@ -18,7 +18,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"
-        private const val TYPE = "$TAG.TYPE"
+        private const val TYPE = "${TAG}_TYPE"
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
