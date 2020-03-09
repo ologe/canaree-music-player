@@ -149,7 +149,6 @@ class DetailFragment : BaseFragment(),
             DetailValues(songs, most, recent, related, siblings)
         }.onEach {
             if (it.songs.isEmpty()) {
-                restoreUpperWidgetsTranslation()
                 act.onBackPressed()
             } else {
                 mostPlayedAdapter.submitList(it.mostPlayed)
@@ -160,6 +159,7 @@ class DetailFragment : BaseFragment(),
 
                 adapter.submitList(it.songs)
             }
+            restoreTranslations()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.item
@@ -285,6 +285,15 @@ class DetailFragment : BaseFragment(),
         filter.setColorFilter(color)
 
         act.window.setLightStatusBar()
+    }
+
+    private fun restoreTranslations() {
+        restoreUpperWidgetsTranslation()
+        back.animate().alpha(1f)
+        filter.animate().alpha(1f)
+        more.animate().alpha(1f)
+        searchWrapper.animate().alpha(1f)
+        headerText.animate().alpha(1f)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
