@@ -24,7 +24,7 @@ inline val Fragment.act: FragmentActivity
     get() = requireActivity()
 
 @Suppress("UNCHECKED_CAST")
-inline fun <T> Fragment.getArgument(key: String): T {
+inline fun <reified T> Fragment.getArgument(key: String): T {
     return requireArguments().get(key) as T
 }
 

@@ -33,8 +33,8 @@ class AddFavoriteDialog : BaseDialog() {
         val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
         MediaId.fromString(mediaId)
     }
-    private val title: String by lazyFast { getArgument(ARGUMENTS_ITEM_TITLE) }
-    private val listSize: Int by lazyFast { getArgument(ARGUMENTS_LIST_SIZE) }
+    private val title by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
+    private val listSize by lazyFast { getArgument<Int>(ARGUMENTS_LIST_SIZE) }
 
     @Inject lateinit var presenter: AddFavoriteDialogPresenter
 

@@ -27,12 +27,12 @@ import timber.log.Timber
 abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     private val addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val podcastPlaylist: Boolean,
     private val schedulers: Schedulers
 
 ) : PopupMenu.OnMenuItemClickListener {
 
     protected var container: View? = null
+    protected var podcastPlaylist: Boolean = false
 
     val playlists by lazyFast {
         getPlaylistBlockingUseCase(

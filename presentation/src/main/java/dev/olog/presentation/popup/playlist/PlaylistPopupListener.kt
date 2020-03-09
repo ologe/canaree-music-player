@@ -27,7 +27,11 @@ class PlaylistPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val schedulers: Schedulers
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false, schedulers) {
+) : AbsPopupListener(
+    getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
+    addToPlaylistUseCase = addToPlaylistUseCase,
+    schedulers = schedulers
+) {
 
     private val activityRef = WeakReference(activity)
 
@@ -39,6 +43,7 @@ class PlaylistPopupListener @Inject constructor(
         this.container = container
         this.playlist = playlist
         this.song = song
+        this.podcastPlaylist = this.playlist.isPodcast
         return this
     }
 

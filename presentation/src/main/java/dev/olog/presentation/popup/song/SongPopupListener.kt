@@ -22,16 +22,20 @@ class SongPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     schedulers: Schedulers
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false, schedulers) {
+) : AbsPopupListener(
+    getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
+    addToPlaylistUseCase = addToPlaylistUseCase,
+    schedulers = schedulers
+) {
 
     private val activityRef = WeakReference(activity)
-
 
     private lateinit var song: Song
 
     fun setData(container: View?, song: Song): SongPopupListener {
         this.container = container
         this.song = song
+        this.podcastPlaylist = this.song.isPodcast
         return this
     }
 

@@ -26,7 +26,11 @@ class FolderPopupListener @Inject constructor(
     addToPlaylistUseCase: AddToPlaylistUseCase,
     private val schedulers: Schedulers
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false, schedulers) {
+) : AbsPopupListener(
+    getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
+    addToPlaylistUseCase = addToPlaylistUseCase,
+    schedulers = schedulers
+) {
 
     private val activityRef = WeakReference(activity)
 
