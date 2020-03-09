@@ -51,11 +51,8 @@ dependencies {
 
     implementation lib_utils.last_fm_binding
 
-
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.2'
-
-//    implementation project(':exoplayer-library-core') // TODO investigate crash
-//    implementation project(':exoplayer-extension-flac')
-//    implementation project(':exoplayer-extension-opus')
-//    implementation project(':exoplayer-extension-ffmpeg')
+    implementation project(':exoplayer-library-core')
+    implementation project(':exoplayer-extension-flac')
+    implementation project(':exoplayer-extension-opus')
+    implementation project(':exoplayer-extension-ffmpeg')
 }
