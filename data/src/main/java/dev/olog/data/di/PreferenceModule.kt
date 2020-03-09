@@ -39,10 +39,9 @@ abstract class PreferenceModule {
     @Singleton
     internal abstract fun provideBlacklistPreferences(impl: BlacklistPreferencesImpl): BlacklistPreferences
 
-    @Module
     companion object {
+
         @Provides
-        @JvmStatic
         @Singleton
         internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)

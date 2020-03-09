@@ -19,10 +19,9 @@ abstract class RelatedArtistFragmentModule {
     @ViewModelKey(RelatedArtistFragmentViewModel::class)
     abstract fun provideViewModel(factory: RelatedArtistFragmentViewModel): ViewModel
 
-    @Module
     companion object {
+
         @Provides
-        @JvmStatic
         internal fun provideMediaId(instance: RelatedArtistFragment): MediaId {
             val mediaId = instance.getArgument<String>(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)
             return MediaId.fromString(mediaId)

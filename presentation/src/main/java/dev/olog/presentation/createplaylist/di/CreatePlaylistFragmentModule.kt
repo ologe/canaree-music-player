@@ -19,11 +19,9 @@ abstract class CreatePlaylistFragmentModule {
     @ViewModelKey(CreatePlaylistFragmentViewModel::class)
     abstract fun provideViewModel(viewModel: CreatePlaylistFragmentViewModel): ViewModel
 
-    @Module
     companion object {
 
         @Provides
-        @JvmStatic
         fun providePlaylistType(instance: CreatePlaylistFragment): PlaylistType {
             val type = instance.getArgument<Int>(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)
             return PlaylistType.values()[type]

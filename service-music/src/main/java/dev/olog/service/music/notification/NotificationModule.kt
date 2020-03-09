@@ -13,7 +13,6 @@ internal object NotificationModule {
 
     @Provides
     @PerService
-    @JvmStatic
     internal fun provideNotificationImpl(
         notificationImpl26: Lazy<NotificationImpl26>,
         notificationImpl24: Lazy<NotificationImpl24>,

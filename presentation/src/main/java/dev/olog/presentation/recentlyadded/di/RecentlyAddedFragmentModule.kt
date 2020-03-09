@@ -19,12 +19,9 @@ abstract class RecentlyAddedFragmentModule {
     @ViewModelKey(RecentlyAddedFragmentViewModel::class)
     abstract fun provideViewModel(factory: RecentlyAddedFragmentViewModel): ViewModel
 
-
-    @Module
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideMediaId(instance: RecentlyAddedFragment): MediaId {
             val mediaId = instance.getArgument<String>(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)
             return MediaId.fromString(mediaId)

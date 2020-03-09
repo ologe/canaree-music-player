@@ -54,15 +54,13 @@ abstract class MusicServiceModule {
     @PerService
     internal abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
 
-    @Module
     companion object {
+
         @Provides
-        @JvmStatic
         @ServiceLifecycle
         internal fun provideLifecycle(instance: MusicService): Lifecycle = instance.lifecycle
 
         @Provides
-        @JvmStatic
         @PerService
         internal fun provideMediaSession(instance: MusicService): MediaSessionCompat {
             return MediaSessionCompat(

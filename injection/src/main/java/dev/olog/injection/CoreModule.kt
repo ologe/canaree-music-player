@@ -21,21 +21,17 @@ abstract class CoreModule {
     @Binds
     abstract fun provideEncrypter(impl: EncrypterImpl): IEncrypter
 
-    @Module
     companion object {
 
         @Provides
-        @JvmStatic
         internal fun provideResources(instance: Application): Resources = instance.resources
 
         @Provides
-        @JvmStatic
         internal fun provideContentResolver(instance: Application): ContentResolver {
             return instance.contentResolver
         }
 
         @Provides
-        @JvmStatic
         fun provideConnectivityManager(instance: Application): ConnectivityManager {
             return instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         }
