@@ -18,7 +18,11 @@ class ArtistPopup(
 
     init {
         if (song == null) {
-            inflate(R.menu.dialog_artist)
+            if (artist.isPodcast) {
+                inflate(R.menu.dialog_podcast_author)
+            } else {
+                inflate(R.menu.dialog_artist)
+            }
         } else {
             inflate(R.menu.dialog_song)
         }

@@ -66,9 +66,12 @@ class EditArtistFragment : BaseEditItemFragment() {
             .onEach {
                 artist.setText(it.title)
                 albumArtist.setText(it.albumArtist)
-                val text = resources.getQuantityString(
-                    R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
-                )
+                val plural = if (it.isPodcast) {
+                    R.plurals.edit_item_xx_episodes_will_be_updated
+                } else {
+                    R.plurals.edit_item_xx_tracks_will_be_updated
+                }
+                val text = resources.getQuantityString(plural, it.songs, it.songs)
                 albumsUpdated.text = text
                 podcast.isChecked = it.isPodcast
             }.launchIn(viewLifecycleOwner.lifecycleScope)

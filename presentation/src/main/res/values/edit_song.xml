@@ -46,7 +46,10 @@
         <item quantity="other">Your changes will be applied to %d songs</item>
     </plurals>
 
-
+    <plurals name="edit_item_xx_episodes_will_be_updated">
+        <item quantity="one">Your changes will be applied to %d episode</item>
+        <item quantity="other">Your changes will be applied to %d episodes</item>
+    </plurals>
 
 
     <string-array name="edit_item_image_dialog">

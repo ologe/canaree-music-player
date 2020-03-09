@@ -12,8 +12,10 @@
     <string name="popup_edit_podcast_info">Edit podcast</string>
     <string name="popup_edit_album_info">Edit album</string>
     <string name="popup_edit_artist_info">Edit artist</string>
+    <string name="popup_edit_podcast_author_info">Edit author</string>
     <string name="popup_view_album">View album</string>
     <string name="popup_view_artist">View artist</string>
+    <string name="popup_view_author">View author</string>
     <string name="popup_share">Share</string>
     <string name="popup_set_as_ringtone">Set as ringtone</string>
     <string name="popup_delete">Delete</string>

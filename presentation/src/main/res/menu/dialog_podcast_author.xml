@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/play"
+        android:title="@string/popup_play"/>
+
+    <item android:id="@+id/playShuffle"
+        android:title="@string/popup_play_shuffle"/>
+
     <item android:id="@+id/playNext"
         android:title="@string/popup_play_next"/>
 
@@ -9,6 +15,9 @@
 
     <item android:id="@+id/addToFavorite"
         android:title="@string/popup_add_to_favorites"/>
+
+    <item android:id="@+id/addHomeScreen"
+        android:title="@string/popup_add_to_home_screen"/>
 
     <group>
 
@@ -23,13 +32,7 @@
     </group>
 
     <item android:id="@+id/viewInfo"
-        android:title="@string/popup_edit_podcast_info"/>
-
-    <item android:id="@+id/viewArtist"
-        android:title="@string/popup_view_author"/>
-
-    <item android:id="@+id/share"
-        android:title="@string/popup_share"/>
+        android:title="@string/popup_edit_podcast_author_info"/>
 
     <item android:id="@+id/delete"
         android:title="@string/popup_delete"/>
