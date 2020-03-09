@@ -1,6 +1,5 @@
 package dev.olog.data.repository
 
-import androidx.annotation.VisibleForTesting
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Song
@@ -27,7 +26,6 @@ internal class FavoriteRepository @Inject constructor(
 
     private val favoriteStatePublisher = ConflatedBroadcastChannel<dev.olog.core.entity.favorite.FavoriteEntity>()
 
-    @VisibleForTesting
     internal fun getState(): dev.olog.core.entity.favorite.FavoriteEntity? = favoriteStatePublisher.valueOrNull
 
     override fun observeToggleFavorite(): Flow<FavoriteState> = favoriteStatePublisher
