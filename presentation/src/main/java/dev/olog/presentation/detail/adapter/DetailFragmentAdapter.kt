@@ -4,6 +4,7 @@ package dev.olog.presentation.detail.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -158,6 +159,10 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_header_all_song -> {
                 val sortText = holder.itemView.sort
                 val sortImage = holder.itemView.sortImage
+
+                // don't allow sorting on podcast
+                sortText.isVisible = !mediaId.isAnyPodcast
+                sortImage.isVisible = !mediaId.isAnyPodcast
 
                 viewModel.observeSorting()
                     .onEach { view.sortImage.update(it) }
