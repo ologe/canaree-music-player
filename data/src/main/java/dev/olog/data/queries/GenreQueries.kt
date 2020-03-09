@@ -62,7 +62,8 @@ internal class GenreQueries(
             SELECT ${Members._ID}, ${Members.AUDIO_ID}, ${Members.ARTIST_ID}, ${Members.ALBUM_ID},
                 ${Members.TITLE}, ${Members.ARTIST}, ${Members.ALBUM}, ${Columns.ALBUM_ARTIST},
                 ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
-                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
+                ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST},
+                ${Members.DISPLAY_NAME}
             FROM ${Members.getContentUri("external", genreId)}
             WHERE ${defaultSelection(blacklist)} AND ${isRecentlyAdded()}
             ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
