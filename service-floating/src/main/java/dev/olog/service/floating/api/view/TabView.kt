@@ -51,15 +51,14 @@ class TabView(
             ))
 
             background = transition
-            setImageResource(R.drawable.vd_bird_singing)
             transition.startTransition(DURATION)
 
         } else {
             val gradient = ContextCompat.getDrawable(context, R.drawable.gradient)!!.mutate() as GradientDrawable
             gradient.colors = baseColors
             background = gradient
-            setImageResource(R.drawable.vd_bird_singing)
         }
+        setImageResource(R.drawable.vd_bird)
     }
 
     fun setExpanded(){
