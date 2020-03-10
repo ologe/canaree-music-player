@@ -41,7 +41,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="16dp"
-        app:icon="@drawable/vd_library"
+        app:icon="@drawable/vd_home"
         android:text="@string/folder_set_default_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
