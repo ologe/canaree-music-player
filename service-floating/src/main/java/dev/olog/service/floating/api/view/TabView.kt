@@ -1,6 +1,7 @@
 package dev.olog.service.floating.api.view
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class TabView(
 
 ) : AppCompatImageView(context) {
 
-    private val baseColors = intArrayOf(0xffff5d5d.toInt(), 0xffff9468.toInt())
+    private val baseColors = intArrayOf(0xff_333333.toInt(), 0xff_333333.toInt())
 
     init {
         val size = context.dip(48)
@@ -34,7 +35,6 @@ class TabView(
 
         val padding = context.dip(14)
         setPadding(padding, padding, padding, padding)
-        setColorFilter(0xFF_262626.toInt())
     }
 
     fun setHidden(animate: Boolean){
@@ -58,6 +58,7 @@ class TabView(
             gradient.colors = baseColors
             background = gradient
         }
+        setColorFilter(Color.WHITE)
         setImageResource(R.drawable.vd_bird)
     }
 
@@ -73,7 +74,7 @@ class TabView(
         ))
         background = transition
         setImageResource(icon)
-
+        setColorFilter(0xFF_262626.toInt())
         transition.startTransition(DURATION)
     }
 
