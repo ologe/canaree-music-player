@@ -1,8 +1,6 @@
 package dev.olog.presentation.dialogs
 
 import android.content.Context
-import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -10,7 +8,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.showIme
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.delay
@@ -23,8 +20,6 @@ abstract class BaseEditTextDialog : BaseDialog() {
     // TODO check
     private var errorJob by autoDisposeJob()
 
-    private var showJeyboardJob by autoDisposeJob()
-
     @CallSuper
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setView(R.layout.layout_edit_text)
@@ -35,14 +30,6 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editText = dialog.findViewById(R.id.editText)!!
         editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
-    }
-
-    @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        showJeyboardJob = launchWhenResumed {
-            editText.showIme()
-        }
     }
 
     protected open fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {}
