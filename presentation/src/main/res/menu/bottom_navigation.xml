@@ -4,11 +4,11 @@
         <item
             android:id="@+id/navigation_library"
             android:title="@string/category_header"
-            android:icon="@drawable/vd_library"/>
+            android:icon="@drawable/vd_home_selector"/>
         <item
             android:id="@+id/navigation_search"
             android:title="@string/common_search"
-            android:icon="@drawable/vd_search"/>
+            android:icon="@drawable/vd_search_alt"/>
 
         <item
             android:id="@+id/navigation_queue"
