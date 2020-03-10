@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Some text"
-            android:inputType="number"
+            android:inputType="numberSigned"
             style="@style/DefaultTextBox"/>
 
     </com.google.android.material.textfield.TextInputLayout>
