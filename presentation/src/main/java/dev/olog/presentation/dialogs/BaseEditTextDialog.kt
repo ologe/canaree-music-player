@@ -1,6 +1,8 @@
 package dev.olog.presentation.dialogs
 
 import android.content.Context
+import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -33,7 +35,11 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editText = dialog.findViewById(R.id.editText)!!
         editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
+    }
 
+    @CallSuper
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         showJeyboardJob = launchWhenResumed {
             editText.showIme()
         }
