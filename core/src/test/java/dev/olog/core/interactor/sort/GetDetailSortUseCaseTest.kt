@@ -58,7 +58,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testPodcastArtists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHOR, "")
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, "")
 
         sut(mediaId)
         verify(gateway).getDetailArtistSort()
@@ -79,7 +79,7 @@ class GetDetailSortUseCaseTest {
             MediaIdCategory.PODCASTS_PLAYLIST,
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_AUTHOR,
+            MediaIdCategory.PODCASTS_AUTHORS,
             MediaIdCategory.ARTISTS,
             MediaIdCategory.GENRES
         )

@@ -12,7 +12,7 @@ data class Artist(
 ) {
 
     fun getMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_AUTHOR else MediaIdCategory.ARTISTS
+        val category = if (isPodcast) MediaIdCategory.PODCASTS_AUTHORS else MediaIdCategory.ARTISTS
         return MediaId.createCategoryValue(category, this.id.toString())
     }
 }

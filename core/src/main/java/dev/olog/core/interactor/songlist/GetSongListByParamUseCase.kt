@@ -25,7 +25,7 @@ class GetSongListByParamUseCase @Inject constructor(
 
     operator fun invoke(mediaId: MediaId): List<Song> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.SONGS -> songGateway.getAll()
             MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId)
@@ -33,8 +33,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS -> podcastGateway.getAll()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_AUTHOR -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId)
-            else -> throw AssertionError("invalid media id $mediaId")
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId)
         }
     }
 

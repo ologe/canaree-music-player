@@ -26,7 +26,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
 
     operator fun invoke(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryValue)
+            MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.SONGS -> songDataStore.observeAll()
             MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryId)
@@ -34,8 +34,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS -> podcastGateway.observeAll()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_AUTHOR -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId)
-            else -> throw AssertionError("invalid media id $mediaId")
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId)
         }
     }
 

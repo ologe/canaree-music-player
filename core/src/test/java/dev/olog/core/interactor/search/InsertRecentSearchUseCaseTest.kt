@@ -147,7 +147,7 @@ class InsertRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_AUTHOR, id.toString()
+            MediaIdCategory.PODCASTS_AUTHORS, id.toString()
         )
 
         // when

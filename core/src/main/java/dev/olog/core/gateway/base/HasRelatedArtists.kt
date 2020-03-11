@@ -4,5 +4,5 @@ import dev.olog.core.entity.track.Artist
 import kotlinx.coroutines.flow.Flow
 
 interface HasRelatedArtists<Param> {
-    fun observeRelatedArtists(params: Param): Flow<List<Artist>>
+    fun observeRelatedArtists(param: Param): Flow<List<Artist>>
 }

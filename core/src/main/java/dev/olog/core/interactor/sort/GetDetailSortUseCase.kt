@@ -21,7 +21,7 @@ class GetDetailSortUseCase @Inject constructor(
             MediaIdCategory.ALBUMS -> gateway.getDetailAlbumSort()
             MediaIdCategory.ARTISTS -> gateway.getDetailArtistSort()
             MediaIdCategory.GENRES -> gateway.getDetailGenreSort()
-            MediaIdCategory.PODCASTS_AUTHOR,
+            MediaIdCategory.PODCASTS_AUTHORS,
             MediaIdCategory.PODCASTS_PLAYLIST -> SortEntity(SortType.TITLE, SortArranging.ASCENDING)
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }

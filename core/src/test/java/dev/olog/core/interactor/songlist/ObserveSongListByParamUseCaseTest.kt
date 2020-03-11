@@ -210,7 +210,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testPodcastArtist(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHOR, id.toString())
+        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString())
 
         // when
         sut(mediaId)

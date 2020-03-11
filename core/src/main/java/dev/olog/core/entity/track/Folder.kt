@@ -4,6 +4,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 
 data class Folder(
+    val id: Long,
     val title: String,
     val path: String,
     val size: Int

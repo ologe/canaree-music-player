@@ -24,13 +24,13 @@ class GetItemTitleUseCase @Inject constructor(
 
     operator fun invoke(mediaId: MediaId): Flow<String?> {
         return when (mediaId.category){
-            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryValue).map { it?.title }
+            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryId).map { it?.title }
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).map { it?.title }
             MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).map { it?.title }
             MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS_AUTHOR -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it?.name }
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it?.name }
             else -> throw IllegalArgumentException("invalid media category ${mediaId.category}")
         }
     }

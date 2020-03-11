@@ -1,5 +1,7 @@
 package dev.olog.core
 
+
+
 class MediaId private constructor(
     val category: MediaIdCategory,
     val categoryValue: String,
@@ -20,14 +22,6 @@ class MediaId private constructor(
     companion object {
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
-
-        @JvmStatic
-        fun headerId(value: String): MediaId {
-            return MediaId(MediaIdCategory.HEADER, value)
-        }
-
-        @JvmStatic
-        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
 
         @JvmStatic
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
@@ -107,7 +101,7 @@ class MediaId private constructor(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
@@ -115,32 +109,19 @@ class MediaId private constructor(
     val categoryId: Long
         get() {
             return when {
-                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
         }
 
-    val isHeader: Boolean
-        get() {
-            return category == MediaIdCategory.HEADER
-        }
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
-    val isAll: Boolean = category == MediaIdCategory.SONGS
     val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
     val isArtist : Boolean = category == MediaIdCategory.ARTISTS
     val isGenre : Boolean = category == MediaIdCategory.GENRES
     val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
     val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
-    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_AUTHOR
+    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_AUTHORS
     val isAnyPodcast : Boolean = isPodcast || isPodcastArtist || isPodcastPlaylist
-
-    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
-
-    fun assertPlaylist(){
-        require(isPlaylist || isPodcastPlaylist) {
-            "not a playlist, category=${this.category}"
-        }
-    }
 
 }

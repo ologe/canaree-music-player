@@ -4,19 +4,13 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.base.*
 
 interface FolderGateway :
-    BaseGateway<Folder, Path>,
-    ChildHasTracks<Path>,
+    BaseGateway<Folder, Id>,
+    ChildHasTracks<Id>,
     HasMostPlayed,
-    HasSiblings<Folder, Path>,
-    HasRelatedArtists<Path>,
-    HasRecentlyAddedSongs<Path> {
+    HasSiblings<Folder, Id>,
+    HasRelatedArtists<Id>,
+    HasRecentlyAddedSongs<Id> {
 
     fun getAllBlacklistedIncluded(): List<Folder>
-
-    /**
-     * Hashcode = path.tohashCode()
-     */
-    // TODO maybe not
-    fun getByHashCode(hashCode: Int): Folder?
 
 }

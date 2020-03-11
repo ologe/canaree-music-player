@@ -38,7 +38,7 @@ class InsertLastPlayedArtistUseCaseTest {
         val sut = InsertLastPlayedArtistUseCase(mock(), gateway)
 
         // when
-        sut(MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHOR, id.toString()))
+        sut(MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString()))
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -48,7 +48,7 @@ class InsertLastPlayedArtistUseCaseTest {
     fun testInvokeWithOtherCategories() = runBlocking {
         // given
         val id = 1L
-        val allowed = listOf(MediaIdCategory.ARTISTS, MediaIdCategory.PODCASTS_AUTHOR)
+        val allowed = listOf(MediaIdCategory.ARTISTS, MediaIdCategory.PODCASTS_AUTHORS)
 
         val sut = InsertLastPlayedArtistUseCase(mock(), mock())
 

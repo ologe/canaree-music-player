@@ -10,8 +10,5 @@ enum class MediaIdCategory {
 
     PODCASTS_PLAYLIST,
     PODCASTS,
-    PODCASTS_AUTHOR,
-
-    HEADER,
-    PLAYING_QUEUE
+    PODCASTS_AUTHORS
 }
