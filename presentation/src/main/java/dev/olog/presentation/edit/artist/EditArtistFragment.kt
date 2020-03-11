@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
@@ -27,9 +27,9 @@ class EditArtistFragment : BaseEditItemFragment() {
         const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId): EditArtistFragment {
+        fun newInstance(mediaId: PresentationId.Category): EditArtistFragment {
             return EditArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString()
+                ARGUMENTS_MEDIA_ID to mediaId
             )
         }
     }
@@ -46,7 +46,7 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     private val mediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+        getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

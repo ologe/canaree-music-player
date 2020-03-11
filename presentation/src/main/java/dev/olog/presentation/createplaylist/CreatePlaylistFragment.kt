@@ -13,7 +13,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -156,12 +155,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             "#" -> 0
             "?" -> adapter.lastIndex()
             else -> adapter.indexOf { item ->
-                require(item is DisplayableTrack)
                 if (item.title.isBlank()) {
-                    return@indexOf false
+                    false
+                } else {
+                    "${item.title[0]}".toUpperCase() == letter
                 }
-
-                return@indexOf item.title[0].toUpperCase().toString() == letter
             }
         }
         if (position != -1) {

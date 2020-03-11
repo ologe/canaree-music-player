@@ -1,6 +1,6 @@
 package dev.olog.presentation.tab
 
-import dev.olog.core.MediaIdCategory
+import dev.olog.presentation.PresentationIdCategory
 
 internal enum class TabCategory {
     FOLDERS,
@@ -23,15 +23,15 @@ internal enum class TabCategory {
     RECENTLY_ADDED_PODCAST_ARTISTS,
 }
 
-internal fun MediaIdCategory.toTabCategory(): TabCategory = when (this) {
-    MediaIdCategory.FOLDERS -> TabCategory.FOLDERS
-    MediaIdCategory.PLAYLISTS -> TabCategory.PLAYLISTS
-    MediaIdCategory.SONGS -> TabCategory.SONGS
-    MediaIdCategory.ALBUMS -> TabCategory.ALBUMS
-    MediaIdCategory.ARTISTS -> TabCategory.ARTISTS
-    MediaIdCategory.GENRES -> TabCategory.GENRES
-    MediaIdCategory.PODCASTS_PLAYLIST -> TabCategory.PODCASTS_PLAYLIST
-    MediaIdCategory.PODCASTS -> TabCategory.PODCASTS
-    MediaIdCategory.PODCASTS_AUTHOR -> TabCategory.PODCASTS_AUTHORS
+internal fun PresentationIdCategory.toTabCategory(): TabCategory = when (this) {
+    PresentationIdCategory.FOLDERS -> TabCategory.FOLDERS
+    PresentationIdCategory.PLAYLISTS -> TabCategory.PLAYLISTS
+    PresentationIdCategory.SONGS -> TabCategory.SONGS
+    PresentationIdCategory.ALBUMS -> TabCategory.ALBUMS
+    PresentationIdCategory.ARTISTS -> TabCategory.ARTISTS
+    PresentationIdCategory.GENRES -> TabCategory.GENRES
+    PresentationIdCategory.PODCASTS_PLAYLIST -> TabCategory.PODCASTS_PLAYLIST
+    PresentationIdCategory.PODCASTS -> TabCategory.PODCASTS
+    PresentationIdCategory.PODCASTS_AUTHORS -> TabCategory.PODCASTS_AUTHORS
     else -> throw IllegalArgumentException("invalid category $this")
 }

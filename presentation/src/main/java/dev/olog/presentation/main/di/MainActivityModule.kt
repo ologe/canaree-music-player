@@ -30,7 +30,7 @@ abstract class MainActivityModule {
 
     @Binds
     @PerActivity
-    abstract fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator
+    internal abstract fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator
 
     @Binds
     @IntoMap

@@ -2,7 +2,7 @@ package dev.olog.presentation.dialogs.playlist.duplicates
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
@@ -19,9 +19,9 @@ class RemoveDuplicatesDialog: BaseDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, itemTitle: String): RemoveDuplicatesDialog {
+        fun newInstance(mediaId: PresentationId.Category, itemTitle: String): RemoveDuplicatesDialog {
             return RemoveDuplicatesDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
@@ -43,7 +43,7 @@ class RemoveDuplicatesDialog: BaseDialog() {
         launchWhenResumed {
             var message: String
             try {
-                val mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+                val mediaId = getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
                 presenter.execute(mediaId)
                 message = successMessage(act)
             } catch (ex: Exception) {

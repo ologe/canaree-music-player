@@ -4,7 +4,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
@@ -15,17 +14,18 @@ import dev.olog.presentation.ripple.RippleTarget
 fun ImageView.loadFile(item: DisplayableFile) {
     GlideApp.with(context).clear(this)
 
+    val id = item.mediaId.categoryId
+
     GlideApp.with(context)
         .load(AudioFileCover(item.path!!))
         .override(GlideUtils.OVERRIDE_SMALL)
-        .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
+        .placeholder(CoverUtils.getGradient(context, item.mediaId.playableItem(id).toDomain()))
         .into(this)
 }
 
 fun ImageView.loadDirImage(item: DisplayableFile) {
-    val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
     loadImageImpl(
-        mediaId,
+        item.mediaId.toDomain(),
         GlideUtils.OVERRIDE_SMALL
     )
 }

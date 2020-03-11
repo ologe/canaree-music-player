@@ -9,9 +9,6 @@
         <item>@string/common_albums</item>
         <item>Jiné žánry</item>
         <item>Další seznamy skladeb</item>
-        <item/>
-        <item>Další alba</item>
-        <item>@string/common_albums</item>
     </string-array>
 
     <string name="detail_more_albums_by">Více o %s</string>

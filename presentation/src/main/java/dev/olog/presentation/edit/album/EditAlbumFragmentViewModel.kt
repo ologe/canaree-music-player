@@ -2,9 +2,9 @@ package dev.olog.presentation.edit.album
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
     private val displayableAlbumPublisher = ConflatedBroadcastChannel<DisplayableAlbum>()
 
-    fun requestData(mediaId: MediaId) = viewModelScope.launch {
+    fun requestData(mediaId: PresentationId.Category) = viewModelScope.launch {
         val album = withContext(schedulers.io) {
             presenter.getAlbum(mediaId)
         }
@@ -43,7 +43,7 @@ class EditAlbumFragmentViewModel @Inject constructor(
 
     fun observeData(): Flow<DisplayableAlbum> = displayableAlbumPublisher.asFlow()
 
-    private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {
+    private suspend fun Album.toDisplayableAlbum(mediaId: PresentationId.Category): DisplayableAlbum {
         val path = presenter.getPath(mediaId)
         val audioFile = AudioFileIO.read(File(path))
         val tag = audioFile.tagOrCreateAndSetDefault

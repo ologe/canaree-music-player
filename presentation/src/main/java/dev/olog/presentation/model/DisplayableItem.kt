@@ -1,18 +1,18 @@
 package dev.olog.presentation.model
 
 import android.content.res.Resources
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 
 sealed class DisplayableItem(
     override val type: Int,
-    override val mediaId: MediaId
+    override val mediaId: PresentationId
 ) : BaseModel
 
 data class DisplayableTrack(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Track,
     val title: String,
     val artist: String,
     val album: String,
@@ -28,7 +28,7 @@ data class DisplayableTrack(
 
 data class DisplayableAlbum(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Category,
     val title: String,
     val subtitle: String
 ) : DisplayableItem(type, mediaId) {
@@ -48,7 +48,7 @@ data class DisplayableAlbum(
 
 data class DisplayableHeader(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Category,
     val title: String,
     val subtitle: String? = null,
     val visible: Boolean = true
@@ -58,5 +58,5 @@ data class DisplayableHeader(
 
 data class DisplayableNestedListPlaceholder(
     override val type: Int,
-    override val mediaId: MediaId
+    override val mediaId: PresentationId
 ) : DisplayableItem(type, mediaId)

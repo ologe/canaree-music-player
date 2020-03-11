@@ -2,13 +2,12 @@ package dev.olog.presentation.dialogs.playlist.clear
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,17 +19,16 @@ class ClearPlaylistDialog : BaseDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, itemTitle: String): ClearPlaylistDialog {
+        fun newInstance(mediaId: PresentationId.Category, itemTitle: String): ClearPlaylistDialog {
             return ClearPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
-        MediaId.fromString(mediaId)
+    private val mediaId by lazyFast {
+        getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
     }
     private val title by lazy { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 
@@ -68,7 +66,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
+        return requireContext().getString(R.string.remove_songs_from_playlist_y, title)
     }
 
 }

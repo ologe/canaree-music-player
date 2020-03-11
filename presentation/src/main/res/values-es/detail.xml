@@ -9,9 +9,6 @@
         <item>@string/common_albums</item>
         <item>Otros géneros</item>
         <item>Otras listas de reproducción</item>
-        <item/>
-        <item>Otros álbumes</item>
-        <item>@string/common_albums</item>
     </string-array>
 
     <string name="detail_more_albums_by">Más por %s</string>

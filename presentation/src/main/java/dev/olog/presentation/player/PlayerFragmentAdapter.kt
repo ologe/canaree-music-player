@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
@@ -23,6 +22,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
+import dev.olog.presentation.toDomain
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.StatusBarView
@@ -93,8 +93,7 @@ internal class PlayerFragmentAdapter(
 
                 viewHolder.setOnClickListener(R.id.more, this) { _, _, view ->
                     try {
-                        val mediaId = MediaId.songId(playingMediaId!!.resolveId)
-                        navigator.toDialog(mediaId, view, viewHolder.itemView)
+                        navigator.toDialog(playingMediaId!!, view, viewHolder.itemView)
                     } catch (ex: NullPointerException){
                         Timber.e(ex)
                     }
@@ -361,7 +360,7 @@ internal class PlayerFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         if (item is DisplayableTrack){
             holder.itemView.apply {
-                holder.imageView!!.loadSongImage(item.mediaId)
+                holder.imageView!!.loadSongImage(item.mediaId.toDomain())
                 firstText.text = item.title
                 secondText.text = item.artist
                 explicit.onItemChanged(item.title)

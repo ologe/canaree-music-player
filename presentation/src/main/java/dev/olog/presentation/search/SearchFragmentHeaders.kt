@@ -1,13 +1,13 @@
 package dev.olog.presentation.search
 
 import android.content.Context
-import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
+import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
 @PerFragment
@@ -18,14 +18,14 @@ class SearchFragmentHeaders @Inject constructor(
     val recents: List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_recent_header,
-            mediaId = MediaId.headerId("recent searches header id"),
+            mediaId = headerId("recent searches header id"),
             title = context.getString(R.string.search_recent_searches)
         )
     )
 
     fun songsHeaders(size: Int): DisplayableItem = DisplayableHeader(
         type = R.layout.item_search_header,
-        mediaId = MediaId.headerId("songs header id"),
+        mediaId = headerId("songs header id"),
         title = context.getString(R.string.search_songs),
         subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
     )
@@ -33,65 +33,65 @@ class SearchFragmentHeaders @Inject constructor(
     fun albumsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
-            mediaId = MediaId.headerId("albums header id"),
+            mediaId = headerId("albums header id"),
             title = context.getString(R.string.search_albums),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_albums,
-            mediaId = MediaId.headerId("albums list id")
+            mediaId = headerId("albums list id")
         )
     )
 
     fun artistsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
-            mediaId = MediaId.headerId("artists header id"),
+            mediaId = headerId("artists header id"),
             title = context.getString(R.string.search_artists),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_artists,
-            mediaId = MediaId.headerId("artists list id")
+            mediaId = headerId("artists list id")
         )
     )
 
     fun foldersHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
-            mediaId = MediaId.headerId("folders header id"),
+            mediaId = headerId("folders header id"),
             title = context.getString(R.string.search_folders),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_folder,
-            mediaId = MediaId.headerId("folders list id")
+            mediaId = headerId("folders list id")
         )
     )
 
     fun playlistsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
-            mediaId = MediaId.headerId("playlists header id"),
+            mediaId = headerId("playlists header id"),
             title = context.getString(R.string.search_playlists),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_playlists,
-            mediaId = MediaId.headerId("playlists list id")
+            mediaId = headerId("playlists list id")
         )
     )
 
     fun genreHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
-            mediaId = MediaId.headerId("genres header id"),
+            mediaId = headerId("genres header id"),
             title = context.getString(R.string.search_genres),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_search_list_genre,
-            mediaId = MediaId.headerId("genres list id")
+            mediaId = headerId("genres list id")
         )
     )
 

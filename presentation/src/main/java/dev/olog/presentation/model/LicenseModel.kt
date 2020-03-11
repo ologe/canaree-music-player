@@ -1,10 +1,10 @@
 package dev.olog.presentation.model
 
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 
 data class LicenseModel(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Category,
     val name: String,
     val url: String,
     val license: String

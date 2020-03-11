@@ -2,12 +2,14 @@ package dev.olog.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -25,19 +27,19 @@ class SearchFragmentViewModel @Inject constructor(
     val data: Flow<List<DisplayableItem>> = dataProvider.observe()
         .flowOn(schedulers.cpu)
 
-    val artistsData: Flow<List<DisplayableItem>> = dataProvider.observeArtists()
+    val artistsData: Flow<List<DisplayableAlbum>> = dataProvider.observeArtists()
         .flowOn(schedulers.cpu)
 
-    val albumsData: Flow<List<DisplayableItem>> = dataProvider.observeAlbums()
+    val albumsData: Flow<List<DisplayableAlbum>> = dataProvider.observeAlbums()
         .flowOn(schedulers.cpu)
 
-    val genresData: Flow<List<DisplayableItem>> = dataProvider.observeGenres()
+    val genresData: Flow<List<DisplayableAlbum>> = dataProvider.observeGenres()
         .flowOn(schedulers.cpu)
 
-    val playlistsData: Flow<List<DisplayableItem>> = dataProvider.observePlaylists()
+    val playlistsData: Flow<List<DisplayableAlbum>> = dataProvider.observePlaylists()
         .flowOn(schedulers.cpu)
 
-    val foldersData: Flow<List<DisplayableItem>> = dataProvider.observeFolders()
+    val foldersData: Flow<List<DisplayableAlbum>> = dataProvider.observeFolders()
         .flowOn(schedulers.cpu)
     
 
@@ -45,12 +47,12 @@ class SearchFragmentViewModel @Inject constructor(
         dataProvider.updateQuery(newQuery.trim())
     }
 
-    fun insertToRecent(mediaId: MediaId) = viewModelScope.launch(schedulers.io) {
-        insertRecentUse(mediaId)
+    fun insertToRecent(mediaId: PresentationId) = viewModelScope.launch(schedulers.io) {
+        insertRecentUse(mediaId.toDomain())
     }
 
-    fun deleteFromRecent(mediaId: MediaId) = viewModelScope.launch(schedulers.io) {
-        deleteRecentSearchUseCase(mediaId)
+    fun deleteFromRecent(mediaId: PresentationId) = viewModelScope.launch(schedulers.io) {
+        deleteRecentSearchUseCase(mediaId.toDomain())
     }
 
     fun clearRecentSearches() = viewModelScope.launch(schedulers.io) {

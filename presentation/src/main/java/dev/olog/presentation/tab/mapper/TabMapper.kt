@@ -6,6 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.presentationId
 import java.util.concurrent.TimeUnit
 
 internal fun Folder.toTabDisplayableItem(
@@ -14,7 +15,7 @@ internal fun Folder.toTabDisplayableItem(
 ): DisplayableItem {
     return DisplayableAlbum(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
     )
@@ -24,7 +25,7 @@ internal fun Playlist.toAutoPlaylist(): DisplayableItem {
     val layoutId = if (isPodcast) R.layout.item_tab_podcast_auto_playlist else R.layout.item_tab_auto_playlist
     return DisplayableAlbum(
         type = layoutId,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = ""
     )
@@ -42,7 +43,7 @@ internal fun Playlist.toTabDisplayableItem(
 
     return DisplayableAlbum(
         type = layoutId,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
     )
@@ -51,7 +52,7 @@ internal fun Playlist.toTabDisplayableItem(
 internal fun Song.toTabDisplayableItem(): DisplayableItem {
     return DisplayableTrack(
         type = if (isPodcast) R.layout.item_tab_podcast else R.layout.item_tab_song,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         artist = artist,
         album = album,
@@ -65,7 +66,7 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
 internal fun Album.toTabDisplayableItem(requestedSpanSize: Int): DisplayableItem {
     return DisplayableAlbum(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = artist
     )
@@ -79,7 +80,7 @@ internal fun Artist.toTabDisplayableItem(
 
     return DisplayableAlbum(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_artist,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = songs
     )
@@ -92,7 +93,7 @@ internal fun Genre.toTabDisplayableItem(
 ): DisplayableItem {
     return DisplayableAlbum(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, size)
     )
@@ -101,7 +102,7 @@ internal fun Genre.toTabDisplayableItem(
 internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_album_last_played,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = artist
     )
@@ -110,7 +111,7 @@ internal fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
 internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableAlbum(
         type = R.layout.item_tab_artist_last_played,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs)
     )

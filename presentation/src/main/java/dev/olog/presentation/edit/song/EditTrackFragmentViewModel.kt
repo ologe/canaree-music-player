@@ -3,9 +3,9 @@ package dev.olog.presentation.edit.song
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.utils.NetworkUtils
@@ -39,7 +39,7 @@ class EditTrackFragmentViewModel @Inject constructor(
     private val songPublisher = ConflatedBroadcastChannel<Song>()
     private val displayableSongPublisher = ConflatedBroadcastChannel<DisplayableSong>()
 
-    fun requestData(mediaId: MediaId) = viewModelScope.launch {
+    fun requestData(mediaId: PresentationId.Track) = viewModelScope.launch {
         val song = withContext(schedulers.io) {
             presenter.getSong(mediaId)
         }
@@ -57,14 +57,14 @@ class EditTrackFragmentViewModel @Inject constructor(
 
     fun getOriginalSong(): Song = songPublisher.value
 
-    fun fetchSongInfo(mediaId: MediaId): Boolean {
+    fun fetchSongInfo(mediaId: PresentationId.Track): Boolean {
         if (!NetworkUtils.isConnected(context)) {
             return false
         }
         fetchJob = viewModelScope.launch {
             try {
                 val lastFmTrack = withContext(Dispatchers.IO) {
-                    presenter.fetchData(mediaId.resolveId)
+                    presenter.fetchData(mediaId.id)
                 }
                 var currentSong = displayableSongPublisher.value
                 currentSong = currentSong.copy(

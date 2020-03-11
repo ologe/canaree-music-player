@@ -7,8 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
@@ -17,7 +15,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.presentation.tab.toTabCategory
 import dev.olog.shared.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,34 +30,33 @@ internal class MainPopupDialog @Inject constructor(
     companion object {
         private const val SAVE_AS_PLAYLIST_ID = -12345
     }
-
-    /**
-     * @param category null when from search
-     *                 [MediaId.playingQueueId] when from playing queue
-     *                 valid category when form tab
-     */
-    fun show(anchor: View, navigator: Navigator, category: MediaIdCategory?) {
+    
+    fun show(anchor: View, navigator: Navigator, category: MainPopupCategory) {
         val popup = PopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
-            MediaIdCategory.ALBUMS -> R.menu.main_albums
-            MediaIdCategory.SONGS -> R.menu.main_songs
-            MediaIdCategory.ARTISTS -> R.menu.main_artists
+            MainPopupCategory.ALBUMS -> R.menu.main_albums
+            MainPopupCategory.SONGS -> R.menu.main_songs
+            MainPopupCategory.ARTISTS -> R.menu.main_artists
             else -> R.menu.main
         }
         popup.inflate(layoutId)
 
-        if (category == null || category == MediaIdCategory.PLAYING_QUEUE){
-            popup.menu.removeItem(R.id.gridSize)
+        when (category) {
+            MainPopupCategory.SEARCH,
+            MainPopupCategory.PLAYING_QUEUE -> {
+                popup.menu.removeItem(R.id.gridSize)
+            }
+            else -> {}
         }
 
         val sortModel = when (category) {
-            MediaIdCategory.ALBUMS -> initializeAlbumSort(popup.menu)
-            MediaIdCategory.SONGS -> initializeTracksSort(popup.menu)
-            MediaIdCategory.ARTISTS -> initializeArtistSort(popup.menu)
+            MainPopupCategory.ALBUMS -> initializeAlbumSort(popup.menu)
+            MainPopupCategory.SONGS -> initializeTracksSort(popup.menu)
+            MainPopupCategory.ARTISTS -> initializeArtistSort(popup.menu)
             else -> null
         }
 
-        if (category == MediaIdCategory.PLAYING_QUEUE) {
+        if (category == MainPopupCategory.PLAYING_QUEUE) {
             popup.menu.add(
                 Menu.NONE,
                 SAVE_AS_PLAYLIST_ID, Menu.NONE, anchor.context.getString(R.string.save_as_playlist)
@@ -73,20 +69,16 @@ internal class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> popupNavigator.toEqualizer()
                 R.id.settings -> popupNavigator.toSettingsActivity()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
-                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(
-                    MediaId.playingQueueId,
-                    -1,
-                    ""
-                )
-                R.id.gridSize1 -> updateSpanCount(anchor, category!!.toTabCategory(), 1)
-                R.id.gridSize2 -> updateSpanCount(anchor, category!!.toTabCategory(), 2)
-                R.id.gridSize3 -> updateSpanCount(anchor, category!!.toTabCategory(), 3)
-                R.id.gridSize4 -> updateSpanCount(anchor, category!!.toTabCategory(), 4)
+                SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialogFromPlayingQueue()
+                R.id.gridSize1 -> updateSpanCount(anchor, category.toTabCategory(), 1)
+                R.id.gridSize2 -> updateSpanCount(anchor, category.toTabCategory(), 2)
+                R.id.gridSize3 -> updateSpanCount(anchor, category.toTabCategory(), 3)
+                R.id.gridSize4 -> updateSpanCount(anchor, category.toTabCategory(), 4)
                 else -> {
                     when (category) {
-                        MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
-                        MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
-                        MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
+                        MainPopupCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
+                        MainPopupCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
+                        MainPopupCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
                         else -> Timber.w("MainPopup: not handled $category")
                     }
                 }

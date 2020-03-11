@@ -20,11 +20,11 @@ class AboutFragmentAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = inflater.inflate(viewType, parent, false)
         val viewHolder = DataBoundViewHolder(binding)
-        initViewHolderListeners(viewHolder, viewType)
+        initViewHolderListeners(viewHolder)
         return viewHolder
     }
 
-    fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    fun initViewHolderListeners(viewHolder: DataBoundViewHolder) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
             when (item.itemType) {
                 THIRD_SW_ID -> navigator.toLicensesFragment()

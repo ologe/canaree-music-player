@@ -1,13 +1,14 @@
 package dev.olog.presentation.edit
 
 import android.content.Context
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
+import dev.olog.presentation.toDomain
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.GlobalScope
@@ -31,15 +32,15 @@ class EditItemDialogFactory @Inject constructor(
 ) {
 
     fun toEditTrack(
-        mediaId: MediaId,
+        mediaId: PresentationId.Track,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
             if (mediaId.isAnyPodcast) {
-                val song = getPodcastUseCase.getByParam(mediaId.resolveId)!!
+                val song = getPodcastUseCase.getByParam(mediaId.id)!!
                 checkItem(song)
             } else {
-                val song = getSongUseCase.getByParam(mediaId.resolveId)!!
+                val song = getSongUseCase.getByParam(mediaId.id)!!
                 checkItem(song)
             }
             withContext(schedulers.main) {
@@ -54,11 +55,11 @@ class EditItemDialogFactory @Inject constructor(
     }
 
     fun toEditAlbum(
-        mediaId: MediaId,
+        mediaId: PresentationId.Category,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
+            getSongListByParamUseCase.invoke(mediaId.toDomain()).forEach { checkItem(it) }
             withContext(schedulers.main) {
                 action()
             }
@@ -71,11 +72,11 @@ class EditItemDialogFactory @Inject constructor(
     }
 
     fun toEditArtist(
-        mediaId: MediaId,
+        mediaId: PresentationId.Category,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
+            getSongListByParamUseCase.invoke(mediaId.toDomain()).forEach { checkItem(it) }
             withContext(schedulers.main) {
                 action()
             }

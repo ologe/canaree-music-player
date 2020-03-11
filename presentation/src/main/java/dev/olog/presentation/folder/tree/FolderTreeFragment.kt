@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -40,7 +39,7 @@ class FolderTreeFragment : BaseFragment(),
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
     private val viewModel by activityViewModels<FolderTreeFragmentViewModel> {
         viewModelFactory
     }
@@ -105,10 +104,6 @@ class FolderTreeFragment : BaseFragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         list.adapter = null
-    }
-
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
-        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun onFabClick(){

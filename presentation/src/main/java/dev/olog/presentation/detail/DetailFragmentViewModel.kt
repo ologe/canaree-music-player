@@ -2,8 +2,6 @@ package dev.olog.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
@@ -13,9 +11,12 @@ import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory.*
+import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.shared.mapListItem
+import dev.olog.presentation.toDomain
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,8 +24,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: MediaId,
-    private val dataProvider: DetailDataProvider,
+    val mediaId: PresentationId.Category,
+    dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
     private val getSortOrderUseCase: GetDetailSortUseCase,
@@ -58,9 +59,9 @@ internal class DetailFragmentViewModel @Inject constructor(
         // biography
         viewModelScope.launch(schedulers.io) {
             try {
-                val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
+                val biography = when (mediaId.category) {
+                    ARTISTS -> imageRetrieverGateway.getArtist(mediaId.categoryId.toLong())?.wiki
+                    ALBUMS -> imageRetrieverGateway.getAlbum(mediaId.categoryId.toLong())?.wiki
                     else -> null
                 }
                 biographyPublisher.offer(biography)
@@ -86,21 +87,20 @@ internal class DetailFragmentViewModel @Inject constructor(
         .flowOn(schedulers.cpu)
 
     val mostPlayed: Flow<List<DisplayableTrack>> = dataProvider.observeMostPlayed(mediaId)
-        .mapListItem { it as DisplayableTrack }
         .distinctUntilChanged()
         .flowOn(schedulers.cpu)
 
-    val recentlyAdded: Flow<List<DisplayableItem>> = dataProvider.observeRecentlyAdded(mediaId)
+    val recentlyAdded: Flow<List<DisplayableTrack>> = dataProvider.observeRecentlyAdded(mediaId)
         .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
         .distinctUntilChanged()
         .flowOn(schedulers.cpu)
 
-    val relatedArtists: Flow<List<DisplayableItem>> = dataProvider.observeRelatedArtists(mediaId)
+    val relatedArtists: Flow<List<DisplayableAlbum>> = dataProvider.observeRelatedArtists(mediaId)
         .map { it.take(RELATED_ARTISTS_TO_SEE) }
         .distinctUntilChanged()
         .flowOn(schedulers.cpu)
 
-    val siblings: Flow<List<DisplayableItem>> = dataProvider.observeSiblings(mediaId)
+    val siblings: Flow<List<DisplayableAlbum>> = dataProvider.observeSiblings(mediaId)
         .distinctUntilChanged()
         .flowOn(schedulers.cpu)
 
@@ -115,26 +115,26 @@ internal class DetailFragmentViewModel @Inject constructor(
             it.groupBy { it.id }.mapValues { it.value[0].position.toInt() }
         }.flowOn(schedulers.cpu)
 
-    fun detailSortDataUseCase(mediaId: MediaId, action: (SortEntity) -> Unit) {
-        val sortOrder = getSortOrderUseCase(mediaId)
+    fun detailSortDataUseCase(mediaId: PresentationId, action: (SortEntity) -> Unit) {
+        val sortOrder = getSortOrderUseCase(mediaId.toDomain())
         action(sortOrder)
     }
 
     fun observeSortOrder(action: (SortType) -> Unit) {
-        val sortEntity = getSortOrderUseCase(mediaId)
+        val sortEntity = getSortOrderUseCase(mediaId.toDomain())
         action(sortEntity.type)
     }
 
     fun updateSortOrder(sortType: SortType) = viewModelScope.launch(schedulers.io) {
-        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
+        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId.toDomain(), sortType))
     }
 
     fun toggleSortArranging() {
-        if (mediaId.category == MediaIdCategory.PLAYLISTS &&
-            getSortOrderUseCase(mediaId).type == SortType.CUSTOM){
+        if (mediaId.category == PLAYLISTS &&
+            getSortOrderUseCase(mediaId.toDomain()).type == SortType.CUSTOM){
             return
         }
-        toggleSortArrangingUseCase(mediaId.category)
+        toggleSortArrangingUseCase(mediaId.category.toDomain())
     }
 
     fun addMove(from: Int, to: Int){
@@ -142,7 +142,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun processMove() = viewModelScope.launch {
-        if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
+        if (mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST){
             presenter.moveInPlaylist(moveList)
         }
         moveList.clear()
@@ -154,7 +154,7 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun observeSorting(): Flow<SortEntity> {
-        return observeSortOrderUseCase(mediaId)
+        return observeSortOrderUseCase(mediaId.toDomain())
     }
 
     fun showSortByTutorialIfNeverShown(): Boolean {

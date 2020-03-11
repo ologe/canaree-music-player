@@ -11,10 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -51,7 +51,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
 
     @Inject lateinit var musicPrefs: MusicPreferencesGateway
 
@@ -119,7 +119,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         disposeDragListener()
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 

@@ -7,24 +7,27 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
+import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.toDomain
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-abstract class AbsPopupListener(
+internal abstract class AbsPopupListener(
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     private val addToPlaylistUseCase: AddToPlaylistUseCase,
     private val schedulers: Schedulers
@@ -34,7 +37,7 @@ abstract class AbsPopupListener(
     protected var container: View? = null
     protected var podcastPlaylist: Boolean = false
 
-    val playlists by lazyFast {
+    val playlists: List<Playlist> by lazyFast {
         getPlaylistBlockingUseCase(
             if (podcastPlaylist) PlaylistType.PODCAST
             else PlaylistType.TRACK
@@ -45,25 +48,24 @@ abstract class AbsPopupListener(
     protected fun onPlaylistSubItemClick(
         context: Context,
         itemId: Int,
-        mediaId: MediaId,
+        mediaId: PresentationId,
         listSize: Int,
         title: String
     ) {
-        playlists.firstOrNull { it.id == itemId.toLong() }?.run {
-            GlobalScope.launch { // TODO use a correct scope
-                try {
-                    addToPlaylistUseCase(this@run, mediaId)
-                    createSuccessMessage(
-                        context,
-                        itemId.toLong(),
-                        mediaId,
-                        listSize,
-                        title
-                    )
-                } catch (ex: Exception){
-                    Timber.e(ex)
-                    createErrorMessage(context)
-                }
+        val playlist = playlists.first { it.id == itemId.toLong() }
+        GlobalScope.launch { // TODO use a better scope
+            try {
+                addToPlaylistUseCase(playlist, mediaId.toDomain())
+                createSuccessMessage(
+                    context,
+                    itemId.toLong(),
+                    mediaId,
+                    listSize,
+                    title
+                )
+            } catch (ex: Exception){
+                Timber.e(ex)
+                createErrorMessage(context)
             }
         }
     }
@@ -71,15 +73,14 @@ abstract class AbsPopupListener(
     private suspend fun createSuccessMessage(
         context: Context,
         playlistId: Long,
-        mediaId: MediaId,
+        mediaId: PresentationId,
         listSize: Int,
         title: String
     ) = withContext(schedulers.main) {
         val playlist = playlists.first { it.id == playlistId }.title
-        val message = if (mediaId.isLeaf) {
-            context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
-        } else {
-            context.resources.getQuantityString(
+        val message = when (mediaId) {
+            is PresentationId.Track -> context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
+            is PresentationId.Category -> context.resources.getQuantityString(
                 R.plurals.xx_songs_added_to_playlist_y,
                 listSize,
                 listSize,
@@ -127,11 +128,11 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected fun viewInfo(navigator: Navigator, mediaId: MediaId) {
+    protected fun viewInfo(navigator: Navigator, mediaId: PresentationId) {
         navigator.toEditInfoFragment(mediaId)
     }
 
-    protected fun viewAlbum(navigator: Navigator, mediaId: MediaId) {
+    protected fun viewAlbum(navigator: Navigator, mediaId: PresentationId.Category) {
         if (container == null) {
             navigator.toDetailFragment(mediaId)
         } else {
@@ -139,7 +140,7 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected fun viewArtist(navigator: Navigator, mediaId: MediaId) {
+    protected fun viewArtist(navigator: Navigator, mediaId: PresentationId.Category) {
         if (container == null) {
             navigator.toDetailFragment(mediaId)
         } else {
@@ -147,8 +148,11 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected fun setRingtone(navigator: Navigator, mediaId: MediaId, song: Song) {
-        navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
+    protected fun setRingtone(navigator: Navigator, mediaId: PresentationId, song: Song) {
+        when (mediaId) {
+            is PresentationId.Track -> navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
+            is PresentationId.Category -> throwNotHandled("invalid $mediaId")
+        }
     }
 
 

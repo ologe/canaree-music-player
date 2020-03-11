@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.olog.presentation.folder.tree
 
 import android.content.Context
@@ -6,12 +8,12 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.widgets.BreadCrumbLayout
@@ -115,22 +117,17 @@ class FolderTreeFragmentViewModel @Inject constructor(
     }
 
     @Suppress("DEPRECATION")
-    fun createMediaId(item: DisplayableFile): MediaId? {
+    fun createMediaId(item: DisplayableFile): PresentationId.Track? {
         try {
-            val file = item.asFile()
-            val songPath = file.path
-            val path = songPath.substring(0, songPath.lastIndexOf(File.separator))
-            val folderMediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path)
-
             context.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 arrayOf(BaseColumns._ID),
                 "${MediaStore.Audio.AudioColumns.DATA} = ?",
-                arrayOf(file.path), null
+                arrayOf(item.path), null
             )?.use { cursor ->
                 cursor.moveToFirst()
                 val trackId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
-                return MediaId.playableItem(folderMediaId, trackId)
+                return item.mediaId.playableItem(trackId)
             }
         } catch (ex: CursorIndexOutOfBoundsException) {
             Timber.e(ex)
@@ -140,33 +137,40 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     private val foldersHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
-        MediaId.headerId("folder header"),
+        PresentationId.headerId("folder header"),
         context.getString(R.string.common_folders),
         null
     )
 
     private val tracksHeader = DisplayableFile(
         R.layout.item_folder_tree_header,
-        MediaId.headerId("track header"),
+        PresentationId.headerId("track header"),
         context.getString(R.string.common_tracks),
         null
     )
 
     private fun FileType.Track.toDisplayableItem(): DisplayableFile {
+        val mediaId = PresentationId.Category(
+            PresentationIdCategory.FOLDERS,
+            this.path.hashCode().toLong()
+        )
 
         return DisplayableFile(
             type = R.layout.item_folder_tree_track,
-            mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
+            mediaId = mediaId,
             title = this.title,
             path = this.path
         )
     }
 
     private fun FileType.Folder.toDisplayableItem(): DisplayableFile {
-
+        val mediaId = PresentationId.Category(
+            PresentationIdCategory.FOLDERS,
+            this.path.hashCode().toLong()
+        )
         return DisplayableFile(
             type = R.layout.item_folder_tree_directory,
-            mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path),
+            mediaId = mediaId,
             title = this.name,
             path = this.path
         )

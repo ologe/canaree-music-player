@@ -9,17 +9,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.awaitAnimationEnd
+import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +47,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
         PlayingQueueFragmentAdapter(act as MediaProvider, navigator, this, viewModel)
@@ -84,7 +87,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) }
+        more.setOnClickListener { navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
@@ -100,12 +103,12 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
         disposeDragListener()
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

@@ -179,7 +179,7 @@ internal class PresentationPreferencesImpl @Inject constructor(
                 preferences.getInt(CATEGORY_PODCAST_ORDER, 1)
             ),
             LibraryCategoryBehavior(
-                MediaIdCategory.PODCASTS_AUTHOR,
+                MediaIdCategory.PODCASTS_AUTHORS,
                 preferences.getBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, true),
                 preferences.getInt(CATEGORY_PODCAST_ARTIST_ORDER, 3)
             )
@@ -204,7 +204,7 @@ internal class PresentationPreferencesImpl @Inject constructor(
             putInt(CATEGORY_PODCAST_ORDER, song.order)
             putBoolean(CATEGORY_PODCAST_VISIBILITY, song.visible)
 
-            val artist = behavior.first { it.category == MediaIdCategory.PODCASTS_AUTHOR }
+            val artist = behavior.first { it.category == MediaIdCategory.PODCASTS_AUTHORS }
             putInt(CATEGORY_PODCAST_ARTIST_ORDER, artist.order)
             putBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, artist.visible)
         }

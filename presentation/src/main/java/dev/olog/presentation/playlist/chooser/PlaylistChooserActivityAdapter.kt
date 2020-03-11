@@ -12,6 +12,7 @@ import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.toDomain
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(
@@ -32,7 +33,8 @@ class PlaylistChooserActivityAdapter(
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
             .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                AppShortcuts.instance(activity, schedulers).addDetailShortcut(item.mediaId, item.title)
+                AppShortcuts.instance(activity, schedulers)
+                    .addDetailShortcut(item.mediaId.toDomain(), item.title)
                 activity.finish()
             }
             .setNegativeButton(R.string.popup_negative_no, null)
@@ -43,7 +45,7 @@ class PlaylistChooserActivityAdapter(
         require(item is DisplayableAlbum)
 
         holder.itemView.apply {
-            holder.imageView!!.loadAlbumImage(item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             firstText.text = item.title
             secondText.text = item.subtitle
         }

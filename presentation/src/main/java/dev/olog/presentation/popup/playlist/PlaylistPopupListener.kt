@@ -4,14 +4,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
@@ -19,7 +18,7 @@ import dev.olog.shared.android.extensions.toast
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class PlaylistPopupListener @Inject constructor(
+internal class PlaylistPopupListener @Inject constructor(
     activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
@@ -47,12 +46,11 @@ class PlaylistPopupListener @Inject constructor(
         return this
     }
 
-    private fun getMediaId(): MediaId {
+    private fun getMediaId(): PresentationId {
         if (song != null) {
-            val playlistMediaId = playlist.getMediaId()
-            return MediaId.playableItem(playlistMediaId, song!!.id)
+            return playlist.presentationId.playableItem(song!!.id)
         } else {
-            return playlist.getMediaId()
+            return playlist.presentationId
         }
     }
 
@@ -75,14 +73,12 @@ class PlaylistPopupListener @Inject constructor(
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, song!!.albumPresentationId)
+            R.id.viewArtist -> viewArtist(navigator, song!!.artistPresentationId)
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers).addDetailShortcut(
-                getMediaId(),
-                playlist.title
-            )
+            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers)
+                .addDetailShortcut(getMediaId().toDomain(), playlist.title)
             R.id.removeDuplicates -> removeDuplicates()
         }
 
@@ -91,7 +87,7 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun removeDuplicates() {
-        navigator.toRemoveDuplicatesDialog(playlist.getMediaId(), playlist.title)
+        navigator.toRemoveDuplicatesDialog(playlist.presentationId, playlist.title)
     }
 
     private fun toCreatePlaylist() {
@@ -108,7 +104,7 @@ class PlaylistPopupListener @Inject constructor(
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
-            mediaProvider.playFromMediaId(getMediaId(), null, null)
+            mediaProvider.playFromMediaId(getMediaId().toDomain(), null, null)
         }
     }
 
@@ -118,7 +114,7 @@ class PlaylistPopupListener @Inject constructor(
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
-            mediaProvider.shuffle(getMediaId(), null)
+            mediaProvider.shuffle(getMediaId().toDomain(), null)
         }
     }
 
@@ -156,11 +152,11 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun rename() {
-        navigator.toRenameDialog(getMediaId(), playlist.title)
+        navigator.toRenameDialog(playlist.presentationId, playlist.title)
     }
 
     private fun clearPlaylist() {
-        navigator.toClearPlaylistDialog(getMediaId(), playlist.title)
+        navigator.toClearPlaylistDialog(playlist.presentationId, playlist.title)
     }
 
 

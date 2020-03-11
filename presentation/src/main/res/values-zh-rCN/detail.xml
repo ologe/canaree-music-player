@@ -8,9 +8,6 @@
         <item>@string/common_albums</item>
         <item>其它流派</item>
         <item>其它播放列表</item>
-        <item/>
-        <item>其它专辑</item>
-        <item>@string/common_albums</item>
     </string-array>
     <string name="detail_more_albums_by">来自 %s 的更多作品</string>
     <plurals name="detail_xx_new_songs">

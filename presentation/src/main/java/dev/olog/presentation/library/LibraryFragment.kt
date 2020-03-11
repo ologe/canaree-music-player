@@ -6,14 +6,16 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
-import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.popup.main.MainPopupCategory
+import dev.olog.presentation.popup.main.toMainPopupCategory
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -41,7 +43,7 @@ class LibraryFragment : BaseFragment() {
     @Inject
     internal lateinit var presenter: LibraryFragmentPresenter
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
     @Inject
     lateinit var trackerFacade: TrackerFacade
 
@@ -56,7 +58,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     fun isCurrentFragmentFolderTree(): Boolean {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == MediaIdCategory.FOLDERS &&
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == PresentationIdCategory.FOLDERS &&
                 pagerAdapter.showFolderAsHierarchy()
     }
 
@@ -89,7 +91,9 @@ class LibraryFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
+        more.setOnClickListener {
+            navigator.toMainPopup(it, createPopupCategory())
+        }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
@@ -115,12 +119,12 @@ class LibraryFragment : BaseFragment() {
         (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
-    private fun createMediaId(): MediaIdCategory? {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
+    private fun createPopupCategory(): MainPopupCategory {
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem).toMainPopupCategory()
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     private val onPageChangeListener =

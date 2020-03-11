@@ -11,12 +11,13 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.toDomain
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
-class PlayingQueueFragmentAdapter(
+internal class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
     private val dragListener: IDragListener,
@@ -44,7 +45,7 @@ class PlayingQueueFragmentAdapter(
         holder.itemView.apply {
             transitionName = "playing queue ${item.mediaId}"
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
-            holder.imageView!!.loadSongImage(item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             index.text = item.relativePosition
             firstText.text = item.title
             secondText.text = item.subtitle

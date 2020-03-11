@@ -2,7 +2,7 @@ package dev.olog.presentation.main
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.android.Permissions
@@ -16,7 +16,7 @@ internal class MainActivityViewModel @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    private val currentPlayingPublisher = ConflatedBroadcastChannel<MediaId>()
+    private val currentPlayingPublisher = ConflatedBroadcastChannel<PresentationId.Track>()
 
     fun isFirstAccess(): Boolean {
         val canReadStorage = Permissions.canReadStorage(context)
@@ -29,10 +29,10 @@ internal class MainActivityViewModel @Inject constructor(
         currentPlayingPublisher.close()
     }
 
-    fun setCurrentPlaying(mediaId: MediaId) {
+    fun setCurrentPlaying(mediaId: PresentationId.Track) {
         currentPlayingPublisher.offer(mediaId)
     }
 
-    val observeCurrentPlaying: Flow<MediaId> = currentPlayingPublisher.asFlow()
+    val observeCurrentPlaying: Flow<PresentationId.Track> = currentPlayingPublisher.asFlow()
 
 }

@@ -14,9 +14,6 @@
         <item>@string/common_albums</item>
         <item>अन्य शैली</item>
         <item>अन्य प्लेलिस्ट</item>
-        <item/>
-        <item/>
-        <item>@string/common_albums</item>
     </string-array>
 
     <string name="detail_more_albums_by">More by %s</string>

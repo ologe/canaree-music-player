@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
-import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.animations.FastAutoTransition
 import dev.olog.presentation.base.BaseFragment
@@ -46,9 +46,9 @@ class DetailFragment : BaseFragment(),
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, transition: String): DetailFragment {
+        fun newInstance(mediaId: PresentationId.Category, transition: String): DetailFragment {
             return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_MEDIA_ID to mediaId,
                 ARGUMENTS_TRANSITION to transition
             )
         }
@@ -56,7 +56,7 @@ class DetailFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -66,8 +66,7 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
-        MediaId.fromString(mediaId)
+        getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
     }
 
     private val mostPlayedAdapter by lazyFast {
@@ -248,7 +247,7 @@ class DetailFragment : BaseFragment(),
         disposeDragListener()
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
         mostPlayedAdapter.onCurrentPlayingChanged(mostPlayedAdapter, mediaId)
         recentlyAddedAdapter.onCurrentPlayingChanged(recentlyAddedAdapter, mediaId)

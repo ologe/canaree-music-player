@@ -4,21 +4,20 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class ArtistPopupListener @Inject constructor(
+internal class ArtistPopupListener @Inject constructor(
     activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
@@ -46,11 +45,11 @@ class ArtistPopupListener @Inject constructor(
         return this
     }
 
-    private fun getMediaId(): MediaId {
+    private fun getMediaId(): PresentationId {
         if (song != null) {
-            return MediaId.playableItem(artist.getMediaId(), song!!.id)
+            return artist.presentationId.playableItem(song!!.id)
         } else {
-            return artist.getMediaId()
+            return artist.presentationId
         }
     }
 
@@ -70,14 +69,12 @@ class ArtistPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getArtistMediaId())
-            R.id.viewArtist -> viewArtist(navigator, artist.getMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, song!!.albumPresentationId)
+            R.id.viewArtist -> viewArtist(navigator, song!!.artistPresentationId)
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers).addDetailShortcut(
-                getMediaId(),
-                artist.name
-            )
+            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers)
+                .addDetailShortcut(getMediaId().toDomain(), artist.name)
         }
 
 
@@ -93,11 +90,11 @@ class ArtistPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        mediaProvider.playFromMediaId(getMediaId(), null, null)
+        mediaProvider.playFromMediaId(getMediaId().toDomain(), null, null)
     }
 
     private fun playShuffle() {
-        mediaProvider.shuffle(getMediaId(), null)
+        mediaProvider.shuffle(getMediaId().toDomain(), null)
     }
 
     private fun playLater() {

@@ -1,33 +1,35 @@
 package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
-import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.*
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.presentationId
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_detail_related_artist,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = this.name,
         subtitle = DisplayableAlbum.readableSongCount(resources, songs)
     )
 }
 
-internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableTrack {
-    val idInPlaylist = if (parentId.isPlaylist || parentId.isPodcastPlaylist){
-        this.idInPlaylist
-    } else {
-        this.trackNumber
+internal fun Song.toDetailDisplayableItem(parentId: PresentationId.Category, sortType: SortType): DisplayableTrack {
+    val idInPlaylist = when (parentId.category) {
+        PresentationIdCategory.PLAYLISTS,
+        PresentationIdCategory.PODCASTS_PLAYLIST -> this.idInPlaylist
+        else -> this.trackNumber
     }
 
     return DisplayableTrack(
         type = computeLayoutType(parentId, sortType),
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = parentId.playableItem(id),
         title = this.title,
         artist = artist,
         album = album,
@@ -37,29 +39,30 @@ internal fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType)
     )
 }
 
-private fun computeLayoutType(parentId: MediaId, sortType: SortType): Int {
+private fun computeLayoutType(parentId: PresentationId.Category, sortType: SortType): Int {
+    val category = parentId.category
     return when {
         parentId.isAnyPodcast -> R.layout.item_detail_podcast
-        parentId.isAlbum -> R.layout.item_detail_song_with_track
-        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
-            val playlistId = parentId.categoryValue.toLong()
+        category == PresentationIdCategory.ALBUMS -> R.layout.item_detail_song_with_track
+        category == PresentationIdCategory.PLAYLISTS && sortType == SortType.CUSTOM -> {
+            val playlistId = parentId.categoryId.toLong()
             if (AutoPlaylist.isAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
-        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
+        category == PresentationIdCategory.FOLDERS && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
         else -> R.layout.item_detail_song
     }
 }
 
 internal fun Song.toMostPlayedDetailDisplayableItem(
-    parentId: MediaId,
+    parentId: PresentationId.Category,
     position: Int
 ): DisplayableTrack {
 
     return DisplayableTrack(
         type = R.layout.item_detail_song_most_played,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = parentId.playableItem(id),
         title = this.title,
         artist = this.artist,
         album = this.album,
@@ -69,10 +72,10 @@ internal fun Song.toMostPlayedDetailDisplayableItem(
     )
 }
 
-internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableTrack {
+internal fun Song.toRecentDetailDisplayableItem(parentId: PresentationId.Category): DisplayableTrack {
     return DisplayableTrack(
         type = R.layout.item_detail_song_recent,
-        mediaId = MediaId.playableItem(parentId, id),
+        mediaId = parentId.playableItem(id),
         title = this.title,
         artist = this.artist,
         album = this.album,
@@ -85,7 +88,7 @@ internal fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableT
 internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_detail_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
@@ -98,7 +101,7 @@ internal fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableAl
 internal fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_detail_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
@@ -111,7 +114,7 @@ internal fun Playlist.toDetailDisplayableItem(resources: Resources): Displayable
 internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_detail_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
@@ -124,7 +127,7 @@ internal fun Album.toDetailDisplayableItem(resources: Resources): DisplayableAlb
 internal fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_detail_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,

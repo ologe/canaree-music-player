@@ -4,12 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
-import dev.olog.shared.android.theme.themeManager
+import dev.olog.presentation.toDomain
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.QuickAction
+import dev.olog.shared.android.theme.themeManager
 import kotlin.properties.Delegates
 
 class QuickActionView(
@@ -18,7 +19,7 @@ class QuickActionView(
 
 ) : AppCompatImageView(context, attrs), View.OnClickListener {
 
-    private var currentMediaId by Delegates.notNull<MediaId>()
+    private var currentMediaId by Delegates.notNull<PresentationId.Category>()
 
     init {
         setImage()
@@ -46,15 +47,15 @@ class QuickActionView(
         setOnClickListener(null)
     }
 
-    fun setId(mediaId: MediaId) {
+    fun setId(mediaId: PresentationId.Category) {
         this.currentMediaId = mediaId
     }
 
     override fun onClick(v: View?) {
         val mediaProvider = context as MediaProvider
         when (context.themeManager.quickAction) {
-            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
-            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)
+            QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId.toDomain(), null, null)
+            QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId.toDomain(), null)
             QuickAction.NONE -> {
             }
         }

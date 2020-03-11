@@ -7,11 +7,12 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
-import dev.olog.core.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
+import dev.olog.presentation.toDomain
 import dev.olog.shared.android.extensions.ctx
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
@@ -22,14 +23,14 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
 
-    protected fun loadImage(mediaId: MediaId) {
-        val image = view!!.findViewById<ImageView>(R.id.cover)
+    protected fun loadImage(mediaId: PresentationId) {
+        val image = requireView().findViewById<ImageView>(R.id.cover)
 
         GlideApp.with(ctx).clear(image)
 
         GlideApp.with(ctx)
-            .load(mediaId)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .load(mediaId.toDomain())
+            .placeholder(CoverUtils.getGradient(ctx, mediaId.toDomain()))
             .override(500)
             .priority(Priority.IMMEDIATE)
             .into(image)

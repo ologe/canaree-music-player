@@ -6,14 +6,15 @@ import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
+import dev.olog.presentation.toPresentation
 import dev.olog.shared.swap
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -89,7 +90,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         return DisplayableQueueSong(
             type = R.layout.item_playing_queue,
-            mediaId = mediaId,
+            mediaId = mediaId.toPresentation() as PresentationId.Track, // TODO remove cast
             title = song.title,
             artist = song.artist,
             album = song.album,

@@ -46,16 +46,6 @@ abstract class ObservableAdapter<T : BaseModel>(
 
     fun lastIndex(): Int = currentList.lastIndex
 
-    // keep it to remove platform nullabity
-    override fun getItem(position: Int): T {
-        return super.getItem(position)
-    }
-
-    // expose to external
-    fun item(position: Int): T {
-        return getItem(position)
-    }
-
     override fun getItemViewType(position: Int): Int = getItem(position).type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {

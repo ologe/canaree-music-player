@@ -2,12 +2,10 @@ package dev.olog.presentation.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.loadAlbumImage
-import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
@@ -19,7 +17,7 @@ import kotlinx.android.synthetic.main.item_search_album.view.secondText
 import kotlinx.android.synthetic.main.item_search_header.view.*
 import kotlinx.android.synthetic.main.item_search_recent.view.*
 
-class SearchFragmentAdapter(
+internal class SearchFragmentAdapter(
     private val setupNestedList: SetupNestedList,
     private val mediaProvider: MediaProvider,
     private val navigator: Navigator,
@@ -41,7 +39,7 @@ class SearchFragmentAdapter(
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
-                    mediaProvider.playFromMediaId(item.mediaId, null, null)
+                    mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, null)
                     viewModel.insertToRecent(item.mediaId)
 
                 }
@@ -62,10 +60,11 @@ class SearchFragmentAdapter(
             R.layout.item_search_recent_album,
             R.layout.item_search_recent_artist -> {
                 viewHolder.setOnClickListener(this) { item, _, view ->
-                    if (item is DisplayableTrack) {
-                        mediaProvider.playFromMediaId(item.mediaId, null, null)
-                    } else {
-                        navigator.toDetailFragment(item.mediaId, view)
+                    when (val mediaId = item.mediaId) {
+                        is PresentationId.Track -> {
+                            mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, null)
+                        }
+                        is PresentationId.Category -> navigator.toDetailFragment(mediaId, view)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -108,7 +107,7 @@ class SearchFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
-            holder.imageView!!.loadSongImage(item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             isPlaying?.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             if (item.album.isBlank()){
@@ -123,7 +122,7 @@ class SearchFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
-            holder.imageView!!.loadAlbumImage(item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             firstText.text = item.title
             secondText.text = item.subtitle
         }
@@ -146,7 +145,7 @@ class SearchFragmentAdapter(
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
-        mediaProvider.addToPlayNext(item.mediaId)
+        mediaProvider.addToPlayNext(item.mediaId.toDomain())
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

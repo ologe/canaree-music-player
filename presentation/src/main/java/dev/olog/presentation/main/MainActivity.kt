@@ -18,6 +18,7 @@ import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
@@ -27,6 +28,7 @@ import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
+import dev.olog.presentation.toPresentation
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
@@ -39,6 +41,7 @@ import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -58,7 +61,7 @@ class MainActivity : MusicGlueActivity(),
         factory
     }
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
 
     // handles lifecycle itself
     @Suppress("unused")
@@ -75,7 +78,8 @@ class MainActivity : MusicGlueActivity(),
         setContentView(R.layout.activity_main)
 
         observeMetadata()
-            .map { it.mediaId }
+            .map { it.mediaId.toPresentation() }
+            .filterIsInstance<PresentationId.Track>()
             .onEach { viewModel.setCurrentPlaying(it) }
             .launchIn(lifecycleScope)
 
@@ -167,8 +171,8 @@ class MainActivity : MusicGlueActivity(),
                 lifecycleScope.launchWhenResumed {
                     // TODO check
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
-                    val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId)
+                    val mediaId = MediaId.fromString(string).toPresentation()
+                    navigator.toDetailFragment(mediaId as PresentationId.Category)
                 }
             }
             Intent.ACTION_VIEW -> {

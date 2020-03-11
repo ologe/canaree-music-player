@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragmentViewModel
@@ -22,9 +22,8 @@ abstract class RelatedArtistFragmentModule {
     companion object {
 
         @Provides
-        internal fun provideMediaId(instance: RelatedArtistFragment): MediaId {
-            val mediaId = instance.getArgument<String>(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)
-            return MediaId.fromString(mediaId)
+        internal fun provideMediaId(instance: RelatedArtistFragment): PresentationId.Category {
+            return instance.getArgument(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)
         }
     }
 

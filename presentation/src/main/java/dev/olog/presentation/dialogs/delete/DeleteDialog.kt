@@ -3,8 +3,8 @@ package dev.olog.presentation.dialogs.delete
 import android.app.RecoverableSecurityException
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
@@ -23,18 +23,17 @@ class DeleteDialog: BaseDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): DeleteDialog {
+        fun newInstance(mediaId: PresentationId, listSize: Int, itemTitle: String): DeleteDialog {
             return DeleteDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
-        MediaId.fromString(mediaId)
+    private val mediaId by lazyFast {
+        getArgument<PresentationId>(ARGUMENTS_MEDIA_ID)
     }
     private val title by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
     private val listSize by lazyFast { getArgument<Int>(ARGUMENTS_LIST_SIZE) }
@@ -78,8 +77,8 @@ class DeleteDialog: BaseDialog() {
 
     private fun successMessage(context: Context): String {
         return when (mediaId.category) {
-            MediaIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
-            MediaIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
+            PresentationIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
+            PresentationIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
             else -> context.resources.getQuantityString(
                 R.plurals.xx_songs_deleted_from_y,
                 listSize, listSize, title
@@ -93,11 +92,16 @@ class DeleteDialog: BaseDialog() {
 
     private fun createMessage() : String {
         val itemTitle = getArgument<String>(ARGUMENTS_ITEM_TITLE)
-
-        return when {
-            mediaId.isAll || mediaId.isLeaf -> getString(R.string.delete_song_y, itemTitle)
-            mediaId.isPlaylist -> getString(R.string.delete_playlist_y, itemTitle)
-            else -> requireContext().resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
+        return when (mediaId) {
+            is PresentationId.Track -> getString(R.string.delete_song_y, itemTitle)
+            is PresentationId.Category -> {
+                if (mediaId.category == PresentationIdCategory.PLAYLISTS ||
+                    mediaId.category == PresentationIdCategory.PODCASTS_PLAYLIST) {
+                    getString(R.string.delete_playlist_y, itemTitle)
+                } else {
+                    requireContext().resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
+                }
+            }
         }
     }
 

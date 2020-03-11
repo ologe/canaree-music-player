@@ -1,11 +1,11 @@
 package dev.olog.presentation.model
 
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import java.io.File
 
 data class DisplayableFile(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Category,
     val title: String,
     val path: String?
 ) : BaseModel {

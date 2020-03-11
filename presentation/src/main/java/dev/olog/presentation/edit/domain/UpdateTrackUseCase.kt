@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.shared.ApplicationContext
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
@@ -28,7 +28,7 @@ class UpdateTrackUseCase @Inject constructor(
             updateTagFields(tag, param)
             audioFile.commit()
 
-            val id = param.mediaId?.resolveId
+            val id = param.mediaId?.id
 
             if (id != null) {
                 updateMediaStore(id, param.isPodcast)
@@ -76,7 +76,7 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     data class Data(
-        val mediaId: MediaId?,
+        val mediaId: PresentationId.Track?,
         val path: String,
         val fields: Map<FieldKey, String>,
         val isPodcast: Boolean?

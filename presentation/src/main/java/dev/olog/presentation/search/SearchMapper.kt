@@ -4,10 +4,13 @@ import android.content.Context
 import dev.olog.core.RecentSearchesTypes
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.entity.track.*
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.presentationId
+import dev.olog.presentation.toPresentation
 
 internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {
@@ -36,7 +39,7 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
     if (isPlayable){
         return DisplayableTrack(
             type = layout,
-            mediaId = this.mediaId,
+            mediaId = this.mediaId.toPresentation() as PresentationId.Track, // TODO
             title = this.title,
             artist = subtitle,
             album = "",
@@ -47,7 +50,7 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
     }
     return DisplayableAlbum(
         type = layout,
-        mediaId = this.mediaId,
+        mediaId = this.mediaId.toPresentation() as PresentationId.Category, // TODO
         title = this.title,
         subtitle = subtitle
     )
@@ -56,7 +59,7 @@ internal fun SearchResult.toSearchDisplayableItem(context: Context): Displayable
 internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
     return DisplayableTrack(
         type = R.layout.item_search_song,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         artist = artist,
         album = album,
@@ -69,7 +72,7 @@ internal fun Song.toSearchDisplayableItem(): DisplayableTrack {
 internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = artist
     )
@@ -78,7 +81,7 @@ internal fun Album.toSearchDisplayableItem(): DisplayableAlbum {
 internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_artist,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = ""
     )
@@ -87,7 +90,7 @@ internal fun Artist.toSearchDisplayableItem(): DisplayableAlbum {
 internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = ""
     )
@@ -96,7 +99,7 @@ internal fun Playlist.toSearchDisplayableItem(): DisplayableAlbum {
 internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = ""
     )
@@ -105,7 +108,7 @@ internal fun Genre.toSearchDisplayableItem(): DisplayableAlbum {
 internal fun Folder.toSearchDisplayableItem(): DisplayableAlbum {
     return DisplayableAlbum(
         type = R.layout.item_search_album,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = ""
     )

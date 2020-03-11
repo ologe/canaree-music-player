@@ -10,8 +10,8 @@ import android.provider.MediaStore
 import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.isMarshmallow
 import kotlinx.coroutines.withContext
@@ -21,15 +21,16 @@ class SetRingtoneDialogPresenter @Inject constructor(
     private val schedulers: Schedulers
 ) {
 
-    @Suppress("IMPLICIT_CAST_TO_ANY")
-    suspend fun execute(activity: FragmentActivity, mediaId: MediaId) =
-        withContext(schedulers.io) {
-            if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(activity)) {
-                setRingtone(activity, mediaId)
-            } else {
-                requestWritingSettingsPermission(activity)
-            }
+    suspend fun execute(
+        activity: FragmentActivity,
+        mediaId: PresentationId.Track
+    ): Any = withContext(schedulers.io) {
+        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(activity)) {
+            setRingtone(activity, mediaId)
+        } else {
+            requestWritingSettingsPermission(activity)
         }
+    }
 
     @TargetApi(23)
     private suspend fun requestWritingSettingsPermission(
@@ -49,8 +50,8 @@ class SetRingtoneDialogPresenter @Inject constructor(
             }.show()
     }
 
-    private fun setRingtone(activity: FragmentActivity, mediaId: MediaId): Boolean {
-        val songId = mediaId.leaf!!
+    private fun setRingtone(activity: FragmentActivity, mediaId: PresentationId.Track): Boolean {
+        val songId = mediaId.id
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, songId)
 
         val values = ContentValues(1)

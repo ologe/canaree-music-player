@@ -2,9 +2,9 @@ package dev.olog.presentation.edit.artist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -25,7 +25,7 @@ class EditArtistFragmentViewModel @Inject constructor(
 
     private val displayableArtistPublisher = ConflatedBroadcastChannel<DisplayableArtist>()
 
-    fun requestData(mediaId: MediaId) = viewModelScope.launch {
+    fun requestData(mediaId: PresentationId.Category) = viewModelScope.launch {
         val artist = withContext(schedulers.io) {
             presenter.getArtist(mediaId)
         }

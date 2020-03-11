@@ -7,12 +7,13 @@ import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.toDomain
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.isPlaying
 
-class DetailRecentlyAddedAdapter(
+internal class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
@@ -20,7 +21,7 @@ class DetailRecentlyAddedAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playRecentlyAdded(item.mediaId)
+            mediaProvider.playRecentlyAdded(item.mediaId.toDomain())
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
@@ -50,7 +51,7 @@ class DetailRecentlyAddedAdapter(
 
         holder.itemView.apply {
             transitionName = "detail recent ${item.mediaId}"
-            holder.imageView!!.loadSongImage(item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

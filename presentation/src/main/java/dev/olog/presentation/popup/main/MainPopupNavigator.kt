@@ -19,7 +19,7 @@ import dev.olog.shared.mandatory
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class MainPopupNavigator @Inject constructor(
+internal class MainPopupNavigator @Inject constructor(
     activity: FragmentActivity
 ) {
 

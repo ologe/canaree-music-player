@@ -1,9 +1,10 @@
 package dev.olog.presentation.edit
 
-import dev.olog.core.MediaId
 import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.presentation.edit.domain.UpdateTrackUseCase
+import dev.olog.presentation.presentationId
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 
@@ -18,11 +19,11 @@ class EditItemPresenter @Inject constructor(
         return lastFmGateway.deleteTrack(id)
     }
 
-    suspend fun deleteAlbum(mediaId: MediaId) {
+    suspend fun deleteAlbum(mediaId: PresentationId.Category) {
         return lastFmGateway.deleteAlbum(mediaId.categoryId)
     }
 
-    suspend fun deleteArtist(mediaId: MediaId) {
+    suspend fun deleteArtist(mediaId: PresentationId.Category) {
         return lastFmGateway.deleteArtist(mediaId.categoryId)
     }
 
@@ -31,7 +32,7 @@ class EditItemPresenter @Inject constructor(
 
         return updateTrackUseCase(
             UpdateTrackUseCase.Data(
-                info.originalSong.getMediaId(),
+                info.originalSong.presentationId,
                 info.originalSong.path,
                 mapOf(
                     FieldKey.TITLE to info.title,

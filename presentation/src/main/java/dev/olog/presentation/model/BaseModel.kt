@@ -1,8 +1,8 @@
 package dev.olog.presentation.model
 
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 
 interface BaseModel {
     val type: Int
-    val mediaId: MediaId
+    val mediaId: PresentationId
 }

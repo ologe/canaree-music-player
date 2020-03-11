@@ -3,16 +3,16 @@ package dev.olog.presentation.search.adapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
+import dev.olog.presentation.toDomain
 import kotlinx.android.synthetic.main.item_search_album.view.*
 
-class SearchFragmentNestedAdapter(
+internal class SearchFragmentNestedAdapter(
     private val navigator: Navigator,
     private val viewModel: SearchFragmentViewModel
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableAlbum>(DiffCallbackDisplayableAlbum) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, view ->
@@ -25,12 +25,10 @@ class SearchFragmentNestedAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableAlbum)
-
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableAlbum, position: Int) {
         holder.itemView.apply {
             transitionName = "search nested ${item.mediaId}"
-            holder.imageView!!.loadAlbumImage(item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle

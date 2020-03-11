@@ -5,13 +5,14 @@ import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.presentation.presentationId
 
 
 internal fun Folder.toHeaderItem(resources: Resources): DisplayableHeader {
 
     return DisplayableHeader(
         type = R.layout.item_detail_image,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,
@@ -35,7 +36,7 @@ internal fun Playlist.toHeaderItem(resources: Resources): DisplayableHeader {
 
     return DisplayableHeader(
         type = R.layout.item_detail_image,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = subtitle
     )
@@ -46,7 +47,7 @@ internal fun Album.toHeaderItem(): DisplayableHeader {
 
     return DisplayableHeader(
         type = R.layout.item_detail_image,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = title,
         subtitle = this.artist
     )
@@ -62,7 +63,7 @@ internal fun Artist.toHeaderItem(resources: Resources): DisplayableHeader {
 
     return DisplayableHeader(
         type = R.layout.item_detail_image,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = resources.getQuantityString(plural, this.songs, this.songs).toLowerCase()
     )
@@ -72,7 +73,7 @@ internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
 
     return DisplayableHeader(
         type = R.layout.item_detail_image,
-        mediaId = getMediaId(),
+        mediaId = presentationId,
         title = name,
         subtitle = resources.getQuantityString(
             R.plurals.common_plurals_song,

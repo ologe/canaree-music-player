@@ -3,7 +3,7 @@ package dev.olog.presentation.dialogs.play.next
 import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
@@ -21,18 +21,17 @@ class PlayNextDialog : BaseDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): PlayNextDialog {
+        fun newInstance(mediaId: PresentationId, listSize: Int, itemTitle: String): PlayNextDialog {
             return PlayNextDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    private val mediaId: MediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
-        MediaId.fromString(mediaId)
+    private val mediaId by lazyFast {
+        getArgument<PresentationId>(ARGUMENTS_MEDIA_ID)
     }
     private val title by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
     private val listSize by lazyFast { getArgument<Int>(ARGUMENTS_LIST_SIZE) }
@@ -47,9 +46,10 @@ class PlayNextDialog : BaseDialog() {
     }
 
     private fun successMessage(context: Context): String {
-        return if (mediaId.isLeaf){
-            context.getString(R.string.song_x_added_to_play_next, title)
-        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_next, listSize, listSize)
+        return when (mediaId) {
+            is PresentationId.Track -> context.getString(R.string.song_x_added_to_play_next, title)
+            is PresentationId.Category -> context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_next, listSize, listSize)
+        }
     }
 
     private  fun failMessage(context: Context): String {
@@ -73,10 +73,10 @@ class PlayNextDialog : BaseDialog() {
     }
 
     private fun createMessage() : String {
-        if (mediaId.isAll || mediaId.isLeaf){
-            return getString(R.string.add_song_x_to_play_next, title)
+        return when (mediaId) {
+            is PresentationId.Track -> getString(R.string.add_song_x_to_play_next, title)
+            is PresentationId.Category -> requireContext().resources.getQuantityString(R.plurals.add_xx_songs_to_play_next, listSize, listSize)
         }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_play_next, listSize, listSize)
     }
 
 }

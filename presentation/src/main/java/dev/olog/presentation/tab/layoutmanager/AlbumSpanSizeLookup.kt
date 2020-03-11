@@ -11,7 +11,7 @@ class AlbumSpanSizeLookup(
 
 
     override fun getSpanSize(position: Int): Int {
-        when (adapter.item(position).type) {
+        when (adapter.getItem(position).type) {
             R.layout.item_tab_header,
             R.layout.item_tab_new_album_horizontal_list,
             R.layout.item_tab_last_played_album_horizontal_list -> return getSpanCount()

@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
-import dev.olog.core.MediaIdCategory
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.tab.TabFragment
-import dev.olog.shared.isInBounds
+import dev.olog.presentation.toPresentation
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 class LibraryFragmentAdapter(
@@ -20,17 +20,14 @@ class LibraryFragmentAdapter(
 
 ) : FragmentPagerAdapter(fragmentManager) {
 
-    fun getCategoryAtPosition(position: Int): MediaIdCategory? {
-        if (categories.isNotEmpty() && categories.isInBounds(position)) {
-            return categories[position].category
-        }
-        return null
+    fun getCategoryAtPosition(position: Int): PresentationIdCategory {
+        return categories[position].category.toPresentation()
     }
 
     override fun getItem(position: Int): Fragment {
-        val category = categories[position].category
+        val category = categories[position].category.toPresentation()
 
-        return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()) {
+        return if (category == PresentationIdCategory.FOLDERS && showFolderAsHierarchy()) {
             FolderTreeFragment.newInstance()
         } else TabFragment.newInstance(category)
     }

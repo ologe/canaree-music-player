@@ -9,6 +9,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.presentationId
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +29,7 @@ class PlaylistChooserActivityViewModel @Inject constructor(
     private fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem {
         return DisplayableAlbum(
             type = R.layout.item_playlist_chooser,
-            mediaId = getMediaId(),
+            mediaId = presentationId,
             title = title,
             subtitle = DisplayableAlbum.readableSongCount(resources, size)
         )

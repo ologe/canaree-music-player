@@ -10,39 +10,39 @@ import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.model.BaseModel
 
-fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
-    data: ObservableAdapter<T>,
+fun <T: Any> RecyclerView.ViewHolder.setOnClickListener(
+    data: CustomListAdapter<T, *>,
     func: (item: T, position: Int, view: View) -> Unit
 ) {
 
     this.itemView.setOnClickListener {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            func(data.item(adapterPosition), adapterPosition, it)
+            func(data.getItem(adapterPosition), adapterPosition, it)
         }
     }
 }
 
 fun <T : BaseModel> RecyclerView.ViewHolder.setOnClickListener(
     @IdRes resId: Int,
-    data: ObservableAdapter<T>,
+    data: CustomListAdapter<T, *>,
     func: (item: T, position: Int, view: View) -> Unit
 ) {
 
     this.itemView.findViewById<View>(resId)?.setOnClickListener {
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            func(data.item(adapterPosition), adapterPosition, it)
+            func(data.getItem(adapterPosition), adapterPosition, it)
         }
     }
 }
 
 fun <T : BaseModel> RecyclerView.ViewHolder.setOnLongClickListener(
-    data: ObservableAdapter<T>,
+    data: CustomListAdapter<T, *>,
     func: (item: T, position: Int, view: View) -> Unit
 ) {
 
     itemView.setOnLongClickListener inner@{
         if (adapterPosition != RecyclerView.NO_POSITION) {
-            func(data.item(adapterPosition), adapterPosition, it)
+            func(data.getItem(adapterPosition), adapterPosition, it)
             return@inner true
         }
         false

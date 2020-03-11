@@ -3,9 +3,9 @@ package dev.olog.presentation.edit
 import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.ApplicationContext
@@ -110,7 +110,7 @@ data class UpdateSongInfo(
 )
 
 data class UpdateAlbumInfo(
-    val mediaId: MediaId,
+    val mediaId: PresentationId.Category,
     val title: String,
     val artist: String,
     val albumArtist: String,
@@ -119,7 +119,7 @@ data class UpdateAlbumInfo(
 )
 
 data class UpdateArtistInfo(
-    val mediaId: MediaId,
+    val mediaId: PresentationId.Category,
     val name: String,
     val albumArtist: String,
     val isPodcast: Boolean

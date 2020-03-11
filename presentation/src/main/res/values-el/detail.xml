@@ -14,9 +14,6 @@
         <item>@string/common_albums</item>
         <item>Άλλα είδη</item>
         <item>Άλλες λίστες αναπαραγωγής</item>
-        <item/>
-        <item>Άλλα άλμπουμ</item>
-        <item>@string/common_albums</item>
     </string-array>
 
     <string name="detail_more_albums_by">Περισσότερα απο %s</string>

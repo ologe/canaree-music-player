@@ -1,11 +1,11 @@
 package dev.olog.presentation.model
 
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.shared.TextUtils
 
 data class DisplayableQueueSong(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Track,
     val title: String,
     val artist: String,
     val album: String,

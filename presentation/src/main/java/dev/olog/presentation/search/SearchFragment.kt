@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -20,6 +20,7 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
@@ -79,7 +80,7 @@ class SearchFragment : BaseFragment(),
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -163,7 +164,7 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, null) }
+        more.setOnClickListener { navigator.toMainPopup(it, MainPopupCategory.SEARCH) }
     }
 
     override fun onPause() {
@@ -180,12 +181,12 @@ class SearchFragment : BaseFragment(),
         disposeDragListener()
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
 

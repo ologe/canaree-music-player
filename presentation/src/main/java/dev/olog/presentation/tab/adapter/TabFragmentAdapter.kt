@@ -15,6 +15,7 @@ import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
+import dev.olog.presentation.toDomain
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
@@ -104,8 +105,8 @@ internal class TabFragmentAdapter(
 
     private fun onItemClick(view: View, item: DisplayableItem){
         if (item is DisplayableTrack){
-            val sort = viewModel.getAllTracksSortOrder(item.mediaId)
-            mediaProvider.playFromMediaId(item.mediaId, null, sort)
+            val sort = viewModel.getAllTracksSortOrder()
+            mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, sort)
         } else if (item is DisplayableAlbum){
             navigator.toDetailFragment(item.mediaId, view)
         }
@@ -124,7 +125,7 @@ internal class TabFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack) {
         holder.itemView.apply {
-            holder.imageView!!.loadSongImage(item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             firstText.text = item.title
             secondText.text = item.subtitle
             explicit?.onItemChanged(item.title)
@@ -138,7 +139,7 @@ internal class TabFragmentAdapter(
     @SuppressLint("SetTextI18n")
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
-        val progress = podcastPositions[item.mediaId.resolveId] ?: 0
+        val progress = podcastPositions[item.mediaId.id] ?: 0
         view.progressBar?.max = duration
         view.progressBar?.progress = progress
 
@@ -157,7 +158,7 @@ internal class TabFragmentAdapter(
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
-            holder.imageView!!.loadAlbumImage(item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             quickAction?.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle

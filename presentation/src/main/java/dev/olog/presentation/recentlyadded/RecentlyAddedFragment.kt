@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
@@ -32,9 +32,9 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, transition: String): RecentlyAddedFragment {
+        fun newInstance(mediaId: PresentationId.Category, transition: String): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_MEDIA_ID to mediaId,
                 ARGUMENTS_TRANSITION to transition
             )
         }
@@ -42,8 +42,10 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
+
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(navigator, act as MediaProvider, this)
     }
@@ -89,7 +91,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         disposeDragListener()
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 

@@ -4,42 +4,26 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
 
-class NewPlaylistDialog : BaseEditTextDialog() {
+class PlayingQueueNewPlaylistDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "NewPlaylistDialog"
-        const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
-        const val ARGUMENTS_LIST_SIZE = "${TAG}_arguments_list_size"
-        const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId, listSize: Int, itemTitle: String): NewPlaylistDialog {
-            return NewPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
-                    ARGUMENTS_LIST_SIZE to listSize,
-                    ARGUMENTS_ITEM_TITLE to itemTitle
-            )
+        fun newInstance(): PlayingQueueNewPlaylistDialog {
+            return PlayingQueueNewPlaylistDialog().withArguments()
         }
     }
 
     @Inject lateinit var presenter: NewPlaylistDialogPresenter
-
-    private val mediaId by lazyFast {
-        getArgument<PresentationId>(ARGUMENTS_MEDIA_ID)
-    }
-    private val title by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
-    private val listSize by lazyFast { getArgument<Int>(ARGUMENTS_LIST_SIZE) }
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return super.extendBuilder(builder)
@@ -59,7 +43,7 @@ class NewPlaylistDialog : BaseEditTextDialog() {
     override suspend fun onItemValid(string: String) {
         var message: String
         try {
-            presenter.execute(mediaId, string)
+            presenter.savePlayingQueue(string)
             message = successMessage(act, string).toString()
         } catch (ex: Exception) {
             Timber.e(ex)
@@ -70,10 +54,6 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
 
     private fun successMessage(context: Context, currentValue: String): CharSequence {
-        return when (mediaId) {
-            is PresentationId.Track -> context.getString(R.string.added_song_x_to_playlist_y, title, currentValue)
-            is PresentationId.Category -> context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y,
-                listSize, listSize, currentValue)
-        }
+        return context.getString(R.string.queue_saved_as_playlist, currentValue)
     }
 }

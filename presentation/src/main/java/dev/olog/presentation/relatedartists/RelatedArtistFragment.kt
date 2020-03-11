@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
@@ -28,9 +28,9 @@ class RelatedArtistFragment : BaseFragment() {
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, transition: String): RelatedArtistFragment {
+        fun newInstance(mediaId: PresentationId.Category, transition: String): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                ARGUMENTS_MEDIA_ID to mediaId,
                 ARGUMENTS_TRANSITION to transition
             )
         }
@@ -38,8 +38,10 @@ class RelatedArtistFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
+
     private val adapter by lazyFast {
         RelatedArtistFragmentAdapter(navigator)
     }

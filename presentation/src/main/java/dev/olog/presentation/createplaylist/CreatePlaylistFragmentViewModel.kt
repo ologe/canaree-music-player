@@ -4,15 +4,15 @@ import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import androidx.lifecycle.ViewModel
-import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import dev.olog.shared.mapListItem
@@ -36,7 +36,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
 
     private val filterChannel = ConflatedBroadcastChannel("")
 
-    val data: Flow<List<DisplayableItem>> = showOnlyFilteredPublisher.asFlow()
+    val data: Flow<List<DisplayableTrack>> = showOnlyFilteredPublisher.asFlow()
         .flatMapLatest { onlyFiltered ->
             if (onlyFiltered){
                 getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
@@ -74,8 +74,8 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
     }
 
-    fun toggleItem(mediaId: MediaId) {
-        val id = mediaId.resolveId
+    fun toggleItem(mediaId: PresentationId.Track) {
+        val id = mediaId.id
         selectedIds.toggle(id, id)
         selectionCountPublisher.offer(selectedIds.size())
     }
@@ -85,8 +85,8 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
         showOnlyFilteredPublisher.offer(!onlyFiltered)
     }
 
-    fun isChecked(mediaId: MediaId): Boolean {
-        val id = mediaId.resolveId
+    fun isChecked(mediaId: PresentationId.Track): Boolean {
+        val id = mediaId.id
         return selectedIds[id] != null
     }
 

@@ -11,7 +11,7 @@ import dev.olog.presentation.popup.song.SongPopupListener
 import javax.inject.Inject
 import javax.inject.Provider
 
-class MenuListenerFactory @Inject constructor(
+internal class MenuListenerFactory @Inject constructor(
     private val folderPopupListener: Provider<FolderPopupListener>,
     private val playlistPopupListener: Provider<PlaylistPopupListener>,
     private val songPopupListener: Provider<SongPopupListener>,

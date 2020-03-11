@@ -7,9 +7,10 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.toDomain
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
-class DetailMostPlayedAdapter(
+internal class DetailMostPlayedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 
@@ -18,7 +19,7 @@ class DetailMostPlayedAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            mediaProvider.playMostPlayed(item.mediaId)
+            mediaProvider.playMostPlayed(item.mediaId.toDomain())
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -34,7 +35,7 @@ class DetailMostPlayedAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
         holder.itemView.apply {
             transitionName = "detail most played ${item.mediaId}"
-            holder.imageView!!.loadSongImage(item.mediaId)
+            holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             firstText.text = item.title
             secondText.text = item.subtitle

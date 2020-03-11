@@ -6,7 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 
-class SongPopup(
+internal class SongPopup(
     view: View,
     listener: AbsPopupListener,
     song: Song

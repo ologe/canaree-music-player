@@ -8,7 +8,7 @@ import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import dev.olog.shared.android.utils.isQ
 
-class GenrePopup(
+internal class GenrePopup(
     view: View,
     @Suppress("UNUSED_PARAMETER") genre: Genre,
     song: Song?,

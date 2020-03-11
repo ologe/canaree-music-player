@@ -2,10 +2,11 @@ package dev.olog.presentation.dialogs.play.next
 
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
-import dev.olog.core.MediaId
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,12 +17,11 @@ class PlayNextDialogPresenter @Inject constructor(
 
     suspend fun execute(
         mediaController: MediaControllerCompat,
-        mediaId: MediaId
+        mediaId: PresentationId
     ) = withContext(schedulers.io) {
-        val items = if (mediaId.isLeaf) {
-            listOf(mediaId.leaf!!)
-        } else {
-            getSongListByParamUseCase(mediaId).map { it.id }
+        val items = when (mediaId) {
+            is PresentationId.Track -> listOf(mediaId.id)
+            is PresentationId.Category -> getSongListByParamUseCase(mediaId.toDomain()).map { it.id }
         }
         val bundle = bundleOf(
             MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast,

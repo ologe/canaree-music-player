@@ -1,12 +1,13 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel
+import dev.olog.presentation.presentationId
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import java.util.*
@@ -25,7 +26,7 @@ class BlacklistFragmentPresenter @Inject constructor(
     private fun Folder.toDisplayableItem(blacklisted: List<String>): BlacklistModel {
         return BlacklistModel(
             R.layout.dialog_blacklist_item,
-            getMediaId(),
+            presentationId,
             this.title,
             this.path,
             blacklisted.contains(this.path.toLowerCase(Locale.getDefault()))
@@ -44,7 +45,7 @@ class BlacklistFragmentPresenter @Inject constructor(
 
 data class BlacklistModel(
     override val type: Int,
-    override val mediaId: MediaId,
+    override val mediaId: PresentationId.Category,
     val title: String,
     val path: String,
     var isBlacklisted: Boolean

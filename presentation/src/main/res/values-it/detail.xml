@@ -10,9 +10,6 @@
     <item>@string/common_albums</item>
     <item>Altri generi</item>
     <item>Altre playlist</item>
-    <item/>
-    <item>Altri album</item>
-    <item>@string/common_albums</item>
   </string-array>
 
   <string name="detail_more_albums_by">Altro da %s</string>

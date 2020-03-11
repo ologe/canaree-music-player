@@ -1,14 +1,16 @@
 package dev.olog.presentation.player
 
 import dev.olog.media.model.PlayerItem
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.toPresentation
 
 internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
     return DisplayableTrack(
         type = R.layout.item_mini_queue,
-        mediaId = mediaId,
+        mediaId = mediaId.toPresentation() as PresentationId.Track, // TODO enforce
         title = title,
         artist = artist,
         album = "",

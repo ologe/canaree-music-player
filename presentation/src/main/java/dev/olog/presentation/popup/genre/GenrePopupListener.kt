@@ -4,21 +4,20 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class GenrePopupListener @Inject constructor(
+internal class GenrePopupListener @Inject constructor(
     activity: FragmentActivity,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
@@ -45,11 +44,11 @@ class GenrePopupListener @Inject constructor(
         return this
     }
 
-    private fun getMediaId(): MediaId {
+    private fun getMediaId(): PresentationId {
         if (song != null) {
-            return MediaId.playableItem(genre.getMediaId(), song!!.id)
+            return genre.presentationId.playableItem(song!!.id)
         } else {
-            return genre.getMediaId()
+            return genre.presentationId
         }
     }
 
@@ -69,14 +68,12 @@ class GenrePopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song!!.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song!!.getArtistMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, song!!.albumPresentationId)
+            R.id.viewArtist -> viewArtist(navigator, song!!.artistPresentationId)
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers).addDetailShortcut(
-                getMediaId(),
-                genre.name
-            )
+            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers)
+                .addDetailShortcut(getMediaId().toDomain(), genre.name)
         }
 
         return true
@@ -91,11 +88,11 @@ class GenrePopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        mediaProvider.playFromMediaId(getMediaId(), null, null)
+        mediaProvider.playFromMediaId(getMediaId().toDomain(), null, null)
     }
 
     private fun playShuffle() {
-        mediaProvider.shuffle(getMediaId(), null)
+        mediaProvider.shuffle(getMediaId().toDomain(), null)
     }
 
     private fun playLater() {

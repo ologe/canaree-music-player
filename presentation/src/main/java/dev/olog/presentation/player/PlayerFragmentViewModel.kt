@@ -2,12 +2,12 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import dev.olog.core.MediaId
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
@@ -38,7 +38,7 @@ internal class PlayerFragmentViewModel @Inject constructor(
 
     val footerLoadMore : DisplayableItem = DisplayableHeader(
             type = R.layout.item_mini_queue_load_more,
-            mediaId = MediaId.headerId("load more"),
+            mediaId = headerId("load more"),
             title = ""
     )
 
@@ -51,11 +51,10 @@ internal class PlayerFragmentViewModel @Inject constructor(
             PlayerAppearance.BIG_IMAGE -> R.layout.player_layout_big_image
             PlayerAppearance.CLEAN -> R.layout.player_layout_clean
             PlayerAppearance.MINI -> R.layout.player_layout_mini
-            else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableHeader(
             type = id,
-            mediaId = MediaId.headerId("player controls id"),
+            mediaId = headerId("player controls id"),
             title = ""
         )
     }

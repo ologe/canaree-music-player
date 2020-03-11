@@ -4,14 +4,14 @@ import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortType
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 
 class DetailSortDialog {
 
-    fun show(view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
+    fun show(view: View, mediaId: PresentationId.Category, sortType: SortType, updateUseCase: (SortType) -> Unit) {
         val context = view.context
         val popup = PopupMenu(context, view)
         popup.inflate(getLayout(mediaId))
@@ -40,12 +40,12 @@ class DetailSortDialog {
     }
 
     @MenuRes
-    private fun getLayout(mediaId: MediaId) : Int{
+    private fun getLayout(mediaId: PresentationId.Category) : Int{
         return when (mediaId.category){
-            MediaIdCategory.PLAYLISTS -> R.menu.sort_mode_playlist
-            MediaIdCategory.ALBUMS -> R.menu.sort_mode_album
-            MediaIdCategory.ARTISTS -> R.menu.sort_mode_artist
-            MediaIdCategory.FOLDERS -> R.menu.sort_mode_folder
+            PresentationIdCategory.PLAYLISTS -> R.menu.sort_mode_playlist
+            PresentationIdCategory.ALBUMS -> R.menu.sort_mode_album
+            PresentationIdCategory.ARTISTS -> R.menu.sort_mode_artist
+            PresentationIdCategory.FOLDERS -> R.menu.sort_mode_folder
             else -> R.menu.sort_mode
         }
     }

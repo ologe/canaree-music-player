@@ -9,10 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.MediaId
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.media.MediaProvider
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
@@ -21,8 +20,6 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.loadBigAlbumImage
-import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
@@ -48,7 +45,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 internal class DetailFragmentAdapter(
-    private val mediaId: MediaId,
+    private val mediaId: PresentationId.Category,
     private val setupNestedList: SetupNestedList,
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider,
@@ -75,7 +72,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_podcast -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     viewModel.detailSortDataUseCase(item.mediaId) {
-                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
+                        mediaProvider.playFromMediaId(item.mediaId.toDomain(), viewModel.getFilter(), it)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -88,7 +85,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_song_with_track_and_image -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     viewModel.detailSortDataUseCase(item.mediaId) {
-                        mediaProvider.playFromMediaId(item.mediaId, viewModel.getFilter(), it)
+                        mediaProvider.playFromMediaId(item.mediaId.toDomain(), viewModel.getFilter(), it)
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
@@ -102,7 +99,7 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
-                    mediaProvider.shuffle(mediaId, viewModel.getFilter())
+                    mediaProvider.shuffle(mediaId.toDomain(), viewModel.getFilter())
                 }
             }
 
@@ -161,8 +158,8 @@ internal class DetailFragmentAdapter(
                 val sortImage = holder.itemView.sortImage
 
                 // don't allow sorting on podcast
-                sortText.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.resolveId)
-                sortImage.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.resolveId)
+                sortText.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
+                sortImage.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
 
                 viewModel.observeSorting()
                     .onEach { view.sortImage.update(it) }
@@ -235,7 +232,7 @@ internal class DetailFragmentAdapter(
         holder.itemView.apply {
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
 
-            holder.imageView?.loadSongImage(item.mediaId)
+            holder.imageView?.loadSongImage(item.mediaId.toDomain())
             firstText.text = item.title
             secondText?.text = item.subtitle
             explicit?.onItemChanged(item.title)
@@ -285,7 +282,7 @@ internal class DetailFragmentAdapter(
     @SuppressLint("SetTextI18n")
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
-        val progress = podcastPositions[item.mediaId.resolveId] ?: 0
+        val progress = podcastPositions[item.mediaId.id] ?: 0
         view.progressBar?.max = duration
         view.progressBar?.progress = progress
 
@@ -311,8 +308,10 @@ internal class DetailFragmentAdapter(
 
     val canSwipeRight: Boolean
         get() {
-            if (mediaId.isPlaylist || mediaId.isPodcastPlaylist) {
-                val playlistId = mediaId.resolveId
+            val isPlaylist = mediaId.category == PresentationIdCategory.PLAYLISTS
+            val isPodcastPlaylist = mediaId.category == PresentationIdCategory.PODCASTS_PLAYLIST
+            if (isPlaylist || isPodcastPlaylist) {
+                val playlistId = mediaId.categoryId
                 return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
                     playlistId
                 )
@@ -353,7 +352,7 @@ internal class DetailFragmentAdapter(
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val item = getItem(viewHolder.adapterPosition)
-        mediaProvider.addToPlayNext(item.mediaId)
+        mediaProvider.addToPlayNext(item.mediaId.toDomain())
     }
 
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {

@@ -3,19 +3,18 @@ package dev.olog.presentation.popup.song
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.core.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.core.schedulers.Schedulers
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-class SongPopupListener @Inject constructor(
+internal class SongPopupListener @Inject constructor(
     activity: FragmentActivity,
     private val navigator: Navigator,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
@@ -39,8 +38,8 @@ class SongPopupListener @Inject constructor(
         return this
     }
 
-    private fun getMediaId(): MediaId {
-        return song.getMediaId()
+    private fun getMediaId(): PresentationId.Track {
+        return song.presentationId
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
@@ -57,8 +56,8 @@ class SongPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, song.getAlbumMediaId())
-            R.id.viewArtist -> viewArtist(navigator, song.getArtistMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, song.albumPresentationId)
+            R.id.viewArtist -> viewArtist(navigator, song.artistPresentationId)
             R.id.share -> share(activity, song)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song)
         }

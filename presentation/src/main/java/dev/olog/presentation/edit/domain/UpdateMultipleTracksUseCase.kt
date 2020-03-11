@@ -3,8 +3,10 @@ package dev.olog.presentation.edit.domain
 import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
-import dev.olog.core.MediaId
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
+import dev.olog.presentation.toDomain
 import dev.olog.shared.ApplicationContext
 import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
@@ -19,7 +21,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
 
     operator fun invoke(param: Data) {
         try {
-            val songList = getSongListByParamUseCase(param.mediaId)
+            val songList = getSongListByParamUseCase(param.mediaId.toDomain())
             for (song in songList) {
                 updateTrackUseCase(
                     UpdateTrackUseCase.Data(
@@ -30,10 +32,11 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                     )
                 )
             }
-            if (param.mediaId.isArtist || param.mediaId.isPodcastArtist) {
-                updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
-            } else if (param.mediaId.isAlbum) {
-                updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
+            when (param.mediaId.category) {
+                PresentationIdCategory.ARTISTS,
+                PresentationIdCategory.PODCASTS_AUTHORS -> updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
+                PresentationIdCategory.ALBUMS -> updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
+                else -> {}
             }
         } catch (ex: Exception){
             Timber.e(ex)
@@ -60,7 +63,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
     }
 
     data class Data(
-        val mediaId: MediaId,
+        val mediaId: PresentationId.Category,
         val fields: Map<FieldKey, String>,
         val isPodcast: Boolean
     )

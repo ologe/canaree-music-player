@@ -7,7 +7,7 @@ import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import dev.olog.shared.android.utils.isQ
 
-class AlbumPopup(
+internal class AlbumPopup(
     view: View,
     song: Song?,
     listener: AbsPopupListener

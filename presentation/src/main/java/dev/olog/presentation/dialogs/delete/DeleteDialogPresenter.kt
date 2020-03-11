@@ -1,8 +1,9 @@
 package dev.olog.presentation.dialogs.delete
 
-import dev.olog.core.MediaId
 import dev.olog.core.interactor.DeleteUseCase
 import dev.olog.core.schedulers.Schedulers
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -12,8 +13,8 @@ class DeleteDialogPresenter @Inject constructor(
 ) {
 
 
-    suspend fun execute(mediaId: MediaId) = withContext(schedulers.io) {
-        deleteUseCase(mediaId)
+    suspend fun execute(mediaId: PresentationId) = withContext(schedulers.io) {
+        deleteUseCase(mediaId.toDomain())
     }
 
 }

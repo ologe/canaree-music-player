@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
+import dev.olog.presentation.PresentationId
+import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter
@@ -38,7 +38,7 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -51,15 +51,16 @@ class TabFragment : BaseFragment(), SetupNestedList {
         const val ARGUMENTS_SOURCE = "dataSource"
 
         @JvmStatic
-        fun newInstance(category: MediaIdCategory): TabFragment {
+        fun newInstance(category: PresentationIdCategory): TabFragment {
             return TabFragment().withArguments(
-                ARGUMENTS_SOURCE to category.toString()
+                ARGUMENTS_SOURCE to category
             )
         }
     }
 
     @Inject
-    lateinit var navigator: Navigator
+    internal lateinit var navigator: Navigator
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -81,8 +82,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     internal val category: TabCategory by lazyFast {
-        val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
-        MediaIdCategory.valueOf(categoryString).toTabCategory()
+        getArgument<PresentationIdCategory>(ARGUMENTS_SOURCE).toTabCategory()
     }
 
     private val adapter by lazyFast {
@@ -146,9 +146,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeSpanCount(category)
-            .drop(1) // drop initial value, already used
             .onEach {
                 if (list != null && list.isLaidOut) {
+                    // TODO update
                     TransitionManager.beginDelayedTransition(list)
                     (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
                     adapter.notifyDataSetChanged()
@@ -160,25 +160,34 @@ class TabFragment : BaseFragment(), SetupNestedList {
         when (category) {
             TabCategory.ALBUMS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ALBUMS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach { lastAlbumsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
+
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ALBUMS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach { newAlbumsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
             TabCategory.ARTISTS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_ARTISTS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach { lastArtistsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
+
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_ARTISTS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach { newArtistsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
             TabCategory.PODCASTS_AUTHORS -> {
                 viewModel.observeData(TabCategory.LAST_PLAYED_PODCAST_ARTISTS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach { lastArtistsAdapter.submitList(it) }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
+
                 viewModel.observeData(TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS)
+                    .filterIsInstance<List<DisplayableAlbum>>()
                     .onEach {  newArtistsAdapter.submitList(it)}
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
@@ -264,7 +273,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         fab.visibility = View.INVISIBLE
     }
 
-    override fun onCurrentPlayingChanged(mediaId: MediaId) {
+    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
@@ -314,7 +323,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
             TabCategory.SONGS,
             TabCategory.PODCASTS -> {
                 require(item is DisplayableTrack)
-                val sortOrder = viewModel.getAllTracksSortOrder(MediaId.songId(-1))!!
+                val sortOrder = viewModel.getAllTracksSortOrder()
                 when (sortOrder.type) {
                     SortType.ARTIST -> item.artist
                     SortType.ALBUM -> item.album

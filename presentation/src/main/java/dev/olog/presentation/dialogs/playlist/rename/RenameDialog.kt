@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.core.MediaId
+import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.act
@@ -23,9 +23,9 @@ class RenameDialog : BaseEditTextDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
+        fun newInstance(mediaId: PresentationId.Category, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
+                    ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
@@ -33,8 +33,8 @@ class RenameDialog : BaseEditTextDialog() {
 
     @Inject lateinit var presenter: RenameDialogPresenter
 
-    private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+    private val mediaId by lazyFast {
+        getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
     }
     private val itemTitle by lazyFast { getArgument<String>(ARGUMENTS_ITEM_TITLE) }
 
@@ -50,10 +50,7 @@ class RenameDialog : BaseEditTextDialog() {
     }
 
     override fun provideMessageForBlank(): String {
-        return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> getString(R.string.popup_playlist_name_not_valid)
-            else -> throw IllegalArgumentException("invalid media id category $mediaId")
-        }
+        return getString(R.string.popup_playlist_name_not_valid)
     }
 
     override suspend fun onItemValid(string: String) {
@@ -69,9 +66,6 @@ class RenameDialog : BaseEditTextDialog() {
     }
 
     private fun successMessage(context: Context, currentValue: String): String {
-        return when {
-            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
-            else -> throw IllegalStateException("not a playlist, $mediaId")
-        }
+        return context.getString(R.string.playlist_x_renamed_to_y, itemTitle, currentValue)
     }
 }

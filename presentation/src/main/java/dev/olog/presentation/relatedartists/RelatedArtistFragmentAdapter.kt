@@ -3,13 +3,13 @@ package dev.olog.presentation.relatedartists
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.toDomain
 import kotlinx.android.synthetic.main.item_related_artist.view.*
 
-class RelatedArtistFragmentAdapter(
+internal class RelatedArtistFragmentAdapter(
     private val navigator: Navigator
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+) : ObservableAdapter<DisplayableAlbum>(DiffCallbackDisplayableAlbum) {
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -22,12 +22,10 @@ class RelatedArtistFragmentAdapter(
         viewHolder.elevateAlbumOnTouch()
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableAlbum)
-
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableAlbum, position: Int) {
         holder.itemView.apply {
             transitionName = "related ${item.mediaId}"
-            holder.imageView!!.loadAlbumImage(item.mediaId)
+            holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             quickAction.setId(item.mediaId)
             firstText.text = item.title
             secondText.text = item.subtitle
