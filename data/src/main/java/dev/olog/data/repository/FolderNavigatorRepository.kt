@@ -51,7 +51,7 @@ internal class FolderNavigatorRepository @Inject constructor(
             ?: return emptyList()
 
         return sortFolders(children) + folderGateway
-            .getTrackListByParam(file.path)
+            .getTrackListByParam(file.path.hashCode().toLong())
             .map { FileType.Track(it.title, it.path) }
     }
 

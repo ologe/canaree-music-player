@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.base.Path
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
@@ -60,7 +59,7 @@ internal class FolderQueries(
         return contentResolver.querySql(query, params + arrayOf(folderPath))
     }
 
-    fun getRelatedArtists(path: Path): Cursor {
+    fun getRelatedArtists(path: String): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """

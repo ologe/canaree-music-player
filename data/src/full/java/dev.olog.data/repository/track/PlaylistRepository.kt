@@ -195,8 +195,8 @@ internal class PlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
-        return observeTrackListByParam(params)
+    override fun observeRelatedArtists(param: Id): Flow<List<Artist>> {
+        return observeTrackListByParam(param)
             .map {  songList ->
                 val artists = songList.groupBy { it.artistId }
                     .map { it.key }

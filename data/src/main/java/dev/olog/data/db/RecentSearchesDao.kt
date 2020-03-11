@@ -72,7 +72,7 @@ internal abstract class RecentSearchesDao {
                             genreMapper(recentEntity, item)
                         }
                         FOLDER -> {
-                            val item = folderList.getByHashCode(recentEntity.hashCode())
+                            val item = folderList.getByParam(recentEntity.itemId)
                             folderMapper(recentEntity, item)
                         }
                         PODCAST -> {
