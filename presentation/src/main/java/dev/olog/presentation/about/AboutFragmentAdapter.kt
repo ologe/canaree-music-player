@@ -1,40 +1,65 @@
 package dev.olog.presentation.about
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import dev.olog.presentation.about.AboutItemType.*
+import dev.olog.presentation.base.adapter.CustomListAdapter
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
-import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigator.NavigatorAbout
+import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_about.view.*
+
 class AboutFragmentAdapter(
     private val navigator: NavigatorAbout
+) : CustomListAdapter<AboutItem, RecyclerView.ViewHolder>(AboutItemDiff) {
 
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = inflater.inflate(viewType, parent, false)
+        val viewHolder = DataBoundViewHolder(binding)
+        initViewHolderListeners(viewHolder, viewType)
+        return viewHolder
+    }
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+    fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->
-            when (item.mediaId) {
-                AboutFragmentPresenter.THIRD_SW_ID -> navigator.toLicensesFragment()
-                AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
-                AboutFragmentPresenter.RATE_ID -> navigator.toMarket()
-                AboutFragmentPresenter.PRIVACY_POLICY -> navigator.toPrivacyPolicy()
-                AboutFragmentPresenter.COMMUNITY -> navigator.joinCommunity()
-                AboutFragmentPresenter.BETA -> navigator.joinBeta()
-                AboutFragmentPresenter.CHANGELOG -> navigator.toChangelog()
-                AboutFragmentPresenter.GITHUB -> navigator.toGithub()
-                AboutFragmentPresenter.TRANSLATION -> navigator.toTranslations()
-            }
+            when (item.itemType) {
+                THIRD_SW_ID -> navigator.toLicensesFragment()
+                SPECIAL_THANKS_ID -> navigator.toSpecialThanksFragment()
+                RATE_ID -> navigator.toMarket()
+                PRIVACY_POLICY -> navigator.toPrivacyPolicy()
+                COMMUNITY -> navigator.joinCommunity()
+                BETA -> navigator.joinBeta()
+                CHANGELOG -> navigator.toChangelog()
+                GITHUB -> navigator.toGithub()
+                TRANSLATION -> navigator.toTranslations()
+                AUTHOR_ID,
+                VERSION -> {
+                }
+            }.exhaustive
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableHeader)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         holder.itemView.apply {
             title.text = item.title
             subtitle.text = item.subtitle
         }
     }
 
+}
+
+private object AboutItemDiff : DiffUtil.ItemCallback<AboutItem>() {
+
+    override fun areItemsTheSame(oldItem: AboutItem, newItem: AboutItem): Boolean {
+        return oldItem.itemType == newItem.itemType
+    }
+
+    override fun areContentsTheSame(oldItem: AboutItem, newItem: AboutItem): Boolean {
+        return oldItem == newItem
+    }
 }
