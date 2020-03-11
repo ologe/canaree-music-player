@@ -131,11 +131,10 @@ internal class DetailSortingHelper @Inject constructor(
     override fun toggleDetailSortArranging(category: MediaIdCategory) {
         val arrangingKey = when (category){
             MediaIdCategory.FOLDERS -> DETAIL_SORT_FOLDER_ARRANGING
-            MediaIdCategory.PLAYING_QUEUE -> DETAIL_SORT_PLAYLIST_ARRANGING
+            MediaIdCategory.PLAYLISTS -> DETAIL_SORT_PLAYLIST_ARRANGING
             MediaIdCategory.ALBUMS -> DETAIL_SORT_ALBUM_ARRANGING
             MediaIdCategory.ARTISTS -> DETAIL_SORT_ARTIST_ARRANGING
             MediaIdCategory.GENRES -> DETAIL_SORT_GENRE_ARRANGING
-            MediaIdCategory.PLAYLISTS -> DETAIL_SORT_PLAYLIST_ARRANGING
             else -> throw IllegalStateException("invalid category $category")
         }
 
