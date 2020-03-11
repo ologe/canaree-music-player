@@ -13,7 +13,7 @@ import dev.olog.shared.android.extensions.ctx
 abstract class ListDialog : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity!!)
+        val inflater = LayoutInflater.from(requireContext())
         val view : View = inflater.inflate(provideLayoutId(), null, false)
 
         val builder = MaterialAlertDialogBuilder(ctx)
