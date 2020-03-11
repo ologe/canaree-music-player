@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.InputStream
-import java.lang.RuntimeException
 
 class GlideMergedImageFetcher(
     private val context: Context,
@@ -47,7 +46,8 @@ class GlideMergedImageFetcher(
 
     private suspend fun makeFolderImage(folder: String): InputStream? {
 //        val folderImage = ImagesFolderUtils.forFolder(context, dirPath) --contains current image
-        val albumsId = folderGateway.getTrackListByParam(folder).map { it.albumId }
+        val id = folder.hashCode().toLong()
+        val albumsId = folderGateway.getTrackListByParam(id).map { it.albumId }
 
         val folderName = ImagesFolderUtils.FOLDER
         val normalizedPath = folder.replace(File.separator, "")
