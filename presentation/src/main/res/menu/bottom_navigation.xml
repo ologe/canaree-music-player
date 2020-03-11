@@ -4,16 +4,16 @@
         <item
             android:id="@+id/navigation_library"
             android:title="@string/category_header"
-            android:icon="@drawable/vd_home_selector"/>
+            android:icon="@drawable/vd_home_alt_selector"/>
         <item
             android:id="@+id/navigation_search"
             android:title="@string/common_search"
-            android:icon="@drawable/vd_search_alt"/>
+            android:icon="@drawable/vd_search_alt_selector"/>
 
         <item
             android:id="@+id/navigation_queue"
             android:title="@string/playing_queue"
-            android:icon="@drawable/vd_playing_queue"/>
+            android:icon="@drawable/vd_queue_alt_selector"/>
 
     </group>
 </menu>

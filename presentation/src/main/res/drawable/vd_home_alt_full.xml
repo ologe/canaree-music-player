@@ -6,7 +6,7 @@
   <path
       android:pathData="M5.8417,22.0757L21.0387,22.2613L21.0387,10.7774L13.8793,3.8771L6.1349,11.6143C5.9472,11.8019 5.8417,12.0563 5.8417,12.3217L5.8417,22.0757L5.8417,22.0757Z"
       android:fillColor="#000"
-      android:fillAlpha=".3"/>
+      android:fillAlpha="@dimen/bottom_navigation_item_full_alpha"/>
   <path
       android:pathData="M8.0671,16.9915L8.1337,17.0103C10.7091,17.7379 13.4365,17.7314 16.0084,16.9915L16.0084,16.9915L16.0084,16.9915"
       android:strokeWidth="1.8"
