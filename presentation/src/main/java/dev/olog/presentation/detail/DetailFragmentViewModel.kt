@@ -2,6 +2,7 @@ package dev.olog.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.gateway.ImageRetrieverGateway
@@ -158,6 +159,9 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun showSortByTutorialIfNeverShown(): Boolean {
+        if (mediaId.isAnyPodcast || AutoPlaylist.isAutoPlaylist(mediaId.categoryId)) {
+            return false
+        }
         return presenter.showSortByTutorialIfNeverShown()
     }
 
