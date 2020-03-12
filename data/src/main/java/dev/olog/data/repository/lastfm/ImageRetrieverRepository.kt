@@ -122,6 +122,7 @@ internal class ImageRetrieverRepository @Inject constructor(
             }
             return result
         } catch (ex: Exception){
+            // TODO investigate nullity
             Timber.w(ex)
             return LastFmNulls.createNullTrack(song.id).toDomain()
         }
