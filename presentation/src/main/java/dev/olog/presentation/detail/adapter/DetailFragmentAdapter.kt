@@ -255,7 +255,7 @@ internal class DetailFragmentAdapter(
         when (holder.itemViewType){
             R.layout.item_detail_image -> {
                 holder.imageView!!.post { afterImageLoad() }
-                holder.imageView!!.loadBigAlbumImage(mediaId)
+                holder.imageView!!.loadBigAlbumImage(mediaId.toDomain())
                 holder.itemView.title.text = item.title
                 holder.itemView.subtitle.text = item.subtitle
             }
