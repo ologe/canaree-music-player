@@ -125,14 +125,14 @@
         android:text="@string/search_no_results"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="20dp"
-        android:textStyle="bold"
+        android:fontFamily="sans-serif-black"
+        app:fontFamily="sans-serif-black"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible"
-        app:fontFamily="sans-serif-black"
         tools:fontFamily="sans-serif-black" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
