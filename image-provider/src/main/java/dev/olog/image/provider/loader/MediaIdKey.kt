@@ -13,7 +13,7 @@ internal class MediaIdKey(
         if (mediaId.isLeaf) {
             return "${MediaIdCategory.SONGS}-${mediaId.leaf}"
         }
-        return "${mediaId.category.name}-${mediaId.categoryValue}"
+        return "${mediaId.category.name}-${mediaId.categoryId}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -27,13 +27,13 @@ internal class MediaIdKey(
             return this.mediaId.leaf == other.mediaId.leaf
         }
         return this.mediaId.category == other.mediaId.category &&
-                this.mediaId.categoryValue == other.mediaId.categoryValue
+                this.mediaId.categoryId == other.mediaId.categoryId
     }
 
     override fun hashCode(): Int {
         var result = 17
         result = 31 * result + mediaId.category.name.hashCode()
-        result = 31 * result + mediaId.categoryValue.hashCode()
+        result = 31 * result + mediaId.categoryId.hashCode()
         if (mediaId.isLeaf) {
             result = 31 * result + mediaId.leaf!!.hashCode()
         }

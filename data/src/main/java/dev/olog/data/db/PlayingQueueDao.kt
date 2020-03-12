@@ -94,7 +94,7 @@ internal abstract class PlayingQueueDao {
             PlayingQueueEntity(
                 songId = it.songId,
                 category = it.mediaId.category.toString(),
-                categoryValue = it.mediaId.categoryValue,
+                categoryValue = it.mediaId.categoryId,
                 idInPlaylist = it.idInPlaylist
             )
         }

@@ -2,7 +2,7 @@ package dev.olog.core
 
 class MediaId private constructor(
     val category: MediaIdCategory,
-    val categoryValue: Long,
+    val categoryId: Long,
     val leaf: Long? = null
 ) {
 
@@ -33,7 +33,7 @@ class MediaId private constructor(
 
         @JvmStatic
         fun playableItem(parentId: MediaId, songId: Long): MediaId {
-            return MediaId(parentId.category, parentId.categoryValue, songId)
+            return MediaId(parentId.category, parentId.categoryId, songId)
         }
 
         @JvmStatic // TODO remove
@@ -68,7 +68,7 @@ class MediaId private constructor(
     val isLeaf = leaf != null
 
     override fun toString(): String {
-        var string = category.toString() + CATEGORY_SEPARATOR + categoryValue
+        var string = category.toString() + CATEGORY_SEPARATOR + categoryId
         if (leaf != null){
             string += LEAF_SEPARATOR + leaf.toString()
         }
@@ -82,7 +82,7 @@ class MediaId private constructor(
         other as MediaId
 
         if (category != other.category) return false
-        if (categoryValue != other.categoryValue) return false
+        if (categoryId != other.categoryId) return false
         if (leaf != other.leaf) return false
 
         return true
@@ -90,7 +90,7 @@ class MediaId private constructor(
 
     override fun hashCode(): Int {
         var result = category.name.hashCode()
-        result = 31 * result + categoryValue.hashCode()
+        result = 31 * result + categoryId.hashCode()
         result = 31 * result + (leaf?.hashCode() ?: 0)
         return result
     }
@@ -99,16 +99,8 @@ class MediaId private constructor(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
-            }
-        }
-
-    val categoryId: Long
-        get() {
-            return when {
-                isFolder -> categoryValue.hashCode().toLong()
-                else -> categoryValue.toLong()
+                isFolder -> categoryId.hashCode().toLong()
+                else -> categoryId.toLong()
             }
         }
 

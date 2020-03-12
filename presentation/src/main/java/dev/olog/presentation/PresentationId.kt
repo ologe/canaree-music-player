@@ -87,13 +87,13 @@ fun MediaId.toPresentation(): PresentationId {
     if (isLeaf) {
         return PresentationId.Track(
             category.toPresentation(),
-            categoryValue.toLong(),
+            categoryId,
             leaf!!
         )
     }
     return PresentationId.Category(
         category.toPresentation(),
-        categoryValue.toLong()
+        categoryId
     )
 }
 
