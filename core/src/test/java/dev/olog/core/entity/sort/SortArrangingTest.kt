@@ -9,7 +9,7 @@ class SortArrangingTest {
     fun testAscending() {
         assertEquals(
             "ASC",
-            SortArranging.ASCENDING
+            SortArranging.ASCENDING.toString()
         )
     }
 
@@ -17,7 +17,7 @@ class SortArrangingTest {
     fun testDescending() {
         assertEquals(
             "DESC",
-            SortArranging.DESCENDING
+            SortArranging.DESCENDING.toString()
         )
     }
 
