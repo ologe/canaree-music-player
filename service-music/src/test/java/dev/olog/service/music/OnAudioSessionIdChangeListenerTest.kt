@@ -7,7 +7,7 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.test.shared.MainCoroutineRule
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
@@ -33,7 +33,7 @@ class OnAudioSessionIdChangeListenerTest {
     }
 
     @Test
-    fun `test on audio session id changed`() = runBlocking<Unit> {
+    fun `test on audio session id changed`() = runBlockingTest {
         val latch = CountDownLatch(1)
         val audioSessionId = 1
 
@@ -47,7 +47,7 @@ class OnAudioSessionIdChangeListenerTest {
     }
 
     @Test
-    fun `test on audio session id changed very fast`() = runBlocking<Unit> {
+    fun `test on audio session id changed very fast`() = runBlockingTest {
         val latch = CountDownLatch(1)
         val audioSessionId1 = 1
         val audioSessionId2 = 2

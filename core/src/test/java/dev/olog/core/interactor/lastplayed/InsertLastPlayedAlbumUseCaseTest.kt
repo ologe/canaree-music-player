@@ -6,14 +6,14 @@ import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.MediaIdCategory.ALBUMS
 import dev.olog.core.gateway.track.AlbumGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.fail
 import org.junit.Test
 
 class InsertLastPlayedAlbumUseCaseTest {
 
     @Test
-    fun testInvokeWithTrack() = runBlocking {
+    fun testInvokeWithTrack() = runBlockingTest {
         // given
         val id = 1L
 
@@ -30,7 +30,7 @@ class InsertLastPlayedAlbumUseCaseTest {
 
 
     @Test
-    fun testInvokeWithOtherCategories() = runBlocking {
+    fun testInvokeWithOtherCategories() = runBlockingTest {
         // given
         val id = 1L
         val allowed = listOf(ALBUMS)

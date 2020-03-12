@@ -9,7 +9,6 @@ import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
@@ -68,7 +67,7 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testNotAllowed() = runBlocking {
+    fun testNotAllowed() = runBlockingTest {
         val allowed = listOf(
             FOLDERS,
             PLAYLISTS,

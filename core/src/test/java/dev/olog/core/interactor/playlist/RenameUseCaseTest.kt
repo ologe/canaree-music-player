@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory.PLAYLISTS
 import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.fail
 import org.junit.Test
 
@@ -20,7 +20,7 @@ class RenameUseCaseTest {
     private val sut = RenameUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = runBlocking {
+    fun testInvokePodcast() = runBlockingTest {
         // given
         val id = 1L
         val newTitle = "new title"
@@ -36,7 +36,7 @@ class RenameUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = runBlocking {
+    fun testInvokeTrack() = runBlockingTest {
         // given
         val id = 1L
         val newTitle = "new title"
@@ -52,7 +52,7 @@ class RenameUseCaseTest {
     }
 
     @Test
-    fun testInvokeAuto() = runBlocking {
+    fun testInvokeAuto() = runBlockingTest {
         val allowed = listOf(
             PLAYLISTS, PODCASTS_PLAYLIST
         )

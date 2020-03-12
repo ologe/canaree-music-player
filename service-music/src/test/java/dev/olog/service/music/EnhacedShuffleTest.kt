@@ -7,7 +7,7 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.queue.EnhancedShuffle
 import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.test.shared.MainCoroutineRule
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +20,7 @@ class EnhacedShuffleTest {
     private val enhancedShuffle = EnhancedShuffle(mock())
 
     @Test
-    fun `test shuffle with empty list`() = runBlocking<Unit> {
+    fun `test shuffle with empty list`() = runBlockingTest {
 
         // given
         val queue = emptyList<MediaEntity>()
@@ -43,7 +43,7 @@ class EnhacedShuffleTest {
 
     // something is not working well when 'just played' is more than half of new queue
     @Test
-    fun `test shuffle`() = runBlocking<Unit> {
+    fun `test shuffle`() = runBlockingTest {
 
         // given
         val queue = MusicServiceData.mediaEntityList(10)

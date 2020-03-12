@@ -4,13 +4,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class IsFavoriteSongUseCaseTest {
 
     @Test
-    fun testInvoke() = runBlocking {
+    fun testInvoke() = runBlockingTest {
         // given
         val gateway = mock<FavoriteGateway>()
         val sut = IsFavoriteSongUseCase(gateway)

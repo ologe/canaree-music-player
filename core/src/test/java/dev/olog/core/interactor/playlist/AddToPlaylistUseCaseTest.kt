@@ -10,7 +10,7 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class AddToPlaylistUseCaseTest {
@@ -23,7 +23,7 @@ class AddToPlaylistUseCaseTest {
     )
 
     @Test(expected = IllegalArgumentException::class)
-    fun testInvokeWithWrongPlaylistAndMediaId() = runBlocking {
+    fun testInvokeWithWrongPlaylistAndMediaId() = runBlockingTest {
         val playlist = Playlist(1, "", 0, true)
         val mediaId = SONGS_CATEGORY
 
@@ -31,7 +31,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithPodcast() = runBlocking {
+    fun testInvokeWithPodcast() = runBlockingTest {
         // given
         val playlistId = 1L
         val podcastId = 10L
@@ -49,7 +49,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithTrack() = runBlocking {
+    fun testInvokeWithTrack() = runBlockingTest {
         // given
         val playlistId = 1L
         val songId = 10L
@@ -67,7 +67,7 @@ class AddToPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithTrackList() = runBlocking {
+    fun testInvokeWithTrackList() = runBlockingTest {
         // given
         val playlistId = 1L
         val songId = 10L

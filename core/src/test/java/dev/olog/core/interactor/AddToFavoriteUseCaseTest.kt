@@ -5,7 +5,7 @@ import dev.olog.core.Mocks
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class AddToFavoriteUseCaseTest {
@@ -15,7 +15,7 @@ class AddToFavoriteUseCaseTest {
     private val sut = AddToFavoriteUseCase(gateway, songListUseCase)
 
     @Test
-    fun testInvokeSingle() = runBlocking {
+    fun testInvokeSingle() = runBlockingTest {
         // given
         val song = Mocks.song
         val mediaId = song.mediaId
@@ -32,7 +32,7 @@ class AddToFavoriteUseCaseTest {
     }
 
     @Test
-    fun testInvokeGroup() = runBlocking {
+    fun testInvokeGroup() = runBlockingTest {
         // given
         val album = Mocks.album
         val mediaId = album.mediaId

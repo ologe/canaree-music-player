@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.*
 import dev.olog.core.entity.PlaylistType.*
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class InsertCustomTrackListToPlaylistTest {
@@ -14,7 +14,7 @@ class InsertCustomTrackListToPlaylistTest {
     private val sut = InsertCustomTrackListToPlaylist(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = runBlocking {
+    fun testInvokePodcast() = runBlockingTest {
         // given
         val id = 1L
         val trackId = 100L
@@ -34,7 +34,7 @@ class InsertCustomTrackListToPlaylistTest {
     }
 
     @Test
-    fun testInvokeTrack() = runBlocking {
+    fun testInvokeTrack() = runBlockingTest {
         // given
         val id = 1L
         val trackId = 100L
@@ -54,7 +54,7 @@ class InsertCustomTrackListToPlaylistTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testInvokeAuto() = runBlocking {
+    fun testInvokeAuto() = runBlockingTest {
         val request = InsertCustomTrackListToPlaylist.Input("any", emptyList(), AUTO)
         sut(request)
     }

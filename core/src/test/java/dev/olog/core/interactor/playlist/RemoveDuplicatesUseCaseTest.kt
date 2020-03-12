@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory.PLAYLISTS
 import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Test
 
@@ -20,7 +20,7 @@ class RemoveDuplicatesUseCaseTest {
     private val sut = RemoveDuplicatesUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = runBlocking {
+    fun testInvokePodcast() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(
@@ -35,7 +35,7 @@ class RemoveDuplicatesUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = runBlocking {
+    fun testInvokeTrack() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(
@@ -50,7 +50,7 @@ class RemoveDuplicatesUseCaseTest {
     }
 
     @Test
-    fun testInvokeAuto() = runBlocking {
+    fun testInvokeAuto() = runBlockingTest {
         // given
         val allowed = listOf(
             PODCASTS_PLAYLIST, PLAYLISTS

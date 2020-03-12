@@ -6,13 +6,13 @@ import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class UpdateLastFmUserCredentialsTest {
 
     @Test
-    fun testInvoke() = runBlocking {
+    fun testInvoke() = runBlockingTest {
         // given
         val user = UserCredentials("user", "pwd")
 

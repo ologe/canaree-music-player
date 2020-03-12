@@ -6,13 +6,13 @@ import dev.olog.core.entity.favorite.FavoriteEntity
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class UpdateFavoriteStateUseCaseTest {
 
     @Test
-    fun testInvoke() = runBlocking {
+    fun testInvoke() = runBlockingTest {
         // given
         val gateway = mock<FavoriteGateway>()
         val sut = UpdateFavoriteStateUseCase(gateway)

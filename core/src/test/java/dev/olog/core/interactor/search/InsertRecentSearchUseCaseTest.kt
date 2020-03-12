@@ -8,7 +8,7 @@ import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
 import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.RecentSearchesGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class InsertRecentSearchUseCaseTest {
@@ -17,7 +17,7 @@ class InsertRecentSearchUseCaseTest {
     private val sut = InsertRecentSearchUseCase(gateway)
 
     @Test
-    fun testInsertTrack() = runBlocking {
+    fun testInsertTrack() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = SONGS_CATEGORY.playableItem(id)
@@ -31,7 +31,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertArtist() = runBlocking {
+    fun testInsertArtist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ARTISTS, id)
@@ -45,7 +45,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertAlbum() = runBlocking {
+    fun testInsertAlbum() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ALBUMS, id)
@@ -59,7 +59,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPlaylist() = runBlocking {
+    fun testInsertPlaylist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PLAYLISTS, id)
@@ -73,7 +73,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertFolder() = runBlocking {
+    fun testInsertFolder() = runBlockingTest {
         // given
         val id = "path".hashCode().toLong()
         val mediaId = Category(FOLDERS, 321)
@@ -87,7 +87,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertGenre() = runBlocking {
+    fun testInsertGenre() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(GENRES, id)
@@ -101,7 +101,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcast() = runBlocking {
+    fun testInsertPodcast() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = PODCAST_CATEGORY.playableItem(id)
@@ -115,7 +115,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcastPlaylist() = runBlocking {
+    fun testInsertPodcastPlaylist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_PLAYLIST, id)
@@ -129,7 +129,7 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcastArtist() = runBlocking {
+    fun testInsertPodcastArtist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_AUTHORS, id)

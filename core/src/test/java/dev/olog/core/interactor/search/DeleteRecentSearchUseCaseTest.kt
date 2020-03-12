@@ -8,7 +8,7 @@ import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
 import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.RecentSearchesGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class DeleteRecentSearchUseCaseTest {
@@ -17,7 +17,7 @@ class DeleteRecentSearchUseCaseTest {
     private val sut = DeleteRecentSearchUseCase(gateway)
 
     @Test
-    fun testDeleteTrack() = runBlocking {
+    fun testDeleteTrack() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = SONGS_CATEGORY.playableItem(id)
@@ -31,7 +31,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeleteArtist() = runBlocking {
+    fun testDeleteArtist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ARTISTS, id)
@@ -45,7 +45,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeleteAlbum() = runBlocking {
+    fun testDeleteAlbum() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ALBUMS, id)
@@ -59,7 +59,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeletePlaylist() = runBlocking {
+    fun testDeletePlaylist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PLAYLISTS, id)
@@ -73,7 +73,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeleteFolder() = runBlocking {
+    fun testDeleteFolder() = runBlockingTest {
         // given
         val id = "path".hashCode().toLong()
         val mediaId = Category(FOLDERS, 3213)
@@ -87,7 +87,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeleteGenre() = runBlocking {
+    fun testDeleteGenre() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(GENRES, id)
@@ -101,7 +101,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeletePodcast() = runBlocking {
+    fun testDeletePodcast() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = PODCAST_CATEGORY.playableItem(id)
@@ -115,7 +115,7 @@ class DeleteRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testDeletePodcastPlaylist() = runBlocking {
+    fun testDeletePodcastPlaylist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_PLAYLIST, id)
@@ -130,7 +130,7 @@ class DeleteRecentSearchUseCaseTest {
 
 
     @Test
-    fun testDeletePodcastArtist() = runBlocking {
+    fun testDeletePodcastArtist() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_AUTHORS, id)

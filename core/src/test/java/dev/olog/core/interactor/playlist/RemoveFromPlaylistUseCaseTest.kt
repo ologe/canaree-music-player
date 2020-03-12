@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.entity.PlaylistType.*
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class RemoveFromPlaylistUseCaseTest {
@@ -16,7 +16,7 @@ class RemoveFromPlaylistUseCaseTest {
     private val sut = RemoveFromPlaylistUseCase(playlistGateway, podcastGateway)
 
     @Test
-    fun testInvokePodcast() = runBlocking {
+    fun testInvokePodcast() = runBlockingTest {
         // given
         val id = 1L
         val trackId = 10L
@@ -30,7 +30,7 @@ class RemoveFromPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = runBlocking {
+    fun testInvokeTrack() = runBlockingTest {
         // given
         val id = 1L
         val trackId = 10L
@@ -44,7 +44,7 @@ class RemoveFromPlaylistUseCaseTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testInvokeAuto() = runBlocking {
+    fun testInvokeAuto() = runBlockingTest {
         // given
         val input = RemoveFromPlaylistUseCase.Input(1, 1, AUTO)
 

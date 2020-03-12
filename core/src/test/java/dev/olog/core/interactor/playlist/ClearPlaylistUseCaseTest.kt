@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory.PLAYLISTS
 import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Test
 
@@ -22,7 +22,7 @@ class ClearPlaylistUseCaseTest {
     )
 
     @Test
-    fun testInvokePodcast() = runBlocking {
+    fun testInvokePodcast() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_PLAYLIST, id)
@@ -36,7 +36,7 @@ class ClearPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeTrack() = runBlocking {
+    fun testInvokeTrack() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PLAYLISTS, id)
@@ -50,7 +50,7 @@ class ClearPlaylistUseCaseTest {
     }
 
     @Test
-    fun testInvokeWithWrongMediaId() = runBlocking {
+    fun testInvokeWithWrongMediaId() = runBlockingTest {
         // given
         val allowed = listOf(
             PLAYLISTS, PODCASTS_PLAYLIST
