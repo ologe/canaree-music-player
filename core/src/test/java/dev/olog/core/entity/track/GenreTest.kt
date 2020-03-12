@@ -9,7 +9,7 @@ import org.junit.Test
 class GenreTest {
 
     @Test
-    fun testTrackGetMediaId() {
+    fun testGetMediaId() {
         val id = 1L
         val genre = Mocks.genre.copy(id = id)
         assertEquals(

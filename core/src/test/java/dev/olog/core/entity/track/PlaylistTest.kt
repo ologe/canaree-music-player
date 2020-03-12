@@ -10,7 +10,7 @@ import org.junit.Test
 class PlaylistTest {
 
     @Test
-    fun testTrackGetMediaId() {
+    fun testGetMediaId() {
         val id = 1L
         val playlist = Mocks.playlist.copy(id = id)
         assertEquals(

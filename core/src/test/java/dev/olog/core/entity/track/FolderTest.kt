@@ -9,11 +9,11 @@ import org.junit.Test
 class FolderTest {
 
     @Test
-    fun testTrackGetMediaId() {
-        val path = "/storage/emulated/"
-        val folder = Mocks.folder.copy(path = path)
+    fun testGetMediaId() {
+        val id = 123L
+        val folder = Mocks.folder.copy(id = 123)
         assertEquals(
-            Category(FOLDERS, folder.id),
+            Category(FOLDERS, id),
             folder.mediaId
         )
     }

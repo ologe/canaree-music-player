@@ -10,7 +10,7 @@ import org.junit.Test
 class ArtistTest {
 
     @Test
-    fun testTrackGetMediaId() {
+    fun testGetMediaId() {
         val id = 1L
         val artist = Mocks.artist.copy(id = id)
         assertEquals(

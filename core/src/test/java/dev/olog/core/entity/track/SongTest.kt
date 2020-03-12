@@ -1,5 +1,6 @@
 package dev.olog.core.entity.track
 
+import dev.olog.core.MediaId
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
 import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
@@ -11,7 +12,7 @@ import org.junit.Test
 class SongTest {
 
     @Test
-    fun testTrackGetMediaId() {
+    fun testGetMediaId() {
         val id = 10L
         val song = Mocks.song.copy(id = id)
         assertEquals(
@@ -31,7 +32,7 @@ class SongTest {
     }
 
     @Test
-    fun testTrackGetArtistMediaId() {
+    fun testGetArtistMediaId() {
         val id = 10L
         val album = Mocks.song.copy(artistId = id)
         assertEquals(
@@ -51,7 +52,7 @@ class SongTest {
     }
 
     @Test
-    fun testTrackGetAlbumMediaId() {
+    fun testGetAlbumMediaId() {
         val id = 10L
         val album = Mocks.song.copy(albumId = id)
         assertEquals(
@@ -79,6 +80,17 @@ class SongTest {
     fun testFolderPath() {
         val song = Mocks.song.copy(path = "/storage/emulated/0/folder/item.mp3")
         assertEquals("/storage/emulated/0/folder", song.folderPath)
+    }
+
+    @Test
+    fun testParentMediaId() {
+        val artistId = 1L
+        val id = 2L
+        val song = Mocks.song.copy(id = id, artistId = artistId)
+        assertEquals(
+            Category(ARTISTS, id),
+            song.parentMediaId
+        )
     }
 
 }
