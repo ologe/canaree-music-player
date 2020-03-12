@@ -99,8 +99,7 @@ class MediaId private constructor(
         get() {
             return when {
                 isLeaf -> leaf!!.toLong()
-                isFolder -> categoryId.hashCode().toLong()
-                else -> categoryId.toLong()
+                else -> categoryId
             }
         }
 
