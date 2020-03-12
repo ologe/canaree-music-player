@@ -1,7 +1,6 @@
 package dev.olog.service.music.shared
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.service.music.model.MediaEntity
 
 internal object MusicServiceData {
@@ -9,7 +8,7 @@ internal object MusicServiceData {
     val mediaEntity = MediaEntity(
         1L,
         1,
-        MediaId.Track(MediaIdCategory.SONGS, -1, 1L),
+        MediaId.SONGS_CATEGORY.playableItem(1L),
         1L,
         1L,
 
@@ -29,7 +28,7 @@ internal object MusicServiceData {
         MediaEntity(
             it.toLong(),
             it,
-            MediaId.Track(MediaIdCategory.SONGS, -1, (it.toLong())),
+            MediaId.SONGS_CATEGORY.playableItem(it.toLong()),
             it.toLong(),
             it.toLong(),
             "title",

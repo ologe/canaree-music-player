@@ -12,11 +12,11 @@ internal object MediaIdHelper {
 
     const val MEDIA_ID_ROOT = "__ROOT__"
 
-    val PLAYLISTS = MediaIdCategory.PLAYLISTS.toString()
-    val SONGS = MediaIdCategory.SONGS.toString()
-    val ALBUMS = MediaIdCategory.ALBUMS.toString()
-    val ARTISTS = MediaIdCategory.ARTISTS.toString()
-    val GENRES = MediaIdCategory.GENRES.toString()
+    private val PLAYLISTS = MediaIdCategory.PLAYLISTS.toString()
+    private val SONGS = MediaIdCategory.SONGS.toString()
+    private val ALBUMS = MediaIdCategory.ALBUMS.toString()
+    private val ARTISTS = MediaIdCategory.ARTISTS.toString()
+    private val GENRES = MediaIdCategory.GENRES.toString()
 
     fun getLibraryCategories(context: Context): MutableList<MediaBrowserCompat.MediaItem> {
         return mutableListOf(
