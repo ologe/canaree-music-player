@@ -97,9 +97,8 @@ fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Co
     val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
     if (resolved) {
-        var colorStateList: ColorStateList? = null
         val a = obtainStyledAttributes(outValue.resourceId, intArrayOf(themeAttributeId))
-        colorStateList = a.getColorStateList(0)
+        val colorStateList = a.getColorStateList(0)
         a.recycle()
         if (colorStateList != null) {
             return colorStateList.defaultColor
