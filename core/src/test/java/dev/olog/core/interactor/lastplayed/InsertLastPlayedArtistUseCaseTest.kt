@@ -14,17 +14,18 @@ import org.junit.Test
 
 class InsertLastPlayedArtistUseCaseTest {
 
+    private val gateway = mock<ArtistGateway>()
+    private val podcastGateway = mock<PodcastAuthorGateway>()
+    private val sut = InsertLastPlayedArtistUseCase(gateway, podcastGateway)
+
     @Test
     fun testInvokeWithTrack() = runBlockingTest {
         // given
         val id = 1L
-
-        val gateway = mock<ArtistGateway>()
-
-        val sut = InsertLastPlayedArtistUseCase(gateway, mock())
+        val category = Category(ARTISTS, id)
 
         // when
-        sut(Category(ARTISTS, id))
+        sut(category)
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -34,16 +35,13 @@ class InsertLastPlayedArtistUseCaseTest {
     fun testInvokeWithPodcast() = runBlockingTest {
         // given
         val id = 1L
-
-        val gateway = mock<PodcastAuthorGateway>()
-
-        val sut = InsertLastPlayedArtistUseCase(mock(), gateway)
+        val category = Category(PODCASTS_AUTHORS, id)
 
         // when
-        sut(Category(PODCASTS_AUTHORS, id))
+        sut(category)
 
         // then
-        verify(gateway).addLastPlayed(id)
+        verify(podcastGateway).addLastPlayed(id)
     }
 
     @Test

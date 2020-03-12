@@ -10,7 +10,7 @@ class InsertLastPlayedAlbumUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(mediaId: MediaId) {
+    suspend operator fun invoke(mediaId: MediaId.Category) {
         when (mediaId.category) {
             MediaIdCategory.ALBUMS -> albumGateway.addLastPlayed(mediaId.categoryId)
             else -> throw IllegalArgumentException("invalid category ${mediaId.category}")

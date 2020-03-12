@@ -12,7 +12,7 @@ class InsertLastPlayedArtistUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(mediaId: MediaId) {
+    suspend operator fun invoke(mediaId: MediaId.Category) {
         when (mediaId.category) {
             MediaIdCategory.ARTISTS -> artistGateway.addLastPlayed(mediaId.categoryId)
             MediaIdCategory.PODCASTS_AUTHORS -> podcastGateway.addLastPlayed(mediaId.categoryId)

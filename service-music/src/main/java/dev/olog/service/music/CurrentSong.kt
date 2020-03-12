@@ -65,11 +65,11 @@ internal class CurrentSong @Inject constructor(
                     MediaIdCategory.ARTISTS,
                     MediaIdCategory.PODCASTS_AUTHORS -> {
                         Timber.v("$TAG insert last played artist ${entity.title}")
-                        insertLastPlayedArtistUseCase(entity.mediaId)
+                        insertLastPlayedArtistUseCase(entity.mediaId.parentId)
                     }
                     MediaIdCategory.ALBUMS -> {
                         Timber.v("$TAG insert last played album ${entity.title}")
-                        insertLastPlayedAlbumUseCase(entity.mediaId)
+                        insertLastPlayedAlbumUseCase(entity.mediaId.parentId)
                     }
                     else -> {}
                 }

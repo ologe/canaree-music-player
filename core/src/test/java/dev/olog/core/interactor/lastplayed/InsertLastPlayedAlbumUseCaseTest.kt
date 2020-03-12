@@ -12,17 +12,17 @@ import org.junit.Test
 
 class InsertLastPlayedAlbumUseCaseTest {
 
+    private val gateway = mock<AlbumGateway>()
+    private val sut = InsertLastPlayedAlbumUseCase(gateway)
+
     @Test
-    fun testInvokeWithTrack() = runBlockingTest {
+    fun testInvoke() = runBlockingTest {
         // given
         val id = 1L
-
-        val gateway = mock<AlbumGateway>()
-
-        val sut = InsertLastPlayedAlbumUseCase(gateway)
+        val category = Category(ALBUMS, id)
 
         // when
-        sut(Category(ALBUMS, id))
+        sut(category)
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -34,8 +34,6 @@ class InsertLastPlayedAlbumUseCaseTest {
         // given
         val id = 1L
         val allowed = listOf(ALBUMS)
-
-        val sut = InsertLastPlayedAlbumUseCase(mock())
 
         // when
         for (value in MediaIdCategory.values()) {
