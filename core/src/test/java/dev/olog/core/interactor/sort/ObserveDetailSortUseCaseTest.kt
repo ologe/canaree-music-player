@@ -33,14 +33,6 @@ class ObserveDetailSortUseCaseTest {
     }
 
     @Test
-    fun testPodcastPlaylists() {
-        val mediaId = Category(PODCASTS_PLAYLIST, 1)
-
-        sut(mediaId)
-        verify(gateway).observeDetailPlaylistSort()
-    }
-
-    @Test
     fun testAlbums() {
         val mediaId = Category(ALBUMS, 1)
 
@@ -57,20 +49,32 @@ class ObserveDetailSortUseCaseTest {
     }
 
     @Test
-    fun testPodcastArtists() {
-        val mediaId = Category(PODCASTS_AUTHORS, 1)
-
-        sut(mediaId)
-        verify(gateway).observeDetailArtistSort()
-    }
-
-    @Test
     fun testGenre() {
         val mediaId = Category(GENRES, 1)
 
         sut(mediaId)
         verify(gateway).observeDetailGenreSort()
     }
+
+    // region special cases
+
+    @Test
+    fun testPodcastPlaylists() {
+        val mediaId = Category(PODCASTS_PLAYLIST, 1)
+
+        sut(mediaId)
+        verifyZeroInteractions(gateway)
+    }
+
+    @Test
+    fun testPodcastArtists() {
+        val mediaId = Category(PODCASTS_AUTHORS, 1)
+
+        sut(mediaId)
+        verifyZeroInteractions(gateway)
+    }
+
+    // endregion
 
     @Test
     fun testNotAllowed() {

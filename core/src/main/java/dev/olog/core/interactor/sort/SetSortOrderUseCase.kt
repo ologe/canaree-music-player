@@ -22,6 +22,8 @@ class SetSortOrderUseCase @Inject constructor(
             MediaIdCategory.ALBUMS -> gateway.setDetailAlbumSort(param.sortType)
             MediaIdCategory.ARTISTS -> gateway.setDetailArtistSort(param.sortType)
             MediaIdCategory.GENRES -> gateway.setDetailGenreSort(param.sortType)
+
+            // here just to avoid crash or an ugly refactor
             MediaIdCategory.PODCASTS_PLAYLIST,
             MediaIdCategory.PODCASTS_AUTHORS -> {}
             else -> throw IllegalArgumentException("invalid param $param")

@@ -56,7 +56,7 @@ sealed class MediaId(
         val SONGS_CATEGORY: Category = Category(SONGS, -1)
 
         @JvmStatic
-        val PODCAST_CATEGORY: Category = Category(SONGS, -2)
+        val PODCAST_CATEGORY: Category = Category(PODCASTS, -2)
 
         @JvmStatic
         fun fromString(mediaId: String): MediaId {

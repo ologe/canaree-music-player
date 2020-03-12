@@ -75,8 +75,8 @@ class DeleteRecentSearchUseCaseTest {
     @Test
     fun testDeleteFolder() = runBlockingTest {
         // given
-        val id = "path".hashCode().toLong()
-        val mediaId = Category(FOLDERS, 3213)
+        val id = 123L
+        val mediaId = Category(FOLDERS, id)
 
         // when
         sut(mediaId)

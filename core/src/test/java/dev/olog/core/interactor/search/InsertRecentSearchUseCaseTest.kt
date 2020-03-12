@@ -75,8 +75,8 @@ class InsertRecentSearchUseCaseTest {
     @Test
     fun testInsertFolder() = runBlockingTest {
         // given
-        val id = "path".hashCode().toLong()
-        val mediaId = Category(FOLDERS, 321)
+        val id = 123L
+        val mediaId = Category(FOLDERS, id)
 
         // when
         sut(mediaId)

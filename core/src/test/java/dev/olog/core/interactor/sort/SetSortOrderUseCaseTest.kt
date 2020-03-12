@@ -36,16 +36,6 @@ class SetSortOrderUseCaseTest {
     }
 
     @Test
-    fun testPodcastPlaylists() {
-        val mediaId = Category(PODCASTS_PLAYLIST, 1)
-
-        val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
-
-        sut(request)
-        verify(gateway).setDetailPlaylistSort(request.sortType)
-    }
-
-    @Test
     fun testAlbums() {
         val mediaId = Category(ALBUMS, 1)
 
@@ -65,15 +55,7 @@ class SetSortOrderUseCaseTest {
         verify(gateway).setDetailArtistSort(request.sortType)
     }
 
-    @Test
-    fun testPodcastArtists() {
-        val mediaId = Category(PODCASTS_AUTHORS, 1)
 
-        val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
-
-        sut(request)
-        verify(gateway).setDetailArtistSort(request.sortType)
-    }
 
     @Test
     fun testGenre() {
@@ -84,6 +66,30 @@ class SetSortOrderUseCaseTest {
         sut(request)
         verify(gateway).setDetailGenreSort(request.sortType)
     }
+
+    // region special cases
+
+    @Test
+    fun testPodcastPlaylists() {
+        val mediaId = Category(PODCASTS_PLAYLIST, 1)
+
+        val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
+
+        sut(request)
+        verifyZeroInteractions(gateway)
+    }
+
+    @Test
+    fun testPodcastArtists() {
+        val mediaId = Category(PODCASTS_AUTHORS, 1)
+
+        val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
+
+        sut(request)
+        verifyZeroInteractions(gateway)
+    }
+
+    // endregion
 
     @Test
     fun testNotAllowed() {
