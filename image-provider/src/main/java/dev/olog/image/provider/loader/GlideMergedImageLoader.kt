@@ -7,14 +7,19 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.image.provider.fetcher.GlideMergedImageFetcher
+import dev.olog.shared.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
+
+private val allowedCategories = listOf(
+    FOLDERS, PLAYLISTS, GENRES, PODCASTS_PLAYLIST
+)
 
 class GlideMergedImageLoader(
     private val context: Context,
@@ -29,7 +34,7 @@ class GlideMergedImageLoader(
         if (mediaId.isLeaf) {
             return false
         }
-        return mediaId.isFolder || mediaId.isPlaylist || mediaId.isGenre || mediaId.isPodcastPlaylist
+        return mediaId.category in allowedCategories
     }
 
     override fun buildLoadData(

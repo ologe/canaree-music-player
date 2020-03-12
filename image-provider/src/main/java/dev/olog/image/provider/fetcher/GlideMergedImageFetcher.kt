@@ -5,6 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
@@ -12,6 +13,7 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.image.provider.creator.MergedImagesCreator
 import dev.olog.image.provider.executor.GlideScope
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -29,10 +31,11 @@ class GlideMergedImageFetcher(
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         launch {
             try {
-                val inputStream = when {
-                    mediaId.isFolder -> makeFolderImage(mediaId.categoryId)
-                    mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
-                    else -> makePlaylistImage(mediaId.categoryId)
+                val inputStream = when (mediaId.category) {
+                    MediaIdCategory.FOLDERS -> makeFolderImage(mediaId.categoryId)
+                    MediaIdCategory.GENRES -> makeGenreImage(mediaId.categoryId)
+                    MediaIdCategory.PLAYLISTS -> makePlaylistImage(mediaId.categoryId)
+                    else -> throwNotHandled("$mediaId")
                 }
                 callback.onDataReady(inputStream)
             } catch (ex: Exception){
