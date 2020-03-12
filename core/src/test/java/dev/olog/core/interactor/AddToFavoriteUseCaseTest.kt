@@ -18,7 +18,7 @@ class AddToFavoriteUseCaseTest {
     fun testInvokeSingle() = runBlocking {
         // given
         val song = Mocks.song
-        val mediaId = song.getMediaId()
+        val mediaId = song.mediaId
         val type = FavoriteTrackType.TRACK
         val input = AddToFavoriteUseCase.Input(mediaId, type)
 
@@ -35,7 +35,7 @@ class AddToFavoriteUseCaseTest {
     fun testInvokeGroup() = runBlocking {
         // given
         val album = Mocks.album
-        val mediaId = album.getMediaId()
+        val mediaId = album.mediaId
         val type = FavoriteTrackType.TRACK
         val input = AddToFavoriteUseCase.Input(mediaId, type)
         whenever(songListUseCase.invoke(mediaId))

@@ -10,8 +10,7 @@ data class Folder(
     val size: Int
 ) {
 
-    fun getMediaId(): Category {
-        return Category(FOLDERS, id)
-    }
+    val mediaId: Category
+        get() = Category(FOLDERS, id)
 
 }

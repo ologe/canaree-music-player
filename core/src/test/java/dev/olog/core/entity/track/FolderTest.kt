@@ -14,7 +14,7 @@ class FolderTest {
         val folder = Mocks.folder.copy(path = path)
         assertEquals(
             Category(FOLDERS, folder.id),
-            folder.getMediaId()
+            folder.mediaId
         )
     }
 

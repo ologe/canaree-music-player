@@ -14,7 +14,7 @@ class GenreTest {
         val genre = Mocks.genre.copy(id = id)
         assertEquals(
             Category(GENRES, id),
-            genre.getMediaId()
+            genre.mediaId
         )
     }
 

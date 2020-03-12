@@ -11,9 +11,10 @@ data class Playlist(
     val isPodcast: Boolean
 ) {
 
-    fun getMediaId(): Category {
-        val category = if (isPodcast) PODCASTS_PLAYLIST else PLAYLISTS
-        return Category(category, id)
-    }
+    val mediaId: Category
+        get() {
+            val category = if (isPodcast) PODCASTS_PLAYLIST else PLAYLISTS
+            return Category(category, id)
+        }
 
 }

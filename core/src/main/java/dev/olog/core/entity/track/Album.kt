@@ -14,12 +14,10 @@ data class Album(
     val hasSameNameAsFolder: Boolean
 ) {
 
-    fun getMediaId(): Category {
-        return Category(ALBUMS, this.id)
-    }
+    val mediaId: Category
+        get() =  Category(ALBUMS, this.id)
 
-    fun getArtistMediaId(): Category {
-        return Category(ARTISTS, this.artistId)
-    }
+    val artistMediaId: Category
+        get() = Category(ARTISTS, this.artistId)
 
 }

@@ -9,8 +9,7 @@ data class Genre(
     val size: Int
 ) {
 
-    fun getMediaId(): Category {
-        return Category(GENRES, id)
-    }
+    val mediaId: Category
+        get() = Category(GENRES, id)
 
 }

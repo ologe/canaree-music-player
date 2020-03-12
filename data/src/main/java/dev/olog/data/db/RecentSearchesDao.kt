@@ -244,7 +244,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            song.getMediaId(), recentSearch.dataType, song.title
+            song.mediaId, recentSearch.dataType, song.title
         )
     }
 
@@ -253,7 +253,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            album.getMediaId(), recentSearch.dataType, album.title
+            album.mediaId, recentSearch.dataType, album.title
         )
     }
 
@@ -262,7 +262,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            artist.getMediaId(), recentSearch.dataType, artist.name
+            artist.mediaId, recentSearch.dataType, artist.name
         )
     }
 
@@ -274,7 +274,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            playlist.getMediaId(), recentSearch.dataType, playlist.title
+            playlist.mediaId, recentSearch.dataType, playlist.title
         )
     }
 
@@ -283,7 +283,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            genre.getMediaId(), recentSearch.dataType, genre.name
+            genre.mediaId, recentSearch.dataType, genre.name
         )
     }
 
@@ -292,7 +292,7 @@ internal abstract class RecentSearchesDao {
             return null
         }
         return SearchResult(
-            folder.getMediaId(), recentSearch.dataType, folder.title
+            folder.mediaId, recentSearch.dataType, folder.title
         )
     }
 

@@ -6,6 +6,6 @@ import dev.olog.core.entity.track.Song
 internal fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
     return PlayingQueueSong(
         song = this.copy(idInPlaylist = progressive),
-        mediaId = getMediaId()
+        mediaId = mediaId
     )
 }

@@ -44,22 +44,25 @@ data class Song(
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
 
-    fun getMediaId(): Track {
-        val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
-        return category.playableItem(id)
-    }
+    val mediaId: Track
+        get() {
+            val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
+            return category.playableItem(id)
+        }
 
     val parentMediaId: Category
-        get() = getMediaId().parentId
+        get() = mediaId.parentId
 
-    fun getAlbumMediaId(): Category {
-        val category = ALBUMS
-        return Category(category, albumId)
-    }
+    val albumMediaId: Category
+        get() {
+            val category = ALBUMS
+            return Category(category, albumId)
+        }
 
-    fun getArtistMediaId(): Category {
-        val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
-        return Category(category, albumId)
-    }
+    val artistMediaId: Category
+        get() {
+            val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
+            return Category(category, albumId)
+        }
 
 }

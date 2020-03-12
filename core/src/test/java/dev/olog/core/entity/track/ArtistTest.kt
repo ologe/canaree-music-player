@@ -15,7 +15,7 @@ class ArtistTest {
         val artist = Mocks.artist.copy(id = id)
         assertEquals(
             Category(ARTISTS, id),
-            artist.getMediaId()
+            artist.mediaId
         )
     }
 
@@ -25,7 +25,7 @@ class ArtistTest {
         val artist = Mocks.podcastArtist.copy(id = id)
         assertEquals(
             Category(PODCASTS_AUTHORS, id),
-            artist.getMediaId()
+            artist.mediaId
         )
     }
 

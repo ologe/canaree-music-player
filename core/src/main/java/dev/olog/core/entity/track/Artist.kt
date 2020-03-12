@@ -12,8 +12,9 @@ data class Artist(
     val isPodcast: Boolean
 ) {
 
-    fun getMediaId(): Category {
-        val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
-        return Category(category, this.id)
-    }
+    val mediaId: Category
+        get() {
+            val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
+            return Category(category, this.id)
+        }
 }

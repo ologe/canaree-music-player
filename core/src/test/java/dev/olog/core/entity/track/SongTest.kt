@@ -16,7 +16,7 @@ class SongTest {
         val song = Mocks.song.copy(id = id)
         assertEquals(
             SONGS_CATEGORY.playableItem(id),
-            song.getMediaId()
+            song.mediaId
         )
     }
 
@@ -26,7 +26,7 @@ class SongTest {
         val album = Mocks.podcast.copy(id = id)
         assertEquals(
             PODCAST_CATEGORY.playableItem(id),
-            album.getMediaId()
+            album.mediaId
         )
     }
 
@@ -36,7 +36,7 @@ class SongTest {
         val album = Mocks.song.copy(artistId = id)
         assertEquals(
             Category(ARTISTS, id),
-            album.getArtistMediaId()
+            album.artistMediaId
         )
     }
 
@@ -46,7 +46,7 @@ class SongTest {
         val album = Mocks.podcast.copy(artistId = id)
         assertEquals(
             Category(PODCASTS_AUTHORS, id),
-            album.getArtistMediaId()
+            album.artistMediaId
         )
     }
 
@@ -56,7 +56,7 @@ class SongTest {
         val album = Mocks.song.copy(albumId = id)
         assertEquals(
             Category(ALBUMS, id),
-            album.getAlbumMediaId()
+            album.albumMediaId
         )
     }
 

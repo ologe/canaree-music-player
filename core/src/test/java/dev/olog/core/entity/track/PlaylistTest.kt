@@ -15,7 +15,7 @@ class PlaylistTest {
         val playlist = Mocks.playlist.copy(id = id)
         assertEquals(
             Category(PLAYLISTS, id),
-            playlist.getMediaId()
+            playlist.mediaId
         )
     }
 
@@ -25,7 +25,7 @@ class PlaylistTest {
         val playlist = Mocks.podcastPlaylist.copy(id = id)
         assertEquals(
             Category(PODCASTS_PLAYLIST, id),
-            playlist.getMediaId()
+            playlist.mediaId
         )
     }
 

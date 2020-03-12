@@ -15,7 +15,7 @@ class AlbumTest {
         val album = Mocks.album.copy(id = id)
         assertEquals(
             Category(ALBUMS, id),
-            album.getMediaId()
+            album.mediaId
         )
     }
 
@@ -25,7 +25,7 @@ class AlbumTest {
         val album = Mocks.album.copy(artistId = id)
         assertEquals(
             Category(ARTISTS, id),
-            album.getArtistMediaId()
+            album.artistMediaId
         )
     }
 

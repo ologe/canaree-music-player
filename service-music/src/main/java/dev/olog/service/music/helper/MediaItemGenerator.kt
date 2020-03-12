@@ -43,7 +43,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Folder.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.title)
             .build()
         return MediaBrowserCompat.MediaItem(
@@ -54,7 +54,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Playlist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.title)
             .build()
         return MediaBrowserCompat.MediaItem(
@@ -65,7 +65,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Song.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)
@@ -85,7 +85,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Album.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.title)
             .build()
         return MediaBrowserCompat.MediaItem(
@@ -96,7 +96,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Artist.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.name)
             .build()
         return MediaBrowserCompat.MediaItem(
@@ -107,7 +107,7 @@ internal class MediaItemGenerator @Inject constructor(
 
     private fun Genre.toMediaItem(): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(getMediaId().toString())
+            .setMediaId(mediaId.toString())
             .setTitle(this.name)
             .build()
         return MediaBrowserCompat.MediaItem(
