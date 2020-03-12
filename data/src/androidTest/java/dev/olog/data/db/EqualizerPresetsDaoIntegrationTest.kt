@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import dev.olog.data.model.db.EqualizerBandEntity
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
@@ -46,7 +46,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testGetPresets() = coroutinesRule.runBlocking {
+    fun testGetPresets() = coroutinesRule.runBlockingTest {
         // given
         sut.insertPresets(mockData)
 
@@ -59,7 +59,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testGetPresetsById() = coroutinesRule.runBlocking {
+    fun testGetPresetsById() = coroutinesRule.runBlockingTest {
         // given
         val id = 10L
         val inserted = mockData.copy(id = id)
@@ -73,7 +73,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testGetPresetsByIdReturnNull() = coroutinesRule.runBlocking {
+    fun testGetPresetsByIdReturnNull() = coroutinesRule.runBlockingTest {
         // given
         val id = 10L
         sut.insertPresets(mockData.copy(id = 1L))
@@ -86,7 +86,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testObservePresets() = coroutinesRule.runBlocking {
+    fun testObservePresets() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.insertPresets(mockData)
@@ -99,7 +99,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testDeletePresets() = coroutinesRule.runBlocking {
+    fun testDeletePresets() = coroutinesRule.runBlockingTest {
         // given
         sut.insertPresets(mockData)
 
@@ -111,7 +111,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testInsertPresets() = coroutinesRule.runBlocking {
+    fun testInsertPresets() = coroutinesRule.runBlockingTest {
         // given
         assertTrue("should be empty", sut.getPresets().isEmpty())
 
@@ -126,7 +126,7 @@ class EqualizerPresetsDaoIntegrationTest {
     }
 
     @Test
-    fun testReplacePresets() = coroutinesRule.runBlocking {
+    fun testReplacePresets() = coroutinesRule.runBlockingTest {
         // given
         assertTrue("should be empty", sut.getPresets().isEmpty())
         sut.insertPresets(mockData.copy(isCustom = false))

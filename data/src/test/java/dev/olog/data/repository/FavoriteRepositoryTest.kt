@@ -9,7 +9,7 @@ import dev.olog.data.Mocks
 import dev.olog.data.db.FavoriteDao
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert
@@ -33,7 +33,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should update state`() = coroutinesRule.runBlocking {
+    fun `should update state`() = coroutinesRule.runBlockingTest {
         // given
         val state = dev.olog.core.entity.favorite.FavoriteEntity(1, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
         sut.getState()
@@ -111,7 +111,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should observe tracks`() = coroutinesRule.runBlocking {
+    fun `should observe tracks`() = coroutinesRule.runBlockingTest {
         // given n tracks
         val tracks = listOf(
             Mocks.song.copy(id = 1),
@@ -141,7 +141,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should observe podcasts`() = coroutinesRule.runBlocking {
+    fun `should observe podcasts`() = coroutinesRule.runBlockingTest {
         // given n tracks
         val tracks = listOf(
             Mocks.podcast.copy(id = 1),
@@ -173,7 +173,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add single track`() = coroutinesRule.runBlocking {
+    fun `should add single track`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
 
@@ -186,7 +186,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add single track and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should add single track and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
@@ -210,7 +210,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add single podcast`() = coroutinesRule.runBlocking {
+    fun `should add single podcast`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
 
@@ -227,7 +227,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add single podcast and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should add single podcast and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
@@ -255,7 +255,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add group track`() = coroutinesRule.runBlocking {
+    fun `should add group track`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -273,7 +273,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add group track and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should add group track and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(1L)
@@ -302,7 +302,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add group podcast`() = coroutinesRule.runBlocking {
+    fun `should add group podcast`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -320,7 +320,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should add group podcast and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should add group podcast and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -349,7 +349,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete single track`() = coroutinesRule.runBlocking {
+    fun `should delete single track`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
 
@@ -366,7 +366,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete single track and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete single track and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK))
@@ -388,7 +388,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete single podcast`() = coroutinesRule.runBlocking {
+    fun `should delete single podcast`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
 
@@ -405,7 +405,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete single podcast and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete single podcast and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
@@ -434,7 +434,7 @@ internal class FavoriteRepositoryTest {
 
 
     @Test
-    fun `should delete group track`() = coroutinesRule.runBlocking {
+    fun `should delete group track`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -452,7 +452,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete group track and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete group track and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(1L)
@@ -475,7 +475,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete group podcast`() = coroutinesRule.runBlocking {
+    fun `should delete group podcast`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -493,7 +493,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete group podcast and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete group podcast and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val list = listOf(id)
@@ -518,7 +518,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete all tracks`() = coroutinesRule.runBlocking {
+    fun `should delete all tracks`() = coroutinesRule.runBlockingTest {
         // when
         sut.deleteAll(FavoriteTrackType.TRACK)
 
@@ -527,7 +527,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete all tracks and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete all tracks and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(dev.olog.core.entity.favorite.FavoriteEntity(id, FavoriteState.FAVORITE, FavoriteTrackType.TRACK))
@@ -544,7 +544,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete all podcasts`() = coroutinesRule.runBlocking {
+    fun `should delete all podcasts`() = coroutinesRule.runBlockingTest {
         // when
         sut.deleteAll(FavoriteTrackType.PODCAST)
 
@@ -553,7 +553,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `should delete all podcasts and update favorite state`() = coroutinesRule.runBlocking {
+    fun `should delete all podcasts and update favorite state`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
@@ -572,7 +572,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `test favorite track`() = coroutinesRule.runBlocking {
+    fun `test favorite track`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         whenever(dao.isFavorite(id)).thenReturn(true)
@@ -585,7 +585,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `test favorite podcast`() = coroutinesRule.runBlocking {
+    fun `test favorite podcast`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         whenever(dao.isFavoritePodcast(id)).thenReturn(true)
@@ -598,7 +598,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `test toggle but not old state found`() = coroutinesRule.runBlocking {
+    fun `test toggle but not old state found`() = coroutinesRule.runBlockingTest {
         sut.toggleFavorite()
         verifyZeroInteractions(dao)
         verifyZeroInteractions(songGateway)
@@ -606,7 +606,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `test toggle from not favorite to favorite`() = coroutinesRule.runBlocking {
+    fun `test toggle from not favorite to favorite`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(
@@ -625,7 +625,7 @@ internal class FavoriteRepositoryTest {
     }
 
     @Test
-    fun `test toggle from favorite to not favorite`() = coroutinesRule.runBlocking {
+    fun `test toggle from favorite to not favorite`() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         sut.updateFavoriteState(

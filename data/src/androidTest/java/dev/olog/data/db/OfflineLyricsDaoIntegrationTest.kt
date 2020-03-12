@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import dev.olog.data.model.db.OfflineLyricsEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
@@ -40,7 +40,7 @@ class OfflineLyricsDaoIntegrationTest {
     }
 
     @Test
-    fun testSaveAndObserve() = coroutinesRule.runBlocking {
+    fun testSaveAndObserve() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val lyrics = OfflineLyricsEntity(id, "lyrics")

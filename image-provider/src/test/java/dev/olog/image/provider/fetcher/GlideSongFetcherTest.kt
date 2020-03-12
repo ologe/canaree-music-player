@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +27,7 @@ class GlideSongFetcherTest {
     private val sut = GlideSongFetcher(context, mediaId, gateway, mock())
 
     @Test
-    fun testExecute() = coroutineRule.runBlocking {
+    fun testExecute() = coroutineRule.runBlockingTest {
         // given
         val expectedImage = "image"
         val lastFmTrack = LastFmTrack(
@@ -54,7 +54,7 @@ class GlideSongFetcherTest {
     }
 
     @Test
-    fun testMustFetchTrue() = coroutineRule.runBlocking {
+    fun testMustFetchTrue() = coroutineRule.runBlockingTest {
         // given
         whenever(gateway.mustFetchTrack(songId)).thenReturn(true)
 
@@ -70,7 +70,7 @@ class GlideSongFetcherTest {
     }
 
     @Test
-    fun testMustFetchFalse() = coroutineRule.runBlocking {
+    fun testMustFetchFalse() = coroutineRule.runBlockingTest {
         // given
         whenever(gateway.mustFetchTrack(songId)).thenReturn(false)
 

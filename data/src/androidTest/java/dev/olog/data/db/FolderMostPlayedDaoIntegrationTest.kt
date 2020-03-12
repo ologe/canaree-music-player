@@ -10,7 +10,7 @@ import dev.olog.data.MocksIntegration
 import dev.olog.data.model.db.FolderMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
@@ -45,7 +45,7 @@ class FolderMostPlayedDaoIntegrationTest {
     }
 
     @Test
-    fun testInsertAndQuery() = coroutinesRule.runBlocking {
+    fun testInsertAndQuery() = coroutinesRule.runBlockingTest {
         // given
         val songId = 10L
         val query = "/storage/emulated/0/folder"
@@ -69,7 +69,7 @@ class FolderMostPlayedDaoIntegrationTest {
     }
 
     @Test
-    fun testGetAll() = coroutinesRule.runBlocking {
+    fun testGetAll() = coroutinesRule.runBlockingTest {
         // given
         val songGateway = mock<TrackGateway>()
         whenever(songGateway.getAllTracks()).thenReturn(

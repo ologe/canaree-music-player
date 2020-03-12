@@ -64,6 +64,6 @@ class MainCoroutineRule(
     }
 }
 
-fun MainCoroutineRule.runBlocking(block: suspend (TestCoroutineDispatcher) -> Unit) = this.testDispatcher.runBlockingTest {
+fun MainCoroutineRule.runBlockingTest(block: suspend (TestCoroutineDispatcher) -> Unit) = this.testDispatcher.runBlockingTest {
     block(testDispatcher)
 }

@@ -9,7 +9,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.LastFmArtist
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -26,7 +26,7 @@ class GlideArtistFetcherTest {
     private val sut = GlideArtistFetcher(context, mediaId, gateway, mock())
 
     @Test
-    fun testExecute() = coroutineRule.runBlocking {
+    fun testExecute() = coroutineRule.runBlockingTest {
         // given
         val expectedImage = "image"
         val lastFmArtist = LastFmArtist(
@@ -49,7 +49,7 @@ class GlideArtistFetcherTest {
     }
 
     @Test
-    fun testExecuteLastFmPlaceholder() = coroutineRule.runBlocking {
+    fun testExecuteLastFmPlaceholder() = coroutineRule.runBlockingTest {
         // given
         val artistImage = GlideArtistFetcher.LAST_FM_PLACEHOLDER
         val lastFmArtist = LastFmArtist(
@@ -72,7 +72,7 @@ class GlideArtistFetcherTest {
     }
 
     @Test
-    fun testExecuteDeezerPlaceholder() = coroutineRule.runBlocking {
+    fun testExecuteDeezerPlaceholder() = coroutineRule.runBlockingTest {
         // given
         val artistImage = GlideArtistFetcher.DEEZER_PLACEHOLDER
         val lastFmArtist = LastFmArtist(
@@ -95,7 +95,7 @@ class GlideArtistFetcherTest {
     }
 
     @Test
-    fun testMustFetchTrue() = coroutineRule.runBlocking {
+    fun testMustFetchTrue() = coroutineRule.runBlockingTest {
         // given
         whenever(gateway.mustFetchArtist(artistId)).thenReturn(true)
 
@@ -111,7 +111,7 @@ class GlideArtistFetcherTest {
     }
 
     @Test
-    fun testMustFetchFalse() = coroutineRule.runBlocking {
+    fun testMustFetchFalse() = coroutineRule.runBlockingTest {
         // given
         whenever(gateway.mustFetchArtist(artistId)).thenReturn(false)
 

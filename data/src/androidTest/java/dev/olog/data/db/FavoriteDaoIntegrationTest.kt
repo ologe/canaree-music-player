@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
@@ -33,7 +33,7 @@ internal class FavoriteDaoIntegrationTest {
     val coroutinesRule = MainCoroutineRule()
 
     @Before
-    fun setUp() = coroutinesRule.runBlocking {
+    fun setUp() = coroutinesRule.runBlockingTest {
         val context = ApplicationProvider.getApplicationContext<Application>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
@@ -75,7 +75,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testObserveAll() = coroutinesRule.runBlocking {
+    fun testObserveAll() = coroutinesRule.runBlockingTest {
         // when
         val actual = dao.observeAllTracksImpl()
             .take(1)
@@ -89,7 +89,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testObserveAllPodcasts() = coroutinesRule.runBlocking {
+    fun testObserveAllPodcasts() = coroutinesRule.runBlockingTest {
         // when
         val actual = dao.observeAllPodcastsImpl()
             .take(1)
@@ -121,7 +121,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsert() = coroutinesRule.runBlocking {
+    fun shouldInsert() = coroutinesRule.runBlockingTest {
         // given
         val item = mockFavorite1.copy(songId = 10)
 
@@ -136,7 +136,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldNotInsertSameItem() = coroutinesRule.runBlocking {
+    fun shouldNotInsertSameItem() = coroutinesRule.runBlockingTest {
         // given
         val item = mockFavorite1
 
@@ -151,7 +151,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsertPodcast() = coroutinesRule.runBlocking {
+    fun shouldInsertPodcast() = coroutinesRule.runBlockingTest {
         // given
         val item = mockPodcastFavorite1.copy(podcastId = 10)
 
@@ -166,7 +166,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldNotInsertSamePodcastItem() = coroutinesRule.runBlocking {
+    fun shouldNotInsertSamePodcastItem() = coroutinesRule.runBlockingTest {
         // given
         val item = mockPodcastFavorite1
 
@@ -181,7 +181,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsertGroup() = coroutinesRule.runBlocking {
+    fun shouldInsertGroup() = coroutinesRule.runBlockingTest {
         // given
         val list = listOf(
             mockFavorite1.copy(songId = 10),
@@ -199,7 +199,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsertOnlyOne() = coroutinesRule.runBlocking {
+    fun shouldInsertOnlyOne() = coroutinesRule.runBlockingTest {
         // given
         val list = listOf(
             mockFavorite1,
@@ -217,7 +217,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsertPodcastGroup() = coroutinesRule.runBlocking {
+    fun shouldInsertPodcastGroup() = coroutinesRule.runBlockingTest {
         // given
         val list = listOf(
             mockPodcastFavorite1.copy(podcastId = 10),
@@ -235,7 +235,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldInsertPodcastOnlyOne() = coroutinesRule.runBlocking {
+    fun shouldInsertPodcastOnlyOne() = coroutinesRule.runBlockingTest {
         // given
         val list = listOf(
             mockPodcastFavorite1,
@@ -253,7 +253,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldDeleteOnlyOne() = coroutinesRule.runBlocking {
+    fun shouldDeleteOnlyOne() = coroutinesRule.runBlockingTest {
         // when
         val deleted = dao.deleteGroupImpl(listOf(mockFavorite1))
 
@@ -265,7 +265,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun shouldDeleteOnlyOnePodcast() = coroutinesRule.runBlocking {
+    fun shouldDeleteOnlyOnePodcast() = coroutinesRule.runBlockingTest {
         // when
         val deleted = dao.deleteGroupPodcastImpl(listOf(mockPodcastFavorite1))
 
@@ -277,7 +277,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testGetTrack() = coroutinesRule.runBlocking {
+    fun testGetTrack() = coroutinesRule.runBlockingTest {
         // given
         val id = mockFavorite1.songId
 
@@ -289,7 +289,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testGetPodcast() = coroutinesRule.runBlocking {
+    fun testGetPodcast() = coroutinesRule.runBlockingTest {
         // given
         val id = mockPodcastFavorite1.podcastId
 
@@ -301,7 +301,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testIsFavorite() = coroutinesRule.runBlocking {
+    fun testIsFavorite() = coroutinesRule.runBlockingTest {
         // given
         val id = mockFavorite1.songId
 
@@ -313,7 +313,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testIsNotFavorite() = coroutinesRule.runBlocking {
+    fun testIsNotFavorite() = coroutinesRule.runBlockingTest {
         // given
         val id = -1L
 
@@ -325,7 +325,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testPodcastIsFavorite() = coroutinesRule.runBlocking {
+    fun testPodcastIsFavorite() = coroutinesRule.runBlockingTest {
         // given
         val id = mockPodcastFavorite1.podcastId
 
@@ -337,7 +337,7 @@ internal class FavoriteDaoIntegrationTest {
     }
 
     @Test
-    fun testPodcastIsNotFavorite() = coroutinesRule.runBlocking {
+    fun testPodcastIsNotFavorite() = coroutinesRule.runBlockingTest {
         // given
         val id = -1L
 

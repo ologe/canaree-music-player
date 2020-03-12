@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import dev.olog.data.model.db.PodcastPositionEntity
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -39,7 +39,7 @@ class PodcastPositionDaoIntegrationTest {
     }
 
     @Test
-    fun testGetAndSet() = coroutinesRule.runBlocking {
+    fun testGetAndSet() = coroutinesRule.runBlockingTest {
         // given
         val id = 1L
         val positionEntity = PodcastPositionEntity(id, 15000)

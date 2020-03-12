@@ -11,7 +11,7 @@ import dev.olog.data.db.EqualizerPresetsDao
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
@@ -49,14 +49,14 @@ internal class EqualizerRepositoryTest {
     private lateinit var sut: EqualizerGateway
 
     @Before
-    fun setup() = coroutineRule.runBlocking {
+    fun setup() = coroutineRule.runBlockingTest {
         whenever(dao.getPresets()).thenReturn(presetsEntities)
 
         sut = EqualizerRepository(dao, prefs, coroutineRule.testDispatcher.asSchedulers())
     }
 
     @Test
-    fun verifySetup() = coroutineRule.runBlocking {
+    fun verifySetup() = coroutineRule.runBlockingTest {
         whenever(dao.getPresets()).thenReturn(emptyList())
         sut = EqualizerRepository(dao, prefs, coroutineRule.testDispatcher.asSchedulers())
 
@@ -96,7 +96,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test
-    fun testAddPresetSuccess() = coroutineRule.runBlocking {
+    fun testAddPresetSuccess() = coroutineRule.runBlockingTest {
         // given
         val preset = EqualizerPreset(-1, "new name", emptyList(), true)
 
@@ -114,7 +114,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testAddPresetShouldFailIllegalId() = coroutineRule.runBlocking {
+    fun testAddPresetShouldFailIllegalId() = coroutineRule.runBlockingTest {
         // given
         val preset = EqualizerPreset(1, "", emptyList(), true)
 
@@ -123,7 +123,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun testAddPresetShouldFailNotCustom() = coroutineRule.runBlocking {
+    fun testAddPresetShouldFailNotCustom() = coroutineRule.runBlockingTest {
         // given
         val preset = EqualizerPreset(-1, "", emptyList(), false)
 
@@ -132,7 +132,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test
-    fun testUpdatePreset() = coroutineRule.runBlocking {
+    fun testUpdatePreset() = coroutineRule.runBlockingTest {
         // given
         val item = domainPresets[0]
 
@@ -144,7 +144,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test
-    fun testDeletePreset() = coroutineRule.runBlocking {
+    fun testDeletePreset() = coroutineRule.runBlockingTest {
         // given
         val item = domainPresets[0]
 
@@ -156,7 +156,7 @@ internal class EqualizerRepositoryTest {
     }
 
     @Test
-    fun testObserveCurrentPreset() = coroutineRule.runBlocking {
+    fun testObserveCurrentPreset() = coroutineRule.runBlockingTest {
         // given
         val id = 1L
         whenever(prefs.observeCurrentPresetId()).thenReturn(flowOf(id))

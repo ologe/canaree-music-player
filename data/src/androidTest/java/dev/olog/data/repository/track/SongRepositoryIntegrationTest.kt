@@ -19,7 +19,7 @@ import dev.olog.data.test.InMemoryContentProvider
 import dev.olog.data.test.InMemoryContentProvider.Companion.AUDIO
 import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.runBlocking
+import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.*
@@ -47,7 +47,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllIsNotPodcast() = coroutineRule.runBlocking {
+    fun testGetAllIsNotPodcast() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -63,7 +63,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testNoneBlacklisted() = coroutineRule.runBlocking {
+    fun testNoneBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -81,7 +81,7 @@ internal class SongRepositoryIntegrationTest {
     // region blacklist
 
     @Test
-    fun testOneFolderBlacklisted() = coroutineRule.runBlocking {
+    fun testOneFolderBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(
             setOf("/storage/emulated/0/rap")
@@ -134,7 +134,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testMultipleFolderBlacklisted() = coroutineRule.runBlocking {
+    fun testMultipleFolderBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(
             setOf(
@@ -192,7 +192,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testAllFolderBlacklisted() = coroutineRule.runBlocking {
+    fun testAllFolderBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(
             setOf(
@@ -246,7 +246,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testTooManyFolderBlacklistedShouldTakeOnly999() = coroutineRule.runBlocking {
+    fun testTooManyFolderBlacklistedShouldTakeOnly999() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(
             setOf("/storage/emulated/0/rap") + (0 until 10000).map { "$it" }.toSet()
@@ -301,7 +301,7 @@ internal class SongRepositoryIntegrationTest {
     // region sort
 
     @Test
-    fun testGetAllSortByTitleAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByTitleAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -330,7 +330,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByTitleDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByTitleDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -359,7 +359,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByArtistAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByArtistAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -388,7 +388,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByArtistDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByArtistDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -417,7 +417,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByAlbumAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByAlbumAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -446,7 +446,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByAlbumDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByAlbumDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -475,7 +475,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByAlbumArtistAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByAlbumArtistAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -504,7 +504,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByAlbumArtistDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByAlbumArtistDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -533,7 +533,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByDurationAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByDurationAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -562,7 +562,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByDurationDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByDurationDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -591,7 +591,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByRecentlyAddedAsc() = coroutineRule.runBlocking {
+    fun testGetAllSortByRecentlyAddedAsc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -620,7 +620,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetAllSortByRecentlyAddedDesc() = coroutineRule.runBlocking {
+    fun testGetAllSortByRecentlyAddedDesc() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -650,7 +650,7 @@ internal class SongRepositoryIntegrationTest {
 
     @Test(expected = RuntimeException::class)
     @Ignore(value = "not catching exception")
-    fun testGetAllSortByTrackNumber() = coroutineRule.runBlocking {
+    fun testGetAllSortByTrackNumber() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -668,7 +668,7 @@ internal class SongRepositoryIntegrationTest {
     @Test(expected = RuntimeException::class)
     @Ignore(value = "not catching exception")
     fun testGetAllSortByCustom() {
-        coroutineRule.runBlocking {
+        coroutineRule.runBlockingTest {
             // given
             whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
             whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -687,7 +687,7 @@ internal class SongRepositoryIntegrationTest {
     // endregion
 
     @Test
-    fun testGetByParam() = coroutineRule.runBlocking {
+    fun testGetByParam() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -716,7 +716,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetByParamFail() = coroutineRule.runBlocking {
+    fun testGetByParamFail() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -742,7 +742,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetByParamBlacklisted() = coroutineRule.runBlocking {
+    fun testGetByParamBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf("/storage/0"))
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -768,7 +768,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testObserveByParamBlacklisted() = coroutineRule.runBlocking {
+    fun testObserveByParamBlacklisted() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -797,7 +797,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testDeleteSingle() = coroutineRule.runBlocking {
+    fun testDeleteSingle() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -826,7 +826,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testDeleteSingleFail() = coroutineRule.runBlocking {
+    fun testDeleteSingleFail() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -855,7 +855,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testDeleteGroup() = coroutineRule.runBlocking {
+    fun testDeleteGroup() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -884,7 +884,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetByAlbumId() = coroutineRule.runBlocking {
+    fun testGetByAlbumId() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
@@ -913,7 +913,7 @@ internal class SongRepositoryIntegrationTest {
     }
 
     @Test
-    fun testGetByAlbumIdFail() = coroutineRule.runBlocking {
+    fun testGetByAlbumIdFail() = coroutineRule.runBlockingTest {
         // given
         whenever(blacklistPrefs.getBlackList()).thenReturn(setOf())
         whenever(sortPrefs.getAllTracksSort()).thenReturn(
