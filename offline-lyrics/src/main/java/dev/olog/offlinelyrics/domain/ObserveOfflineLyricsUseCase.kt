@@ -2,7 +2,7 @@ package dev.olog.offlinelyrics.domain
 
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -14,7 +14,7 @@ import java.io.File
 import javax.inject.Inject
 
 class ObserveOfflineLyricsUseCase @Inject constructor(
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val gateway: OfflineLyricsGateway,
     private val schedulers: Schedulers
 
@@ -27,7 +27,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
     }
 
     private fun mapLyrics(id: Long, lyrics: String): String {
-        val song = songGateway.getByParam(id) ?: return lyrics
+        val song = trackGateway.getByParam(id) ?: return lyrics
         try {
             return getLyricsFromMetadata(song)
         } catch (ex: Exception) {

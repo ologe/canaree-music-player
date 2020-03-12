@@ -2,7 +2,6 @@ package dev.olog.presentation.tab
 
 import android.content.Context
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.schedulers.Schedulers
@@ -24,13 +23,12 @@ internal class TabDataProvider @Inject constructor(
     // songs
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway,
     private val presentationPrefs: PresentationPreferencesGateway,
     private val schedulers: Schedulers
@@ -42,7 +40,7 @@ internal class TabDataProvider @Inject constructor(
         // songs
         TabCategory.FOLDERS -> getFolders()
         TabCategory.PLAYLISTS -> getPlaylist()
-        TabCategory.SONGS -> songGateway.observeAll().map {
+        TabCategory.SONGS -> trackGateway.observeAllTracks().map {
             it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
         }
         TabCategory.ALBUMS -> getAlbums()
@@ -62,7 +60,7 @@ internal class TabDataProvider @Inject constructor(
         }
         // podcasts
         TabCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist()
-        TabCategory.PODCASTS -> podcastGateway.observeAll().map {
+        TabCategory.PODCASTS -> trackGateway.observeAllPodcasts().map {
             it.map { it.toTabDisplayableItem() }
         }
         TabCategory.PODCASTS_AUTHORS -> getPodcastArtists()

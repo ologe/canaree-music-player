@@ -302,9 +302,8 @@ internal class MediaSessionCallback @Inject constructor(
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
-                    val position = queue.playLater(mediaIds.toList(), isPodcast)
+                    val position = queue.playLater(mediaIds.toList())
                     playerState.toggleSkipToActions(position)
                 }
             }
@@ -313,9 +312,8 @@ internal class MediaSessionCallback @Inject constructor(
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
-                    val isPodcast = extras.getBoolean(MusicServiceCustomAction.ARGUMENT_IS_PODCAST)
 
-                    val position = queue.playNext(mediaIds.toList(), isPodcast)
+                    val position = queue.playNext(mediaIds.toList())
                     playerState.toggleSkipToActions(position)
                 }
             }

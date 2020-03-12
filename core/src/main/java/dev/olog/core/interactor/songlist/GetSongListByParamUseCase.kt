@@ -4,7 +4,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import javax.inject.Inject
@@ -13,12 +12,11 @@ import javax.inject.Inject
 class GetSongListByParamUseCase @Inject constructor(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway
 
 ) {
@@ -27,11 +25,11 @@ class GetSongListByParamUseCase @Inject constructor(
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.SONGS -> songGateway.getAll()
+            MediaIdCategory.SONGS -> trackGateway.getAllTracks()
             MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.ARTISTS -> artistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.GENRES -> genreGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS -> podcastGateway.getAll()
+            MediaIdCategory.PODCASTS -> trackGateway.getAllPodcasts()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId)
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId)
         }

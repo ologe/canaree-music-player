@@ -61,7 +61,7 @@ internal class TrackQueries(
                 $IS_PODCAST,
                 $DISPLAY_NAME
             FROM $tableUri
-            WHERE $_ID = ? AND ${defaultSelection(blacklist)}
+            WHERE $_ID = ? AND $blacklist
         """
 
         return contentResolver.querySql(query, arrayOf("$id") + params)
@@ -84,7 +84,7 @@ internal class TrackQueries(
                 $IS_PODCAST,
                 $DISPLAY_NAME
             FROM $tableUri
-            WHERE $ALBUM_ID = ? AND ${defaultSelection(blacklist)}
+            WHERE $ALBUM_ID = ? AND $blacklist
         """
 
         return contentResolver.querySql(query, arrayOf("$albumId") + params)

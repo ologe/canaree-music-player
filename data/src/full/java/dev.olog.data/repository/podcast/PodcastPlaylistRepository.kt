@@ -9,8 +9,8 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
@@ -32,7 +32,7 @@ import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val podcastGateway: PodcastGateway,
+    private val trackGateway: TrackGateway,
     private val favoriteGateway: FavoriteGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway,
     private val historyDao: HistoryDao,
@@ -93,7 +93,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
-        return podcastPlaylistDao.getPlaylistTracks(param, podcastGateway)
+        return podcastPlaylistDao.getPlaylistTracks(param, trackGateway)
     }
 
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
@@ -101,23 +101,25 @@ internal class PodcastPlaylistRepository @Inject constructor(
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
         }
-        return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
+        return podcastPlaylistDao.observePlaylistTracks(param, trackGateway)
     }
 
     private fun getAutoPlaylistsTracks(param: Id): List<Song> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> podcastGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.LAST_ADDED.id -> trackGateway.getAllPodcasts()
+                .sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getPodcasts()
-            AutoPlaylist.HISTORY.id -> historyDao.getPodcasts(podcastGateway)
+            AutoPlaylist.HISTORY.id -> historyDao.getPodcasts(trackGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
 
     private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> podcastGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
+            AutoPlaylist.LAST_ADDED.id -> trackGateway.observeAllPodcasts()
+                .map { it.sortedByDescending { it.dateAdded } }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observePodcasts()
-            AutoPlaylist.HISTORY.id -> historyDao.observePodcasts(podcastGateway)
+            AutoPlaylist.HISTORY.id -> historyDao.observePodcasts(trackGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }

@@ -38,8 +38,8 @@ internal interface IQueue {
 
     fun onRepeatModeChanged()
 
-    suspend fun playLater(songIds: List<Long>, isPodcast: Boolean): PositionInQueue
-    suspend fun playNext(songIds: List<Long>, isPodcast: Boolean): PositionInQueue
+    suspend fun playLater(songIds: List<Long>): PositionInQueue
+    suspend fun playNext(songIds: List<Long>): PositionInQueue
 //    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
 
     fun updatePodcastPosition(position: Long)

@@ -10,7 +10,7 @@ import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
@@ -35,7 +35,7 @@ internal class FolderRepository @Inject constructor(
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
 ) : BaseRepository<Folder, Id>(context, schedulers), FolderGateway {
@@ -110,7 +110,7 @@ internal class FolderRepository @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         return observeByParam(mediaId.categoryId).take(1).map { it!! }
-            .flatMapLatest { mostPlayedDao.getAll(it.path, songGateway) }
+            .flatMapLatest { mostPlayedDao.getAll(it.path, trackGateway) }
             .distinctUntilChanged()
             .assertBackground()
     }

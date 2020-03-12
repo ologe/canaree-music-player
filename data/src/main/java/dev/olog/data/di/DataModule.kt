@@ -30,7 +30,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideSongRepository(repository: SongRepository): SongGateway
+    internal abstract fun provideSongRepository(repository: TrackRepository): TrackGateway
 
     @Binds
     @Singleton

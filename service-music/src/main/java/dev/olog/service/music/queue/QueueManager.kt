@@ -7,7 +7,7 @@ import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
@@ -35,7 +35,7 @@ internal class QueueManager @Inject constructor(
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val getMostPlayedSongsUseCase: ObserveMostPlayedSongsUseCase,
     private val getRecentlyAddedUseCase: ObserveRecentlyAddedUseCase,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val genreGateway: GenreGateway,
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase,
@@ -182,7 +182,7 @@ internal class QueueManager @Inject constructor(
         assertBackgroundThread()
 
         val pureUri = PureUri(uri.scheme!!, uri.scheme!!, uri.fragment)
-        val song = songGateway.getByUri(pureUri) ?: return null
+        val song = trackGateway.getByUri(pureUri) ?: return null
         val mediaEntity = song.toMediaEntity(0, song.getMediaId())
         val songList = listOf(mediaEntity)
 
@@ -369,11 +369,10 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun playLater(
-        songIds: List<Long>,
-        isPodcast: Boolean
+        songIds: List<Long>
     ): PositionInQueue {
         val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.playLater(songIds, isPodcast)
+        queueImpl.playLater(songIds)
         return when (currentPositionInQueue) {
             PositionInQueue.FIRST_AND_LAST -> PositionInQueue.FIRST
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
@@ -382,11 +381,10 @@ internal class QueueManager @Inject constructor(
     }
 
     override suspend fun playNext(
-        songIds: List<Long>,
-        isPodcast: Boolean
+        songIds: List<Long>
     ): PositionInQueue {
         val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.playNext(songIds, isPodcast)
+        queueImpl.playNext(songIds)
         return when (currentPositionInQueue) {
             PositionInQueue.FIRST_AND_LAST -> PositionInQueue.FIRST
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE

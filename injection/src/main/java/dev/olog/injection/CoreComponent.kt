@@ -71,7 +71,7 @@ interface CoreComponent {
     fun folderGateway(): FolderGateway
     fun folderNavigatorGateway(): FolderNavigatorGateway
     fun playlistGateway(): PlaylistGateway
-    fun songGateway(): SongGateway
+    fun songGateway(): TrackGateway
     fun albumGateway(): AlbumGateway
     fun artistGateway(): ArtistGateway
     fun genreGateway(): GenreGateway

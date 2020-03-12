@@ -3,7 +3,6 @@ package dev.olog.data.repository
 import dev.olog.core.entity.SearchResult
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.db.RecentSearchesDao
@@ -12,14 +11,13 @@ import javax.inject.Inject
 
 internal class RecentSearchesRepository @Inject constructor(
     private val dao: RecentSearchesDao,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
     private val folderGateway: FolderGateway,
 
-    private val podcastGateway: PodcastGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway
 
@@ -27,13 +25,12 @@ internal class RecentSearchesRepository @Inject constructor(
 
     override fun getAll(): Flow<List<SearchResult>> {
         return dao.getAll(
-            songGateway,
+            trackGateway,
             albumGateway,
             artistGateway,
             playlistGateway,
             genreGateway,
             folderGateway,
-            podcastGateway,
             podcastPlaylistGateway,
             podcastAuthorGateway
         )

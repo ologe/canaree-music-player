@@ -5,8 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.model.db.HistoryEntity
 import dev.olog.data.model.db.PodcastHistoryEntity
 import dev.olog.data.utils.assertBackground
@@ -67,38 +66,38 @@ internal abstract class HistoryDao {
     """)
     abstract suspend fun deleteSinglePodcast(podcastId: Long)
 
-    fun getTracks(songGateway: SongGateway): List<Song> {
+    fun getTracks(trackGateway: TrackGateway): List<Song> {
         assertBackgroundThread()
         val historyList = getAllTracksImpl()
-        val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+        val songList : Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
         return historyList.mapNotNull { entity ->
             songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
         }
     }
 
-    fun getPodcasts(podcastGateway: PodcastGateway): List<Song> {
+    fun getPodcasts(trackGateway: TrackGateway): List<Song> {
         assertBackgroundThread()
         val historyList = getAllPodcastsImpl()
-        val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        val songList : Map<Long, List<Song>> = trackGateway.getAllPodcasts().groupBy { it.id }
         return historyList.mapNotNull { entity ->
             songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
         }
     }
 
-    fun observeTracks(songGateway: SongGateway): Flow<List<Song>> {
+    fun observeTracks(trackGateway: TrackGateway): Flow<List<Song>> {
         return observeAllTracksImpl()
             .map { historyList ->
-                val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                val songList : Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
                 historyList.mapNotNull { entity ->
                     songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }
             }.assertBackground()
     }
 
-    fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
+    fun observePodcasts(trackGateway: TrackGateway): Flow<List<Song>> {
         return observeAllPodcastsImpl()
             .map { historyList ->
-                val songList : Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                val songList : Map<Long, List<Song>> = trackGateway.getAllPodcasts().groupBy { it.id }
                 historyList.mapNotNull { entity ->
                     songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }

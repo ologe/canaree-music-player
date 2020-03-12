@@ -1,22 +1,20 @@
 package dev.olog.service.music.helper
 
-import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.*
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 
+// TODO podcast?
 internal class MediaItemGenerator @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
@@ -29,7 +27,7 @@ internal class MediaItemGenerator @Inject constructor(
         return when (category) {
             MediaIdCategory.FOLDERS -> folderGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.PLAYLISTS -> playlistGateway.getAll().map { it.toMediaItem() }
-            MediaIdCategory.SONGS -> songGateway.getAll().map { it.toMediaItem() }
+            MediaIdCategory.SONGS -> trackGateway.getAllTracks().map { it.toMediaItem() }
             MediaIdCategory.ALBUMS -> albumGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.ARTISTS -> artistGateway.getAll().map { it.toMediaItem() }
             MediaIdCategory.GENRES -> genreGateway.getAll().map { it.toMediaItem() }

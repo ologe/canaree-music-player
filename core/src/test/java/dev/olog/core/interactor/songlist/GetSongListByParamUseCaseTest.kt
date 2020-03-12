@@ -16,7 +16,7 @@ class GetSongListByParamUseCaseTest {
     
     private val folderGateway = mock<FolderGateway>()
     private val playlistGateway = mock<PlaylistGateway>()
-    private val songGateway = mock<SongGateway>()
+    private val songGateway = mock<TrackGateway>()
     private val albumGateway = mock<AlbumGateway>()
     private val artistGateway = mock<ArtistGateway>()
     private val genreGateway = mock<GenreGateway>()

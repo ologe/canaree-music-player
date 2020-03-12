@@ -6,8 +6,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.image.provider.executor.GlideScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -20,8 +19,7 @@ import java.util.concurrent.CancellationException
 class GlideOriginalImageFetcher(
     private val context: Context,
     private val mediaId: MediaId,
-    private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val trackGateway: TrackGateway
 
 ) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
 
@@ -37,9 +35,8 @@ class GlideOriginalImageFetcher(
             }
 
             val song: Song? = when {
-                mediaId.isAlbum -> songGateway.getByAlbumId(id) // TODO not sure why
-                mediaId.isLeaf && !mediaId.isPodcast -> songGateway.getByParam(id)
-                mediaId.isLeaf && mediaId.isPodcast -> podcastGateway.getByParam(id)
+                mediaId.isAlbum -> trackGateway.getByAlbumId(id)
+                mediaId.isLeaf -> trackGateway.getByParam(id)
                 else -> {
                     callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
                     return@launch

@@ -270,8 +270,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.sendCustomAction(
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,
             bundleOf(
-                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.leaf!!),
-                MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.leaf!!)
             )
 
         )

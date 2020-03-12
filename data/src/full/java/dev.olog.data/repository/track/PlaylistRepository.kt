@@ -18,7 +18,7 @@ import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
@@ -40,7 +40,7 @@ import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val artistGateway: ArtistGateway,
     private val helper: PlaylistRepositoryHelper,
     private val favoriteGateway: FavoriteGateway,
@@ -99,7 +99,7 @@ internal class PlaylistRepository @Inject constructor(
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
         }
-        return playlistDao.getPlaylistTracks(param, songGateway)
+        return playlistDao.getPlaylistTracks(param, trackGateway)
             .sortedWith(trackListComparator(sortPreferences.getDetailPlaylistSort()))
     }
 
@@ -108,24 +108,24 @@ internal class PlaylistRepository @Inject constructor(
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
         }
-        return playlistDao.observePlaylistTracks(param, songGateway)
+        return playlistDao.observePlaylistTracks(param, trackGateway)
             .map { it.sortedWith(trackListComparator(sortPreferences.getDetailPlaylistSort())) }
     }
 
     private fun getAutoPlaylistsTracks(param: Id): List<Song> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.getAll().sortedByDescending { it.dateAdded }
+            AutoPlaylist.LAST_ADDED.id -> trackGateway.getAllTracks().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
-            AutoPlaylist.HISTORY.id -> historyDao.getTracks(songGateway)
+            AutoPlaylist.HISTORY.id -> historyDao.getTracks(trackGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
 
     private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
         return when (param){
-            AutoPlaylist.LAST_ADDED.id -> songGateway.observeAll().map { it.sortedByDescending { it.dateAdded } }
+            AutoPlaylist.LAST_ADDED.id -> trackGateway.observeAllTracks().map { it.sortedByDescending { it.dateAdded } }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
-            AutoPlaylist.HISTORY.id -> historyDao.observeTracks(songGateway)
+            AutoPlaylist.HISTORY.id -> historyDao.observeTracks(trackGateway)
             else -> throw IllegalStateException("invalid auto playlist id")
         }
     }
@@ -172,7 +172,7 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
-        return mostPlayedDao.getAll(folderPath, songGateway)
+        return mostPlayedDao.getAll(folderPath, trackGateway)
             .distinctUntilChanged()
             .assertBackground()
     }

@@ -2,8 +2,7 @@ package dev.olog.presentation.edit
 
 import android.content.Context
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
@@ -24,8 +23,7 @@ import javax.inject.Inject
 
 class EditItemDialogFactory @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val getSongUseCase: SongGateway,
-    private val getPodcastUseCase: PodcastGateway,
+    private val trackGateway: TrackGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val schedulers: Schedulers
 
@@ -36,13 +34,8 @@ class EditItemDialogFactory @Inject constructor(
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            if (mediaId.isAnyPodcast) {
-                val song = getPodcastUseCase.getByParam(mediaId.id)!!
-                checkItem(song)
-            } else {
-                val song = getSongUseCase.getByParam(mediaId.id)!!
-                checkItem(song)
-            }
+            val track = trackGateway.getByParam(mediaId.id)!!
+            checkItem(track)
             withContext(schedulers.main) {
                 action()
             }

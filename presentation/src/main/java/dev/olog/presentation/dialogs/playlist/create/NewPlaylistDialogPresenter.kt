@@ -2,8 +2,7 @@ package dev.olog.presentation.dialogs.playlist.create
 
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.core.schedulers.Schedulers
@@ -16,8 +15,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val playingQueueGateway: PlayingQueueGateway,
-    private val podcastGateway: PodcastGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val schedulers: Schedulers
 
 ) {
@@ -29,13 +27,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
         val playlistType = if (mediaId.isAnyPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
 
         val trackToInsert = when (mediaId) {
-            is PresentationId.Track -> {
-                if (mediaId.isAnyPodcast) {
-                    listOf(podcastGateway.getByParam(mediaId.id)!!.id)
-                } else {
-                    listOf(songGateway.getByParam(mediaId.id)!!.id)
-                }
-            }
+            is PresentationId.Track -> listOf(trackGateway.getByParam(mediaId.id)!!.id)
             is PresentationId.Category -> getSongListByParamUseCase(mediaId.toDomain()).map { it.id }
         }
         insertCustomTrackListToPlaylist(InsertCustomTrackListToPlaylist.Input(playlistTitle, trackToInsert, playlistType))

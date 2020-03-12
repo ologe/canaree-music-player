@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.MocksIntegration
 import dev.olog.data.model.db.FolderMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
@@ -71,8 +71,8 @@ class FolderMostPlayedDaoIntegrationTest {
     @Test
     fun testGetAll() = coroutinesRule.runBlocking {
         // given
-        val songGateway = mock<SongGateway>()
-        whenever(songGateway.getAll()).thenReturn(
+        val songGateway = mock<TrackGateway>()
+        whenever(songGateway.getAllTracks()).thenReturn(
             listOf(
                 MocksIntegration.song.copy(id = 1),
                 MocksIntegration.song.copy(id = 2),

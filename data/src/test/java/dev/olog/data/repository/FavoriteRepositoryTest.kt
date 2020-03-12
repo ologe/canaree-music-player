@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.*
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.Mocks
 import dev.olog.data.db.FavoriteDao
 import dev.olog.data.model.db.FavoritePodcastEntity
@@ -23,7 +23,7 @@ internal class FavoriteRepositoryTest {
     val coroutinesRule = MainCoroutineRule()
 
     private val dao = mock<FavoriteDao>()
-    private val songGateway = mock<SongGateway>()
+    private val songGateway = mock<TrackGateway>()
     private val podcastGateway = mock<PodcastGateway>()
     private val sut = FavoriteRepository(dao, songGateway, podcastGateway)
 

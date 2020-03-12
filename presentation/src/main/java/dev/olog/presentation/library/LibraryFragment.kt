@@ -139,9 +139,8 @@ class LibraryFragment : BaseFragment() {
 
             override fun onPageSelected(position: Int) {
                 presenter.setViewPagerLastPage(position, isPodcast)
-                pagerAdapter.getCategoryAtPosition(position)?.let {
-                    trackerFacade.trackScreen(it.toString(), null)
-                }
+                val category = pagerAdapter.getCategoryAtPosition(position)
+                trackerFacade.trackScreen(category.toString(), null)
 
             }
         }

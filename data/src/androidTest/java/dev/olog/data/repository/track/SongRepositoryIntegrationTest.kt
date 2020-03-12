@@ -11,7 +11,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.data.queries.TrackQueries
@@ -38,7 +38,7 @@ internal class SongRepositoryIntegrationTest {
     val coroutineRule = MainCoroutineRule()
 
     lateinit var queries: TrackQueries
-    lateinit var sut: SongGateway
+    lateinit var sut: TrackGateway
 
     @After
     fun teardown() {
@@ -967,7 +967,7 @@ internal class SongRepositoryIntegrationTest {
             tracks.map { it.toContentValues() }.toTypedArray()
         )
 
-        sut = SongRepository(context, coroutineRule.testDispatcher.asSchedulers(), queries)
+        sut = TrackRepository(context, coroutineRule.testDispatcher.asSchedulers(), queries)
     }
 
     private fun getDefaultTracks(): List<Song> {

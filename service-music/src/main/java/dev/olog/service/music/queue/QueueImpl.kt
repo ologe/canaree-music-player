@@ -4,10 +4,8 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
@@ -22,7 +20,10 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.swap
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -36,8 +37,7 @@ internal class QueueImpl @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val queueMediaSession: MediaSessionQueue,
     private val enhancedShuffle: EnhancedShuffle,
-    private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway,
+    private val trackGateway: TrackGateway,
     private val schedulers: Schedulers
 ) : DefaultLifecycleObserver,
     CoroutineScope by CustomScope(schedulers.cpu) {
@@ -384,7 +384,7 @@ internal class QueueImpl @Inject constructor(
         return computePositionInQueue(playingQueue, currentSongPosition)
     }
 
-    suspend fun playLater(songIds: List<Long>, isPodcast: Boolean) {
+    suspend fun playLater(songIds: List<Long>) {
         assertBackgroundThread()
 
         if (isEmpty()){
@@ -395,26 +395,25 @@ internal class QueueImpl @Inject constructor(
 
         var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
 
-        val songList: List<MediaEntity> = songIds.mapNotNull { id ->
-            val track: Song? = if (isPodcast) {
-                podcastGateway.getByParam(id)
-            } else {
-                songGateway.getByParam(id)
-            }
-            track
-        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+        val songList: List<MediaEntity> = songIds
+            .mapNotNull { id -> trackGateway.getByParam(id) }
+            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
 
         val newQueue = queue + songList
 
-        updateState(newQueue, currentSongPosition, false, true)
-
+        updateState(
+            songList = newQueue,
+            index = currentSongPosition,
+            updateImmediate = false,
+            persist = true
+        )
 
         withContext(schedulers.main) {
             onRepeatModeChanged() // not really but updates mini queue
         }
     }
 
-    suspend fun playNext(songIds: List<Long>, isPodcast: Boolean) {
+    suspend fun playNext(songIds: List<Long>) {
         assertBackgroundThread()
 
         if (isEmpty()){
@@ -428,18 +427,18 @@ internal class QueueImpl @Inject constructor(
 
         var maxIdInPlaylist = queue.maxBy { it.idInPlaylist }?.idInPlaylist ?: 0
 
-        val songList: List<MediaEntity> = songIds.mapNotNull { id ->
-            val track: Song? = if (isPodcast) {
-                podcastGateway.getByParam(id)
-            } else {
-                songGateway.getByParam(id)
-            }
-            track
-        }.map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+        val songList: List<MediaEntity> = songIds
+            .mapNotNull { id -> trackGateway.getByParam(id) }
+            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
 
         val newQueue = before + songList + after
 
-        updateState(newQueue, currentSongPosition, false, true)
+        updateState(
+            songList = newQueue,
+            index = currentSongPosition,
+            updateImmediate = false,
+            persist = true
+        )
 
         withContext(schedulers.main) {
             onRepeatModeChanged() // not really but updates mini queue

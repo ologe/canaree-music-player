@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import kotlinx.coroutines.flow.Flow
@@ -29,10 +29,10 @@ internal abstract class GenreMostPlayedDao {
     @Insert
     abstract fun insert(vararg item: GenreMostPlayedEntity)
 
-    fun getAll(playlistId: Long, songGateway2: SongGateway): Flow<List<Song>> {
+    fun getAll(playlistId: Long, trackGateway: TrackGateway): Flow<List<Song>> {
         return this.query(playlistId)
             .map { mostPlayed ->
-                val songList = songGateway2.getAll()
+                val songList = trackGateway.getAllTracks()
                 mostPlayed.sortedByDescending { it.timesPlayed }
                     .mapNotNull { item -> songList.find { it.id == item.songId } }
             }

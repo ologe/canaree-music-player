@@ -11,7 +11,7 @@ import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls
@@ -34,7 +34,7 @@ internal class ImageRetrieverRepository @Inject constructor(
     private val localTrack: ImageRetrieverLocalTrack,
     private val localArtist: ImageRetrieverLocalArtist,
     private val localAlbum: ImageRetrieverLocalAlbum,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway
 
@@ -63,7 +63,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
         Timber.v("$TAG fetch id=$trackId")
 
-        val song = songGateway.getByParam(trackId) ?: return@coroutineScope null
+        val song = trackGateway.getByParam(trackId) ?: return@coroutineScope null
 
         val trackTitle = TextUtils.addSpacesToDash(song.title)
             // removes content between parenthesis

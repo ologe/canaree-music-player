@@ -3,10 +3,8 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
@@ -25,13 +23,12 @@ class SearchDataProvider @Inject constructor(
     private val searchHeaders: SearchFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway2: PlaylistGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val albumGateway: AlbumGateway,
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     // podcasts
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastGateway: PodcastGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway,
     // recent
     private val recentSearchesGateway: RecentSearchesGateway
@@ -115,7 +112,7 @@ class SearchDataProvider @Inject constructor(
     }
 
     private fun getSongs(query: String): Flow<List<DisplayableItem>> {
-        return songGateway.observeAll().map { list ->
+        return trackGateway.observeAllTracks().map { list ->
             list.asSequence()
                 .filter {
                     it.title.contains(query, true) ||
@@ -124,7 +121,7 @@ class SearchDataProvider @Inject constructor(
                 }.map { it.toSearchDisplayableItem() }
                 .toList()
         }.combine(
-            podcastGateway.observeAll().map { list ->
+            trackGateway.observeAllPodcasts().map { list ->
                 list.asSequence()
                     .filter {
                         it.title.contains(query, true) ||

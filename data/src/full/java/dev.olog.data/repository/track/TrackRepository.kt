@@ -8,53 +8,53 @@ import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
-import dev.olog.core.gateway.track.SongGateway
-import dev.olog.core.schedulers.Schedulers
-import dev.olog.data.di.qualifier.Tracks
-import dev.olog.data.mapper.toSong
-import dev.olog.data.queries.TrackQueries
-import dev.olog.data.repository.BaseRepository
-import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.*
+import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.data.repository.podcast.PodcastRepositoryInternal
+import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.getLong
+import dev.olog.data.utils.getString
 import dev.olog.shared.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-internal class SongRepository @Inject constructor(
+internal class TrackRepository @Inject constructor(
     @ApplicationContext context: Context,
-    schedulers: Schedulers,
-    @Tracks private val queries: TrackQueries
-) : BaseRepository<Song, Id>(context, schedulers), SongGateway {
+    private val songRepository: SongRepositoryInternal,
+    private val podcastRepository: PodcastRepositoryInternal
 
-    init {
-        firstQuery()
+) : TrackGateway {
+
+    private val contentResolver = context.contentResolver
+    private val queries = songRepository.queries
+
+    override fun getAllTracks(): List<Song> {
+        return songRepository.getAll()
     }
 
-    override fun registerMainContentUri(): ContentUri {
-        return ContentUri(queries.tableUri, true)
+    override fun getAllPodcasts(): List<Song> {
+        return podcastRepository.getAll()
     }
 
-    override fun queryAll(): List<Song> {
-//        DON'T ASSERT MAIN THREAD
-        val cursor = queries.getAll()
-        return contentResolver.queryAll(cursor) { it.toSong() }
+    override fun observeAllTracks(): Flow<List<Song>> {
+        return songRepository.observeAll()
+    }
+
+    override fun observeAllPodcasts(): Flow<List<Song>> {
+        return podcastRepository.observeAll()
     }
 
     override fun getByParam(param: Id): Song? {
-        assertBackgroundThread()
-        val cursor = queries.getByParam(param)
-        return contentResolver.queryOne(cursor) { it.toSong() }
+        return songRepository.getByParam(param)
     }
 
     override fun observeByParam(param: Id): Flow<Song?> {
-        val uri = ContentUris.withAppendedId(queries.tableUri, param)
-        val contentUri = ContentUri(uri, true)
-        return observeByParamInternal(contentUri) { getByParam(param) }
-            .distinctUntilChanged()
-            .assertBackground()
+        return songRepository.observeByParam(param)
+    }
+
+    override fun getByAlbumId(albumId: Id): Song? {
+        return songRepository.getByAlbumId(albumId)
     }
 
     override suspend fun deleteSingle(id: Id) {
@@ -116,16 +116,5 @@ internal class SongRepository @Inject constructor(
             it.getLong(Audio.Media._ID)
         }
         return id
-    }
-
-    override fun getByAlbumId(albumId: Id): Song? {
-        assertBackgroundThread()
-        val item = channel.valueOrNull?.find { it.albumId == albumId }
-        if (item != null){
-            return item
-        }
-
-        val cursor = queries.getByAlbumId(albumId)
-        return contentResolver.queryOne(cursor) { it.toSong() }
     }
 }

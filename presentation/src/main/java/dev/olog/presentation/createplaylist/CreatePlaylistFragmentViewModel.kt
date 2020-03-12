@@ -6,8 +6,7 @@ import androidx.core.util.isEmpty
 import androidx.lifecycle.ViewModel
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
@@ -23,8 +22,7 @@ import javax.inject.Inject
 
 class CreatePlaylistFragmentViewModel @Inject constructor(
     private val playlistType: PlaylistType,
-    private val getAllSongsUseCase: SongGateway,
-    private val getAllPodcastsUseCase: PodcastGateway,
+    private val trackGateway: TrackGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
     private val schedulers: Schedulers
 
@@ -69,8 +67,8 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
-        PlaylistType.PODCAST -> getAllPodcastsUseCase.observeAll()
-        PlaylistType.TRACK -> getAllSongsUseCase.observeAll()
+        PlaylistType.PODCAST -> trackGateway.observeAllPodcasts()
+        PlaylistType.TRACK -> trackGateway.observeAllTracks()
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
     }
 

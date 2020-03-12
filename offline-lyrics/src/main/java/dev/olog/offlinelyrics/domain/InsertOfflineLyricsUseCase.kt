@@ -3,7 +3,7 @@ package dev.olog.offlinelyrics.domain
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
@@ -14,13 +14,13 @@ import javax.inject.Inject
 
 class InsertOfflineLyricsUseCase @Inject constructor(
     private val gateway: OfflineLyricsGateway,
-    private val songGateway: SongGateway,
+    private val trackGateway: TrackGateway,
     private val schedulers: Schedulers
 
 )  {
 
     suspend operator fun invoke(offlineLyrics: OfflineLyrics) = withContext(schedulers.io){
-        val song = songGateway.getByParam(offlineLyrics.trackId)
+        val song = trackGateway.getByParam(offlineLyrics.trackId)
         if (song != null){
             saveLyricsOnMetadata(song, offlineLyrics.lyrics)
         }

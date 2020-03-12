@@ -8,8 +8,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.model.db.PlayingQueueEntity
 import dev.olog.data.utils.assertBackgroundThread
@@ -75,13 +74,10 @@ internal abstract class PlayingQueueDao {
         return makePlayingQueue(queueEntityList, songList, podcastList)
     }
 
-    fun observeAllAsSongs(
-        songGateway: SongGateway,
-        podcastGateway: PodcastGateway
-    ): Flow<List<PlayingQueueSong>> {
+    fun observeAllAsSongs(trackGateway: TrackGateway): Flow<List<PlayingQueueSong>> {
         return this.observeAllImpl()
             .map {
-                makePlayingQueue(it, songGateway.getAll(), podcastGateway.getAll())
+                makePlayingQueue(it, trackGateway.getAllTracks(), trackGateway.getAllPodcasts())
             }
     }
 

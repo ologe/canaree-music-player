@@ -25,7 +25,6 @@ class PlayLaterDialogPresenter @Inject constructor(
         }
 
         val bundle = bundleOf(
-            MusicServiceCustomAction.ARGUMENT_IS_PODCAST to mediaId.isAnyPodcast,
             MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to items.toLongArray()
         )
 

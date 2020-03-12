@@ -4,8 +4,7 @@ import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.db.FavoriteDao
 import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
@@ -19,8 +18,7 @@ import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
     private val favoriteDao: FavoriteDao,
-    private val songGateway: SongGateway,
-    private val podcastGateway: PodcastGateway
+    private val trackGateway: TrackGateway
 
 ) : FavoriteGateway {
 
@@ -39,21 +37,21 @@ internal class FavoriteRepository @Inject constructor(
     override fun getTracks(): List<Song> {
         assertBackgroundThread()
         val favorites = favoriteDao.getAllTracksImpl()
-        val songList: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+        val songList: Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
         return favorites.mapNotNull { id -> songList[id]?.get(0) }
     }
 
     override fun getPodcasts(): List<Song> {
         assertBackgroundThread()
         val favorites = favoriteDao.getAllPodcastsImpl()
-        val podcastList: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+        val podcastList: Map<Long, List<Song>> = trackGateway.getAllPodcasts().groupBy { it.id }
         return favorites.mapNotNull { id -> podcastList[id]?.get(0) }
     }
 
     override fun observeTracks(): Flow<List<Song>> {
         return favoriteDao.observeAllTracksImpl()
             .map { favorites ->
-                val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                val songs: Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
                 favorites.mapNotNull { id -> songs[id]?.get(0) }
                     .sortedBy { it.title }
             }.assertBackground()
@@ -62,7 +60,7 @@ internal class FavoriteRepository @Inject constructor(
     override fun observePodcasts(): Flow<List<Song>> {
         return favoriteDao.observeAllPodcastsImpl()
             .map { favorites ->
-                val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
+                val podcast: Map<Long, List<Song>> = trackGateway.getAllPodcasts().groupBy { it.id }
                 favorites.mapNotNull { id -> podcast[id]?.get(0) }
                     .sortedBy { it.title }
             }.assertBackground()

@@ -11,7 +11,7 @@ import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.GenreGateway
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 import dev.olog.core.schedulers.Schedulers
@@ -38,7 +38,7 @@ internal class GenreRepository @Inject constructor(
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway,
+    private val trackGateway: TrackGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
     schedulers: Schedulers
 ) : BaseRepository<Genre, Id>(context, schedulers), GenreGateway {
@@ -101,7 +101,7 @@ internal class GenreRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        return mostPlayedDao.getAll(mediaId.categoryId, songGateway2)
+        return mostPlayedDao.getAll(mediaId.categoryId, trackGateway)
             .distinctUntilChanged()
             .assertBackground()
     }

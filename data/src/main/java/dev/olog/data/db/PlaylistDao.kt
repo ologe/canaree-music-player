@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.SongGateway
+import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackground
@@ -59,10 +59,10 @@ internal abstract class PlaylistDao {
     """)
     abstract fun getPlaylistTracksImpl(playlistId: Long): List<PlaylistTrackEntity>
 
-    fun getPlaylistTracks(playlistId: Long, songGateway: SongGateway): List<Song> {
+    fun getPlaylistTracks(playlistId: Long, trackGateway: TrackGateway): List<Song> {
         assertBackgroundThread()
         val trackList = getPlaylistTracksImpl(playlistId)
-        val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+        val songList : Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
         return trackList.mapNotNull { entity ->
             songList[entity.trackId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
         }
@@ -77,10 +77,10 @@ internal abstract class PlaylistDao {
     """)
     abstract fun observePlaylistTracksImpl(playlistId: Long): Flow<List<PlaylistTrackEntity>>
 
-    fun observePlaylistTracks(playlistId: Long, songGateway: SongGateway): Flow<List<Song>> {
+    fun observePlaylistTracks(playlistId: Long, trackGateway: TrackGateway): Flow<List<Song>> {
         return observePlaylistTracksImpl(playlistId)
             .map { trackList ->
-                val songList : Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
+                val songList : Map<Long, List<Song>> = trackGateway.getAllTracks().groupBy { it.id }
                 trackList.mapNotNull { entity ->
                     songList[entity.trackId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
                 }
