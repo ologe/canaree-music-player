@@ -26,10 +26,7 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
 
@@ -112,8 +109,8 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        val folder = getByParam(mediaId.categoryId)!!
-        return mostPlayedDao.getAll(folder.path, songGateway)
+        return observeByParam(mediaId.categoryId).take(1).map { it!! }
+            .flatMapLatest { mostPlayedDao.getAll(it.path, songGateway) }
             .distinctUntilChanged()
             .assertBackground()
     }
@@ -139,19 +136,26 @@ internal class FolderRepository @Inject constructor(
 
     override fun observeRelatedArtists(param: Id): Flow<List<Artist>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        val folder = getByParam(param)!!
-        return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(folder.path)) }
+
+        return observeByParam(param).take(1).map { it!! }
+            .flatMapLatest {
+                observeByParamInternal(contentUri) {
+                    extractArtists(queries.getRelatedArtists(it.path))
+                }
+            }
             .distinctUntilChanged()
             .assertBackground()
     }
 
     override fun observeRecentlyAdded(param: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
-        val folder = getByParam(param)!!
-        return observeByParamInternal(contentUri) {
-            val cursor = queries.getRecentlyAdded(folder.path)
-            contentResolver.queryAll(cursor) { it.toSong() }
-        }
+        return observeByParam(param).take(1).map { it!! }
+            .flatMapLatest {
+                observeByParamInternal(contentUri) {
+                    val cursor = queries.getRecentlyAdded(it.path)
+                    contentResolver.queryAll(cursor) { it.toSong() }
+                }
+            }
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
