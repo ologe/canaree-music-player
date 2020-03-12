@@ -183,7 +183,20 @@ internal object AppDatabaseMigrations {
 
     val Migration_18_19 = object : Migration(18, 19) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("DROP TABLE last_played_podcast_albums")
+            database.execSQL("DROP TABLE IF EXISTS last_played_podcast_albums")
+            database.execSQL("DROP TABLE IF EXISTS playing_queue")
+
+            // recreated playing queue with categoryValue as integer
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS playing_queue_2 (
+                `progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                `category` TEXT NOT NULL, 
+                `categoryValue` INTEGER NOT NULL, 
+                `songId` INTEGER NOT NULL, 
+                `idInPlaylist` INTEGER NOT NULL
+                )
+            """)
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_playing_queue_progressive` ON playing_queue_2 (`progressive`)")
         }
     }
 

@@ -16,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 import java.io.InputStream
 
 class GlideMergedImageFetcher(
@@ -31,7 +30,7 @@ class GlideMergedImageFetcher(
         launch {
             try {
                 val inputStream = when {
-                    mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
+                    mediaId.isFolder -> makeFolderImage(mediaId.categoryId)
                     mediaId.isGenre -> makeGenreImage(mediaId.categoryId)
                     else -> makePlaylistImage(mediaId.categoryId)
                 }
@@ -44,19 +43,17 @@ class GlideMergedImageFetcher(
     }
 
 
-    private suspend fun makeFolderImage(folder: String): InputStream? {
+    private suspend fun makeFolderImage(folderId: Long): InputStream? {
 //        val folderImage = ImagesFolderUtils.forFolder(context, dirPath) --contains current image
-        val id = folder.hashCode().toLong()
-        val albumsId = folderGateway.getTrackListByParam(id).map { it.albumId }
+        val albumsId = folderGateway.getTrackListByParam(folderId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.FOLDER
-        val normalizedPath = folder.replace(File.separator, "")
 
         val file = MergedImagesCreator.makeImages(
             context = context,
             albumIdList = albumsId,
             parentFolder = folderName,
-            itemId = normalizedPath
+            itemId = "$folderId"
         )
         return file?.inputStream()
     }

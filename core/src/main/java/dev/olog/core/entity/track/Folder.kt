@@ -11,7 +11,7 @@ data class Folder(
 ) {
 
     fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, this.path)
+        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, id)
     }
 
 }

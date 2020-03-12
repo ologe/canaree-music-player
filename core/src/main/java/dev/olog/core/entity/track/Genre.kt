@@ -10,7 +10,7 @@ data class Genre(
 ) {
 
     fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString())
+        return MediaId.createCategoryValue(MediaIdCategory.GENRES, id)
     }
 
 }

@@ -22,7 +22,7 @@ class RemoveDuplicatesUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_PLAYLIST, id.toString()
+            MediaIdCategory.PODCASTS_PLAYLIST, id
         )
 
         // when
@@ -37,7 +37,7 @@ class RemoveDuplicatesUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PLAYLISTS, id.toString()
+            MediaIdCategory.PLAYLISTS, id
         )
 
         // when

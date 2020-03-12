@@ -44,18 +44,18 @@ data class Song(
 
     fun getMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.createCategoryValue(category, "")
+        val mediaId = MediaId.createCategoryValue(category, -1)
         return MediaId.playableItem(mediaId, id)
     }
 
     fun getAlbumMediaId(): MediaId {
         val category = MediaIdCategory.ALBUMS
-        return MediaId.createCategoryValue(category, this.albumId.toString())
+        return MediaId.createCategoryValue(category, this.albumId)
     }
 
     fun getArtistMediaId(): MediaId {
         val category = if (isPodcast) MediaIdCategory.PODCASTS_AUTHORS else MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.artistId.toString())
+        return MediaId.createCategoryValue(category, this.artistId)
     }
 
 }

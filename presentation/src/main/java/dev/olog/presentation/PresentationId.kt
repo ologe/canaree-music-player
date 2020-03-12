@@ -68,11 +68,11 @@ fun PresentationId.toDomain(): MediaId {
 }
 
 fun PresentationId.Category.toDomain(): MediaId {
-    return MediaId.createCategoryValue(this.category.toDomain(), this.categoryId.toString())
+    return MediaId.createCategoryValue(this.category.toDomain(), this.categoryId)
 }
 
 fun PresentationId.Track.toDomain(): MediaId {
-    val category = MediaId.createCategoryValue(this.category.toDomain(), this.categoryId.toString())
+    val category = MediaId.createCategoryValue(this.category.toDomain(), this.categoryId)
     return MediaId.playableItem(category, this.id)
 }
 

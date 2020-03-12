@@ -23,7 +23,7 @@ class RenameUseCaseTest {
         val id = 1L
         val newTitle = "new title"
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_PLAYLIST, id.toString()
+            MediaIdCategory.PODCASTS_PLAYLIST, id
         )
 
         // when
@@ -39,7 +39,7 @@ class RenameUseCaseTest {
         val id = 1L
         val newTitle = "new title"
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PLAYLISTS, id.toString()
+            MediaIdCategory.PLAYLISTS, id
         )
 
         // when

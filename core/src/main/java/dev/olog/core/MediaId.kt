@@ -1,10 +1,8 @@
 package dev.olog.core
 
-
-
 class MediaId private constructor(
     val category: MediaIdCategory,
-    val categoryValue: String,
+    val categoryValue: Long,
     val leaf: Long? = null
 ) {
 
@@ -24,13 +22,13 @@ class MediaId private constructor(
         private const val LEAF_SEPARATOR = '|'
 
         @JvmStatic
-        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
+        fun createCategoryValue(category: MediaIdCategory, categoryValue: Long): MediaId {
             return MediaId(category, categoryValue)
         }
 
         @JvmStatic
         fun songId(id: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "", id)
+            return MediaId(MediaIdCategory.SONGS, -1, id)
         }
 
         @JvmStatic
@@ -38,8 +36,8 @@ class MediaId private constructor(
             return MediaId(parentId.category, parentId.categoryValue, songId)
         }
 
-        @JvmStatic
-        val shuffleId: MediaId = MediaId(MediaIdCategory.SONGS, "shuffle")
+        @JvmStatic // TODO remove
+        val shuffleId: MediaId = MediaId(MediaIdCategory.SONGS, -100)
 
         @JvmStatic
         fun fromString(mediaId: String): MediaId {
@@ -61,7 +59,7 @@ class MediaId private constructor(
 
             return MediaId(
                 MediaIdCategory.valueOf(category),
-                categoryValue,
+                categoryValue.toLong(),
                 leaf
             )
         }

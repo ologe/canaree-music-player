@@ -38,7 +38,7 @@ internal class FolderRepository @Inject constructor(
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
-    private val songGateway2: SongGateway,
+    private val songGateway: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
 ) : BaseRepository<Folder, Id>(context, schedulers), FolderGateway {
@@ -112,19 +112,20 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        val folderPath = mediaId.categoryValue
-        return mostPlayedDao.getAll(folderPath, songGateway2)
+        val folder = getByParam(mediaId.categoryId)!!
+        return mostPlayedDao.getAll(folder.path, songGateway)
             .distinctUntilChanged()
             .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
         assertBackgroundThread()
+        val folder = getByParam(mediaId.categoryId)!!
         mostPlayedDao.insert(
             FolderMostPlayedEntity(
                 0,
                 mediaId.leaf!!,
-                mediaId.categoryValue
+                folder.path
             )
         )
     }

@@ -19,7 +19,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.playableItem(
-            MediaId.createCategoryValue(MediaIdCategory.SONGS, ""), id
+            MediaId.createCategoryValue(MediaIdCategory.SONGS, -1), id
         )
 
         // when
@@ -35,7 +35,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.ARTISTS, id.toString()
+            MediaIdCategory.ARTISTS, id
         )
 
         // when
@@ -51,7 +51,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.ALBUMS, id.toString()
+            MediaIdCategory.ALBUMS, id
         )
 
         // when
@@ -67,7 +67,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PLAYLISTS, id.toString()
+            MediaIdCategory.PLAYLISTS, id
         )
 
         // when
@@ -83,7 +83,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = "path".hashCode().toLong()
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.FOLDERS, "path"
+            MediaIdCategory.FOLDERS, 3213
         )
 
         // when
@@ -99,7 +99,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.GENRES, id.toString()
+            MediaIdCategory.GENRES, id
         )
 
         // when
@@ -115,7 +115,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.playableItem(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS, ""), id
+            MediaId.createCategoryValue(MediaIdCategory.PODCASTS, -1), id
         )
 
         // when
@@ -131,7 +131,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_PLAYLIST, id.toString()
+            MediaIdCategory.PODCASTS_PLAYLIST, id
         )
 
         // when
@@ -148,7 +148,7 @@ class DeleteRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_AUTHORS, id.toString()
+            MediaIdCategory.PODCASTS_AUTHORS, id
         )
 
         // when

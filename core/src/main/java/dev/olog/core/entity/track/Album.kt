@@ -15,12 +15,12 @@ data class Album(
 
     fun getMediaId(): MediaId {
         val category = MediaIdCategory.ALBUMS
-        return MediaId.createCategoryValue(category, this.id.toString())
+        return MediaId.createCategoryValue(category, this.id)
     }
 
     fun getArtistMediaId(): MediaId {
         val category = MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.artistId.toString())
+        return MediaId.createCategoryValue(category, this.artistId)
     }
 
 }

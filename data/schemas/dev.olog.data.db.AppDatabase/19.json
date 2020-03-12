@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "3f5e87444fcb2b68f655387e52c37733",
+    "identityHash": "386545e49a53a22437f9e558138e1999",
     "entities": [
       {
-        "tableName": "playing_queue",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `categoryValue` TEXT NOT NULL, `songId` INTEGER NOT NULL, `idInPlaylist` INTEGER NOT NULL)",
+        "tableName": "playing_queue_2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `categoryValue` INTEGER NOT NULL, `songId` INTEGER NOT NULL, `idInPlaylist` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "progressive",
@@ -23,7 +23,7 @@
           {
             "fieldPath": "categoryValue",
             "columnName": "categoryValue",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -47,12 +47,12 @@
         },
         "indices": [
           {
-            "name": "index_playing_queue_progressive",
+            "name": "index_playing_queue_2_progressive",
             "unique": false,
             "columnNames": [
               "progressive"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_playing_queue_progressive` ON `${TABLE_NAME}` (`progressive`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_playing_queue_2_progressive` ON `${TABLE_NAME}` (`progressive`)"
           }
         ],
         "foreignKeys": []
@@ -996,7 +996,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3f5e87444fcb2b68f655387e52c37733')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '386545e49a53a22437f9e558138e1999')"
     ]
   }
 }

@@ -13,7 +13,7 @@ class ArtistTest {
         val id = 1L
         val artist = Mocks.artist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString()),
+            MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id),
             artist.getMediaId()
         )
     }
@@ -23,7 +23,7 @@ class ArtistTest {
         val id = 1L
         val artist = Mocks.podcastArtist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString()),
+            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id),
             artist.getMediaId()
         )
     }

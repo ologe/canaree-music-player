@@ -21,7 +21,7 @@ internal abstract class PlayingQueueDao {
 
     @Query(
         """
-        SELECT * FROM playing_queue
+        SELECT * FROM playing_queue_2
         ORDER BY progressive
     """
     )
@@ -29,13 +29,13 @@ internal abstract class PlayingQueueDao {
 
     @Query(
         """
-        SELECT * FROM playing_queue
+        SELECT * FROM playing_queue_2
         ORDER BY progressive
     """
     )
     abstract fun observeAllImpl(): Flow<List<PlayingQueueEntity>>
 
-    @Query("DELETE FROM playing_queue")
+    @Query("DELETE FROM playing_queue_2")
     abstract fun deleteAllImpl()
 
     @Insert
@@ -101,8 +101,11 @@ internal abstract class PlayingQueueDao {
         insertAllImpl(result)
     }
 
-    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
-            : PlayingQueueSong {
+    private fun Song.toPlayingQueueSong(
+        idInPlaylist: Int,
+        category: String,
+        categoryValue: Long
+    ): PlayingQueueSong {
 
         val parentMediaId = MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue)
 
