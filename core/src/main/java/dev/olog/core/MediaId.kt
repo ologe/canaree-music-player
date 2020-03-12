@@ -24,6 +24,10 @@ sealed class MediaId(
             )
         }
 
+        override fun toString(): String {
+            return "$category$CATEGORY_SEPARATOR$categoryId"
+        }
+
     }
 
     data class Track(
@@ -34,6 +38,10 @@ sealed class MediaId(
 
         val parentId: Category
             get() = Category(category, categoryId)
+
+        override fun toString(): String {
+            return "$category$CATEGORY_SEPARATOR$categoryId$LEAF_SEPARATOR$id"
+        }
 
     }
 
@@ -67,13 +75,6 @@ sealed class MediaId(
                 mediaId.substring(categoryFinish + 1, categoryValueFinish).toLong(),
                 mediaId.substring(categoryValueFinish + 1).toLong()
             )
-        }
-    }
-
-    override fun toString(): String {
-        return when (this) {
-            is Category -> "$category$CATEGORY_SEPARATOR$categoryId"
-            is Track -> "$category$CATEGORY_SEPARATOR$categoryId$LEAF_SEPARATOR$id"
         }
     }
 
