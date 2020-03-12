@@ -9,11 +9,11 @@ import org.junit.Test
 
 class IsFavoriteSongUseCaseTest {
 
+    private val gateway = mock<FavoriteGateway>()
+    private val sut = IsFavoriteSongUseCase(gateway)
+
     @Test
     fun testInvoke() = runBlockingTest {
-        // given
-        val gateway = mock<FavoriteGateway>()
-        val sut = IsFavoriteSongUseCase(gateway)
         val id = 1L
         val type = FavoriteTrackType.TRACK
 

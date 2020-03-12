@@ -11,11 +11,11 @@ import org.junit.Test
 
 class UpdateFavoriteStateUseCaseTest {
 
+    private val gateway = mock<FavoriteGateway>()
+    private val sut = UpdateFavoriteStateUseCase(gateway)
+
     @Test
     fun testInvoke() = runBlockingTest {
-        // given
-        val gateway = mock<FavoriteGateway>()
-        val sut = UpdateFavoriteStateUseCase(gateway)
         val entity = FavoriteEntity(1L, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
 
         // when

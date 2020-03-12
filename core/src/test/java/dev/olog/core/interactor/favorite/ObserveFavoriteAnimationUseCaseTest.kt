@@ -3,17 +3,15 @@ package dev.olog.core.interactor.favorite
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.gateway.FavoriteGateway
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class ObserveFavoriteAnimationUseCaseTest {
 
-    @Test
-    fun testInvoke() = runBlockingTest {
-        // given
-        val gateway = mock<FavoriteGateway>()
-        val sut = ObserveFavoriteAnimationUseCase(gateway)
+    private val gateway = mock<FavoriteGateway>()
+    private val sut = ObserveFavoriteAnimationUseCase(gateway)
 
+    @Test
+    fun testInvoke() {
         // when
         sut()
 
