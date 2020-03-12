@@ -1,9 +1,11 @@
 package dev.olog.presentation
 
+import android.os.Parcelable
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.*
 import dev.olog.shared.throwNotHandled
+import kotlinx.android.parcel.Parcelize
 
 enum class PresentationIdCategory {
     FOLDERS,
@@ -21,13 +23,16 @@ enum class PresentationIdCategory {
 }
 
 sealed class PresentationId(
-    val category: PresentationIdCategory,
-    val categoryId: Long
+    open val category: PresentationIdCategory,
+    open val categoryId: Long
 ) {
 
-    val isAnyPodcast : Boolean = category == PresentationIdCategory.PODCASTS_PLAYLIST ||
-            category == PresentationIdCategory.PODCASTS ||
-            category == PresentationIdCategory.PODCASTS_AUTHORS
+    val isAnyPodcast : Boolean
+        get() {
+            return category == PresentationIdCategory.PODCASTS_PLAYLIST ||
+                    category == PresentationIdCategory.PODCASTS ||
+                    category == PresentationIdCategory.PODCASTS_AUTHORS
+        }
 
     companion object {
         @JvmStatic
@@ -37,10 +42,11 @@ sealed class PresentationId(
         }
     }
 
-    class Category(
-        category: PresentationIdCategory,
-        categoryValue: Long
-    ): PresentationId(category, categoryValue) {
+    @Parcelize
+    data class Category(
+        override val category: PresentationIdCategory,
+        override val categoryId: Long
+    ): PresentationId(category, categoryId), Parcelable {
 
         fun playableItem(id: Long): Track {
             return Track(
@@ -52,11 +58,12 @@ sealed class PresentationId(
 
     }
 
-    class Track(
-        category: PresentationIdCategory,
-        categoryValue: Long,
+    @Parcelize
+    data class Track(
+        override val category: PresentationIdCategory,
+        override val categoryId: Long,
         val id: Long
-    ): PresentationId(category, categoryValue)
+    ): PresentationId(category, categoryId), Parcelable
 
 }
 
