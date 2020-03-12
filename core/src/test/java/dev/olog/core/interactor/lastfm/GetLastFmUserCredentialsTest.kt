@@ -1,8 +1,8 @@
 package dev.olog.core.interactor.lastfm
 
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
@@ -12,30 +12,31 @@ import org.junit.Test
 
 class GetLastFmUserCredentialsTest {
 
+    private val gateway = mock<AppPreferencesGateway>()
+    private val encrypter = mock<IEncrypter>()
+    private val sut = GetLastFmUserCredentials(gateway, encrypter)
+
     @Test
     fun testInvoke() = runBlockingTest {
-        // given
-        val user = UserCredentials("abc", "123")
+        val encryptedUsername = "abc"
+        val plainUsername = "user"
+        val encryptedPassword = "123"
+        val plainPassword = "pwd"
+        val user = UserCredentials(encryptedUsername, encryptedPassword)
 
-        val gateway = mock<AppPreferencesGateway> {
-            on { getLastFmCredentials() } doReturn user
-        }
-        val encrypter = mock<IEncrypter> {
-            on { decrypt("abc") } doReturn "user"
-            on { decrypt("123") } doReturn "pwd"
-        }
-
-        val sut = GetLastFmUserCredentials(gateway, encrypter)
+        whenever(gateway.getLastFmCredentials()).thenReturn(user)
+        whenever(encrypter.decrypt(user.username)).thenReturn(plainUsername)
+        whenever(encrypter.decrypt(user.password)).thenReturn(plainPassword)
 
         // when
         val actual = sut()
 
         // then
-        verify(encrypter).decrypt("abc")
-        verify(encrypter).decrypt("123")
+        verify(encrypter).decrypt(user.username)
+        verify(encrypter).decrypt(user.password)
         verify(gateway).getLastFmCredentials()
         assertEquals(
-            UserCredentials("user", "pwd"),
+            UserCredentials(plainUsername, plainPassword),
             actual
         )
     }
