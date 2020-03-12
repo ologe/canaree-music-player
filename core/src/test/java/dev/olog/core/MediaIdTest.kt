@@ -53,6 +53,18 @@ class MediaIdTest {
         )
     }
 
+    @Test(expected = Exception::class)
+    fun `test empty fromString, should crash`() {
+        val string = "ALBUMS|1|2"
+        MediaId.fromString(string)
+    }
+
+    @Test(expected = Exception::class)
+    fun `test invalid fromString, should crash`() {
+        val string = "ALBUMS|1|2"
+        MediaId.fromString(string)
+    }
+
     @Test
     fun `test isAnyPodcast`() {
         val podcast = listOf(PODCASTS_PLAYLIST, PODCASTS, PODCASTS_AUTHORS)
