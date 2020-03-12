@@ -5,6 +5,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.image.provider.executor.GlideScope
@@ -34,12 +35,15 @@ class GlideOriginalImageFetcher(
                 return@launch
             }
 
-            val song: Song? = when {
-                mediaId.isAlbum -> trackGateway.getByAlbumId(id)
-                mediaId.isLeaf -> trackGateway.getByParam(id)
-                else -> {
-                    callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
-                    return@launch
+            val song: Song? = when (mediaId) {
+                is MediaId.Track -> trackGateway.getByParam(id)
+                is MediaId.Category -> {
+                    if (mediaId.category == MediaIdCategory.ALBUMS) {
+                        trackGateway.getByAlbumId(id)
+                    } else {
+                        callback.onLoadFailed(IllegalArgumentException("not a valid media id=$mediaId"))
+                        return@launch
+                    }
                 }
             }
             yield()
@@ -61,13 +65,10 @@ class GlideOriginalImageFetcher(
 
 
     private fun getId(): Long {
-        if (mediaId.isAlbum){
-            return mediaId.categoryId
+        return when (mediaId) {
+            is MediaId.Track -> mediaId.id
+            is MediaId.Category -> mediaId.categoryId
         }
-        if (mediaId.isLeaf){
-            return mediaId.leaf!!
-        }
-        return -1
     }
 
     override fun cleanup() {

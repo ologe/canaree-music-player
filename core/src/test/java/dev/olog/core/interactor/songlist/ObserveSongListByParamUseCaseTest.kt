@@ -4,10 +4,10 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import org.junit.Test
@@ -16,40 +16,37 @@ class ObserveSongListByParamUseCaseTest {
 
     private val folderGateway = mock<FolderGateway>()
     private val playlistGateway = mock<PlaylistGateway>()
-    private val songGateway = mock<TrackGateway>()
+    private val trackGateway = mock<TrackGateway>()
     private val albumGateway = mock<AlbumGateway>()
     private val artistGateway = mock<ArtistGateway>()
     private val genreGateway = mock<GenreGateway>()
 
     private val podcastPlaylistGateway = mock<PodcastPlaylistGateway>()
-    private val podcastGateway = mock<PodcastGateway>()
     private val podcastArtistGateway = mock<PodcastAuthorGateway>()
 
     private val sut = ObserveSongListByParamUseCase(
-        folderGateway, playlistGateway, songGateway, albumGateway, artistGateway,
-        genreGateway, podcastPlaylistGateway, podcastGateway,
-        podcastArtistGateway
+        folderGateway, playlistGateway, trackGateway, albumGateway, artistGateway,
+        genreGateway, podcastPlaylistGateway, podcastArtistGateway
     )
 
     @Test
     fun testFolders(){
         // given
         val path = "path"
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path)
+        val mediaId = Category(FOLDERS, path.hashCode().toLong())
 
         // when
         sut(mediaId)
 
-        verify(folderGateway).observeTrackListByParam(path)
+        verify(folderGateway).observeTrackListByParam(mediaId.categoryId)
         verifyNoMoreInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -57,7 +54,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testPlaylists(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, id.toString())
+        val mediaId = Category(PLAYLISTS, id)
 
         // when
         sut(mediaId)
@@ -65,13 +62,12 @@ class ObserveSongListByParamUseCaseTest {
         verify(playlistGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyNoMoreInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -79,21 +75,20 @@ class ObserveSongListByParamUseCaseTest {
     fun testSongs(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, id.toString())
+        val mediaId = Category(SONGS, id)
 
         // when
         sut(mediaId)
 
-        verify(songGateway).observeAll()
+        verify(trackGateway).observeAllTracks()
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyNoMoreInteractions(songGateway)
+        verifyNoMoreInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -101,7 +96,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testAlbums(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, id.toString())
+        val mediaId = Category(ALBUMS, id)
 
         // when
         sut(mediaId)
@@ -109,13 +104,12 @@ class ObserveSongListByParamUseCaseTest {
         verify(albumGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyNoMoreInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -123,7 +117,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testArtists(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString())
+        val mediaId = Category(ARTISTS, id)
 
         // when
         sut(mediaId)
@@ -131,13 +125,12 @@ class ObserveSongListByParamUseCaseTest {
         verify(artistGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyNoMoreInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -145,7 +138,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testGenre(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString())
+        val mediaId = Category(GENRES, id)
 
         // when
         sut(mediaId)
@@ -153,13 +146,12 @@ class ObserveSongListByParamUseCaseTest {
         verify(genreGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyNoMoreInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -167,7 +159,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testPodcastPlaylists(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, id.toString())
+        val mediaId = Category(PODCASTS_PLAYLIST, id)
 
         // when
         sut(mediaId)
@@ -175,34 +167,32 @@ class ObserveSongListByParamUseCaseTest {
         verify(podcastPlaylistGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyNoMoreInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
     @Test
     fun testPodcasts() {
         // given
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS, "")
+        val mediaId = PODCAST_CATEGORY
 
         // when
         sut(mediaId)
 
-        verify(podcastGateway).observeAll()
+        verify(trackGateway).observeAllPodcasts()
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyNoMoreInteractions(podcastGateway)
         verifyZeroInteractions(podcastArtistGateway)
     }
 
@@ -210,7 +200,7 @@ class ObserveSongListByParamUseCaseTest {
     fun testPodcastArtist(){
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString())
+        val mediaId = Category(PODCASTS_AUTHORS, id)
 
         // when
         sut(mediaId)
@@ -218,13 +208,12 @@ class ObserveSongListByParamUseCaseTest {
         verify(podcastArtistGateway).observeTrackListByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(songGateway)
+        verifyZeroInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastGateway)
         verifyNoMoreInteractions(podcastArtistGateway)
     }
 

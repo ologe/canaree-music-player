@@ -18,9 +18,9 @@ internal interface IQueue {
     suspend fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity?
 
     suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity?
-    suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity?
-    suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity?
-    suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity?
+    suspend fun handlePlayRecentlyAdded(mediaId: MediaId.Track): PlayerMediaEntity?
+    suspend fun handlePlayMostPlayed(mediaId: MediaId.Track): PlayerMediaEntity?
+    suspend fun handlePlayShuffle(mediaId: MediaId.Category, filter: String?): PlayerMediaEntity?
     suspend fun handlePlayFromGoogleSearch(query: String, extras: Bundle): PlayerMediaEntity?
     suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity?
 

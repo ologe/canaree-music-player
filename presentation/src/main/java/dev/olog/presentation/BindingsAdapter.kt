@@ -10,6 +10,7 @@ import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.shared.exhaustive
 
 fun ImageView.loadFile(item: DisplayableFile) {
     GlideApp.with(context).clear(this)
@@ -81,9 +82,8 @@ private fun ImageView.loadImageImpl(
         .placeholder(CoverUtils.getGradient(context, mediaId))
         .transition(DrawableTransitionOptions.withCrossFade())
 
-    if (mediaId.isLeaf) {
-        builder.into(this)
-    } else {
-        builder.into(RippleTarget(this))
-    }
+    when (mediaId) {
+        is MediaId.Track -> builder.into(this)
+        is MediaId.Category -> builder.into(RippleTarget(this))
+    }.exhaustive
 }

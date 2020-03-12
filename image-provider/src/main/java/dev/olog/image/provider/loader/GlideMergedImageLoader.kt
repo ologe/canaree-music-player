@@ -31,10 +31,10 @@ class GlideMergedImageLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf) {
-            return false
+        return when (mediaId) {
+            is MediaId.Track -> false
+            is MediaId.Category -> mediaId.category in allowedCategories
         }
-        return mediaId.category in allowedCategories
     }
 
     override fun buildLoadData(

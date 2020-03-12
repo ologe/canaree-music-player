@@ -397,7 +397,7 @@ internal class QueueImpl @Inject constructor(
 
         val songList: List<MediaEntity> = songIds
             .mapNotNull { id -> trackGateway.getByParam(id) }
-            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.parentMediaId) }
 
         val newQueue = queue + songList
 
@@ -429,7 +429,7 @@ internal class QueueImpl @Inject constructor(
 
         val songList: List<MediaEntity> = songIds
             .mapNotNull { id -> trackGateway.getByParam(id) }
-            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.getMediaId()) }
+            .map { song -> song.toMediaEntity(++maxIdInPlaylist, song.parentMediaId) }
 
         val newQueue = before + songList + after
 

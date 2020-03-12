@@ -1,7 +1,7 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.FOLDERS
 
 data class Folder(
     val id: Long,
@@ -10,8 +10,8 @@ data class Folder(
     val size: Int
 ) {
 
-    fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.FOLDERS, id)
+    fun getMediaId(): Category {
+        return Category(FOLDERS, id)
     }
 
 }

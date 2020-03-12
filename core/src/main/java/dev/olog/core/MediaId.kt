@@ -1,116 +1,83 @@
 package dev.olog.core
 
-class MediaId private constructor(
-    val category: MediaIdCategory,
-    val categoryId: Long,
-    val leaf: Long? = null
+import dev.olog.core.MediaIdCategory.*
+
+private val podcastCategories = listOf(
+    PODCASTS_AUTHORS, PODCASTS, PODCASTS_PLAYLIST
+)
+
+sealed class MediaId(
+    open val category: MediaIdCategory,
+    open val categoryId: Long
 ) {
 
-    val source : Int
-        get() {
-            if (isLeaf && isPodcast){
-                return MediaIdCategory.PODCASTS.ordinal
-            }
-            if (isLeaf){
-                return MediaIdCategory.SONGS.ordinal
-            }
-            return category.ordinal
+    data class Category(
+        override val category: MediaIdCategory,
+        override val categoryId: Long
+    ) : MediaId(category, categoryId) {
+
+        fun playableItem(id: Long): Track {
+            return Track(
+                category = this.category,
+                categoryId = this.categoryId,
+                id = id
+            )
         }
+
+    }
+
+    data class Track(
+        override val category: MediaIdCategory,
+        override val categoryId: Long,
+        val id: Long
+    ) : MediaId(category, categoryId) {
+
+        val parentId: Category
+            get() = Category(category, categoryId)
+
+    }
 
     companion object {
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
 
         @JvmStatic
-        fun createCategoryValue(category: MediaIdCategory, categoryValue: Long): MediaId {
-            return MediaId(category, categoryValue)
-        }
+        val SHUFFLE_ID: Category = Category(SONGS, -100)
 
         @JvmStatic
-        fun songId(id: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, -1, id)
-        }
+        val SONGS_CATEGORY: Category = Category(SONGS, -1)
 
         @JvmStatic
-        fun playableItem(parentId: MediaId, songId: Long): MediaId {
-            return MediaId(parentId.category, parentId.categoryId, songId)
-        }
-
-        @JvmStatic // TODO remove
-        val shuffleId: MediaId = MediaId(MediaIdCategory.SONGS, -100)
+        val PODCAST_CATEGORY: Category = Category(SONGS, -2)
 
         @JvmStatic
         fun fromString(mediaId: String): MediaId {
             val categoryFinish = mediaId.indexOf(CATEGORY_SEPARATOR)
             val categoryValueFinish = mediaId.indexOf(LEAF_SEPARATOR)
 
-            val category = mediaId.substring(0, categoryFinish)
-            val categoryValue = if (categoryValueFinish == -1){
-                mediaId.substring(categoryFinish + 1)
-            } else {
-                mediaId.substring(categoryFinish + 1, categoryValueFinish)
+            if (categoryValueFinish == -1) {
+                val category = mediaId.substring(0, categoryFinish)
+                return Category(
+                    valueOf(category),
+                    mediaId.substring(categoryFinish + 1).toLong()
+                )
             }
-
-            val leaf = if (categoryValueFinish == -1){
-                null
-            } else {
+            return Track(
+                valueOf(mediaId.substring(0, categoryFinish)),
+                mediaId.substring(categoryFinish + 1, categoryValueFinish).toLong(),
                 mediaId.substring(categoryValueFinish + 1).toLong()
-            }
-
-            return MediaId(
-                MediaIdCategory.valueOf(category),
-                categoryValue.toLong(),
-                leaf
             )
         }
     }
 
-    val isLeaf = leaf != null
-
     override fun toString(): String {
-        var string = category.toString() + CATEGORY_SEPARATOR + categoryId
-        if (leaf != null){
-            string += LEAF_SEPARATOR + leaf.toString()
+        return when (this) {
+            is Category -> "$category$CATEGORY_SEPARATOR$categoryId"
+            is Track -> "$category$CATEGORY_SEPARATOR$categoryId$LEAF_SEPARATOR$id"
         }
-        return string
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MediaId
-
-        if (category != other.category) return false
-        if (categoryId != other.categoryId) return false
-        if (leaf != other.leaf) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = category.name.hashCode()
-        result = 31 * result + categoryId.hashCode()
-        result = 31 * result + (leaf?.hashCode() ?: 0)
-        return result
-    }
-
-    val resolveId: Long
-        get() {
-            return when {
-                isLeaf -> leaf!!.toLong()
-                else -> categoryId
-            }
-        }
-
-    val isFolder : Boolean = category == MediaIdCategory.FOLDERS
-    val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
-    val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
-    val isArtist : Boolean = category == MediaIdCategory.ARTISTS
-    val isGenre : Boolean = category == MediaIdCategory.GENRES
-    val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
-    val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
-    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_AUTHORS
-    val isAnyPodcast : Boolean = isPodcast || isPodcastArtist || isPodcastPlaylist
+    val isAnyPodcast: Boolean
+        get() = category in podcastCategories
 
 }

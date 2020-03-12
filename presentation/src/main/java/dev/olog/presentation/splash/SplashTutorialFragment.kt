@@ -115,7 +115,7 @@ class SplashTutorialFragment : Fragment(),
         GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(ctx, position, MediaIdCategory.SONGS.ordinal))
+                .placeholder(CoverUtils.getGradient(ctx, position, MediaIdCategory.SONGS))
                 .into(cover)
     }
 }

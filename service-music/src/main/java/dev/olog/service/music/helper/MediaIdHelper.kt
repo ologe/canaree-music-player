@@ -51,7 +51,7 @@ internal object MediaIdHelper {
 
     private fun createShuffleAllMediaIem(context: Context): MediaBrowserCompat.MediaItem{
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(MediaId.shuffleId.toString())
+            .setMediaId(MediaId.SHUFFLE_ID.toString())
             .setTitle(context.getString(R.string.common_shuffle))
             .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)

@@ -1,7 +1,9 @@
 package dev.olog.core.entity.track
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.*
 import java.io.File
 
 data class Song(
@@ -42,20 +44,22 @@ data class Song(
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
 
-    fun getMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-        val mediaId = MediaId.createCategoryValue(category, -1)
-        return MediaId.playableItem(mediaId, id)
+    fun getMediaId(): Track {
+        val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
+        return category.playableItem(id)
     }
 
-    fun getAlbumMediaId(): MediaId {
-        val category = MediaIdCategory.ALBUMS
-        return MediaId.createCategoryValue(category, this.albumId)
+    val parentMediaId: Category
+        get() = getMediaId().parentId
+
+    fun getAlbumMediaId(): Category {
+        val category = ALBUMS
+        return Category(category, albumId)
     }
 
-    fun getArtistMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_AUTHORS else MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.artistId)
+    fun getArtistMediaId(): Category {
+        val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
+        return Category(category, albumId)
     }
 
 }

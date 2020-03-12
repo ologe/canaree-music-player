@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -32,13 +32,13 @@ class GetItemTitleUseCaseTest {
     fun testFolders() {
         // given
         val path = "path"
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, path)
+        val mediaId = Category(FOLDERS, path.hashCode().toLong())
 
         // when
         sut(mediaId)
 
         // then
-        verify(folderGateway).observeByParam(path)
+        verify(folderGateway).observeByParam(mediaId.categoryId)
         verifyNoMoreInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
         verifyZeroInteractions(albumGateway)
@@ -53,7 +53,7 @@ class GetItemTitleUseCaseTest {
     fun testPlaylists() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, id.toString())
+        val mediaId = Category(PLAYLISTS, id)
 
         // when
         sut(mediaId)
@@ -74,7 +74,7 @@ class GetItemTitleUseCaseTest {
     fun testAlbums() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, id.toString())
+        val mediaId = Category(ALBUMS, id)
 
         // when
         sut(mediaId)
@@ -95,7 +95,7 @@ class GetItemTitleUseCaseTest {
     fun testArtists() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString())
+        val mediaId = Category(ARTISTS, id)
 
         // when
         sut(mediaId)
@@ -116,7 +116,7 @@ class GetItemTitleUseCaseTest {
     fun testGenres() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString())
+        val mediaId = Category(GENRES, id)
 
         // when
         sut(mediaId)
@@ -138,7 +138,7 @@ class GetItemTitleUseCaseTest {
     fun testPodcastPlaylists() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, id.toString())
+        val mediaId = Category(PODCASTS_PLAYLIST, id)
 
         // when
         sut(mediaId)
@@ -159,7 +159,7 @@ class GetItemTitleUseCaseTest {
     fun testPodcastArtists() {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString())
+        val mediaId = Category(PODCASTS_AUTHORS, id)
 
         // when
         sut(mediaId)
@@ -180,21 +180,21 @@ class GetItemTitleUseCaseTest {
     fun testNotAllowed()  {
         // given
         val allowed = listOf(
-            MediaIdCategory.FOLDERS,
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.GENRES,
-            MediaIdCategory.PODCASTS_PLAYLIST,
-            MediaIdCategory.PODCASTS_AUTHORS
+            FOLDERS,
+            PLAYLISTS,
+            ALBUMS,
+            ARTISTS,
+            GENRES,
+            PODCASTS_PLAYLIST,
+            PODCASTS_AUTHORS
         )
 
-        for (value in MediaIdCategory.values()) {
+        for (value in values()) {
             if (value in allowed) {
                 continue
             }
             try {
-                val mediaId = MediaId.createCategoryValue(value, "1")
+                val mediaId = Category(value, 1)
 
                 // when
                 sut(mediaId)

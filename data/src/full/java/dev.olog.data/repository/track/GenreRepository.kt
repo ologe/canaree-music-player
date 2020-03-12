@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import dev.olog.core.MediaId
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Genre
 import dev.olog.core.entity.track.Song
@@ -27,6 +26,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.shared.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -100,18 +100,18 @@ internal class GenreRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         return mostPlayedDao.getAll(mediaId.categoryId, trackGateway)
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
         assertBackgroundThread()
         mostPlayedDao.insert(
             GenreMostPlayedEntity(
                 0,
-                mediaId.leaf!!,
+                mediaId.id,
                 mediaId.categoryId
             )
         )

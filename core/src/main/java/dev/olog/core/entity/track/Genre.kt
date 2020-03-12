@@ -1,7 +1,7 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.GENRES
 
 data class Genre(
     val id: Long,
@@ -9,8 +9,8 @@ data class Genre(
     val size: Int
 ) {
 
-    fun getMediaId(): MediaId {
-        return MediaId.createCategoryValue(MediaIdCategory.GENRES, id)
+    fun getMediaId(): Category {
+        return Category(GENRES, id)
     }
 
 }

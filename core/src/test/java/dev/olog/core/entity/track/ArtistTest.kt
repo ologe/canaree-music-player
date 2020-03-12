@@ -1,7 +1,8 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.ARTISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_AUTHORS
 import dev.olog.core.Mocks
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -13,7 +14,7 @@ class ArtistTest {
         val id = 1L
         val artist = Mocks.artist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id),
+            Category(ARTISTS, id),
             artist.getMediaId()
         )
     }
@@ -23,7 +24,7 @@ class ArtistTest {
         val id = 1L
         val artist = Mocks.podcastArtist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id),
+            Category(PODCASTS_AUTHORS, id),
             artist.getMediaId()
         )
     }

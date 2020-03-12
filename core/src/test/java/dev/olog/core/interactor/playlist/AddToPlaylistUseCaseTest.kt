@@ -1,8 +1,10 @@
 package dev.olog.core.interactor.playlist
 
 import com.nhaarman.mockitokotlin2.*
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
+import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
+import dev.olog.core.MediaIdCategory.ALBUMS
 import dev.olog.core.Mocks
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
@@ -23,7 +25,7 @@ class AddToPlaylistUseCaseTest {
     @Test(expected = IllegalArgumentException::class)
     fun testInvokeWithWrongPlaylistAndMediaId() = runBlocking {
         val playlist = Playlist(1, "", 0, true)
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.SONGS, "")
+        val mediaId = SONGS_CATEGORY
 
         sut(playlist, mediaId)
     }
@@ -34,9 +36,7 @@ class AddToPlaylistUseCaseTest {
         val playlistId = 1L
         val podcastId = 10L
         val playlist = Playlist(playlistId, "", 0, true)
-        val mediaId = MediaId.playableItem(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS, ""), podcastId
-        )
+        val mediaId = PODCAST_CATEGORY.playableItem(podcastId)
 
         // when
         sut(playlist, mediaId)
@@ -52,17 +52,15 @@ class AddToPlaylistUseCaseTest {
     fun testInvokeWithTrack() = runBlocking {
         // given
         val playlistId = 1L
-        val podcastId = 10L
+        val songId = 10L
         val playlist = Playlist(playlistId, "", 0, false)
-        val mediaId = MediaId.playableItem(
-            MediaId.createCategoryValue(MediaIdCategory.SONGS, ""), podcastId
-        )
+        val mediaId = SONGS_CATEGORY.playableItem(songId)
 
         // when
         sut(playlist, mediaId)
 
         // then
-        verify(playlistGateway).addSongsToPlaylist(playlistId, listOf(podcastId))
+        verify(playlistGateway).addSongsToPlaylist(playlistId, listOf(songId))
         verifyNoMoreInteractions(playlistGateway)
         verifyZeroInteractions(podcastGateway)
         verifyZeroInteractions(getSongList)
@@ -74,7 +72,7 @@ class AddToPlaylistUseCaseTest {
         val playlistId = 1L
         val songId = 10L
         val playlist = Playlist(playlistId, "", 0, false)
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, "")
+        val mediaId = Category(ALBUMS, 1)
         val song = Mocks.song.copy(id = songId)
 
         whenever(getSongList.invoke(mediaId)).thenReturn(listOf(song))

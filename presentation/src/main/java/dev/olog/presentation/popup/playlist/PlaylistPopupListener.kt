@@ -4,6 +4,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
@@ -104,7 +105,9 @@ internal class PlaylistPopupListener @Inject constructor(
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
-            mediaProvider.playFromMediaId(getMediaId().toDomain(), null, null)
+            val mediaId = getMediaId().toDomain()
+            require(mediaId is MediaId.Track)
+            mediaProvider.playFromMediaId(mediaId, null, null)
         }
     }
 
@@ -114,7 +117,9 @@ internal class PlaylistPopupListener @Inject constructor(
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
-            mediaProvider.shuffle(getMediaId().toDomain(), null)
+            val mediaId = getMediaId().toDomain()
+            require(mediaId is MediaId.Category)
+            mediaProvider.shuffle(mediaId, null)
         }
     }
 

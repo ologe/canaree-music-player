@@ -1,7 +1,8 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.ARTISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_AUTHORS
 
 data class Artist(
     val id: Long,
@@ -11,8 +12,8 @@ data class Artist(
     val isPodcast: Boolean
 ) {
 
-    fun getMediaId(): MediaId {
-        val category = if (isPodcast) MediaIdCategory.PODCASTS_AUTHORS else MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.id)
+    fun getMediaId(): Category {
+        val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
+        return Category(category, this.id)
     }
 }

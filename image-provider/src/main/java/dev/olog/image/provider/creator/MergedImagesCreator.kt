@@ -51,7 +51,7 @@ internal object MergedImagesCreator {
     }
 
     private suspend fun getBitmap(context: Context, albumId: Long): Bitmap? {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, albumId)
+        val mediaId = MediaId.Category(MediaIdCategory.ALBUMS, albumId)
         val bitmap = context.getCachedBitmap(mediaId, 500, onError = OnImageLoadingError.None)
         yield()
         return bitmap

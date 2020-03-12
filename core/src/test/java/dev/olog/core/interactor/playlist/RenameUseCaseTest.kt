@@ -3,8 +3,10 @@ package dev.olog.core.interactor.playlist
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.PLAYLISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.runBlocking
@@ -22,8 +24,8 @@ class RenameUseCaseTest {
         // given
         val id = 1L
         val newTitle = "new title"
-        val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_PLAYLIST, id
+        val mediaId = Category(
+            PODCASTS_PLAYLIST, id
         )
 
         // when
@@ -38,8 +40,8 @@ class RenameUseCaseTest {
         // given
         val id = 1L
         val newTitle = "new title"
-        val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PLAYLISTS, id
+        val mediaId = Category(
+            PLAYLISTS, id
         )
 
         // when
@@ -52,7 +54,7 @@ class RenameUseCaseTest {
     @Test
     fun testInvokeAuto() = runBlocking {
         val allowed = listOf(
-            MediaIdCategory.PLAYLISTS, MediaIdCategory.PODCASTS_PLAYLIST
+            PLAYLISTS, PODCASTS_PLAYLIST
         )
 
         for (value in MediaIdCategory.values()) {
@@ -61,7 +63,7 @@ class RenameUseCaseTest {
             }
 
             try {
-                sut(MediaId.createCategoryValue(value, "1"), "name")
+                sut(Category(value, 1), "name")
                 fail("invalid value $value")
             } catch (ex: IllegalArgumentException) {
 

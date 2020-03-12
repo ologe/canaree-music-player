@@ -103,11 +103,11 @@ internal abstract class PlayingQueueDao {
         categoryValue: Long
     ): PlayingQueueSong {
 
-        val parentMediaId = MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue)
+        val parentMediaId = MediaId.Category(MediaIdCategory.valueOf(category), categoryValue)
 
         return PlayingQueueSong(
             this.copy(idInPlaylist = idInPlaylist),
-            MediaId.playableItem(parentMediaId, this.id)
+            parentMediaId.playableItem(this.id)
         )
     }
 

@@ -1,7 +1,11 @@
 package dev.olog.core.interactor.search
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.RecentSearchesGateway
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 class DeleteRecentSearchUseCase @Inject constructor(
@@ -10,19 +14,24 @@ class DeleteRecentSearchUseCase @Inject constructor(
 )  {
 
     suspend operator fun invoke(mediaId: MediaId) {
-        val id = mediaId.resolveId
-        return when {
-            mediaId.isLeaf && !mediaId.isPodcast -> recentSearchesGateway.deleteSong(id)
-            mediaId.isArtist -> recentSearchesGateway.deleteArtist(id)
-            mediaId.isAlbum -> recentSearchesGateway.deleteAlbum(id)
-            mediaId.isPlaylist -> recentSearchesGateway.deletePlaylist(id)
-            mediaId.isFolder -> recentSearchesGateway.deleteFolder(id)
-            mediaId.isGenre -> recentSearchesGateway.deleteGenre(id)
-
-            mediaId.isLeaf && mediaId.isPodcast -> recentSearchesGateway.deletePodcast(id)
-            mediaId.isPodcastPlaylist -> recentSearchesGateway.deletePodcastPlaylist(id)
-            mediaId.isPodcastArtist -> recentSearchesGateway.deletePodcastArtist(id)
-            else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
+        return when (mediaId) {
+            is Track -> recentSearchesGateway.deleteTrack(mediaId)
+            is Category -> handleCategory(mediaId)
         }
     }
+
+    private suspend fun handleCategory(mediaId: Category) {
+        val id = mediaId.categoryId
+        return when (mediaId.category) {
+            FOLDERS -> recentSearchesGateway.deleteFolder(id)
+            PLAYLISTS -> recentSearchesGateway.deletePlaylist(id)
+            ALBUMS -> recentSearchesGateway.deleteAlbum(id)
+            ARTISTS -> recentSearchesGateway.deleteArtist(id)
+            GENRES -> recentSearchesGateway.deleteGenre(id)
+            PODCASTS_PLAYLIST -> recentSearchesGateway.deletePodcastPlaylist(id)
+            PODCASTS_AUTHORS -> recentSearchesGateway.deletePodcastArtist(id)
+            PODCASTS, SONGS -> throwNotHandled("$mediaId")
+        }
+    }
+
 }

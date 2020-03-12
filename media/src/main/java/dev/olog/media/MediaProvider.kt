@@ -14,11 +14,11 @@ interface MediaProvider {
     fun observeQueue(): Flow<List<PlayerItem>>
 
     fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
-    fun playMostPlayed(mediaId: MediaId)
-    fun playRecentlyAdded(mediaId: MediaId)
+    fun playMostPlayed(mediaId: MediaId.Track)
+    fun playRecentlyAdded(mediaId: MediaId.Track)
 
     fun skipToQueueItem(idInPlaylist: Int)
-    fun shuffle(mediaId: MediaId, filter: String?)
+    fun shuffle(mediaId: MediaId.Category, filter: String?)
     fun skipToNext()
     fun skipToPrevious()
     fun playPause()
@@ -26,7 +26,7 @@ interface MediaProvider {
     fun toggleShuffleMode()
     fun toggleRepeatMode()
 
-    fun addToPlayNext(mediaId: MediaId)
+    fun addToPlayNext(mediaId: MediaId.Track)
 
     fun togglePlayerFavorite()
 

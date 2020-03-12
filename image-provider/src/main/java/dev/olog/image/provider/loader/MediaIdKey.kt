@@ -2,7 +2,7 @@ package dev.olog.image.provider.loader
 
 import com.bumptech.glide.load.Key
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.SONGS
 import java.security.MessageDigest
 
 internal class MediaIdKey(
@@ -10,10 +10,10 @@ internal class MediaIdKey(
 ) : Key {
 
     override fun toString(): String {
-        if (mediaId.isLeaf) {
-            return "${MediaIdCategory.SONGS}-${mediaId.leaf}"
+        return when (mediaId) {
+            is MediaId.Track -> "$SONGS-${mediaId.id}"
+            is MediaId.Category -> "${mediaId.category.name}-${mediaId.categoryId}"
         }
-        return "${mediaId.category.name}-${mediaId.categoryId}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -22,9 +22,9 @@ internal class MediaIdKey(
 
         other as MediaIdKey
 
-        if (this.mediaId.isLeaf && other.mediaId.isLeaf) {
+        if (this.mediaId is MediaId.Track && other.mediaId is MediaId.Track) {
             // is song
-            return this.mediaId.leaf == other.mediaId.leaf
+            return this.mediaId.id == other.mediaId.id
         }
         return this.mediaId.category == other.mediaId.category &&
                 this.mediaId.categoryId == other.mediaId.categoryId
@@ -34,8 +34,8 @@ internal class MediaIdKey(
         var result = 17
         result = 31 * result + mediaId.category.name.hashCode()
         result = 31 * result + mediaId.categoryId.hashCode()
-        if (mediaId.isLeaf) {
-            result = 31 * result + mediaId.leaf!!.hashCode()
+        if (mediaId is MediaId.Track) {
+            result = 31 * result + mediaId.id.hashCode()
         }
         return result
     }

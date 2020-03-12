@@ -1,7 +1,9 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
+import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.Mocks
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -13,7 +15,7 @@ class SongTest {
         val id = 1L
         val song = Mocks.song.copy(id = id)
         assertEquals(
-            MediaId.playableItem(MediaId.createCategoryValue(MediaIdCategory.SONGS, ""), id),
+            SONGS_CATEGORY.playableItem(id),
             song.getMediaId()
         )
     }
@@ -23,7 +25,7 @@ class SongTest {
         val id = 1L
         val album = Mocks.podcast.copy(id = id)
         assertEquals(
-            MediaId.playableItem(MediaId.createCategoryValue(MediaIdCategory.PODCASTS, ""), id),
+            PODCAST_CATEGORY.playableItem(id),
             album.getMediaId()
         )
     }
@@ -33,7 +35,7 @@ class SongTest {
         val id = 1L
         val album = Mocks.song.copy(artistId = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString()),
+            Category(ARTISTS, id),
             album.getArtistMediaId()
         )
     }
@@ -43,7 +45,7 @@ class SongTest {
         val id = 1L
         val album = Mocks.podcast.copy(artistId = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString()),
+            Category(PODCASTS_AUTHORS, id),
             album.getArtistMediaId()
         )
     }
@@ -53,7 +55,7 @@ class SongTest {
         val id = 1L
         val album = Mocks.song.copy(albumId = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.ALBUMS, id.toString()),
+            Category(ALBUMS, id),
             album.getAlbumMediaId()
         )
     }

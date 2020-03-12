@@ -1,7 +1,11 @@
 package dev.olog.core.interactor.search
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.RecentSearchesGateway
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 class InsertRecentSearchUseCase @Inject constructor(
@@ -10,19 +14,23 @@ class InsertRecentSearchUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(mediaId: MediaId) {
-        val id = mediaId.resolveId
-        return when {
-            mediaId.isLeaf && !mediaId.isPodcast -> recentSearchesGateway.insertSong(id)
-            mediaId.isArtist -> recentSearchesGateway.insertArtist(id)
-            mediaId.isAlbum -> recentSearchesGateway.insertAlbum(id)
-            mediaId.isPlaylist -> recentSearchesGateway.insertPlaylist(id)
-            mediaId.isFolder -> recentSearchesGateway.insertFolder(id)
-            mediaId.isGenre -> recentSearchesGateway.insertGenre(id)
+        return when (mediaId) {
+            is Track -> recentSearchesGateway.insertTrack(mediaId)
+            is Category -> handleCategory(mediaId)
+        }
+    }
 
-            mediaId.isLeaf && mediaId.isPodcast -> recentSearchesGateway.insertPodcast(id)
-            mediaId.isPodcastPlaylist -> recentSearchesGateway.insertPodcastPlaylist(id)
-            mediaId.isPodcastArtist -> recentSearchesGateway.insertPodcastArtist(id)
-            else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
+    private suspend fun handleCategory(mediaId: Category) {
+        val id = mediaId.categoryId
+        return when (mediaId.category) {
+            FOLDERS -> recentSearchesGateway.insertFolder(id)
+            PLAYLISTS -> recentSearchesGateway.insertPlaylist(id)
+            ALBUMS -> recentSearchesGateway.insertAlbum(id)
+            ARTISTS -> recentSearchesGateway.insertArtist(id)
+            GENRES -> recentSearchesGateway.insertGenre(id)
+            PODCASTS_PLAYLIST -> recentSearchesGateway.insertPodcastPlaylist(id)
+            PODCASTS_AUTHORS -> recentSearchesGateway.insertPodcastArtist(id)
+            PODCASTS, SONGS -> throwNotHandled("$mediaId")
         }
     }
 }

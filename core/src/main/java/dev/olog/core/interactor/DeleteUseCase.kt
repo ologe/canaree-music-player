@@ -1,6 +1,10 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.PODCASTS
+import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.TrackGateway
@@ -16,17 +20,21 @@ class DeleteUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(mediaId: MediaId) {
-        if (mediaId.isLeaf) {
-            return trackGateway.deleteSingle(mediaId.leaf!!)
+        return when (mediaId) {
+            is Track -> trackGateway.deleteSingle(mediaId.id)
+            is Category -> handleCategory(mediaId)
         }
+    }
 
-        return when {
-            mediaId.isPodcastPlaylist -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
-            mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryId)
+    private suspend fun handleCategory(mediaId: Category) {
+        return when (mediaId.category) {
+            PODCASTS_PLAYLIST -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
+            PODCASTS -> playlistGateway.deletePlaylist(mediaId.categoryId)
             else -> {
                 val songList = getSongListByParamUseCase(mediaId)
                 trackGateway.deleteGroup(songList.map { it.id })
             }
         }
     }
+
 }

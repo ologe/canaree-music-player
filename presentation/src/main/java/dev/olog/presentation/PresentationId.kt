@@ -50,9 +50,9 @@ sealed class PresentationId(
 
         fun playableItem(id: Long): Track {
             return Track(
-                this.category,
-                this.categoryId,
-                id
+                category = this.category,
+                categoryId = this.categoryId,
+                id = id
             )
         }
 
@@ -74,27 +74,37 @@ fun PresentationId.toDomain(): MediaId {
     }
 }
 
-fun PresentationId.Category.toDomain(): MediaId {
-    return MediaId.createCategoryValue(this.category.toDomain(), this.categoryId)
+fun PresentationId.Category.toDomain(): MediaId.Category {
+    return MediaId.Category(
+        category = this.category.toDomain(),
+        categoryId = this.categoryId
+    )
 }
 
-fun PresentationId.Track.toDomain(): MediaId {
-    val category = MediaId.createCategoryValue(this.category.toDomain(), this.categoryId)
-    return MediaId.playableItem(category, this.id)
+fun PresentationId.Track.toDomain(): MediaId.Track {
+    return MediaId.Track(
+        category = this.category.toDomain(),
+        categoryId = this.categoryId,
+        id = this.id
+    )
 }
 
 fun MediaId.toPresentation(): PresentationId {
-    if (isLeaf) {
-        return PresentationId.Track(
-            category.toPresentation(),
-            categoryId,
-            leaf!!
-        )
+    return when (this) {
+        is MediaId.Track -> {
+            PresentationId.Track(
+                category = category.toPresentation(),
+                categoryId = categoryId,
+                id = id
+            )
+        }
+        is MediaId.Category -> {
+            PresentationId.Category(
+                category = category.toPresentation(),
+                categoryId = categoryId
+            )
+        }
     }
-    return PresentationId.Category(
-        category.toPresentation(),
-        categoryId
-    )
 }
 
 // TODO test

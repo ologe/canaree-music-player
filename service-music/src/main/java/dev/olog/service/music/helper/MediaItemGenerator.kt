@@ -35,7 +35,7 @@ internal class MediaItemGenerator @Inject constructor(
         }.toMutableList()
     }
 
-    fun getCategoryValueChilds(parentId: MediaId): MutableList<MediaBrowserCompat.MediaItem> {
+    fun getCategoryValueChilds(parentId: MediaId.Category): MutableList<MediaBrowserCompat.MediaItem> {
         return getSongListByParamUseCase(parentId)
             .map { it.toChildMediaItem(parentId) }
             .toMutableList()
@@ -73,9 +73,9 @@ internal class MediaItemGenerator @Inject constructor(
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
     }
 
-    private fun Song.toChildMediaItem(parentId: MediaId): MediaBrowserCompat.MediaItem {
+    private fun Song.toChildMediaItem(parentId: MediaId.Category): MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-            .setMediaId(MediaId.playableItem(parentId, this.id).toString())
+            .setMediaId(parentId.playableItem(id).toString())
             .setTitle(this.title)
             .setSubtitle(this.artist)
             .setDescription(this.album)

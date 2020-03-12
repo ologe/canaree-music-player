@@ -42,7 +42,7 @@ internal class TabFragmentAdapter(
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
-                    mediaProvider.shuffle(MediaId.shuffleId, null)
+                    mediaProvider.shuffle(MediaId.SHUFFLE_ID, null)
                 }
             }
             R.layout.item_tab_song,

@@ -7,7 +7,7 @@ import dev.olog.core.gateway.ImageRetrieverGateway
 
 class GlideAlbumFetcher(
     context: Context,
-    mediaId: MediaId,
+    private val mediaId: MediaId.Category,
     private val imageRetrieverGateway: ImageRetrieverGateway,
     prefs: SharedPreferences
 ) : BaseDataFetcher(context, prefs) {
@@ -16,15 +16,13 @@ class GlideAlbumFetcher(
         private const val THRESHOLD = 600L
     }
 
-    private val id = mediaId.resolveId
-
     override suspend fun execute(): String {
-        return imageRetrieverGateway.getAlbum(id)!!.image
+        return imageRetrieverGateway.getAlbum(mediaId.categoryId)!!.image
     }
 
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchAlbum(id)
+        return imageRetrieverGateway.mustFetchAlbum(mediaId.categoryId)
     }
 
     override val threshold: Long = THRESHOLD

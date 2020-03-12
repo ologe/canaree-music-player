@@ -109,12 +109,12 @@ internal class MediaSessionCallback @Inject constructor(
             updatePodcastPosition()
 
             when (val mediaId = MediaId.fromString(stringMediaId)) {
-                MediaId.shuffleId -> {
+                MediaId.SHUFFLE_ID -> {
                     // android auto call 'onPlayFromMediaId' with 'MediaId.shuffleId()'
-                    queue.handlePlayShuffle(mediaId, null)
+                    queue.handlePlayShuffle(MediaId.SHUFFLE_ID, null)
                 }
                 else -> {
-                    val filter = extras?.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
+                    val filter = extras!!.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
                     queue.handlePlayFromMediaId(mediaId, filter)
                 }
             }
@@ -251,7 +251,7 @@ internal class MediaSessionCallback @Inject constructor(
                 val filter = extras.getString(MusicServiceCustomAction.ARGUMENT_FILTER)
                 retrieveAndPlay {
                     updatePodcastPosition()
-                    queue.handlePlayShuffle(MediaId.fromString(mediaId), filter)
+                    queue.handlePlayShuffle(MediaId.fromString(mediaId) as MediaId.Category, filter)
                 }
             }
             MusicServiceCustomAction.SWAP -> {
@@ -281,7 +281,7 @@ internal class MediaSessionCallback @Inject constructor(
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
                 retrieveAndPlay {
                     updatePodcastPosition()
-                    queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId))
+                    queue.handlePlayRecentlyAdded(MediaId.fromString(mediaId) as MediaId.Track)
                 }
             }
             MusicServiceCustomAction.PLAY_MOST_PLAYED -> {
@@ -289,7 +289,7 @@ internal class MediaSessionCallback @Inject constructor(
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
                 retrieveAndPlay {
                     updatePodcastPosition()
-                    queue.handlePlayMostPlayed(MediaId.fromString(mediaId))
+                    queue.handlePlayMostPlayed(MediaId.fromString(mediaId) as MediaId.Track)
                 }
             }
             MusicServiceCustomAction.FORWARD_10 -> player.forwardTenSeconds()

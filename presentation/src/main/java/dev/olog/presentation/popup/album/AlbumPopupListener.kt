@@ -4,6 +4,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.playlist.AddToPlaylistUseCase
@@ -89,11 +90,15 @@ internal class AlbumPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        mediaProvider.playFromMediaId(getMediaId().toDomain(), null, null)
+        val mediaId = getMediaId().toDomain()
+        require(mediaId is MediaId.Track)
+        mediaProvider.playFromMediaId(mediaId, null, null)
     }
 
     private fun playShuffle() {
-        mediaProvider.shuffle(getMediaId().toDomain(), null)
+        val mediaId = getMediaId().toDomain()
+        require(mediaId is MediaId.Category)
+        mediaProvider.shuffle(mediaId, null)
     }
 
     private fun playLater() {

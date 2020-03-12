@@ -4,7 +4,6 @@ import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.toDomain
@@ -16,7 +15,7 @@ import kotlinx.android.synthetic.main.item_detail_song_recent.view.isPlaying
 internal class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
-) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem),
+) : ObservableAdapter<DisplayableTrack>(DiffCallbackDisplayableTrack),
     CanShowIsPlaying by CanShowIsPlayingImpl(){
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -46,9 +45,7 @@ internal class DetailRecentlyAddedAdapter(
         }
     }
 
-    override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
-        require(item is DisplayableTrack)
-
+    override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
         holder.itemView.apply {
             transitionName = "detail recent ${item.mediaId}"
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())

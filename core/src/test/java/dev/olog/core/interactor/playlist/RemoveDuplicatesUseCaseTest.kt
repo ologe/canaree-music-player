@@ -3,8 +3,10 @@ package dev.olog.core.interactor.playlist
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.PLAYLISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.runBlocking
@@ -21,8 +23,8 @@ class RemoveDuplicatesUseCaseTest {
     fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PODCASTS_PLAYLIST, id
+        val mediaId = Category(
+            PODCASTS_PLAYLIST, id
         )
 
         // when
@@ -36,8 +38,8 @@ class RemoveDuplicatesUseCaseTest {
     fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(
-            MediaIdCategory.PLAYLISTS, id
+        val mediaId = Category(
+            PLAYLISTS, id
         )
 
         // when
@@ -51,7 +53,7 @@ class RemoveDuplicatesUseCaseTest {
     fun testInvokeAuto() = runBlocking {
         // given
         val allowed = listOf(
-            MediaIdCategory.PODCASTS_PLAYLIST, MediaIdCategory.PLAYLISTS
+            PODCASTS_PLAYLIST, PLAYLISTS
         )
 
         for (value in MediaIdCategory.values()) {
@@ -59,7 +61,7 @@ class RemoveDuplicatesUseCaseTest {
                 continue
             }
             try {
-                sut(MediaId.createCategoryValue(value, "1"))
+                sut(Category(value, 1))
                 Assert.fail("invalid $value")
             } catch (ex: IllegalArgumentException) {
             }

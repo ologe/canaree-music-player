@@ -77,11 +77,18 @@ internal class QueueManager @Inject constructor(
     override suspend fun handlePlayFromMediaId(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = when (mediaId) {
+            is MediaId.Track -> mediaId.id
+            is MediaId.Category -> -1
+        }
+        val parentId = when (mediaId) {
+            is MediaId.Track -> mediaId.parentId
+            is MediaId.Category -> mediaId
+        }
 
         val songList = getSongListByParamUseCase(mediaId).asSequence()
             .filterSongList(filter)
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+            .mapIndexed { index, song -> song.toMediaEntity(index, parentId) }
             .toList()
 
         shuffleMode.setEnabled(false)
@@ -102,13 +109,13 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override suspend fun handlePlayRecentlyAdded(mediaId: MediaId): PlayerMediaEntity? {
+    override suspend fun handlePlayRecentlyAdded(mediaId: MediaId.Track): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = mediaId.id
 
-        val songList = getRecentlyAddedUseCase(mediaId).first()
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+        val songList = getRecentlyAddedUseCase(mediaId.parentId).first()
+            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId.parentId) }
 
         shuffleMode.setEnabled(false)
 
@@ -116,7 +123,8 @@ internal class QueueManager @Inject constructor(
         val result = songList.getOrNull(currentIndex) ?: return null
 
         queueImpl.updateState(
-            songList, currentIndex,
+            songList = songList,
+            index = currentIndex,
             updateImmediate = false,
             persist = true
         )
@@ -127,13 +135,13 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override suspend fun handlePlayMostPlayed(mediaId: MediaId): PlayerMediaEntity? {
+    override suspend fun handlePlayMostPlayed(mediaId: MediaId.Track): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.leaf ?: -1L
+        val songId = mediaId.id
 
-        val songList = getMostPlayedSongsUseCase(mediaId).first()
-            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId) }
+        val songList = getMostPlayedSongsUseCase(mediaId.parentId).first()
+            .mapIndexed { index, song -> song.toMediaEntity(index, mediaId.parentId) }
 
         shuffleMode.setEnabled(false)
 
@@ -141,7 +149,8 @@ internal class QueueManager @Inject constructor(
         val result = songList.getOrNull(currentIndex) ?: return null
 
         queueImpl.updateState(
-            songList, currentIndex,
+            songList = songList,
+            index = currentIndex,
             updateImmediate = false,
             persist = true
         )
@@ -152,7 +161,7 @@ internal class QueueManager @Inject constructor(
         )
     }
 
-    override suspend fun handlePlayShuffle(mediaId: MediaId, filter: String?): PlayerMediaEntity? {
+    override suspend fun handlePlayShuffle(mediaId: MediaId.Category, filter: String?): PlayerMediaEntity? {
         assertBackgroundThread()
 
         var songList = getSongListByParamUseCase(mediaId).asSequence()
@@ -183,7 +192,7 @@ internal class QueueManager @Inject constructor(
 
         val pureUri = PureUri(uri.scheme!!, uri.scheme!!, uri.fragment)
         val song = trackGateway.getByUri(pureUri) ?: return null
-        val mediaEntity = song.toMediaEntity(0, song.getMediaId())
+        val mediaEntity = song.toMediaEntity(0, song.parentMediaId)
         val songList = listOf(mediaEntity)
 
         val currentIndex = 0
@@ -210,7 +219,7 @@ internal class QueueManager @Inject constructor(
 
         val params = VoiceSearchParams(query, extras)
 
-        val mediaId = MediaId.songId(-1)
+        val mediaId = MediaId.SONGS_CATEGORY
 
         var forceShuffle = false
 

@@ -3,8 +3,8 @@ package dev.olog.core.interactor.sort
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.prefs.SortPreferences
 import org.junit.Assert
 import org.junit.Test
@@ -17,7 +17,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testFolders() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, "")
+        val mediaId = Category(FOLDERS, 1)
 
         sut(mediaId)
 
@@ -26,7 +26,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testPlaylists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, "")
+        val mediaId = Category(PLAYLISTS, 1)
 
         sut(mediaId)
         verify(gateway).getDetailPlaylistSort()
@@ -34,7 +34,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testPodcastPlaylists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, "")
+        val mediaId = Category(PODCASTS_PLAYLIST, 1)
 
         sut(mediaId)
         verify(gateway).getDetailPlaylistSort()
@@ -42,7 +42,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testAlbums() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ALBUMS, "")
+        val mediaId = Category(ALBUMS, 1)
 
         sut(mediaId)
         verify(gateway).getDetailAlbumSort()
@@ -50,7 +50,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testArtists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, "")
+        val mediaId = Category(ARTISTS, 1)
 
         sut(mediaId)
         verify(gateway).getDetailArtistSort()
@@ -58,7 +58,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testPodcastArtists() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, "")
+        val mediaId = Category(PODCASTS_AUTHORS, 1)
 
         sut(mediaId)
         verify(gateway).getDetailArtistSort()
@@ -66,7 +66,7 @@ class GetDetailSortUseCaseTest {
 
     @Test
     fun testGenre() {
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.GENRES, "")
+        val mediaId = Category(GENRES, 1)
 
         sut(mediaId)
         verify(gateway).getDetailGenreSort()
@@ -75,20 +75,20 @@ class GetDetailSortUseCaseTest {
     @Test
     fun testNotAllowed() {
         val allowed = listOf(
-            MediaIdCategory.FOLDERS,
-            MediaIdCategory.PODCASTS_PLAYLIST,
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_AUTHORS,
-            MediaIdCategory.ARTISTS,
-            MediaIdCategory.GENRES
+            FOLDERS,
+            PODCASTS_PLAYLIST,
+            PLAYLISTS,
+            ALBUMS,
+            PODCASTS_AUTHORS,
+            ARTISTS,
+            GENRES
         )
 
-        for (value in MediaIdCategory.values()) {
+        for (value in values()) {
             if (value in allowed) {
                 continue
             }
-            val mediaId = MediaId.createCategoryValue(value, "")
+            val mediaId = Category(value, 1)
             try {
                 sut(mediaId)
                 Assert.fail("not allowed $mediaId")

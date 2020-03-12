@@ -1,7 +1,8 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.ALBUMS
+import dev.olog.core.MediaIdCategory.ARTISTS
 
 data class Album(
     val id: Long,
@@ -13,14 +14,12 @@ data class Album(
     val hasSameNameAsFolder: Boolean
 ) {
 
-    fun getMediaId(): MediaId {
-        val category = MediaIdCategory.ALBUMS
-        return MediaId.createCategoryValue(category, this.id)
+    fun getMediaId(): Category {
+        return Category(ALBUMS, this.id)
     }
 
-    fun getArtistMediaId(): MediaId {
-        val category = MediaIdCategory.ARTISTS
-        return MediaId.createCategoryValue(category, this.artistId)
+    fun getArtistMediaId(): Category {
+        return Category(ARTISTS, this.artistId)
     }
 
 }

@@ -1,7 +1,8 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.FOLDERS
+import dev.olog.core.MediaIdCategory.GENRES
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
@@ -15,10 +16,10 @@ class ObserveRecentlyAddedUseCase @Inject constructor(
 
 ) {
 
-    operator fun invoke(mediaId: MediaId): Flow<List<Song>> {
+    operator fun invoke(mediaId: Category): Flow<List<Song>> {
         return when (mediaId.category){
-            MediaIdCategory.FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId)
+            FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryId)
+            GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId)
             else -> flowOf(listOf())
         }
     }

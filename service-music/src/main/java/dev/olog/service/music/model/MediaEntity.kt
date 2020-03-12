@@ -7,7 +7,7 @@ import dev.olog.core.entity.track.Song
 internal data class MediaEntity(
     val id: Long,
     val idInPlaylist: Int,
-    val mediaId: MediaId,
+    val mediaId: MediaId.Track,
     val artistId: Long,
     val albumId: Long,
     val title: String,
@@ -22,11 +22,11 @@ internal data class MediaEntity(
     val isPodcast: Boolean
 )
 
-internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
+internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId.Category) : MediaEntity {
     return MediaEntity(
         this.id,
         progressive,
-        MediaId.playableItem(mediaId, this.id),
+        mediaId.playableItem(this.id),
         this.artistId,
         this.albumId,
         this.title,

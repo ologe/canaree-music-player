@@ -21,7 +21,7 @@ class GlideArtistFetcherTest {
 
     private val context = mock<Context>()
     private val artistId = 10L
-    private val mediaId = MediaId.createCategoryValue(MediaIdCategory.ARTISTS, artistId.toString())
+    private val mediaId = MediaId.Category(MediaIdCategory.ARTISTS, artistId)
     private val gateway = mock<ImageRetrieverGateway>()
     private val sut = GlideArtistFetcher(context, mediaId, gateway, mock())
 

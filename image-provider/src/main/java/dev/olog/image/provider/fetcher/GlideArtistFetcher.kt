@@ -7,7 +7,7 @@ import dev.olog.core.gateway.ImageRetrieverGateway
 
 class GlideArtistFetcher(
     context: Context,
-    mediaId: MediaId,
+    private val mediaId: MediaId.Category,
     private val imageRetrieverGateway: ImageRetrieverGateway,
     prefs: SharedPreferences
 ) : BaseDataFetcher(context, prefs) {
@@ -20,10 +20,8 @@ class GlideArtistFetcher(
         private const val THRESHOLD = 250L
     }
 
-    private val id = mediaId.resolveId
-
     override suspend fun execute(): String {
-        val image = imageRetrieverGateway.getArtist(id)!!.image
+        val image = imageRetrieverGateway.getArtist(mediaId.categoryId)!!.image
         if (image.endsWith(LAST_FM_PLACEHOLDER) || image.startsWith(DEEZER_PLACEHOLDER)) {
             return ""
         }
@@ -31,7 +29,7 @@ class GlideArtistFetcher(
     }
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchArtist(id)
+        return imageRetrieverGateway.mustFetchArtist(mediaId.categoryId)
     }
 
     override val threshold: Long = THRESHOLD

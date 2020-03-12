@@ -15,7 +15,7 @@ class PlayerMetadataTest {
     @Test
     fun testMediaId() {
         // given
-        val mediaId = MediaId.shuffleId
+        val mediaId = MediaId.SHUFFLE_ID
 
         val metadata = MediaMetadataCompat.Builder()
             .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId.toString())

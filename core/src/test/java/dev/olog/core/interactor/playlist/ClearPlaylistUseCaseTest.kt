@@ -3,8 +3,10 @@ package dev.olog.core.interactor.playlist
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.PLAYLISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.runBlocking
@@ -23,7 +25,7 @@ class ClearPlaylistUseCaseTest {
     fun testInvokePodcast() = runBlocking {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, id.toString())
+        val mediaId = Category(PODCASTS_PLAYLIST, id)
 
         // when
         sut(mediaId)
@@ -37,7 +39,7 @@ class ClearPlaylistUseCaseTest {
     fun testInvokeTrack() = runBlocking {
         // given
         val id = 1L
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, id.toString())
+        val mediaId = Category(PLAYLISTS, id)
 
         // when
         sut(mediaId)
@@ -51,7 +53,7 @@ class ClearPlaylistUseCaseTest {
     fun testInvokeWithWrongMediaId() = runBlocking {
         // given
         val allowed = listOf(
-            MediaIdCategory.PLAYLISTS, MediaIdCategory.PODCASTS_PLAYLIST
+            PLAYLISTS, PODCASTS_PLAYLIST
         )
 
         for (value in MediaIdCategory.values()) {
@@ -59,7 +61,7 @@ class ClearPlaylistUseCaseTest {
                 continue
             }
             try {
-                val mediaId = MediaId.createCategoryValue(value, "1")
+                val mediaId = Category(value, 1)
 
                 // when
                 sut(mediaId)

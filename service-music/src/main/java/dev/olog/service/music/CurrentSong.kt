@@ -2,7 +2,7 @@ package dev.olog.service.music
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.entity.favorite.FavoriteEntity
 import dev.olog.core.entity.favorite.FavoriteState
@@ -59,24 +59,27 @@ internal class CurrentSong @Inject constructor(
         launch(schedulers.io) {
             for (entity in channel) {
                 Timber.v("$TAG on new item ${entity.title}")
-                if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
-                    Timber.v("$TAG insert last played artist ${entity.title}")
-                    insertLastPlayedArtistUseCase(entity.mediaId)
-                } else if (entity.mediaId.isAlbum) {
-                    Timber.v("$TAG insert last played album ${entity.title}")
-                    insertLastPlayedAlbumUseCase(entity.mediaId)
+                val mediaId = entity.mediaId
+
+                when (mediaId.category) {
+                    MediaIdCategory.ARTISTS,
+                    MediaIdCategory.PODCASTS_AUTHORS -> {
+                        Timber.v("$TAG insert last played artist ${entity.title}")
+                        insertLastPlayedArtistUseCase(entity.mediaId)
+                    }
+                    MediaIdCategory.ALBUMS -> {
+                        Timber.v("$TAG insert last played album ${entity.title}")
+                        insertLastPlayedAlbumUseCase(entity.mediaId)
+                    }
+                    else -> {}
                 }
 
                 Timber.v("$TAG insert most played ${entity.title}")
-                MediaId.playableItem(entity.mediaId, entity.id)
                 insertMostPlayedUseCase(entity.mediaId)
 
                 Timber.v("$TAG insert to history ${entity.title}")
                 insertHistorySongUseCase(
-                    InsertHistorySongUseCase.Input(
-                        entity.id,
-                        entity.isPodcast
-                    )
+                    InsertHistorySongUseCase.Input(entity.id, entity.isPodcast)
                 )
             }
         }

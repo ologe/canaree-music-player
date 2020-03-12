@@ -71,6 +71,7 @@ internal class DetailFragmentAdapter(
             }
             R.layout.item_detail_podcast -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
+                    require(item is DisplayableTrack)
                     viewModel.detailSortDataUseCase(item.mediaId) {
                         mediaProvider.playFromMediaId(item.mediaId.toDomain(), viewModel.getFilter(), it)
                     }
@@ -84,6 +85,7 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_song_with_drag_handle,
             R.layout.item_detail_song_with_track_and_image -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
+                    require(item is DisplayableTrack)
                     viewModel.detailSortDataUseCase(item.mediaId) {
                         mediaProvider.playFromMediaId(item.mediaId.toDomain(), viewModel.getFilter(), it)
                     }
@@ -352,6 +354,7 @@ internal class DetailFragmentAdapter(
 
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val item = getItem(viewHolder.adapterPosition)
+        require(item is DisplayableTrack)
         mediaProvider.addToPlayNext(item.mediaId.toDomain())
     }
 

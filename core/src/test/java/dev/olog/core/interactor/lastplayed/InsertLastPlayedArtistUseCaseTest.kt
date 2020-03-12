@@ -2,8 +2,10 @@ package dev.olog.core.interactor.lastplayed
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.ARTISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_AUTHORS
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import kotlinx.coroutines.runBlocking
@@ -22,7 +24,7 @@ class InsertLastPlayedArtistUseCaseTest {
         val sut = InsertLastPlayedArtistUseCase(gateway, mock())
 
         // when
-        sut(MediaId.createCategoryValue(MediaIdCategory.ARTISTS, id.toString()))
+        sut(Category(ARTISTS, id))
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -38,7 +40,7 @@ class InsertLastPlayedArtistUseCaseTest {
         val sut = InsertLastPlayedArtistUseCase(mock(), gateway)
 
         // when
-        sut(MediaId.createCategoryValue(MediaIdCategory.PODCASTS_AUTHORS, id.toString()))
+        sut(Category(PODCASTS_AUTHORS, id))
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -48,7 +50,7 @@ class InsertLastPlayedArtistUseCaseTest {
     fun testInvokeWithOtherCategories() = runBlocking {
         // given
         val id = 1L
-        val allowed = listOf(MediaIdCategory.ARTISTS, MediaIdCategory.PODCASTS_AUTHORS)
+        val allowed = listOf(ARTISTS, PODCASTS_AUTHORS)
 
         val sut = InsertLastPlayedArtistUseCase(mock(), mock())
 
@@ -58,7 +60,7 @@ class InsertLastPlayedArtistUseCaseTest {
                 continue
             }
             try {
-                sut(MediaId.createCategoryValue(value, id.toString()))
+                sut(Category(value, id))
                 fail("can handle only $allowed, instead was $value")
             } catch (ignored: IllegalArgumentException) {
             }

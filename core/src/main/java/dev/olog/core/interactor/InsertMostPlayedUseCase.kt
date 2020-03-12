@@ -1,7 +1,7 @@
 package dev.olog.core.interactor
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -14,11 +14,11 @@ class InsertMostPlayedUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(mediaId: MediaId) {
+    suspend operator fun invoke(mediaId: Track) {
         when (mediaId.category) {
-            MediaIdCategory.FOLDERS -> folderGateway.insertMostPlayed(mediaId)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
-            MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(mediaId)
+            FOLDERS -> folderGateway.insertMostPlayed(mediaId)
+            PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
+            GENRES -> genreGateway.insertMostPlayed(mediaId)
             else -> return
         }
     }

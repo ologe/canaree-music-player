@@ -2,7 +2,7 @@ package dev.olog.core.interactor.lastplayed
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.MediaIdCategory.ALBUMS
 import dev.olog.core.gateway.track.AlbumGateway
@@ -22,7 +22,7 @@ class InsertLastPlayedAlbumUseCaseTest {
         val sut = InsertLastPlayedAlbumUseCase(gateway)
 
         // when
-        sut(MediaId.createCategoryValue(ALBUMS, id.toString()))
+        sut(Category(ALBUMS, id))
 
         // then
         verify(gateway).addLastPlayed(id)
@@ -43,7 +43,7 @@ class InsertLastPlayedAlbumUseCaseTest {
                 continue
             }
             try {
-                sut(MediaId.createCategoryValue(value, id.toString()))
+                sut(Category(value, id))
                 fail("can handle only $allowed, instead was $value")
             } catch (ignored: IllegalArgumentException) {
             }

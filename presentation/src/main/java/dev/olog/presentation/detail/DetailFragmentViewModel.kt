@@ -61,8 +61,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.launch(schedulers.io) {
             try {
                 val biography = when (mediaId.category) {
-                    ARTISTS -> imageRetrieverGateway.getArtist(mediaId.categoryId.toLong())?.wiki
-                    ALBUMS -> imageRetrieverGateway.getAlbum(mediaId.categoryId.toLong())?.wiki
+                    ARTISTS -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
+                    ALBUMS -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
                     else -> null
                 }
                 biographyPublisher.offer(biography)

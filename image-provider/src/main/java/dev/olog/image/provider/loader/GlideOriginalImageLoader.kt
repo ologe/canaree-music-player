@@ -6,11 +6,14 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory.ALBUMS
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import dev.olog.shared.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
+import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher as GlideOriginalImageFetcher1
+
+private val allowedCategories = listOf(ALBUMS)
 
 internal class GlideOriginalImageLoader(
     private val context: Context,
@@ -19,14 +22,10 @@ internal class GlideOriginalImageLoader(
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
-        if (mediaId.isLeaf) {
-            return true
+        return when (mediaId) {
+            is MediaId.Track -> true
+            is MediaId.Category -> mediaId.category in allowedCategories
         }
-        if (mediaId.isAlbum) {
-            return true
-        }
-
-        return false
     }
 
     override fun buildLoadData(
@@ -39,10 +38,10 @@ internal class GlideOriginalImageLoader(
         // retrieve image store on track
         return ModelLoader.LoadData(
             MediaIdKey(mediaId),
-            GlideOriginalImageFetcher(
-                context,
-                mediaId,
-                trackGateway
+            GlideOriginalImageFetcher1(
+                context = context,
+                mediaId = mediaId,
+                trackGateway = trackGateway
             )
         )
     }
@@ -54,8 +53,8 @@ internal class GlideOriginalImageLoader(
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             return GlideOriginalImageLoader(
-                context,
-                trackGateway
+                context = context,
+                trackGateway = trackGateway
             )
         }
 

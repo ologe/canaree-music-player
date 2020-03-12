@@ -1,6 +1,8 @@
 package dev.olog.core.interactor.playlist
 
 import dev.olog.core.MediaId
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaId.Track
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -16,17 +18,22 @@ class AddToPlaylistUseCase @Inject constructor(
 
     suspend operator fun invoke(playlist: Playlist, mediaId: MediaId) {
         sanitize(playlist, mediaId)
-
-        if (mediaId.isLeaf && mediaId.isPodcast) {
-            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId))
-            return
+        return when (mediaId) {
+            is Track -> handleTracks(playlist, mediaId)
+            is Category -> handleCategories(playlist, mediaId)
         }
 
-        if (mediaId.isLeaf) {
-            playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.resolveId))
-            return
-        }
+    }
 
+    private suspend fun handleTracks(playlist: Playlist, mediaId: Track) {
+        if (mediaId.isAnyPodcast) {
+            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id))
+        } else {
+            playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id))
+        }
+    }
+
+    private suspend fun handleCategories(playlist: Playlist, mediaId: Category) {
         val songList = getSongListByParamUseCase(mediaId).map { it.id }
         if (mediaId.isAnyPodcast) {
             podcastPlaylistGateway.addSongsToPlaylist(playlist.id, songList)

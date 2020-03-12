@@ -7,11 +7,11 @@ import dev.olog.shared.TextUtils
 
 class PlayerMetadata(private val metadata: MediaMetadataCompat) {
 
-    val id: Long = mediaId.leaf!!
-    val mediaId: MediaId
+    val id: Long = mediaId.id
+    val mediaId: MediaId.Track
         get() {
             val mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-            return MediaId.fromString(mediaId)
+            return MediaId.fromString(mediaId) as MediaId.Track
         }
 
     val title: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE).toString()

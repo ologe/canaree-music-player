@@ -108,21 +108,21 @@ internal class FolderRepository @Inject constructor(
         return extractFolders(cursor)
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         return observeByParam(mediaId.categoryId).take(1).map { it!! }
             .flatMapLatest { mostPlayedDao.getAll(it.path, trackGateway) }
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
         assertBackgroundThread()
         val folder = getByParam(mediaId.categoryId)!!
         mostPlayedDao.insert(
             FolderMostPlayedEntity(
-                0,
-                mediaId.leaf!!,
-                folder.path
+                id = 0,
+                songId = mediaId.id,
+                folderPath = folder.path
             )
         )
     }

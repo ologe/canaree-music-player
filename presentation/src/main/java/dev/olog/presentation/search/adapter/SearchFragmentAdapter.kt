@@ -39,6 +39,7 @@ internal class SearchFragmentAdapter(
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(this) { item, _, _ ->
+                    require(item is DisplayableTrack)
                     mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, null)
                     viewModel.insertToRecent(item.mediaId)
 
@@ -62,7 +63,7 @@ internal class SearchFragmentAdapter(
                 viewHolder.setOnClickListener(this) { item, _, view ->
                     when (val mediaId = item.mediaId) {
                         is PresentationId.Track -> {
-                            mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, null)
+                            mediaProvider.playFromMediaId(mediaId.toDomain(), null, null)
                         }
                         is PresentationId.Category -> navigator.toDetailFragment(mediaId, view)
                     }
@@ -145,6 +146,7 @@ internal class SearchFragmentAdapter(
     override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val item = getItem(position)
+        require(item is DisplayableTrack)
         mediaProvider.addToPlayNext(item.mediaId.toDomain())
     }
 

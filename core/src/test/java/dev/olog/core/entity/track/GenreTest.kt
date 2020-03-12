@@ -1,9 +1,9 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.GENRES
 import dev.olog.core.Mocks
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GenreTest {
@@ -13,7 +13,7 @@ class GenreTest {
         val id = 1L
         val genre = Mocks.genre.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.GENRES, id.toString()),
+            Category(GENRES, id),
             genre.getMediaId()
         )
     }

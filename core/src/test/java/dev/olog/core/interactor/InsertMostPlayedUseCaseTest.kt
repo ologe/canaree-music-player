@@ -4,12 +4,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Track
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class InsertMostPlayedUseCaseTest {
@@ -22,9 +23,9 @@ class InsertMostPlayedUseCaseTest {
     )
 
     @Test
-    fun testFolderInvoke() = runBlocking {
+    fun testFolderInvoke() = runBlockingTest {
         // given
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, "")
+        val mediaId = Track(FOLDERS, 1, 2)
 
         // when
         sut(mediaId)
@@ -37,9 +38,9 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testPlaylistInvoke() = runBlocking {
+    fun testPlaylistInvoke() = runBlockingTest {
         // given
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, "")
+        val mediaId = Track(PLAYLISTS, 1, 2)
 
         // when
         sut(mediaId)
@@ -52,9 +53,9 @@ class InsertMostPlayedUseCaseTest {
     }
 
     @Test
-    fun testGenreInvoke() = runBlocking {
+    fun testGenreInvoke() = runBlockingTest {
         // given
-        val mediaId = MediaId.createCategoryValue(MediaIdCategory.GENRES, "")
+        val mediaId = Track(GENRES, 1, 2)
 
         // when
         sut(mediaId)
@@ -69,16 +70,16 @@ class InsertMostPlayedUseCaseTest {
     @Test
     fun testNotAllowed() = runBlocking {
         val allowed = listOf(
-            MediaIdCategory.FOLDERS,
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.GENRES
+            FOLDERS,
+            PLAYLISTS,
+            GENRES
         )
 
-        for (value in MediaIdCategory.values()) {
+        for (value in values()) {
             if (value in allowed) {
                 continue
             }
-            sut(MediaId.createCategoryValue(value, ""))
+            sut(Track(value, 1, 2))
         }
 
         verifyZeroInteractions(folderGateway)

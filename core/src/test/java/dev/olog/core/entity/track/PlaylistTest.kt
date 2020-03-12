@@ -1,9 +1,10 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaId.Category
+import dev.olog.core.MediaIdCategory.PLAYLISTS
+import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.Mocks
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class PlaylistTest {
@@ -13,7 +14,7 @@ class PlaylistTest {
         val id = 1L
         val playlist = Mocks.playlist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PLAYLISTS, id.toString()),
+            Category(PLAYLISTS, id),
             playlist.getMediaId()
         )
     }
@@ -23,7 +24,7 @@ class PlaylistTest {
         val id = 1L
         val playlist = Mocks.podcastPlaylist.copy(id = id)
         assertEquals(
-            MediaId.createCategoryValue(MediaIdCategory.PODCASTS_PLAYLIST, id.toString()),
+            Category(PODCASTS_PLAYLIST, id),
             playlist.getMediaId()
         )
     }

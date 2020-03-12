@@ -170,19 +170,19 @@ internal class PlaylistRepository @Inject constructor(
         return Playlist(id, title, 0, false)
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
+    override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
         return mostPlayedDao.getAll(folderPath, trackGateway)
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
         assertBackgroundThread()
         mostPlayedDao.insert(
             PlaylistMostPlayedEntity(
                 0,
-                mediaId.leaf!!,
+                mediaId.id,
                 mediaId.categoryId
             )
         )

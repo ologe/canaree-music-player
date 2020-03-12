@@ -10,7 +10,7 @@ import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,9 +21,8 @@ class GlideSongFetcherTest {
 
     private val context = mock<Context>()
     private val songId = 10L
-    private val mediaId = MediaId.playableItem(
-        MediaId.createCategoryValue(MediaIdCategory.ALBUMS, ""), songId
-    )
+    private val mediaId = MediaId.Category(MediaIdCategory.ALBUMS, 1)
+        .playableItem(songId)
     private val gateway = mock<ImageRetrieverGateway>()
     private val sut = GlideSongFetcher(context, mediaId, gateway, mock())
 

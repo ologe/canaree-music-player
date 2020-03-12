@@ -104,7 +104,7 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
-        callback.onPlayFromMediaId(MediaId.shuffleId.toString(), null)
+        callback.onPlayFromMediaId(MediaId.SHUFFLE_ID.toString(), null)
     }
 
     override fun handlePlayPause(intent: Intent) {
@@ -207,7 +207,7 @@ class MusicService : BaseMusicService() {
 
             } else {
                 val mediaId = MediaId.fromString(parentId)
-                mediaItemGenerator.get().getCategoryValueChilds(mediaId)
+                mediaItemGenerator.get().getCategoryValueChilds(mediaId as MediaId.Category)
             }
             result.sendResult(songList)
         }

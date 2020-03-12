@@ -7,7 +7,7 @@ import dev.olog.core.gateway.ImageRetrieverGateway
 
 class GlideSongFetcher(
     context: Context,
-    mediaId: MediaId,
+    private val mediaId: MediaId.Track,
     private val imageRetrieverGateway: ImageRetrieverGateway,
     prefs: SharedPreferences
 ) : BaseDataFetcher(context, prefs) {
@@ -16,14 +16,12 @@ class GlideSongFetcher(
         private const val THRESHOLD = 600L
     }
 
-    private val id = mediaId.resolveId
-
     override suspend fun execute(): String {
-        return imageRetrieverGateway.getTrack(id)!!.image
+        return imageRetrieverGateway.getTrack(mediaId.id)!!.image
     }
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchTrack(id)
+        return imageRetrieverGateway.mustFetchTrack(mediaId.id)
     }
 
     override val threshold: Long = THRESHOLD
