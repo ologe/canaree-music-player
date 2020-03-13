@@ -5,9 +5,9 @@ import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.MediaIdCategory.ALBUMS
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.track.AlbumGateway
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.fail
 import org.junit.Test
 
 class InsertLastPlayedAlbumUseCaseTest {
@@ -36,15 +36,9 @@ class InsertLastPlayedAlbumUseCaseTest {
         val allowed = listOf(ALBUMS)
 
         // when
-        for (value in MediaIdCategory.values()) {
-            if (value in allowed) {
-                continue
-            }
-            try {
-                sut(Category(value, id))
-                fail("can handle only $allowed, instead was $value")
-            } catch (ignored: IllegalArgumentException) {
-            }
+
+        MediaIdCategory.values().catchIaeOnly(allowed) { value ->
+            sut(Category(value, id))
         }
     }
 

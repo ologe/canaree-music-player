@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId.Track
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -74,10 +75,7 @@ class InsertMostPlayedUseCaseTest {
             GENRES
         )
 
-        for (value in values()) {
-            if (value in allowed) {
-                continue
-            }
+        values().catchIaeOnly(allowed) { value ->
             sut(Track(value, 1, 2))
         }
 

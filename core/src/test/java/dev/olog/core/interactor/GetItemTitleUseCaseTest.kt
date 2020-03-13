@@ -6,10 +6,11 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import org.junit.Assert
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class GetItemTitleUseCaseTest {
@@ -177,7 +178,7 @@ class GetItemTitleUseCaseTest {
     }
 
     @Test
-    fun testNotAllowed()  {
+    fun testNotAllowed() = runBlockingTest {
         // given
         val allowed = listOf(
             FOLDERS,
@@ -189,19 +190,13 @@ class GetItemTitleUseCaseTest {
             PODCASTS_AUTHORS
         )
 
-        for (value in values()) {
-            if (value in allowed) {
-                continue
-            }
-            try {
-                val mediaId = Category(value, 1)
+        values().catchIaeOnly(allowed) { value ->
+            val mediaId = Category(value, 1)
 
-                // when
-                sut(mediaId)
-                Assert.fail("only $allowed is allow, instead was $value")
-            } catch (ex: IllegalArgumentException) {
-            }
+            // when
+            sut(mediaId)
         }
+
 
         // then
         verifyZeroInteractions(folderGateway)

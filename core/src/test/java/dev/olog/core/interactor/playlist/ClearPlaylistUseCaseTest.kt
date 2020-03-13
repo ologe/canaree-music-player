@@ -7,10 +7,10 @@ import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.MediaIdCategory.PLAYLISTS
 import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Test
 
 class ClearPlaylistUseCaseTest {
@@ -56,18 +56,9 @@ class ClearPlaylistUseCaseTest {
             PLAYLISTS, PODCASTS_PLAYLIST
         )
 
-        for (value in MediaIdCategory.values()) {
-            if (value in allowed) {
-                continue
-            }
-            try {
-                val mediaId = Category(value, 1)
-
-                // when
-                sut(mediaId)
-                Assert.fail("only $allowed is allow, instead was $value")
-            } catch (ex: IllegalArgumentException) {
-            }
+        MediaIdCategory.values().catchIaeOnly(allowed) { value ->
+            val mediaId = Category(value, 1)
+            sut(mediaId)
         }
 
         // then
