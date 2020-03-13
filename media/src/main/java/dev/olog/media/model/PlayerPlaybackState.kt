@@ -2,56 +2,38 @@ package dev.olog.media.model
 
 import android.os.SystemClock
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.intents.MusicConstants
+import android.support.v4.media.session.PlaybackStateCompat.STATE_PLAYING
+import dev.olog.media.model.PlayerState.*
 
-enum class PlayerState {
-    PLAYING,
-    PAUSED,
-    SKIP_TO_NEXT,
-    SKIP_TO_PREVIOUS;
+class PlayerPlaybackState(
+    private val stateCompat: PlaybackStateCompat
+) {
 
-    companion object {
-        @JvmStatic
-        fun of(@PlaybackStateCompat.State state: Int): PlayerState = when (state) {
-            PlaybackStateCompat.STATE_PLAYING -> PLAYING
-            PlaybackStateCompat.STATE_PAUSED -> PAUSED
-            PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> SKIP_TO_NEXT
-            PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS -> SKIP_TO_PREVIOUS
-            // not handled
-            PlaybackStateCompat.STATE_NONE,
-            PlaybackStateCompat.STATE_STOPPED,
-            PlaybackStateCompat.STATE_FAST_FORWARDING,
-            PlaybackStateCompat.STATE_REWINDING,
-            PlaybackStateCompat.STATE_BUFFERING,
-            PlaybackStateCompat.STATE_ERROR,
-            PlaybackStateCompat.STATE_CONNECTING,
-            PlaybackStateCompat.STATE_SKIPPING_TO_QUEUE_ITEM -> throw IllegalArgumentException("state not handled $state")
-            // kotlin compiler wants an else branch
-            else -> throw IllegalArgumentException("state not handled $state")
-        }
-    }
-}
+    val state : PlayerState
+        get() = PlayerState.of(stateCompat.state)
 
-class PlayerPlaybackState(private val stateCompat: PlaybackStateCompat) {
+    val bookmark: Int
+        get() = stateCompat.extractBookmark()
 
-    val state = PlayerState.of(stateCompat.state)
-    val bookmark = stateCompat.extractBookmark()
-    val playbackSpeed = stateCompat.playbackSpeed
+    val playbackSpeed : Float
+        get() = stateCompat.playbackSpeed
 
-    val isPlaying = state == PlayerState.PLAYING
-    val isPaused = state == PlayerState.PAUSED
+    val isPlaying: Boolean
+        get() = state == PLAYING
 
-    val isSkipTo = state == PlayerState.SKIP_TO_NEXT || state == PlayerState.SKIP_TO_PREVIOUS
+    val isPaused : Boolean
+        get() = state == PAUSED
 
-    val isPlayOrPause = isPlaying || isPaused
+    val isSkipTo: Boolean
+        get() = state == SKIP_TO_NEXT || state == SKIP_TO_PREVIOUS
 
-    val emissionTime: Long
-        get() = stateCompat.extras?.getLong(MusicConstants.STATE_EMISSION) ?: System.currentTimeMillis()
+    val isPlayOrPause: Boolean
+        get() = isPlaying || isPaused
 
     private fun PlaybackStateCompat.extractBookmark(): Int {
         var bookmark = this.position
 
-        if (this.state == PlaybackStateCompat.STATE_PLAYING) {
+        if (this.state == STATE_PLAYING) {
             val timeDelta = SystemClock.elapsedRealtime() - this.lastPositionUpdateTime
             bookmark += (timeDelta * this.playbackSpeed).toLong()
         }

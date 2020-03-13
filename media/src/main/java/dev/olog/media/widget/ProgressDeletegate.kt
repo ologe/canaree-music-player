@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
     fun onStateChanged(state: PlayerPlaybackState)
-    fun startAutoIncrement(startMillis: Int, speed: Float, emissionTime: Long)
+    fun startAutoIncrement(startMillis: Int, speed: Float)
     fun stopAutoIncrement(startMillis: Int)
     fun observeProgress(): Flow<Long>
 }
@@ -36,14 +36,13 @@ class ProgressDeletegate(
     }
 
     @SuppressLint("ConcreteDispatcherIssue")
-    override fun startAutoIncrement(startMillis: Int, speed: Float, emissionTime: Long) {
-        val diff = System.currentTimeMillis() - emissionTime
+    override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
         incrementJob = flowInterval(
             AppConstants.PROGRESS_BAR_INTERVAL,
             TimeUnit.MILLISECONDS
         )
-            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis + diff }
+            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
             .flowOn(Dispatchers.IO)
             .onEach {
                 setProgress(progressBar, it.toInt())
@@ -61,7 +60,7 @@ class ProgressDeletegate(
 
     override fun onStateChanged(state: PlayerPlaybackState) {
         if (state.isPlaying) {
-            startAutoIncrement(state.bookmark, state.playbackSpeed, state.emissionTime)
+            startAutoIncrement(state.bookmark, state.playbackSpeed)
         } else {
             stopAutoIncrement(state.bookmark)
         }

@@ -3,13 +3,11 @@ package dev.olog.service.music.state
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicConstants.STATE_EMISSION
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
@@ -57,11 +55,6 @@ internal class MusicServicePlaybackState @Inject constructor(
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
         builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
-
-        val emissionTime = Bundle().apply {
-            putLong(STATE_EMISSION, System.currentTimeMillis())
-        }
-        builder.setExtras(emissionTime)
 
         musicPreferencesUseCase.setBookmark(bookmark)
 
