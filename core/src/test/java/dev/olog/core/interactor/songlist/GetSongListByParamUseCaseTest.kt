@@ -32,13 +32,13 @@ class GetSongListByParamUseCaseTest {
     @Test
     fun testFolders(){
         // given
-        val path = "path"
-        val mediaId = Category(FOLDERS, path.hashCode().toLong())
+        val id = 1L
+        val mediaId = Category(FOLDERS, id)
         
         // when
         sut(mediaId)
         
-        verify(folderGateway).getTrackListByParam(mediaId.categoryId)
+        verify(folderGateway).getTrackListByParam(id)
         verifyNoMoreInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
         verifyZeroInteractions(trackGateway)
@@ -187,7 +187,7 @@ class GetSongListByParamUseCaseTest {
         verify(trackGateway).getAllPodcasts()
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
-        verifyZeroInteractions(trackGateway)
+        verifyNoMoreInteractions(trackGateway)
         verifyZeroInteractions(albumGateway)
         verifyZeroInteractions(artistGateway)
         verifyZeroInteractions(genreGateway)
