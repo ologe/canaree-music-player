@@ -21,7 +21,7 @@ interface IProgressDeletegate {
 }
 
 // TODO cancel scope
-class ProgressDeletegate(
+class ProgressDelegate(
     private val progressBar: ProgressBar
 ) : IProgressDeletegate,
     CoroutineScope by MainScope() {

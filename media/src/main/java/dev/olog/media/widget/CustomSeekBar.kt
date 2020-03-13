@@ -17,7 +17,7 @@ class CustomSeekBar(
 
     private var listener: OnSeekBarChangeListener? = null
 
-    private val delegate: IProgressDeletegate by lazy { ProgressDeletegate(this) }
+    private val delegate: IProgressDeletegate by lazy { ProgressDelegate(this) }
 
     init {
         if (!isInEditMode) {

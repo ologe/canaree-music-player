@@ -12,7 +12,7 @@ class CustomProgressBar(
 
 ) : ProgressBar(context, attrs) {
 
-    private val delegate: IProgressDeletegate = ProgressDeletegate(this)
+    private val delegate: IProgressDeletegate = ProgressDelegate(this)
 
     init {
         max = Int.MAX_VALUE
