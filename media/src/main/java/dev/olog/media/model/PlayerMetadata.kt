@@ -4,31 +4,47 @@ import android.support.v4.media.MediaMetadataCompat
 import dev.olog.core.MediaId
 import dev.olog.intents.MusicConstants
 import dev.olog.shared.TextUtils
+import dev.olog.shared.android.extensions.getBoolean
 
-class PlayerMetadata(private val metadata: MediaMetadataCompat) {
+class PlayerMetadata(
+    private val metadata: MediaMetadataCompat
+) {
 
-    val id: Long = mediaId.id
+    val id: Long
+        get() = mediaId.id
+
     val mediaId: MediaId.Track
         get() {
             val mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
             return MediaId.fromString(mediaId) as MediaId.Track
         }
 
-    val title: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE).toString()
-    val artist: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST).toString()
-    val album: String = metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM).toString()
-    val duration: Long = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
-    val isPodcast: Boolean = metadata.getBoolean(MusicConstants.IS_PODCAST)
-    val path: String = metadata.getString(MusicConstants.PATH).toString()
+    val title: String
+        get() = metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
 
-    val isSkippingToNext = metadata.getBoolean(MusicConstants.SKIP_NEXT)
-    val isSkippingToPrevious = metadata.getBoolean(MusicConstants.SKIP_PREVIOUS)
+    val artist: String
+        get() = metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
 
-    val readableDuration: String = TextUtils.formatMillis(duration)
+    val album: String
+        get() = metadata.getString(MediaMetadataCompat.METADATA_KEY_ALBUM)
 
-    private fun MediaMetadataCompat.getBoolean(key: String): Boolean {
-        return getLong(key) != 0L
-    }
+    val duration: Long
+        get() = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
+
+    val isPodcast: Boolean
+        get() = metadata.getBoolean(MusicConstants.IS_PODCAST)
+
+    val path: String
+        get() = metadata.getString(MusicConstants.PATH)
+
+    val isSkippingToNext
+        get() = metadata.getBoolean(MusicConstants.SKIP_NEXT)
+
+    val isSkippingToPrevious
+        get() = metadata.getBoolean(MusicConstants.SKIP_PREVIOUS)
+
+    val readableDuration: String
+        get() = TextUtils.formatMillis(duration)
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is PlayerMetadata) {
@@ -58,6 +74,5 @@ class PlayerMetadata(private val metadata: MediaMetadataCompat) {
         result = 31 * result + isSkippingToPrevious.hashCode()
         return result
     }
-
 
 }

@@ -14,6 +14,7 @@ dependencies {
     implementation lib_x.constraint_layout
     implementation lib_x.preference
     implementation lib_x.fragments
+    implementation lib_x.media
 
     // google architecture components
     implementation lib_x.lifecycle_runtime

@@ -1,6 +1,10 @@
-package dev.olog.service.music.utils
+package dev.olog.shared.android.extensions
 
 import android.support.v4.media.MediaMetadataCompat
+
+fun MediaMetadataCompat.getBoolean(key: String): Boolean {
+    return getLong(key) != 0L
+}
 
 fun MediaMetadataCompat.Builder.putBoolean(
     key: String,
@@ -9,4 +13,3 @@ fun MediaMetadataCompat.Builder.putBoolean(
     putLong(key, if (value) 1 else 0)
     return this
 }
-
