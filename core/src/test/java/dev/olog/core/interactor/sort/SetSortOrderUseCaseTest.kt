@@ -5,9 +5,10 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
-import org.junit.Assert
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class SetSortOrderUseCaseTest {
@@ -56,7 +57,6 @@ class SetSortOrderUseCaseTest {
     }
 
 
-
     @Test
     fun testGenre() {
         val mediaId = Category(GENRES, 1)
@@ -92,7 +92,7 @@ class SetSortOrderUseCaseTest {
     // endregion
 
     @Test
-    fun testNotAllowed() {
+    fun testNotAllowed() = runBlockingTest {
         val allowed = listOf(
             FOLDERS,
             PODCASTS_PLAYLIST,
@@ -103,18 +103,11 @@ class SetSortOrderUseCaseTest {
             GENRES
         )
 
-        for (value in values()) {
-            if (value in allowed) {
-                continue
-            }
+        values().catchIaeOnly(allowed) { value ->
             val mediaId = Category(value, 1)
-            try {
-                val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
+            val request = SetSortOrderUseCase.Request(mediaId, SortType.TITLE)
 
-        sut(request)
-                Assert.fail("not allowed $mediaId")
-            } catch (ex: IllegalArgumentException) {
-            }
+            sut(request)
         }
         verifyZeroInteractions(gateway)
     }

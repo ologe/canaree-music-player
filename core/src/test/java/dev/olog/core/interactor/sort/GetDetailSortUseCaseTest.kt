@@ -5,8 +5,9 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.prefs.SortPreferences
-import org.junit.Assert
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 class GetDetailSortUseCaseTest {
@@ -77,7 +78,7 @@ class GetDetailSortUseCaseTest {
     // end region
 
     @Test
-    fun testNotAllowed() {
+    fun testNotAllowed() = runBlockingTest {
         val allowed = listOf(
             FOLDERS,
             PODCASTS_PLAYLIST,
@@ -88,17 +89,11 @@ class GetDetailSortUseCaseTest {
             GENRES
         )
 
-        for (value in values()) {
-            if (value in allowed) {
-                continue
-            }
+        values().catchIaeOnly(allowed) { value ->
             val mediaId = Category(value, 1)
-            try {
-                sut(mediaId)
-                Assert.fail("not allowed $mediaId")
-            } catch (ex: IllegalArgumentException) {
-            }
+            sut(mediaId)
         }
+
         verifyZeroInteractions(gateway)
     }
 
