@@ -23,19 +23,27 @@ import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MediaExposer(
     private val context: Context,
     private val onConnectionChanged: OnConnectionChanged,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val config: Config = Config()
 ) : CoroutineScope by MainScope(),
     IMediaControllerCallback,
     IMediaConnectionCallback {
+
+    class Config(
+        val connectionPublisher: ConflatedBroadcastChannel<MusicServiceConnectionState> = ConflatedBroadcastChannel(),
+        val metadataPublisher: ConflatedBroadcastChannel<PlayerMetadata> = ConflatedBroadcastChannel(),
+        val statePublisher: ConflatedBroadcastChannel<PlayerPlaybackState> = ConflatedBroadcastChannel(),
+        val repeatModePublisher: ConflatedBroadcastChannel<PlayerRepeatMode> = ConflatedBroadcastChannel(),
+        val shuffleModePublisher: ConflatedBroadcastChannel<PlayerShuffleMode> = ConflatedBroadcastChannel(),
+        val queuePublisher: ConflatedBroadcastChannel<List<PlayerItem>> = ConflatedBroadcastChannel(emptyList())
+    )
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
@@ -46,27 +54,18 @@ class MediaExposer(
         )
     }
 
-    private var job by autoDisposeJob()
+    private var connectionJob by autoDisposeJob()
+    private var queueJob by autoDisposeJob()
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
-
-    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
-
-    private val metadataPublisher = ConflatedBroadcastChannel<PlayerMetadata>()
-    private val statePublisher = ConflatedBroadcastChannel<PlayerPlaybackState>()
-    private val repeatModePublisher = ConflatedBroadcastChannel<PlayerRepeatMode>()
-    private val shuffleModePublisher = ConflatedBroadcastChannel<PlayerShuffleMode>()
-    private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
             Timber.w("MediaExposer: Storage permission is not granted")
             return
         }
-        job = launch {
-            // TODO refactor to flow
-            for (state in connectionPublisher.openSubscription()) {
-                Timber.d("MediaExposer: Connection state=$state")
+        connectionJob = config.connectionPublisher.asFlow()
+            .onEach { state ->
                 when (state) {
                     MusicServiceConnectionState.CONNECTED -> {
                         onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
@@ -76,36 +75,33 @@ class MediaExposer(
                         callback
                     )
                 }
-            }
-        }
+            }.launchIn(this)
 
-        if (!mediaBrowser.isConnected){
+        if (!mediaBrowser.isConnected) {
             try {
                 mediaBrowser.connect()
             } catch (ex: IllegalStateException){
                 Timber.e(ex)
-//                TODO leak ??
-//                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
-//                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
             }
         }
     }
 
     fun disconnect() {
-        job = null
+        connectionJob = null
+        queueJob = null
         if (mediaBrowser.isConnected){
             mediaBrowser.disconnect()
         }
     }
 
     fun dispose() {
-        connectionPublisher.close()
+        config.connectionPublisher.close()
 
-        metadataPublisher.close()
-        statePublisher.close()
-        repeatModePublisher.close()
-        shuffleModePublisher.close()
-        queuePublisher.close()
+        config.metadataPublisher.close()
+        config.statePublisher.close()
+        config.repeatModePublisher.close()
+        config.shuffleModePublisher.close()
+        config.queuePublisher.close()
     }
 
     /**
@@ -120,46 +116,45 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.offer(state)
+        config.connectionPublisher.offer(state)
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat) {
-        metadataPublisher.offer(PlayerMetadata(metadata))
+        config.metadataPublisher.offer(PlayerMetadata(metadata))
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
-        statePublisher.offer(PlayerPlaybackState(state))
+        config.statePublisher.offer(PlayerPlaybackState(state))
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
-        repeatModePublisher.offer(PlayerRepeatMode.of(repeatMode))
+        config.repeatModePublisher.offer(PlayerRepeatMode.of(repeatMode))
     }
 
     override fun onShuffleModeChanged(shuffleMode: Int) {
-        shuffleModePublisher.offer(PlayerShuffleMode.of(shuffleMode))
+        config.shuffleModePublisher.offer(PlayerShuffleMode.of(shuffleMode))
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>) {
-        // TODO keep in a job
-        launch(schedulers.cpu) {
+        queueJob = launch(schedulers.cpu) {
             val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.offer(result)
+            config.queuePublisher.offer(result)
         }
     }
 
-    fun observeMetadata(): Flow<PlayerMetadata> = metadataPublisher.asFlow()
+    fun observeMetadata(): Flow<PlayerMetadata> = config.metadataPublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observePlaybackState(): Flow<PlayerPlaybackState> = statePublisher.asFlow()
+    fun observePlaybackState(): Flow<PlayerPlaybackState> = config.statePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeRepeat(): Flow<PlayerRepeatMode> = repeatModePublisher.asFlow()
+    fun observeRepeat(): Flow<PlayerRepeatMode> = config.repeatModePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeShuffle(): Flow<PlayerShuffleMode> = shuffleModePublisher.asFlow()
+    fun observeShuffle(): Flow<PlayerShuffleMode> = config.shuffleModePublisher.asFlow()
         .distinctUntilChanged()
 
-    fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher.asFlow()
+    fun observeQueue(): Flow<List<PlayerItem>> = config.queuePublisher.asFlow()
         .distinctUntilChanged()
 
 
