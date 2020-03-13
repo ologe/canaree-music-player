@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.lastfm
 
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials

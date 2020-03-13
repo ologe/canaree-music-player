@@ -3,7 +3,7 @@ package dev.olog.service.music.scrobbling
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.interactor.ObserveLastFmUserCredentials
+import dev.olog.core.interactor.lastfm.ObserveLastFmUserCredentials
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
