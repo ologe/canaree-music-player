@@ -1,7 +1,7 @@
 package dev.olog.core.interactor
 
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
@@ -23,17 +23,17 @@ class GetItemTitleUseCase @Inject constructor(
 ) {
 
 
-    operator fun invoke(mediaId: MediaId): Flow<String?> {
+    operator fun invoke(mediaId: MediaId): Flow<String> {
         return when (mediaId.category){
-            MediaIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it?.name }
-            MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
-            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it?.name }
-            MediaIdCategory.SONGS,
-            MediaIdCategory.PODCASTS -> throwNotHandled(mediaId)
+            FOLDERS -> folderGateway.observeByParam(mediaId.categoryId).map { it!!.title }
+            PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).map { it!!.title }
+            ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).map { it!!.title }
+            ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it!!.name }
+            GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it!!.name }
+            PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it!!.title }
+            PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it!!.name }
+            SONGS -> throwNotHandled(mediaId)
+            PODCASTS -> throwNotHandled(mediaId)
         }
     }
 

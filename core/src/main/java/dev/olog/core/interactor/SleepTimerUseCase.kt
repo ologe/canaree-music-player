@@ -15,9 +15,9 @@ class SleepTimerUseCase @Inject constructor(
         gateway.getSleepTime()
     )
 
-    fun set(sleepFrom: Long, sleepTime: Long, nextSleep: Long) {
+    fun set(sleepFrom: Long, sleepTime: Long, sleepUntil: Long) {
         gateway.setSleepTimer(sleepFrom, sleepTime)
-        alarmService.set(nextSleep)
+        alarmService.set(sleepUntil)
     }
 
     fun reset() {

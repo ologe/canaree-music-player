@@ -22,7 +22,7 @@ class ArtistTest {
     @Test
     fun testPodcastGetMediaId() {
         val id = 1L
-        val artist = Mocks.podcastArtist.copy(id = id)
+        val artist = Mocks.podcastAuthor.copy(id = id)
         assertEquals(
             Category(PODCASTS_AUTHORS, id),
             artist.mediaId

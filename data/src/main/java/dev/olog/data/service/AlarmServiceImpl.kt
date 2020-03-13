@@ -19,9 +19,9 @@ internal class AlarmServiceImpl @Inject constructor(
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
-    override fun set(nextSleep: Long) {
+    override fun set(sleepUntil: Long) {
         val intent = stopMusicServiceIntent(context)
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextSleep, intent)
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, sleepUntil, intent)
     }
 
     override fun resetTimer() {

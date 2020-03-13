@@ -1,42 +1,59 @@
 package dev.olog.core.interactor
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
+import com.nhaarman.mockitokotlin2.*
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.Mocks
 import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GetItemTitleUseCaseTest {
 
-    private val folderGateway = mock<FolderGateway>()
-    private val playlistGateway = mock<PlaylistGateway>()
-    private val albumGateway = mock<AlbumGateway>()
-    private val artistGateway = mock<ArtistGateway>()
-    private val genreGateway = mock<GenreGateway>()
+    private val expected = "title"
 
-    private val podcastPlaylistGateway = mock<PodcastPlaylistGateway>()
-    private val podcastArtistGateway = mock<PodcastAuthorGateway>()
+    private val folderGateway = mock<FolderGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.folder.copy(title = expected))
+    }
+    private val playlistGateway = mock<PlaylistGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.playlist.copy(title = expected))
+    }
+    private val albumGateway = mock<AlbumGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.album.copy(title = expected))
+    }
+    private val artistGateway = mock<ArtistGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.artist.copy(name = expected))
+    }
+    private val genreGateway = mock<GenreGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.genre.copy(name = expected))
+    }
+
+    private val podcastPlaylistGateway = mock<PodcastPlaylistGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.podcastPlaylist.copy(title = expected))
+    }
+    private val podcastAuthorGateway = mock<PodcastAuthorGateway> {
+        on { observeByParam(any()) } doReturn flowOf(Mocks.podcastAuthor.copy(name = expected))
+    }
 
     private val sut = GetItemTitleUseCase(
         folderGateway, playlistGateway, albumGateway, artistGateway, genreGateway,
-        podcastPlaylistGateway, podcastArtistGateway
+        podcastPlaylistGateway, podcastAuthorGateway
     )
 
     @Test
-    fun testFolders() {
+    fun testFolders() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(FOLDERS, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
 
         // then
         verify(folderGateway).observeByParam(mediaId.categoryId)
@@ -47,17 +64,19 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
     @Test
-    fun testPlaylists() {
+    fun testPlaylists() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PLAYLISTS, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
 
         // then
         verify(playlistGateway).observeByParam(id)
@@ -68,17 +87,20 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
+
     }
 
     @Test
-    fun testAlbums() {
+    fun testAlbums() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ALBUMS, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
 
         // then
         verify(albumGateway).observeByParam(id)
@@ -89,17 +111,20 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
     @Test
-    fun testArtists() {
+    fun testArtists() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(ARTISTS, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
+
 
         // then
         verify(artistGateway).observeByParam(id)
@@ -110,17 +135,19 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
     @Test
-    fun testGenres() {
+    fun testGenres() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(GENRES, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
 
         // then
         verify(genreGateway).observeByParam(id)
@@ -131,18 +158,20 @@ class GetItemTitleUseCaseTest {
         verifyNoMoreInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
 
     @Test
-    fun testPodcastPlaylists() {
+    fun testPodcastPlaylists() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_PLAYLIST, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
 
         // then
         verify(podcastPlaylistGateway).observeByParam(id)
@@ -153,20 +182,23 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyNoMoreInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
     @Test
-    fun testPodcastArtists() {
+    fun testPodcastArtists() = runBlockingTest {
         // given
         val id = 1L
         val mediaId = Category(PODCASTS_AUTHORS, id)
 
         // when
-        sut(mediaId)
+        val title = sut(mediaId).first()
+
 
         // then
-        verify(podcastArtistGateway).observeByParam(id)
+        verify(podcastAuthorGateway).observeByParam(id)
         verifyZeroInteractions(folderGateway)
         verifyZeroInteractions(playlistGateway)
         verifyZeroInteractions(albumGateway)
@@ -174,7 +206,9 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyNoMoreInteractions(podcastArtistGateway)
+        verifyNoMoreInteractions(podcastAuthorGateway)
+
+        assertEquals(expected, title)
     }
 
     @Test
@@ -194,7 +228,7 @@ class GetItemTitleUseCaseTest {
             val mediaId = Category(value, 1)
 
             // when
-            sut(mediaId)
+            sut(mediaId).first()
         }
 
 
@@ -206,7 +240,7 @@ class GetItemTitleUseCaseTest {
         verifyZeroInteractions(genreGateway)
 
         verifyZeroInteractions(podcastPlaylistGateway)
-        verifyZeroInteractions(podcastArtistGateway)
+        verifyZeroInteractions(podcastAuthorGateway)
     }
 
 }

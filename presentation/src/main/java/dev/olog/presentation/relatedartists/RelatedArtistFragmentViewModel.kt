@@ -14,7 +14,6 @@ import dev.olog.presentation.toDomain
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModel @Inject constructor(
@@ -34,7 +33,6 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     val title: Flow<String> = getItemTitleUseCase(mediaId.toDomain())
         .flowOn(schedulers.io)
-        .map { it ?: "" }
 
 
     private fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {

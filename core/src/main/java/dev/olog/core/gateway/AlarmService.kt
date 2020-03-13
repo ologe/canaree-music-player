@@ -2,7 +2,7 @@ package dev.olog.core.gateway
 
 interface AlarmService {
 
-    fun set(nextSleep: Long)
+    fun set(sleepUntil: Long)
 
     fun resetTimer()
 

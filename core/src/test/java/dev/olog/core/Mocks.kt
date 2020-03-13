@@ -42,7 +42,7 @@ internal object Mocks {
         isPodcast = false
     )
 
-    val podcastArtist = artist.copy(isPodcast = true)
+    val podcastAuthor = artist.copy(isPodcast = true)
 
     val genre = Genre(
         id = 1,

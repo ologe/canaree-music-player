@@ -12,7 +12,6 @@ import dev.olog.presentation.toDomain
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecentlyAddedFragmentViewModel @Inject constructor(
@@ -31,7 +30,6 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
 
     val title: Flow<String> = getItemTitleUseCase(mediaId.toDomain())
         .flowOn(schedulers.io)
-        .map { it ?: "" }
 
     private fun Song.toRecentDetailDisplayableItem(parentId: PresentationId.Category): DisplayableTrack {
         return DisplayableTrack(
