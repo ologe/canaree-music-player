@@ -1,6 +1,5 @@
 package dev.olog.core.entity.track
 
-import dev.olog.core.MediaId
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
 import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
@@ -83,12 +82,21 @@ class SongTest {
     }
 
     @Test
-    fun testParentMediaId() {
-        val artistId = 1L
+    fun testTrackParentMediaId() {
         val id = 2L
-        val song = Mocks.song.copy(id = id, artistId = artistId)
+        val song = Mocks.song.copy(id = id, isPodcast = false)
         assertEquals(
-            Category(ARTISTS, id),
+            SONGS_CATEGORY,
+            song.parentMediaId
+        )
+    }
+
+    @Test
+    fun testPodcastParentMediaId() {
+        val id = 2L
+        val song = Mocks.song.copy(id = id, isPodcast = true)
+        assertEquals(
+            PODCAST_CATEGORY,
             song.parentMediaId
         )
     }
