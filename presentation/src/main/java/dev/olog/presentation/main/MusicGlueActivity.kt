@@ -19,6 +19,7 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.media.playPause
 import dev.olog.presentation.base.BaseActivity
+import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -35,7 +36,9 @@ abstract class MusicGlueActivity : BaseActivity(),
     internal lateinit var schedulers: Schedulers
 
     private val mediaExposer by lazyFast {
-        MediaExposer(this, this, schedulers)
+        MediaExposer(this, this, schedulers) {
+            Permissions.canReadStorage(this)
+        }
     }
 
     fun connect() {

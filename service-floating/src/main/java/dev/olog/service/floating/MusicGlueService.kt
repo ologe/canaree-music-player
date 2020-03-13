@@ -18,6 +18,7 @@ import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -32,11 +33,9 @@ class MusicGlueService @Inject constructor(
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
-        MediaExposer(
-            context,
-            this,
-            schedulers
-        )
+        MediaExposer(context, this, schedulers) {
+            Permissions.canReadStorage(context)
+        }
     }
     private var mediaController: MediaControllerCompat? = null
 

@@ -17,7 +17,6 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.android.Permissions
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +30,8 @@ class MediaExposer(
     private val context: Context,
     private val onConnectionChanged: OnConnectionChanged,
     private val schedulers: Schedulers,
-    private val config: Config = Config()
+    private val config: Config = Config(),
+    private val canReadStorage: () -> Boolean
 ) : CoroutineScope by MainScope(),
     IMediaControllerCallback,
     IMediaConnectionCallback {
@@ -60,7 +60,7 @@ class MediaExposer(
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
     fun connect() {
-        if (!Permissions.canReadStorage(context)) {
+        if (!canReadStorage()) {
             Timber.w("MediaExposer: Storage permission is not granted")
             return
         }
