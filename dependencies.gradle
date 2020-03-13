@@ -149,9 +149,9 @@ ext {
             mockito_kotlin     : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
             coroutines_test    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             livedata           : "com.jraska.livedata:testing-ktx:1.1.0",
-            ext_junit          : "androidx.test.ext:junit-ktx:1.1.0",
+            ext_junit          : "androidx.test.ext:junit-ktx:1.1.0", // TODO needed ?
             robolectric        : "org.robolectric:robolectric:$robolectric",
-            robolectric_support: "org.robolectric:shadows-supportv4:$robolectric",
+            robolectric_support: "org.robolectric:shadows-supportv4:$robolectric", // TODO needed?
     ]
 
 }
