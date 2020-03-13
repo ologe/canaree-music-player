@@ -5,6 +5,7 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -31,7 +32,8 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it?.name }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it?.title }
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it?.name }
-            else -> throw IllegalArgumentException("invalid media category ${mediaId.category}")
+            MediaIdCategory.SONGS,
+            MediaIdCategory.PODCASTS -> throwNotHandled(mediaId)
         }
     }
 

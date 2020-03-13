@@ -6,6 +6,7 @@ import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 class GetDetailSortUseCase @Inject constructor(
@@ -14,8 +15,7 @@ class GetDetailSortUseCase @Inject constructor(
 ) {
 
     operator fun invoke(mediaId: MediaId): SortEntity {
-        val category = mediaId.category
-        return when (category) {
+        return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> gateway.getDetailFolderSort()
             MediaIdCategory.PLAYLISTS -> gateway.getDetailPlaylistSort()
             MediaIdCategory.ALBUMS -> gateway.getDetailAlbumSort()
@@ -25,7 +25,7 @@ class GetDetailSortUseCase @Inject constructor(
             // here just to avoid crash or an ugly refactor
             MediaIdCategory.PODCASTS_AUTHORS,
             MediaIdCategory.PODCASTS_PLAYLIST -> SortEntity(SortType.TITLE, SortArranging.ASCENDING)
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
+            else -> throwNotHandled(mediaId)
         }
     }
 

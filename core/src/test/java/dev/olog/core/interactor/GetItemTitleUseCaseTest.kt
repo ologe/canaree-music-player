@@ -32,8 +32,8 @@ class GetItemTitleUseCaseTest {
     @Test
     fun testFolders() {
         // given
-        val path = "path"
-        val mediaId = Category(FOLDERS, path.hashCode().toLong())
+        val id = 1L
+        val mediaId = Category(FOLDERS, id)
 
         // when
         sut(mediaId)

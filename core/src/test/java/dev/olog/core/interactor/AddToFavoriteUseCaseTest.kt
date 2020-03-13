@@ -1,6 +1,8 @@
 package dev.olog.core.interactor
 
 import com.nhaarman.mockitokotlin2.*
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.core.Mocks
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
@@ -17,7 +19,8 @@ class AddToFavoriteUseCaseTest {
     @Test
     fun testInvokeSingle() = runBlockingTest {
         // given
-        val song = Mocks.song
+        val id = 123L
+        val song = Mocks.song.copy(id = id)
         val mediaId = song.mediaId
         val type = FavoriteTrackType.TRACK
         val input = AddToFavoriteUseCase.Input(mediaId, type)
@@ -26,7 +29,7 @@ class AddToFavoriteUseCaseTest {
         sut(input)
 
         // then
-        verify(gateway).addSingle(type, song.id)
+        verify(gateway).addSingle(type, id)
         verifyNoMoreInteractions(gateway)
         verifyZeroInteractions(songListUseCase)
     }
@@ -34,8 +37,7 @@ class AddToFavoriteUseCaseTest {
     @Test
     fun testInvokeGroup() = runBlockingTest {
         // given
-        val album = Mocks.album
-        val mediaId = album.mediaId
+        val mediaId = MediaId.Category(MediaIdCategory.ALBUMS, 1)
         val type = FavoriteTrackType.TRACK
         val input = AddToFavoriteUseCase.Input(mediaId, type)
         whenever(songListUseCase.invoke(mediaId))
@@ -47,8 +49,8 @@ class AddToFavoriteUseCaseTest {
         // then
         verify(songListUseCase).invoke(mediaId)
         verify(gateway).addGroup(type, listOf(Mocks.song.id))
-        verifyZeroInteractions(gateway)
-        verifyZeroInteractions(songListUseCase)
+        verifyNoMoreInteractions(gateway)
+        verifyNoMoreInteractions(songListUseCase)
     }
 
 }
