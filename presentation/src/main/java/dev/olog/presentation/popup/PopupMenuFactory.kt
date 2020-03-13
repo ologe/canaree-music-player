@@ -76,7 +76,7 @@ internal class PopupMenuFactory @Inject constructor(
 
     private fun getSongPopup(anchor: View, container: View?, mediaId: PresentationId): SongPopup {
         return when (mediaId) {
-            is PresentationId.Category -> throwNotHandled("invalid $mediaId")
+            is PresentationId.Category -> throwNotHandled(mediaId)
             is PresentationId.Track -> {
                 val song = trackGateway.getByParam(mediaId.id)!!
                 SongPopup(anchor, listenerFactory.song(container, song), song)

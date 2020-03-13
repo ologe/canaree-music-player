@@ -19,7 +19,7 @@ internal object SpanCountController {
             TabCategory.ARTISTS,
             TabCategory.PODCASTS_AUTHORS -> 3
             TabCategory.GENRES -> 3
-            else -> throwNotHandled("invalid $category")
+            else -> throwNotHandled(category)
         }
     }
 

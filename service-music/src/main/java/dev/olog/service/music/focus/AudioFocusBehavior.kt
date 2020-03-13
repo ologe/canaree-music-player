@@ -136,7 +136,7 @@ private enum class AudioFocusType {
                 AudioManager.AUDIOFOCUS_LOSS -> LOSS
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> LOSS_TRANSIENT
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> LOSS_TRANSIENT_CAN_DUCK
-                else -> throwNotHandled("focus=$focus")
+                else -> throwNotHandled(focus)
             }
         }
     }

@@ -194,7 +194,7 @@ internal class NavigatorImpl @Inject internal constructor(
                             instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
                         }
                     }
-                    else -> throwNotHandled("invalid $mediaId")
+                    else -> throwNotHandled(mediaId)
                 }
             }
         }.exhaustive

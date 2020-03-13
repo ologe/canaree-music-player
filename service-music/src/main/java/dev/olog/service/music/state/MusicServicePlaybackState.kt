@@ -126,7 +126,7 @@ internal class MusicServicePlaybackState @Inject constructor(
             SkipType.SKIP_PREVIOUS -> PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS
             SkipType.NONE,
             SkipType.RESTART,
-            SkipType.TRACK_ENDED -> throwNotHandled("skip type=$skipType")
+            SkipType.TRACK_ENDED -> throwNotHandled(skipType)
         }
 
         builder.setState(state, 0, 1f)

@@ -35,7 +35,7 @@ class GlideMergedImageFetcher(
                     MediaIdCategory.FOLDERS -> makeFolderImage(mediaId.categoryId)
                     MediaIdCategory.GENRES -> makeGenreImage(mediaId.categoryId)
                     MediaIdCategory.PLAYLISTS -> makePlaylistImage(mediaId.categoryId)
-                    else -> throwNotHandled("$mediaId")
+                    else -> throwNotHandled(mediaId)
                 }
                 callback.onDataReady(inputStream)
             } catch (ex: Exception){

@@ -133,7 +133,7 @@ fun PresentationIdCategory.toDomain() : MediaIdCategory {
         PresentationIdCategory.PODCASTS_PLAYLIST -> MediaIdCategory.PODCASTS_PLAYLIST
         PresentationIdCategory.PODCASTS -> MediaIdCategory.PODCASTS
         PresentationIdCategory.PODCASTS_AUTHORS -> MediaIdCategory.PODCASTS_AUTHORS
-        PresentationIdCategory.HEADER -> throwNotHandled("$this")
+        PresentationIdCategory.HEADER -> throwNotHandled(this)
     }
 }
 

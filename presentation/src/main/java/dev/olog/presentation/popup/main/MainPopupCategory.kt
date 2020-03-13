@@ -22,7 +22,7 @@ internal enum class MainPopupCategory {
     fun toTabCategory(): TabCategory {
         return when (this) {
             PLAYING_QUEUE,
-            SEARCH -> throwNotHandled("invalid $this")
+            SEARCH -> throwNotHandled(this)
             FOLDERS -> TabCategory.FOLDERS
             PLAYLISTS -> TabCategory.PLAYLISTS
             SONGS -> TabCategory.SONGS
@@ -39,7 +39,7 @@ internal enum class MainPopupCategory {
 
 internal fun PresentationIdCategory.toMainPopupCategory(): MainPopupCategory {
     return when (this) {
-        PresentationIdCategory.HEADER -> throwNotHandled("invalid $this")
+        PresentationIdCategory.HEADER -> throwNotHandled(this)
         PresentationIdCategory.FOLDERS -> MainPopupCategory.FOLDERS
         PresentationIdCategory.PLAYLISTS -> MainPopupCategory.PLAYLISTS
         PresentationIdCategory.SONGS -> MainPopupCategory.SONGS

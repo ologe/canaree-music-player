@@ -151,7 +151,7 @@ internal abstract class AbsPopupListener(
     protected fun setRingtone(navigator: Navigator, mediaId: PresentationId, song: Song) {
         when (mediaId) {
             is PresentationId.Track -> navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
-            is PresentationId.Category -> throwNotHandled("invalid $mediaId")
+            is PresentationId.Category -> throwNotHandled(mediaId)
         }
     }
 

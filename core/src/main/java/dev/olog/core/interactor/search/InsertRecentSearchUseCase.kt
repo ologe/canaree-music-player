@@ -30,7 +30,7 @@ class InsertRecentSearchUseCase @Inject constructor(
             GENRES -> recentSearchesGateway.insertGenre(id)
             PODCASTS_PLAYLIST -> recentSearchesGateway.insertPodcastPlaylist(id)
             PODCASTS_AUTHORS -> recentSearchesGateway.insertPodcastArtist(id)
-            PODCASTS, SONGS -> throwNotHandled("$mediaId")
+            PODCASTS, SONGS -> throwNotHandled(mediaId)
         }
     }
 }
