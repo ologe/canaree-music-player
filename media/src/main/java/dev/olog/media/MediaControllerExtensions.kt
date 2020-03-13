@@ -22,17 +22,3 @@ fun MediaControllerCompat.playPause() {
         }
     }
 }
-
-fun MediaControllerCompat.seekTo(pos: Long) {
-    transportControls?.seekTo(pos)
-}
-
-fun MediaControllerCompat.toggleShuffleMode(){
-    // state in cycled internally
-    transportControls.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_INVALID)
-}
-
-fun MediaControllerCompat.toggleRepeatMode(){
-    // state in cycled internally
-    transportControls.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_INVALID)
-}
