@@ -69,7 +69,6 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     private fun getPlaylistTypeTracks(): Flow<List<Song>> = when (playlistType) {
         PlaylistType.PODCAST -> trackGateway.observeAllPodcasts()
         PlaylistType.TRACK -> trackGateway.observeAllTracks()
-        PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
     }
 
     fun toggleItem(mediaId: PresentationId.Track) {

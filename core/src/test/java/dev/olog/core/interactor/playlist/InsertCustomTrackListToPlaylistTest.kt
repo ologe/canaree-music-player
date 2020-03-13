@@ -1,7 +1,8 @@
 package dev.olog.core.interactor.playlist
 
 import com.nhaarman.mockitokotlin2.*
-import dev.olog.core.entity.PlaylistType.*
+import dev.olog.core.entity.PlaylistType.PODCAST
+import dev.olog.core.entity.PlaylistType.TRACK
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
 import kotlinx.coroutines.test.runBlockingTest
@@ -51,12 +52,6 @@ class InsertCustomTrackListToPlaylistTest {
         verify(playlistGateway).addSongsToPlaylist(id, tracks)
         verifyNoMoreInteractions(playlistGateway)
         verifyZeroInteractions(podcastGateway)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun testInvokeAuto() = runBlockingTest {
-        val request = InsertCustomTrackListToPlaylist.Input("any", emptyList(), AUTO)
-        sut(request)
     }
 
 }

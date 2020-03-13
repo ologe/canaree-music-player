@@ -21,7 +21,6 @@ class RemoveFromPlaylistUseCase @Inject constructor(
                 input.playlistId,
                 input.idInPlaylist
             )
-            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${input.type}")
         }
     }
 

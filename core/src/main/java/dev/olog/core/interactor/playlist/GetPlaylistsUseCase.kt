@@ -16,7 +16,6 @@ class GetPlaylistsUseCase @Inject internal constructor(
         return when (type) {
             PlaylistType.PODCAST -> podcastPlaylistgateway.getAll()
             PlaylistType.TRACK -> playlistGateway.getAll()
-            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type $type")
         }
     }
 }

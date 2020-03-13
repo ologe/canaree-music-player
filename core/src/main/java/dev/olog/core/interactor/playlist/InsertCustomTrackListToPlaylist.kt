@@ -15,15 +15,12 @@ class InsertCustomTrackListToPlaylist @Inject constructor(
         return when (param.type){
             PlaylistType.PODCAST -> {
                 val playlistId = podcastPlaylistGateway.createPlaylist(param.playlistTitle)
-
                 podcastPlaylistGateway.addSongsToPlaylist(playlistId, param.tracksId)
             }
             PlaylistType.TRACK -> {
                 val playlistId = playlistGateway.createPlaylist(param.playlistTitle)
-
                 playlistGateway.addSongsToPlaylist(playlistId, param.tracksId)
             }
-            PlaylistType.AUTO -> throw IllegalArgumentException("invalid type ${param.type}")
         }
     }
 

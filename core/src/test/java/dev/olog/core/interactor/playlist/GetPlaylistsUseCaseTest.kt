@@ -32,10 +32,4 @@ class GetPlaylistsUseCaseTest {
         verifyZeroInteractions(playlistGateway)
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun testInvokeAutoShouldFail() {
-        // when
-        sut(PlaylistType.AUTO)
-    }
-
 }
