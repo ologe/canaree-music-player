@@ -4,9 +4,9 @@ import dev.olog.core.entity.track.Genre
 import dev.olog.core.gateway.base.*
 
 interface GenreGateway :
-    BaseGateway<Genre, Id>,
-    ChildHasTracks<Id>,
+    BaseGateway<Genre, Long>,
+    ChildHasTracks<Long>,
     HasMostPlayed,
-    HasSiblings<Genre, Id>,
-    HasRelatedArtists<Id>,
-    HasRecentlyAddedSongs<Id>
+    HasSiblings<Genre, Long>,
+    HasRelatedArtists<Long>,
+    HasRecentlyAddedSongs<Long>

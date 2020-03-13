@@ -4,8 +4,8 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.gateway.base.*
 
 interface PodcastAuthorGateway :
-    BaseGateway<Artist, Id>,
+    BaseGateway<Artist, Long>,
     HasLastPlayed<Artist>,
     HasRecentlyAdded<Artist>,
-    ChildHasTracks<Id>,
-    HasSiblings<Artist, Id>
+    ChildHasTracks<Long>,
+    HasSiblings<Artist, Long>

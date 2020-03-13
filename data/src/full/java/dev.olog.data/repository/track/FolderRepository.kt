@@ -8,7 +8,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.BlacklistPreferences
@@ -38,7 +37,7 @@ internal class FolderRepository @Inject constructor(
     private val trackGateway: TrackGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Folder, Id>(context, schedulers), FolderGateway {
+) : BaseRepository<Folder, Long>(context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 
@@ -77,26 +76,26 @@ internal class FolderRepository @Inject constructor(
         return extractFolders(cursor)
     }
 
-    override fun getByParam(param: Id): Folder? {
+    override fun getByParam(param: Long): Folder? {
         assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
-    override fun observeByParam(param: Id): Flow<Folder?> {
+    override fun observeByParam(param: Long): Flow<Folder?> {
         return channel.asFlow()
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         assertBackgroundThread()
         val folder = getByParam(param)!!
         val cursor = queries.getSongList(folder.path)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
             .assertBackground()
@@ -127,14 +126,14 @@ internal class FolderRepository @Inject constructor(
         )
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Folder>> {
+    override fun observeSiblings(param: Long): Flow<List<Folder>> {
         return observeAll()
             .map { list -> list.filter { it.id != param } }
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override fun observeRelatedArtists(param: Id): Flow<List<Artist>> {
+    override fun observeRelatedArtists(param: Long): Flow<List<Artist>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
 
         return observeByParam(param).take(1).map { it!! }
@@ -147,7 +146,7 @@ internal class FolderRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeRecentlyAdded(param: Id): Flow<List<Song>> {
+    override fun observeRecentlyAdded(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParam(param).take(1).map { it!! }
             .flatMapLatest {

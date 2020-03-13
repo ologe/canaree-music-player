@@ -8,7 +8,6 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.HasLastPlayed
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
@@ -33,7 +32,7 @@ internal class PodcastAuthorRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedPodcastArtistDao,
     schedulers: Schedulers
-) : BaseRepository<Artist, Id>(context, schedulers), PodcastAuthorGateway {
+) : BaseRepository<Artist, Long>(context, schedulers), PodcastAuthorGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
 
@@ -61,25 +60,25 @@ internal class PodcastAuthorRepository @Inject constructor(
         return extractArtists(cursor)
     }
 
-    override fun getByParam(param: Id): Artist? {
+    override fun getByParam(param: Long): Artist? {
         assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
-    override fun observeByParam(param: Id): Flow<Artist?> {
+    override fun observeByParam(param: Long): Flow<Artist?> {
         return channel.asFlow()
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
             .assertBackground()
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         assertBackgroundThread()
         val cursor = queries.getSongList(param)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
             .assertBackground()
@@ -99,7 +98,7 @@ internal class PodcastAuthorRepository @Inject constructor(
             .assertBackground()
     }
 
-    override suspend fun addLastPlayed(id: Id) {
+    override suspend fun addLastPlayed(id: Long) {
         assertBackgroundThread()
         lastPlayedDao.insert(LastPlayedPodcastArtistEntity(id = id))
     }
@@ -111,7 +110,7 @@ internal class PodcastAuthorRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Artist>> {
+    override fun observeSiblings(param: Long): Flow<List<Artist>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()

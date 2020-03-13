@@ -5,12 +5,12 @@ import dev.olog.core.gateway.base.*
 import kotlinx.coroutines.flow.Flow
 
 interface AlbumGateway :
-    BaseGateway<Album, Id>,
-    ChildHasTracks<Id>,
+    BaseGateway<Album, Long>,
+    ChildHasTracks<Long>,
     HasLastPlayed<Album>,
     HasRecentlyAdded<Album>,
-    HasSiblings<Album, Id> {
+    HasSiblings<Album, Long> {
 
-    fun observeArtistsAlbums(artistId: Id): Flow<List<Album>>
+    fun observeArtistsAlbums(artistId: Long): Flow<List<Album>>
 
 }

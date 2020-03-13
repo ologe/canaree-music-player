@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.provider.MediaStore.Audio.Genres.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaIdCategory
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
@@ -27,7 +26,7 @@ internal class GenreQueries(
         return contentResolver.querySql(query)
     }
 
-    fun countGenreSize(genreId: Id): Cursor {
+    fun countGenreSize(genreId: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -38,7 +37,7 @@ internal class GenreQueries(
         return contentResolver.querySql(query, params)
     }
 
-    fun getRelatedArtists(genreId: Id): Cursor {
+    fun getRelatedArtists(genreId: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -55,7 +54,7 @@ internal class GenreQueries(
         return contentResolver.querySql(query, params)
     }
 
-    fun getRecentlyAdded(genreId: Id): Cursor {
+    fun getRecentlyAdded(genreId: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -71,7 +70,7 @@ internal class GenreQueries(
         return contentResolver.querySql(query, params)
     }
 
-    fun getSongList(genreId: Id): Cursor {
+    fun getSongList(genreId: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """

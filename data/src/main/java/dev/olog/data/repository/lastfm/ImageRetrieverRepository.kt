@@ -8,7 +8,6 @@ import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.core.gateway.track.TrackGateway
@@ -46,14 +45,14 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     // track
-    override suspend fun mustFetchTrack(trackId: Id): Boolean {
+    override suspend fun mustFetchTrack(trackId: Long): Boolean {
         assertBackgroundThread()
         val mustFetch = localTrack.mustFetch(trackId)
         Timber.v("$TAG must fetch track id=$trackId -> $mustFetch")
         return mustFetch
     }
 
-    override suspend fun getTrack(trackId: Id): LastFmTrack? = coroutineScope {
+    override suspend fun getTrack(trackId: Long): LastFmTrack? = coroutineScope {
         Timber.v("$TAG get track id=$trackId")
         assertBackgroundThread()
         val cached = localTrack.getCached(trackId)
@@ -146,20 +145,20 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteTrack(trackId: Id) {
+    override suspend fun deleteTrack(trackId: Long) {
         assertBackgroundThread()
         localTrack.delete(trackId)
     }
 
     // album
-    override suspend fun mustFetchAlbum(albumId: Id): Boolean {
+    override suspend fun mustFetchAlbum(albumId: Long): Boolean {
         assertBackgroundThread()
         val mustFetch = localAlbum.mustFetch(albumId)
         Timber.v("$TAG must fetch album id=$albumId -> $mustFetch")
         return mustFetch
     }
 
-    override suspend fun getAlbum(albumId: Id): LastFmAlbum? = coroutineScope {
+    override suspend fun getAlbum(albumId: Long): LastFmAlbum? = coroutineScope {
         Timber.v("$TAG get album id=$albumId")
         assertBackgroundThread()
         val album = albumGateway.getByParam(albumId) ?: return@coroutineScope null
@@ -241,20 +240,20 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteAlbum(albumId: Id) {
+    override suspend fun deleteAlbum(albumId: Long) {
         assertBackgroundThread()
         localAlbum.delete(albumId)
     }
 
     // artist
-    override suspend fun mustFetchArtist(artistId: Id): Boolean {
+    override suspend fun mustFetchArtist(artistId: Long): Boolean {
         assertBackgroundThread()
         val mustFetch = localArtist.mustFetch(artistId)
         Timber.v("$TAG must fetch artist id=$artistId -> $mustFetch")
         return mustFetch
     }
 
-    override suspend fun getArtist(artistId: Id): LastFmArtist? = coroutineScope {
+    override suspend fun getArtist(artistId: Long): LastFmArtist? = coroutineScope {
         Timber.v("$TAG get artist id=$artistId")
         assertBackgroundThread()
         val cached = localArtist.getCached(artistId)
@@ -301,7 +300,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         )
     }
 
-    override suspend fun deleteArtist(artistId: Id) {
+    override suspend fun deleteArtist(artistId: Long) {
         assertBackgroundThread()
         localArtist.delete(artistId)
     }

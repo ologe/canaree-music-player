@@ -7,7 +7,6 @@ import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.TrackGateway
@@ -67,7 +66,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return Playlist(id, title, 0, true)
     }
 
-    override fun getByParam(param: Id): Playlist? {
+    override fun getByParam(param: Long): Playlist? {
         assertBackgroundThread()
         return if (AutoPlaylist.isAutoPlaylist(param)){
             getAllAutoPlaylists().find { it.id == param }
@@ -76,7 +75,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override fun observeByParam(param: Id): Flow<Playlist?> {
+    override fun observeByParam(param: Long): Flow<Playlist?> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return flow { emit(getByParam(param)) }
         }
@@ -88,7 +87,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .assertBackground()
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         assertBackgroundThread()
         if (AutoPlaylist.isAutoPlaylist(param)){
             return getAutoPlaylistsTracks(param)
@@ -96,7 +95,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.getPlaylistTracks(param, trackGateway)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
                 .assertBackground()
@@ -104,7 +103,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observePlaylistTracks(param, trackGateway)
     }
 
-    private fun getAutoPlaylistsTracks(param: Id): List<Song> {
+    private fun getAutoPlaylistsTracks(param: Long): List<Song> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> trackGateway.getAllPodcasts()
                 .sortedByDescending { it.dateAdded }
@@ -114,7 +113,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    private fun observeAutoPlaylistsTracks(param: Id): Flow<List<Song>> {
+    private fun observeAutoPlaylistsTracks(param: Long): Flow<List<Song>> {
         return when (param){
             AutoPlaylist.LAST_ADDED.id -> trackGateway.observeAllPodcasts()
                 .map { it.sortedByDescending { it.dateAdded } }
@@ -124,7 +123,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Playlist>> {
+    override fun observeSiblings(param: Long): Flow<List<Playlist>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
@@ -141,23 +140,23 @@ internal class PodcastPlaylistRepository @Inject constructor(
         )
     }
 
-    override suspend fun renamePlaylist(playlistId: Id, newTitle: String) {
+    override suspend fun renamePlaylist(playlistId: Long, newTitle: String) {
         return podcastPlaylistDao.renamePlaylist(playlistId, newTitle)
     }
 
-    override suspend fun deletePlaylist(playlistId: Id) {
+    override suspend fun deletePlaylist(playlistId: Long) {
         return podcastPlaylistDao.deletePlaylist(playlistId)
     }
 
-    override suspend fun clearPlaylist(playlistId: Id) {
+    override suspend fun clearPlaylist(playlistId: Long) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
-        when (playlistId) {
-            AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteTrackType.PODCAST)
-            AutoPlaylist.HISTORY.id -> return historyDao.deleteAllPodcasts()
+        return when (playlistId) {
+            AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteAll(FavoriteTrackType.PODCAST)
+            AutoPlaylist.HISTORY.id -> historyDao.deleteAllPodcasts()
         }
     }
 
-    override suspend fun addSongsToPlaylist(playlistId: Id, songIds: List<Long>) {
+    override suspend fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
         assertBackgroundThread()
 
         var maxIdInPlaylist = (podcastPlaylistDao.getPlaylistMaxId(playlistId) ?: 1).toLong()
@@ -170,7 +169,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         podcastPlaylistDao.insertTracks(tracks)
     }
 
-    override suspend fun removeFromPlaylist(playlistId: Id, idInPlaylist: Long) {
+    override suspend fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) {
         if (AutoPlaylist.isAutoPlaylist(playlistId)) {
             return removeFromAutoPlaylist(playlistId, idInPlaylist)
         }
@@ -185,7 +184,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         }
     }
 
-    override suspend fun removeDuplicated(playlistId: Id) {
+    override suspend fun removeDuplicated(playlistId: Long) {
         val notDuplicate = podcastPlaylistDao.getPlaylistTracksImpl(playlistId)
             .asSequence()
             .groupBy { it.podcastId }
@@ -195,11 +194,11 @@ internal class PodcastPlaylistRepository @Inject constructor(
         podcastPlaylistDao.insertTracks(notDuplicate)
     }
 
-    override suspend fun insertPodcastToHistory(podcastId: Id) {
+    override suspend fun insertPodcastToHistory(podcastId: Long) {
         return historyDao.insertPodcasts(podcastId)
     }
 
-    override fun observeRelatedArtists(param: Id): Flow<List<Artist>> {
+    override fun observeRelatedArtists(param: Long): Flow<List<Artist>> {
         return observeTrackListByParam(param)
             .map {  songList ->
                 val artists = songList.groupBy { it.artistId }

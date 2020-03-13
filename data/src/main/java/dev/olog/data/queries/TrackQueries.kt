@@ -7,7 +7,6 @@ import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.sort.SortArranging
 import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
@@ -44,7 +43,7 @@ internal class TrackQueries(
         return contentResolver.querySql(query, params)
     }
 
-    fun getByParam(id: Id): Cursor {
+    fun getByParam(id: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """
@@ -67,7 +66,7 @@ internal class TrackQueries(
         return contentResolver.querySql(query, arrayOf("$id") + params)
     }
 
-    fun getByAlbumId(albumId: Id): Cursor {
+    fun getByAlbumId(albumId: Long): Cursor {
         val (blacklist, params) = notBlacklisted()
 
         val query = """

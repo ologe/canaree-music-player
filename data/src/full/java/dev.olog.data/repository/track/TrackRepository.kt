@@ -7,7 +7,6 @@ import android.provider.MediaStore.Audio
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.repository.podcast.PodcastRepositoryInternal
 import dev.olog.data.utils.assertBackgroundThread
@@ -45,29 +44,29 @@ internal class TrackRepository @Inject constructor(
         return podcastRepository.observeAll()
     }
 
-    override fun getByParam(param: Id): Song? {
+    override fun getByParam(param: Long): Song? {
         return songRepository.getByParam(param)
     }
 
-    override fun observeByParam(param: Id): Flow<Song?> {
+    override fun observeByParam(param: Long): Flow<Song?> {
         return songRepository.observeByParam(param)
     }
 
-    override fun getByAlbumId(albumId: Id): Song? {
+    override fun getByAlbumId(albumId: Long): Song? {
         return songRepository.getByAlbumId(albumId)
     }
 
-    override suspend fun deleteSingle(id: Id) {
+    override suspend fun deleteSingle(id: Long) {
         return deleteInternal(id)
     }
 
-    override suspend fun deleteGroup(ids: List<Id>) {
+    override suspend fun deleteGroup(ids: List<Long>) {
         for (id in ids) {
             deleteInternal(id)
         }
     }
 
-    private fun deleteInternal(id: Id) {
+    private fun deleteInternal(id: Long) {
         assertBackgroundThread()
         val path = getByParam(id)?.path ?: return
         val uri = ContentUris.withAppendedId(queries.tableUri, id)

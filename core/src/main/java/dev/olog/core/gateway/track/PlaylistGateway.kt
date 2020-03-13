@@ -4,12 +4,12 @@ import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.base.*
 
 interface PlaylistGateway :
-    BaseGateway<Playlist, Id>,
-    ChildHasTracks<Id>,
+    BaseGateway<Playlist, Long>,
+    ChildHasTracks<Long>,
     HasMostPlayed,
-    HasSiblings<Playlist, Id>,
+    HasSiblings<Playlist, Long>,
     PlaylistOperations,
-    HasRelatedArtists<Id> {
+    HasRelatedArtists<Long> {
 
     fun getAllAutoPlaylists(): List<Playlist>
 

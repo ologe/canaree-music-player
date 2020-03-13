@@ -10,5 +10,5 @@ interface HasLastPlayed<T> {
 
 
     fun observeLastPlayed(): Flow<List<T>>
-    suspend fun addLastPlayed(id: Id)
+    suspend fun addLastPlayed(id: Long)
 }

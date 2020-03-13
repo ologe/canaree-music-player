@@ -1,7 +1,6 @@
 package dev.olog.data.repository.lastfm
 
 import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.gateway.base.Id
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
@@ -23,7 +22,7 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
         return lastFmDao.getAlbum(albumId) == null
     }
 
-    fun getCached(id: Id): LastFmAlbum? {
+    fun getCached(id: Long): LastFmAlbum? {
         assertBackgroundThread()
         return lastFmDao.getAlbum(id)?.toDomain()
     }

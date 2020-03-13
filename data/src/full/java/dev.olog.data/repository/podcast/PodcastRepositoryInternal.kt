@@ -3,7 +3,6 @@ package dev.olog.data.repository.podcast
 import android.content.ContentUris
 import android.content.Context
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.di.qualifier.Podcast
 import dev.olog.data.mapper.toSong
@@ -23,7 +22,7 @@ internal class PodcastRepositoryInternal @Inject constructor(
     @ApplicationContext context: Context,
     schedulers: Schedulers,
     @Podcast private val queries: TrackQueries
-) : BaseRepository<Song, Id>(context, schedulers) {
+) : BaseRepository<Song, Long>(context, schedulers) {
 
     init {
         firstQuery()
@@ -39,13 +38,13 @@ internal class PodcastRepositoryInternal @Inject constructor(
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
 
-    override fun getByParam(param: Id): Song? {
+    override fun getByParam(param: Long): Song? {
         assertBackgroundThread()
         val cursor = queries.getByParam(param)
         return contentResolver.queryOne(cursor) { it.toSong() }
     }
 
-    override fun observeByParam(param: Id): Flow<Song?> {
+    override fun observeByParam(param: Long): Flow<Song?> {
         val uri = ContentUris.withAppendedId(queries.tableUri, param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
