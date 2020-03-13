@@ -3,7 +3,7 @@ package dev.olog.core.interactor
 import dev.olog.core.MediaId
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaId.Track
-import dev.olog.core.MediaIdCategory.PODCASTS
+import dev.olog.core.MediaIdCategory.PLAYLISTS
 import dev.olog.core.MediaIdCategory.PODCASTS_PLAYLIST
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
@@ -29,7 +29,7 @@ class DeleteUseCase @Inject constructor(
     private suspend fun handleCategory(mediaId: Category) {
         return when (mediaId.category) {
             PODCASTS_PLAYLIST -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
-            PODCASTS -> playlistGateway.deletePlaylist(mediaId.categoryId)
+            PLAYLISTS -> playlistGateway.deletePlaylist(mediaId.categoryId)
             else -> {
                 val songList = getSongListByParamUseCase(mediaId)
                 trackGateway.deleteGroup(songList.map { it.id })
