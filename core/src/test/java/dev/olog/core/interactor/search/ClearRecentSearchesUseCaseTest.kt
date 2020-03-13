@@ -8,11 +8,11 @@ import org.junit.Test
 
 class ClearRecentSearchesUseCaseTest {
 
+    private val gateway = mock<RecentSearchesGateway>()
+    private val sut = ClearRecentSearchesUseCase(gateway)
+
     @Test
     fun testInvoke() = runBlockingTest {
-        val gateway = mock<RecentSearchesGateway>()
-        val sut = ClearRecentSearchesUseCase(gateway)
-
         sut()
 
         verify(gateway).deleteAll()

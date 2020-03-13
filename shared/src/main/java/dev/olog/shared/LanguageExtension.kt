@@ -8,7 +8,7 @@ inline fun <T> lazyFast(crossinline operation: () -> T): Lazy<T> = lazy(LazyThre
 }
 
 fun throwNotHandled(message: String): Nothing {
-    throw IllegalStateException("state not handled $message")
+    throw IllegalArgumentException("state not handled $message")
 }
 
 /**

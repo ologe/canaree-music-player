@@ -3,10 +3,12 @@ package dev.olog.core.interactor.search
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaId.Companion.PODCAST_CATEGORY
 import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.core.MediaIdCategory.*
+import dev.olog.core.catchIaeOnly
 import dev.olog.core.gateway.RecentSearchesGateway
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -21,6 +23,20 @@ class InsertRecentSearchUseCaseTest {
         // given
         val id = 1L
         val mediaId = SONGS_CATEGORY.playableItem(id)
+
+        // when
+        sut(mediaId)
+
+        // then
+        verify(gateway).insertTrack(mediaId)
+        verifyNoMoreInteractions(gateway)
+    }
+
+    @Test
+    fun testInsertPodcast() = runBlockingTest {
+        // given
+        val id = 1L
+        val mediaId = PODCAST_CATEGORY.playableItem(id)
 
         // when
         sut(mediaId)
@@ -101,20 +117,6 @@ class InsertRecentSearchUseCaseTest {
     }
 
     @Test
-    fun testInsertPodcast() = runBlockingTest {
-        // given
-        val id = 1L
-        val mediaId = PODCAST_CATEGORY.playableItem(id)
-
-        // when
-        sut(mediaId)
-
-        // then
-        verify(gateway).insertTrack(mediaId)
-        verifyNoMoreInteractions(gateway)
-    }
-
-    @Test
     fun testInsertPodcastPlaylist() = runBlockingTest {
         // given
         val id = 1L
@@ -140,6 +142,19 @@ class InsertRecentSearchUseCaseTest {
         // then
         verify(gateway).insertPodcastArtist(id)
         verifyNoMoreInteractions(gateway)
+    }
+
+    @Test
+    fun `test invalid categories`() = runBlockingTest {
+        val allowed = listOf(
+            FOLDERS, PLAYLISTS, ALBUMS, ARTISTS, GENRES, PODCASTS_PLAYLIST, PODCASTS_AUTHORS
+        )
+
+        values().catchIaeOnly(allowed) { value ->
+            val mediaId = Category(value, 1)
+            sut(mediaId)
+        }
+        verifyZeroInteractions(gateway)
     }
 
 }
