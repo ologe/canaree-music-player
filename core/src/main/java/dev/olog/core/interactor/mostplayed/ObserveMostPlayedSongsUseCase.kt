@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.mostplayed
 
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.*
@@ -22,7 +22,7 @@ class ObserveMostPlayedSongsUseCase @Inject constructor(
             GENRES -> genreGateway.observeMostPlayed(mediaId)
             PLAYLISTS -> playlistGateway.observeMostPlayed(mediaId)
             FOLDERS -> folderGateway.observeMostPlayed(mediaId)
-            else -> flowOf(listOf())
+            else -> flowOf(emptyList())
         }
     }
 }

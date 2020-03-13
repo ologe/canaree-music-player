@@ -1,4 +1,4 @@
-package dev.olog.core.interactor
+package dev.olog.core.interactor.mostplayed
 
 import dev.olog.core.MediaId.Track
 import dev.olog.core.MediaIdCategory.*

@@ -5,7 +5,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
-import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
+import dev.olog.core.interactor.mostplayed.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase

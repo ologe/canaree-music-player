@@ -8,7 +8,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.ObserveMostPlayedSongsUseCase
+import dev.olog.core.interactor.mostplayed.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.core.interactor.PodcastPositionUseCase
 import dev.olog.core.interactor.songlist.GetSongListByParamUseCase

@@ -8,7 +8,7 @@ import dev.olog.core.entity.favorite.FavoriteEntity
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.interactor.InsertHistorySongUseCase
-import dev.olog.core.interactor.InsertMostPlayedUseCase
+import dev.olog.core.interactor.mostplayed.InsertMostPlayedUseCase
 import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
