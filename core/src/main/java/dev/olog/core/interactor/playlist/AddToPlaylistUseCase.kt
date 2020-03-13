@@ -43,7 +43,7 @@ class AddToPlaylistUseCase @Inject constructor(
     }
 
     private fun sanitize(playlist: Playlist, mediaId: MediaId) {
-        if (playlist.isPodcast != mediaId.isAnyPodcast) {
+        require(playlist.isPodcast == mediaId.isAnyPodcast) {
             throw IllegalArgumentException("playlist is ${playlist.isPodcast} but media id is ${mediaId.isAnyPodcast}")
         }
     }
