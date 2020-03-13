@@ -31,7 +31,6 @@ dependencies {
     implementation lib_test.coroutines_test
 
     implementation lib_x.lifecycle_livedata
-    implementation lib_test.livedata
 
     implementation lib_test.junit
 //    implementation lib_test.mockito
