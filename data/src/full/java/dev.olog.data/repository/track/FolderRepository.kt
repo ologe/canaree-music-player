@@ -63,7 +63,7 @@ internal class FolderRepository @Inject constructor(
             .map { (path, list) ->
                 val dirName = path.substring(path.lastIndexOf(File.separator) + 1)
                 Folder(
-                    id = path.hashCode().toLong(),
+                    id = Folder.makeId(path),
                     title = dirName.capitalize(),
                     path = path,
                     size = list.size

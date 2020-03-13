@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.entity.FileType
+import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
@@ -152,7 +153,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun FileType.Track.toDisplayableItem(): DisplayableFile {
         val mediaId = PresentationId.Category(
             PresentationIdCategory.FOLDERS,
-            this.path.hashCode().toLong()
+            Folder.makeId(path)
         )
 
         return DisplayableFile(
@@ -166,7 +167,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun FileType.Folder.toDisplayableItem(): DisplayableFile {
         val mediaId = PresentationId.Category(
             PresentationIdCategory.FOLDERS,
-            this.path.hashCode().toLong()
+            Folder.makeId(path)
         )
         return DisplayableFile(
             type = R.layout.item_folder_tree_directory,

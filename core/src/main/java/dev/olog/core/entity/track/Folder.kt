@@ -13,4 +13,12 @@ data class Folder(
     val mediaId: Category
         get() = Category(FOLDERS, id)
 
+    companion object {
+
+        fun makeId(path: String): Long {
+            return path.hashCode().toLong()
+        }
+
+    }
+
 }

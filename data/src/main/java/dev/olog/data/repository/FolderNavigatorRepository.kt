@@ -3,6 +3,7 @@ package dev.olog.data.repository
 import android.content.Context
 import android.provider.MediaStore
 import dev.olog.core.entity.FileType
+import dev.olog.core.entity.track.Folder
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.gateway.track.FolderGateway
 import dev.olog.core.prefs.BlacklistPreferences
@@ -51,7 +52,7 @@ internal class FolderNavigatorRepository @Inject constructor(
             ?: return emptyList()
 
         return sortFolders(children) + folderGateway
-            .getTrackListByParam(file.path.hashCode().toLong())
+            .getTrackListByParam(Folder.makeId(file.path))
             .map { FileType.Track(it.title, it.path) }
     }
 
