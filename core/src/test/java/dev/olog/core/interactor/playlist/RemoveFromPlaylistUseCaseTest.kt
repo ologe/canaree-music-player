@@ -7,6 +7,7 @@ import dev.olog.core.entity.PlaylistType.PODCAST
 import dev.olog.core.entity.PlaylistType.TRACK
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.PlaylistGateway
+import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase.Input
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
@@ -21,7 +22,7 @@ class RemoveFromPlaylistUseCaseTest {
         // given
         val id = 1L
         val trackId = 10L
-        val input = RemoveFromPlaylistUseCase.Input(id, trackId, PODCAST)
+        val input = Input(id, trackId, PODCAST)
 
         // when
         sut(input)
@@ -35,7 +36,7 @@ class RemoveFromPlaylistUseCaseTest {
         // given
         val id = 1L
         val trackId = 10L
-        val input = RemoveFromPlaylistUseCase.Input(id, trackId, TRACK)
+        val input = Input(id, trackId, TRACK)
 
         // when
         sut(input)

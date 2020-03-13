@@ -50,7 +50,7 @@ class RemoveDuplicatesUseCaseTest {
     }
 
     @Test
-    fun testInvokeAuto() = runBlockingTest {
+    fun testInvokeOther() = runBlockingTest {
         // given
         val allowed = listOf(
             PODCASTS_PLAYLIST, PLAYLISTS

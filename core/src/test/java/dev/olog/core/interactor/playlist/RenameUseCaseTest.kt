@@ -24,9 +24,7 @@ class RenameUseCaseTest {
         // given
         val id = 1L
         val newTitle = "new title"
-        val mediaId = Category(
-            PODCASTS_PLAYLIST, id
-        )
+        val mediaId = Category(PODCASTS_PLAYLIST, id)
 
         // when
         sut(mediaId, newTitle)
@@ -40,9 +38,7 @@ class RenameUseCaseTest {
         // given
         val id = 1L
         val newTitle = "new title"
-        val mediaId = Category(
-            PLAYLISTS, id
-        )
+        val mediaId = Category(PLAYLISTS, id)
 
         // when
         sut(mediaId, newTitle)

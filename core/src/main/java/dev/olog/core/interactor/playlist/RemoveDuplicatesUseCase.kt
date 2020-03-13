@@ -18,7 +18,6 @@ class RemoveDuplicatesUseCase @Inject constructor(
             PODCASTS_PLAYLIST -> podcastPlaylistGateway.removeDuplicated(mediaId.categoryId)
             PLAYLISTS -> playlistGateway.removeDuplicated(mediaId.categoryId)
             else -> throw IllegalArgumentException("invalid media id $mediaId")
-
         }
     }
 }
