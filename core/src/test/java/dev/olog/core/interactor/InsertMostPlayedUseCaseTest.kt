@@ -75,6 +75,9 @@ class InsertMostPlayedUseCaseTest {
         )
 
         for (value in values()) {
+            if (value in allowed) {
+                continue
+            }
             sut(Track(value, 1, 2))
         }
 
