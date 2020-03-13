@@ -20,11 +20,13 @@ import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MediaExposer(
@@ -62,6 +64,7 @@ class MediaExposer(
             return
         }
         job = launch {
+            // TODO refactor to flow
             for (state in connectionPublisher.openSubscription()) {
                 Timber.d("MediaExposer: Connection state=$state")
                 when (state) {
@@ -120,13 +123,11 @@ class MediaExposer(
         connectionPublisher.offer(state)
     }
 
-    override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        metadata ?: return
+    override fun onMetadataChanged(metadata: MediaMetadataCompat) {
         metadataPublisher.offer(PlayerMetadata(metadata))
     }
 
-    override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-        state?: return
+    override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
         statePublisher.offer(PlayerPlaybackState(state))
     }
 
@@ -138,10 +139,8 @@ class MediaExposer(
         shuffleModePublisher.offer(PlayerShuffleMode.of(shuffleMode))
     }
 
-    override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-        if (queue == null) {
-            return
-        }
+    override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>) {
+        // TODO keep in a job
         launch(schedulers.cpu) {
             val result = queue.map { it.toDisplayableItem() }
             queuePublisher.offer(result)

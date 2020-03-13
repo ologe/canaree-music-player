@@ -6,12 +6,13 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import org.junit.Test
 
 internal class MediaControllerCallbackTest {
 
-    val callback = mock<IMediaControllerCallback>()
-    val sut = MediaControllerCallback(callback)
+    private val callback = mock<IMediaControllerCallback>()
+    private val sut = MediaControllerCallback(callback)
 
     @Test
     fun `test metadata changed`() {
@@ -24,12 +25,26 @@ internal class MediaControllerCallbackTest {
     }
 
     @Test
+    fun `test null metadata changed`() {
+        sut.onMetadataChanged(null)
+
+        verifyZeroInteractions(callback)
+    }
+
+    @Test
     fun `test playback state changed`() {
         val state = PlaybackStateCompat.Builder().build()
 
         sut.onPlaybackStateChanged(state)
 
         verify(callback).onPlaybackStateChanged(state)
+    }
+
+    @Test
+    fun `test null playback state changed`() {
+        sut.onPlaybackStateChanged(null)
+
+        verifyZeroInteractions(callback)
     }
 
     @Test
@@ -62,6 +77,13 @@ internal class MediaControllerCallbackTest {
         sut.onQueueChanged(queue)
 
         verify(callback).onQueueChanged(queue)
+    }
+
+    @Test
+    fun `test null queue changed`() {
+        sut.onQueueChanged(null)
+
+        verifyZeroInteractions(callback)
     }
 
     @Test(expected = IllegalStateException::class)

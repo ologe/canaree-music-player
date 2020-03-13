@@ -5,7 +5,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import java.lang.IllegalStateException
 
 internal class MediaControllerCallback(
     private val controllerCallback: IMediaControllerCallback
@@ -13,10 +12,12 @@ internal class MediaControllerCallback(
 ) : MediaControllerCompat.Callback() {
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
+        metadata ?: return
         controllerCallback.onMetadataChanged(metadata)
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+        state ?: return
         controllerCallback.onPlaybackStateChanged(state)
     }
 
@@ -29,6 +30,7 @@ internal class MediaControllerCallback(
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
+        queue ?: return
         controllerCallback.onQueueChanged(queue)
     }
 
