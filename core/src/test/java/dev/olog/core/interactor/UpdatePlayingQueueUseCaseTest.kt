@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.verify
 import dev.olog.core.MediaId.Category
 import dev.olog.core.MediaIdCategory.GENRES
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.interactor.UpdatePlayingQueueUseCase.Request
 import org.junit.Test
 
 class UpdatePlayingQueueUseCaseTest {
@@ -19,7 +20,7 @@ class UpdatePlayingQueueUseCaseTest {
         val sondId = 1L
         val idInPlaylistId = 10
 
-        val param = UpdatePlayingQueueUseCase.Request(mediaId, sondId, idInPlaylistId)
+        val param = Request(mediaId, sondId, idInPlaylistId)
 
         sut(listOf(param))
 
