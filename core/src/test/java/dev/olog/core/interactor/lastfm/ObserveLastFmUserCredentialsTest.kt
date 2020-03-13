@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.IEncrypter
 import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
@@ -30,7 +31,7 @@ class ObserveLastFmUserCredentialsTest {
         whenever(encrypter.decrypt(user.password)).thenReturn(plainPassword)
 
         // when
-        val actual = sut()
+        val actual = sut().first()
 
         // then
         verify(encrypter).decrypt(user.username)
