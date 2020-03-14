@@ -27,7 +27,7 @@ internal class EqualizerRepository @Inject constructor(
             if (equalizerDao.getPresets().isEmpty()) {
                 // called only first time
                 val presets = EqualizerDefaultPresets.createDefaultPresets()
-                GlobalScope.launch(schedulers.io) { equalizerDao.insertPresets(*presets.toTypedArray()) }
+                equalizerDao.insertPresets(*presets.toTypedArray())
             }
         }
     }

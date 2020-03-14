@@ -1,9 +1,6 @@
 package dev.olog.data.repository
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import dev.olog.core.entity.EqualizerPreset
 import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
@@ -44,23 +41,23 @@ internal class EqualizerRepositoryTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    val dao = mock<EqualizerPresetsDao>()
-    val prefs = mock<EqualizerPreferencesGateway>()
-    private lateinit var sut: EqualizerGateway
-
-    @Before
-    fun setup() = coroutineRule.runBlockingTest {
-        whenever(dao.getPresets()).thenReturn(presetsEntities)
-
-        sut = EqualizerRepository(dao, prefs, coroutineRule.schedulers)
-    }
+    private val dao = mock<EqualizerPresetsDao>()
+    private val prefs = mock<EqualizerPreferencesGateway>()
+    private val sut by lazy { EqualizerRepository(dao, prefs, coroutineRule.schedulers) }
 
     @Test
     fun verifySetup() = coroutineRule.runBlockingTest {
         whenever(dao.getPresets()).thenReturn(emptyList())
-        sut = EqualizerRepository(dao, prefs, coroutineRule.schedulers)
+        sut.toString() // just to initialize
 
-        verify(dao).insertPresets(any())
+        verify(dao).insertPresets(*EqualizerDefaultPresets.createDefaultPresets().toTypedArray())
+    }
+
+    @Test
+    fun verifyNoSetup() = coroutineRule.runBlockingTest {
+        whenever(dao.getPresets()).thenReturn(presetsEntities)
+        sut.toString() // just to initialize
+        verify(dao, never()).insertPresets(any())
     }
 
     @Test
