@@ -1,10 +1,10 @@
 package dev.olog.offlinelyrics
 
-data class Lyrics(
+internal data class Lyrics(
     val lines: List<OfflineLyricsLine>
 )
 
-data class OfflineLyricsLine(
+internal data class OfflineLyricsLine(
     val value: String,
     val time: Long
 )

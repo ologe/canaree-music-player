@@ -1,5 +1,6 @@
 package dev.olog.offlinelyrics
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -14,6 +15,7 @@ import kotlinx.coroutines.android.awaitFrame
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
+@SuppressLint("ConcreteDispatcherIssue")
 class OfflineLyricsRecyclerView(
     context: Context,
     attrs: AttributeSet
