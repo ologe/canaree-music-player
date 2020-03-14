@@ -2,14 +2,15 @@ package dev.olog.data.repository.track
 
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.data.repository.MockData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class ArtistRepository @Inject constructor(): ArtistGateway {
+class ArtistRepository @Inject constructor(
+
+) : ArtistGateway {
 
     override fun getAll(): List<Artist> {
         return MockData.artist(false)
@@ -19,19 +20,19 @@ class ArtistRepository @Inject constructor(): ArtistGateway {
         return flowOf(getAll())
     }
 
-    override fun getByParam(param: Id): Artist? {
+    override fun getByParam(param: Long): Artist? {
         return getAll().first()
     }
 
-    override fun observeByParam(param: Id): Flow<Artist?> {
+    override fun observeByParam(param: Long): Flow<Artist?> {
         return flowOf(getByParam(param))
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         return MockData.songs(false)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         return flowOf(getTrackListByParam(param))
     }
 
@@ -43,7 +44,7 @@ class ArtistRepository @Inject constructor(): ArtistGateway {
         return observeAll()
     }
 
-    override suspend fun addLastPlayed(id: Id) {
+    override suspend fun addLastPlayed(id: Long) {
 
     }
 }

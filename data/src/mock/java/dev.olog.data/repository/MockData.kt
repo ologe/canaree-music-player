@@ -9,11 +9,11 @@ internal object MockData {
 
     fun folders(): List<Folder> {
         return (0L until LIST_SIZE)
-            .map { Folder("Folder", "/storage/emulated/0/$it", it.toInt()) }
+            .map { Folder(it, "Folder", "/storage/emulated/0/$it", it.toInt()) }
 
     }
 
-    fun autoPlaylist(): List<Playlist>{
+    fun autoPlaylist(): List<Playlist> {
         return listOf(
             Playlist(0, "Last added", 0, false),
             Playlist(1, "Favorites", 1, false),
@@ -38,15 +38,20 @@ internal object MockData {
                     System.currentTimeMillis(),
                     "/storage/emulated/0",
                     1, index.toInt(),
-                    podcast
+                    podcast,
+                    "display name"
                 )
             }
     }
 
-    fun album(podcast: Boolean): List<Album> {
+    fun album(): List<Album> {
         return (0L until LIST_SIZE)
-            .map { Album(it, it, "An awesome album", "An awesome artist", "An awesome artist",
-                it.toInt(), false, podcast) }
+            .map {
+                Album(
+                    it, it, "An awesome album", "An awesome artist", "An awesome artist",
+                    it.toInt(), false
+                )
+            }
 
     }
 

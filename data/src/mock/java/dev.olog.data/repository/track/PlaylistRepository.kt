@@ -4,14 +4,15 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.data.repository.MockData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class PlaylistRepository @Inject constructor(): PlaylistGateway {
+class PlaylistRepository @Inject constructor(
+    
+): PlaylistGateway {
 
     override fun getAllAutoPlaylists(): List<Playlist> {
         return MockData.autoPlaylist()
@@ -25,31 +26,31 @@ class PlaylistRepository @Inject constructor(): PlaylistGateway {
         return flowOf(getAll())
     }
 
-    override fun getByParam(param: Id): Playlist? {
+    override fun getByParam(param: Long): Playlist? {
         return getAll().first()
     }
 
-    override fun observeByParam(param: Id): Flow<Playlist?> {
+    override fun observeByParam(param: Long): Flow<Playlist?> {
         return flowOf(getByParam(param))
     }
 
-    override fun getTrackListByParam(param: Id): List<Song> {
+    override fun getTrackListByParam(param: Long): List<Song> {
         return MockData.songs(false)
     }
 
-    override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
+    override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         return flowOf(getTrackListByParam(param))
     }
 
-    override fun observeMostPlayed(mediaId: MediaId): Flow<List<Song>> {
-        return observeTrackListByParam(mediaId.resolveId)
+    override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
+        return observeTrackListByParam(mediaId.categoryId)
     }
 
-    override suspend fun insertMostPlayed(mediaId: MediaId) {
+    override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
 
     }
 
-    override fun observeSiblings(param: Id): Flow<List<Playlist>> {
+    override fun observeSiblings(param: Long): Flow<List<Playlist>> {
         return observeAll()
     }
 
@@ -89,7 +90,7 @@ class PlaylistRepository @Inject constructor(): PlaylistGateway {
 
     }
 
-    override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {
+    override fun observeRelatedArtists(param: Long): Flow<List<Artist>> {
         return flowOf(MockData.artist(false))
     }
 }
