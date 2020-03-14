@@ -134,26 +134,23 @@ ext {
                     last_fm_binding     : "de.u-mass:lastfm-java:$last_fm_binding",
                     aes_crypto          : "com.github.tozny:java-aes-crypto:$aes_crypto",
                     fuzzy               : "me.xdrop:fuzzywuzzy:$fuzzywuzzy",
+                    scroll_helper       : "com.github.ologe:scroll-helper:$scroll_helper",
+                    color_desaturation  : "com.github.ologe:color-desaturation:$color_desaturation",
+            ],
+            debug     : [
+                    leak_canary: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
+                    stetho     : "com.facebook.stetho:stetho:$stetho",
+                    timber     : "com.jakewharton.timber:timber:$timber",
+            ],
+            ux        : [
+                    glide          : "com.github.bumptech.glide:glide:$glide",
+                    glide_kapt     : "com.github.bumptech.glide:compiler:$glide",
+                    blur_kit       : "io.alterac.blurkit:blurkit:$blur_kit",
+                    lottie         : "com.airbnb.android:lottie:$lottie",
+                    custom_tabs    : "saschpe.android:customtabs:$custom_tabs",
+                    dialogs_color  : "com.afollestad.material-dialogs:color:$material_dialogs",
+                    tap_target_view: "com.github.ologe:taptargetview:$tap_target_view"
             ]
-    ]
-
-    lib_ui = [
-            glide             : "com.github.bumptech.glide:glide:$glide",
-            glide_processor   : "com.github.bumptech.glide:compiler:$glide",
-            scroll_helper     : "com.github.ologe:scroll-helper:$scroll_helper",
-            blur_kit          : "io.alterac.blurkit:blurkit:$blur_kit",
-            lottie            : "com.airbnb.android:lottie:$lottie",
-            custom_tabs       : "saschpe.android:customtabs:$custom_tabs",
-            dialogs_core      : "com.afollestad.material-dialogs:core:$material_dialogs",
-            dialogs_color     : "com.afollestad.material-dialogs:color:$material_dialogs",
-            color_desaturation: "com.github.ologe:color-desaturation:$color_desaturation",
-            tap_target_view   : "com.github.ologe:taptargetview:$tap_target_view"
-    ]
-
-    lib_debug = [
-            leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
-            stetho           : "com.facebook.stetho:stetho:$stetho",
-            timber           : "com.jakewharton.timber:timber:$timber",
     ]
 
 }

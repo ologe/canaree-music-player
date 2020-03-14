@@ -49,9 +49,6 @@ dependencies {
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
-    implementation lib_ui.scroll_helper
-    implementation lib_ui.glide
-
     implementation libs.x.appcompat
     implementation libs.x.material
     implementation libs.x.core
@@ -63,21 +60,22 @@ dependencies {
     implementation libs.x.coordinator
     implementation libs.x.fragments
 
-    implementation lib_ui.lottie
-    implementation lib_ui.tap_target_view
+    implementation libs.x.lifecycle.viewmodel
+    implementation libs.x.lifecycle.java8
+
+    implementation libs.ux.lottie
+    implementation libs.ux.tap_target_view
 
     implementation libs.dagger.android
     implementation libs.dagger.android_support
     kapt libs.dagger.android_kapt
 
-    implementation lib_ui.dialogs_core
-    implementation lib_ui.dialogs_color
-    implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
-    implementation lib_ui.color_desaturation
+    implementation libs.ux.dialogs_color
+    implementation libs.ux.blur_kit
+    implementation libs.ux.custom_tabs
+    implementation libs.ux.glide
 
+    implementation libs.utils.scroll_helper
+    implementation libs.utils.color_desaturation
     implementation libs.utils.last_fm_binding
-
-    implementation libs.x.lifecycle.viewmodel
-    implementation libs.x.lifecycle.java8
 }

@@ -9,6 +9,5 @@ dependencies {
 
     implementation libs.x.core
     implementation libs.x.appcompat
-
-    implementation lib_ui.glide
+    implementation libs.ux.glide
 }

@@ -29,7 +29,6 @@ dependencies {
     implementation libs.x.lifecycle.service
     implementation libs.x.lifecycle.runtime
 
-    implementation lib_ui.blur_kit
-
-    implementation lib_ui.glide
+    implementation libs.ux.blur_kit
+    implementation libs.ux.glide
 }

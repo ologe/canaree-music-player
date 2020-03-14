@@ -68,7 +68,7 @@ dependencies {
     androidTestImplementation libs.coroutines.test
 
     // logs
-    implementation lib_debug.timber
+    implementation libs.debug.timber
 
     // test
     testImplementation project(':test-shared')

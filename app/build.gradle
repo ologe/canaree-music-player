@@ -96,13 +96,11 @@ dependencies {
     implementation libs.dagger.android_support
     kapt libs.dagger.android_kapt
 
-    implementation lib_ui.blur_kit
-    implementation lib_ui.custom_tabs
+    implementation libs.ux.blur_kit
+    implementation libs.ux.custom_tabs
 
-    // debug
-    debugImplementation lib_debug.leak_canary_debug
-
-    debugImplementation lib_debug.stetho
+    debugImplementation libs.debug.leak_canary
+    debugImplementation libs.debug.stetho
 
     // firebase
     implementation libs.firebase.analytics
