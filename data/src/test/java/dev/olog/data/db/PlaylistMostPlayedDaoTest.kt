@@ -1,45 +1,35 @@
 package dev.olog.data.db
 
-import android.app.Application
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.data.model.db.FolderMostPlayedEntity
+import dev.olog.data.DatabaseBuilder
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
+import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.Mocks
 import dev.olog.test.shared.runBlockingTest
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-class FolderMostPlayedDaoIntegrationTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class PlaylistMostPlayedDaoTest {
 
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
-    private lateinit var db: AppDatabase
-    private lateinit var sut: FolderMostPlayedDao
-
-    @Before
-    fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
-            .build()
-        sut = db.folderMostPlayedDao()
-    }
+    private val db by lazy { DatabaseBuilder.build(coroutinesRule.testDispatcher) }
+    private val sut by lazy { db.playlistMostPlayedDao() }
 
     @After
-    @Throws(IOException::class)
     fun teardown() {
         db.close()
     }
@@ -48,11 +38,11 @@ class FolderMostPlayedDaoIntegrationTest {
     fun testInsertAndQuery() = coroutinesRule.runBlockingTest {
         // given
         val songId = 10L
-        val query = "/storage/emulated/0/folder"
-        assertTrue("should be empty", sut.query(query).first().isEmpty())
+        val playlistId = 1L
+        assertTrue("should be empty", sut.query(playlistId).first().isEmpty())
 
         // when
-        val item = FolderMostPlayedEntity(1, songId, query)
+        val item = PlaylistMostPlayedEntity(1, songId, playlistId)
         sut.insert(
             item.copy(id = 1),
             item.copy(id = 2),
@@ -64,7 +54,7 @@ class FolderMostPlayedDaoIntegrationTest {
         // then
         assertEquals(
             listOf(MostTimesPlayedSongEntity(songId = songId, timesPlayed = 5)),
-            sut.query(query).first()
+            sut.query(playlistId).first()
         )
     }
 
@@ -80,9 +70,9 @@ class FolderMostPlayedDaoIntegrationTest {
             )
         )
 
-        val query = "/storage/emulated/0/folder"
+        val playlistId = 1L
 
-        val item = FolderMostPlayedEntity(1, 10, query)
+        val item = PlaylistMostPlayedEntity(1, 10, playlistId)
         sut.insert(
             // in song gateway
             item.copy(id = 1, songId = 1),
@@ -100,7 +90,7 @@ class FolderMostPlayedDaoIntegrationTest {
         )
 
         // when
-        val actual = sut.getAll(query, songGateway).first()
+        val actual = sut.getAll(playlistId, songGateway).first()
 
         // then
         val expected = listOf(Mocks.song.copy(id = 1))

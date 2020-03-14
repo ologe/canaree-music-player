@@ -58,6 +58,7 @@ ext {
     // test
     junit = '4.12'
     robolectric = '4.3.1'
+    test_core = '1.2.0'
 
     lint = '26.6.1'
 
@@ -117,6 +118,7 @@ ext {
                     mockito       : "org.mockito:mockito-inline:3.2.4",
                     mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
                     robolectric   : "org.robolectric:robolectric:$robolectric",
+                    x_core     : "androidx.test:core:$test_core"
             ],
             firebase  : [
                     core       : "com.google.firebase:firebase-core:$firebase_core",

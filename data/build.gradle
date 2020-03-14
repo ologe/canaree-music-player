@@ -47,6 +47,8 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    useLibrary 'android.test.runner'
+
 }
 
 dependencies {
@@ -73,4 +75,7 @@ dependencies {
 
     implementation libs.utils.sql_content_resolver
     implementation libs.utils.fuzzy
+
+    testImplementation libs.test.robolectric
+    testImplementation libs.test.x_core
 }

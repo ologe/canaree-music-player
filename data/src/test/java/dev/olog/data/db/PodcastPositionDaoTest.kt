@@ -1,36 +1,27 @@
 package dev.olog.data.db
 
-import android.app.Application
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import dev.olog.data.DatabaseBuilder
 import dev.olog.data.model.db.PodcastPositionEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
-import kotlinx.coroutines.asExecutor
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.io.IOException
-
-class PodcastPositionDaoIntegrationTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class PodcastPositionDaoTest {
 
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
-    private lateinit var db: AppDatabase
-    private lateinit var sut: PodcastPositionDao
-
-    @Before
-    fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
-            .build()
-        sut = db.podcastPositionDao()
-    }
+    private val db by lazy { DatabaseBuilder.build(coroutinesRule.testDispatcher) }
+    private val sut by lazy { db.podcastPositionDao() }
 
     @After
     @Throws(IOException::class)

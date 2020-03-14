@@ -1,22 +1,22 @@
 package dev.olog.data.db
 
-import android.app.Application
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import dev.olog.data.DatabaseBuilder
 import dev.olog.data.model.db.EqualizerBandEntity
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-class EqualizerPresetsDaoIntegrationTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class EqualizerPresetsDaoTest {
 
     private val mockData = EqualizerPresetEntity(
         1L, "preset", listOf(
@@ -27,20 +27,10 @@ class EqualizerPresetsDaoIntegrationTest {
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
-    private lateinit var db: AppDatabase
-    private lateinit var sut: EqualizerPresetsDao
-
-    @Before
-    fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
-            .build()
-        sut = db.equalizerPresetsDao()
-    }
+    private val db by lazy { DatabaseBuilder.build(coroutinesRule.testDispatcher) }
+    private val sut by lazy { db.equalizerPresetsDao() }
 
     @After
-    @Throws(IOException::class)
     fun teardown() {
         db.close()
     }

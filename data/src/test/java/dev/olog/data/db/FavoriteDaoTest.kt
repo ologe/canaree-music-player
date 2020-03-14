@@ -1,13 +1,10 @@
 package dev.olog.data.db
 
-import android.app.Application
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
+import dev.olog.data.DatabaseBuilder
 import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import org.junit.After
@@ -15,37 +12,32 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-internal class FavoriteDaoIntegrationTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+internal class FavoriteDaoTest {
 
     private val mockFavorite1 = FavoriteEntity(1)
     private val mockFavorite2 = FavoriteEntity(2)
-    private val mockPodcastFavorite1 =
-        FavoritePodcastEntity(1)
-    private val mockPodcastFavorite2 =
-        FavoritePodcastEntity(2)
-
-    lateinit var db: AppDatabase
-    lateinit var dao: FavoriteDao
+    private val mockPodcastFavorite1 = FavoritePodcastEntity(1)
+    private val mockPodcastFavorite2 = FavoritePodcastEntity(2)
 
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
+    private val db by lazy { DatabaseBuilder.build(coroutinesRule.testDispatcher) }
+    private val sut by lazy { db.favoriteDao() }
+
     @Before
     fun setUp() = coroutinesRule.runBlockingTest {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
-            .build()
-        dao = db.favoriteDao()
-
-        dao.insertGroupImpl(listOf(mockFavorite1, mockFavorite2))
-        dao.insertGroupPodcastImpl(listOf(mockPodcastFavorite1, mockPodcastFavorite2))
+        sut.insertGroupImpl(listOf(mockFavorite1, mockFavorite2))
+        sut.insertGroupPodcastImpl(listOf(mockPodcastFavorite1, mockPodcastFavorite2))
     }
 
     @After
-    @Throws(IOException::class)
     fun teardown() {
         db.close()
     }
@@ -53,7 +45,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun testGetAll() {
         // when
-        val actual = dao.getAllTracksImpl()
+        val actual = sut.getAllTracksImpl()
 
         // then
         assertEquals(
@@ -65,7 +57,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun testGetAllPodcasts() {
         // when
-        val actual = dao.getAllPodcastsImpl()
+        val actual = sut.getAllPodcastsImpl()
 
         // then
         assertEquals(
@@ -77,7 +69,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun testObserveAll() = coroutinesRule.runBlockingTest {
         // when
-        val actual = dao.observeAllTracksImpl()
+        val actual = sut.observeAllTracksImpl()
             .take(1)
             .first()
 
@@ -91,7 +83,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun testObserveAllPodcasts() = coroutinesRule.runBlockingTest {
         // when
-        val actual = dao.observeAllPodcastsImpl()
+        val actual = sut.observeAllPodcastsImpl()
             .take(1)
             .first()
 
@@ -105,19 +97,19 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun shouldDeleteAll() {
         // when
-        dao.deleteAllTracks()
+        sut.deleteAllTracks()
 
         // then
-        assertEquals(emptyList<Long>(), dao.getAllTracksImpl())
+        assertEquals(emptyList<Long>(), sut.getAllTracksImpl())
     }
 
     @Test
     fun shouldDeleteAllPodcast() {
         // when
-        dao.deleteAllPodcasts()
+        sut.deleteAllPodcasts()
 
         // then
-        assertEquals(emptyList<Long>(), dao.getAllPodcastsImpl())
+        assertEquals(emptyList<Long>(), sut.getAllPodcastsImpl())
     }
 
     @Test
@@ -126,7 +118,7 @@ internal class FavoriteDaoIntegrationTest {
         val item = mockFavorite1.copy(songId = 10)
 
         // when
-        val insertedId = dao.insertOneImpl(item)
+        val insertedId = sut.insertOneImpl(item)
 
         // then
         assertEquals(
@@ -141,7 +133,7 @@ internal class FavoriteDaoIntegrationTest {
         val item = mockFavorite1
 
         // when
-        val insertedId = dao.insertOneImpl(item)
+        val insertedId = sut.insertOneImpl(item)
 
         // then
         assertEquals(
@@ -156,7 +148,7 @@ internal class FavoriteDaoIntegrationTest {
         val item = mockPodcastFavorite1.copy(podcastId = 10)
 
         // when
-        val insertedId = dao.insertOnePodcastImpl(item)
+        val insertedId = sut.insertOnePodcastImpl(item)
 
         // then
         assertEquals(
@@ -171,7 +163,7 @@ internal class FavoriteDaoIntegrationTest {
         val item = mockPodcastFavorite1
 
         // when
-        val insertedId = dao.insertOnePodcastImpl(item)
+        val insertedId = sut.insertOnePodcastImpl(item)
 
         // then
         assertEquals(
@@ -189,7 +181,7 @@ internal class FavoriteDaoIntegrationTest {
         )
 
         // when
-        val insertedIds = dao.insertGroupImpl(list)
+        val insertedIds = sut.insertGroupImpl(list)
 
         // then
         assertEquals(
@@ -207,7 +199,7 @@ internal class FavoriteDaoIntegrationTest {
         )
 
         // when
-        val insertedId = dao.insertGroupImpl(list)
+        val insertedId = sut.insertGroupImpl(list)
 
         // then
         assertEquals(
@@ -225,7 +217,7 @@ internal class FavoriteDaoIntegrationTest {
         )
 
         // when
-        val insertedIds = dao.insertGroupPodcastImpl(list)
+        val insertedIds = sut.insertGroupPodcastImpl(list)
 
         // then
         assertEquals(
@@ -243,7 +235,7 @@ internal class FavoriteDaoIntegrationTest {
         )
 
         // when
-        val insertedId = dao.insertGroupPodcastImpl(list)
+        val insertedId = sut.insertGroupPodcastImpl(list)
 
         // then
         assertEquals(
@@ -255,7 +247,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun shouldDeleteOnlyOne() = coroutinesRule.runBlockingTest {
         // when
-        val deleted = dao.deleteGroupImpl(listOf(mockFavorite1))
+        val deleted = sut.deleteGroupImpl(listOf(mockFavorite1))
 
         // then
         assertEquals(
@@ -267,7 +259,7 @@ internal class FavoriteDaoIntegrationTest {
     @Test
     fun shouldDeleteOnlyOnePodcast() = coroutinesRule.runBlockingTest {
         // when
-        val deleted = dao.deleteGroupPodcastImpl(listOf(mockPodcastFavorite1))
+        val deleted = sut.deleteGroupPodcastImpl(listOf(mockPodcastFavorite1))
 
         // then
         assertEquals(
@@ -282,7 +274,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = mockFavorite1.songId
 
         // when
-        val item = dao.getTrackById(id)
+        val item = sut.getTrackById(id)
 
         // then
         assertNotNull(item)
@@ -294,7 +286,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = mockPodcastFavorite1.podcastId
 
         // when
-        val item = dao.getPodcastById(id)
+        val item = sut.getPodcastById(id)
 
         // then
         assertNotNull(item)
@@ -306,7 +298,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = mockFavorite1.songId
 
         // when
-        val favorite = dao.isFavorite(id)
+        val favorite = sut.isFavorite(id)
 
         // then
         assertTrue(favorite)
@@ -318,7 +310,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = -1L
 
         // when
-        val favorite = dao.isFavorite(id)
+        val favorite = sut.isFavorite(id)
 
         // then
         assertFalse(favorite)
@@ -330,7 +322,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = mockPodcastFavorite1.podcastId
 
         // when
-        val favorite = dao.isFavoritePodcast(id)
+        val favorite = sut.isFavoritePodcast(id)
 
         // then
         assertTrue(favorite)
@@ -342,7 +334,7 @@ internal class FavoriteDaoIntegrationTest {
         val id = -1L
 
         // when
-        val favorite = dao.isFavoritePodcast(id)
+        val favorite = sut.isFavoritePodcast(id)
 
         // then
         assertFalse(favorite)

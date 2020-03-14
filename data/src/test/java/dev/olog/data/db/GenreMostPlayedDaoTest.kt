@@ -1,44 +1,35 @@
 package dev.olog.data.db
 
-import android.app.Application
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.data.DatabaseBuilder
+import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
-import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.Mocks
 import dev.olog.test.shared.runBlockingTest
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
 import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-class PlaylistMostPlayedDaoInterationTest {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class GenreMostPlayedDaoTest {
 
     @get:Rule
     val coroutinesRule = MainCoroutineRule()
 
-    private lateinit var db: AppDatabase
-    private lateinit var sut: PlaylistMostPlayedDao
-
-    @Before
-    fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .setQueryExecutor(coroutinesRule.testDispatcher.asExecutor())
-            .build()
-        sut = db.playlistMostPlayedDao()
-    }
+    private val db by lazy { DatabaseBuilder.build(coroutinesRule.testDispatcher) }
+    private val sut by lazy { db.genreMostPlayedDao() }
 
     @After
-    @Throws(IOException::class)
     fun teardown() {
         db.close()
     }
@@ -47,11 +38,11 @@ class PlaylistMostPlayedDaoInterationTest {
     fun testInsertAndQuery() = coroutinesRule.runBlockingTest {
         // given
         val songId = 10L
-        val playlistId = 1L
-        assertTrue("should be empty", sut.query(playlistId).first().isEmpty())
+        val genreId = 1L
+        assertTrue("should be empty", sut.query(genreId).first().isEmpty())
 
         // when
-        val item = PlaylistMostPlayedEntity(1, songId, playlistId)
+        val item = GenreMostPlayedEntity(1, songId, genreId)
         sut.insert(
             item.copy(id = 1),
             item.copy(id = 2),
@@ -63,7 +54,7 @@ class PlaylistMostPlayedDaoInterationTest {
         // then
         assertEquals(
             listOf(MostTimesPlayedSongEntity(songId = songId, timesPlayed = 5)),
-            sut.query(playlistId).first()
+            sut.query(genreId).first()
         )
     }
 
@@ -79,9 +70,9 @@ class PlaylistMostPlayedDaoInterationTest {
             )
         )
 
-        val playlistId = 1L
+        val genreId = 1L
 
-        val item = PlaylistMostPlayedEntity(1, 10, playlistId)
+        val item = GenreMostPlayedEntity(1, 10, genreId)
         sut.insert(
             // in song gateway
             item.copy(id = 1, songId = 1),
@@ -99,7 +90,7 @@ class PlaylistMostPlayedDaoInterationTest {
         )
 
         // when
-        val actual = sut.getAll(playlistId, songGateway).first()
+        val actual = sut.getAll(genreId, songGateway).first()
 
         // then
         val expected = listOf(Mocks.song.copy(id = 1))
