@@ -6,10 +6,10 @@ import androidx.test.core.app.ApplicationProvider
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.data.MocksIntegration
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.test.shared.MainCoroutineRule
+import dev.olog.test.shared.Mocks
 import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.first
@@ -73,9 +73,9 @@ class PlaylistMostPlayedDaoInterationTest {
         val songGateway = mock<TrackGateway>()
         whenever(songGateway.getAllTracks()).thenReturn(
             listOf(
-                MocksIntegration.song.copy(id = 1),
-                MocksIntegration.song.copy(id = 2),
-                MocksIntegration.song.copy(id = 3)
+                Mocks.song.copy(id = 1),
+                Mocks.song.copy(id = 2),
+                Mocks.song.copy(id = 3)
             )
         )
 
@@ -102,7 +102,7 @@ class PlaylistMostPlayedDaoInterationTest {
         val actual = sut.getAll(playlistId, songGateway).first()
 
         // then
-        val expected = listOf(MocksIntegration.song.copy(id = 1))
+        val expected = listOf(Mocks.song.copy(id = 1))
         assertEquals(
             expected,
             actual

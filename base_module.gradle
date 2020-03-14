@@ -74,4 +74,8 @@ dependencies {
     testImplementation libs.test.junit
     testImplementation libs.test.mockito
     testImplementation libs.test.mockito_kotlin
+
+    androidTestImplementation libs.test.junit
+    androidTestImplementation libs.test.mockito
+    androidTestImplementation libs.test.mockito_kotlin
 }

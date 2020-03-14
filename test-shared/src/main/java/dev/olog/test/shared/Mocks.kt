@@ -1,8 +1,8 @@
-package dev.olog.data
+package dev.olog.test.shared
 
 import dev.olog.core.entity.track.*
 
-internal object Mocks {
+object Mocks {
 
     val song = Song(
         id = 1,
@@ -51,6 +51,7 @@ internal object Mocks {
     )
 
     val folder = Folder(
+        id = 1,
         title = "folder",
         path = "/storage/emulated/0/folder",
         size = 10

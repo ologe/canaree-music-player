@@ -5,7 +5,7 @@ import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.data.Mocks
+import dev.olog.test.shared.Mocks
 import dev.olog.data.db.FavoriteDao
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule

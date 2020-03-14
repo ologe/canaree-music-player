@@ -7,6 +7,8 @@ import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.test.shared.MainCoroutineRule
+import dev.olog.test.shared.Mocks
+import dev.olog.test.shared.asSchedulers
 import dev.olog.test.shared.runBlockingTest
 import org.junit.Rule
 import org.junit.Test

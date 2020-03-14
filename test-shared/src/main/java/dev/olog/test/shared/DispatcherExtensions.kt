@@ -1,9 +1,9 @@
-package dev.olog.media
+package dev.olog.test.shared
 
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 
-internal fun CoroutineDispatcher.asSchedulers(): Schedulers {
+fun CoroutineDispatcher.asSchedulers(): Schedulers {
     return object : Schedulers {
         override val io: CoroutineDispatcher
             get() = this@asSchedulers

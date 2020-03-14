@@ -73,4 +73,6 @@ dependencies {
     implementation lib_data.room_ktx
     kapt lib_data.room_processor
 
+    testImplementation project(':test-shared')
+    androidTestImplementation project(':test-shared')
 }

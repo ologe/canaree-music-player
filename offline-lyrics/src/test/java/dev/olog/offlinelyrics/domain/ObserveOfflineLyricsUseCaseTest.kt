@@ -5,6 +5,8 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.test.shared.MainCoroutineRule
+import dev.olog.test.shared.Mocks
+import dev.olog.test.shared.asSchedulers
 import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf

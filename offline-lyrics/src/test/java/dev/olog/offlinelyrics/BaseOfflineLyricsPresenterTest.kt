@@ -9,7 +9,7 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter.Companion.ELLIPSES
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.offlinelyrics.domain.asSchedulers
+import dev.olog.test.shared.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.flow.emptyFlow
