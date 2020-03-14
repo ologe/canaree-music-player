@@ -128,21 +128,6 @@ internal class FavoriteDaoTest {
     }
 
     @Test
-    fun shouldNotInsertSameItem() = coroutinesRule.runBlockingTest {
-        // given
-        val item = mockFavorite1
-
-        // when
-        val insertedId = sut.insertOneImpl(item)
-
-        // then
-        assertEquals(
-            -1,
-            insertedId
-        )
-    }
-
-    @Test
     fun shouldInsertPodcast() = coroutinesRule.runBlockingTest {
         // given
         val item = mockPodcastFavorite1.copy(podcastId = 10)
@@ -153,21 +138,6 @@ internal class FavoriteDaoTest {
         // then
         assertEquals(
             item.podcastId,
-            insertedId
-        )
-    }
-
-    @Test
-    fun shouldNotInsertSamePodcastItem() = coroutinesRule.runBlockingTest {
-        // given
-        val item = mockPodcastFavorite1
-
-        // when
-        val insertedId = sut.insertOnePodcastImpl(item)
-
-        // then
-        assertEquals(
-            -1,
             insertedId
         )
     }
@@ -191,24 +161,6 @@ internal class FavoriteDaoTest {
     }
 
     @Test
-    fun shouldInsertOnlyOne() = coroutinesRule.runBlockingTest {
-        // given
-        val list = listOf(
-            mockFavorite1,
-            mockFavorite1.copy(songId = 10)
-        )
-
-        // when
-        val insertedId = sut.insertGroupImpl(list)
-
-        // then
-        assertEquals(
-            listOf(-1L, 10L),
-            insertedId
-        )
-    }
-
-    @Test
     fun shouldInsertPodcastGroup() = coroutinesRule.runBlockingTest {
         // given
         val list = listOf(
@@ -223,24 +175,6 @@ internal class FavoriteDaoTest {
         assertEquals(
             list.map { it.podcastId }.sorted(),
             insertedIds.sorted()
-        )
-    }
-
-    @Test
-    fun shouldInsertPodcastOnlyOne() = coroutinesRule.runBlockingTest {
-        // given
-        val list = listOf(
-            mockPodcastFavorite1,
-            mockPodcastFavorite1.copy(podcastId = 10)
-        )
-
-        // when
-        val insertedId = sut.insertGroupPodcastImpl(list)
-
-        // then
-        assertEquals(
-            listOf(-1L, 10L),
-            insertedId
         )
     }
 
