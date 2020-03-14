@@ -22,6 +22,7 @@ import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
@@ -153,6 +154,8 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return when (playlistId) {
             AutoPlaylist.FAVORITE.id -> favoriteGateway.deleteAll(FavoriteTrackType.PODCAST)
             AutoPlaylist.HISTORY.id -> historyDao.deleteAllPodcasts()
+            AutoPlaylist.LAST_ADDED.id -> {}
+            else -> throwNotHandled("not an autoplaylist $playlistId")
         }
     }
 

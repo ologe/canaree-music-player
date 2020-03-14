@@ -32,6 +32,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.mapListItem
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.text.Collator
@@ -116,7 +117,7 @@ internal class PlaylistRepository @Inject constructor(
             AutoPlaylist.LAST_ADDED.id -> trackGateway.getAllTracks().sortedByDescending { it.dateAdded }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.getTracks()
             AutoPlaylist.HISTORY.id -> historyDao.getTracks(trackGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+            else -> throwNotHandled("invalid auto playlist id")
         }
     }
 
@@ -125,7 +126,7 @@ internal class PlaylistRepository @Inject constructor(
             AutoPlaylist.LAST_ADDED.id -> trackGateway.observeAllTracks().map { it.sortedByDescending { it.dateAdded } }
             AutoPlaylist.FAVORITE.id -> favoriteGateway.observeTracks()
             AutoPlaylist.HISTORY.id -> historyDao.observeTracks(trackGateway)
-            else -> throw IllegalStateException("invalid auto playlist id")
+            else -> throwNotHandled("invalid auto playlist id")
         }
     }
 

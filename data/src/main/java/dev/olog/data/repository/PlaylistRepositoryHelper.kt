@@ -11,6 +11,7 @@ import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.swap
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -50,9 +51,11 @@ internal class PlaylistRepositoryHelper @Inject constructor(
 
     override suspend fun clearPlaylist(playlistId: Long) {
         require(AutoPlaylist.isAutoPlaylist(playlistId))
-        when (playlistId) {
+        return when (playlistId) {
             AutoPlaylist.FAVORITE.id -> return favoriteGateway.deleteAll(FavoriteTrackType.TRACK)
             AutoPlaylist.HISTORY.id -> return historyDao.deleteAll()
+            AutoPlaylist.LAST_ADDED.id -> {}
+            else -> throwNotHandled("not an autoplaylist $playlistId")
         }
     }
 
