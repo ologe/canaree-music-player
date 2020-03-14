@@ -1,7 +1,7 @@
 ext {
 //    core
     coroutines = '1.3.4'
-    dagger = '2.26'
+    dagger = '2.27'
 
 //    android x
     android_x_core = '1.2.0'
