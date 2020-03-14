@@ -6,8 +6,8 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
     implementation lib_x.material
     implementation lib_x.core
     implementation lib_x.palette

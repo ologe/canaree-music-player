@@ -6,7 +6,7 @@ dependencies {
     compileOnly "com.android.tools.lint:lint-api:$lint"
     compileOnly "com.android.tools.lint:lint-checks:$lint"
 
-    compileOnly lib_core.kotlin
+    compileOnly libs.kotlin.core
 }
 
 sourceCompatibility = "7"

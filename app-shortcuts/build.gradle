@@ -12,8 +12,8 @@ dependencies {
     implementation lib_x.core
     implementation lib_x.appcompat
 
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
     implementation lib_ui.glide
 }

@@ -1,13 +1,13 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
+    testImplementation libs.coroutines.test
 
-    implementation lib_core.dagger
+    implementation libs.dagger.core
 
     testImplementation lib_test.junit
-    testImplementation lib_test.coroutines_test
 
 }
 

@@ -6,8 +6,8 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
     implementation lib_x.material
     implementation lib_x.core
     implementation lib_x.palette
@@ -20,6 +20,6 @@ dependencies {
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_livedata
 
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.dagger.core
+    kapt libs.dagger.kapt
 }

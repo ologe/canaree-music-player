@@ -59,22 +59,29 @@ ext {
     junit = '4.12'
     robolectric = '4.3.1'
 
+    libs = [
+            kotlin = [
+                    core: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            ],
+            dagger = [
+                    core           : "com.google.dagger:dagger:$dagger",
+                    kapt           : "com.google.dagger:dagger-compiler:$dagger",
+                    android        : "com.google.dagger:dagger-android:$dagger",
+                    android_support: "com.google.dagger:dagger-android-support:$dagger",
+                    android_kapt   : "com.google.dagger:dagger-android-processor:$dagger",
+            ],
+            coroutines = [
+                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+                    test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
+            ],
+    ]
+
     lib_analytics = [
             core       : "com.google.firebase:firebase-core:$firebase_core",
             analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
 //            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
-    ]
-
-    lib_core = [
-            kotlin                  : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
-            dagger                  : "com.google.dagger:dagger:$dagger",
-            dagger_processor        : "com.google.dagger:dagger-compiler:$dagger",
-            dagger_android          : "com.google.dagger:dagger-android:$dagger",
-            dagger_android_support  : "com.google.dagger:dagger-android-support:$dagger",
-            dagger_android_processor: "com.google.dagger:dagger-android-processor:$dagger",
-            coroutines              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
-            coroutines_android      : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
     ]
 
     lib_x = [
@@ -144,11 +151,10 @@ ext {
     ]
 
     lib_test = [
-            junit              : "junit:junit:$junit",
-            mockito            : "org.mockito:mockito-inline:3.2.4",
-            mockito_kotlin     : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            coroutines_test    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
-            robolectric        : "org.robolectric:robolectric:$robolectric",
+            junit         : "junit:junit:$junit",
+            mockito       : "org.mockito:mockito-inline:3.2.4",
+            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+            robolectric   : "org.robolectric:robolectric:$robolectric",
     ]
 
 }

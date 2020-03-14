@@ -53,9 +53,11 @@ android {
 dependencies {
     lintChecks project(':lint')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.coroutines_android
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
+    testImplementation libs.coroutines.test
+    androidTestImplementation libs.coroutines.test
 
     implementation lib_debug.timber
 
@@ -63,14 +65,12 @@ dependencies {
     testImplementation lib_test.junit
     testImplementation lib_test.mockito
     testImplementation lib_test.mockito_kotlin
-    testImplementation lib_test.coroutines_test
     testImplementation lib_test.robolectric
     testImplementation project(':test-shared')
 
     androidTestImplementation lib_test.junit
     androidTestImplementation lib_test.mockito
     androidTestImplementation lib_test.mockito_kotlin
-    androidTestImplementation lib_test.coroutines_test
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'

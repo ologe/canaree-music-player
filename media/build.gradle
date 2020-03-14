@@ -15,7 +15,7 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_core.coroutines
+    implementation libs.coroutines.core
     implementation lib_x.media
     implementation lib_x.appcompat
     implementation lib_x.lifecycle_livedata

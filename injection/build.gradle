@@ -30,10 +30,10 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
-    implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
+    implementation libs.dagger.core
+    kapt libs.dagger.kapt
 
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.appcompat
