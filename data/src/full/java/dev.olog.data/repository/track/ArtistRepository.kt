@@ -19,9 +19,8 @@ import dev.olog.data.model.db.LastPlayedArtistEntity
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -31,7 +30,7 @@ internal class ArtistRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedArtistDao,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : BaseRepository<Artist, Long>(context, schedulers), ArtistGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, false)
@@ -68,7 +67,7 @@ internal class ArtistRepository @Inject constructor(
     override fun observeByParam(param: Long): Flow<Artist?> {
         return channel.asFlow().map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -80,7 +79,7 @@ internal class ArtistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
@@ -94,7 +93,7 @@ internal class ArtistRepository @Inject constructor(
                     .toList()
             }
         }.distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun addLastPlayed(id: Long) {
@@ -106,6 +105,6 @@ internal class ArtistRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 }

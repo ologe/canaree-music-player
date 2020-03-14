@@ -17,16 +17,12 @@ import dev.olog.data.db.PodcastPlaylistDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.db.PodcastPlaylistEntity
 import dev.olog.data.model.db.PodcastPlaylistTrackEntity
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
 import dev.olog.shared.throwNotHandled
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -52,7 +48,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observeAllPlaylists()
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
@@ -85,7 +81,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -99,9 +95,10 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
+                .flowOn(schedulers.cpu)
         }
         return podcastPlaylistDao.observePlaylistTracks(param, trackGateway)
+            .flowOn(schedulers.cpu)
     }
 
     private fun getAutoPlaylistsTracks(param: Long): List<Song> {
@@ -128,7 +125,7 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun createPlaylist(playlistName: String): Long {

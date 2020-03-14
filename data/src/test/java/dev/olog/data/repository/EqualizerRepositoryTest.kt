@@ -9,9 +9,9 @@ import dev.olog.core.gateway.EqualizerGateway
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.data.db.EqualizerPresetsDao
 import dev.olog.data.model.db.EqualizerPresetEntity
-import dev.olog.data.test.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.schedulers
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
@@ -52,13 +52,13 @@ internal class EqualizerRepositoryTest {
     fun setup() = coroutineRule.runBlockingTest {
         whenever(dao.getPresets()).thenReturn(presetsEntities)
 
-        sut = EqualizerRepository(dao, prefs, coroutineRule.testDispatcher.asSchedulers())
+        sut = EqualizerRepository(dao, prefs, coroutineRule.schedulers)
     }
 
     @Test
     fun verifySetup() = coroutineRule.runBlockingTest {
         whenever(dao.getPresets()).thenReturn(emptyList())
-        sut = EqualizerRepository(dao, prefs, coroutineRule.testDispatcher.asSchedulers())
+        sut = EqualizerRepository(dao, prefs, coroutineRule.schedulers)
 
         verify(dao).insertPresets(any())
     }

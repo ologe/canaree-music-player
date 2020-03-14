@@ -7,6 +7,7 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.model.*
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.schedulers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import org.junit.Rule
 import org.junit.Test
@@ -60,7 +61,7 @@ class MediaExposerTest {
         return MediaExposer(
             context,
             onConnectionChanged,
-            coroutineRule.testDispatcher.asSchedulers(),
+            coroutineRule.schedulers,
             config
         ) { hasPermissionStorage }
     }

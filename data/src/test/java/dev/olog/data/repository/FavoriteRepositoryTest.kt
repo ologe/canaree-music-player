@@ -3,10 +3,10 @@ package dev.olog.data.repository
 import com.nhaarman.mockitokotlin2.*
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
-import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.test.shared.Mocks
 import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
 import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
@@ -23,9 +23,8 @@ internal class FavoriteRepositoryTest {
     val coroutinesRule = MainCoroutineRule()
 
     private val dao = mock<FavoriteDao>()
-    private val songGateway = mock<TrackGateway>()
-    private val podcastGateway = mock<PodcastGateway>()
-    private val sut = FavoriteRepository(dao, songGateway, podcastGateway)
+    private val trackGateway = mock<TrackGateway>()
+    private val sut = FavoriteRepository(dao, trackGateway)
 
     @Test
     fun shouldInitialStateBeNull() {
@@ -62,16 +61,16 @@ internal class FavoriteRepositoryTest {
         )
 
         whenever(dao.getAllTracksImpl()).thenReturn(favorites)
-        whenever(songGateway.getAll()).thenReturn(tracks)
+        whenever(trackGateway.getAllTracks()).thenReturn(tracks)
         verifyNoMoreInteractions(dao)
-        verifyNoMoreInteractions(songGateway)
+        verifyNoMoreInteractions(trackGateway)
 
         // when
         val actual = sut.getTracks()
 
         // then
         verify(dao).getAllTracksImpl()
-        verify(songGateway).getAll()
+        verify(trackGateway).getAllTracks()
 
         assertEquals(
             listOf(Mocks.song.copy(id = 1)),
@@ -93,16 +92,16 @@ internal class FavoriteRepositoryTest {
         )
 
         whenever(dao.getAllPodcastsImpl()).thenReturn(favorites)
-        whenever(podcastGateway.getAll()).thenReturn(podcasts)
+        whenever(trackGateway.getAllPodcasts()).thenReturn(podcasts)
 
         // when
         val actual = sut.getPodcasts()
 
         // then
         verify(dao).getAllPodcastsImpl()
-        verify(podcastGateway).getAll()
+        verify(trackGateway).getAllPodcasts()
         verifyNoMoreInteractions(dao)
-        verifyNoMoreInteractions(songGateway)
+        verifyNoMoreInteractions(trackGateway)
 
         assertEquals(
             listOf(Mocks.podcast.copy(id = 1)),
@@ -124,15 +123,15 @@ internal class FavoriteRepositoryTest {
         )
 
         whenever(dao.observeAllTracksImpl()).thenReturn(flowOf(favorites))
-        whenever(songGateway.getAll()).thenReturn(tracks)
+        whenever(trackGateway.getAllTracks()).thenReturn(tracks)
 
         // when
         val actual = sut.observeTracks().first()
 
         verify(dao).observeAllTracksImpl()
-        verify(songGateway).getAll()
+        verify(trackGateway).getAllTracks()
         verifyNoMoreInteractions(dao)
-        verifyNoMoreInteractions(songGateway)
+        verifyNoMoreInteractions(trackGateway)
 
         assertEquals(
             listOf(Mocks.song.copy(id = 1)),
@@ -154,17 +153,17 @@ internal class FavoriteRepositoryTest {
         )
 
         whenever(dao.observeAllPodcastsImpl()).thenReturn(flowOf(favorites))
-        whenever(podcastGateway.getAll()).thenReturn(tracks)
+        whenever(trackGateway.getAllPodcasts()).thenReturn(tracks)
         verifyNoMoreInteractions(dao)
-        verifyNoMoreInteractions(songGateway)
+        verifyNoMoreInteractions(trackGateway)
 
         // when
         val actual = sut.observePodcasts().first()
 
         verify(dao).observeAllPodcastsImpl()
-        verify(podcastGateway).getAll()
+        verify(trackGateway).getAllPodcasts()
         verifyNoMoreInteractions(dao)
-        verifyNoMoreInteractions(podcastGateway)
+        verifyNoMoreInteractions(trackGateway)
 
         assertEquals(
             listOf(Mocks.podcast.copy(id = 1)),
@@ -601,8 +600,7 @@ internal class FavoriteRepositoryTest {
     fun `test toggle but not old state found`() = coroutinesRule.runBlockingTest {
         sut.toggleFavorite()
         verifyZeroInteractions(dao)
-        verifyZeroInteractions(songGateway)
-        verifyZeroInteractions(podcastGateway)
+        verifyZeroInteractions(trackGateway)
     }
 
     @Test

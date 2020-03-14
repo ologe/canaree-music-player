@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.shared.ApplicationContext
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.HasLastPlayed
@@ -19,9 +18,9 @@ import dev.olog.data.model.db.LastPlayedPodcastArtistEntity
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -31,7 +30,7 @@ internal class PodcastAuthorRepository @Inject constructor(
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedPodcastArtistDao,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : BaseRepository<Artist, Long>(context, schedulers), PodcastAuthorGateway {
 
     private val queries = ArtistQueries(contentResolver, blacklistPrefs, sortPrefs, true)
@@ -69,7 +68,7 @@ internal class PodcastAuthorRepository @Inject constructor(
         return channel.asFlow()
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -81,7 +80,7 @@ internal class PodcastAuthorRepository @Inject constructor(
     override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
@@ -95,7 +94,7 @@ internal class PodcastAuthorRepository @Inject constructor(
                     .toList()
             }
         }.distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun addLastPlayed(id: Long) {
@@ -107,13 +106,13 @@ internal class PodcastAuthorRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeSiblings(param: Long): Flow<List<Artist>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 }

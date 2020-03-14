@@ -21,15 +21,11 @@ import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.queries.GenreQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
 import dev.olog.shared.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import dev.olog.shared.android.utils.assertBackgroundThread
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
@@ -39,7 +35,7 @@ internal class GenreRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val trackGateway: TrackGateway,
     private val mostPlayedDao: GenreMostPlayedDao,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : BaseRepository<Genre, Long>(context, schedulers), GenreGateway {
 
     private val queries = GenreQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -76,7 +72,7 @@ internal class GenreRepository @Inject constructor(
     override fun observeByParam(param: Long): Flow<Genre?> {
         return channel.asFlow().map { it.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -89,20 +85,20 @@ internal class GenreRepository @Inject constructor(
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", param)
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeSiblings(param: Long): Flow<List<Genre>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         return mostPlayedDao.getAll(mediaId.categoryId, trackGateway)
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
@@ -120,7 +116,7 @@ internal class GenreRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(param)) }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeRecentlyAdded(param: Long): Flow<List<Song>> {

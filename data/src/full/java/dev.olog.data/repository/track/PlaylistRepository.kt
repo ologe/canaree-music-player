@@ -19,6 +19,7 @@ import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.core.gateway.track.PlaylistOperations
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.prefs.SortPreferences
+import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
@@ -28,9 +29,8 @@ import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.*
@@ -47,7 +47,8 @@ internal class PlaylistRepository @Inject constructor(
     private val historyDao: HistoryDao,
     private val mostPlayedDao: PlaylistMostPlayedDao,
     private val playlistDao: PlaylistDao,
-    private val sortPreferences: SortPreferences
+    private val sortPreferences: SortPreferences,
+    private val schedulers: Schedulers
 ) : PlaylistGateway, PlaylistOperations by helper {
 
     private val collator by lazy {
@@ -70,7 +71,7 @@ internal class PlaylistRepository @Inject constructor(
             .onStart { populatePlaylistTables() }
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getByParam(param: Long): Playlist? {
@@ -91,7 +92,7 @@ internal class PlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -106,10 +107,11 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
+                .flowOn(schedulers.cpu)
         }
         return playlistDao.observePlaylistTracks(param, trackGateway)
             .map { it.sortedWith(trackListComparator(sortPreferences.getDetailPlaylistSort())) }
+            .flowOn(schedulers.cpu)
     }
 
     private fun getAutoPlaylistsTracks(param: Long): List<Song> {
@@ -174,7 +176,7 @@ internal class PlaylistRepository @Inject constructor(
         val folderPath = mediaId.categoryId
         return mostPlayedDao.getAll(folderPath, trackGateway)
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
@@ -192,7 +194,7 @@ internal class PlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeRelatedArtists(param: Long): Flow<List<Artist>> {

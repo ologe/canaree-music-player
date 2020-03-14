@@ -9,9 +9,9 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter.Companion.ELLIPSES
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.test.shared.asSchedulers
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.schedulers
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -31,7 +31,7 @@ class BaseOfflineLyricsPresenterTest {
     private val observeUseCase = mock<ObserveOfflineLyricsUseCase>()
     private val insertUseCase = mock<InsertOfflineLyricsUseCase>()
     private val sut = object : BaseOfflineLyricsPresenter(
-        lyricsGateway, observeUseCase, insertUseCase, coroutineRule.testDispatcher.asSchedulers()
+        lyricsGateway, observeUseCase, insertUseCase, coroutineRule.schedulers
     ) {}
 
     @After

@@ -4,7 +4,7 @@ import dev.olog.core.entity.PodcastPosition
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.data.db.PodcastPositionDao
 import dev.olog.data.model.db.PodcastPositionEntity
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

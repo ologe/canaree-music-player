@@ -9,10 +9,10 @@ import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.data.repository.podcast.PodcastRepositoryInternal
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import java.io.File

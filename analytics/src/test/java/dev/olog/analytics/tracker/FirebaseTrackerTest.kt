@@ -7,11 +7,11 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.analytics.asSchedulers
 import dev.olog.analytics.tracker.FirebaseTracker.Companion.MAX_SIZE_ALLOWED
 import dev.olog.core.MediaIdCategory
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.schedulers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,8 +26,7 @@ class FirebaseTrackerTest {
     val coroutineRule = MainCoroutineRule()
 
     private val firebase = mock<FirebaseAnalytics>()
-    private val schedulers = coroutineRule.testDispatcher.asSchedulers()
-    private val sut = FirebaseTracker(firebase, schedulers)
+    private val sut = FirebaseTracker(firebase, coroutineRule.schedulers)
 
     @Test
     fun `track screen success`() = coroutineRule.runBlockingTest {

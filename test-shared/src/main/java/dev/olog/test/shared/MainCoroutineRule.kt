@@ -16,6 +16,8 @@
 
 package dev.olog.test.shared
 
+import dev.olog.core.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -67,3 +69,15 @@ class MainCoroutineRule(
 fun MainCoroutineRule.runBlockingTest(block: suspend (TestCoroutineDispatcher) -> Unit) = this.testDispatcher.runBlockingTest {
     block(testDispatcher)
 }
+
+val MainCoroutineRule.schedulers: Schedulers
+    get() {
+        return object : Schedulers {
+            override val io: CoroutineDispatcher
+                get() = testDispatcher
+            override val cpu: CoroutineDispatcher
+                get() = testDispatcher
+            override val main: CoroutineDispatcher
+                get() = testDispatcher
+        }
+    }

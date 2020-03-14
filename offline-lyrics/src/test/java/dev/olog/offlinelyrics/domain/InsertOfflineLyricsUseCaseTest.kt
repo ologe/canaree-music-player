@@ -6,10 +6,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.test.shared.MainCoroutineRule
-import dev.olog.test.shared.Mocks
-import dev.olog.test.shared.asSchedulers
-import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.*
 import org.junit.Rule
 import org.junit.Test
 
@@ -22,7 +19,7 @@ class InsertOfflineLyricsUseCaseTest {
     private val trackGateway = mock<TrackGateway>()
     private val persistLyrics = mock<PersistLyricsUseCase>()
     private val sut = InsertOfflineLyricsUseCase(
-        gateway, trackGateway, coroutineRule.testDispatcher.asSchedulers(), persistLyrics
+        gateway, trackGateway, coroutineRule.schedulers, persistLyrics
     )
 
     @Test

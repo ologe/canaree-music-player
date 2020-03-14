@@ -9,18 +9,18 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 internal class PodcastRepositoryInternal @Inject constructor(
     @ApplicationContext context: Context,
-    schedulers: Schedulers,
+    private val schedulers: Schedulers,
     @Podcast private val queries: TrackQueries
 ) : BaseRepository<Song, Long>(context, schedulers) {
 
@@ -49,6 +49,7 @@ internal class PodcastRepositoryInternal @Inject constructor(
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
+
     }
 }

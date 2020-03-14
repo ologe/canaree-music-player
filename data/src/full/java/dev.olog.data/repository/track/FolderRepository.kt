@@ -20,11 +20,10 @@ import dev.olog.data.model.db.FolderMostPlayedEntity
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
@@ -36,7 +35,7 @@ internal class FolderRepository @Inject constructor(
     blacklistPrefs: BlacklistPreferences,
     private val trackGateway: TrackGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 ) : BaseRepository<Folder, Long>(context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
@@ -85,7 +84,7 @@ internal class FolderRepository @Inject constructor(
         return channel.asFlow()
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getTrackListByParam(param: Long): List<Song> {
@@ -98,7 +97,7 @@ internal class FolderRepository @Inject constructor(
     override fun observeTrackListByParam(param: Long): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
@@ -111,7 +110,7 @@ internal class FolderRepository @Inject constructor(
         return observeByParam(mediaId.categoryId).take(1).map { it!! }
             .flatMapLatest { mostPlayedDao.getAll(it.path, trackGateway) }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
@@ -130,7 +129,7 @@ internal class FolderRepository @Inject constructor(
         return observeAll()
             .map { list -> list.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeRelatedArtists(param: Long): Flow<List<Artist>> {
@@ -143,7 +142,7 @@ internal class FolderRepository @Inject constructor(
                 }
             }
             .distinctUntilChanged()
-            .assertBackground()
+            .flowOn(schedulers.cpu)
     }
 
     override fun observeRecentlyAdded(param: Long): Flow<List<Song>> {

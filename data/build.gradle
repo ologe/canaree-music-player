@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(':shared')
+    implementation project(':shared-android')
     implementation project(':prefs-keys')
 
     implementation libs.dagger.core

@@ -6,8 +6,8 @@ import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.Mocks
-import dev.olog.test.shared.asSchedulers
 import dev.olog.test.shared.runBlockingTest
+import dev.olog.test.shared.schedulers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
@@ -23,7 +23,7 @@ class ObserveOfflineLyricsUseCaseTest {
     private val trackGateway = mock<TrackGateway>()
     private val readPersistedLyrics = mock<ReadPersistedLyricsUseCase>()
     private val sut = ObserveOfflineLyricsUseCase(
-        gateway, trackGateway, coroutineRule.testDispatcher.asSchedulers(), readPersistedLyrics
+        gateway, trackGateway, coroutineRule.schedulers, readPersistedLyrics
     )
 
     @Test

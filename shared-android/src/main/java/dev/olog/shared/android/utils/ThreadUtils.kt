@@ -10,7 +10,6 @@ inline fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 inline fun assertMainThread() {
     if (BuildConfig.DEBUG && !isMainThread()) {
         throw AssertionError("not on main thread, current=${Thread.currentThread()}")
-
     }
 }
 
