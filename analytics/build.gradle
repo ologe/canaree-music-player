@@ -8,13 +8,11 @@ dependencies {
 
     implementation libs.kotlin.core
     implementation libs.coroutines.core
-
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
     implementation libs.x.core
-
-    implementation lib_analytics.analytics
+    implementation libs.firebase.analytics
 
     testImplementation libs.test.robolectric
 }

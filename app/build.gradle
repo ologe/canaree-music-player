@@ -105,8 +105,8 @@ dependencies {
     debugImplementation lib_debug.stetho
 
     // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
+    implementation libs.firebase.analytics
+    implementation libs.firebase.crashlytics
 //    implementation lib_analytics.perf
 }
 

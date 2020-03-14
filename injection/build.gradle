@@ -41,7 +41,7 @@ dependencies {
     implementation lib_network.retrofit
     implementation lib_data.room
 
-    implementation lib_analytics.analytics
+    implementation libs.firebase.analytics
 
     implementation lib_utils.aes_crypto
 }

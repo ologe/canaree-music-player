@@ -109,14 +109,13 @@ ext {
                     mockito       : "org.mockito:mockito-inline:3.2.4",
                     mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
                     robolectric   : "org.robolectric:robolectric:$robolectric",
+            ],
+            firebase : [
+                    core       : "com.google.firebase:firebase-core:$firebase_core",
+                    analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
+                    crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
+    //            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
             ]
-    ]
-
-    lib_analytics = [
-            core       : "com.google.firebase:firebase-core:$firebase_core",
-            analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
-            crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
-//            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 
     lib_ui = [
