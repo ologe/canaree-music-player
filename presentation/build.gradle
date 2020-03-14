@@ -48,6 +48,9 @@ dependencies {
 
     implementation libs.dagger.core
     kapt libs.dagger.kapt
+    implementation libs.dagger.android
+    implementation libs.dagger.android_support
+    kapt libs.dagger.android_kapt
 
     implementation libs.x.appcompat
     implementation libs.x.material
@@ -65,11 +68,6 @@ dependencies {
 
     implementation libs.ux.lottie
     implementation libs.ux.tap_target_view
-
-    implementation libs.dagger.android
-    implementation libs.dagger.android_support
-    kapt libs.dagger.android_kapt
-
     implementation libs.ux.dialogs_color
     implementation libs.ux.blur_kit
     implementation libs.ux.custom_tabs

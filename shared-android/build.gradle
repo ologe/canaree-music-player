@@ -6,6 +6,9 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
 
+    implementation libs.dagger.core
+    kapt libs.dagger.kapt
+
     implementation libs.x.material
     implementation libs.x.core
     implementation libs.x.palette
@@ -13,7 +16,4 @@ dependencies {
     implementation libs.x.preference
     implementation libs.x.fragments
     implementation libs.x.media
-
-    implementation libs.dagger.core
-    kapt libs.dagger.kapt
 }

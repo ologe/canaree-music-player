@@ -4,12 +4,13 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation project(':shared')
 
+    implementation libs.coroutines.core
+
     implementation libs.kotlin.core
     implementation libs.dagger.core
     kapt libs.dagger.kapt
-    implementation libs.coroutines.core
-    testImplementation libs.coroutines.test
 
+    testImplementation libs.coroutines.test
     testImplementation libs.test.junit
     testImplementation libs.test.mockito
     testImplementation libs.test.mockito_kotlin

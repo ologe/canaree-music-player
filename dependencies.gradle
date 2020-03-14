@@ -59,6 +59,8 @@ ext {
     junit = '4.12'
     robolectric = '4.3.1'
 
+    lint = '26.6.1'
+
     libs = [
             kotlin    : [
                     core: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
@@ -150,6 +152,10 @@ ext {
                     custom_tabs    : "saschpe.android:customtabs:$custom_tabs",
                     dialogs_color  : "com.afollestad.material-dialogs:color:$material_dialogs",
                     tap_target_view: "com.github.ologe:taptargetview:$tap_target_view"
+            ],
+            lint      : [
+                    core  : "com.android.tools.lint:lint-api:$lint",
+                    checks: "com.android.tools.lint:lint-checks:$lint",
             ]
     ]
 

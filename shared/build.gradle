@@ -3,12 +3,11 @@ apply plugin: 'kotlin'
 dependencies {
     implementation libs.kotlin.core
     implementation libs.coroutines.core
-    testImplementation libs.coroutines.test
 
     implementation libs.dagger.core
 
+    testImplementation libs.coroutines.test
     testImplementation libs.test.junit
-
 }
 
 sourceCompatibility = "8"

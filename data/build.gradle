@@ -60,7 +60,10 @@ dependencies {
     implementation libs.x.core
     implementation libs.x.preference
 
-    implementation libs.utils.fuzzy
+    implementation libs.x.room.core
+    implementation libs.x.room.coroutines
+    kapt libs.x.room.kapt
+
     implementation libs.network.gson
     implementation libs.network.retrofit
     implementation libs.network.retrofit_gson
@@ -68,7 +71,5 @@ dependencies {
     implementation libs.network.ok_http_interceptor
 
     implementation libs.utils.sql_content_resolver
-    implementation libs.x.room.core
-    implementation libs.x.room.coroutines
-    kapt libs.x.room.kapt
+    implementation libs.utils.fuzzy
 }

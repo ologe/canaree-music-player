@@ -18,7 +18,9 @@ dependencies {
 
     implementation libs.x.core
     implementation libs.x.preference
+
     implementation libs.ux.glide
     kapt libs.ux.glide_kapt
+
     implementation libs.utils.color_desaturation
 }

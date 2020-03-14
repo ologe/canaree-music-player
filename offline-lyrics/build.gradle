@@ -13,8 +13,8 @@ dependencies {
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
+    implementation libs.x.core
     implementation libs.x.recycler
     implementation libs.x.appcompat
     implementation libs.x.material
-    implementation libs.x.core
 }

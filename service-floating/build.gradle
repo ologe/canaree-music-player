@@ -24,7 +24,6 @@ dependencies {
     implementation libs.x.appcompat
     implementation libs.x.material
     implementation libs.x.recycler
-
     implementation libs.x.lifecycle.java8
     implementation libs.x.lifecycle.service
     implementation libs.x.lifecycle.runtime

@@ -30,16 +30,14 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation libs.kotlin.core
-    implementation libs.coroutines.core
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
     implementation libs.x.appcompat
+    implementation libs.x.room.core
 
     implementation libs.network.ok_http
     implementation libs.network.retrofit
-    implementation libs.x.room.core
 
     implementation libs.firebase.analytics
 

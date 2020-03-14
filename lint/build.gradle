@@ -2,11 +2,10 @@ apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
 dependencies {
-    def lint = '26.6.1'
-    compileOnly "com.android.tools.lint:lint-api:$lint"
-    compileOnly "com.android.tools.lint:lint-checks:$lint"
-
     compileOnly libs.kotlin.core
+
+    compileOnly libs.lint.core
+    compileOnly libs.lint.checks
 }
 
 sourceCompatibility = "8"

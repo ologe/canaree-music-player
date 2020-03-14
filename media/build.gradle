@@ -7,7 +7,6 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation libs.coroutines.core
     implementation libs.x.media
     implementation libs.x.appcompat
 
