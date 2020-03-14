@@ -2,17 +2,6 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
-android {
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-}
-
 dependencies {
     implementation project(':core')
     implementation project(':shared')
@@ -31,5 +20,5 @@ dependencies {
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_livedata
 
-    testImplementation lib_test.robolectric
+    testImplementation libs.test.robolectric
 }

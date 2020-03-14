@@ -6,8 +6,6 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
 
-    implementation libs.kotlin.core
-    implementation libs.coroutines.core
     implementation lib_x.material
     implementation lib_x.core
     implementation lib_x.palette

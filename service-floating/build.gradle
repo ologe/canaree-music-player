@@ -14,8 +14,6 @@ dependencies {
     implementation project(':media')
     implementation project(':offline-lyrics')
 
-    implementation libs.coroutines.core
-    implementation libs.coroutines.android
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
@@ -33,7 +31,6 @@ dependencies {
     implementation lib_x.recycler
 
     implementation lib_ui.blur_kit
-
 
     implementation lib_ui.glide
 }

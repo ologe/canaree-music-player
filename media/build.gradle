@@ -1,14 +1,6 @@
 apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
-android {
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
-}
-
 dependencies {
     implementation project(':core')
     implementation project(':shared-android')
@@ -20,5 +12,4 @@ dependencies {
     implementation lib_x.appcompat
     implementation lib_x.lifecycle_livedata
 
-    testImplementation lib_test.mockito
 }

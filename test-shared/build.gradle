@@ -1,38 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
-android {
-
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    useLibrary 'android.test.runner'
-
-}
+apply from: '../base_module.gradle'
 
 dependencies {
-    implementation libs.kotlin.core
-    implementation libs.coroutines.core
-    implementation libs.coroutines.android
+    implementation project(':core')
+
+    implementation libs.test.junit
     implementation libs.coroutines.test
 
-    implementation lib_x.lifecycle_livedata
-
-    implementation lib_test.junit
-//    implementation lib_test.mockito
-//    implementation lib_test.mockito_kotlin
 }

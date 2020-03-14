@@ -2,18 +2,13 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 
 dependencies {
-
     implementation project(':core')
     implementation project(':image-provider')
     implementation project(':intents')
     implementation project(':shared')
 
     implementation lib_x.core
-    implementation lib_x.core
     implementation lib_x.appcompat
-
-    implementation libs.coroutines.core
-    implementation libs.coroutines.android
 
     implementation lib_ui.glide
 }

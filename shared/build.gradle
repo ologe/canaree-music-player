@@ -7,7 +7,7 @@ dependencies {
 
     implementation libs.dagger.core
 
-    testImplementation lib_test.junit
+    testImplementation libs.test.junit
 
 }
 

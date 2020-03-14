@@ -4,14 +4,15 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation project(':shared')
 
+    implementation libs.kotlin.core
     implementation libs.dagger.core
     kapt libs.dagger.kapt
     implementation libs.coroutines.core
     testImplementation libs.coroutines.test
 
-    testImplementation lib_test.junit
-    testImplementation lib_test.mockito
-    testImplementation lib_test.mockito_kotlin
+    testImplementation libs.test.junit
+    testImplementation libs.test.mockito
+    testImplementation libs.test.mockito_kotlin
 }
 
 sourceCompatibility = "8"

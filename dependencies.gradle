@@ -60,21 +60,27 @@ ext {
     robolectric = '4.3.1'
 
     libs = [
-            kotlin = [
+            kotlin    : [
                     core: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
             ],
-            dagger = [
+            dagger    : [
                     core           : "com.google.dagger:dagger:$dagger",
                     kapt           : "com.google.dagger:dagger-compiler:$dagger",
                     android        : "com.google.dagger:dagger-android:$dagger",
                     android_support: "com.google.dagger:dagger-android-support:$dagger",
                     android_kapt   : "com.google.dagger:dagger-android-processor:$dagger",
             ],
-            coroutines = [
+            coroutines: [
                     core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
                     android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
                     test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             ],
+            test      : [
+                    junit         : "junit:junit:$junit",
+                    mockito       : "org.mockito:mockito-inline:3.2.4",
+                    mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
+                    robolectric   : "org.robolectric:robolectric:$robolectric",
+            ]
     ]
 
     lib_analytics = [
@@ -148,13 +154,6 @@ ext {
             leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
             stetho           : "com.facebook.stetho:stetho:$stetho",
             timber           : "com.jakewharton.timber:timber:$timber",
-    ]
-
-    lib_test = [
-            junit         : "junit:junit:$junit",
-            mockito       : "org.mockito:mockito-inline:3.2.4",
-            mockito_kotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
-            robolectric   : "org.robolectric:robolectric:$robolectric",
     ]
 
 }

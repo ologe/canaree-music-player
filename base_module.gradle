@@ -25,6 +25,7 @@ android {
         }
     }
 
+    // TODO try to remve flavors from base module
     flavorDimensions "version"
     productFlavors {
         mock {
@@ -40,53 +41,37 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    useLibrary 'android.test.runner'
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 
     lintOptions {
         abortOnError false
     }
 
-    testOptions.unitTests.includeAndroidResources = true
+    testOptions.unitTests {
+        includeAndroidResources = true // TODO both needed?
+        returnDefaultValues = true
+    }
 
 }
 
 dependencies {
     lintChecks project(':lint')
 
+    // kotlin
     implementation libs.kotlin.core
+    // coroutines
     implementation libs.coroutines.core
     implementation libs.coroutines.android
     testImplementation libs.coroutines.test
     androidTestImplementation libs.coroutines.test
 
+    // logs
     implementation lib_debug.timber
 
-    // Core library
-    testImplementation lib_test.junit
-    testImplementation lib_test.mockito
-    testImplementation lib_test.mockito_kotlin
-    testImplementation lib_test.robolectric
-    testImplementation project(':test-shared')
-
-    androidTestImplementation lib_test.junit
-    androidTestImplementation lib_test.mockito
-    androidTestImplementation lib_test.mockito_kotlin
-    androidTestImplementation 'androidx.test:core:1.2.0'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation project(':test-shared')
-
-
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation "org.mockito:mockito-core:2.23.4"
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-
-    // Assertions
-//    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-//    androidTestImplementation 'com.google.truth:truth:0.44'
-
-    // Espresso dependencies
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+    // test
+    testImplementation libs.test.junit
+    testImplementation libs.test.mockito
+    testImplementation libs.test.mockito_kotlin
 }
