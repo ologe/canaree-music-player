@@ -11,7 +11,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.model.db.PlayingQueueEntity
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

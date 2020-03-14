@@ -4,7 +4,7 @@ import dev.olog.core.entity.LastFmTrack
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -16,7 +16,6 @@ import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.data.model.db.RecentSearchesEntity
-import dev.olog.data.utils.assertBackground
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -85,7 +84,7 @@ internal abstract class RecentSearchesDao {
                         else -> throw IllegalArgumentException("invalid recent element type ${recentEntity.dataType}")
                     }
                 }
-            }.assertBackground()
+            }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

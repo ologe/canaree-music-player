@@ -7,8 +7,7 @@ import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
@@ -53,7 +52,7 @@ internal abstract class BaseRepository<T, Param>(
     }
 
     override fun observeAll(): Flow<List<T>> {
-        return channel.asFlow().assertBackground()
+        return channel.asFlow()
     }
 
     protected fun <R> observeByParamInternal(
@@ -80,7 +79,7 @@ internal abstract class BaseRepository<T, Param>(
             )
             awaitClose { contentResolver.unregisterContentObserver(observer) }
         }
-        return flow.assertBackground()
+        return flow
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

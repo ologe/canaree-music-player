@@ -16,10 +16,10 @@ import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.deezer.DeezerArtistResponse
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.networkCall
 import dev.olog.data.utils.safeNetworkCall
 import dev.olog.shared.TextUtils
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

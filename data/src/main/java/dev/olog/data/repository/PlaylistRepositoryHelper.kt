@@ -9,7 +9,7 @@ import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
 import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.swap
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.withContext

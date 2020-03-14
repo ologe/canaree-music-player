@@ -6,8 +6,7 @@ import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.db.PlayingQueueDao
 import dev.olog.data.mapper.toPlayingQueueSong
-import dev.olog.data.utils.assertBackground
-import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,7 +34,6 @@ internal class PlayingQueueRepository @Inject constructor(
 
     override fun observeAll(): Flow<List<PlayingQueueSong>> {
         return playingQueueDao.observeAllAsSongs(trackGateway)
-            .assertBackground()
     }
 
     override fun update(list: List<UpdatePlayingQueueUseCase.Request>) {
