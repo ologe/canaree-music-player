@@ -6,17 +6,13 @@ dependencies {
     implementation project(':shared')
     implementation project(':prefs-keys')
 
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.palette
-    implementation lib_x.constraint_layout
-    implementation lib_x.preference
-    implementation lib_x.fragments
-    implementation lib_x.media
-
-    // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_livedata
+    implementation libs.x.material
+    implementation libs.x.core
+    implementation libs.x.palette
+    implementation libs.x.constraint_layout
+    implementation libs.x.preference
+    implementation libs.x.fragments
+    implementation libs.x.media
 
     implementation libs.dagger.core
     kapt libs.dagger.kapt

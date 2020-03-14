@@ -52,16 +52,16 @@ dependencies {
     implementation lib_ui.scroll_helper
     implementation lib_ui.glide
 
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.constraint_layout
-    implementation lib_x.palette
-    implementation lib_x.media
-    implementation lib_x.browser
-    implementation lib_x.preference
-    implementation lib_x.coordinator
-    implementation lib_x.fragments
+    implementation libs.x.appcompat
+    implementation libs.x.material
+    implementation libs.x.core
+    implementation libs.x.constraint_layout
+    implementation libs.x.palette
+    implementation libs.x.media
+    implementation libs.x.browser
+    implementation libs.x.preference
+    implementation libs.x.coordinator
+    implementation libs.x.fragments
 
     implementation lib_ui.lottie
     implementation lib_ui.tap_target_view
@@ -78,8 +78,6 @@ dependencies {
 
     implementation lib_utils.last_fm_binding
 
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_livedata
-    implementation lib_x.lifecycle_viewmodel
-    implementation lib_x.lifecycle_java8
+    implementation libs.x.lifecycle.viewmodel
+    implementation libs.x.lifecycle.java8
 }

@@ -63,6 +63,7 @@ ext {
             kotlin    : [
                     core: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
             ],
+            // dagger
             dagger    : [
                     core           : "com.google.dagger:dagger:$dagger",
                     kapt           : "com.google.dagger:dagger-compiler:$dagger",
@@ -70,11 +71,39 @@ ext {
                     android_support: "com.google.dagger:dagger-android-support:$dagger",
                     android_kapt   : "com.google.dagger:dagger-android-processor:$dagger",
             ],
+            // coroutines
             coroutines: [
                     core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
                     android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
                     test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines",
             ],
+            // android x
+            x         : [
+                    core             : "androidx.core:core-ktx:$android_x_core",
+                    legacyV4         : "androidx.legacy:legacy-support-v4:$android_x_legacy", // TODO try to remove
+                    appcompat        : "androidx.appcompat:appcompat:$android_x_appcompat",
+                    media            : "androidx.media:media:$android_x_media",
+                    recycler         : "androidx.recyclerview:recyclerview:$android_x_recycler",
+                    browser          : "androidx.browser:browser:$android_x_browser",
+                    material         : "com.google.android.material:material:$android_x_material",
+                    preference       : "androidx.preference:preference:$android_x_preference",
+                    palette          : "androidx.palette:palette:$android_x_palette",
+                    annotations      : "androidx.annotation:annotation:$android_x_annotations",
+                    constraint_layout: "androidx.constraintlayout:constraintlayout:$constraint_layout",
+                    coordinator      : "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator",
+                    fragments        : "androidx.fragment:fragment-ktx:$android_x_fragments",
+                    webview          : "androidx.webkit:webkit:$android_x_webview",
+                    // lifecycle
+                    lifecycle        : [
+                            runtime  : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle",
+                            java8    : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
+                            viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+                            service  : "androidx.lifecycle:lifecycle-service:$lifecycle",
+                            process  : "androidx.lifecycle:lifecycle-process:$lifecycle"
+                    ],
+
+            ],
+            // testing
             test      : [
                     junit         : "junit:junit:$junit",
                     mockito       : "org.mockito:mockito-inline:3.2.4",
@@ -90,34 +119,9 @@ ext {
 //            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
     ]
 
-    lib_x = [
-            core                : "androidx.core:core-ktx:$android_x_core",
-            legacyV4            : "androidx.legacy:legacy-support-v4:$android_x_legacy",
-            appcompat           : "androidx.appcompat:appcompat:$android_x_appcompat",
-            media               : "androidx.media:media:$android_x_media",
-            recycler            : "androidx.recyclerview:recyclerview:$android_x_recycler",
-            browser             : "androidx.browser:browser:$android_x_browser",
-            material            : "com.google.android.material:material:$android_x_material",
-            preference          : "androidx.preference:preference:$android_x_preference",
-            palette             : "androidx.palette:palette:$android_x_palette",
-            annotations         : "androidx.annotation:annotation:$android_x_annotations",
-            constraint_layout   : "androidx.constraintlayout:constraintlayout:$constraint_layout",
-            coordinator         : "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator",
-            fragments           : "androidx.fragment:fragment-ktx:$android_x_fragments",
-            // lifecycle
-            lifecycle_core      : "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycle",
-            lifecycle_runtime   : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle",
-            lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle",
-            lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
-            lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
-            lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
-            webview             : "androidx.webkit:webkit:$android_x_webview",
-    ]
-
     lib_ui = [
             glide                   : "com.github.bumptech.glide:glide:$glide",
             glide_processor         : "com.github.bumptech.glide:compiler:$glide",
-            androidSupportAnnotation: "com.android.support:support-annotations:28.0.0",
             scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
             blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
             lottie                  : "com.airbnb.android:lottie:$lottie",

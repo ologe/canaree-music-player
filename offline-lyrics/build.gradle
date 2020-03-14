@@ -9,15 +9,12 @@ dependencies {
     implementation project(':shared')
     implementation project(':jaudiotagger')
     implementation project(':intents')
-    testImplementation project(':test-shared')
 
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
-    implementation lib_x.lifecycle_livedata
-    implementation lib_x.recycler
-
-    implementation lib_x.appcompat
-    implementation lib_x.material
-    implementation lib_x.core
+    implementation libs.x.recycler
+    implementation libs.x.appcompat
+    implementation libs.x.material
+    implementation libs.x.core
 }

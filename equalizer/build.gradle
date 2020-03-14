@@ -7,5 +7,6 @@ dependencies {
 
     implementation libs.dagger.core
     kapt libs.dagger.kapt
-    implementation lib_x.annotations
+
+    implementation libs.x.annotations
 }

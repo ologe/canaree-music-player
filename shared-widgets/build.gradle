@@ -6,7 +6,7 @@ dependencies {
     implementation project(':shared-android')
     implementation project(':shared')
 
-    implementation lib_x.material
-    implementation lib_x.core
-    implementation lib_x.palette
+    implementation libs.x.material
+    implementation libs.x.core
+    implementation libs.x.palette
 }

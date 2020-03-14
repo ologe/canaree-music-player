@@ -84,15 +84,10 @@ dependencies {
     implementation libs.coroutines.core
 
     // google architecture components
-    implementation lib_x.lifecycle_runtime
-    implementation lib_x.lifecycle_livedata
-    implementation lib_x.lifecycle_java8
-    implementation lib_x.lifecycle_extensions
-
-    implementation lib_x.core
-    implementation lib_x.appcompat
-    implementation lib_x.browser
-    implementation lib_x.preference
+    implementation libs.x.core
+    implementation libs.x.appcompat
+    implementation libs.x.browser
+    implementation libs.x.preference
 
     // dagger
     implementation libs.dagger.core

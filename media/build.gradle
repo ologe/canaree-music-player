@@ -8,8 +8,7 @@ dependencies {
     implementation project(':shared')
 
     implementation libs.coroutines.core
-    implementation lib_x.media
-    implementation lib_x.appcompat
-    implementation lib_x.lifecycle_livedata
+    implementation libs.x.media
+    implementation libs.x.appcompat
 
 }

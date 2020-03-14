@@ -57,9 +57,8 @@ dependencies {
     implementation libs.dagger.core
     kapt libs.dagger.kapt
 
-    implementation lib_x.core
-    implementation lib_x.preference
-    implementation lib_x.lifecycle_livedata
+    implementation libs.x.core
+    implementation libs.x.preference
 
     implementation lib_utils.fuzzy
     implementation lib_network.gson
@@ -72,7 +71,4 @@ dependencies {
     implementation lib_data.room
     implementation lib_data.room_ktx
     kapt lib_data.room_processor
-
-    testImplementation project(':test-shared')
-    androidTestImplementation project(':test-shared')
 }

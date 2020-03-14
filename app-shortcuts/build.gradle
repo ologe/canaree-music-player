@@ -7,8 +7,8 @@ dependencies {
     implementation project(':intents')
     implementation project(':shared')
 
-    implementation lib_x.core
-    implementation lib_x.appcompat
+    implementation libs.x.core
+    implementation libs.x.appcompat
 
     implementation lib_ui.glide
 }
