@@ -29,7 +29,7 @@ internal abstract class FolderMostPlayedDao {
     @Insert
     abstract suspend fun insert(vararg item: FolderMostPlayedEntity)
 
-    fun getAll(folderPath: String, trackGateway: TrackGateway): Flow<List<Song>> {
+    fun observeAll(folderPath: String, trackGateway: TrackGateway): Flow<List<Song>> {
         return this.query(folderPath)
             .map { mostPlayed ->
                 val songList = trackGateway.getAllTracks()

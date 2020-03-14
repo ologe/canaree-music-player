@@ -174,7 +174,7 @@ internal class PlaylistRepository @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         val folderPath = mediaId.categoryId
-        return mostPlayedDao.getAll(folderPath, trackGateway)
+        return mostPlayedDao.observeAll(folderPath, trackGateway)
             .distinctUntilChanged()
             .flowOn(schedulers.cpu)
     }

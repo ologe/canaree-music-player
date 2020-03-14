@@ -27,9 +27,9 @@ internal abstract class PlaylistMostPlayedDao {
     abstract fun query(playlistId: Long): Flow<List<MostTimesPlayedSongEntity>>
 
     @Insert
-    abstract fun insert(vararg item: PlaylistMostPlayedEntity)
+    abstract suspend fun insert(vararg item: PlaylistMostPlayedEntity)
 
-    fun getAll(playlistId: Long, trackGateway: TrackGateway): Flow<List<Song>> {
+    fun observeAll(playlistId: Long, trackGateway: TrackGateway): Flow<List<Song>> {
         return this.query(playlistId)
             .map { mostPlayed ->
                 val songList = trackGateway.getAllTracks()

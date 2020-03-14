@@ -108,7 +108,7 @@ internal class FolderRepository @Inject constructor(
 
     override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
         return observeByParam(mediaId.categoryId).take(1).map { it!! }
-            .flatMapLatest { mostPlayedDao.getAll(it.path, trackGateway) }
+            .flatMapLatest { mostPlayedDao.observeAll(it.path, trackGateway) }
             .distinctUntilChanged()
             .flowOn(schedulers.cpu)
     }

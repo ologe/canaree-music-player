@@ -59,7 +59,7 @@ class FolderMostPlayedDaoTest {
     }
 
     @Test
-    fun testGetAll() = coroutinesRule.runBlockingTest {
+    fun testObserveAll() = coroutinesRule.runBlockingTest {
         // given
         val songGateway = mock<TrackGateway>()
         whenever(songGateway.getAllTracks()).thenReturn(
@@ -90,7 +90,7 @@ class FolderMostPlayedDaoTest {
         )
 
         // when
-        val actual = sut.getAll(query, songGateway).first()
+        val actual = sut.observeAll(query, songGateway).first()
 
         // then
         val expected = listOf(Mocks.song.copy(id = 1))
