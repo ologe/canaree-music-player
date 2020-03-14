@@ -23,7 +23,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     IServiceLifecycleController {
 
     companion object {
-        private const val ACTION_KEEP_SERVICE_ALIVE = "action.KEEP_SERVICE_ALIVE"
+        private const val ACTION_KEEP_SERVICE_ALIVE = "action_KEEP_SERVICE_ALIVE"
     }
 
     @Suppress("LeakingThis")
@@ -46,10 +46,16 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         return super.onBind(intent)
     }
 
+    @Suppress("DEPRECATION")
+    @CallSuper
+    override fun onStart(intent: Intent?, startId: Int) {
+        dispatcher.onServicePreSuperOnStart()
+        super.onStart(intent, startId)
+    }
+
     @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        dispatcher.onServicePreSuperOnStart()
-
+        super.onStartCommand(intent, flags, startId)
         serviceStarted = true
 
         handleIntent(intent)
