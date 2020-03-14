@@ -10,6 +10,6 @@ dependencies {
     implementation libs.x.media
     implementation libs.x.appcompat
 
-    implementation libs.test.robolectric
+    testImplementation libs.test.robolectric
 
 }
