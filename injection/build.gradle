@@ -39,7 +39,7 @@ dependencies {
 
     implementation lib_network.ok_http
     implementation lib_network.retrofit
-    implementation lib_data.room
+    implementation libs.x.room.core
 
     implementation libs.firebase.analytics
 

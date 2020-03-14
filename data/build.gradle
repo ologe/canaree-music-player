@@ -68,7 +68,7 @@ dependencies {
     implementation lib_network.ok_http_interceptor
 
     implementation lib_data.sql_content_resolver
-    implementation lib_data.room
-    implementation lib_data.room_ktx
-    kapt lib_data.room_processor
+    implementation libs.x.room.core
+    implementation libs.x.room.coroutines
+    kapt libs.x.room.kapt
 }
