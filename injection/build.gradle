@@ -37,11 +37,11 @@ dependencies {
 
     implementation libs.x.appcompat
 
-    implementation lib_network.ok_http
-    implementation lib_network.retrofit
+    implementation libs.network.ok_http
+    implementation libs.network.retrofit
     implementation libs.x.room.core
 
     implementation libs.firebase.analytics
 
-    implementation lib_utils.aes_crypto
+    implementation libs.utils.aes_crypto
 }

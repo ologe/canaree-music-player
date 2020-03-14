@@ -76,7 +76,7 @@ dependencies {
     implementation lib_ui.custom_tabs
     implementation lib_ui.color_desaturation
 
-    implementation lib_utils.last_fm_binding
+    implementation libs.utils.last_fm_binding
 
     implementation libs.x.lifecycle.viewmodel
     implementation libs.x.lifecycle.java8

@@ -47,7 +47,7 @@ dependencies {
 
     implementation lib_ui.glide
 
-    implementation lib_utils.last_fm_binding
+    implementation libs.utils.last_fm_binding
 
     implementation 'com.google.android.exoplayer:exoplayer-core:2.11.2'
 

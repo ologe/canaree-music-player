@@ -121,6 +121,19 @@ ext {
                     analytics  : "com.google.firebase:firebase-analytics:$firebase_analytics",
                     crashlytics: "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics",
                     //            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
+            ],
+            network   : [
+                    ok_http            : "com.squareup.okhttp3:okhttp:$ok_http",
+                    ok_http_interceptor: "com.squareup.okhttp3:logging-interceptor:$ok_http",
+                    retrofit           : "com.squareup.retrofit2:retrofit:$retrofit",
+                    retrofit_gson      : "com.squareup.retrofit2:converter-gson:$retrofit",
+                    gson               : "com.google.code.gson:gson:$gson",
+            ],
+            utils     : [
+                    sql_content_resolver: "com.github.ologe:android-content-resolver-SQL:$sql_content_resolver",
+                    last_fm_binding     : "de.u-mass:lastfm-java:$last_fm_binding",
+                    aes_crypto          : "com.github.tozny:java-aes-crypto:$aes_crypto",
+                    fuzzy               : "me.xdrop:fuzzywuzzy:$fuzzywuzzy",
             ]
     ]
 
@@ -135,25 +148,6 @@ ext {
             dialogs_color     : "com.afollestad.material-dialogs:color:$material_dialogs",
             color_desaturation: "com.github.ologe:color-desaturation:$color_desaturation",
             tap_target_view   : "com.github.ologe:taptargetview:$tap_target_view"
-    ]
-
-    lib_data = [
-            sql_content_resolver: "com.github.ologe:android-content-resolver-SQL:$sql_content_resolver",
-
-    ]
-
-    lib_utils = [
-            last_fm_binding: "de.u-mass:lastfm-java:$last_fm_binding",
-            aes_crypto     : "com.github.tozny:java-aes-crypto:$aes_crypto",
-            fuzzy          : "me.xdrop:fuzzywuzzy:$fuzzywuzzy"
-    ]
-
-    lib_network = [
-            ok_http            : "com.squareup.okhttp3:okhttp:$ok_http",
-            ok_http_interceptor: "com.squareup.okhttp3:logging-interceptor:$ok_http",
-            retrofit           : "com.squareup.retrofit2:retrofit:$retrofit",
-            retrofit_gson      : "com.squareup.retrofit2:converter-gson:$retrofit",
-            gson               : "com.google.code.gson:gson:$gson",
     ]
 
     lib_debug = [
