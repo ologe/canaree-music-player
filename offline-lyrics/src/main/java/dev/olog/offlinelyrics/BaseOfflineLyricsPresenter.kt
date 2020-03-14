@@ -6,6 +6,7 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.shared.autoDisposeJob
+import dev.olog.shared.launchUnit
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -19,6 +20,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
 ): CoroutineScope by MainScope() {
 
+    companion object {
+        internal const val ELLIPSES = "..."
+    }
+
     var firstEnter = true
 
     private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
@@ -30,21 +35,15 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val lyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
 
     private var observeLyricsJob by autoDisposeJob()
-    private var transformLyricsJob by autoDisposeJob()
     private var syncJob by autoDisposeJob()
 
     private var originalLyricsPublisher = ConflatedBroadcastChannel("")
-    private val observedLyricsPublisher = ConflatedBroadcastChannel<Lyrics>()
 
     fun onStart() {
         observeLyricsJob = currentTrackIdPublisher.asFlow()
             .flatMapLatest { id -> observeUseCase(id) }
             .onEach { onNextLyrics(it) }
             .flowOn(schedulers.cpu)
-            .launchIn(this)
-
-        transformLyricsJob = lyricsPublisher.asFlow()
-            .onEach { observedLyricsPublisher.offer(it) }
             .launchIn(this)
 
         syncJob = currentTrackIdPublisher.asFlow()
@@ -56,7 +55,6 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     fun onStop() {
         observeLyricsJob = null
-        transformLyricsJob = null
         syncJob = null
     }
 
@@ -65,11 +63,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
         lyricsPublisher.close()
         syncAdjustmentPublisher.close()
         originalLyricsPublisher.close()
-        observedLyricsPublisher.close()
         cancel()
     }
 
-    fun observeLyrics(): Flow<Lyrics> = observedLyricsPublisher.asFlow()
+    fun observeLyrics(): Flow<Lyrics> = lyricsPublisher.asFlow()
 
     private fun onNextLyrics(lyrics: String) {
         originalLyricsPublisher.offer(lyrics)
@@ -116,7 +113,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 }
                 acc.add(item)
                 acc
-            }.map { item -> if (item.value.isBlank()) item.copy(value = "...") else item }
+            }.map { item -> if (item.value.isBlank()) item.copy(value = ELLIPSES) else item }
 
             lyricsPublisher.offer(Lyrics(result))
         }
@@ -130,10 +127,8 @@ abstract class BaseOfflineLyricsPresenter constructor(
         return originalLyricsPublisher.value
     }
 
-    fun updateSyncAdjustment(value: Long) {
-        GlobalScope.launch {
-            lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
-        }
+    fun updateSyncAdjustment(value: Long) = GlobalScope.launchUnit(schedulers.io) {
+        lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
     }
 
     suspend fun getSyncAdjustment(): String = withContext(schedulers.io) {
@@ -141,10 +136,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     }
 
     fun updateLyrics(lyrics: String) {
-        if (currentTrackIdPublisher.valueOrNull == null) {
-            return
-        }
-        insertLyricsJob = GlobalScope.launch {
+        insertLyricsJob = GlobalScope.launch(schedulers.io) {
             insertUseCase(OfflineLyrics(currentTrackIdPublisher.value, lyrics))
         }
     }
