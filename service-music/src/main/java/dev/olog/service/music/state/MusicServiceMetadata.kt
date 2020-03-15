@@ -10,7 +10,6 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.getBitmap
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
@@ -39,7 +38,7 @@ internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
-    private val musicPrefs: MusicPreferencesGateway,
+    musicPrefs: MusicPreferencesGateway,
     schedulers: Schedulers
 ) : IPlayerLifecycle.Listener,
     DefaultLifecycleObserver,

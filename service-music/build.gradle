@@ -53,4 +53,6 @@ dependencies {
 //    implementation project(':exoplayer-extension-flac')
 //    implementation project(':exoplayer-extension-opus')
 //    implementation project(':exoplayer-extension-ffmpeg')
+
+    testImplementation libs.test.robolectric
 }

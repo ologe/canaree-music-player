@@ -3,18 +3,21 @@ package dev.olog.service.music
 import android.content.Context
 import android.support.v4.media.session.MediaSessionCompat
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
+import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IPlayerLifecycle
-import dev.olog.service.music.model.MetadataEntity
-import dev.olog.service.music.model.SkipType
-import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.test.shared.MainCoroutineRule
+import dev.olog.test.shared.runBlockingTest
 import dev.olog.test.shared.schedulers
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
 class MusicServiceMetadataTest {
 
     @get:Rule
@@ -22,27 +25,21 @@ class MusicServiceMetadataTest {
 
     private val context = mock<Context>()
     private val mediaSession = mock<MediaSessionCompat>()
+    private val musicPrefs = mock<MusicPreferencesGateway>()
     private val playerLifecycle = mock<IPlayerLifecycle>()
 
-    private val musicServiceMetadata = MusicServiceMetadata(
-        context, mediaSession, playerLifecycle, mock(), coroutinesRule.schedulers
+    private val sut = MusicServiceMetadata(
+        context, mediaSession, playerLifecycle, musicPrefs, coroutinesRule.schedulers
     )
 
     @Test
-    fun `test subscription`() {
-        verify(playerLifecycle).addListener(musicServiceMetadata)
+    fun `test subscription`() = coroutinesRule.runBlockingTest {
+        verify(playerLifecycle).addListener(sut)
     }
 
     @Test
-    fun `test onPrepared`() {
-        val item = MusicServiceData.mediaEntity
-        val metadataItem = MetadataEntity(item, SkipType.NONE)
+    fun `test on metadata changed`() = coroutinesRule.runBlockingTest {
 
-        val spy = spy(musicServiceMetadata)
-
-        spy.onPrepare(metadataItem)
-
-        verify(spy).onMetadataChanged(metadataItem)
     }
 
 }
