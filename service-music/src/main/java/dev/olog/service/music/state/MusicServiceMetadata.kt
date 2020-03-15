@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
+import dev.olog.image.provider.getBitmap
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
@@ -23,6 +24,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean
+import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
@@ -52,6 +54,8 @@ internal class MusicServiceMetadata @Inject constructor(
 
     private var showLockScreenArtwork = false
 
+    private var imageJob by autoDisposeJob()
+
     init {
         playerLifecycle.addListener(this)
 
@@ -76,7 +80,7 @@ internal class MusicServiceMetadata @Inject constructor(
     private fun update(metadata: MetadataEntity) {
         Timber.v("$TAG update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        launch {
+        imageJob = launch {
 
             val entity = metadata.entity
 
@@ -92,8 +96,6 @@ internal class MusicServiceMetadata @Inject constructor(
                 .putBoolean(MusicConstants.IS_PODCAST, entity.isPodcast)
                 .putBoolean(MusicConstants.SKIP_NEXT, metadata.skipType == SkipType.SKIP_NEXT)
                 .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
-
-            yield()
 
             if (showLockScreenArtwork) {
                 val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
