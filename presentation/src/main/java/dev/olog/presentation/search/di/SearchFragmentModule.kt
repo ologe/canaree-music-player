@@ -13,6 +13,6 @@ abstract class SearchFragmentModule {
     @Binds
     @IntoMap
     @ViewModelKey(SearchFragmentViewModel::class)
-    abstract fun provideViewModel(factory: SearchFragmentViewModel): ViewModel
+    internal abstract fun provideViewModel(factory: SearchFragmentViewModel): ViewModel
 
 }

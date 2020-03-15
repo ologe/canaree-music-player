@@ -9,39 +9,63 @@ import dev.olog.core.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.toDomain
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchFragmentViewModel @Inject constructor(
+internal class SearchFragmentViewModel @Inject constructor(
     private val dataProvider: SearchDataProvider,
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
+    private val appPrefsUseCase: PresentationPreferencesGateway,
     private val schedulers: Schedulers
 
 ) : ViewModel() {
 
-    val data: Flow<List<DisplayableItem>> = dataProvider.observe()
+    private val isPodcastPublisher = ConflatedBroadcastChannel<Boolean>(false)
+
+    fun canShowPodcasts() = appPrefsUseCase.canShowPodcasts()
+
+    val data: Flow<List<DisplayableItem>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observe(it) }
         .flowOn(schedulers.cpu)
 
-    val artistsData: Flow<List<DisplayableAlbum>> = dataProvider.observeArtists()
+    val artistsData: Flow<List<DisplayableAlbum>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observeArtists(it) }
         .flowOn(schedulers.cpu)
 
-    val albumsData: Flow<List<DisplayableAlbum>> = dataProvider.observeAlbums()
+    val albumsData: Flow<List<DisplayableAlbum>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observeAlbums(it) }
         .flowOn(schedulers.cpu)
 
-    val genresData: Flow<List<DisplayableAlbum>> = dataProvider.observeGenres()
+    val genresData: Flow<List<DisplayableAlbum>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observeGenres(it) }
         .flowOn(schedulers.cpu)
 
-    val playlistsData: Flow<List<DisplayableAlbum>> = dataProvider.observePlaylists()
+    val playlistsData: Flow<List<DisplayableAlbum>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observePlaylists(it) }
         .flowOn(schedulers.cpu)
 
-    val foldersData: Flow<List<DisplayableAlbum>> = dataProvider.observeFolders()
+    val foldersData: Flow<List<DisplayableAlbum>> = isPodcastPublisher.asFlow()
+        .flatMapLatest { dataProvider.observeFolders(it) }
         .flowOn(schedulers.cpu)
-    
+
+    override fun onCleared() {
+        super.onCleared()
+        isPodcastPublisher.close()
+        dataProvider.dispose()
+    }
+
+    fun updateShowPodcast(showPodcast: Boolean) {
+        isPodcastPublisher.offer(showPodcast)
+    }
 
     fun updateQuery(newQuery: String) {
         dataProvider.updateQuery(newQuery.trim())

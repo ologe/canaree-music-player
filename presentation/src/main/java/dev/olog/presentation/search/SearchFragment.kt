@@ -3,6 +3,7 @@ package dev.olog.presentation.search
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -96,6 +97,9 @@ class SearchFragment : BaseFragment(),
 
         setupDragListener(list, ItemTouchHelper.LEFT)
 
+        podcasts.isVisible = viewModel.canShowPodcasts()
+        podcasts.isSelected = false
+
         viewModel.data
             .onEach {
                 adapter.submitList(it)
@@ -165,6 +169,11 @@ class SearchFragment : BaseFragment(),
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
         more.setOnClickListener { navigator.toMainPopup(it, MainPopupCategory.SEARCH) }
+
+        podcasts.setOnClickListener {
+            podcasts.isSelected = !podcasts.isSelected
+            viewModel.updateShowPodcast(podcasts.isSelected)
+        }
     }
 
     override fun onPause() {
@@ -173,6 +182,7 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         more.setOnClickListener(null)
+        podcasts.setOnClickListener(null)
     }
 
     override fun onDestroyView() {

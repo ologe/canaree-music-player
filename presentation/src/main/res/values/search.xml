@@ -5,8 +5,10 @@
     <string name="search_hint" translatable="false">@string/search_recent_empty_state</string>
 
     <string name="search_songs" translatable="false">@string/common_tracks</string>
+    <string name="search_podcasts" translatable="false">@string/common_podcasts</string>
     <string name="search_albums" translatable="false">@string/common_albums</string>
     <string name="search_artists" translatable="false">@string/common_artists</string>
+    <string name="search_podcast_authors" translatable="false">@string/common_podcast_authors</string>
     <string name="search_folders" translatable="false">@string/common_folders</string>
     <string name="search_playlists" translatable="false">@string/common_playlists</string>
     <string name="search_genres" translatable="false">@string/common_genres</string>

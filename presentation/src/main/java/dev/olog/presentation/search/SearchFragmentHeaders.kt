@@ -23,10 +23,10 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun songsHeaders(size: Int): DisplayableItem = DisplayableHeader(
+    fun trackHeaders(size: Int, showPodcast: Boolean): DisplayableItem = DisplayableHeader(
         type = R.layout.item_search_header,
         mediaId = headerId("songs header id"),
-        title = context.getString(R.string.search_songs),
+        title = context.getString(if (showPodcast) R.string.search_podcasts else R.string.search_songs),
         subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
     )
 
@@ -43,11 +43,11 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun artistsHeaders(size: Int): List<DisplayableItem> = listOf(
+    fun artistsHeaders(size: Int, showPodcast: Boolean): List<DisplayableItem> = listOf(
         DisplayableHeader(
             type = R.layout.item_search_header,
             mediaId = headerId("artists header id"),
-            title = context.getString(R.string.search_artists),
+            title = context.getString(if (showPodcast) R.string.search_podcast_authors else R.string.search_artists),
             subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
         ),
         DisplayableNestedListPlaceholder(
