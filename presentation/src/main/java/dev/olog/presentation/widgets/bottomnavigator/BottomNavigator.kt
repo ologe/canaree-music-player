@@ -14,6 +14,7 @@ import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import dev.olog.shared.android.extensions.fragmentTransaction
+import dev.olog.shared.android.extensions.getTopFragment
 
 internal class BottomNavigator {
 
@@ -30,33 +31,49 @@ internal class BottomNavigator {
         page: BottomNavigationPage,
         libraryPage: LibraryPage
     ) {
-        val fragmentTag = page.toFragmentTag(libraryPage)
+        val newTag = page.toFragmentTag(libraryPage)
 
-        val current = tags.mapNotNull { activity.supportFragmentManager.findFragmentByTag(it) }
-            .find { it.isVisible }
+        val topFragment = activity.supportFragmentManager.getTopFragment()
+        when {
+            topFragment != null -> fromOtherPages(activity, topFragment, newTag, trackerFacade)
+            else -> {
+                val current = tags
+                    .mapNotNull { activity.supportFragmentManager.findFragmentByTag(it) }
+                    .find { it.isVisible }
+                fromAnotherBottomNavigationPage(activity, current, newTag, trackerFacade)
+            }
+        }
+    }
 
-
-        current?.let { setupExitAnimation(activity, it, fragmentTag) }
+    private fun fromAnotherBottomNavigationPage(
+        activity: FragmentActivity,
+        topFragment: Fragment?,
+        newTag: String,
+        trackerFacade: TrackerFacade
+    ) {
+        topFragment?.let { setupExitAnimation(activity, it, newTag) }
 
         activity.fragmentTransaction {
-            current?.let { hide(it) }
+            val newInstance = tagToInstance(newTag)
+            trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
+            topFragment?.let { setupEnterAnimation(activity, it, newInstance, newTag) }
+            replace(R.id.fragmentContainer, newInstance, newTag)
+        }
+    }
 
-            val toAdd = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
-            if (toAdd != null) {
-                trackerFacade.trackScreen(toAdd::class.java.simpleName, toAdd.arguments)
+    private fun fromOtherPages(
+        activity: FragmentActivity,
+        topFragment: Fragment,
+        newTag: String,
+        trackerFacade: TrackerFacade
+    ) {
+        topFragment.setupExitAnimation(activity)
 
-                current?.let { setupEnterAnimation(activity, it, toAdd, fragmentTag) }
-                show(toAdd)
-            } else {
-                val newInstance = tagToInstance(fragmentTag)
-                trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
-
-                current?.let {
-                    setupEnterAnimation(activity, it, newInstance, fragmentTag)
-                }
-
-                replace(R.id.fragmentContainer, newInstance, fragmentTag)
-            }
+        activity.fragmentTransaction {
+            val newInstance = tagToInstance(newTag)
+            trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
+            newInstance.setupEnterAnimation(activity)
+            replace(R.id.fragmentContainer, newInstance, newTag)
         }
     }
 
