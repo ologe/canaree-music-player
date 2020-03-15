@@ -8,9 +8,9 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.MediaId
-import dev.olog.shared.safeResume
-import timber.log.Timber
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 sealed class OnImageLoadingError {
     class Placeholder(val gradientOnly: Boolean) : OnImageLoadingError()
@@ -22,8 +22,7 @@ suspend fun Context.getCachedBitmap(
     size: Int = GlideUtils.OVERRIDE_BIG,
     extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
     onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
-): Bitmap? = suspendCoroutine { continuation ->
-
+): Bitmap? = suspendCancellableCoroutine { continuation ->
 
     GlideApp.with(this)
         .asBitmap()
@@ -32,67 +31,100 @@ suspend fun Context.getCachedBitmap(
         .priority(Priority.IMMEDIATE)
         .extend(extension)
         .onlyRetrieveFromCache(true)
-        .into(object : CustomTarget<Bitmap>() {
-
-            override fun onLoadCleared(placeholder: Drawable?) {
-                continuation.safeResume(null)
-            }
-
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                continuation.safeResume(resource)
-            }
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                if (onError is OnImageLoadingError.Placeholder) {
-                    val placeholder: Drawable = if (onError.gradientOnly) {
-                        CoverUtils.onlyGradient(this@getCachedBitmap, mediaId)
-                    } else {
-                        CoverUtils.getGradient(this@getCachedBitmap, mediaId)
-                    }
-                    val bestSize = calculateBestSize(placeholder, size)
-
-                    GlideApp.with(this@getCachedBitmap)
-                        .asBitmap()
-                        .load(placeholder.toBitmap(bestSize, bestSize))
-                        .extend(extension)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                continuation.safeResume(resource)
-                            }
-
-                            override fun onLoadFailed(errorDrawable: Drawable?) {
-                                continuation.safeResume(null)
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                try {
-                                    continuation.safeResume(null)
-                                } catch (ex: Exception){
-                                    Timber.e(ex)
-                                    // already resumed
-                                }
-                            }
-                        })
-
-                } else {
-                    continuation.safeResume(null)
-                }
-            }
-        })
+        .into(CachedImageLoaderTarget(continuation, this, mediaId, size, extension, onError))
 }
 
-private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
-    if (requestedSize != GlideUtils.OVERRIDE_BIG){
-        return requestedSize
+private class CachedImageLoaderTarget(
+    private val continuation: CancellableContinuation<Bitmap?>,
+    private val context: Context,
+    private val mediaId: MediaId,
+    private val size: Int,
+    private val extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+    private val onError: OnImageLoadingError
+) : CustomTarget<Bitmap>() {
+
+    override fun onLoadCleared(placeholder: Drawable?) {
+        if (continuation.isActive) {
+            continuation.resume(null)
+        }
     }
 
-    if (drawable.intrinsicHeight > 0 && drawable.intrinsicHeight > 0){
-        return drawable.intrinsicHeight
+    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+        if (continuation.isActive) {
+            continuation.resume(resource)
+        }
     }
-    return 300 // random size
+
+    override fun onLoadFailed(errorDrawable: Drawable?) {
+        when (onError) {
+            is OnImageLoadingError.Placeholder -> buildPlaceholderLoader(onError)
+            is OnImageLoadingError.None -> {
+                if (continuation.isActive) {
+                    continuation.resume(null)
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        continuation.cancel()
+    }
+
+    private fun buildPlaceholderLoader(onError: OnImageLoadingError.Placeholder) {
+        val placeholder: Drawable = if (onError.gradientOnly) {
+            CoverUtils.onlyGradient(context, mediaId)
+        } else {
+            CoverUtils.getGradient(context, mediaId)
+        }
+        val bestSize = calculateBestSize(placeholder, size)
+
+        GlideApp.with(context)
+            .asBitmap()
+            .load(placeholder.toBitmap(bestSize, bestSize))
+            .extend(extension)
+            .into(PlaceholderLoader(continuation))
+    }
+
+    private fun calculateBestSize(drawable: Drawable, requestedSize: Int): Int {
+        if (requestedSize != GlideUtils.OVERRIDE_BIG){
+            return requestedSize
+        }
+
+        if (drawable.intrinsicHeight > 0 && drawable.intrinsicHeight > 0){
+            return drawable.intrinsicHeight
+        }
+        return 300 // random size
+    }
+
+}
+
+private class PlaceholderLoader(
+    private val continuation: CancellableContinuation<Bitmap?>
+) : CustomTarget<Bitmap>() {
+
+    override fun onLoadCleared(placeholder: Drawable?) {
+        if (continuation.isActive) {
+            continuation.resume(null)
+        }
+    }
+
+    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+        if (continuation.isActive) {
+            continuation.resume(resource)
+        }
+    }
+
+    override fun onLoadFailed(errorDrawable: Drawable?) {
+        if (continuation.isActive) {
+            continuation.resume(null)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        continuation.cancel()
+    }
 }
 
 internal fun GlideRequest<Bitmap>.extend(func: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)?): GlideRequest<Bitmap> {
