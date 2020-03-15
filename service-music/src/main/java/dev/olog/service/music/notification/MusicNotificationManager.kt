@@ -37,9 +37,6 @@ internal class MusicNotificationManager @Inject constructor(
     companion object {
         @JvmStatic
         private val TAG = "SM:${MusicNotificationManager::class.java.simpleName}"
-        private const val METADATA_PUBLISH_DELAY = 350L
-        private const val STATE_PUBLISH_DELAY = 100L
-        private const val FAVORITE_PUBLISH_DELAY = 100L
     }
 
     private var isForeground: Boolean = false
@@ -60,6 +57,21 @@ internal class MusicNotificationManager @Inject constructor(
         override fun onStateChanged(state: PlaybackStateCompat) {
             onNextState(state)
         }
+    }
+
+    private fun onNextMetadata(metadata: MediaEntity) {
+        Timber.v("$TAG on next metadata=${metadata.title}")
+        publisher.offer(Event.Metadata(metadata))
+    }
+
+    private fun onNextState(playbackState: PlaybackStateCompat) {
+        Timber.v("$TAG on next state")
+        publisher.offer(Event.State(playbackState))
+    }
+
+    private fun onNextFavorite(isFavorite: Boolean) {
+        Timber.v("$TAG on next favorite $isFavorite")
+        publisher.offer(Event.Favorite(isFavorite))
     }
 
     init {
@@ -87,36 +99,27 @@ internal class MusicNotificationManager @Inject constructor(
         when (event){
             is Event.Metadata -> {
                 if (currentState.updateMetadata(event.entity)) {
-                    publishNotification(currentState.deepCopy(), METADATA_PUBLISH_DELAY)
+                    publishNotification(currentState.copy())
                 }
             }
             is Event.State -> {
                 if (currentState.updateState(event.state)){
-                    publishNotification(currentState.deepCopy(), STATE_PUBLISH_DELAY)
+                    publishNotification(currentState.copy())
                 }
             }
             is Event.Favorite -> {
                 if (currentState.updateFavorite(event.favorite)){
-                    publishNotification(currentState.deepCopy(), FAVORITE_PUBLISH_DELAY)
+                    publishNotification(currentState.copy())
                 }
             }
         }
     }
 
-    private suspend fun publishNotification(state: MusicNotificationState, delay: Long) {
+    private suspend fun publishNotification(state: MusicNotificationState) {
         require(currentState !== state) // to avoid concurrency problems a copy is passed
 
-        Timber.v("$TAG publish notification request with delay ${delay}ms, state=$state")
-        if (!isForeground && isOreo()) {
-            // oreo needs to post notification immediately after calling startForegroundService
-            issueNotification(state)
-        } else {
-            // post delayed
-            publishJob = GlobalScope.launch {
-                delay(delay)
-                issueNotification(state)
-            }
-        }
+        Timber.v("$TAG publish notification state=$state")
+        issueNotification(state)
     }
 
     private suspend fun issueNotification(state: MusicNotificationState) {
@@ -134,21 +137,6 @@ internal class MusicNotificationManager @Inject constructor(
         publishJob = null
         publisher.close()
         cancel()
-    }
-
-    private fun onNextMetadata(metadata: MediaEntity) {
-        Timber.v("$TAG on next metadata=${metadata.title}")
-        publisher.offer(Event.Metadata(metadata))
-    }
-
-    private fun onNextState(playbackState: PlaybackStateCompat) {
-        Timber.v("$TAG on next state")
-        publisher.offer(Event.State(playbackState))
-    }
-
-    private fun onNextFavorite(isFavorite: Boolean) {
-        Timber.v("$TAG on next favorite $isFavorite")
-        publisher.offer(Event.Favorite(isFavorite))
     }
 
     private fun stopForeground() {

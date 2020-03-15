@@ -88,10 +88,4 @@ internal data class MusicNotificationState(
         return this.isFavorite != isFavorite
     }
 
-    fun deepCopy(): MusicNotificationState {
-        return MusicNotificationState(
-            id, title, artist, album, isPlaying, bookmark, duration, isFavorite, isPodcast
-        )
-    }
-
 }

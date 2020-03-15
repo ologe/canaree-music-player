@@ -17,9 +17,40 @@ sealed class OnImageLoadingError {
     object None : OnImageLoadingError()
 }
 
+suspend fun Context.getBitmap(
+    mediaId: MediaId,
+    size: Int = GlideUtils.OVERRIDE_BIG,
+    extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+    onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
+): Bitmap? {
+    return getBitmapInternal(
+        mediaId = mediaId,
+        size = size,
+        onlyFromCache = false,
+        extension = extension,
+        onError = onError
+    )
+}
+
 suspend fun Context.getCachedBitmap(
     mediaId: MediaId,
     size: Int = GlideUtils.OVERRIDE_BIG,
+    extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+    onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
+): Bitmap?  {
+    return getBitmapInternal(
+        mediaId = mediaId,
+        size = size,
+        onlyFromCache = true,
+        extension = extension,
+        onError = onError
+    )
+}
+
+private suspend fun Context.getBitmapInternal(
+    mediaId: MediaId,
+    size: Int = GlideUtils.OVERRIDE_BIG,
+    onlyFromCache: Boolean,
     extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
     onError: OnImageLoadingError = OnImageLoadingError.Placeholder(false)
 ): Bitmap? = suspendCancellableCoroutine { continuation ->
@@ -30,7 +61,7 @@ suspend fun Context.getCachedBitmap(
         .override(size)
         .priority(Priority.IMMEDIATE)
         .extend(extension)
-        .onlyRetrieveFromCache(true)
+        .onlyRetrieveFromCache(onlyFromCache)
         .into(CachedImageLoaderTarget(continuation, this, mediaId, size, extension, onError))
 }
 

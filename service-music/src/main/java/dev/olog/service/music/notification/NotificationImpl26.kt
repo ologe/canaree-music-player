@@ -7,28 +7,34 @@ import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.Lifecycle
+import dev.olog.core.schedulers.Schedulers
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 internal class NotificationImpl26 @Inject constructor(
-        service: Service,
-        mediaSession: MediaSessionCompat
+    @ServiceLifecycle lifecycle: Lifecycle,
+    service: Service,
+    mediaSession: MediaSessionCompat,
+    schedulers: Schedulers
 
-) : NotificationImpl24(service, mediaSession) {
+) : NotificationImpl24(lifecycle, service, mediaSession, schedulers) {
 
     override fun extendInitialization() {
         builder.setColorized(true)
 
-        val nowPlayingChannelExists = notificationManager.getNotificationChannel(INotification.CHANNEL_ID) != null
+        val nowPlayingChannelExists =
+            notificationManager.getNotificationChannel(INotification.CHANNEL_ID) != null
 
-        if (!nowPlayingChannelExists){
+        if (!nowPlayingChannelExists) {
             createChannel()
         }
     }
 
-    private fun createChannel(){
+    private fun createChannel() {
         // create notification channel
         val name = service.getString(R.string.music_channel_id_notification)
         val description = service.getString(R.string.music_channel_id_notification_description)
