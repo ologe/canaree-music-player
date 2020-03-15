@@ -11,20 +11,21 @@ import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.shared.MusicServiceData
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.test.shared.MainCoroutineRule
+import dev.olog.test.shared.schedulers
 import org.junit.Rule
 import org.junit.Test
 
 class MusicServiceMetadataTest {
 
     @get:Rule
-    var coroutinesMainDispatcherRule = MainCoroutineRule()
+    var coroutinesRule = MainCoroutineRule()
 
     private val context = mock<Context>()
     private val mediaSession = mock<MediaSessionCompat>()
     private val playerLifecycle = mock<IPlayerLifecycle>()
 
     private val musicServiceMetadata = MusicServiceMetadata(
-        context, mediaSession, playerLifecycle, mock()
+        context, mediaSession, playerLifecycle, mock(), coroutinesRule.schedulers
     )
 
     @Test

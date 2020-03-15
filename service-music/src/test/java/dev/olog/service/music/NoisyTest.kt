@@ -13,10 +13,11 @@ class NoisyTest {
 
     @Test
     fun `test lifecycle unsubscribe`() {
-        val spy = spy(noisy)
+        val spy = noisy
 
         spy.onDestroy(mock())
-        verify(spy).unregister()
+
+        verify(context).unregisterReceiver(any())
     }
 
     @Test
@@ -32,7 +33,7 @@ class NoisyTest {
         noisy.register()
         noisy.register()
 
-        verify(context).registerReceiver(any(), any())
+        verify(context, times(1)).registerReceiver(any(), any())
     }
 
     @Test
@@ -58,7 +59,7 @@ class NoisyTest {
         noisy.unregister()
         noisy.unregister()
 
-        verify(context).unregisterReceiver(any())
+        verify(context, times(1)).unregisterReceiver(any())
     }
 
 }

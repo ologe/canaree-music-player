@@ -1,5 +1,6 @@
 package dev.olog.service.music
 
+import androidx.lifecycle.Lifecycle
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
@@ -18,7 +19,8 @@ class MediaButtonTest {
     var coroutinesMainDispatcherRule = MainCoroutineRule()
 
     private val eventDispatcher = mock<EventDispatcher>()
-    private val mediaButton = MediaButton(eventDispatcher)
+    private val lifecycle = mock<Lifecycle>()
+    private val mediaButton = MediaButton(lifecycle, eventDispatcher)
 
     @Test
     fun `test no clicks`() = runBlockingTest {
