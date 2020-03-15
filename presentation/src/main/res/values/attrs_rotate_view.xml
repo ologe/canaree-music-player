@@ -3,10 +3,10 @@
 
     <declare-styleable name="RotateView">
         <attr name="direction" format="enum">
-            <enum name="left" value="-30" />
-            <enum name="right" value="30" />
-            <enum name="left_big" value="-50" />
-            <enum name="right_big" value="50" />
+            <enum name="left" value="-15" />
+            <enum name="right" value="15" />
+            <enum name="left_big" value="-30" />
+            <enum name="right_big" value="30" />
         </attr>
     </declare-styleable>
 

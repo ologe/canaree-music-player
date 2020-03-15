@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.withStyledAttributes
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import dev.olog.presentation.R
 import java.lang.ref.WeakReference
 
@@ -16,6 +18,9 @@ class RotateView(
 
     companion object {
         private const val DEFAULT = 30
+        private const val DURATION = 150L
+        private val startInterpolator = FastOutLinearInInterpolator()
+        private val returnInterpolator = DecelerateInterpolator()
     }
 
     private var degrees: Float = 0f
@@ -36,8 +41,14 @@ class RotateView(
         val weak = WeakReference(this)
         animate().cancel()
         animate().rotation(degrees)
-            .setDuration(200)
-            .withEndAction { weak.get()?.animate()?.rotation(0f)?.setDuration(200) }
+            .setDuration(DURATION)
+            .setInterpolator(startInterpolator)
+            .withEndAction {
+                weak.get()?.animate()
+                    ?.rotation(0f)
+                    ?.setInterpolator(returnInterpolator)
+                    ?.setDuration(DURATION)
+            }
     }
 
 }
