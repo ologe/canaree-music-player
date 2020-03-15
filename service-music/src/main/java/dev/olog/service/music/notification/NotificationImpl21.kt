@@ -30,6 +30,7 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 internal open class NotificationImpl21 @Inject constructor(
@@ -117,8 +118,6 @@ internal open class NotificationImpl21 @Inject constructor(
 
         updateImageJob = GlobalScope.launch(schedulers.io) {
             updateImage(state.id, state.isPodcast)
-            val notificationWithImage = builder.build()
-            notificationManager.notify(INotification.NOTIFICATION_ID, notificationWithImage)
         }
 
         return notification
@@ -128,7 +127,9 @@ internal open class NotificationImpl21 @Inject constructor(
         val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
         val mediaId = category.playableItem(id)
         val bitmap = service.getBitmap(mediaId, INotification.IMAGE_SIZE)
-        builder.setLargeIcon(bitmap)
+        yield()
+        val notificationWithImage = builder.setLargeIcon(bitmap).build()
+        notificationManager.notify(INotification.NOTIFICATION_ID, notificationWithImage)
     }
 
     @SuppressLint("RestrictedApi")
