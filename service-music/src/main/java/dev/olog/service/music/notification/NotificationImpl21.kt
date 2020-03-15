@@ -67,7 +67,7 @@ internal open class NotificationImpl21 @Inject constructor(
             .setMediaSession(mediaSession.sessionToken)
             .setShowActionsInCompactView(1, 2, 3)
 
-        builder.setSmallIcon(R.drawable.vd_bird)
+        builder.setSmallIcon(R.drawable.vd_bird_icon)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(buildContentIntent())
             .setDeleteIntent(
