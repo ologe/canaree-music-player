@@ -21,15 +21,15 @@ internal class FavoriteRepository @Inject constructor(
 
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = ConflatedBroadcastChannel<dev.olog.core.entity.favorite.FavoriteEntity>()
+    private val favoriteStatePublisher = ConflatedBroadcastChannel<dev.olog.core.entity.favorite.FavoriteItemState>()
 
-    internal fun getState(): dev.olog.core.entity.favorite.FavoriteEntity? = favoriteStatePublisher.valueOrNull
+    internal fun getState(): dev.olog.core.entity.favorite.FavoriteItemState? = favoriteStatePublisher.valueOrNull
 
     override fun observeToggleFavorite(): Flow<FavoriteState> = favoriteStatePublisher
         .asFlow()
         .map { it.enum }
 
-    override suspend fun updateFavoriteState(state: dev.olog.core.entity.favorite.FavoriteEntity) {
+    override suspend fun updateFavoriteState(state: dev.olog.core.entity.favorite.FavoriteItemState) {
         favoriteStatePublisher.offer(state)
     }
 
@@ -70,7 +70,7 @@ internal class FavoriteRepository @Inject constructor(
         val id = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songId == id) {
             updateFavoriteState(
-                dev.olog.core.entity.favorite.FavoriteEntity(songId, FavoriteState.FAVORITE, type)
+                dev.olog.core.entity.favorite.FavoriteItemState(songId, FavoriteState.FAVORITE, type)
             )
         }
     }
@@ -80,7 +80,7 @@ internal class FavoriteRepository @Inject constructor(
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songListId.contains(songId)) {
             updateFavoriteState(
-                dev.olog.core.entity.favorite.FavoriteEntity(
+                dev.olog.core.entity.favorite.FavoriteItemState(
                     songId = songId,
                     enum = FavoriteState.FAVORITE,
                     favoriteType = type
@@ -94,7 +94,7 @@ internal class FavoriteRepository @Inject constructor(
         val id = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songId == id) {
             updateFavoriteState(
-                dev.olog.core.entity.favorite.FavoriteEntity(
+                dev.olog.core.entity.favorite.FavoriteItemState(
                     songId = songId,
                     enum = FavoriteState.NOT_FAVORITE,
                     favoriteType = type
@@ -108,7 +108,7 @@ internal class FavoriteRepository @Inject constructor(
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         if (songListId.contains(songId)) {
             updateFavoriteState(
-                dev.olog.core.entity.favorite.FavoriteEntity(
+                dev.olog.core.entity.favorite.FavoriteItemState(
                     songId = songId,
                     enum = FavoriteState.NOT_FAVORITE,
                     favoriteType = type
@@ -125,7 +125,7 @@ internal class FavoriteRepository @Inject constructor(
 
         val songId = favoriteStatePublisher.valueOrNull?.songId ?: return
         updateFavoriteState(
-            dev.olog.core.entity.favorite.FavoriteEntity(
+            dev.olog.core.entity.favorite.FavoriteItemState(
                 songId = songId,
                 enum = FavoriteState.NOT_FAVORITE,
                 favoriteType = type
@@ -151,7 +151,7 @@ internal class FavoriteRepository @Inject constructor(
         when (state) {
             FavoriteState.NOT_FAVORITE -> {
                 updateFavoriteState(
-                    dev.olog.core.entity.favorite.FavoriteEntity(
+                    dev.olog.core.entity.favorite.FavoriteItemState(
                         songId = id,
                         enum = FavoriteState.FAVORITE,
                         favoriteType = type
@@ -161,7 +161,7 @@ internal class FavoriteRepository @Inject constructor(
             }
             FavoriteState.FAVORITE -> {
                 updateFavoriteState(
-                    dev.olog.core.entity.favorite.FavoriteEntity(
+                    dev.olog.core.entity.favorite.FavoriteItemState(
                         songId = id,
                         enum = FavoriteState.NOT_FAVORITE,
                         favoriteType = type

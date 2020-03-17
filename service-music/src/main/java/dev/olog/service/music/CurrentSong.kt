@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.LastMetadata
-import dev.olog.core.entity.favorite.FavoriteEntity
+import dev.olog.core.entity.favorite.FavoriteItemState
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.interactor.InsertHistorySongUseCase
@@ -112,7 +112,7 @@ internal class CurrentSong @Inject constructor(
                 isFavoriteSongUseCase(mediaEntity.id, type)
             val isFavoriteEnum =
                 if (isFavorite) FavoriteState.FAVORITE else FavoriteState.NOT_FAVORITE
-            updateFavoriteStateUseCase(FavoriteEntity(mediaEntity.id, isFavoriteEnum, type))
+            updateFavoriteStateUseCase(FavoriteItemState(mediaEntity.id, isFavoriteEnum, type))
         }
     }
 

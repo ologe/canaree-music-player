@@ -1,7 +1,7 @@
 package dev.olog.core.gateway
 
 import dev.olog.core.entity.favorite.FavoriteState
-import dev.olog.core.entity.favorite.FavoriteEntity
+import dev.olog.core.entity.favorite.FavoriteItemState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.entity.track.Song
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +25,7 @@ interface FavoriteGateway {
     suspend fun isFavorite(songId: Long, type: FavoriteTrackType): Boolean
 
     fun observeToggleFavorite(): Flow<FavoriteState>
-    suspend fun updateFavoriteState(state: FavoriteEntity)
+    suspend fun updateFavoriteState(state: FavoriteItemState)
 
     suspend fun toggleFavorite()
 

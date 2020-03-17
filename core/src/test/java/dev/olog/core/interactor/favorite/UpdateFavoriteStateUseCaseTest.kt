@@ -2,7 +2,7 @@ package dev.olog.core.interactor.favorite
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.core.entity.favorite.FavoriteEntity
+import dev.olog.core.entity.favorite.FavoriteItemState
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.core.entity.favorite.FavoriteTrackType
 import dev.olog.core.gateway.FavoriteGateway
@@ -16,7 +16,7 @@ class UpdateFavoriteStateUseCaseTest {
 
     @Test
     fun testInvoke() = runBlockingTest {
-        val entity = FavoriteEntity(1L, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
+        val entity = FavoriteItemState(1L, FavoriteState.FAVORITE, FavoriteTrackType.TRACK)
 
         // when
         sut(entity)
