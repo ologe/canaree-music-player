@@ -52,7 +52,7 @@ internal abstract class AbsPopupListener(
         listSize: Int,
         title: String
     ) {
-        val playlist = playlists.first { it.id == itemId.toLong() }
+        val playlist = playlists.find { it.id == itemId.toLong() } ?: return
         GlobalScope.launch { // TODO use a better scope
             try {
                 addToPlaylistUseCase(playlist, mediaId.toDomain())
