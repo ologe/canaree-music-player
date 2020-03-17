@@ -89,7 +89,7 @@ internal class FolderRepository @Inject constructor(
 
     override fun getTrackListByParam(param: Long): List<Song> {
         assertBackgroundThread()
-        val folder = getByParam(param)!!
+        val folder = getByParam(param) ?: return emptyList()
         val cursor = queries.getSongList(folder.path)
         return contentResolver.queryAll(cursor) { it.toSong() }
     }
