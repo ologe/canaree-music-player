@@ -13,9 +13,6 @@
         android:gravity="center"
         android:paddingTop="64dp"
         android:text="@string/detail_no_episodes"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="18dp"
-        app:fontFamily="sans-serif-black"
-        tools:fontFamily="sans-serif-black" />
+        style="@style/EmptyState" />
 
 </FrameLayout>

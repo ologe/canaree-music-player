@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,9 +10,6 @@
         android:gravity="center"
         android:paddingTop="64dp"
         android:text="@string/detail_no_tracks"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="18dp"
-        app:fontFamily="sans-serif-black"
-        tools:fontFamily="sans-serif-black" />
+        style="@style/EmptyState"/>
 
 </FrameLayout>

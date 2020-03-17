@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Divider">
-        <item name="android:background">?colorControlNormal</item>
-        <item name="android:alpha">.1</item>
-    </style>
-
     <style name="DividerDotted">
         <item name="android:background">@drawable/dotted_line</item>
         <item name="android:alpha">.1</item>

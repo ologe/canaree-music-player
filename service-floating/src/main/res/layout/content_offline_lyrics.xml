@@ -46,11 +46,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/emptyState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/offline_lyrics_empty"
+                style="@style/EmptyState"
                 android:textColor="@android:color/white"
                 android:textSize="25sp"
                 android:visibility="gone"
@@ -60,7 +61,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginBottom="80dp"
-                android:fontFamily="sans-serif-black"
                 android:clickable="false"
                 android:focusable="false"/>
 

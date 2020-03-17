@@ -39,4 +39,11 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="EmptyState">
+        <item name="android:textSize">20dp</item>
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
 </resources>

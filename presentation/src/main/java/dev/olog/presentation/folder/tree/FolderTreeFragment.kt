@@ -73,6 +73,7 @@ class FolderTreeFragment : BaseFragment(),
                 restoreUpperWidgetsTranslation()
                 crumbsWrapper.animate().translationY(0f)
                 adapter.submitList(it)
+                emptyState.isVisible = it.isEmpty()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

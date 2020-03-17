@@ -49,17 +49,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:textSize="20dp"
+        style="@style/EmptyState"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="No Folders"
-        tools:visibility="visible"
-        app:fontFamily="sans-serif-black"
-        tools:fontFamily="sans-serif-black"
-        android:textColor="?android:textColorPrimary"/>
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
