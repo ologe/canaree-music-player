@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.FloatingWindowHelper
@@ -19,6 +20,7 @@ import dev.olog.presentation.popup.main.toMainPopupCategory
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
+import dev.olog.shared.mandatory
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -64,6 +66,9 @@ class LibraryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        removeFolderFragment()
+
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
@@ -80,11 +85,10 @@ class LibraryFragment : BaseFragment() {
         }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-            viewLifecycleOwner.lifecycleScope
-                .launchWhenResumed {
-                    delay(500) // TODO try
-                    TutorialTapTarget.floatingWindow(floatingWindow)
-                }
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                delay(500) // TODO try
+                TutorialTapTarget.floatingWindow(floatingWindow)
+            }
         }
     }
 
@@ -112,6 +116,23 @@ class LibraryFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewPager.adapter = null
+    }
+
+    /**
+     * Since viewpager has problems with changing items, folder fragment has to be
+     * removed in order to allow the change between folder fragment types
+     */
+    private fun removeFolderFragment() {
+        val index = pagerAdapter.findFolderFragment()
+        mandatory(index >= 0) ?: return
+        val tag = pagerAdapter.tagFor(index)
+        mandatory(tag != null) ?: return
+        val fragment = childFragmentManager.findFragmentByTag(tag)
+        mandatory(fragment != null) ?: return
+
+        childFragmentManager.commitNow(true) {
+            remove(fragment!!)
+        }
     }
 
     private fun changeLibraryPage(page: LibraryPage) {
