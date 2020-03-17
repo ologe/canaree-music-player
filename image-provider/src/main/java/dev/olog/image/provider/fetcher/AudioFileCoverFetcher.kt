@@ -27,7 +27,6 @@ class AudioFileCoverFetcher(
             stream = ByteArrayInputStream(picture)
             callback.onDataReady(stream)
         } catch (ex: Exception){
-            Timber.w(ex)
             callback.onLoadFailed(ex)
         } finally {
             stream?.close()
