@@ -55,13 +55,13 @@ class PlayerVolumeFragment : DaggerFragment(), DrawsOnTop, SeekBar.OnSeekBarChan
 
     override fun onResume() {
         super.onResume()
-        view?.setOnClickListener { requireActivity().onBackPressed() }
+        requireView().setOnClickListener { requireActivity().onBackPressed() }
         volumeSlider.setOnSeekBarChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        view?.setOnClickListener(null)
+        requireView().setOnClickListener(null)
         volumeSlider.setOnSeekBarChangeListener(null)
     }
 

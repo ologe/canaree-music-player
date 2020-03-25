@@ -35,7 +35,7 @@ class SplashTutorialFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = parentFragment!!.view!!.findViewById(R.id.viewPager)
+        viewPager = requireParentFragment().requireView().findViewById(R.id.viewPager)
 
         swipeableView.isTouching()
             .onEach { viewPager.isSwipeEnabled = !it }
