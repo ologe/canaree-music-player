@@ -10,7 +10,9 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.colorSwipeBackground
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlin.math.hypot
 
@@ -67,8 +69,8 @@ internal class TouchHelperAnimationController {
             val backgroundColor = it.context.colorSwipeBackground()
             it.setBackgroundColor(backgroundColor)
         }
-        delete?.toggleVisibility(dx > 0, false)
-        playNext?.toggleVisibility(dx < 0, false)
+        delete?.toggleVisibility(dx > 0)
+        playNext?.toggleVisibility(dx < 0)
     }
 
     fun drawCircularReveal(

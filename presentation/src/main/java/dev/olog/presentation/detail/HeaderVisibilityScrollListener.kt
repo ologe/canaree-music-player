@@ -38,23 +38,23 @@ class HeaderVisibilityScrollListener(
 
             if (needDarkLayout && view.statusBar.isInvisible) {
                 // set visible
-                view.statusBar.toggleVisibility(visible = true, gone = false)
+                view.statusBar.toggleVisibility(true)
                 toggleToolbarBackground(view.toolbar, show = true)
-                view.headerText.toggleVisibility(visible = true, gone = false)
+                view.headerText.toggleVisibility(true)
             } else if (!needDarkLayout && view.statusBar.isVisible) {
                 // set invisible
-                view.statusBar.toggleVisibility(visible = false, gone = false)
+                view.statusBar.toggleVisibility(false)
                 toggleToolbarBackground(view.toolbar, show = needDarkLayout)
-                view.headerText.toggleVisibility(visible = false, gone = false)
+                view.headerText.toggleVisibility(false)
             }
 
             fragment.hasLightStatusBarColor = needDarkLayout
 
         } else {
             if (!view.statusBar.isVisible) {
-                view.statusBar.toggleVisibility(visible = true, gone = false)
+                view.statusBar.toggleVisibility(true)
                 toggleToolbarBackground(view.toolbar, show = true)
-                view.headerText.toggleVisibility(visible = true, gone = false)
+                view.headerText.toggleVisibility(true)
 
                 fragment.hasLightStatusBarColor = true
             }

@@ -28,7 +28,6 @@ import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.afterTextChange
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
@@ -102,7 +101,7 @@ class SearchFragment : BaseFragment(),
         viewModel.data
             .onEach {
                 adapter.submitList(it)
-                emptyStateText.toggleVisibility(it.isEmpty(), true)
+                emptyStateText.isVisible = it.isEmpty()
                 restoreUpperWidgetsTranslation()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 

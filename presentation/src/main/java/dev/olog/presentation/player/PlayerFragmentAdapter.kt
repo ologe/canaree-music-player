@@ -3,6 +3,7 @@ package dev.olog.presentation.player
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +31,6 @@ import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.fragmentTransaction
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
@@ -265,7 +265,7 @@ internal class PlayerFragmentAdapter(
             .onEach { visible ->
                 view.findViewById<View>(R.id.playerControls)
                     ?.findViewById<View>(R.id.player)
-                    ?.toggleVisibility(visible, true)
+                    ?.isVisible = visible
             }.launchIn(holder.lifecycleScope)
 
         mediaProvider.observePlaybackState()
@@ -295,9 +295,8 @@ internal class PlayerFragmentAdapter(
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
 
-        val isPodcast = metadata.isPodcast
         val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
-        playerControlsRoot.podcast_controls.toggleVisibility(isPodcast, true)
+        playerControlsRoot.podcast_controls.isVisible = metadata.isPodcast
 
         val title = if (view.context.themeManager.playerAppearance.isFlat){
             // WORKAROUND, all caps attribute is not working for some reason

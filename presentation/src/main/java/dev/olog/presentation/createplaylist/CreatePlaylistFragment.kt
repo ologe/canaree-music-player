@@ -70,7 +70,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     )
                 }
                 header.text = text
-                fab.toggleVisibility(size > 0, false)
+                fab.toggleVisibility(size > 0)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.data

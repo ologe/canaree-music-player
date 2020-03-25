@@ -16,15 +16,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
 
-fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
+fun View.toggleVisibility(visible: Boolean) {
     if (visible) {
         this.visibility = View.VISIBLE
     } else {
-        if (gone) {
-            this.visibility = View.GONE
-        } else {
-            this.visibility = View.INVISIBLE
-        }
+        this.visibility = View.INVISIBLE
     }
 }
 

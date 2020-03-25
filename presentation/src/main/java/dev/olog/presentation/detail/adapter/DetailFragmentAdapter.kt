@@ -26,7 +26,6 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
@@ -269,7 +268,7 @@ internal class DetailFragmentAdapter(
                 holder.itemView.apply {
                     title.text = item.title
                     subtitle?.text = item.subtitle
-                    seeMore?.toggleVisibility(item.visible, true)
+                    seeMore?.isVisible = item.visible
                 }
             }
             R.layout.item_detail_header_all_song -> {

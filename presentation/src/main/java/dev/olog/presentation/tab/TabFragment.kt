@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
@@ -29,6 +30,8 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.tab.TabCategory.PLAYLISTS
+import dev.olog.presentation.tab.TabCategory.PODCASTS_PLAYLIST
 import dev.olog.presentation.tab.adapter.TabFragmentAdapter
 import dev.olog.presentation.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
@@ -90,7 +93,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
-        emptyStateText.toggleVisibility(isEmpty, true)
+        emptyStateText.isVisible = isEmpty
         if (isEmpty) {
             if (isPodcastFragment()) {
                 val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
@@ -104,7 +107,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     private fun isPodcastFragment(): Boolean {
         return category == TabCategory.PODCASTS ||
-                category == TabCategory.PODCASTS_PLAYLIST ||
+                category == PODCASTS_PLAYLIST ||
                 category == TabCategory.PODCASTS_AUTHORS
     }
 
@@ -133,10 +136,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         }
         sidebar.scrollableLayoutId = scrollableLayoutId
 
-        fab.toggleVisibility(
-            category == TabCategory.PLAYLISTS ||
-                    category == TabCategory.PODCASTS_PLAYLIST, true
-        )
+        fab.isVisible = category == PLAYLISTS || category == PODCASTS_PLAYLIST
 
         viewModel.observeData(category)
             .onEach { list ->
@@ -146,11 +146,12 @@ class TabFragment : BaseFragment(), SetupNestedList {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeSpanCount(category)
-            .onEach {
-                if (list != null && list.isLaidOut) {
-                    // TODO update
+            .onEach { span ->
+                list.awaitAnimationEnd()
+                list.doOnLayout {
+                    // TODO check
                     TransitionManager.beginDelayedTransition(list)
-                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = it
+                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = span
                     adapter.notifyDataSetChanged()
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -243,7 +244,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
         sidebar.setListener(letterTouchListener)
         fab.setOnClickListener { fab ->
             val type =
-                if (category == TabCategory.PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
+                if (category == PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
 
             val sharedFab = (requireParentFragment().requireView() as ViewGroup)
                 .findViewById<View>(R.id.sharedFab)

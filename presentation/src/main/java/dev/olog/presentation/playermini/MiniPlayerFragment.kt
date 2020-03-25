@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.media.MediaProvider
@@ -16,7 +17,6 @@ import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.themeManager
-import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.artist
@@ -45,7 +45,7 @@ class MiniPlayerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
-            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
+            view.isVisible = it.getBoolean(BUNDLE_IS_VISIBLE)
         }
         val lastMetadata = presenter.getMetadata()
         title.text = lastMetadata.title
@@ -110,7 +110,7 @@ class MiniPlayerFragment : BaseFragment() {
         super.onResume()
         getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
         requireView().setOnClickListener { getSlidingPanel()?.expand() }
-        requireView().toggleVisibility(!getSlidingPanel().isExpanded(), true)
+        requireView().isVisible = !getSlidingPanel().isExpanded()
     }
 
     override fun onPause() {
@@ -149,7 +149,7 @@ class MiniPlayerFragment : BaseFragment() {
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             requireView().alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
-            requireView().toggleVisibility(slideOffset <= .8f, true)
+            requireView().isVisible = slideOffset <= .8f
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
