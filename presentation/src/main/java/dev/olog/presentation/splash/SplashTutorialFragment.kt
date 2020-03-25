@@ -19,7 +19,6 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
-import dev.olog.shared.android.extensions.ctx
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -110,12 +109,12 @@ class SplashTutorialFragment : Fragment(),
     }
 
     private fun loadImage(position: Int){
-        GlideApp.with(ctx).clear(cover)
+        GlideApp.with(requireContext()).clear(cover)
 
-        GlideApp.with(ctx)
+        GlideApp.with(requireContext())
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(ctx, position, MediaIdCategory.SONGS))
+                .placeholder(CoverUtils.getGradient(requireContext(), position, MediaIdCategory.SONGS))
                 .into(cover)
     }
 }

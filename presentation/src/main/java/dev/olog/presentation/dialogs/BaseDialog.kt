@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.utils.isQ
 import timber.log.Timber
@@ -24,21 +23,21 @@ abstract class BaseDialog : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        var builder = MaterialAlertDialogBuilder(act)
+        var builder = MaterialAlertDialogBuilder(requireActivity())
         builder = extendBuilder(builder)
 
         val dialog = builder.show()
         extendDialog(dialog)
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            positionButtonAction(act)
+            positionButtonAction(requireActivity())
         }
 
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-            negativeButtonAction(act)
+            negativeButtonAction(requireActivity())
         }
         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-            neutralButtonAction(act)
+            neutralButtonAction(requireActivity())
         }
 
         return dialog

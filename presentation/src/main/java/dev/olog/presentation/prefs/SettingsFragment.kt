@@ -91,16 +91,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         libraryCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         podcastCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         blacklist.setOnPreferenceClickListener {
-            act.fragmentTransaction {
+            requireActivity().fragmentTransaction {
                 setReorderingAllowed(true)
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -113,21 +113,21 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         lastFmCredentials.setOnPreferenceClickListener {
-            act.fragmentTransaction {
+            requireActivity().fragmentTransaction {
                 setReorderingAllowed(true)
                 add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
             }
             true
         }
         accentColorChooser.setOnPreferenceClickListener {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
             val key = getString(R.string.prefs_color_accent_key)
-            val defaultColor = ContextCompat.getColor(act, R.color.defaultColorAccent)
+            val defaultColor = ContextCompat.getColor(requireActivity(), R.color.defaultColorAccent)
 
-            MaterialDialog(act)
+            MaterialDialog(requireActivity())
                 .colorChooser(
-                    colors = ColorPalette.getAccentColors(ctx.isDarkMode()),
-                    subColors = ColorPalette.getAccentColorsSub(ctx.isDarkMode()),
+                    colors = ColorPalette.getAccentColors(requireContext().isDarkMode()),
+                    subColors = ColorPalette.getAccentColorsSub(requireContext().isDarkMode()),
                     initialSelection = prefs.getInt(key, defaultColor),
                     selection = this
                 ).show()
@@ -163,17 +163,17 @@ class SettingsFragment : PreferenceFragmentCompat(),
             getString(R.string.prefs_mini_player_appearance_key),
             getString(R.string.prefs_quick_action_key),
             getString(R.string.prefs_folder_tree_view_key) -> {
-                act.recreate()
+                requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
                 presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
-                act.recreate()
+                requireActivity().recreate()
             }
         }
     }
 
     private fun showDeleteAllCacheDialog() {
-        MaterialAlertDialogBuilder(ctx)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.prefs_delete_cached_images_title)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
@@ -185,22 +185,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun clearGlideCache() {
-        GlideApp.get(ctx.applicationContext).clearMemory()
+        GlideApp.get(requireContext().applicationContext).clearMemory()
 
         withContext(Dispatchers.IO) {
-            GlideApp.get(ctx.applicationContext).clearDiskCache()
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles()
+            GlideApp.get(requireContext().applicationContext).clearDiskCache()
+            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.FOLDER).listFiles()
                 ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles()
+            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.PLAYLIST).listFiles()
                 ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles()
+            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.GENRE).listFiles()
                 ?.forEach { it.delete() }
         }
-        ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
+        requireContext().applicationContext.toast(R.string.prefs_delete_cached_images_success)
     }
 
     private fun showResetTutorialDialog() {
-        MaterialAlertDialogBuilder(ctx)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.prefs_reset_tutorial_title)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.popup_positive_ok) { _, _ -> tutorialPrefsUseCase.reset() }
@@ -209,12 +209,12 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     override fun invoke(dialog: MaterialDialog, color: Int) {
-        val realColor = ColorPalette.getRealAccentSubColor(ctx.isDarkMode(), color)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(act)
+        val realColor = ColorPalette.getRealAccentSubColor(requireContext().isDarkMode(), color)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity())
         val key = getString(R.string.prefs_color_accent_key)
         prefs.edit {
             putInt(key, realColor)
         }
-        act.recreate()
+        requireActivity().recreate()
     }
 }

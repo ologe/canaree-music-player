@@ -86,7 +86,7 @@ class EditTrackFragment : BaseEditItemFragment() {
             if (viewModel.fetchSongInfo(mediaId)) {
                 showLoader(R.string.edit_song_fetching_info)
             } else {
-                ctx.toast(R.string.common_no_internet)
+                requireContext().toast(R.string.common_no_internet)
             }
         }
     }
@@ -116,10 +116,10 @@ class EditTrackFragment : BaseEditItemFragment() {
 
         when (result) {
             UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
-            UpdateResult.ILLEGAL_DISC_NUMBER -> ctx.toast(R.string.edit_song_invalid_disc_number)
-            UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast(R.string.edit_song_invalid_track_number)
-            UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
+            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_song_invalid_title)
+            UpdateResult.ILLEGAL_DISC_NUMBER -> requireContext().toast(R.string.edit_song_invalid_disc_number)
+            UpdateResult.ILLEGAL_TRACK_NUMBER -> requireContext().toast(R.string.edit_song_invalid_track_number)
+            UpdateResult.ILLEGAL_YEAR -> requireContext().toast(R.string.edit_song_invalid_year)
         }
     }
 

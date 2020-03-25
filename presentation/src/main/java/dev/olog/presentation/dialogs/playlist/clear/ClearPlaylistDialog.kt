@@ -6,7 +6,10 @@ import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
@@ -46,12 +49,12 @@ class ClearPlaylistDialog : BaseDialog() {
             var message: String
             try {
                 presenter.execute(mediaId)
-                message = successMessage(act)
+                message = successMessage(requireActivity())
             } catch (ex: Exception) {
                 Timber.e(ex)
-                message = failMessage(act)
+                message = failMessage(requireActivity())
             }
-            act.toast(message)
+            requireActivity().toast(message)
             dismiss()
 
         }

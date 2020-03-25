@@ -7,7 +7,6 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -57,12 +56,12 @@ class RenameDialog : BaseEditTextDialog() {
         var message: String
         try {
             presenter.execute(mediaId, string)
-            message = successMessage(act, string)
+            message = successMessage(requireActivity(), string)
         } catch (ex: Exception) {
             Timber.e(ex)
             message = getString(R.string.popup_error_message)
         }
-        act.toast(message)
+        requireActivity().toast(message)
     }
 
     private fun successMessage(context: Context, currentValue: String): String {

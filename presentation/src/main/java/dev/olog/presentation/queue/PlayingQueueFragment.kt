@@ -19,9 +19,7 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.awaitAnimationEnd
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
@@ -50,7 +48,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
     internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
-        PlayingQueueFragmentAdapter(act as MediaProvider, navigator, this, viewModel)
+        PlayingQueueFragmentAdapter(requireActivity() as MediaProvider, navigator, this, viewModel)
     }
 
     @SuppressLint("ConcreteDispatcherIssue")
@@ -81,7 +79,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
             .onEach { position ->
-                layoutManager.scrollToPositionWithOffset(position, ctx.dip(20))
+                layoutManager.scrollToPositionWithOffset(position, requireContext().dip(20))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 

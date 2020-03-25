@@ -13,7 +13,6 @@ import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
 import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.onClick
 import dev.olog.shared.android.extensions.toggleVisibility
@@ -125,7 +124,8 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         delete.setOnClickListener { presenter.deleteCurrentPreset() }
         save.setOnClickListener {
             // create new preset
-            TextViewDialog(ctx, "Save preset", null)
+            // TODO localization
+            TextViewDialog(requireContext(), "Save preset", null)
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
                     val title = it[0].text.toString()
@@ -151,7 +151,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         val presets = withContext(Dispatchers.IO) {
             presenter.getPresets()
         }
-        val popup = PopupMenu(ctx, presetSpinner)
+        val popup = PopupMenu(requireContext(), presetSpinner)
         popup.inflate(R.menu.empty)
         for (preset in presets) {
             popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)

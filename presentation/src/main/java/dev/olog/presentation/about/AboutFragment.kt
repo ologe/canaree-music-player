@@ -6,8 +6,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
@@ -22,7 +20,7 @@ class AboutFragment : BaseFragment() {
     @Inject
     lateinit var navigator: NavigatorAbout
     private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext)
+        AboutFragmentPresenter(requireContext().applicationContext)
     }
     private val adapter by lazyFast {
         AboutFragmentAdapter(navigator)
@@ -38,7 +36,7 @@ class AboutFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {

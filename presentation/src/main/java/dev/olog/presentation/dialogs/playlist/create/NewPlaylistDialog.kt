@@ -7,7 +7,6 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -60,12 +59,12 @@ class NewPlaylistDialog : BaseEditTextDialog() {
         var message: String
         try {
             presenter.execute(mediaId, string)
-            message = successMessage(act, string).toString()
+            message = successMessage(requireActivity(), string).toString()
         } catch (ex: Exception) {
             Timber.e(ex)
             message = getString(R.string.popup_error_message)
         }
-        act.toast(message)
+        requireActivity().toast(message)
     }
 
 

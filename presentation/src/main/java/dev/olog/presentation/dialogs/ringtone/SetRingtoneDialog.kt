@@ -7,7 +7,10 @@ import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.getArgument
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.android.extensions.toast
+import dev.olog.shared.android.extensions.withArguments
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,13 +46,13 @@ class SetRingtoneDialog : BaseDialog() {
             var message: String
             try {
                 val mediaId = getArgument<PresentationId.Track>(ARGUMENTS_MEDIA_ID)
-                presenter.execute(act, mediaId)
+                presenter.execute(requireActivity(), mediaId)
                 message = successMessage()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 message = failMessage()
             }
-            act.toast(message)
+            requireActivity().toast(message)
             dismiss()
 
         }

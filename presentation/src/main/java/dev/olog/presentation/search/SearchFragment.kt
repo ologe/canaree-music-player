@@ -27,7 +27,6 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.presentation.utils.hideIme
 import dev.olog.presentation.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.afterTextChange
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
@@ -164,7 +163,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
@@ -178,7 +177,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onPause() {
         super.onPause()
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
         fab.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         more.setOnClickListener(null)

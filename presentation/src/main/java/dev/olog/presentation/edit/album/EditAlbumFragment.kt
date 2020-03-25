@@ -100,8 +100,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
         when (result) {
             UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
-            UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
+            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_song_invalid_title)
+            UpdateResult.ILLEGAL_YEAR -> requireContext().toast(R.string.edit_song_invalid_year)
             UpdateResult.ILLEGAL_DISC_NUMBER,
             UpdateResult.ILLEGAL_TRACK_NUMBER -> {
             }

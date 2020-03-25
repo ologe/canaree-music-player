@@ -112,11 +112,11 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColo
     override fun onResume() {
         super.onResume()
         edit.onClick {
-            EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
+            EditLyricsDialog.show(requireActivity(), presenter.getLyrics()) { newLyrics ->
                 presenter.updateLyrics(newLyrics)
             }
         }
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
         search.setOnClickListener { searchLyrics() }
 
         fakeNext.setOnClickListener {
@@ -131,7 +131,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColo
         sync.onClick { _ ->
             try {
                 OfflineLyricsSyncAdjustementDialog.show(
-                    ctx,
+                    requireContext(),
                     presenter.getSyncAdjustment()
                 ) {
                     presenter.updateSyncAdjustment(it)
@@ -169,7 +169,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColo
     }
 
     override fun adjustStatusBarColor() {
-        act.window.removeLightStatusBar()
+        requireActivity().window.removeLightStatusBar()
     }
 
     override fun adjustStatusBarColor(lightStatusBar: Boolean) {
@@ -192,19 +192,19 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColo
     private fun searchLyrics() {
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
-            .setToolbarColor(ctx.colorSurface())
+            .setToolbarColor(requireContext().colorSurface())
             .build()
-        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+        CustomTabsHelper.addKeepAliveExtra(requireContext(), customTabIntent.intent)
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, object : CustomTabsHelper.CustomTabFallback {
+        CustomTabsHelper.openCustomTab(requireContext(), customTabIntent, uri, object : CustomTabsHelper.CustomTabFallback {
             override fun openUri(context: Context?, uri: Uri?) {
                 val intent = Intent(Intent.ACTION_VIEW, uri)
-                if (act.packageManager.isIntentSafe(intent)) {
+                if (requireActivity().packageManager.isIntentSafe(intent)) {
                     startActivity(intent)
                 } else {
-                    act.toast(R.string.common_browser_not_found)
+                    requireActivity().toast(R.string.common_browser_not_found)
                 }
             }
         })

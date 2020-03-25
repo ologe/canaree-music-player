@@ -70,10 +70,10 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(navigator, requireActivity() as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(navigator, requireActivity() as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(navigator)
@@ -87,7 +87,7 @@ class DetailFragment : BaseFragment(),
             mediaId = mediaId,
             setupNestedList = this,
             navigator = navigator,
-            mediaProvider = act as MediaProvider,
+            mediaProvider = requireActivity() as MediaProvider,
             viewModel = viewModel,
             dragListener = this,
             afterImageLoad = { startPostponedEnterTransition() }
@@ -148,7 +148,7 @@ class DetailFragment : BaseFragment(),
             DetailValues(songs, most, recent, related, siblings)
         }.onEach {
             if (it.songs.isEmpty()) {
-                act.onBackPressed()
+                requireActivity().onBackPressed()
             } else {
                 mostPlayedAdapter.submitList(it.mostPlayed)
                 recentlyAddedAdapter.submitList(it.recentlyAdded)
@@ -225,7 +225,7 @@ class DetailFragment : BaseFragment(),
         super.onResume()
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener { requireActivity().onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more, null) }
         filter.setOnClickListener {
             TransitionManager.beginDelayedTransition(toolbar, FastAutoTransition)
@@ -271,7 +271,7 @@ class DetailFragment : BaseFragment(),
         more.setColorFilter(color)
         filter.setColorFilter(color)
 
-        act.window.removeLightStatusBar()
+        requireActivity().window.removeLightStatusBar()
     }
 
     private fun setLightStatusBar() {
@@ -283,7 +283,7 @@ class DetailFragment : BaseFragment(),
         more.setColorFilter(color)
         filter.setColorFilter(color)
 
-        act.window.setLightStatusBar()
+        requireActivity().window.setLightStatusBar()
     }
 
     private fun restoreTranslations() {

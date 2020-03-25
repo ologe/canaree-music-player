@@ -6,7 +6,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import timber.log.Timber
@@ -44,12 +43,12 @@ class PlayingQueueNewPlaylistDialog : BaseEditTextDialog() {
         var message: String
         try {
             presenter.savePlayingQueue(string)
-            message = successMessage(act, string).toString()
+            message = successMessage(requireActivity(), string).toString()
         } catch (ex: Exception) {
             Timber.e(ex)
             message = getString(R.string.popup_error_message)
         }
-        act.toast(message)
+        requireActivity().toast(message)
     }
 
 

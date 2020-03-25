@@ -55,7 +55,7 @@ class LibraryFragment : BaseFragment() {
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
+            requireActivity().applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
         )
     }
 

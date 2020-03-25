@@ -6,12 +6,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlin.math.abs
 
 class HeaderVisibilityScrollListener(
     private val fragment: DetailFragment
@@ -20,7 +18,7 @@ class HeaderVisibilityScrollListener(
 
     private val toolbarHeight by lazyFast {
         val statusBarHeight = fragment.requireView().statusBar.height
-        statusBarHeight + fragment.ctx.dimen(R.dimen.toolbar)
+        statusBarHeight + fragment.requireContext().dimen(R.dimen.toolbar)
     }
 
     private var textWrapper: View? = null
