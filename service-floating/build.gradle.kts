@@ -30,7 +30,6 @@ dependencies {
 
     implementation(Libraries.X.core)
     implementation(Libraries.X.media)
-    implementation(Libraries.X.webview)
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.material)

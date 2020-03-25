@@ -27,6 +27,7 @@ dependencies {
     implementation(Libraries.X.preference)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.media)
+    implementation(Libraries.X.webview)
 
     implementation(Libraries.Debug.timber)
 
