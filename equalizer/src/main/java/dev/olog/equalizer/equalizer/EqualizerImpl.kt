@@ -108,8 +108,7 @@ internal class EqualizerImpl @Inject constructor(
     }
 
 
-    override fun getBandLimit(): Float =
-        BAND_LIMIT
+    override fun getBandLimit(): Float = BAND_LIMIT
 
     override fun getAllBandsCurrentLevel(): List<EqualizerBand> {
         if (!isImplementedByDevice){

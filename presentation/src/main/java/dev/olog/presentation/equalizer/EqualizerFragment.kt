@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -12,14 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.presentation.widgets.equalizer.bar.BoxedVertical
 import dev.olog.presentation.widgets.equalizer.croller.Croller
-import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.onClick
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
@@ -29,7 +27,6 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     companion object {
         const val TAG = "EqualizerFragment"
-        const val DEFAULT_BAR_ALPHA = .75f
 
         @JvmStatic
         fun newInstance(): EqualizerFragment {
@@ -67,38 +64,15 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
                 preset.bands.forEachIndexed { index, band ->
                     val layout = bands.getChildAt(index)
-                    layout.seekbar.apply {
-                        step = presenter.getBandStep()
-                        max = presenter.getBandLimit()
-                        min = -presenter.getBandLimit()
-                        animateBar(this, band.gain)
-                    }
-                    layout.seekbar.alpha = DEFAULT_BAR_ALPHA
+                    layout.bar.animateProgress(band.gain, -presenter.getBandLimit(), presenter.getBandLimit())
                     layout.frequency.text = band.displayableFrequency
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun animateBar(bar: BoxedVertical, gain: Float) = launchWhenResumed {
-        var duration = 150f
-        val timeDelta = 16f
-        val progressDelta = (gain - bar.value) * (timeDelta / duration)
-        while (duration > 0){
-            delay(timeDelta.toLong())
-            duration -= timeDelta
-            bar.value += progressDelta
-        }
-        bar.value = gain // set exact value
-    }
-
     private fun buildBands() {
         for (band in 0 until presenter.getBandCount()) {
             val layout = layoutInflater.inflate(R.layout.fragment_equalizer_band, null, false)
-            layout.seekbar.apply {
-                step = presenter.getBandStep()
-                max = presenter.getBandLimit()
-                min = -presenter.getBandLimit()
-            }
             bands.addView(layout)
         }
     }
@@ -113,7 +87,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         bassKnob.setOnProgressChangedListener(onBassKnobChangeListener)
         virtualizerKnob.setOnProgressChangedListener(onVirtualizerKnobChangeListener)
 
-        setupBandListeners { band -> BandListener(band) }
+        setupBandListeners()
 
         powerSwitch.setOnCheckedChangeListener { _, isChecked ->
             val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
@@ -139,7 +113,9 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         bassKnob.setOnProgressChangedListener(null)
         virtualizerKnob.setOnProgressChangedListener(null)
 
-        setupBandListeners(null)
+        bands.forEach { view ->
+            view.bar.onProgressChanged = null
+        }
 
         powerSwitch.setOnCheckedChangeListener(null)
         presetSpinner.setOnClickListener(null)
@@ -165,31 +141,9 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         popup.show()
     }
 
-    private fun setupBandListeners(listener: ((Int) -> BandListener)?) {
+    private fun setupBandListeners() {
         bands.forEachIndexed { index, view ->
-            view.seekbar.setOnBoxedPointsChangeListener(listener?.invoke(index))
-        }
-    }
-
-    inner class BandListener(private val band: Int) : BoxedVertical.OnValuesChangeListener {
-
-        override fun onPointsChanged(seekbar: BoxedVertical, value: Float) {
-            presenter.setBandLevel(band, value)
-        }
-        override fun onStartTrackingTouch(seekbar: BoxedVertical) {
-            seekbar.animate()
-                .setDuration(200)
-                .alpha(1f)
-                .scaleX(1.2f)
-                .scaleY(1.05f)
-        }
-
-        override fun onStopTrackingTouch(seekbar: BoxedVertical) {
-            seekbar.animate()
-                .setDuration(200)
-                .alpha(DEFAULT_BAR_ALPHA)
-                .scaleX(1f)
-                .scaleY(1f)
+            view.bar.onProgressChanged = { presenter.setBandLevel(index, it) }
         }
     }
 
