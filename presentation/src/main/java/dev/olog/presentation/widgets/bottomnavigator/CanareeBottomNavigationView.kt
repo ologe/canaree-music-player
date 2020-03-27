@@ -11,7 +11,7 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import javax.inject.Inject
 
-internal class CustomBottomNavigator(
+internal class CanareeBottomNavigationView(
     context: Context,
     attrs: AttributeSet
 ) : BottomNavigationView(context, attrs) {

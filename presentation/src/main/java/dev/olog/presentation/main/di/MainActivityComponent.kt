@@ -22,7 +22,7 @@ import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.tab.di.TabFragmentInjector
-import dev.olog.presentation.widgets.bottomnavigator.CustomBottomNavigator
+import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
 import dev.olog.shared.android.utils.assertMainThread
 import java.lang.ref.WeakReference
 
@@ -43,7 +43,7 @@ internal fun MainActivity.inject() {
     buildComponent(this).inject(this)
 }
 
-internal fun CustomBottomNavigator.inject(){
+internal fun CanareeBottomNavigationView.inject(){
     buildComponent(context as MainActivity).inject(this)
 }
 
@@ -85,7 +85,7 @@ internal fun MainActivity.clearComponent(){
 internal interface MainActivityComponent {
 
     fun inject(instance: MainActivity)
-    fun inject(bottomNavigation: CustomBottomNavigator)
+    fun inject(bottomNavigation: CanareeBottomNavigationView)
 
     @Component.Factory
     interface Factory {
