@@ -51,6 +51,10 @@ internal class BottomNavigator {
         newTag: String,
         trackerFacade: TrackerFacade
     ) {
+        if (topFragment?.tag == newTag) {
+            // don't reopen same page
+            return
+        }
         topFragment?.let { setupExitAnimation(activity, it, newTag) }
 
         activity.fragmentTransaction {
