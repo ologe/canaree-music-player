@@ -71,7 +71,7 @@
         android:clickable="true"
         android:focusable="true"/>
 
-    <dev.olog.presentation.widgets.equalizer.croller.Croller
+    <dev.olog.presentation.widgets.equalizer.croller.CanareeCroller
         android:id="@+id/bassKnob"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -84,6 +84,7 @@
         app:back_circle_color="#EDEDED"
         app:indicator_color="#000"
         app:indicator_width="10"
+        app:max="60"
         app:progress_primary_color="?android:textColorPrimary"
         app:progress_secondary_color="@color/progressBackgroundTint"
         app:label="Bass"
@@ -93,7 +94,7 @@
         app:sweep_angle="270"
         app:start_offset="60" />
 
-    <dev.olog.presentation.widgets.equalizer.croller.Croller
+    <dev.olog.presentation.widgets.equalizer.croller.CanareeCroller
         android:id="@+id/virtualizerKnob"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -106,6 +107,7 @@
         app:back_circle_color="#EDEDED"
         app:indicator_color="#000"
         app:indicator_width="10"
+        app:max="60"
         app:progress_primary_color="?android:textColorPrimary"
         app:progress_secondary_color="@color/progressBackgroundTint"
         app:label="Virtualizer"

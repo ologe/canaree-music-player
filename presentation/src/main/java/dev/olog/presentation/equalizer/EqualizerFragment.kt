@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
 import dev.olog.presentation.base.TextViewDialog
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.presentation.widgets.equalizer.croller.Croller
 import dev.olog.shared.android.extensions.onClick
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
@@ -47,11 +46,11 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
         bassKnob.apply {
             max = 1000
-            progress = presenter.getBassStrength()
+            setProgress(presenter.getBassStrength())
         }
         virtualizerKnob.apply {
             max = 1000
-            progress = presenter.getVirtualizerStrength()
+            setProgress(presenter.getVirtualizerStrength())
         }
 
         buildBands()
@@ -64,7 +63,11 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
                 preset.bands.forEachIndexed { index, band ->
                     val layout = bands.getChildAt(index)
-                    layout.bar.animateProgress(band.gain, -presenter.getBandLimit(), presenter.getBandLimit())
+                    layout.bar.animateProgress(
+                        band.gain,
+                        -presenter.getBandLimit(),
+                        presenter.getBandLimit()
+                    )
                     layout.frequency.text = band.displayableFrequency
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -84,8 +87,8 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     override fun onResume() {
         super.onResume()
-        bassKnob.setOnProgressChangedListener(onBassKnobChangeListener)
-        virtualizerKnob.setOnProgressChangedListener(onVirtualizerKnobChangeListener)
+        bassKnob.onProgressChanged = { presenter.setBassStrength(it) }
+        virtualizerKnob.onProgressChanged = { presenter.setVirtualizerStrength(it) }
 
         setupBandListeners()
 
@@ -110,8 +113,8 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     override fun onPause() {
         super.onPause()
-        bassKnob.setOnProgressChangedListener(null)
-        virtualizerKnob.setOnProgressChangedListener(null)
+        bassKnob.onProgressChanged = null
+        virtualizerKnob.onProgressChanged = null
 
         bands.forEach { view ->
             view.bar.onProgressChanged = null
@@ -145,14 +148,6 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         bands.forEachIndexed { index, view ->
             view.bar.onProgressChanged = { presenter.setBandLevel(index, it) }
         }
-    }
-
-    private val onBassKnobChangeListener = Croller.onProgressChangedListener { progress ->
-        presenter.setBassStrength(progress)
-    }
-
-    private val onVirtualizerKnobChangeListener = Croller.onProgressChangedListener { progress ->
-        presenter.setVirtualizerStrength(progress)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_equalizer

@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import dev.olog.presentation.R;
+import kotlin.jvm.JvmName;
 
 public class Croller extends View {
 
@@ -21,19 +22,11 @@ public class Croller extends View {
     private Paint textPaint, circlePaint, circlePaint2, linePaint;
     private float currdeg = 0, deg = 3, downdeg = 0;
 
-    private boolean isContinuous = false;
-
     private int backCircleColor = Color.parseColor("#222222");
     private int mainCircleColor = Color.parseColor("#000000");
     private int indicatorColor = Color.parseColor("#FFA036");
     private int progressPrimaryColor = Color.parseColor("#FFA036");
     private int progressSecondaryColor = Color.parseColor("#111111");
-
-    private int backCircleDisabledColor = Color.parseColor("#82222222");
-    private int mainCircleDisabledColor = Color.parseColor("#82000000");
-    private int indicatorDisabledColor = Color.parseColor("#82FFA036");
-    private int progressPrimaryDisabledColor = Color.parseColor("#82FFA036");
-    private int progressSecondaryDisabledColor = Color.parseColor("#82111111");
 
     private float progressPrimaryCircleSize = -1;
     private float progressSecondaryCircleSize = -1;
@@ -45,8 +38,8 @@ public class Croller extends View {
     private float backCircleRadius = -1;
     private float progressRadius = -1;
 
-    private int max = 25;
-    private int min = 1;
+    protected int innerMax = 25;
+    protected int innerMin = 1;
 
     private float indicatorWidth = 7;
 
@@ -62,42 +55,12 @@ public class Croller extends View {
     private int startOffset2 = 0;
     private int sweepAngle = -1;
 
-    private boolean isEnabled = true;
-
-    private boolean isAntiClockwise = false;
-
-    private boolean startEventSent = false;
-
     RectF oval;
 
-    private onProgressChangedListener mProgressChangeListener;
-    private OnCrollerChangeListener mCrollerChangeListener;
-
-    public interface onProgressChangedListener {
-        void onProgressChanged(int progress);
-    }
-
-    public void setOnProgressChangedListener(onProgressChangedListener mProgressChangeListener) {
-        this.mProgressChangeListener = mProgressChangeListener;
-    }
-
-    public void setOnCrollerChangeListener(OnCrollerChangeListener mCrollerChangeListener) {
-        this.mCrollerChangeListener = mCrollerChangeListener;
-    }
-
-    public Croller(Context context) {
-        super(context);
-        init();
-    }
+    protected OnCrollerProgressChangedListener mProgressChangeListener;
 
     public Croller(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initXMLAttrs(context, attrs);
-        init();
-    }
-
-    public Croller(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         initXMLAttrs(context, attrs);
         init();
     }
@@ -127,17 +90,10 @@ public class Croller extends View {
         linePaint.setAntiAlias(true);
         linePaint.setStrokeWidth(indicatorWidth);
 
-        if (isEnabled) {
-            circlePaint2.setColor(progressPrimaryColor);
-            circlePaint.setColor(progressSecondaryColor);
-            linePaint.setColor(indicatorColor);
-            textPaint.setColor(labelColor);
-        } else {
-            circlePaint2.setColor(progressPrimaryDisabledColor);
-            circlePaint.setColor(progressSecondaryDisabledColor);
-            linePaint.setColor(indicatorDisabledColor);
-            textPaint.setColor(labelDisabledColor);
-        }
+        circlePaint2.setColor(progressPrimaryColor);
+        circlePaint.setColor(progressSecondaryColor);
+        linePaint.setColor(indicatorColor);
+        textPaint.setColor(labelColor);
 
         oval = new RectF();
 
@@ -171,8 +127,7 @@ public class Croller extends View {
     private void initXMLAttrs(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Croller);
 
-        setEnabled(a.getBoolean(R.styleable.Croller_enabled, true));
-        setProgress(a.getInt(R.styleable.Croller_start_progress, 1));
+        setInnerProgress(a.getInt(R.styleable.Croller_start_progress, 1));
         setLabel(a.getString(R.styleable.Croller_label));
 
         setBackCircleColor(a.getColor(R.styleable.Croller_back_circle_color, backCircleColor));
@@ -181,32 +136,23 @@ public class Croller extends View {
         setProgressPrimaryColor(a.getColor(R.styleable.Croller_progress_primary_color, progressPrimaryColor));
         setProgressSecondaryColor(a.getColor(R.styleable.Croller_progress_secondary_color, progressSecondaryColor));
 
-        setBackCircleDisabledColor(a.getColor(R.styleable.Croller_back_circle_disable_color, backCircleDisabledColor));
-        setMainCircleDisabledColor(a.getColor(R.styleable.Croller_main_circle_disable_color, mainCircleDisabledColor));
-        setIndicatorDisabledColor(a.getColor(R.styleable.Croller_indicator_disable_color, indicatorDisabledColor));
-        setProgressPrimaryDisabledColor(a.getColor(R.styleable.Croller_progress_primary_disable_color, progressPrimaryDisabledColor));
-        setProgressSecondaryDisabledColor(a.getColor(R.styleable.Croller_progress_secondary_disable_color, progressSecondaryDisabledColor));
-
         setLabelSize(a.getDimension(R.styleable.Croller_label_size, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 labelSize, getResources().getDisplayMetrics())));
         setLabelColor(a.getColor(R.styleable.Croller_label_color, labelColor));
-        setlabelDisabledColor(a.getColor(R.styleable.Croller_label_disabled_color, labelDisabledColor));
         setLabelFont(a.getString(R.styleable.Croller_label_font));
         setLabelStyle(a.getInt(R.styleable.Croller_label_style, 0));
         setIndicatorWidth(a.getFloat(R.styleable.Croller_indicator_width, 7));
-        setIsContinuous(a.getBoolean(R.styleable.Croller_is_continuous, false));
         setProgressPrimaryCircleSize(a.getFloat(R.styleable.Croller_progress_primary_circle_size, -1));
         setProgressSecondaryCircleSize(a.getFloat(R.styleable.Croller_progress_secondary_circle_size, -1));
         setProgressPrimaryStrokeWidth(a.getFloat(R.styleable.Croller_progress_primary_stroke_width, 25));
         setProgressSecondaryStrokeWidth(a.getFloat(R.styleable.Croller_progress_secondary_stroke_width, 10));
         setSweepAngle(a.getInt(R.styleable.Croller_sweep_angle, -1));
         setStartOffset(a.getInt(R.styleable.Croller_start_offset, 30));
-        setMax(a.getInt(R.styleable.Croller_max, 25));
-        setMin(a.getInt(R.styleable.Croller_min, 1));
-        deg = min + 2;
+        innerMax = a.getInt(R.styleable.Croller_max, 25);
+        innerMin = a.getInt(R.styleable.Croller_min, 1);
+        deg = innerMin + 2;
         setBackCircleRadius(a.getFloat(R.styleable.Croller_back_circle_radius, -1));
         setProgressRadius(a.getFloat(R.styleable.Croller_progress_radius, -1));
-        setAntiClockwise(a.getBoolean(R.styleable.Croller_anticlockwise, false));
         a.recycle();
     }
 
@@ -256,8 +202,8 @@ public class Croller extends View {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
-        midx = getWidth() / 2;
-        midy = getHeight() / 2;
+        midx = getWidth() / 2f;
+        midy = getHeight() / 2f;
     }
 
     @Override
@@ -267,179 +213,77 @@ public class Croller extends View {
         if (mProgressChangeListener != null)
             mProgressChangeListener.onProgressChanged((int) (deg - 2));
 
-        if (mCrollerChangeListener != null)
-            mCrollerChangeListener.onProgressChanged(this, (int) (deg - 2));
+        circlePaint2.setColor(progressPrimaryColor);
+        circlePaint.setColor(progressSecondaryColor);
+        linePaint.setColor(indicatorColor);
+        textPaint.setColor(labelColor);
 
-        if (isEnabled) {
-            circlePaint2.setColor(progressPrimaryColor);
-            circlePaint.setColor(progressSecondaryColor);
-            linePaint.setColor(indicatorColor);
-            textPaint.setColor(labelColor);
-        } else {
-            circlePaint2.setColor(progressPrimaryDisabledColor);
-            circlePaint.setColor(progressSecondaryDisabledColor);
-            linePaint.setColor(indicatorDisabledColor);
-            textPaint.setColor(labelDisabledColor);
+        startOffset2 = startOffset - 15;
+
+        linePaint.setStrokeWidth(indicatorWidth);
+        textPaint.setTextSize(labelSize);
+
+        int radius = (int) (Math.min(midx, midy) * ((float) 14.5 / 16));
+
+        if (sweepAngle == -1) {
+            sweepAngle = 360 - (2 * startOffset2);
         }
 
-        if (!isContinuous) {
-
-            startOffset2 = startOffset - 15;
-
-            linePaint.setStrokeWidth(indicatorWidth);
-            textPaint.setTextSize(labelSize);
-
-            int radius = (int) (Math.min(midx, midy) * ((float) 14.5 / 16));
-
-            if (sweepAngle == -1) {
-                sweepAngle = 360 - (2 * startOffset2);
-            }
-
-            if (mainCircleRadius == -1) {
-                mainCircleRadius = radius * ((float) 11 / 15);
-            }
-            if (backCircleRadius == -1) {
-                backCircleRadius = radius * ((float) 13 / 15);
-            }
-            if (progressRadius == -1) {
-                progressRadius = radius;
-            }
-
-            float x, y;
-            float deg2 = Math.max(3, deg);
-            float deg3 = Math.min(deg, max + 2);
-            for (int i = (int) (deg2); i < max + 3; i++) {
-                float tmp = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * (float) i / (max + 5);
-
-                if (isAntiClockwise) {
-                    tmp = 1.0f - tmp;
-                }
-
-                x = midx + (float) (progressRadius * Math.sin(2 * Math.PI * (1.0 - tmp)));
-                y = midy + (float) (progressRadius * Math.cos(2 * Math.PI * (1.0 - tmp)));
-                if (progressSecondaryCircleSize == -1)
-                    canvas.drawCircle(x, y, ((float) radius / 30 * ((float) 20 / max) * ((float) sweepAngle / 270)), circlePaint);
-                else
-                    canvas.drawCircle(x, y, progressSecondaryCircleSize, circlePaint);
-            }
-            for (int i = 3; i <= deg3; i++) {
-                float tmp = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * (float) i / (max + 5);
-
-                if (isAntiClockwise) {
-                    tmp = 1.0f - tmp;
-                }
-
-                x = midx + (float) (progressRadius * Math.sin(2 * Math.PI * (1.0 - tmp)));
-                y = midy + (float) (progressRadius * Math.cos(2 * Math.PI * (1.0 - tmp)));
-                if (progressPrimaryCircleSize == -1)
-                    canvas.drawCircle(x, y, (progressRadius / 15 * ((float) 20 / max) * ((float) sweepAngle / 270)), circlePaint2);
-                else
-                    canvas.drawCircle(x, y, progressPrimaryCircleSize, circlePaint2);
-            }
-
-            float tmp2 = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * deg / (max + 5);
-
-            if (isAntiClockwise) {
-                tmp2 = 1.0f - tmp2;
-            }
-
-            float x1 = midx + (float) (radius * ((float) 2 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
-            float y1 = midy + (float) (radius * ((float) 2 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
-            float x2 = midx + (float) (radius * ((float) 3 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
-            float y2 = midy + (float) (radius * ((float) 3 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
-
-            if (isEnabled)
-                circlePaint.setColor(backCircleColor);
-            else
-                circlePaint.setColor(backCircleDisabledColor);
-            canvas.drawCircle(midx, midy, backCircleRadius, circlePaint);
-            if (isEnabled)
-                circlePaint.setColor(mainCircleColor);
-            else
-                circlePaint.setColor(mainCircleDisabledColor);
-            canvas.drawCircle(midx, midy, mainCircleRadius, circlePaint);
-            canvas.drawText(label, midx, midy + (float) (radius * 1.1)-textPaint.getFontMetrics().descent, textPaint);
-            canvas.drawLine(x1, y1, x2, y2, linePaint);
-
-        } else {
-
-            int radius = (int) (Math.min(midx, midy) * ((float) 14.5 / 16));
-
-            if (sweepAngle == -1) {
-                sweepAngle = 360 - (2 * startOffset);
-            }
-
-            if (mainCircleRadius == -1) {
-                mainCircleRadius = radius * ((float) 11 / 15);
-            }
-            if (backCircleRadius == -1) {
-                backCircleRadius = radius * ((float) 13 / 15);
-            }
-            if (progressRadius == -1) {
-                progressRadius = radius;
-            }
-
-            circlePaint.setStrokeWidth(progressSecondaryStrokeWidth);
-            circlePaint.setStyle(Paint.Style.STROKE);
-            circlePaint2.setStrokeWidth(progressPrimaryStrokeWidth);
-            circlePaint2.setStyle(Paint.Style.STROKE);
-            linePaint.setStrokeWidth(indicatorWidth);
-            textPaint.setTextSize(labelSize);
-
-            float deg3 = Math.min(deg, max + 2);
-
-            oval.set(midx - progressRadius, midy - progressRadius, midx + progressRadius, midy + progressRadius);
-
-            canvas.drawArc(oval, (float) 90 + startOffset, (float) sweepAngle, false, circlePaint);
-            if (isAntiClockwise) {
-                canvas.drawArc(oval, (float) 90 - startOffset, -1 * ((deg3 - 2) * ((float) sweepAngle / max)), false, circlePaint2);
-            } else {
-                canvas.drawArc(oval, (float) 90 + startOffset, ((deg3 - 2) * ((float) sweepAngle / max)), false, circlePaint2);
-            }
-
-            float tmp2 = ((float) startOffset / 360) + (((float) sweepAngle / 360) * ((deg - 2) / (max)));
-
-            if (isAntiClockwise) {
-                tmp2 = 1.0f - tmp2;
-            }
-
-            float x1 = midx + (float) (radius * ((float) 2 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
-            float y1 = midy + (float) (radius * ((float) 2 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
-            float x2 = midx + (float) (radius * ((float) 3 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
-            float y2 = midy + (float) (radius * ((float) 3 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
-
-            circlePaint.setStyle(Paint.Style.FILL);
-
-            if (isEnabled)
-                circlePaint.setColor(backCircleColor);
-            else
-                circlePaint.setColor(backCircleDisabledColor);
-            canvas.drawCircle(midx, midy, backCircleRadius, circlePaint);
-            if (isEnabled)
-                circlePaint.setColor(mainCircleColor);
-            else
-                circlePaint.setColor(mainCircleDisabledColor);
-            canvas.drawCircle(midx, midy, mainCircleRadius, circlePaint);
-            canvas.drawText(label, midx, midy + (float) (radius * 1.1)-textPaint.getFontMetrics().descent, textPaint);
-            canvas.drawLine(x1, y1, x2, y2, linePaint);
+        if (mainCircleRadius == -1) {
+            mainCircleRadius = radius * ((float) 11 / 15);
         }
+        if (backCircleRadius == -1) {
+            backCircleRadius = radius * ((float) 13 / 15);
+        }
+        if (progressRadius == -1) {
+            progressRadius = radius;
+        }
+
+        float x, y;
+        float deg2 = Math.max(3, deg);
+        float deg3 = Math.min(deg, innerMax + 2);
+        for (int i = (int) (deg2); i < innerMax + 3; i++) {
+            float tmp = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * (float) i / (innerMax + 5);
+
+            x = midx + (float) (progressRadius * Math.sin(2 * Math.PI * (1.0 - tmp)));
+            y = midy + (float) (progressRadius * Math.cos(2 * Math.PI * (1.0 - tmp)));
+            if (progressSecondaryCircleSize == -1)
+                canvas.drawCircle(x, y, ((float) radius / 30 * ((float) 20 / innerMax) * ((float) sweepAngle / 270)), circlePaint);
+            else
+                canvas.drawCircle(x, y, progressSecondaryCircleSize, circlePaint);
+        }
+        for (int i = 3; i <= deg3; i++) {
+            float tmp = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * (float) i / (innerMax + 5);
+
+            x = midx + (float) (progressRadius * Math.sin(2 * Math.PI * (1.0 - tmp)));
+            y = midy + (float) (progressRadius * Math.cos(2 * Math.PI * (1.0 - tmp)));
+            if (progressPrimaryCircleSize == -1)
+                canvas.drawCircle(x, y, (progressRadius / 15 * ((float) 20 / innerMax) * ((float) sweepAngle / 270)), circlePaint2);
+            else
+                canvas.drawCircle(x, y, progressPrimaryCircleSize, circlePaint2);
+        }
+
+        float tmp2 = ((float) startOffset2 / 360) + ((float) sweepAngle / 360) * deg / (innerMax + 5);
+
+        float x1 = midx + (float) (radius * ((float) 2 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
+        float y1 = midy + (float) (radius * ((float) 2 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
+        float x2 = midx + (float) (radius * ((float) 3 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
+        float y2 = midy + (float) (radius * ((float) 3 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
+
+        circlePaint.setColor(backCircleColor);
+        canvas.drawCircle(midx, midy, backCircleRadius, circlePaint);
+        circlePaint.setColor(mainCircleColor);
+        canvas.drawCircle(midx, midy, mainCircleRadius, circlePaint);
+        canvas.drawText(label, midx, midy + (float) (radius * 1.1)-textPaint.getFontMetrics().descent, textPaint);
+        canvas.drawLine(x1, y1, x2, y2, linePaint);
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 
-        if (!isEnabled)
-            return false;
-
-        if (Utils.getDistance(e.getX(), e.getY(), midx, midy) > Math.max(mainCircleRadius, Math.max(backCircleRadius, progressRadius))) {
-            if (startEventSent && mCrollerChangeListener != null) {
-                mCrollerChangeListener.onStopTrackingTouch(this);
-                startEventSent = false;
-            }
-            return super.onTouchEvent(e);
-        }
-
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            getParent().requestDisallowInterceptTouchEvent(true);
 
             float dx = e.getX() - midx;
             float dy = e.getY() - midy;
@@ -448,12 +292,7 @@ public class Croller extends View {
             if (downdeg < 0) {
                 downdeg += 360;
             }
-            downdeg = (float) Math.floor((downdeg / 360) * (max + 5));
-
-            if (mCrollerChangeListener != null) {
-                mCrollerChangeListener.onStartTrackingTouch(this);
-                startEventSent = true;
-            }
+            downdeg = (float) Math.floor((downdeg / 360) * (innerMax + 5));
 
             return true;
         }
@@ -465,43 +304,25 @@ public class Croller extends View {
             if (currdeg < 0) {
                 currdeg += 360;
             }
-            currdeg = (float) Math.floor((currdeg / 360) * (max + 5));
+            currdeg = (float) Math.floor((currdeg / 360) * (innerMax + 5));
 
-            if ((currdeg / (max + 4)) > 0.75f && ((downdeg - 0) / (max + 4)) < 0.25f) {
-                if (isAntiClockwise) {
-                    deg++;
-                    if (deg > max + 2) {
-                        deg = max + 2;
+            if ((currdeg / (innerMax + 4)) > 0.75f && ((downdeg - 0) / (innerMax + 4)) < 0.25f) {
+                deg--;
+                if (deg < (innerMin + 2)) {
+                    deg = (innerMin + 2);
                     }
-                } else {
-                    deg--;
-                    if (deg < (min + 2)) {
-                        deg = (min + 2);
-                    }
-                }
-            } else if ((downdeg / (max + 4)) > 0.75f && ((currdeg - 0) / (max + 4)) < 0.25f) {
-                if (isAntiClockwise) {
-                    deg--;
-                    if (deg < (min + 2)) {
-                        deg = (min + 2);
-                    }
-                } else {
-                    deg++;
-                    if (deg > max + 2) {
-                        deg = max + 2;
-                    }
+            } else if ((downdeg / (innerMax + 4)) > 0.75f && ((currdeg - 0) / (innerMax + 4)) < 0.25f) {
+                deg++;
+                if (deg > innerMax + 2) {
+                    deg = innerMax + 2;
                 }
             } else {
-                if (isAntiClockwise) {
-                    deg -= (currdeg - downdeg);
-                } else {
-                    deg += (currdeg - downdeg);
+                deg += (currdeg - downdeg);
+                if (deg > innerMax + 2) {
+                    deg = innerMax + 2;
                 }
-                if (deg > max + 2) {
-                    deg = max + 2;
-                }
-                if (deg < (min + 2)) {
-                    deg = (min + 2);
+                if (deg < (innerMin + 2)) {
+                    deg = (innerMin + 2);
                 }
             }
 
@@ -512,37 +333,17 @@ public class Croller extends View {
 
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
-            if (mCrollerChangeListener != null) {
-                mCrollerChangeListener.onStopTrackingTouch(this);
-                startEventSent = false;
-            }
+            getParent().requestDisallowInterceptTouchEvent(false);
             return true;
         }
         return super.onTouchEvent(e);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (getParent() != null && event.getAction() == MotionEvent.ACTION_DOWN) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.isEnabled = enabled;
-        invalidate();
-    }
-
-    public int getProgress() {
+    protected int getInnerProgress() {
         return (int) (deg - 2);
     }
 
-    public void setProgress(int x) {
+    protected void setInnerProgress(int x) {
         deg = x + 2;
         invalidate();
     }
@@ -598,51 +399,6 @@ public class Croller extends View {
 
     public void setProgressSecondaryColor(int progressSecondaryColor) {
         this.progressSecondaryColor = progressSecondaryColor;
-        invalidate();
-    }
-
-    public int getBackCircleDisabledColor() {
-        return backCircleDisabledColor;
-    }
-
-    public void setBackCircleDisabledColor(int backCircleDisabledColor) {
-        this.backCircleDisabledColor = backCircleDisabledColor;
-        invalidate();
-    }
-
-    public int getMainCircleDisabledColor() {
-        return mainCircleDisabledColor;
-    }
-
-    public void setMainCircleDisabledColor(int mainCircleDisabledColor) {
-        this.mainCircleDisabledColor = mainCircleDisabledColor;
-        invalidate();
-    }
-
-    public int getIndicatorDisabledColor() {
-        return indicatorDisabledColor;
-    }
-
-    public void setIndicatorDisabledColor(int indicatorDisabledColor) {
-        this.indicatorDisabledColor = indicatorDisabledColor;
-        invalidate();
-    }
-
-    public int getProgressPrimaryDisabledColor() {
-        return progressPrimaryDisabledColor;
-    }
-
-    public void setProgressPrimaryDisabledColor(int progressPrimaryDisabledColor) {
-        this.progressPrimaryDisabledColor = progressPrimaryDisabledColor;
-        invalidate();
-    }
-
-    public int getProgressSecondaryDisabledColor() {
-        return progressSecondaryDisabledColor;
-    }
-
-    public void setProgressSecondaryDisabledColor(int progressSecondaryDisabledColor) {
-        this.progressSecondaryDisabledColor = progressSecondaryDisabledColor;
         invalidate();
     }
 
@@ -702,15 +458,6 @@ public class Croller extends View {
         invalidate();
     }
 
-    public boolean isContinuous() {
-        return isContinuous;
-    }
-
-    public void setIsContinuous(boolean isContinuous) {
-        this.isContinuous = isContinuous;
-        invalidate();
-    }
-
     public float getProgressPrimaryCircleSize() {
         return progressPrimaryCircleSize;
     }
@@ -765,34 +512,6 @@ public class Croller extends View {
         invalidate();
     }
 
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        if (max < min) {
-            this.max = min;
-        } else {
-            this.max = max;
-        }
-        invalidate();
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        if (min < 0) {
-            this.min = 0;
-        } else if (min > max) {
-            this.min = max;
-        } else {
-            this.min = min;
-        }
-        invalidate();
-    }
-
     public float getMainCircleRadius() {
         return mainCircleRadius;
     }
@@ -820,12 +539,4 @@ public class Croller extends View {
         invalidate();
     }
 
-    public boolean isAntiClockwise() {
-        return isAntiClockwise;
-    }
-
-    public void setAntiClockwise(boolean antiClockwise) {
-        isAntiClockwise = antiClockwise;
-        invalidate();
-    }
 }
