@@ -4,8 +4,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.spotify.SpotifyAlbum
 import dev.olog.core.entity.spotify.SpotifyAlbumType
 import dev.olog.core.entity.spotify.SpotifyTrack
+import dev.olog.core.entity.track.Album
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.gateway.spotify.SpotifyGateway
+import dev.olog.core.gateway.track.AlbumGateway
 import dev.olog.core.gateway.track.ArtistGateway
 import dev.olog.data.shared.retrofit.IoResult
 import dev.olog.data.shared.retrofit.fix
@@ -26,12 +28,10 @@ import kotlin.NoSuchElementException
 
 internal class SpotifyGatewayImpl @Inject constructor(
     private val artistGateway: ArtistGateway,
+    private val albumGateway: AlbumGateway,
     private val service: SpotifyService,
     private val imageDao: SpotifyImagesDao
 ) : SpotifyGateway {
-
-    private val pattern = "yyyy-MM"
-    private val dateFormatter = SimpleDateFormat(pattern, Locale.US)
 
     override suspend fun getArtistAlbums(
         artistMediaId: MediaId.Category,
@@ -42,9 +42,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
         return findSpotifyArtistBestMatch(artist)
             .flatMap { service.getArtistAlbums(it.id, type.value) }
             .map { artistAlbums ->
-                artistAlbums.items.map { it.toDomain() }
-                    .distinctBy { it.title }
-                    .sortedByDescending { it.releaseDate }
+                artistAlbums.items.map { it.toDomain() }.distinctBy { it.title }
             }
             .fix(orDefault = emptyList())
             .also { albums ->
@@ -70,19 +68,44 @@ internal class SpotifyGatewayImpl @Inject constructor(
         return imageDao.getImage(spotifyUri)
     }
 
+    override suspend fun getAlbumTracks(albumMediaId: MediaId.Category): List<SpotifyTrack> {
+        val album = albumGateway.getByParam(albumMediaId.categoryId.toLong())!!
+
+        return findSpotifyAlbumBestMatch(album)
+            .flatMap { service.getAlbumTracks(it.id) }
+            .map { it.items }
+            .map { tracks ->
+                tracks.map { it.toDomain() }
+            }.fix(orDefault = emptyList())
+            .also { tracks ->
+                imageDao.insertImages(tracks.map { SpotifyImageEntity(it.uri, it.image) })
+            }
+    }
+
     private suspend fun findSpotifyArtistBestMatch(artist: Artist): IoResult<RemoteSpotifyArtist> {
         try {
-            return service.searchArtist(artist.name)
+            return service.searchArtist("artist:${artist.name}")
                 .map { it.artists.items }
                 .map { artists ->
-                    val bestArtistIndex =
-                        FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
-                    artists[bestArtistIndex]
+                    val bestIndex = FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
+                    artists[bestIndex]
                 }
         } catch (ex: NoSuchElementException) {
             return IoResult.Error.Generic(ex)
         }
+    }
 
+    private suspend fun findSpotifyAlbumBestMatch(album: Album): IoResult<RemoteSpotifyAlbum> {
+        try {
+            return service.searchAlbum("album:${album.title} artist:${album.artist}")
+                .map { it.albums.items }
+                .map { albums ->
+                    val bestIndex = FuzzySearch.extractOne(album.title, albums.map { it.name }).index
+                    albums[bestIndex]
+                }
+        } catch (ex: NoSuchElementException) {
+            return IoResult.Error.Generic(ex)
+        }
     }
 
     private fun RemoteSpotifyTrack.toDomain(): SpotifyTrack {
@@ -90,20 +113,22 @@ internal class SpotifyGatewayImpl @Inject constructor(
             id = this.id,
             name = this.name,
             uri = this.uri,
-            image = this.album.images.maxBy { it.height }!!.url
+            image = this.album?.images?.maxBy { it.height }?.url ?: "",
+            discNumber = this.disc_number,
+            trackNumber = this.track_number,
+            duration = this.duration_ms.toLong(),
+            isExplicit = this.explicit
         )
     }
 
     private fun RemoteSpotifyAlbum.toDomain(): SpotifyAlbum {
-        val date = dateFormatter.parse(this.release_date.take(pattern.length))!!.time
         return SpotifyAlbum(
             id = this.id,
             title = this.name,
             albumType = this.album_type.mapAlbumType(),
             image = this.images.maxBy { it.height }!!.url,
             songs = this.total_tracks,
-            uri = this.uri,
-            releaseDate = date
+            uri = this.uri
         )
     }
 

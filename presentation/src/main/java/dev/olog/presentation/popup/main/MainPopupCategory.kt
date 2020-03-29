@@ -50,5 +50,6 @@ internal fun PresentationIdCategory.toMainPopupCategory(): MainPopupCategory {
         PresentationIdCategory.PODCASTS -> MainPopupCategory.PODCASTS
         PresentationIdCategory.PODCASTS_AUTHORS -> MainPopupCategory.PODCASTS_AUTHORS
         PresentationIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(this)
+        PresentationIdCategory.SPOTIFY_TRACK -> throwNotHandled(this)
     }
 }

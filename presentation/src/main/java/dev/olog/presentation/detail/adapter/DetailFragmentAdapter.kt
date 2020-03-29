@@ -238,13 +238,14 @@ internal class DetailFragmentAdapter(
             holder.imageView?.loadSongImage(item.mediaId.toDomain())
             firstText.text = item.title
             secondText?.text = item.subtitle
-            explicit?.onItemChanged(item.title)
+            explicit?.onItemChanged(item.title, item.isExplicit)
 
             bindPodcast(this, item)
             bindPodcastProgressBarTint(this, item)
         }
         when (holder.itemViewType){
             R.layout.item_detail_song_with_track,
+            R.layout.item_detail_song_with_track_spotify,
             R.layout.item_detail_song_with_track_and_image -> {
                 val trackNumber = if (item.idInPlaylist < 1){
                     "-"

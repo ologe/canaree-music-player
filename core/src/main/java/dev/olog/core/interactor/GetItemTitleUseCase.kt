@@ -35,6 +35,7 @@ class GetItemTitleUseCase @Inject constructor(
             SONGS -> throwNotHandled(mediaId)
             PODCASTS -> throwNotHandled(mediaId)
             SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
+            SPOTIFY_TRACK -> throwNotHandled(mediaId)
         }
     }
 

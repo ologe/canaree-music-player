@@ -12,5 +12,6 @@ enum class MediaIdCategory {
     PODCASTS,
     PODCASTS_AUTHORS,
 
-    SPOTIFY_ALBUMS
+    SPOTIFY_ALBUMS,
+    SPOTIFY_TRACK
 }

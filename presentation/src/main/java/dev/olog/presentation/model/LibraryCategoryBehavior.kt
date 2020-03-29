@@ -24,6 +24,7 @@ data class LibraryCategoryBehavior(
             GENRES -> R.string.category_genres
             PODCASTS -> R.string.category_podcasts
             SPOTIFY_ALBUMS -> throwNotHandled(category)
+            SPOTIFY_TRACK -> throwNotHandled(category)
         }
         return context.getString(stringId)
     }

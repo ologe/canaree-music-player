@@ -9,8 +9,7 @@ data class SpotifyAlbum(
     val image: String,
     val songs: Int,
     val albumType: SpotifyAlbumType,
-    val uri: String,
-    val releaseDate: Long
+    val uri: String
 ) {
 
     val mediaId: MediaId.Category

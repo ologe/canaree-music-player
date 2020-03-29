@@ -34,6 +34,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
+            MediaIdCategory.SPOTIFY_TRACK -> throwNotHandled(mediaId)
         }
     }
 

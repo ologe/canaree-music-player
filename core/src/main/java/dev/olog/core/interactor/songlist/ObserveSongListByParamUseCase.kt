@@ -35,6 +35,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
+            MediaIdCategory.SPOTIFY_TRACK -> throwNotHandled(mediaId)
         }
     }
 

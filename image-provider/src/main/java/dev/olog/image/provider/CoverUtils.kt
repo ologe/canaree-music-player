@@ -104,7 +104,8 @@ object CoverUtils {
         MediaIdCategory.FOLDERS -> R.drawable.placeholder_folder
         MediaIdCategory.PLAYLISTS,
         MediaIdCategory.PODCASTS_PLAYLIST -> R.drawable.placeholder_playlist
-        MediaIdCategory.SONGS -> R.drawable.placeholder_musical_note
+        MediaIdCategory.SONGS,
+        MediaIdCategory.SPOTIFY_TRACK -> R.drawable.placeholder_musical_note
         MediaIdCategory.ALBUMS,
         MediaIdCategory.SPOTIFY_ALBUMS -> R.drawable.placeholder_album
         MediaIdCategory.ARTISTS,

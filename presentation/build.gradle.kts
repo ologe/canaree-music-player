@@ -78,6 +78,7 @@ dependencies {
     implementation(Libraries.Utils.scrollHelper)
     implementation(Libraries.Utils.colorDesaturation)
     implementation(Libraries.Utils.lastFmBinding)
+    implementation(Libraries.Utils.fuzzy)
 
     implementation(Libraries.Debug.timber)
 
