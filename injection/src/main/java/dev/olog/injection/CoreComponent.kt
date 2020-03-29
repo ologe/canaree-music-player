@@ -13,6 +13,7 @@ import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.spotify.SpotifyGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.prefs.*
 import dev.olog.core.schedulers.Schedulers
@@ -80,6 +81,8 @@ interface CoreComponent {
     fun podcastArtistGateway(): PodcastAuthorGateway
 
     fun equalizerGateway(): EqualizerGateway
+
+    fun spotifyGateway(): SpotifyGateway
 
     fun encrypter(): IEncrypter
 

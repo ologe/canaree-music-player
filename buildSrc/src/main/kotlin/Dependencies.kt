@@ -127,6 +127,7 @@ object Libraries {
         internal const val leak_canary = "2.2"
         internal const val stetho = "1.5.1"
         internal const val timber = "4.7.1"
+        internal const val chucker = "3.1.2"
 
         //    firebase
         internal const val firebase_core = "17.2.3"
@@ -243,6 +244,8 @@ object Libraries {
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:$leak_canary"
         const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
         const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+        const val chucker = "com.github.ChuckerTeam.Chucker:library:${Versions.chucker}"
+        const val chuckerNoOp = "com.github.ChuckerTeam.Chucker:library-no-op:${Versions.chucker}"
     }
 
     object UX {

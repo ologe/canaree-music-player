@@ -13,3 +13,6 @@ val Properties.lastFmSecret: String
 
 val Properties.aesPassword: String
     get() = getProperty("aes_password")
+
+val Properties.spotifyEncodedClient: String
+    get() = getProperty("spotify_encoded_client")

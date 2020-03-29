@@ -1,11 +1,11 @@
-package dev.olog.data.utils
+package dev.olog.data.shared
 
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.yield
 import retrofit2.Response
 import timber.log.Timber
 
-internal suspend fun <T> networkCall(repeatTimes: Int = 3, call: suspend () -> Response<T>): T? {
+@Deprecated(message = "replace with dev.olog.data.shared.retrofit.Result")
+suspend fun <T> networkCall(repeatTimes: Int = 3, call: suspend () -> Response<T>): T? {
     var errorCode: Int? = null
     var errorMessage: String? = null
 
@@ -22,7 +22,8 @@ internal suspend fun <T> networkCall(repeatTimes: Int = 3, call: suspend () -> R
     throw InvalidNetworkCall(errorCode, errorMessage)
 }
 
-internal suspend fun <T> safeNetworkCall(
+@Deprecated(message = "replace with dev.olog.data.shared.retrofit.Result")
+suspend fun <T> safeNetworkCall(
     repeatTimes: Int = 3,
     call: suspend () -> Response<T>
 ): T? {

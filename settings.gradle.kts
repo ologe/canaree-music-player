@@ -19,6 +19,9 @@ include(":shared-widgets")
 include(":equalizer")
 include(":analytics")
 include(":lint")
+include(":data-spotify")
+include(":data-shared")
+
 
 val extensionAware = gradle as ExtensionAware
 extensionAware.extra["exoplayerRoot"] = "/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer"

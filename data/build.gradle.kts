@@ -47,6 +47,8 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":shared-android"))
     implementation(project(":prefs-keys"))
+    implementation(project(":data-shared"))
+    implementation(project(":data-spotify"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
@@ -61,11 +63,8 @@ dependencies {
     implementation(Libraries.X.Room.coroutines)
     kapt(Libraries.X.Room.kapt)
 
-    implementation(Libraries.Network.gson)
     implementation(Libraries.Network.retrofit)
-    implementation(Libraries.Network.retrofitGson)
-    implementation(Libraries.Network.okHttp)
-    implementation(Libraries.Network.okHttpInterceptor)
+    implementation(Libraries.Network.gson)
 
     implementation(Libraries.Utils.sqlContentResolver)
     implementation(Libraries.Utils.fuzzy)
