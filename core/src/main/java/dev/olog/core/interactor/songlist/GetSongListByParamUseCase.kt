@@ -6,6 +6,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 
@@ -32,6 +33,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS -> trackGateway.getAllPodcasts()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
         }
     }
 

@@ -65,7 +65,9 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_list_most_played,
             R.layout.item_detail_list_recently_added,
             R.layout.item_detail_list_related_artists,
-            R.layout.item_detail_list_albums -> {
+            R.layout.item_detail_list_albums,
+            R.layout.item_detail_list_spotify_albums,
+            R.layout.item_detail_list_spotify_singles -> {
                 setupNestedList.setupNestedList(viewType, viewHolder.itemView as RecyclerView)
             }
             R.layout.item_detail_podcast -> {

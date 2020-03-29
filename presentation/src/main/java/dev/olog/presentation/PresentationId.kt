@@ -19,6 +19,8 @@ enum class PresentationIdCategory {
     PODCASTS,
     PODCASTS_AUTHORS,
 
+    SPOTIFY_ALBUMS,
+
     HEADER
 }
 
@@ -122,6 +124,7 @@ fun MediaIdCategory.toPresentation() : PresentationIdCategory {
         MediaIdCategory.PODCASTS_PLAYLIST -> PresentationIdCategory.PODCASTS_PLAYLIST
         MediaIdCategory.PODCASTS -> PresentationIdCategory.PODCASTS
         MediaIdCategory.PODCASTS_AUTHORS -> PresentationIdCategory.PODCASTS_AUTHORS
+        MediaIdCategory.SPOTIFY_ALBUMS -> PresentationIdCategory.SPOTIFY_ALBUMS
     }
 }
 
@@ -136,6 +139,7 @@ fun PresentationIdCategory.toDomain() : MediaIdCategory {
         PresentationIdCategory.PODCASTS_PLAYLIST -> MediaIdCategory.PODCASTS_PLAYLIST
         PresentationIdCategory.PODCASTS -> MediaIdCategory.PODCASTS
         PresentationIdCategory.PODCASTS_AUTHORS -> MediaIdCategory.PODCASTS_AUTHORS
+        PresentationIdCategory.SPOTIFY_ALBUMS -> MediaIdCategory.SPOTIFY_ALBUMS
         PresentationIdCategory.HEADER -> throwNotHandled(this)
     }
 }

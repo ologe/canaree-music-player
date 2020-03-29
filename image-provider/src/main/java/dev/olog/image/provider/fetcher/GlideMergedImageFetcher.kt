@@ -22,7 +22,7 @@ import java.io.InputStream
 
 class GlideMergedImageFetcher(
     private val context: Context,
-    private val mediaId: MediaId,
+    private val mediaId: MediaId.Category,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway
@@ -47,7 +47,6 @@ class GlideMergedImageFetcher(
 
 
     private suspend fun makeFolderImage(folderId: String): InputStream? {
-//        val folderImage = ImagesFolderUtils.forFolder(context, dirPath) --contains current image
         val albumsId = folderGateway.getTrackListByParam(folderId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.FOLDER
@@ -56,14 +55,12 @@ class GlideMergedImageFetcher(
             context = context,
             albumIdList = albumsId,
             parentFolder = folderName,
-            itemId = "$folderId"
+            itemId = folderId
         )
         return file?.inputStream()
     }
 
     private suspend fun makeGenreImage(genreId: Long): InputStream? {
-//        ImagesFolderUtils.forGenre(context, id) --contains current image
-
         val albumsId = genreGateway.getTrackListByParam(genreId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.GENRE
@@ -81,7 +78,6 @@ class GlideMergedImageFetcher(
             return null
         }
 
-//        ImagesFolderUtils.forPlaylist(context, id) --contains current image
         val albumsId = playlistGateway.getTrackListByParam(playlistId).map { it.albumId }
 
         val folderName = ImagesFolderUtils.PLAYLIST

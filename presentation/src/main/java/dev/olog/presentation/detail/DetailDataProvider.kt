@@ -1,9 +1,11 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
+import dev.olog.core.entity.spotify.SpotifyAlbumType
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.core.gateway.spotify.SpotifyGateway
 import dev.olog.core.gateway.track.*
 import dev.olog.core.interactor.mostplayed.ObserveMostPlayedSongsUseCase
 import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
@@ -41,7 +43,8 @@ internal class DetailDataProvider @Inject constructor(
     private val mostPlayedUseCase: ObserveMostPlayedSongsUseCase,
     private val relatedArtistsUseCase: ObserveRelatedArtistsUseCase,
     private val sortOrderUseCase: ObserveDetailSortUseCase,
-    private val observeSongListByParamUseCase: ObserveSongListByParamUseCase
+    private val observeSongListByParamUseCase: ObserveSongListByParamUseCase,
+    private val spotifyGateway: SpotifyGateway
 ) {
 
     private val resources = context.resources
@@ -65,7 +68,8 @@ internal class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             PresentationIdCategory.HEADER,
             PresentationIdCategory.SONGS,
-            PresentationIdCategory.PODCASTS -> throw IllegalArgumentException("invalid category=$mediaId")
+            PresentationIdCategory.PODCASTS,
+            PresentationIdCategory.SPOTIFY_ALBUMS -> throw IllegalArgumentException("invalid category=$mediaId")
         }.exhaustive
         return item.map { header ->
             listOf(
@@ -118,16 +122,52 @@ internal class DetailDataProvider @Inject constructor(
                 ) else listOf()
             },
             songListFlow,
-            observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() }
+            observeRelatedArtists(mediaId).map { if (it.isNotEmpty()) headers.relatedArtists(it.size > 10) else listOf() },
+            observeSpotifyArtistAlbums(mediaId).map { if (it.isNotEmpty()) headers.spotifyAlbums() else listOf() },
+            observeSpotifyArtistSingles(mediaId).map { if (it.isNotEmpty()) headers.spotifySingles() else listOf() }
         ) { array ->
             val list = array.toList()
-            val (header, siblings, mostPlayed, recentlyAdded, songList, relatedArtists) = list
+            val header = list[0]
+            val siblings = list[1]
+            val mostPlayed = list[2]
+            val recentlyAdded = list[3]
+            val songList = list[4]
+            val relatedArtists = list[5]
+            val spotifyAlbums = list[6]
+            val spotifySingles = list[7]
+
             if (mediaId.category == PresentationIdCategory.ARTISTS) {
-                header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists
+                header + siblings + mostPlayed + recentlyAdded + songList + relatedArtists + spotifyAlbums + spotifySingles
             } else {
                 header + mostPlayed + recentlyAdded + songList + relatedArtists + siblings
             }
         }
+    }
+    
+    fun observeSpotifyArtistAlbums(mediaId: PresentationId.Category): Flow<List<DisplayableAlbum>> {
+        if (mediaId.category == PresentationIdCategory.ARTISTS) {
+            return flow {
+                emit(emptyList())
+                val artistAlbums = spotifyGateway
+                    .getArtistAlbums(mediaId.toDomain(), SpotifyAlbumType.ALBUM)
+                    .map { it.toDetailDisplayableItem(resources) }
+                emit(artistAlbums)
+            }
+        }
+        return flowOf(emptyList())
+    }
+
+    fun observeSpotifyArtistSingles(mediaId: PresentationId.Category): Flow<List<DisplayableAlbum>> {
+        if (mediaId.category == PresentationIdCategory.ARTISTS) {
+            return flow {
+                emit(emptyList())
+                val artistAlbums = spotifyGateway
+                    .getArtistAlbums(mediaId.toDomain(), SpotifyAlbumType.SINGLE)
+                    .map { it.toDetailDisplayableItem(resources) }
+                emit(artistAlbums)
+            }
+        }
+        return flowOf(emptyList())
     }
 
     fun observeMostPlayed(mediaId: PresentationId.Category): Flow<List<DisplayableTrack>> {
@@ -168,7 +208,8 @@ internal class DetailDataProvider @Inject constructor(
 //        else ->
         PresentationIdCategory.SONGS,
         PresentationIdCategory.PODCASTS,
-        PresentationIdCategory.HEADER -> throw IllegalArgumentException("invalid category=$mediaId")
+        PresentationIdCategory.HEADER,
+        PresentationIdCategory.SPOTIFY_ALBUMS -> throw IllegalArgumentException("invalid category=$mediaId")
     }
 
     private fun createDurationFooter(songCount: Int, duration: Int): DisplayableItem {

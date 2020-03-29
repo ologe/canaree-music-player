@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.olog.data.model.db.*
+import dev.olog.data.spotify.db.SpotifyImageEntity
+import dev.olog.data.spotify.db.SpotifyImagesDao
 
 
 @Database(
@@ -40,7 +42,9 @@ import dev.olog.data.model.db.*
         PodcastPositionEntity::class,
 
         LyricsSyncAdjustmentEntity::class,
-        EqualizerPresetEntity::class
+        EqualizerPresetEntity::class,
+
+        SpotifyImageEntity::class
 
     ], version = 19, exportSchema = true
 )
@@ -76,4 +80,6 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun lyricsSyncAdjustmentDao(): LyricsSyncAdjustmentDao
     abstract fun equalizerPresetsDao(): EqualizerPresetsDao
+
+    abstract fun spotifyImagesDao(): SpotifyImagesDao
 }

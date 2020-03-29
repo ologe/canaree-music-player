@@ -20,7 +20,7 @@ object RepositoryHelperModule {
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(Migration_15_16, Migration_16_17, Migration_17_18, Migration_18_19)
-            .allowMainThreadQueries()
+            .allowMainThreadQueries() // TODO try to remove
             .build()
     }
 

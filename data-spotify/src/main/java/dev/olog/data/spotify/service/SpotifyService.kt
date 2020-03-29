@@ -17,7 +17,8 @@ interface SpotifyService {
 
     @GET("artists/{id}/albums?&country=US&limit=50")
     suspend fun getArtistAlbums(
-        @Path("id") artistId: String
+        @Path("id") artistId: String,
+        @Query("include_groups") type: String
     ): IoResult<RemoteSpotifyArtistAlbum>
 
     @GET("artists/{id}/top-tracks")

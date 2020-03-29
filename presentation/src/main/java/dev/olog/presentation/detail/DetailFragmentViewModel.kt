@@ -109,6 +109,14 @@ internal class DetailFragmentViewModel @Inject constructor(
         .distinctUntilChanged()
         .flowOn(schedulers.cpu)
 
+    val spotifySingle: Flow<List<DisplayableItem>> = dataProvider.observeSpotifyArtistSingles(mediaId)
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
+    val spotifyAlbums: Flow<List<DisplayableItem>> = dataProvider.observeSpotifyArtistAlbums(mediaId)
+        .distinctUntilChanged()
+        .flowOn(schedulers.cpu)
+
     val biography: Flow<String?> = biographyPublisher.asFlow()
 
     fun observeAllCurrentPositions() = podcastGateway.observeAllCurrentPositions()

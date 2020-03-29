@@ -8,10 +8,10 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory.ALBUMS
 import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import dev.olog.shared.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
-import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher as GlideOriginalImageFetcher1
 
 private val allowedCategories = listOf(ALBUMS)
 
@@ -38,7 +38,7 @@ internal class GlideOriginalImageLoader(
         // retrieve image store on track
         return ModelLoader.LoadData(
             MediaIdKey(mediaId),
-            GlideOriginalImageFetcher1(
+            GlideOriginalImageFetcher(
                 context = context,
                 mediaId = mediaId,
                 trackGateway = trackGateway

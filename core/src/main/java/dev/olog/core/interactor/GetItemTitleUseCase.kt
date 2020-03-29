@@ -34,6 +34,7 @@ class GetItemTitleUseCase @Inject constructor(
             PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.name }
             SONGS -> throwNotHandled(mediaId)
             PODCASTS -> throwNotHandled(mediaId)
+            SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
         }
     }
 

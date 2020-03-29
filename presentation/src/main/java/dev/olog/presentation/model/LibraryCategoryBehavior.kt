@@ -4,6 +4,7 @@ import android.content.Context
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.MediaIdCategory.*
 import dev.olog.presentation.R
+import dev.olog.shared.throwNotHandled
 
 data class LibraryCategoryBehavior(
     val category: MediaIdCategory,
@@ -22,6 +23,7 @@ data class LibraryCategoryBehavior(
             PODCASTS_AUTHORS -> R.string.category_podcast_authors
             GENRES -> R.string.category_genres
             PODCASTS -> R.string.category_podcasts
+            SPOTIFY_ALBUMS -> throwNotHandled(category)
         }
         return context.getString(stringId)
     }

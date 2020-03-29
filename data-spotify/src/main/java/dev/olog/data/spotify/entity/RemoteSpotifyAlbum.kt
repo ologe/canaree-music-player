@@ -6,5 +6,6 @@ data class RemoteSpotifyAlbum(
     val images: List<RemoteSpotifyImage>,
     val name: String,
     val release_date: String,
-    val total_tracks: Int
+    val total_tracks: Int,
+    val uri: String
 )

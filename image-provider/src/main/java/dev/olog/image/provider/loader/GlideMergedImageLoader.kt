@@ -28,17 +28,14 @@ class GlideMergedImageLoader(
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway,
     private val prefsGateway: AppPreferencesGateway
-) : ModelLoader<MediaId, InputStream> {
+) : ModelLoader<MediaId.Category, InputStream> {
 
-    override fun handles(mediaId: MediaId): Boolean {
-        return when (mediaId) {
-            is MediaId.Track -> false
-            is MediaId.Category -> mediaId.category in allowedCategories
-        }
+    override fun handles(mediaId: MediaId.Category): Boolean {
+        return mediaId.category in allowedCategories
     }
 
     override fun buildLoadData(
-        mediaId: MediaId,
+        mediaId: MediaId.Category,
         width: Int,
         height: Int,
         options: Options
@@ -66,9 +63,9 @@ class GlideMergedImageLoader(
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway,
         private val prefsGateway: AppPreferencesGateway
-    ) : ModelLoaderFactory<MediaId, InputStream> {
+    ) : ModelLoaderFactory<MediaId.Category, InputStream> {
 
-        override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
+        override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId.Category, InputStream> {
             val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
             return GlideMergedImageLoader(
                 context,

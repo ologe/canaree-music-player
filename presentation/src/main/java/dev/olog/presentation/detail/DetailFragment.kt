@@ -82,6 +82,9 @@ class DetailFragment : BaseFragment(),
         DetailSiblingsAdapter(navigator)
     }
 
+    private val spotifySinglesAdapter by lazyFast { DetailSpotifySinglesAdapter() }
+    private val spotifyAlbumsAdapter by lazyFast { DetailSpotifyAlbumsAdapter() }
+
     private val adapter by lazyFast {
         DetailFragmentAdapter(
             mediaId = mediaId,
@@ -95,9 +98,7 @@ class DetailFragment : BaseFragment(),
     }
 
     private val recyclerOnScrollListener by lazyFast {
-        HeaderVisibilityScrollListener(
-            this
-        )
+        HeaderVisibilityScrollListener(this)
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
@@ -143,9 +144,11 @@ class DetailFragment : BaseFragment(),
             viewModel.mostPlayed,
             viewModel.recentlyAdded,
             viewModel.relatedArtists,
-            viewModel.siblings
-        ) { songs, most, recent, related, siblings ->
-            DetailValues(songs, most, recent, related, siblings)
+            viewModel.siblings,
+            viewModel.spotifyAlbums,
+            viewModel.spotifySingle
+        ) { list ->
+            DetailValues(list[0], list[1], list[2], list[3], list[4], list[5], list[6])
         }.onEach {
             if (it.songs.isEmpty()) {
                 requireActivity().onBackPressed()
@@ -155,6 +158,8 @@ class DetailFragment : BaseFragment(),
                 relatedArtistAdapter.submitList(it.relatedArtists)
                 albumsAdapter.submitList(it.siblings)
                 mostPlayedAdapter.submitList(it.mostPlayed)
+                spotifyAlbumsAdapter.submitList(it.spotifySingles)
+                spotifySinglesAdapter.submitList(it.spotifyAlbums)
 
                 adapter.submitList(it.songs)
             }
@@ -193,6 +198,12 @@ class DetailFragment : BaseFragment(),
             }
             R.layout.item_detail_list_albums -> {
                 setupHorizontalListAsList(recyclerView, albumsAdapter)
+            }
+            R.layout.item_detail_list_spotify_singles -> {
+                setupHorizontalListAsList(recyclerView, spotifySinglesAdapter)
+            }
+            R.layout.item_detail_list_spotify_albums -> {
+                setupHorizontalListAsList(recyclerView, spotifyAlbumsAdapter)
             }
         }
     }

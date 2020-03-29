@@ -27,6 +27,10 @@ dependencies {
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
 
+    implementation(Libraries.X.Room.core)
+    implementation(Libraries.X.Room.coroutines)
+    kapt(Libraries.X.Room.kapt)
+
     implementation(Libraries.Network.retrofit)
     implementation(Libraries.Utils.fuzzy)
 

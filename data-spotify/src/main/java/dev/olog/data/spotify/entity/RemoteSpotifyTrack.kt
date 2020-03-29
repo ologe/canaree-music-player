@@ -1,9 +1,7 @@
 package dev.olog.data.spotify.entity
 
-import dev.olog.data.spotify.entity.complex.RemoteSpotifyArtistAlbum
-
 data class RemoteSpotifyTrack(
-    val album: RemoteSpotifyArtistAlbum,
+    val album: RemoteSpotifyAlbum,
     val artists: List<RemoteSpotifyArtist>,
     val disc_number: Int,
     val duration_ms: Int,
@@ -14,5 +12,6 @@ data class RemoteSpotifyTrack(
     val name: String,
     val popularity: Int,
     val preview_url: String,
-    val track_number: Int
+    val track_number: Int,
+    val uri: String
 )

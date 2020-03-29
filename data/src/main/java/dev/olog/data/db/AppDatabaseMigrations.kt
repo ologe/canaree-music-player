@@ -209,6 +209,8 @@ internal object AppDatabaseMigrations {
                 )
             """)
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_recent_searches_pk` ON recent_searches_2 (`pk`)")
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_images` (`uri` TEXT NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`uri`))")
         }
     }
 

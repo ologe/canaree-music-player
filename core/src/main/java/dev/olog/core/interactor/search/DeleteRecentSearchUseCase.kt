@@ -31,6 +31,7 @@ class DeleteRecentSearchUseCase @Inject constructor(
             PODCASTS_PLAYLIST -> recentSearchesGateway.deletePodcastPlaylist(id)
             PODCASTS_AUTHORS -> recentSearchesGateway.deletePodcastArtist(id)
             PODCASTS, SONGS -> throwNotHandled(mediaId)
+            SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
         }
     }
 

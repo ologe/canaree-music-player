@@ -105,12 +105,12 @@ object CoverUtils {
         MediaIdCategory.PLAYLISTS,
         MediaIdCategory.PODCASTS_PLAYLIST -> R.drawable.placeholder_playlist
         MediaIdCategory.SONGS -> R.drawable.placeholder_musical_note
-        MediaIdCategory.ALBUMS -> R.drawable.placeholder_album
+        MediaIdCategory.ALBUMS,
+        MediaIdCategory.SPOTIFY_ALBUMS -> R.drawable.placeholder_album
         MediaIdCategory.ARTISTS,
         MediaIdCategory.PODCASTS_AUTHORS -> R.drawable.placeholder_artist
         MediaIdCategory.GENRES -> R.drawable.placeholder_genre
         MediaIdCategory.PODCASTS -> R.drawable.placeholder_podcast
-        else -> throw IllegalArgumentException("invalid $category")
     }
 
 }

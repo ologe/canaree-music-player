@@ -95,6 +95,38 @@ class DetailFragmentHeaders @Inject constructor(
         )
     }
 
+    fun spotifyAlbums(): List<DisplayableItem> = listOf(
+        spotifyHeaderAlbums(),
+        DisplayableNestedListPlaceholder(
+            type = R.layout.item_detail_list_spotify_albums,
+            mediaId = headerId("spotify albums horiz list")
+        )
+    )
+
+    private fun spotifyHeaderAlbums(): DisplayableItem {
+        return DisplayableHeader(
+            type = R.layout.item_detail_header_albums,
+            mediaId = headerId("detail spotify albums"),
+            title = context.getString(R.string.category_albums)
+        )
+    }
+
+    fun spotifySingles(): List<DisplayableItem> = listOf(
+        spotifyHeaderSingles(),
+        DisplayableNestedListPlaceholder(
+            type = R.layout.item_detail_list_spotify_singles,
+            mediaId = headerId("spotify singles horiz list")
+        )
+    )
+
+    private fun spotifyHeaderSingles(): DisplayableItem {
+        return DisplayableHeader(
+            type = R.layout.item_detail_header_albums,
+            mediaId = headerId("detail spotify singles"),
+            title = "Singles" // TODO localization
+        )
+    }
+
     val shuffle: DisplayableItem = DisplayableHeader(
         type = R.layout.item_detail_shuffle,
         mediaId = headerId("detail shuffle"),

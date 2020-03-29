@@ -31,6 +31,7 @@ class InsertRecentSearchUseCase @Inject constructor(
             PODCASTS_PLAYLIST -> recentSearchesGateway.insertPodcastPlaylist(id)
             PODCASTS_AUTHORS -> recentSearchesGateway.insertPodcastArtist(id)
             PODCASTS, SONGS -> throwNotHandled(mediaId)
+            SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
         }
     }
 }

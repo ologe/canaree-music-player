@@ -6,6 +6,7 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.podcast.PodcastAuthorGateway
 import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.core.gateway.track.*
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -33,6 +34,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS -> trackGateway.observeAllPodcasts()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
         }
     }
 
