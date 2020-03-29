@@ -100,7 +100,7 @@ internal abstract class PlayingQueueDao {
     private fun Song.toPlayingQueueSong(
         idInPlaylist: Int,
         category: String,
-        categoryValue: Long
+        categoryValue: String
     ): PlayingQueueSong {
 
         val parentMediaId = MediaId.Category(MediaIdCategory.valueOf(category), categoryValue)

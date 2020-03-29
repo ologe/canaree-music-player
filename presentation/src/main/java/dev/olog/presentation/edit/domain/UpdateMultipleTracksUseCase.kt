@@ -34,8 +34,8 @@ class UpdateMultipleTracksUseCase @Inject constructor(
             }
             when (param.mediaId.category) {
                 PresentationIdCategory.ARTISTS,
-                PresentationIdCategory.PODCASTS_AUTHORS -> updateArtistMediaStore(param.mediaId.categoryId, param.isPodcast)
-                PresentationIdCategory.ALBUMS -> updateAlbumMediaStore(param.mediaId.categoryId, param.isPodcast)
+                PresentationIdCategory.PODCASTS_AUTHORS -> updateArtistMediaStore(param.mediaId.categoryId.toLong(), param.isPodcast)
+                PresentationIdCategory.ALBUMS -> updateAlbumMediaStore(param.mediaId.categoryId.toLong(), param.isPodcast)
                 else -> {}
             }
         } catch (ex: Exception){

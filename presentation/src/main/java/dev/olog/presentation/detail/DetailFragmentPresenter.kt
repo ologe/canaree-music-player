@@ -22,7 +22,7 @@ class DetailFragmentPresenter @Inject constructor(
     suspend fun removeFromPlaylist(item: DisplayableTrack) {
         require(mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST)
 
-        val playlistId = mediaId.categoryId
+        val playlistId = mediaId.categoryId.toLong()
 
         val playlistType = playlistType()
         if (playlistId == AutoPlaylist.FAVORITE.id) {
@@ -44,7 +44,7 @@ class DetailFragmentPresenter @Inject constructor(
     suspend fun moveInPlaylist(moveList: List<Pair<Int, Int>>) {
         require(mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST)
 
-        val playlistId = mediaId.categoryId
+        val playlistId = mediaId.categoryId.toLong()
         moveItemInPlaylistUseCase(
             MoveItemInPlaylistUseCase.Input(playlistId, moveList, playlistType())
         )

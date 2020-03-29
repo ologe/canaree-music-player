@@ -15,12 +15,13 @@ import dev.olog.shared.exhaustive
 fun ImageView.loadFile(item: DisplayableFile) {
     GlideApp.with(context).clear(this)
 
-    val id = item.mediaId.categoryId
+//    val id = item.mediaId.categoryId
 
     GlideApp.with(context)
         .load(AudioFileCover(item.path!!))
         .override(GlideUtils.OVERRIDE_SMALL)
-        .placeholder(CoverUtils.getGradient(context, item.mediaId.playableItem(id).toDomain()))
+//        .placeholder(CoverUtils.getGradient(context, item.mediaId.playableItem(id).toDomain()))// TODO WAT
+        .placeholder(CoverUtils.getGradient(context, item.mediaId.toDomain()))
         .into(this)
 }
 

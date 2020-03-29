@@ -15,9 +15,9 @@ data class Album(
 ) {
 
     val mediaId: Category
-        get() =  Category(ALBUMS, this.id)
+        get() =  Category(ALBUMS, "${this.id}")
 
     val artistMediaId: Category
-        get() = Category(ARTISTS, this.artistId)
+        get() = Category(ARTISTS, "${this.artistId}")
 
 }

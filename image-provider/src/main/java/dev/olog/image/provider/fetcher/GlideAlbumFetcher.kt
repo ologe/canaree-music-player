@@ -17,12 +17,12 @@ class GlideAlbumFetcher(
     }
 
     override suspend fun execute(): String {
-        return imageRetrieverGateway.getAlbum(mediaId.categoryId)!!.image
+        return imageRetrieverGateway.getAlbum(mediaId.categoryId.toLong())!!.image
     }
 
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchAlbum(mediaId.categoryId)
+        return imageRetrieverGateway.mustFetchAlbum(mediaId.categoryId.toLong())
     }
 
     override val threshold: Long = THRESHOLD

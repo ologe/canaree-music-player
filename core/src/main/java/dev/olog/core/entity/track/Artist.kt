@@ -15,6 +15,6 @@ data class Artist(
     val mediaId: Category
         get() {
             val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
-            return Category(category, this.id)
+            return Category(category, "${this.id}")
         }
 }

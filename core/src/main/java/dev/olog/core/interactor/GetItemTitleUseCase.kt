@@ -26,12 +26,12 @@ class GetItemTitleUseCase @Inject constructor(
     operator fun invoke(mediaId: MediaId): Flow<String> {
         return when (mediaId.category){
             FOLDERS -> folderGateway.observeByParam(mediaId.categoryId).map { it!!.title }
-            PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId).map { it!!.title }
-            ALBUMS -> albumGateway.observeByParam(mediaId.categoryId).map { it!!.title }
-            ARTISTS -> artistGateway.observeByParam(mediaId.categoryId).map { it!!.name }
-            GENRES -> genreGateway.observeByParam(mediaId.categoryId).map { it!!.name }
-            PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId).map { it!!.title }
-            PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId).map { it!!.name }
+            PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.title }
+            ALBUMS -> albumGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.title }
+            ARTISTS -> artistGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.name }
+            GENRES -> genreGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.name }
+            PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.title }
+            PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId.toLong()).map { it!!.name }
             SONGS -> throwNotHandled(mediaId)
             PODCASTS -> throwNotHandled(mediaId)
         }

@@ -51,7 +51,6 @@ object Mocks {
     )
 
     val folder = Folder(
-        id = 1,
         title = "folder",
         path = "/storage/emulated/0/folder",
         size = 10

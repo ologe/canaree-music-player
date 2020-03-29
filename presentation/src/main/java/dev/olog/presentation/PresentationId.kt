@@ -24,7 +24,7 @@ enum class PresentationIdCategory {
 
 sealed class PresentationId(
     open val category: PresentationIdCategory,
-    open val categoryId: Long
+    open val categoryId: String
 ) {
 
     val isAnyPodcast : Boolean
@@ -37,15 +37,14 @@ sealed class PresentationId(
     companion object {
         @JvmStatic
         fun headerId(value: String): Category {
-            // TODO mmmm bad conversion
-            return Category(PresentationIdCategory.HEADER, value.hashCode().toLong())
+            return Category(PresentationIdCategory.HEADER, value)
         }
     }
 
     @Parcelize
     data class Category(
         override val category: PresentationIdCategory,
-        override val categoryId: Long
+        override val categoryId: String
     ): PresentationId(category, categoryId), Parcelable {
 
         fun playableItem(id: Long): Track {
@@ -61,7 +60,7 @@ sealed class PresentationId(
     @Parcelize
     data class Track(
         override val category: PresentationIdCategory,
-        override val categoryId: Long,
+        override val categoryId: String,
         val id: Long
     ): PresentationId(category, categoryId), Parcelable
 
@@ -91,20 +90,24 @@ fun PresentationId.Track.toDomain(): MediaId.Track {
 
 fun MediaId.toPresentation(): PresentationId {
     return when (this) {
-        is MediaId.Track -> {
-            PresentationId.Track(
-                category = category.toPresentation(),
-                categoryId = categoryId,
-                id = id
-            )
-        }
-        is MediaId.Category -> {
-            PresentationId.Category(
-                category = category.toPresentation(),
-                categoryId = categoryId
-            )
-        }
+        is MediaId.Track -> this.toPresentation()
+        is MediaId.Category -> this.toPresentation()
     }
+}
+
+fun MediaId.Track.toPresentation(): PresentationId.Track {
+    return PresentationId.Track(
+        category = category.toPresentation(),
+        categoryId = categoryId,
+        id = id
+    )
+}
+
+fun MediaId.Category.toPresentation(): PresentationId.Category {
+    return PresentationId.Category(
+        category = category.toPresentation(),
+        categoryId = categoryId
+    )
 }
 
 // TODO test
@@ -138,99 +141,28 @@ fun PresentationIdCategory.toDomain() : MediaIdCategory {
 }
 
 val Folder.presentationId: PresentationId.Category
-    get() {
-        return PresentationId.Category(
-            PresentationIdCategory.FOLDERS,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()
 
 val Playlist.presentationId: PresentationId.Category
-    get() {
-        if (isPodcast) {
-            return PresentationId.Category(
-                PresentationIdCategory.PODCASTS_PLAYLIST,
-                this.id
-            )
-        }
-        return PresentationId.Category(
-            PresentationIdCategory.PLAYLISTS,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()
 
 val Song.presentationId: PresentationId.Track
-    get() {
-        if (isPodcast) {
-            return PresentationId.Track(
-                PresentationIdCategory.PODCASTS,
-                -1,
-                this.id
-            )
-        }
-        return PresentationId.Track(
-            PresentationIdCategory.SONGS,
-            -1,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()
 
 val Song.artistPresentationId: PresentationId.Category
-    get() {
-        if (isPodcast) {
-            return PresentationId.Category(
-                PresentationIdCategory.PODCASTS_AUTHORS,
-                this.artistId
-            )
-        }
-        return PresentationId.Category(
-            PresentationIdCategory.ARTISTS,
-            this.artistId
-        )
-    }
+    get() = artistMediaId.toPresentation()
 
 val Song.albumPresentationId: PresentationId.Category
-    get() {
-        return PresentationId.Category(
-            PresentationIdCategory.ALBUMS,
-            albumId
-        )
-    }
+    get() = albumMediaId.toPresentation()
 
 val Album.presentationId: PresentationId.Category
-    get() {
-        return PresentationId.Category(
-            PresentationIdCategory.ALBUMS,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()
 
 val Album.artistPresentationId: PresentationId.Category
-    get() {
-        return PresentationId.Category(
-            PresentationIdCategory.ARTISTS,
-            this.artistId
-        )
-    }
+    get() = artistMediaId.toPresentation()
 
 val Artist.presentationId: PresentationId.Category
-    get() {
-        if (isPodcast) {
-            return PresentationId.Category(
-                PresentationIdCategory.PODCASTS_AUTHORS,
-                this.id
-            )
-        }
-        return PresentationId.Category(
-            PresentationIdCategory.ARTISTS,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()
 
 val Genre.presentationId: PresentationId.Category
-    get() {
-        return PresentationId.Category(
-            PresentationIdCategory.GENRES,
-            this.id
-        )
-    }
+    get() = mediaId.toPresentation()

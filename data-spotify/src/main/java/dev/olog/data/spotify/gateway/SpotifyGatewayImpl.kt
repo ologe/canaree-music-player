@@ -25,7 +25,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
 ) : SpotifyGateway {
 
     override suspend fun getArtistAlbums(artistMediaId: MediaId.Category): List<SpotifyAlbum> {
-        val artist = artistGateway.getByParam(artistMediaId.categoryId)!!
+        val artist = artistGateway.getByParam(artistMediaId.categoryId.toLong())!!
 
         return findSpotifyArtistBestMatch(artist)
             .flatMap { service.getArtistAlbums(it.id) }
@@ -36,7 +36,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
     }
 
     override suspend fun getArtistTopTracks(artistMediaId: MediaId.Category): List<SpotifyTrack> {
-        val artist = artistGateway.getByParam(artistMediaId.categoryId)!!
+        val artist = artistGateway.getByParam(artistMediaId.categoryId.toLong())!!
 
         return findSpotifyArtistBestMatch(artist)
             .flatMap { service.getArtistTopTracks(it.id) }

@@ -24,14 +24,14 @@ class GetSongListByParamUseCase @Inject constructor(
     operator fun invoke(mediaId: MediaId): List<Song> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.SONGS -> trackGateway.getAllTracks()
-            MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.ARTISTS -> artistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.getTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.ALBUMS -> albumGateway.getTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.ARTISTS -> artistGateway.getTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.GENRES -> genreGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS -> trackGateway.getAllPodcasts()
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId.toLong())
         }
     }
 

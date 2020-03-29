@@ -9,24 +9,24 @@ interface RecentSearchesGateway {
     fun getAll() : Flow<List<SearchResult>>
 
     suspend fun insertTrack(mediaId: MediaId.Track)
-    suspend fun insertAlbum(albumId: Long)
-    suspend fun insertArtist(artistId: Long)
-    suspend fun insertPlaylist(playlistId: Long)
-    suspend fun insertGenre(genreId: Long)
-    suspend fun insertFolder(folderId: Long)
+    suspend fun insertAlbum(albumId: String)
+    suspend fun insertArtist(artistId: String)
+    suspend fun insertPlaylist(playlistId: String)
+    suspend fun insertGenre(genreId: String)
+    suspend fun insertFolder(folderId: String)
 
-    suspend fun insertPodcastPlaylist(playlistid: Long)
-    suspend fun insertPodcastArtist(artistId: Long)
+    suspend fun insertPodcastPlaylist(playlistid: String)
+    suspend fun insertPodcastArtist(artistId: String)
 
     suspend fun deleteTrack(mediaId: MediaId.Track)
-    suspend fun deleteAlbum(itemId: Long)
-    suspend fun deleteArtist(itemId: Long)
-    suspend fun deletePlaylist(itemId: Long)
-    suspend fun deleteFolder(itemId: Long)
-    suspend fun deleteGenre(itemId: Long)
+    suspend fun deleteAlbum(itemId: String)
+    suspend fun deleteArtist(itemId: String)
+    suspend fun deletePlaylist(itemId: String)
+    suspend fun deleteFolder(itemId: String)
+    suspend fun deleteGenre(itemId: String)
 
-    suspend fun deletePodcastPlaylist(playlistId: Long)
-    suspend fun deletePodcastArtist(artistId: Long)
+    suspend fun deletePodcastPlaylist(playlistId: String)
+    suspend fun deletePodcastArtist(artistId: String)
 
     suspend fun deleteAll()
 

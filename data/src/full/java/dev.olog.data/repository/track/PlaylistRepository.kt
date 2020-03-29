@@ -173,8 +173,8 @@ internal class PlaylistRepository @Inject constructor(
     }
 
     override fun observeMostPlayed(mediaId: MediaId.Category): Flow<List<Song>> {
-        val folderPath = mediaId.categoryId
-        return mostPlayedDao.observeAll(folderPath, trackGateway)
+        val playlistId = mediaId.categoryId
+        return mostPlayedDao.observeAll(playlistId.toLong(), trackGateway)
             .distinctUntilChanged()
             .flowOn(schedulers.cpu)
     }
@@ -185,7 +185,7 @@ internal class PlaylistRepository @Inject constructor(
             PlaylistMostPlayedEntity(
                 0,
                 mediaId.id,
-                mediaId.categoryId
+                mediaId.categoryId.toLong()
             )
         )
     }

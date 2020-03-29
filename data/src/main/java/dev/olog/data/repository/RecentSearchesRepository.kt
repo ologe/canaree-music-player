@@ -39,33 +39,33 @@ internal class RecentSearchesRepository @Inject constructor(
 
     override suspend fun insertTrack(mediaId: MediaId.Track) {
         if (mediaId.isAnyPodcast) {
-            return dao.insertPodcast(mediaId.id)
+            return dao.insertPodcast(mediaId.id.toString())
         }
-        return dao.insertSong(mediaId.id)
+        return dao.insertSong(mediaId.id.toString())
     }
-    override suspend fun insertAlbum(albumId: Long) = dao.insertAlbum(albumId)
-    override suspend fun insertArtist(artistId: Long) = dao.insertArtist(artistId)
-    override suspend fun insertPlaylist(playlistId: Long) = dao.insertPlaylist(playlistId)
-    override suspend fun insertGenre(genreId: Long) = dao.insertGenre(genreId)
-    override suspend fun insertFolder(folderId: Long) = dao.insertFolder(folderId)
+    override suspend fun insertAlbum(albumId: String) = dao.insertAlbum(albumId)
+    override suspend fun insertArtist(artistId: String) = dao.insertArtist(artistId)
+    override suspend fun insertPlaylist(playlistId: String) = dao.insertPlaylist(playlistId)
+    override suspend fun insertGenre(genreId: String) = dao.insertGenre(genreId)
+    override suspend fun insertFolder(folderId: String) = dao.insertFolder(folderId)
 
-    override suspend fun insertPodcastPlaylist(playlistid: Long) = dao.insertPodcastPlaylist(playlistid)
-    override suspend fun insertPodcastArtist(artistId: Long) = dao.insertPodcastArtist(artistId)
+    override suspend fun insertPodcastPlaylist(playlistid: String) = dao.insertPodcastPlaylist(playlistid)
+    override suspend fun insertPodcastArtist(artistId: String) = dao.insertPodcastArtist(artistId)
 
     override suspend fun deleteTrack(mediaId: MediaId.Track) {
         if (mediaId.isAnyPodcast) {
-            return dao.deletePodcast(mediaId.id)
+            return dao.deletePodcast(mediaId.id.toString())
         }
-        return dao.deleteSong(mediaId.id)
+        return dao.deleteSong(mediaId.id.toString())
     }
-    override suspend fun deleteAlbum(itemId: Long) = dao.deleteAlbum(itemId)
-    override suspend fun deleteArtist(itemId: Long) = dao.deleteArtist(itemId)
-    override suspend fun deletePlaylist(itemId: Long) = dao.deletePlaylist(itemId)
-    override suspend fun deleteFolder(itemId: Long) = dao.deleteFolder(itemId)
-    override suspend fun deleteGenre(itemId: Long) = dao.deleteGenre(itemId)
+    override suspend fun deleteAlbum(itemId: String) = dao.deleteAlbum(itemId)
+    override suspend fun deleteArtist(itemId: String) = dao.deleteArtist(itemId)
+    override suspend fun deletePlaylist(itemId: String) = dao.deletePlaylist(itemId)
+    override suspend fun deleteFolder(itemId: String) = dao.deleteFolder(itemId)
+    override suspend fun deleteGenre(itemId: String) = dao.deleteGenre(itemId)
 
-    override suspend fun deletePodcastPlaylist(playlistId: Long) = dao.deletePodcastPlaylist(playlistId)
-    override suspend fun deletePodcastArtist(artistId: Long) = dao.deletePodcastArtist(artistId)
+    override suspend fun deletePodcastPlaylist(playlistId: String) = dao.deletePodcastPlaylist(playlistId)
+    override suspend fun deletePodcastArtist(artistId: String) = dao.deletePodcastArtist(artistId)
 
     override suspend fun deleteAll() = dao.deleteAll()
 }

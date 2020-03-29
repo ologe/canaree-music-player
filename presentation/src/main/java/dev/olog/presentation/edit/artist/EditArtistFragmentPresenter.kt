@@ -14,9 +14,9 @@ class EditArtistFragmentPresenter @Inject constructor(
 
     fun getArtist(mediaId: PresentationId.Category): Artist {
         val artist = if (mediaId.isAnyPodcast) {
-            podcastAuthorGateway.getByParam(mediaId.categoryId)!!
+            podcastAuthorGateway.getByParam(mediaId.categoryId.toLong())!!
         } else {
-            artistGateway.getByParam(mediaId.categoryId)!!
+            artistGateway.getByParam(mediaId.categoryId.toLong())!!
         }
         return Artist(
             id = artist.id,

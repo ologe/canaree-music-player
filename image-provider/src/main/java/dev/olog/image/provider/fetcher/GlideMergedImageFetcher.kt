@@ -33,8 +33,8 @@ class GlideMergedImageFetcher(
             try {
                 val inputStream = when (mediaId.category) {
                     MediaIdCategory.FOLDERS -> makeFolderImage(mediaId.categoryId)
-                    MediaIdCategory.GENRES -> makeGenreImage(mediaId.categoryId)
-                    MediaIdCategory.PLAYLISTS -> makePlaylistImage(mediaId.categoryId)
+                    MediaIdCategory.GENRES -> makeGenreImage(mediaId.categoryId.toLong())
+                    MediaIdCategory.PLAYLISTS -> makePlaylistImage(mediaId.categoryId.toLong())
                     else -> throwNotHandled(mediaId)
                 }
                 callback.onDataReady(inputStream)
@@ -46,7 +46,7 @@ class GlideMergedImageFetcher(
     }
 
 
-    private suspend fun makeFolderImage(folderId: Long): InputStream? {
+    private suspend fun makeFolderImage(folderId: String): InputStream? {
 //        val folderImage = ImagesFolderUtils.forFolder(context, dirPath) --contains current image
         val albumsId = folderGateway.getTrackListByParam(folderId).map { it.albumId }
 

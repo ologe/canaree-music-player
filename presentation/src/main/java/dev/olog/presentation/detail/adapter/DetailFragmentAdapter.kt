@@ -312,7 +312,7 @@ internal class DetailFragmentAdapter(
             val isPlaylist = mediaId.category == PresentationIdCategory.PLAYLISTS
             val isPodcastPlaylist = mediaId.category == PresentationIdCategory.PODCASTS_PLAYLIST
             if (isPlaylist || isPodcastPlaylist) {
-                val playlistId = mediaId.categoryId
+                val playlistId = mediaId.categoryId.toLong()
                 return playlistId != AutoPlaylist.LAST_ADDED.id || !AutoPlaylist.isAutoPlaylist(
                     playlistId
                 )

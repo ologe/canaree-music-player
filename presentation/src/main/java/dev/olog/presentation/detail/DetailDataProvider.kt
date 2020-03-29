@@ -51,17 +51,17 @@ internal class DetailDataProvider @Inject constructor(
         val item = when (mediaId.category) {
             PresentationIdCategory.FOLDERS -> folderGateway.observeByParam(mediaId.categoryId)
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.PLAYLISTS -> playlistGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.ALBUMS -> albumGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem() }
-            PresentationIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.ARTISTS -> artistGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId)
+            PresentationIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
             PresentationIdCategory.HEADER,
             PresentationIdCategory.SONGS,
@@ -148,20 +148,20 @@ internal class DetailDataProvider @Inject constructor(
         PresentationIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryId).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
-        PresentationIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        PresentationIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
-        PresentationIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        PresentationIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
-        PresentationIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId).mapListItem {
+        PresentationIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId.toLong()).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
-        PresentationIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        PresentationIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
         // podcasts
-        PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId).mapListItem {
+        PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
             it.toDetailDisplayableItem(resources)
         }
         PresentationIdCategory.PODCASTS_AUTHORS -> flowOf(emptyList())

@@ -67,7 +67,7 @@ class GlideOriginalImageFetcher(
     private fun getId(): Long {
         return when (mediaId) {
             is MediaId.Track -> mediaId.id
-            is MediaId.Category -> mediaId.categoryId
+            is MediaId.Category -> mediaId.categoryId.toLong()
         }
     }
 

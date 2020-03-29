@@ -25,14 +25,14 @@ class ObserveSongListByParamUseCase @Inject constructor(
     operator fun invoke(mediaId: MediaId): Flow<List<Song>> {
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.SONGS -> trackGateway.observeAllTracks()
-            MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.ARTISTS -> artistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.ALBUMS -> albumGateway.observeTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.ARTISTS -> artistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.GENRES -> genreGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS -> trackGateway.observeAllPodcasts()
-            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId)
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId.toLong())
         }
     }
 

@@ -61,7 +61,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPlaylistPopup(anchor: View, container: View?, mediaId: PresentationId): PlaylistPopup {
-        val playlist = playlistGateway.getByParam(mediaId.categoryId)!!
+        val playlist = playlistGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 PlaylistPopup(anchor, playlist, null, listenerFactory.playlist(container, playlist, null))
@@ -85,7 +85,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getAlbumPopup(anchor: View, container: View?, mediaId: PresentationId): AlbumPopup {
-        val album = albumGateway.getByParam(mediaId.categoryId)!!
+        val album = albumGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 AlbumPopup(anchor, null, listenerFactory.album(container, album, null))
@@ -98,7 +98,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getArtistPopup(anchor: View, container: View?, mediaId: PresentationId): ArtistPopup {
-        val artist = artistGateway.getByParam(mediaId.categoryId)!!
+        val artist = artistGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 ArtistPopup(anchor, artist, null, listenerFactory.artist(container, artist, null))
@@ -111,7 +111,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getGenrePopup(anchor: View, container: View?, mediaId: PresentationId): GenrePopup {
-        val genre = genreGateway.getByParam(mediaId.categoryId)!!
+        val genre = genreGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 GenrePopup(anchor, genre, null, listenerFactory.genre(container, genre, null))
@@ -124,7 +124,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPodcastPlaylistPopup(anchor: View, container: View?, mediaId: PresentationId): PlaylistPopup {
-        val playlist = podcastPlaylistGateway.getByParam(mediaId.categoryId)!!
+        val playlist = podcastPlaylistGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 PlaylistPopup(anchor, playlist, null, listenerFactory.playlist(container, playlist, null))
@@ -137,7 +137,7 @@ internal class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPodcastArtistPopup(anchor: View, container: View?, mediaId: PresentationId): ArtistPopup {
-        val artist = podcastAuthorGateway.getByParam(mediaId.categoryId)!!
+        val artist = podcastAuthorGateway.getByParam(mediaId.categoryId.toLong())!!
         return when (mediaId) {
             is PresentationId.Category -> {
                 ArtistPopup(anchor, artist, null, listenerFactory.artist(container, artist, null))

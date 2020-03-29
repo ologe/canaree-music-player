@@ -10,6 +10,6 @@ data class Genre(
 ) {
 
     val mediaId: Category
-        get() = Category(GENRES, id)
+        get() = Category(GENRES, "${this.id}")
 
 }

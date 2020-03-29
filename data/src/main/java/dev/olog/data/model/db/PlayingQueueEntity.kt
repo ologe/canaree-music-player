@@ -12,7 +12,7 @@ data class PlayingQueueEntity(
     @PrimaryKey(autoGenerate = true)
     val progressive: Int = 0,
     val category: String,
-    val categoryValue: Long,
+    val categoryValue: String,
     val songId: Long,
     val idInPlaylist: Int
 )

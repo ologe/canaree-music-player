@@ -56,13 +56,13 @@ data class Song(
     val albumMediaId: Category
         get() {
             val category = ALBUMS
-            return Category(category, albumId)
+            return Category(category, "${this.albumId}")
         }
 
     val artistMediaId: Category
         get() {
             val category = if (isPodcast) PODCASTS_AUTHORS else ARTISTS
-            return Category(category, artistId)
+            return Category(category, "${this.artistId}")
         }
 
 }

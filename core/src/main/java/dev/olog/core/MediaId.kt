@@ -8,12 +8,12 @@ private val podcastCategories = listOf(
 
 sealed class MediaId(
     open val category: MediaIdCategory,
-    open val categoryId: Long
+    open val categoryId: String
 ) {
 
     data class Category(
         override val category: MediaIdCategory,
-        override val categoryId: Long
+        override val categoryId: String
     ) : MediaId(category, categoryId) {
 
         fun playableItem(id: Long): Track {
@@ -32,7 +32,7 @@ sealed class MediaId(
 
     data class Track(
         override val category: MediaIdCategory,
-        override val categoryId: Long,
+        override val categoryId: String,
         val id: Long
     ) : MediaId(category, categoryId) {
 
@@ -50,13 +50,13 @@ sealed class MediaId(
         private const val LEAF_SEPARATOR = '|'
 
         @JvmStatic
-        val SHUFFLE_ID: Category = Category(SONGS, -100)
+        val SHUFFLE_ID: Category = Category(SONGS, "-100")
 
         @JvmStatic
-        val SONGS_CATEGORY: Category = Category(SONGS, -1)
+        val SONGS_CATEGORY: Category = Category(SONGS, "-1")
 
         @JvmStatic
-        val PODCAST_CATEGORY: Category = Category(PODCASTS, -2)
+        val PODCAST_CATEGORY: Category = Category(PODCASTS, "-2")
 
         @JvmStatic
         fun fromString(mediaId: String): MediaId {
@@ -67,12 +67,12 @@ sealed class MediaId(
                 val category = mediaId.substring(0, categoryFinish)
                 return Category(
                     valueOf(category),
-                    mediaId.substring(categoryFinish + 1).toLong()
+                    mediaId.substring(categoryFinish + 1)
                 )
             }
             return Track(
                 valueOf(mediaId.substring(0, categoryFinish)),
-                mediaId.substring(categoryFinish + 1, categoryValueFinish).toLong(),
+                mediaId.substring(categoryFinish + 1, categoryValueFinish),
                 mediaId.substring(categoryValueFinish + 1).toLong()
             )
         }

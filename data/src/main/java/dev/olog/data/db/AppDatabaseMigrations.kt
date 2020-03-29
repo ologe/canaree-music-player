@@ -197,6 +197,18 @@ internal object AppDatabaseMigrations {
                 )
             """)
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_playing_queue_progressive` ON playing_queue_2 (`progressive`)")
+
+            // recreate recent_searches with `itemId` as TEXT
+            database.execSQL("DROP TABLE recent_searches")
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS recent_searches_2 (
+                `pk` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                `dataType` INTEGER NOT NULL, 
+                `itemId` TEXT NOT NULL, 
+                `insertionTime` INTEGER NOT NULL
+                )
+            """)
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_recent_searches_pk` ON recent_searches_2 (`pk`)")
         }
     }
 

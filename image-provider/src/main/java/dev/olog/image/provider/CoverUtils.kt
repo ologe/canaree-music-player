@@ -47,11 +47,8 @@ object CoverUtils {
     }
 
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
-        val id = when (mediaId) {
-            is MediaId.Track -> mediaId.id
-            is MediaId.Category -> mediaId.categoryId
-        }.toInt()
-        return getGradient(context, id, mediaId.category)
+        val position = buildPosition(mediaId)
+        return getGradient(context, position, mediaId.category)
     }
 
     fun getGradient(context: Context, position: Int, category: MediaIdCategory): Drawable {
@@ -66,10 +63,7 @@ object CoverUtils {
         val drawable = ContextCompat.getDrawable(context, getDrawable(mediaId.category))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0).mutate() as GradientDrawable
 
-        val position = when (mediaId) {
-            is MediaId.Track -> mediaId.id
-            is MediaId.Category -> mediaId.categoryId
-        }.toInt()
+        val position = buildPosition(mediaId)
 
         if (!context.isDarkMode()) {
             // use custom color for light theme
@@ -96,6 +90,13 @@ object CoverUtils {
         }
 
         return drawable
+    }
+
+    private fun buildPosition(mediaId: MediaId): Int {
+        return when (mediaId) {
+            is MediaId.Track -> mediaId.id.toInt()
+            is MediaId.Category -> mediaId.categoryId.hashCode()
+        }
     }
 
     @DrawableRes

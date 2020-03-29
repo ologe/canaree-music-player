@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "386545e49a53a22437f9e558138e1999",
+    "identityHash": "c8e07de1240b3615a8b372da8d662750",
     "entities": [
       {
         "tableName": "playing_queue_2",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `categoryValue` INTEGER NOT NULL, `songId` INTEGER NOT NULL, `idInPlaylist` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category` TEXT NOT NULL, `categoryValue` TEXT NOT NULL, `songId` INTEGER NOT NULL, `idInPlaylist` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "progressive",
@@ -23,7 +23,7 @@
           {
             "fieldPath": "categoryValue",
             "columnName": "categoryValue",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -239,8 +239,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "recent_searches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataType` INTEGER NOT NULL, `itemId` INTEGER NOT NULL, `insertionTime` INTEGER NOT NULL)",
+        "tableName": "recent_searches_2",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataType` INTEGER NOT NULL, `itemId` TEXT NOT NULL, `insertionTime` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "pk",
@@ -257,7 +257,7 @@
           {
             "fieldPath": "itemId",
             "columnName": "itemId",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -275,12 +275,12 @@
         },
         "indices": [
           {
-            "name": "index_recent_searches_pk",
+            "name": "index_recent_searches_2_pk",
             "unique": false,
             "columnNames": [
               "pk"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_recent_searches_pk` ON `${TABLE_NAME}` (`pk`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recent_searches_2_pk` ON `${TABLE_NAME}` (`pk`)"
           }
         ],
         "foreignKeys": []
@@ -996,7 +996,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '386545e49a53a22437f9e558138e1999')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c8e07de1240b3615a8b372da8d662750')"
     ]
   }
 }

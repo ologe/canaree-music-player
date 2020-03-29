@@ -15,11 +15,11 @@ class RenameUseCase @Inject constructor(
     suspend operator fun invoke(mediaId: MediaId, newTitle: String) {
         return when (mediaId.category) {
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.renamePlaylist(
-                mediaId.categoryId,
+                mediaId.categoryId.toLong(),
                 newTitle
             )
             MediaIdCategory.PLAYLISTS -> playlistGateway.renamePlaylist(
-                mediaId.categoryId,
+                mediaId.categoryId.toLong(),
                 newTitle
             )
             else -> throw IllegalArgumentException("invalid media id $mediaId")

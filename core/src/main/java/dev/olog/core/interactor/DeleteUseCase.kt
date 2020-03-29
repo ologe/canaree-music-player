@@ -28,8 +28,8 @@ class DeleteUseCase @Inject constructor(
 
     private suspend fun handleCategory(mediaId: Category) {
         return when (mediaId.category) {
-            PODCASTS_PLAYLIST -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId)
-            PLAYLISTS -> playlistGateway.deletePlaylist(mediaId.categoryId)
+            PODCASTS_PLAYLIST -> podcastPlaylistGateway.deletePlaylist(mediaId.categoryId.toLong())
+            PLAYLISTS -> playlistGateway.deletePlaylist(mediaId.categoryId.toLong())
             else -> {
                 val songList = getSongListByParamUseCase(mediaId)
                 trackGateway.deleteGroup(songList.map { it.id })

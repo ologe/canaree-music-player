@@ -25,12 +25,24 @@ internal abstract class RecentSearchesDao {
 
     @Query(
         """
-        SELECT * FROM recent_searches
+        SELECT * FROM recent_searches_2
         ORDER BY insertionTime DESC
         LIMIT 50
     """
     )
     abstract fun getAllImpl(): Flow<List<RecentSearchesEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertImpl(recent: RecentSearchesEntity)
+
+    @Delete
+    abstract suspend fun deleteImpl(recentSearch: RecentSearchesEntity)
+
+    @Query("DELETE FROM recent_searches_2 WHERE dataType = :dataType AND itemId = :itemId")
+    abstract suspend fun deleteImpl(dataType: Int, itemId: String)
+
+    @Query("DELETE FROM recent_searches_2")
+    abstract suspend fun deleteAllImpl()
 
     fun getAll(
         trackGateway: TrackGateway,
@@ -50,23 +62,23 @@ internal abstract class RecentSearchesDao {
                     when (recentEntity.dataType) {
                         SONG,
                         PODCAST -> {
-                            val item = trackGateway.getByParam(recentEntity.itemId)
+                            val item = trackGateway.getByParam(recentEntity.itemId.toLong())
                             songMapper(recentEntity, item)
                         }
                         ALBUM -> {
-                            val item = albumGateway.getByParam(recentEntity.itemId)
+                            val item = albumGateway.getByParam(recentEntity.itemId.toLong())
                             albumMapper(recentEntity, item)
                         }
                         ARTIST -> {
-                            val item = artistGateway.getByParam(recentEntity.itemId)
+                            val item = artistGateway.getByParam(recentEntity.itemId.toLong())
                             artistMapper(recentEntity, item)
                         }
                         PLAYLIST -> {
-                            val item = playlistGateway.getByParam(recentEntity.itemId)
+                            val item = playlistGateway.getByParam(recentEntity.itemId.toLong())
                             playlistMapper(recentEntity, item)
                         }
                         GENRE -> {
-                            val item = genreGateway.getByParam(recentEntity.itemId)
+                            val item = genreGateway.getByParam(recentEntity.itemId.toLong())
                             genreMapper(recentEntity, item)
                         }
                         FOLDER -> {
@@ -74,11 +86,11 @@ internal abstract class RecentSearchesDao {
                             folderMapper(recentEntity, item)
                         }
                         PODCAST_PLAYLIST -> {
-                            val item = podcastPlaylistGateway.getByParam(recentEntity.itemId)
+                            val item = podcastPlaylistGateway.getByParam(recentEntity.itemId.toLong())
                             playlistMapper(recentEntity, item)
                         }
                         PODCAST_ARTIST -> {
-                            val item = podcastAuthorGateway.getByParam(recentEntity.itemId)
+                            val item = podcastAuthorGateway.getByParam(recentEntity.itemId.toLong())
                             artistMapper(recentEntity, item)
                         }
                         else -> throw IllegalArgumentException("invalid recent element type ${recentEntity.dataType}")
@@ -87,51 +99,39 @@ internal abstract class RecentSearchesDao {
             }
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertImpl(recent: RecentSearchesEntity)
-
-    @Delete
-    abstract suspend fun deleteImpl(recentSearch: RecentSearchesEntity)
-
-    @Query("DELETE FROM recent_searches WHERE dataType = :dataType AND itemId = :itemId")
-    abstract suspend fun deleteImpl(dataType: Int, itemId: Long)
-
-    @Query("DELETE FROM recent_searches")
-    abstract suspend fun deleteAllImpl()
-
-    suspend fun deleteSong(itemId: Long) {
+    suspend fun deleteSong(itemId: String) {
         return deleteImpl(SONG, itemId)
     }
 
-    suspend fun deleteAlbum(itemId: Long) {
+    suspend fun deleteAlbum(itemId: String) {
         deleteImpl(ALBUM, itemId)
     }
 
-    suspend fun deleteArtist(itemId: Long) {
+    suspend fun deleteArtist(itemId: String) {
         deleteImpl(ARTIST, itemId)
     }
 
-    suspend fun deletePlaylist(itemId: Long) {
+    suspend fun deletePlaylist(itemId: String) {
         deleteImpl(PLAYLIST, itemId)
     }
 
-    suspend fun deleteGenre(itemId: Long) {
+    suspend fun deleteGenre(itemId: String) {
         deleteImpl(GENRE, itemId)
     }
 
-    suspend fun deleteFolder(itemId: Long) {
+    suspend fun deleteFolder(itemId: String) {
         deleteImpl(FOLDER, itemId)
     }
 
-    suspend fun deletePodcast(podcastid: Long) {
+    suspend fun deletePodcast(podcastid: String) {
         deleteImpl(PODCAST, podcastid)
     }
 
-    suspend fun deletePodcastPlaylist(playlistId: Long) {
+    suspend fun deletePodcastPlaylist(playlistId: String) {
         deleteImpl(PODCAST_PLAYLIST, playlistId)
     }
 
-    suspend fun deletePodcastArtist(artistId: Long) {
+    suspend fun deletePodcastArtist(artistId: String) {
         deleteImpl(PODCAST_ARTIST, artistId)
     }
 
@@ -140,7 +140,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertSong(songId: Long) {
+    open suspend fun insertSong(songId: String) {
         deleteSong(songId)
         insertImpl(
             RecentSearchesEntity(
@@ -151,7 +151,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertAlbum(albumId: Long) {
+    open suspend fun insertAlbum(albumId: String) {
         deleteAlbum(albumId)
         insertImpl(
             RecentSearchesEntity(
@@ -162,7 +162,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertArtist(artistId: Long) {
+    open suspend fun insertArtist(artistId: String) {
         deleteArtist(artistId)
         insertImpl(
             RecentSearchesEntity(
@@ -173,7 +173,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertPlaylist(playlistId: Long) {
+    open suspend fun insertPlaylist(playlistId: String) {
         deletePlaylist(playlistId)
         insertImpl(
             RecentSearchesEntity(
@@ -184,7 +184,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertGenre(genreId: Long) {
+    open suspend fun insertGenre(genreId: String) {
         deleteGenre(genreId)
         insertImpl(
             RecentSearchesEntity(
@@ -195,7 +195,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertFolder(folderId: Long) {
+    open suspend fun insertFolder(folderId: String) {
         deleteFolder(folderId)
         insertImpl(
             RecentSearchesEntity(
@@ -206,7 +206,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertPodcast(podcastId: Long) {
+    open suspend fun insertPodcast(podcastId: String) {
         deletePodcast(podcastId)
         insertImpl(
             RecentSearchesEntity(
@@ -217,7 +217,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertPodcastPlaylist(playlistId: Long) {
+    open suspend fun insertPodcastPlaylist(playlistId: String) {
         deletePodcastPlaylist(playlistId)
         insertImpl(
             RecentSearchesEntity(
@@ -228,7 +228,7 @@ internal abstract class RecentSearchesDao {
     }
 
     @Transaction
-    open suspend fun insertPodcastArtist(artistId: Long) {
+    open suspend fun insertPodcastArtist(artistId: String) {
         deletePodcastArtist(artistId)
         insertImpl(
             RecentSearchesEntity(

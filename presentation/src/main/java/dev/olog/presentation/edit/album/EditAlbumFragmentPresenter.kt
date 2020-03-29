@@ -20,7 +20,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 ) {
 
     fun getAlbum(mediaId: PresentationId.Category): Album {
-        val album = albumGateway.getByParam(mediaId.categoryId)!!
+        val album = albumGateway.getByParam(mediaId.categoryId.toLong())!!
         return Album(
             id = album.id,
             artistId = album.artistId,

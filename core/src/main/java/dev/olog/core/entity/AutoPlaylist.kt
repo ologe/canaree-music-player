@@ -10,6 +10,11 @@ enum class AutoPlaylist {
         fun isAutoPlaylist(id: Long): Boolean {
             return values().find { it.id == id } != null
         }
+
+        @JvmStatic
+        fun isAutoPlaylist(id: String): Boolean {
+            return values().find { it.id == id.toLongOrNull() } != null
+        }
     }
 
     val id: Long

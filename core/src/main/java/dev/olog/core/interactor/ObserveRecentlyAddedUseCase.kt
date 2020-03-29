@@ -19,7 +19,7 @@ class ObserveRecentlyAddedUseCase @Inject constructor(
     operator fun invoke(mediaId: Category): Flow<List<Song>> {
         return when (mediaId.category){
             FOLDERS -> folderGateway.observeRecentlyAdded(mediaId.categoryId)
-            GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId)
+            GENRES -> genreGateway.observeRecentlyAdded(mediaId.categoryId.toLong())
             else -> flowOf(listOf())
         }
     }

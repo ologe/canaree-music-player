@@ -21,7 +21,7 @@ class GlideArtistFetcher(
     }
 
     override suspend fun execute(): String {
-        val image = imageRetrieverGateway.getArtist(mediaId.categoryId)!!.image
+        val image = imageRetrieverGateway.getArtist(mediaId.categoryId.toLong())!!.image
         if (image.endsWith(LAST_FM_PLACEHOLDER) || image.startsWith(DEEZER_PLACEHOLDER)) {
             return ""
         }
@@ -29,7 +29,7 @@ class GlideArtistFetcher(
     }
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchArtist(mediaId.categoryId)
+        return imageRetrieverGateway.mustFetchArtist(mediaId.categoryId.toLong())
     }
 
     override val threshold: Long = THRESHOLD

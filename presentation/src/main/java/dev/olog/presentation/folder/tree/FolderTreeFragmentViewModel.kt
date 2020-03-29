@@ -153,7 +153,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun FileType.Track.toDisplayableItem(): DisplayableFile {
         val mediaId = PresentationId.Category(
             PresentationIdCategory.FOLDERS,
-            Folder.makeId(path)
+            path
         )
 
         return DisplayableFile(
@@ -167,7 +167,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun FileType.Folder.toDisplayableItem(): DisplayableFile {
         val mediaId = PresentationId.Category(
             PresentationIdCategory.FOLDERS,
-            Folder.makeId(path)
+            path
         )
         return DisplayableFile(
             type = R.layout.item_folder_tree_directory,

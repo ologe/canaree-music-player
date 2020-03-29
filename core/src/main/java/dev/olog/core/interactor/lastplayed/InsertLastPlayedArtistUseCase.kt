@@ -14,8 +14,8 @@ class InsertLastPlayedArtistUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId.Category) {
         when (mediaId.category) {
-            MediaIdCategory.ARTISTS -> artistGateway.addLastPlayed(mediaId.categoryId)
-            MediaIdCategory.PODCASTS_AUTHORS -> podcastGateway.addLastPlayed(mediaId.categoryId)
+            MediaIdCategory.ARTISTS -> artistGateway.addLastPlayed(mediaId.categoryId.toLong())
+            MediaIdCategory.PODCASTS_AUTHORS -> podcastGateway.addLastPlayed(mediaId.categoryId.toLong())
             else -> throw IllegalArgumentException("invalid category ${mediaId.category}")
         }
     }
