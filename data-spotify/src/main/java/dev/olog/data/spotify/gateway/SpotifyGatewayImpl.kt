@@ -22,6 +22,7 @@ import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.NoSuchElementException
 
 internal class SpotifyGatewayImpl @Inject constructor(
     private val artistGateway: ArtistGateway,
@@ -56,7 +57,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
 
         return findSpotifyArtistBestMatch(artist)
             .flatMap { service.getArtistTopTracks(it.id) }
-            .map {   topTracks ->
+            .map { topTracks ->
                 topTracks.tracks.map { it.toDomain() }
             }
             .fix(orDefault = emptyList())
@@ -70,13 +71,18 @@ internal class SpotifyGatewayImpl @Inject constructor(
     }
 
     private suspend fun findSpotifyArtistBestMatch(artist: Artist): IoResult<RemoteSpotifyArtist> {
-        return service.searchArtist(artist.name)
-            .map { it.artists.items }
-            .map { artists ->
-                val bestArtistIndex =
-                    FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
-                artists[bestArtistIndex]
-            }
+        try {
+            return service.searchArtist(artist.name)
+                .map { it.artists.items }
+                .map { artists ->
+                    val bestArtistIndex =
+                        FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
+                    artists[bestArtistIndex]
+                }
+        } catch (ex: NoSuchElementException) {
+            return IoResult.Error.Generic(ex)
+        }
+
     }
 
     private fun RemoteSpotifyTrack.toDomain(): SpotifyTrack {
@@ -102,7 +108,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
     }
 
     private fun String.mapAlbumType(): SpotifyAlbumType {
-        return when (this){
+        return when (this) {
             "album" -> SpotifyAlbumType.ALBUM
             "single" -> SpotifyAlbumType.SINGLE
             "appears_on" -> SpotifyAlbumType.APPEARS_ON
