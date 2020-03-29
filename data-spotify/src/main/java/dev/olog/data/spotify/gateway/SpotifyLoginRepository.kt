@@ -1,7 +1,7 @@
 package dev.olog.data.spotify.gateway
 
 import dev.olog.data.shared.retrofit.IoResult
-import dev.olog.data.spotify.entity.SpotifyToken
+import dev.olog.data.spotify.entity.RemoteSpotifyToken
 import dev.olog.data.spotify.service.SpotifyLoginService
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.locks.ReentrantLock
@@ -28,7 +28,7 @@ internal class SpotifyLoginRepository @Inject constructor(
             val result = runBlocking {
                 service.getToken()
             }
-            if (result is IoResult.Success<SpotifyToken>) {
+            if (result is IoResult.Success<RemoteSpotifyToken>) {
                 token = result.data.access_token
             }
             token

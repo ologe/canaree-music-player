@@ -2,7 +2,7 @@ package dev.olog.data.spotify.service
 
 import dev.olog.data.shared.retrofit.IoResult
 import dev.olog.data.spotify.BuildConfig
-import dev.olog.data.spotify.entity.SpotifyToken
+import dev.olog.data.spotify.entity.RemoteSpotifyToken
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
@@ -15,6 +15,6 @@ interface SpotifyLoginService {
     @POST("api/token")
     suspend fun getToken(
         @Field("grant_type") grantType: String = "client_credentials"
-    ): IoResult<SpotifyToken>
+    ): IoResult<RemoteSpotifyToken>
 
 }
