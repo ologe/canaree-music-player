@@ -5,7 +5,6 @@ sealed class IoResult<out T : Any> {
     data class Success<T : Any>(val data: T) : IoResult<T>()
     sealed class Error : IoResult<Nothing>() {
         object NetworkError : Error()
-        object Unauthorized : Error()
         data class TooManyRequests(val retryAfter: Long) : Error()
         data class Generic(val exception: Throwable) : Error()
     }

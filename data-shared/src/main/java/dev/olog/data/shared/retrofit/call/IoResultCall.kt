@@ -51,7 +51,6 @@ class IoResultCall<T : Any>(
 
         when (callResult) {
             is IoResult.Success<T>,
-            is IoResult.Error.Unauthorized,
             is IoResult.Error.NetworkError -> callback.onResponse(this, Response.success(callResult))
             is IoResult.Error.TooManyRequests -> retryAfter(callResult.retryAfter, callback)
             is IoResult.Error.Generic -> {
@@ -65,7 +64,6 @@ class IoResultCall<T : Any>(
     private fun buildResponse(response: Response<T>): IoResult<T> {
         return when (response.code()) {
             200 -> IoResult.Success(response.body()!!)
-            401 -> IoResult.Error.Unauthorized
             429 -> {
                 val retryAfter = response.headers()[HEADER_RETRY_AFTER]
                     ?.toLongOrNull()
