@@ -1,12 +1,16 @@
 package dev.olog.data.spotify.di
 
+import android.content.Context
 import dev.olog.data.spotify.gateway.SpotifyLoginRepository
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared.android.utils.NetworkUtils
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
 
 internal class SpotifyAuthorizationInterceptor @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val loginRepository: SpotifyLoginRepository
 ) : Interceptor {
 
@@ -15,8 +19,7 @@ internal class SpotifyAuthorizationInterceptor @Inject constructor(
         if (!loginRepository.isTokenValid()) {
             // token was never set, fetch it and update headers
             val newToken = loginRepository.acquireToken()
-            val builder = chain.request()
-                .newBuilder()
+            val builder = chain.request().newBuilder()
                 .setBearerToken(newToken)
                 .header("Authorization", "Bearer $newToken")
             return chain.proceed(builder.build())
@@ -28,24 +31,23 @@ internal class SpotifyAuthorizationInterceptor @Inject constructor(
             .setBearerToken(currentToken)
             .build()
 
+        if (!NetworkUtils.isConnected(context)) {
+            // try from cached, TODO not working, call are failing
+            return chain.proceed(currentRequest)
+        }
+
         val mainResponse = chain.proceed(currentRequest)
-        val mainRequest = chain.request()
 
         if (mainResponse.code == 401 || mainResponse.code == 403) {
             // token expired, get new token
             val newToken = loginRepository.acquireToken()
 
-            val builder = mainRequest.newBuilder()
+            val builder = currentRequest.newBuilder()
                 .setBearerToken(newToken)
-                .method(mainRequest.method, mainRequest.body)
+                .method(currentRequest.method, currentRequest.body)
             return chain.proceed(builder.build())
         } else {
-            // token is valid
-            val token = loginRepository.getToken()
-            val builder = mainRequest.newBuilder()
-                .setBearerToken(token)
-                .method(mainRequest.method, mainRequest.body)
-            return chain.proceed(builder.build())
+            return chain.proceed(currentRequest)
         }
     }
 
