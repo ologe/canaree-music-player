@@ -1,8 +1,7 @@
 package dev.olog.analytics.tracker
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.crashlytics.android.Crashlytics
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.shared.launchUnit
@@ -11,22 +10,17 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class FirebaseTracker @Inject constructor(
-    private val firebase: FirebaseAnalytics,
     private val schedulers: Schedulers
 ) : TrackerFacade {
-
-    companion object {
-        internal const val MAX_SIZE_ALLOWED = 40
-    }
 
     override fun trackScreen(
         name: String,
         bundle: Bundle?
     ) = GlobalScope.launchUnit(schedulers.io) {
         try {
-            firebase.logEvent(name.take(MAX_SIZE_ALLOWED), bundle)
+            Crashlytics.log("screen=$name, arguments=${bundle?.toMap()}}")
         } catch (ex: Exception) {
-            Timber.w(ex, "screen $name")
+            Timber.w(ex, "screen=$name")
         }
     }
 
@@ -35,14 +29,20 @@ internal class FirebaseTracker @Inject constructor(
         vararg args: Any?
     ) = GlobalScope.launchUnit(schedulers.io) {
         try {
-            val map = args
-                .mapIndexed { index, any -> "arg$index" to any.toString() }
-                .toTypedArray()
-
-            firebase.logEvent(name.take(MAX_SIZE_ALLOWED), bundleOf(*map))
+            Crashlytics.log("service event=$name, arguments=$args")
         } catch (ex: Exception) {
             Timber.w(ex, "service event $name")
         }
+    }
+
+    private fun Bundle.toMap(): Map<String, Any?> {
+        val result = mutableMapOf<String, Any?>()
+
+        for (s in keySet()) {
+            result[s] = get(s).toString()
+        }
+
+        return result
     }
 
 

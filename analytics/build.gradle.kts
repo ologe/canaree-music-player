@@ -22,7 +22,7 @@ dependencies {
     kapt(Libraries.Dagger.kapt)
 
     implementation(Libraries.X.core)
-    implementation(Libraries.Firebase.analytics)
+    implementation(Libraries.Firebase.crashlytics)
 
     implementation(Libraries.Debug.timber)
 
