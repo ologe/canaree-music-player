@@ -27,9 +27,9 @@ class AddToPlaylistUseCase @Inject constructor(
 
     private suspend fun handleTracks(playlist: Playlist, mediaId: Track) {
         if (mediaId.isAnyPodcast) {
-            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id))
+            podcastPlaylistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id.toLong()))
         } else {
-            playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id))
+            playlistGateway.addSongsToPlaylist(playlist.id, listOf(mediaId.id.toLong()))
         }
     }
 

@@ -10,7 +10,7 @@ class PlayerMetadata(
     private val metadata: MediaMetadataCompat
 ) {
 
-    val id: Long
+    val id: String
         get() = mediaId.id
 
     val mediaId: MediaId.Track

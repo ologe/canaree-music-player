@@ -118,7 +118,7 @@ internal class FolderRepository @Inject constructor(
         mostPlayedDao.insert(
             FolderMostPlayedEntity(
                 id = 0,
-                songId = mediaId.id,
+                songId = mediaId.id.toLong(),
                 folderPath = folder.path
             )
         )

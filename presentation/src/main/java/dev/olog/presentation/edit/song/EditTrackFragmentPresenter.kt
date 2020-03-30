@@ -15,7 +15,7 @@ class EditTrackFragmentPresenter @Inject constructor(
 ) {
 
     fun getSong(mediaId: PresentationId.Track): Song {
-        val track = trackGateway.getByParam(mediaId.id)!!
+        val track = trackGateway.getByParam(mediaId.id.toLong())!!
         return track.copy(
             artist = if (track.artist == AppConstants.UNKNOWN) "" else track.artist,
             album = if (track.album == AppConstants.UNKNOWN) "" else track.album

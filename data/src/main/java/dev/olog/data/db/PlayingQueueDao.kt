@@ -15,6 +15,9 @@ import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * TODO support spotify preview url
+ */
 @Dao
 internal abstract class PlayingQueueDao {
 
@@ -107,7 +110,7 @@ internal abstract class PlayingQueueDao {
 
         return PlayingQueueSong(
             this.copy(idInPlaylist = idInPlaylist),
-            parentMediaId.playableItem(this.id)
+            parentMediaId.playableItem("${this.id}")
         )
     }
 

@@ -18,7 +18,8 @@ data class DisplayableTrack(
     val album: String,
     val idInPlaylist: Int,
     val dataModified: Long,
-    val duration: Long
+    val duration: Long,
+    val isExplicit: Boolean = false
 
 ) : DisplayableItem(type, mediaId) {
 

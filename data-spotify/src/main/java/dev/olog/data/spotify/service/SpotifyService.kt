@@ -1,6 +1,7 @@
 package dev.olog.data.spotify.service
 
 import dev.olog.data.shared.retrofit.IoResult
+import dev.olog.data.spotify.entity.RemoteSpotifyTrack
 import dev.olog.data.spotify.entity.complex.*
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -33,6 +34,11 @@ interface SpotifyService {
     suspend fun getAlbumTracks(
         @Path("id") albumId: String
     ): IoResult<RemoteSpotifyAlbumTracks>
+
+    @GET("tracks/{id}")
+    suspend fun getTrack(
+        @Path("id") trackId: String
+    ): IoResult<RemoteSpotifyTrack>
 
 }
 

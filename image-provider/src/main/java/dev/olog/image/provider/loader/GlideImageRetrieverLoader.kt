@@ -7,8 +7,8 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory.ALBUMS
-import dev.olog.core.MediaIdCategory.ARTISTS
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
@@ -18,6 +18,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 private val allowedCategories = listOf(ALBUMS, ARTISTS)
+private val spotifyCategories = listOf(SPOTIFY_TRACK, SPOTIFY_ALBUMS)
 
 internal class GlideImageRetrieverLoader(
     private val context: Context,
@@ -30,7 +31,7 @@ internal class GlideImageRetrieverLoader(
             return false
         }
         return when (mediaId){
-            is MediaId.Track -> true
+            is MediaId.Track -> mediaId.category !in spotifyCategories
             is MediaId.Category -> mediaId.category in allowedCategories
         }
     }

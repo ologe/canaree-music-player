@@ -6,6 +6,7 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.PureUri
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.PlayingQueueGateway
+import dev.olog.core.gateway.spotify.SpotifyGateway
 import dev.olog.core.gateway.track.GenreGateway
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.core.interactor.mostplayed.ObserveMostPlayedSongsUseCase
@@ -25,6 +26,7 @@ import dev.olog.shared.clamp
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class QueueManager @Inject constructor(
@@ -39,7 +41,8 @@ internal class QueueManager @Inject constructor(
     private val genreGateway: GenreGateway,
     private val enhancedShuffle: EnhancedShuffle,
     private val podcastPosition: PodcastPositionUseCase,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val spotifyGateway: SpotifyGateway
 
 ) : IQueue {
 
@@ -78,7 +81,7 @@ internal class QueueManager @Inject constructor(
         assertBackgroundThread()
 
         val songId = when (mediaId) {
-            is MediaId.Track -> mediaId.id
+            is MediaId.Track -> mediaId.id.toLong()
             is MediaId.Category -> -1
         }
         val parentId = when (mediaId) {
@@ -112,7 +115,7 @@ internal class QueueManager @Inject constructor(
     override suspend fun handlePlayRecentlyAdded(mediaId: MediaId.Track): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.id
+        val songId = mediaId.id.toLong()
 
         val songList = getRecentlyAddedUseCase(mediaId.parentId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId.parentId) }
@@ -138,7 +141,7 @@ internal class QueueManager @Inject constructor(
     override suspend fun handlePlayMostPlayed(mediaId: MediaId.Track): PlayerMediaEntity? {
         assertBackgroundThread()
 
-        val songId = mediaId.id
+        val songId = mediaId.id.toLong()
 
         val songList = getMostPlayedSongsUseCase(mediaId.parentId).first()
             .mapIndexed { index, song -> song.toMediaEntity(index, mediaId.parentId) }
@@ -198,13 +201,40 @@ internal class QueueManager @Inject constructor(
         val currentIndex = 0
         val result = songList.getOrNull(currentIndex) ?: return null
 
-
         queueImpl.updateState(
             songList, currentIndex,
             updateImmediate = false,
             persist = true
         )
 
+        return result.toPlayerMediaEntity(
+            queueImpl.computePositionInQueue(songList, currentIndex),
+            getPodcastBookmarkOrDefault(result)
+        )
+    }
+
+    override suspend fun handlePlaySpotifyPreview(mediaId: MediaId.Track): PlayerMediaEntity? {
+        val uri = mediaId.categoryId
+        val trackId = uri.drop(uri.lastIndexOf(":") + 1)
+        val track = spotifyGateway.getTrack(trackId) ?: return null
+
+        val mediaEntity = MediaEntity(
+            track.id.hashCode().toLong(), 0, mediaId, -1, -1,
+            track.name, track.artist, track.artist, track.album,
+            TimeUnit.SECONDS.toMillis(30), -1, "",
+            track.discNumber, track.trackNumber,
+            false, Uri.parse(mediaId.id)
+        )
+        val songList = listOf(mediaEntity)
+
+        val currentIndex = 0
+        val result = songList.getOrNull(currentIndex) ?: return null
+
+        queueImpl.updateState(
+            songList, currentIndex,
+            updateImmediate = false,
+            persist = true
+        )
         return result.toPlayerMediaEntity(
             queueImpl.computePositionInQueue(songList, currentIndex),
             getPodcastBookmarkOrDefault(result)

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.entity.AutoPlaylist
+import dev.olog.core.entity.spotify.SpotifyTrack
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*
@@ -79,6 +80,14 @@ internal class DetailFragmentAdapter(
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
                     navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+                }
+            }
+            R.layout.item_detail_song_with_track_spotify -> {
+                viewHolder.setOnClickListener(this) { item, _, _ ->
+                    require(item is DisplayableTrack)
+                    if (item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL) {
+                        mediaProvider.playSpotifyPreview(item.mediaId.toDomain())
+                    }
                 }
             }
             R.layout.item_detail_song,
@@ -240,8 +249,14 @@ internal class DetailFragmentAdapter(
             secondText?.text = item.subtitle
             explicit?.onItemChanged(item.title, item.isExplicit)
 
-            bindPodcast(this, item)
-            bindPodcastProgressBarTint(this, item)
+            if (mediaId.isAnyPodcast) {
+                bindPodcast(this, item)
+                bindPodcastProgressBarTint(this, item)
+            }
+            // show as disabled when current has an invalid previewUrl
+            firstText.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
+            index?.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
+
         }
         when (holder.itemViewType){
             R.layout.item_detail_song_with_track,
@@ -286,7 +301,7 @@ internal class DetailFragmentAdapter(
     @SuppressLint("SetTextI18n")
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
-        val progress = podcastPositions[item.mediaId.id] ?: 0
+        val progress = podcastPositions[item.mediaId.id.toLong()] ?: 0
         view.progressBar?.max = duration
         view.progressBar?.progress = progress
 

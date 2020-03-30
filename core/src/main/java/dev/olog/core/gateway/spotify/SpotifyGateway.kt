@@ -13,6 +13,8 @@ interface SpotifyGateway {
 
     suspend fun getAlbumTracks(albumMediaId: MediaId.Category): List<SpotifyTrack>
 
+    suspend fun getTrack(trackId: String): SpotifyTrack?
+
     fun getImage(spotifyUri: String): String?
 
 }

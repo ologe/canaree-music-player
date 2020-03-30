@@ -2,6 +2,7 @@ package dev.olog.msc.app
 
 import android.app.Application
 import androidx.preference.PreferenceManager
+import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -56,7 +57,7 @@ class App : Application(), HasAndroidInjector {
 
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
-//            Stetho.initializeWithDefaults(this)
+            Stetho.initializeWithDefaults(this)
         }
     }
 

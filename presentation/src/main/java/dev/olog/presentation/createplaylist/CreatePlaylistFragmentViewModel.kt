@@ -72,7 +72,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun toggleItem(mediaId: PresentationId.Track) {
-        val id = mediaId.id
+        val id = mediaId.id.toLong()
         selectedIds.toggle(id, id)
         selectionCountPublisher.offer(selectedIds.size())
     }
@@ -83,7 +83,7 @@ class CreatePlaylistFragmentViewModel @Inject constructor(
     }
 
     fun isChecked(mediaId: PresentationId.Track): Boolean {
-        val id = mediaId.id
+        val id = mediaId.id.toLong()
         return selectedIds[id] != null
     }
 

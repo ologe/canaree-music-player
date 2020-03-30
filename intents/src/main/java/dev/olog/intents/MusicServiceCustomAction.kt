@@ -4,6 +4,7 @@ enum class MusicServiceCustomAction {
     SHUFFLE,
     PLAY_RECENTLY_ADDED,
     PLAY_MOST_PLAYED,
+    PLAY_SPOTIFY_PREVIEW,
 
     SWAP,
     SWAP_RELATIVE, // position relative to current item

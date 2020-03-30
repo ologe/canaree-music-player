@@ -131,15 +131,17 @@ internal class TabFragmentAdapter(
             explicit?.onItemChanged(item.title)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
 
-            bindPodcast(this, item)
-            bindPodcastProgressBarTint(this, item)
+            if (holder.itemViewType == R.layout.item_tab_podcast) {
+                bindPodcast(this, item)
+                bindPodcastProgressBarTint(this, item)
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
-        val progress = podcastPositions[item.mediaId.id] ?: 0
+        val progress = podcastPositions[item.mediaId.id.toLong()] ?: 0
         view.progressBar?.max = duration
         view.progressBar?.progress = progress
 

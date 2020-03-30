@@ -16,6 +16,7 @@ interface MediaProvider {
     fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
     fun playMostPlayed(mediaId: MediaId.Track)
     fun playRecentlyAdded(mediaId: MediaId.Track)
+    fun playSpotifyPreview(mediaId: MediaId)
 
     fun skipToQueueItem(idInPlaylist: Int)
     fun shuffle(mediaId: MediaId.Category, filter: String?)

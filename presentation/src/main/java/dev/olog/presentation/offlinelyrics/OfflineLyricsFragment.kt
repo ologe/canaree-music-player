@@ -66,7 +66,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColo
 
         mediaProvider.observeMetadata()
             .onEach {
-                presenter.updateCurrentTrackId(it.id)
+                presenter.updateCurrentTrackId(it.id.toLong())
                 presenter.updateCurrentMetadata(it.title, it.artist)
                 textWrapper.update(it.title, it.artist)
                 seekBar.max = it.duration.toInt()

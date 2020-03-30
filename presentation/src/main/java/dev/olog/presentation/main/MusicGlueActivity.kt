@@ -161,6 +161,17 @@ abstract class MusicGlueActivity : BaseActivity(),
         )
     }
 
+    override fun playSpotifyPreview(mediaId: MediaId) {
+        trackerFacade.trackServiceEvent("playSpotifyPreview", mediaId)
+        val bundle = bundleOf(
+            MusicServiceCustomAction.ARGUMENT_MEDIA_ID to mediaId.toString()
+        )
+        transportControls()?.sendCustomAction(
+            MusicServiceCustomAction.PLAY_SPOTIFY_PREVIEW.name,
+            bundle
+        )
+    }
+
     override fun skipToQueueItem(idInPlaylist: Int) {
         trackerFacade.trackServiceEvent("skipToQueueItem", idInPlaylist)
 
@@ -273,7 +284,7 @@ abstract class MusicGlueActivity : BaseActivity(),
         transportControls()?.sendCustomAction(
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT.name,
             bundleOf(
-                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.id)
+                MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST to longArrayOf(mediaId.id.toLong())
             )
 
         )

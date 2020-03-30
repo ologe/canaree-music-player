@@ -17,7 +17,7 @@
         app:layout_constraintDimensionRatio="1"
         tools:src="@drawable/placeholder_folder"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         app:layout_constraintBottom_toBottomOf="@+id/cover"
         app:layout_constraintEnd_toEndOf="@+id/cover"
         android:src="@drawable/vd_spotify"

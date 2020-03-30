@@ -23,6 +23,7 @@ internal interface IQueue {
     suspend fun handlePlayShuffle(mediaId: MediaId.Category, filter: String?): PlayerMediaEntity?
     suspend fun handlePlayFromGoogleSearch(query: String, extras: Bundle): PlayerMediaEntity?
     suspend fun handlePlayFromUri(uri: Uri): PlayerMediaEntity?
+    suspend fun handlePlaySpotifyPreview(mediaId: MediaId.Track): PlayerMediaEntity?
 
     suspend fun getPlayingSong(): PlayerMediaEntity?
 

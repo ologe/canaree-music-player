@@ -58,7 +58,7 @@ class OfflineLyricsContent(
 
         glueService.observeMetadata()
             .onEach {
-                presenter.updateCurrentTrackId(it.id)
+                presenter.updateCurrentTrackId(it.id.toLong())
                 content.textWrapper.update(it.title, it.artist)
                 content.seekBar.max = it.duration.toInt()
                 loadImage(it.mediaId)

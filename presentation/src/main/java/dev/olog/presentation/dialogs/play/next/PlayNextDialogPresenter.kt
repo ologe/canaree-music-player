@@ -20,7 +20,7 @@ class PlayNextDialogPresenter @Inject constructor(
         mediaId: PresentationId
     ) = withContext(schedulers.io) {
         val items = when (mediaId) {
-            is PresentationId.Track -> listOf(mediaId.id)
+            is PresentationId.Track -> listOf(mediaId.id.toLong())
             is PresentationId.Category -> getSongListByParamUseCase(mediaId.toDomain()).map { it.id }
         }
         val bundle = bundleOf(

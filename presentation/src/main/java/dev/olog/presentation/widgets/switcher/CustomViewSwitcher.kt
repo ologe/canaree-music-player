@@ -1,11 +1,13 @@
 package dev.olog.presentation.widgets.switcher
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -24,6 +26,7 @@ import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.lazyFast
 import java.lang.IllegalStateException
@@ -38,6 +41,12 @@ class CustomViewSwitcher(
         @JvmStatic
         private val TAG = "P:${CustomViewSwitcher::class.java.simpleName}"
     }
+
+    private var showSpotifyIcon = false
+    private val spotifyDrawable by lazyFast {
+        ContextCompat.getDrawable(context, R.drawable.vd_spotify)!!
+    }
+    private val spotifyIconSize = context.dip(36)
 
     private var lastItem: MediaId? = null
 
@@ -120,7 +129,28 @@ class CustomViewSwitcher(
             metadata.isSkippingToPrevious -> Direction.LEFT
             else -> Direction.NONE
         }
-        loadImageInternal(metadata.mediaId)
+        if (metadata.mediaId.isSpotify) {
+            loadSpotifyImage(metadata.mediaId)
+        } else {
+            loadImageInternal(metadata.mediaId)
+        }
+    }
+
+    private fun loadSpotifyImage(mediaId: MediaId) {
+        animationFinished = true
+
+        imageVersion++
+        val currentVersion = imageVersion
+
+        val imageView = getImageView(currentView)
+        GlideApp.with(context).clear(imageView)
+
+        GlideApp.with(context)
+            .load(CoverUtils.getGradient(context, mediaId))
+            .into(imageView)
+
+        loadRemote(imageView, mediaId, currentVersion)
+        showSpotifyIcon = true
     }
 
     private fun loadImageInternal(mediaId: MediaId) {
@@ -135,7 +165,7 @@ class CustomViewSwitcher(
 
         loadCached(imageView, mediaId)
         loadRemote(imageView, mediaId, currentVersion)
-
+        showSpotifyIcon = false
     }
 
     private fun loadCached(view: ImageView, mediaId: MediaId) {
@@ -244,4 +274,25 @@ class CustomViewSwitcher(
             isActivated = activated
         }
     }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+    }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
+        if (showSpotifyIcon) {
+            // TODO not showing
+            val width = getImageView(currentView).width
+            val height = getImageView(currentView).height
+            spotifyDrawable.setBounds(
+                width - spotifyIconSize / 2 - spotifyIconSize,
+                height - spotifyIconSize / 2 - spotifyIconSize,
+                width - spotifyIconSize / 2,
+                height -spotifyIconSize / 2
+            )
+            spotifyDrawable.draw(canvas)
+        }
+    }
+
 }

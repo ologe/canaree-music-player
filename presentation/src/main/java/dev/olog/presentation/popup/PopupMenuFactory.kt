@@ -54,7 +54,7 @@ internal class PopupMenuFactory @Inject constructor(
                 FolderPopup(anchor, folder, null, listenerFactory.folder(container, folder, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 FolderPopup(anchor, folder, song, listenerFactory.folder(container, folder, song))
             }
         }
@@ -68,7 +68,7 @@ internal class PopupMenuFactory @Inject constructor(
 
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 PlaylistPopup(anchor, playlist, song, listenerFactory.playlist(container, playlist, song))
             }
         }
@@ -78,7 +78,7 @@ internal class PopupMenuFactory @Inject constructor(
         return when (mediaId) {
             is PresentationId.Category -> throwNotHandled(mediaId)
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)!!
+                val song = trackGateway.getByParam(mediaId.id.toLong())!!
                 SongPopup(anchor, listenerFactory.song(container, song), song)
             }
         }
@@ -91,7 +91,7 @@ internal class PopupMenuFactory @Inject constructor(
                 AlbumPopup(anchor, null, listenerFactory.album(container, album, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 AlbumPopup(anchor, song, listenerFactory.album(container, album, song))
             }
         }
@@ -104,7 +104,7 @@ internal class PopupMenuFactory @Inject constructor(
                 ArtistPopup(anchor, artist, null, listenerFactory.artist(container, artist, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 ArtistPopup(anchor, artist, song, listenerFactory.artist(container, artist, song))
             }
         }
@@ -117,7 +117,7 @@ internal class PopupMenuFactory @Inject constructor(
                 GenrePopup(anchor, genre, null, listenerFactory.genre(container, genre, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 GenrePopup(anchor, genre, song, listenerFactory.genre(container, genre, song))
             }
         }
@@ -130,7 +130,7 @@ internal class PopupMenuFactory @Inject constructor(
                 PlaylistPopup(anchor, playlist, null, listenerFactory.playlist(container, playlist, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 PlaylistPopup(anchor, playlist, song, listenerFactory.playlist(container, playlist, song))
             }
         }
@@ -143,7 +143,7 @@ internal class PopupMenuFactory @Inject constructor(
                 ArtistPopup(anchor, artist, null, listenerFactory.artist(container, artist, null))
             }
             is PresentationId.Track -> {
-                val song = trackGateway.getByParam(mediaId.id)
+                val song = trackGateway.getByParam(mediaId.id.toLong())
                 ArtistPopup(anchor, artist, song, listenerFactory.artist(container, artist, song))
             }
         }

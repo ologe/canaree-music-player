@@ -20,6 +20,7 @@ enum class PresentationIdCategory {
     PODCASTS_AUTHORS,
 
     SPOTIFY_ALBUMS,
+    SPOTIFY_TRACK,
 
     HEADER
 }
@@ -50,6 +51,10 @@ sealed class PresentationId(
     ): PresentationId(category, categoryId), Parcelable {
 
         fun playableItem(id: Long): Track {
+            return playableItem("$id")
+        }
+
+        fun playableItem(id: String): Track {
             return Track(
                 category = this.category,
                 categoryId = this.categoryId,
@@ -63,7 +68,7 @@ sealed class PresentationId(
     data class Track(
         override val category: PresentationIdCategory,
         override val categoryId: String,
-        val id: Long
+        val id: String
     ): PresentationId(category, categoryId), Parcelable
 
 }
@@ -125,6 +130,7 @@ fun MediaIdCategory.toPresentation() : PresentationIdCategory {
         MediaIdCategory.PODCASTS -> PresentationIdCategory.PODCASTS
         MediaIdCategory.PODCASTS_AUTHORS -> PresentationIdCategory.PODCASTS_AUTHORS
         MediaIdCategory.SPOTIFY_ALBUMS -> PresentationIdCategory.SPOTIFY_ALBUMS
+        MediaIdCategory.SPOTIFY_TRACK -> PresentationIdCategory.SPOTIFY_TRACK
     }
 }
 
@@ -140,6 +146,7 @@ fun PresentationIdCategory.toDomain() : MediaIdCategory {
         PresentationIdCategory.PODCASTS -> MediaIdCategory.PODCASTS
         PresentationIdCategory.PODCASTS_AUTHORS -> MediaIdCategory.PODCASTS_AUTHORS
         PresentationIdCategory.SPOTIFY_ALBUMS -> MediaIdCategory.SPOTIFY_ALBUMS
+        PresentationIdCategory.SPOTIFY_TRACK -> MediaIdCategory.SPOTIFY_TRACK
         PresentationIdCategory.HEADER -> throwNotHandled(this)
     }
 }

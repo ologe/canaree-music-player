@@ -34,7 +34,7 @@ class EditItemDialogFactory @Inject constructor(
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            val track = trackGateway.getByParam(mediaId.id)!!
+            val track = trackGateway.getByParam(mediaId.id.toLong())!!
             checkItem(track)
             withContext(schedulers.main) {
                 action()

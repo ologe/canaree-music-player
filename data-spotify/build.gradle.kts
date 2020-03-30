@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":data-shared"))
     implementation(project(":shared"))
+    implementation(project(":shared-android"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

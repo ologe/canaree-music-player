@@ -25,7 +25,11 @@ class ExplicitView(
     }
 
     @SuppressLint("ConcreteDispatcherIssue")
-    fun onItemChanged(title: String) {
+    fun onItemChanged(title: String, force: Boolean = false) {
+        if (force) {
+            isVisible = true
+            return
+        }
         isVisible = false
 
         job = GlobalScope.launch(Dispatchers.Default) {

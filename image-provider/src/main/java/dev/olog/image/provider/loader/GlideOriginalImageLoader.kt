@@ -6,7 +6,7 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory.ALBUMS
+import dev.olog.core.MediaIdCategory.*
 import dev.olog.core.gateway.track.TrackGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import dev.olog.shared.ApplicationContext
@@ -14,6 +14,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 private val allowedCategories = listOf(ALBUMS)
+private val spotifyCategories = listOf(SPOTIFY_TRACK, SPOTIFY_ALBUMS)
 
 internal class GlideOriginalImageLoader(
     private val context: Context,
@@ -23,7 +24,7 @@ internal class GlideOriginalImageLoader(
 
     override fun handles(mediaId: MediaId): Boolean {
         return when (mediaId) {
-            is MediaId.Track -> true
+            is MediaId.Track -> mediaId.category !in spotifyCategories
             is MediaId.Category -> mediaId.category in allowedCategories
         }
     }

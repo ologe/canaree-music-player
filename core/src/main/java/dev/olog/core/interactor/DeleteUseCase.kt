@@ -21,7 +21,7 @@ class DeleteUseCase @Inject constructor(
 
     suspend operator fun invoke(mediaId: MediaId) {
         return when (mediaId) {
-            is Track -> trackGateway.deleteSingle(mediaId.id)
+            is Track -> trackGateway.deleteSingle(mediaId.id.toLong())
             is Category -> handleCategory(mediaId)
         }
     }

@@ -70,7 +70,7 @@ class GlideModule : AppGlideModule() {
         registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
         registry.prepend(MediaId.Category::class.java, InputStream::class.java, mergedFactory)
         registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
-        registry.prepend(MediaId.Category::class.java, InputStream::class.java, spotifyFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, spotifyFactory)
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

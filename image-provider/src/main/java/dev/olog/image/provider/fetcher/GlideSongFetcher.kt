@@ -17,11 +17,11 @@ class GlideSongFetcher(
     }
 
     override suspend fun execute(): String {
-        return imageRetrieverGateway.getTrack(mediaId.id)!!.image
+        return imageRetrieverGateway.getTrack(mediaId.id.toLong())!!.image
     }
 
     override suspend fun mustFetch(): Boolean {
-        return imageRetrieverGateway.mustFetchTrack(mediaId.id)
+        return imageRetrieverGateway.mustFetchTrack(mediaId.id.toLong())
     }
 
     override val threshold: Long = THRESHOLD

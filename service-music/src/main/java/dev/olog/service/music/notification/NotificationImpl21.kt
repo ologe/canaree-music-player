@@ -17,6 +17,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.MediaIdCategory.SPOTIFY_TRACK
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.image.provider.getBitmap
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -99,6 +101,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     override suspend fun update(state: MusicNotificationState): Notification {
+        // TODO is called too many times
         assertBackgroundThread()
 
         createIfNeeded()
@@ -117,15 +120,19 @@ internal open class NotificationImpl21 @Inject constructor(
         notificationManager.notify(INotification.NOTIFICATION_ID, notification)
 
         updateImageJob = GlobalScope.launch(schedulers.io) {
-            updateImage(state.id, state.isPodcast)
+            updateImage(state.id, state.uri, state.isPodcast)
         }
 
         return notification
     }
 
-    private suspend fun updateImage(id: Long, isPodcast: Boolean) {
-        val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
-        val mediaId = category.playableItem(id)
+    private suspend fun updateImage(id: Long, uri: String, isPodcast: Boolean) {
+        val mediaId: MediaId = if (uri.isNotBlank()) {
+            MediaId.Track(SPOTIFY_TRACK, uri, "-1")
+        } else {
+            val category = if (isPodcast) MediaId.PODCAST_CATEGORY else MediaId.SONGS_CATEGORY
+            category.playableItem(id)
+        }
         val bitmap = service.getBitmap(mediaId, INotification.IMAGE_SIZE)
         yield()
         val notificationWithImage = builder.setLargeIcon(bitmap).build()

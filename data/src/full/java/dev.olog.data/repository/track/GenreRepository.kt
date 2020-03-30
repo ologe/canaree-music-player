@@ -106,7 +106,7 @@ internal class GenreRepository @Inject constructor(
         mostPlayedDao.insert(
             GenreMostPlayedEntity(
                 0,
-                mediaId.id,
+                mediaId.id.toLong(),
                 mediaId.categoryId.toLong()
             )
         )

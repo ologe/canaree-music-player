@@ -1,5 +1,6 @@
 package dev.olog.service.music.model
 
+import android.net.Uri
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlayingQueueSong
 import dev.olog.core.entity.track.Song
@@ -19,7 +20,8 @@ internal data class MediaEntity(
     val path: String,
     val discNumber: Int,
     val trackNumber: Int,
-    val isPodcast: Boolean
+    val isPodcast: Boolean,
+    val previewUrl: Uri
 )
 
 internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId.Category) : MediaEntity {
@@ -38,7 +40,8 @@ internal fun Song.toMediaEntity(progressive: Int, mediaId: MediaId.Category) : M
         this.path,
         this.discNumber,
         this.trackNumber,
-        this.isPodcast
+        this.isPodcast,
+        Uri.EMPTY
     )
 }
 
@@ -59,7 +62,8 @@ internal fun PlayingQueueSong.toMediaEntity() : MediaEntity {
         song.path,
         song.discNumber,
         song.trackNumber,
-        song.isPodcast
+        song.isPodcast,
+        Uri.EMPTY
     )
 }
 

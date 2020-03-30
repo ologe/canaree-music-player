@@ -27,6 +27,7 @@ import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
+import dev.olog.shared.exhaustive
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -244,7 +245,7 @@ internal class MediaSessionCallback @Inject constructor(
         val musicAction = MusicServiceCustomAction.values().find { it.name == action }
             ?: return // other apps can request custom action
 
-        when (musicAction) {
+        val exhaustive: Any = when (musicAction) {
             MusicServiceCustomAction.SHUFFLE -> {
                 requireNotNull(extras)
                 val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
@@ -290,6 +291,14 @@ internal class MediaSessionCallback @Inject constructor(
                 retrieveAndPlay {
                     updatePodcastPosition()
                     queue.handlePlayMostPlayed(MediaId.fromString(mediaId) as MediaId.Track)
+                }
+            }
+            MusicServiceCustomAction.PLAY_SPOTIFY_PREVIEW -> {
+                requireNotNull(extras)
+                val mediaId = extras.getString(MusicServiceCustomAction.ARGUMENT_MEDIA_ID)!!
+                retrieveAndPlay {
+                    updatePodcastPosition()
+                    queue.handlePlaySpotifyPreview(MediaId.fromString(mediaId) as MediaId.Track)
                 }
             }
             MusicServiceCustomAction.FORWARD_10 -> player.forwardTenSeconds()

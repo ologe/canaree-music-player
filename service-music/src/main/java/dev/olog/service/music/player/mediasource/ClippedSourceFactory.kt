@@ -1,5 +1,6 @@
 package dev.olog.service.music.player.mediasource
 
+import android.net.Uri
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -57,6 +58,10 @@ internal class ClippedSourceFactory @Inject constructor (
      */
     override fun get(model: CrossFadePlayer.Model): MediaSource {
         val mediaSource = sourceFactory.get(model.mediaEntity)
+        if (model.mediaEntity.previewUrl != Uri.EMPTY) {
+            return mediaSource
+        }
+
         val isFlac = model.isFlac
 
         if (!isFlac && isGapless && model.isGoodIdeaToClip && !model.mediaEntity.isPodcast){

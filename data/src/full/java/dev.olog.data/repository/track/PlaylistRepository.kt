@@ -184,7 +184,7 @@ internal class PlaylistRepository @Inject constructor(
         mostPlayedDao.insert(
             PlaylistMostPlayedEntity(
                 0,
-                mediaId.id,
+                mediaId.id.toLong(),
                 mediaId.categoryId.toLong()
             )
         )

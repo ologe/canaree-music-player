@@ -27,7 +27,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
         val playlistType = if (mediaId.isAnyPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
 
         val trackToInsert = when (mediaId) {
-            is PresentationId.Track -> listOf(trackGateway.getByParam(mediaId.id)!!.id)
+            is PresentationId.Track -> listOf(trackGateway.getByParam(mediaId.id.toLong())!!.id)
             is PresentationId.Category -> getSongListByParamUseCase(mediaId.toDomain()).map { it.id }
         }
         insertCustomTrackListToPlaylist(InsertCustomTrackListToPlaylist.Input(playlistTitle, trackToInsert, playlistType))

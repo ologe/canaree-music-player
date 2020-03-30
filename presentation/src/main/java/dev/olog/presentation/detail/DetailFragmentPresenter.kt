@@ -29,7 +29,7 @@ class DetailFragmentPresenter @Inject constructor(
             // favorites use songId instead of idInPlaylist
             removeFromPlaylistUseCase(
                 RemoveFromPlaylistUseCase.Input(
-                    playlistId, item.mediaId.id, playlistType
+                    playlistId, item.mediaId.id.toLong(), playlistType
                 )
             )
         } else {

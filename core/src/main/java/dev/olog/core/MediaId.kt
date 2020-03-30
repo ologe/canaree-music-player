@@ -6,6 +6,10 @@ private val podcastCategories = listOf(
     PODCASTS_AUTHORS, PODCASTS, PODCASTS_PLAYLIST
 )
 
+private val spotifyCategories = listOf(
+    SPOTIFY_TRACK, SPOTIFY_ALBUMS
+)
+
 sealed class MediaId(
     open val category: MediaIdCategory,
     open val categoryId: String
@@ -17,6 +21,10 @@ sealed class MediaId(
     ) : MediaId(category, categoryId) {
 
         fun playableItem(id: Long): Track {
+            return playableItem("$id")
+        }
+
+        fun playableItem(id: String): Track {
             return Track(
                 category = this.category,
                 categoryId = this.categoryId,
@@ -33,7 +41,7 @@ sealed class MediaId(
     data class Track(
         override val category: MediaIdCategory,
         override val categoryId: String,
-        val id: Long
+        val id: String
     ) : MediaId(category, categoryId) {
 
         val parentId: Category
@@ -73,12 +81,15 @@ sealed class MediaId(
             return Track(
                 valueOf(mediaId.substring(0, categoryFinish)),
                 mediaId.substring(categoryFinish + 1, categoryValueFinish),
-                mediaId.substring(categoryValueFinish + 1).toLong()
+                mediaId.substring(categoryValueFinish + 1)
             )
         }
     }
 
     val isAnyPodcast: Boolean
         get() = category in podcastCategories
+
+    val isSpotify: Boolean
+        get() = category in spotifyCategories
 
 }

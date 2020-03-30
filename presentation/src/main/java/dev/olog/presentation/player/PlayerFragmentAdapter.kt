@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.entity.spotify.SpotifyTrack
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.media.model.PlayerMetadata
@@ -305,6 +306,8 @@ internal class PlayerFragmentAdapter(
             metadata.title
         }
         view.textWrapper.update(title, metadata.artist)
+        view.lyrics.isEnabled = metadata.id.toIntOrNull() != null
+        view.favorite.isEnabled = view.lyrics.isEnabled
     }
 
 

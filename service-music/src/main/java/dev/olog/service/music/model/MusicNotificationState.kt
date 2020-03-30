@@ -1,6 +1,7 @@
 package dev.olog.service.music.model
 
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.core.entity.spotify.SpotifyTrack
 import java.util.concurrent.TimeUnit
 
 internal sealed class Event {
@@ -25,6 +26,7 @@ internal sealed class Event {
  */
 internal data class MusicNotificationState(
     var id: Long = -1,
+    var uri: String = SpotifyTrack.INVALID_PREVIEW_URL,
     var title: String = "",
     var artist: String = "",
     var album: String = "",
@@ -43,13 +45,14 @@ internal data class MusicNotificationState(
                 title.isNotBlank() &&
                 artist.isNotBlank() &&
                 album.isNotBlank() &&
-//                image.isNotBlank() &&
+                uri != SpotifyTrack.INVALID_PREVIEW_URL &&
                 bookmark != -1L &&
                 duration != -1L
     }
 
     fun updateMetadata(metadata: MediaEntity): Boolean {
         this.id = metadata.id
+        this.uri = metadata.mediaId.categoryId
         this.title = metadata.title
         this.artist = metadata.artist
         this.album = metadata.album
@@ -71,6 +74,7 @@ internal data class MusicNotificationState(
 
     fun isDifferentMetadata(metadata: MediaEntity): Boolean {
         return this.id != metadata.id ||
+                this.uri != metadata.mediaId.categoryId ||
                 this.title != metadata.title ||
                 this.artist != metadata.artist ||
                 this.album != metadata.album ||

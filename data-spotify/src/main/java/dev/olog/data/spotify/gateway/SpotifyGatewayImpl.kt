@@ -1,5 +1,6 @@
 package dev.olog.data.spotify.gateway
 
+import android.provider.MediaStore
 import dev.olog.core.MediaId
 import dev.olog.core.entity.spotify.SpotifyAlbum
 import dev.olog.core.entity.spotify.SpotifyAlbumType
@@ -21,8 +22,6 @@ import dev.olog.data.spotify.entity.RemoteSpotifyTrack
 import dev.olog.data.spotify.service.SpotifyService
 import dev.olog.shared.throwNotHandled
 import me.xdrop.fuzzywuzzy.FuzzySearch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 import kotlin.NoSuchElementException
 
@@ -77,9 +76,17 @@ internal class SpotifyGatewayImpl @Inject constructor(
             .map { tracks ->
                 tracks.map { it.toDomain() }
             }.fix(orDefault = emptyList())
-            .also { tracks ->
-                imageDao.insertImages(tracks.map { SpotifyImageEntity(it.uri, it.image) })
+            // not inserting images because spotify api doesn't return an image here
+    }
+
+    override suspend fun getTrack(trackId: String): SpotifyTrack? {
+        val result = service.getTrack(trackId)
+        if (result is IoResult.Success) {
+            return result.data.toDomain().also {
+                imageDao.insertImages(listOf(SpotifyImageEntity(it.uri, it.image)))
             }
+        }
+        return null
     }
 
     private suspend fun findSpotifyArtistBestMatch(artist: Artist): IoResult<RemoteSpotifyArtist> {
@@ -112,12 +119,15 @@ internal class SpotifyGatewayImpl @Inject constructor(
         return SpotifyTrack(
             id = this.id,
             name = this.name,
+            artist = this.artists.firstOrNull()?.name ?: MediaStore.UNKNOWN_STRING,
+            album = this.album?.name ?: MediaStore.UNKNOWN_STRING,
             uri = this.uri,
             image = this.album?.images?.maxBy { it.height }?.url ?: "",
             discNumber = this.disc_number,
             trackNumber = this.track_number,
             duration = this.duration_ms.toLong(),
-            isExplicit = this.explicit
+            isExplicit = this.explicit,
+            previewUrl = this.preview_url
         )
     }
 

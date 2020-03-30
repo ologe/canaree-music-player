@@ -16,7 +16,7 @@ class AddToFavoriteUseCase @Inject constructor(
 
     suspend operator fun invoke(input: Input) {
         return when (val mediaId = input.mediaId) {
-            is Track -> favoriteGateway.addSingle(input.type, mediaId.id)
+            is Track -> favoriteGateway.addSingle(input.type, mediaId.id.toLong())
             is Category -> {
                 val ids = getSongListByParamUseCase(mediaId).map { it.id }
                 favoriteGateway.addGroup(input.type, ids)

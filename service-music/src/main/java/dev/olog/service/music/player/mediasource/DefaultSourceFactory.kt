@@ -26,6 +26,9 @@ internal class DefaultSourceFactory @Inject constructor(
     private val extractorFactory = ProgressiveMediaSource.Factory(dataSource)
 
     override fun get(model: MediaEntity): MediaSource {
+        if (model.previewUrl != Uri.EMPTY) {
+            return extractorFactory.createMediaSource(model.previewUrl)
+        }
         val mediaSource = extractorFactory.createMediaSource(getTrackUri(model.id))
         return ConcatenatingMediaSource(mediaSource)
     }

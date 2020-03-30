@@ -1,14 +1,21 @@
 package dev.olog.presentation.widgets
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.util.AttributeSet
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.SimpleColorFilter
+import com.airbnb.lottie.model.KeyPath
+import com.airbnb.lottie.value.LottieValueCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteState
 import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.theme.themeManager
+import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.lazyFast
 
 class LottieFavorite(
@@ -104,6 +111,21 @@ class LottieFavorite(
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
         }
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        alpha = if (enabled) 1f else 0.5f
+        val color = if (enabled) {
+            Color.TRANSPARENT
+        } else {
+            context.colorControlNormal()
+        }
+        val filter = SimpleColorFilter(color)
+        val keyPath = KeyPath("**")
+        val callback =
+            LottieValueCallback<ColorFilter>(filter)
+        addValueCallback(keyPath, LottieProperty.COLOR_FILTER, callback)
     }
 
 }

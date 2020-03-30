@@ -51,7 +51,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
     }
 
     private fun setRingtone(activity: FragmentActivity, mediaId: PresentationId.Track): Boolean {
-        val songId = mediaId.id
+        val songId = mediaId.id.toLong()
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, songId)
 
         val values = ContentValues(1)

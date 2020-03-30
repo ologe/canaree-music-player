@@ -94,7 +94,7 @@ object CoverUtils {
 
     private fun buildPosition(mediaId: MediaId): Int {
         return when (mediaId) {
-            is MediaId.Track -> mediaId.id.toInt()
+            is MediaId.Track -> mediaId.id.hashCode()
             is MediaId.Category -> mediaId.categoryId.hashCode()
         }
     }
