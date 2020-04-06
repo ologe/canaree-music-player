@@ -42,15 +42,15 @@ fun main() {
     // get all build.gradle.kts from modules that are not $moduleName
     val modules = searchForGradleFiles(rootDir, moduleName)
 
+    // delete iml file
+    Files.delete(File(currentModule, "$moduleName.iml").toPath())
+
     // move all fiels
     Files.move(
             currentModule.toPath(),
             File(rootDir.absolutePath, renameTo).toPath(),
             StandardCopyOption.REPLACE_EXISTING
     )
-
-    // delete iml file
-    Files.delete(File(currentModule, "$moduleName.iml").toPath())
 
     updateGradleFiles(modules, moduleName, renameTo)
     updateModulesXmlFile(rootDir, moduleName)
