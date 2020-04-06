@@ -14,16 +14,17 @@ import java.nio.file.StandardCopyOption
 main()
 
 fun main() {
-    val fromModule = args[0]
-    val toModule = args[1]
-    val fileName = args[2]
-
-    if (!sanityChecks(fromModule, toModule)) {
+    if (!sanityChecks()) {
         return
     }
 
+    val fromModule = args[0]
+    val toModule = args[1]
+    val resourceType = args[2]
+    val fileName = args[3]
+
     val rootDir = Paths.get("").toAbsolutePath().parent
-    val fromPath = "$rootDir/${fromModule}/src/main/res/values"
+    val fromPath = "$rootDir/${fromModule}/src/main/res/${resourceType}"
 
     val file = File(fromPath, fileName)
 
@@ -37,7 +38,7 @@ fun main() {
 
     // find all files in all values-X folders
     val filesToMove = parentFile.listFiles()!!
-            .filter { it.name.startsWith("values") }
+            .filter { it.name.startsWith(resourceType) }
             .map { File(it, fileName) }
             .filter { it.exists() }
             .map { it.absolutePath } // convert to path so list is not changed
@@ -56,7 +57,7 @@ fun main() {
 
         Files.move(File(f).toPath(), File(newModulePath).toPath(), StandardCopyOption.REPLACE_EXISTING)
 
-        println("done ${index}/${filesToMove.size}")
+        println("moved ${index + 1}/${filesToMove.size}")
     }
 
     println("Done")
@@ -64,9 +65,50 @@ fun main() {
 
 }
 
-fun sanityChecks(fromModule: String, toModule: String): Boolean {
-    if (args.size != 3) {
-        println("the arguments needed")
+enum class ResourceType(val value: String) {
+    ANIM("anim"),
+    ANIMATOR("animator"),
+    COLOR("color"),
+    DRAWABLE("drawable"),
+    LAYOUT("layout"),
+    MENU("menu"),
+    VALUES("values"),
+    XML("xml")
+}
+
+fun sanityChecks(): Boolean {
+    if (args.size != 4) {
+        println("""
+            4 arguments needed:
+              1) from module
+              2) to module
+              3) resource type
+              4) file name
+        """.trimIndent())
+        return false
+    }
+
+    val fromModule = args[0]
+    val toModule = args[1]
+    val resourceType = args[2]
+    val fileName = args[3]
+
+    if (fromModule.isBlank()) {
+        println("from module can not be empty")
+        return false
+    }
+
+    if (toModule.isBlank()) {
+        println("to module can not be empty")
+        return false
+    }
+    if (resourceType.isBlank()) {
+        println("from module can not be empty")
+        return false
+    }
+
+    if (fileName.isBlank()) {
+        println("file name can not be empty")
         return false
     }
 
@@ -82,6 +124,13 @@ fun sanityChecks(fromModule: String, toModule: String): Boolean {
         println("can't move to the same module")
         return false
     }
+
+    if (resourceType !in ResourceType.values().map { it.value }) {
+        println("resource type=${resourceType} not valid")
+        println("should be one of [${ResourceType.values().joinToString { it.value }}]")
+        return false
+    }
+
     return true
 }
 
