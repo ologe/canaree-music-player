@@ -1,6 +1,6 @@
 package dev.olog.presentation.prefs.categories
 
-import dev.olog.core.MediaIdCategory
+import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import javax.inject.Inject

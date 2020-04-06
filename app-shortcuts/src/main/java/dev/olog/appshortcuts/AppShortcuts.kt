@@ -1,8 +1,8 @@
 package dev.olog.appshortcuts
 
 import android.content.Context
-import dev.olog.core.MediaId
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.schedulers.Schedulers
 
 class AppShortcuts private constructor(
     context: Context,

@@ -1,10 +1,10 @@
 package dev.olog.presentation.detail
 
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.interactor.playlist.MoveItemInPlaylistUseCase
-import dev.olog.core.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.interactor.playlist.MoveItemInPlaylistUseCase
+import dev.olog.domain.interactor.playlist.RemoveFromPlaylistUseCase
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory.PLAYLISTS
 import dev.olog.presentation.PresentationIdCategory.PODCASTS_PLAYLIST

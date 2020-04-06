@@ -1,10 +1,10 @@
 package dev.olog.presentation.recentlyadded
 
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.track.Song
-import dev.olog.core.interactor.GetItemTitleUseCase
-import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.interactor.GetItemTitleUseCase
+import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableTrack

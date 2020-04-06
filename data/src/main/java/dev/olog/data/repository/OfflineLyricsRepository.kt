@@ -1,7 +1,7 @@
 package dev.olog.data.repository
 
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.data.db.LyricsSyncAdjustmentDao
 import dev.olog.data.db.OfflineLyricsDao
 import dev.olog.data.model.db.LyricsSyncAdjustmentEntity

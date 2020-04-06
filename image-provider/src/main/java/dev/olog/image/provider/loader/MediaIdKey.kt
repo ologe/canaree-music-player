@@ -1,8 +1,8 @@
 package dev.olog.image.provider.loader
 
 import com.bumptech.glide.load.Key
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory.SONGS
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory.SONGS
 import java.security.MessageDigest
 
 internal class MediaIdKey(

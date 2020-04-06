@@ -4,10 +4,10 @@ import android.content.Context
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import org.junit.Assert.assertEquals

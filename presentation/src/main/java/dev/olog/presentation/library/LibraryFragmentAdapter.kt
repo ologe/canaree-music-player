@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
-import dev.olog.core.MediaIdCategory
+import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment

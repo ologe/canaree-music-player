@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.entity.sort.SortType
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.entity.sort.SortType
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.PresentationId

@@ -1,8 +1,8 @@
 package dev.olog.presentation.offlinelyrics
 
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.AppConstants
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase

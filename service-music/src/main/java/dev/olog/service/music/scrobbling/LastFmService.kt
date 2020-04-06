@@ -8,8 +8,8 @@ import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity

@@ -1,9 +1,9 @@
 package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.entity.track.*
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R

@@ -1,11 +1,11 @@
 package dev.olog.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
-import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.EqualizerBand
+import dev.olog.domain.entity.EqualizerPreset
+import dev.olog.domain.gateway.EqualizerGateway
+import dev.olog.domain.prefs.EqualizerPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

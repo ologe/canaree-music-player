@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import dev.olog.core.MediaId
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction

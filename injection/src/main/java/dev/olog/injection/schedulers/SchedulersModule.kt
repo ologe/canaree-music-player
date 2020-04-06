@@ -2,7 +2,7 @@ package dev.olog.injection.schedulers
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 
 @Module
 abstract class SchedulersModule {

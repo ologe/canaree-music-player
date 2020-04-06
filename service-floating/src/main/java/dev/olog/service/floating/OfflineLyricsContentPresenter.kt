@@ -1,7 +1,7 @@
 package dev.olog.service.floating
 
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase

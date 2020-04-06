@@ -5,7 +5,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.shared.CustomScope

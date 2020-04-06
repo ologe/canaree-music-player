@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R

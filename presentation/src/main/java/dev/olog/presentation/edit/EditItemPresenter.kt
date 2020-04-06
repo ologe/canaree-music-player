@@ -1,6 +1,6 @@
 package dev.olog.presentation.edit
 
-import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.presentation.edit.domain.UpdateTrackUseCase

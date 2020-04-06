@@ -1,9 +1,9 @@
 package dev.olog.offlinelyrics.domain
 
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.schedulers.Schedulers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

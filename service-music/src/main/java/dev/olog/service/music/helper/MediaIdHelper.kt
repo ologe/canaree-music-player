@@ -4,8 +4,8 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import androidx.annotation.StringRes
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
 import dev.olog.service.music.R
 
 internal object MediaIdHelper {

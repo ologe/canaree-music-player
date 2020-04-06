@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter.Companion.ELLIPSES
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase

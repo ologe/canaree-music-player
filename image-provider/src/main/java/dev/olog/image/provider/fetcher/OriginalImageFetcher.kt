@@ -5,7 +5,7 @@ import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore.Audio.Media
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.track.Song
 import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
 import timber.log.Timber

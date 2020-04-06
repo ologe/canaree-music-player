@@ -1,9 +1,9 @@
 package dev.olog.data.repository
 
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCase
+import dev.olog.domain.entity.PlayingQueueSong
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import dev.olog.data.db.PlayingQueueDao
 import dev.olog.data.mapper.toPlayingQueueSong
 import dev.olog.shared.android.utils.assertBackgroundThread

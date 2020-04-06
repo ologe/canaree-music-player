@@ -1,7 +1,7 @@
 package dev.olog.media.model
 
 import android.support.v4.media.MediaMetadataCompat.*
-import dev.olog.core.MediaId
+import dev.olog.domain.MediaId
 import dev.olog.intents.MusicConstants.IS_PODCAST
 import dev.olog.intents.MusicConstants.PATH
 import dev.olog.intents.MusicConstants.SKIP_NEXT

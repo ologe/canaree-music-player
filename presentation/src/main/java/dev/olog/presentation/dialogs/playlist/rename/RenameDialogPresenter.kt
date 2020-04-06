@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.playlist.rename
 
-import dev.olog.core.interactor.playlist.RenameUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.playlist.RenameUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext

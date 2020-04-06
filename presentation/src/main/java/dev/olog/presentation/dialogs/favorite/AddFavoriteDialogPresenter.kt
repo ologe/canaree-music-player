@@ -1,8 +1,8 @@
 package dev.olog.presentation.dialogs.favorite
 
-import dev.olog.core.entity.favorite.FavoriteTrackType
-import dev.olog.core.interactor.AddToFavoriteUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.favorite.FavoriteTrackType
+import dev.olog.domain.interactor.AddToFavoriteUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext

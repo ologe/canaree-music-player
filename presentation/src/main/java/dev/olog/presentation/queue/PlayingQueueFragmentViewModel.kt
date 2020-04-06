@@ -2,11 +2,10 @@ package dev.olog.presentation.queue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.domain.entity.PlayingQueueSong
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.toPresentation

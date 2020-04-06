@@ -4,7 +4,7 @@ import android.view.Menu
 import android.view.View
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.entity.sort.SortType
+import dev.olog.domain.entity.sort.SortType
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R

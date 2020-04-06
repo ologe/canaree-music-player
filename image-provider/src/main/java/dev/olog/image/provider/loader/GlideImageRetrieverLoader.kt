@@ -6,10 +6,9 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.MediaIdCategory.*
-import dev.olog.core.gateway.ImageRetrieverGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory.*
+import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher

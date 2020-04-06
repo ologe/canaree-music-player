@@ -1,10 +1,10 @@
 package dev.olog.presentation.edit
 
 import android.content.Context
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.toDomain

@@ -5,9 +5,9 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory.*
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory.*
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
 import dev.olog.shared.ApplicationContext
 import java.io.InputStream

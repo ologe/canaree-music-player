@@ -2,8 +2,8 @@ package dev.olog.presentation.edit.artist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

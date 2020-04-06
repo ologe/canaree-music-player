@@ -7,7 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
-import dev.olog.core.entity.PlaylistType
+import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R

@@ -1,7 +1,7 @@
 package dev.olog.data.mapper
 
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.PlayingQueueSong
+import dev.olog.domain.entity.track.Song
 
 internal fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
     return PlayingQueueSong(

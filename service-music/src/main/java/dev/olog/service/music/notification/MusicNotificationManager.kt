@@ -5,9 +5,9 @@ import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.entity.favorite.FavoriteState
-import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.favorite.FavoriteState
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.IPlayerLifecycle
@@ -16,7 +16,6 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.CustomScope
-import dev.olog.shared.android.utils.isOreo
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel

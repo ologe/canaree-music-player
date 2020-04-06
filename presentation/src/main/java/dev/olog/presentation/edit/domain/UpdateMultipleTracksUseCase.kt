@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.domain
 import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.toDomain

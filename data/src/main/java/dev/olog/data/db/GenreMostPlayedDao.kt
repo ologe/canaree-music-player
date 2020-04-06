@@ -3,8 +3,8 @@ package dev.olog.data.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import kotlinx.coroutines.flow.Flow

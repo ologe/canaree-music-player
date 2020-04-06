@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers

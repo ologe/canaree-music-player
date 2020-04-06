@@ -8,9 +8,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import dev.olog.analytics.TrackerFacade
-import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.media.MediaExposer

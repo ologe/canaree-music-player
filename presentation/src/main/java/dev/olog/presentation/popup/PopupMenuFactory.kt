@@ -2,10 +2,10 @@ package dev.olog.presentation.popup
 
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory.*
 import dev.olog.presentation.popup.album.AlbumPopup

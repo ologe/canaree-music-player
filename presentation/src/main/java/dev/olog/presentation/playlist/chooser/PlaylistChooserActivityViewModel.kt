@@ -3,9 +3,9 @@ package dev.olog.presentation.playlist.chooser
 import android.content.Context
 import android.content.res.Resources
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.gateway.track.PlaylistGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Playlist
+import dev.olog.domain.gateway.track.PlaylistGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem

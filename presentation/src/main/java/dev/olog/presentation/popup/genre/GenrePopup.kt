@@ -1,8 +1,8 @@
 package dev.olog.presentation.popup.genre
 
 import android.view.View
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.track.Genre
+import dev.olog.domain.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener

@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.widget.RemoteViews
-import dev.olog.core.MediaId.Companion.SONGS_CATEGORY
+import dev.olog.domain.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.android.palette.ImageProcessor

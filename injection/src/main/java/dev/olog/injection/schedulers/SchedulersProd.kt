@@ -1,6 +1,6 @@
 package dev.olog.injection.schedulers
 
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

@@ -1,15 +1,15 @@
 package dev.olog.data.spotify.gateway
 
 import android.provider.MediaStore
-import dev.olog.core.MediaId
-import dev.olog.core.entity.spotify.SpotifyAlbum
-import dev.olog.core.entity.spotify.SpotifyAlbumType
-import dev.olog.core.entity.spotify.SpotifyTrack
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.gateway.spotify.SpotifyGateway
-import dev.olog.core.gateway.track.AlbumGateway
-import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.spotify.SpotifyAlbum
+import dev.olog.domain.entity.spotify.SpotifyAlbumType
+import dev.olog.domain.entity.spotify.SpotifyTrack
+import dev.olog.domain.entity.track.Album
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.gateway.spotify.SpotifyGateway
+import dev.olog.domain.gateway.track.AlbumGateway
+import dev.olog.domain.gateway.track.ArtistGateway
 import dev.olog.data.shared.retrofit.IoResult
 import dev.olog.data.shared.retrofit.fix
 import dev.olog.data.shared.retrofit.flatMap

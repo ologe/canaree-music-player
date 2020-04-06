@@ -12,9 +12,9 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.umass.lastfm.Authenticator
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.interactor.lastfm.GetLastFmUserCredentials
-import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
+import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment

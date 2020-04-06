@@ -3,7 +3,7 @@ package dev.olog.data.repository.lastfm
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmArtist
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.model.db.LastFmArtistEntity
 import dev.olog.data.mapper.millisToFormattedDate

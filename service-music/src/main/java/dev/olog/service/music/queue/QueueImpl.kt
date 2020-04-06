@@ -4,11 +4,11 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.UpdatePlayingQueueUseCase
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue

@@ -9,8 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.spotify.SpotifyTrack
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*

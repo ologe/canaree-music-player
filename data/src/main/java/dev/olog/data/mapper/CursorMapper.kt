@@ -5,10 +5,10 @@ package dev.olog.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Genre
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.track.Album
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.entity.track.Genre
+import dev.olog.domain.entity.track.Song
 import dev.olog.data.queries.Columns
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong

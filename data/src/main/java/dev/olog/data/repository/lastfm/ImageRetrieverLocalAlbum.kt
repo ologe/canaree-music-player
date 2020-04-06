@@ -1,6 +1,6 @@
 package dev.olog.data.repository.lastfm
 
-import dev.olog.core.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel

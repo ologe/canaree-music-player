@@ -1,8 +1,8 @@
 package dev.olog.offlinelyrics.domain
 
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.schedulers.Schedulers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map

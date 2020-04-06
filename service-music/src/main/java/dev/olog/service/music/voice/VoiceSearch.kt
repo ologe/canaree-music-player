@@ -1,8 +1,8 @@
 package dev.olog.service.music.voice
 
-import dev.olog.core.MediaId
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.GenreGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.GenreGateway
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.toMediaEntity
 

@@ -1,9 +1,9 @@
 package dev.olog.presentation
 
 import android.os.Parcelable
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.track.*
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.entity.track.*
 import dev.olog.shared.throwNotHandled
 import kotlinx.android.parcel.Parcelize
 

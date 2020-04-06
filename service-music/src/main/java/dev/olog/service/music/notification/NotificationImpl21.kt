@@ -16,10 +16,9 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.MediaIdCategory.SPOTIFY_TRACK
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory.SPOTIFY_TRACK
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getBitmap
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.intents.AppConstants

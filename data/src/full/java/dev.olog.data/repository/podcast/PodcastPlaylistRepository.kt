@@ -1,16 +1,16 @@
 package dev.olog.data.repository.podcast
 
 import android.content.Context
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.favorite.FavoriteTrackType
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.favorite.FavoriteTrackType
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.entity.track.Playlist
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.FavoriteGateway
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PodcastPlaylistDao

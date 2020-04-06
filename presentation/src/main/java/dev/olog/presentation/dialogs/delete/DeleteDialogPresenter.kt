@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.delete
 
-import dev.olog.core.interactor.DeleteUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.DeleteUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext

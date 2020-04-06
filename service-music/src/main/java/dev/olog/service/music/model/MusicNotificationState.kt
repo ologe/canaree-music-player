@@ -1,7 +1,7 @@
 package dev.olog.service.music.model
 
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.core.entity.spotify.SpotifyTrack
+import dev.olog.domain.entity.spotify.SpotifyTrack
 import java.util.concurrent.TimeUnit
 
 internal sealed class Event {

@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.model.db.PodcastPlaylistEntity
 import dev.olog.data.model.db.PodcastPlaylistTrackEntity
 import dev.olog.shared.android.utils.assertBackgroundThread

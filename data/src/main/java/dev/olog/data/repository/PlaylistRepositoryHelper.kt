@@ -1,10 +1,10 @@
 package dev.olog.data.repository
 
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.favorite.FavoriteTrackType
-import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.gateway.track.PlaylistOperations
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.favorite.FavoriteTrackType
+import dev.olog.domain.gateway.FavoriteGateway
+import dev.olog.domain.gateway.track.PlaylistOperations
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.db.HistoryDao
 import dev.olog.data.db.PlaylistDao
 import dev.olog.data.model.db.PlaylistEntity

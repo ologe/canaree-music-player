@@ -3,7 +3,7 @@ package dev.olog.presentation.playlist.chooser
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem

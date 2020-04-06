@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
-import dev.olog.core.C.ACTION_STOP_SLEEP_END
+import dev.olog.domain.C.ACTION_STOP_SLEEP_END
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer

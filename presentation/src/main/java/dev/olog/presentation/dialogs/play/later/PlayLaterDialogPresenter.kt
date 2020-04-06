@@ -2,8 +2,8 @@ package dev.olog.presentation.dialogs.play.later
 
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain

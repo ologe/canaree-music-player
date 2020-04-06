@@ -2,11 +2,11 @@ package dev.olog.service.music.helper
 
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.track.*
-import dev.olog.core.gateway.track.*
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.entity.track.*
+import dev.olog.domain.gateway.track.*
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.shared.android.utils.assertBackgroundThread
 import javax.inject.Inject
 

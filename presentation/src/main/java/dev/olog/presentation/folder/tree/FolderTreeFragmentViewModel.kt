@@ -8,11 +8,10 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.FileType
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.gateway.FolderNavigatorGateway
-import dev.olog.core.prefs.AppPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.FileType
+import dev.olog.domain.gateway.FolderNavigatorGateway
+import dev.olog.domain.prefs.AppPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R

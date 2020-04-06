@@ -1,7 +1,7 @@
 package dev.olog.media
 
-import dev.olog.core.MediaId
-import dev.olog.core.entity.sort.SortEntity
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.media.model.*
 import kotlinx.coroutines.flow.Flow
 

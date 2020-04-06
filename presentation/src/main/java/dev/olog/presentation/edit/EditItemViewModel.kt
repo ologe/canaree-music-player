@@ -3,8 +3,8 @@ package dev.olog.presentation.edit
 import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.track.Song
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult

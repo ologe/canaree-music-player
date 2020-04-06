@@ -3,8 +3,8 @@ package dev.olog.presentation.edit.song
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.track.Song
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.ApplicationContext

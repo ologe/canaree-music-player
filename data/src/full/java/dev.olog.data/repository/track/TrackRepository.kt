@@ -5,9 +5,9 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
 import dev.olog.contentresolversql.querySql
-import dev.olog.core.entity.PureUri
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.entity.PureUri
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.repository.podcast.PodcastRepositoryInternal
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString

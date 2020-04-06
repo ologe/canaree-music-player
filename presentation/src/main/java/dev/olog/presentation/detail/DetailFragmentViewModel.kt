@@ -2,16 +2,16 @@ package dev.olog.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.interactor.sort.GetDetailSortUseCase
-import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
-import dev.olog.core.interactor.sort.SetSortOrderUseCase
-import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.interactor.sort.GetDetailSortUseCase
+import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
+import dev.olog.domain.interactor.sort.SetSortOrderUseCase
+import dev.olog.domain.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory.*
 import dev.olog.presentation.model.DisplayableAlbum

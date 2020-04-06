@@ -1,16 +1,16 @@
 package dev.olog.data.repository.lastfm
 
 import android.provider.MediaStore
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Album
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.track.AlbumGateway
-import dev.olog.core.gateway.track.ArtistGateway
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.entity.track.Album
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.track.AlbumGateway
+import dev.olog.domain.gateway.track.ArtistGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls

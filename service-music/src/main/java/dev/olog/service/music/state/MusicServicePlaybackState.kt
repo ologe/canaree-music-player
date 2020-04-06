@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants

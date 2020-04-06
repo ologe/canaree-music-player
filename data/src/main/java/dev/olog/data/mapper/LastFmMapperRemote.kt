@@ -1,8 +1,8 @@
 package dev.olog.data.mapper
 
-import dev.olog.core.entity.LastFmAlbum
-import dev.olog.core.entity.LastFmArtist
-import dev.olog.core.entity.LastFmTrack
+import dev.olog.domain.entity.LastFmAlbum
+import dev.olog.domain.entity.LastFmArtist
+import dev.olog.domain.entity.LastFmTrack
 import dev.olog.data.model.lastfm.*
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import timber.log.Timber

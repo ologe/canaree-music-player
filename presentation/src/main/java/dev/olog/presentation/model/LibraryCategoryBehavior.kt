@@ -1,8 +1,8 @@
 package dev.olog.presentation.model
 
 import android.content.Context
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.MediaIdCategory.*
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.MediaIdCategory.*
 import dev.olog.presentation.R
 import dev.olog.shared.throwNotHandled
 

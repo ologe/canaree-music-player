@@ -1,6 +1,6 @@
 package dev.olog.test.shared
 
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.track.*
 
 object Mocks {
 

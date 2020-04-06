@@ -2,7 +2,7 @@ package dev.olog.service.music.interfaces
 
 import android.net.Uri
 import android.os.Bundle
-import dev.olog.core.MediaId
+import dev.olog.domain.MediaId
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.PositionInQueue
 

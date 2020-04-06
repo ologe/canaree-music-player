@@ -1,7 +1,7 @@
 package dev.olog.presentation.tab.mapper
 
 import android.content.res.Resources
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.track.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem

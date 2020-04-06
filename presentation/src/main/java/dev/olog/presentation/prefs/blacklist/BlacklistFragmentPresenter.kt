@@ -1,9 +1,9 @@
 package dev.olog.presentation.prefs.blacklist
 
 import android.os.Environment
-import dev.olog.core.entity.track.Folder
-import dev.olog.core.gateway.track.FolderGateway
-import dev.olog.core.prefs.BlacklistPreferences
+import dev.olog.domain.entity.track.Folder
+import dev.olog.domain.gateway.track.FolderGateway
+import dev.olog.domain.prefs.BlacklistPreferences
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BaseModel

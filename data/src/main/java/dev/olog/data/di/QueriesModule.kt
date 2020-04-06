@@ -4,8 +4,8 @@ import android.content.ContentResolver
 import android.provider.MediaStore
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.domain.prefs.BlacklistPreferences
+import dev.olog.domain.prefs.SortPreferences
 import dev.olog.data.di.qualifier.Podcast
 import dev.olog.data.di.qualifier.Tracks
 import dev.olog.data.queries.TrackQueries

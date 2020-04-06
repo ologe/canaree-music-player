@@ -2,7 +2,7 @@ package dev.olog.data.prefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import javax.inject.Inject
 
 internal class TutorialPreferenceImpl @Inject constructor(

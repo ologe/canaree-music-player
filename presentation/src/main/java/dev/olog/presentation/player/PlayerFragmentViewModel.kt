@@ -2,11 +2,11 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.favorite.FavoriteState
-import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.prefs.TutorialPreferenceGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.favorite.FavoriteState
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.TutorialPreferenceGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader

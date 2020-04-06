@@ -1,7 +1,7 @@
 package dev.olog.presentation.navigator
 
 import android.view.View
-import dev.olog.core.entity.PlaylistType
+import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.popup.main.MainPopupCategory
 

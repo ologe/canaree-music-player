@@ -7,10 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.domain.entity.sort.SortArranging
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator

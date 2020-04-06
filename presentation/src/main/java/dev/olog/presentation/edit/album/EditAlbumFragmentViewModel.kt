@@ -2,8 +2,8 @@ package dev.olog.presentation.edit.album
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.track.Album
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Album
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
 import dev.olog.presentation.playlist.chooser.di.inject

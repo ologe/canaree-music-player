@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
-import dev.olog.core.entity.UserCredentials
-import dev.olog.core.prefs.AppPreferencesGateway
+import dev.olog.domain.entity.UserCredentials
+import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.observeKey
 import dev.olog.shared.ApplicationContext

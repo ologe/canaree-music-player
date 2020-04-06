@@ -10,10 +10,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.interactor.SleepTimerUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.di.inject

@@ -5,10 +5,10 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory.SPOTIFY_ALBUMS
-import dev.olog.core.MediaIdCategory.SPOTIFY_TRACK
-import dev.olog.core.gateway.spotify.SpotifyGateway
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory.SPOTIFY_ALBUMS
+import dev.olog.domain.MediaIdCategory.SPOTIFY_TRACK
+import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.shared.android.utils.assertBackgroundThread
 import java.io.InputStream
 import javax.inject.Inject

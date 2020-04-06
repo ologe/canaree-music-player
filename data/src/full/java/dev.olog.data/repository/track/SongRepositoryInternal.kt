@@ -2,8 +2,8 @@ package dev.olog.data.repository.track
 
 import android.content.ContentUris
 import android.content.Context
-import dev.olog.core.entity.track.Song
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.di.qualifier.Tracks
 import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.TrackQueries

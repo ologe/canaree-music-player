@@ -4,11 +4,11 @@ import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

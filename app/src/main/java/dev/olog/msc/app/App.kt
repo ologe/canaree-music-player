@@ -8,8 +8,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dev.olog.analytics.TrackerFacade
 import dev.olog.appshortcuts.AppShortcuts
-import dev.olog.core.interactor.SleepTimerUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.SleepTimerUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R

@@ -1,6 +1,6 @@
 package dev.olog.presentation.playermini
 
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

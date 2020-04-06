@@ -11,7 +11,7 @@ import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.entity.favorite.FavoriteState
+import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.isDarkMode

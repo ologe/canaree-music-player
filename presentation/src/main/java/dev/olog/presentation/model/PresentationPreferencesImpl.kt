@@ -3,7 +3,7 @@ package dev.olog.presentation.model
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.MediaIdCategory
+import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.ApplicationContext

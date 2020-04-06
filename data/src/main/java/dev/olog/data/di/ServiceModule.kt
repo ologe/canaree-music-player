@@ -2,7 +2,7 @@ package dev.olog.data.di
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.core.gateway.AlarmService
+import dev.olog.domain.gateway.AlarmService
 import dev.olog.data.service.AlarmServiceImpl
 import javax.inject.Singleton
 

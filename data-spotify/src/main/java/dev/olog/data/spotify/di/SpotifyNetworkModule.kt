@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.gateway.spotify.SpotifyGateway
+import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.data.shared.SharedNetworkModule
 import dev.olog.data.shared.withLazyCallFactory
 import dev.olog.data.spotify.gateway.SpotifyGatewayImpl

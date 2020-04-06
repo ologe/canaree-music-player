@@ -1,7 +1,7 @@
 package dev.olog.presentation.popup
 
 import android.view.View
-import dev.olog.core.entity.track.*
+import dev.olog.domain.entity.track.*
 import dev.olog.presentation.popup.album.AlbumPopupListener
 import dev.olog.presentation.popup.artist.ArtistPopupListener
 import dev.olog.presentation.popup.folder.FolderPopupListener

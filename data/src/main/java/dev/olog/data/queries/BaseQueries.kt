@@ -1,12 +1,12 @@
 package dev.olog.data.queries
 
 import android.provider.MediaStore.Audio.Media.*
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.BlacklistPreferences
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.entity.sort.SortArranging
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.prefs.BlacklistPreferences
+import dev.olog.domain.prefs.SortPreferences
 import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")

@@ -7,8 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService

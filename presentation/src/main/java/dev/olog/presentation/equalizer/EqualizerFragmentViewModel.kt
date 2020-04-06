@@ -2,10 +2,10 @@ package dev.olog.presentation.equalizer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.entity.EqualizerPreset
-import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.EqualizerPreset
+import dev.olog.domain.gateway.EqualizerGateway
+import dev.olog.domain.prefs.EqualizerPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer

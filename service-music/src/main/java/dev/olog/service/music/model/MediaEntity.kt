@@ -1,9 +1,9 @@
 package dev.olog.service.music.model
 
 import android.net.Uri
-import dev.olog.core.MediaId
-import dev.olog.core.entity.PlayingQueueSong
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.PlayingQueueSong
+import dev.olog.domain.entity.track.Song
 
 internal data class MediaEntity(
     val id: Long,

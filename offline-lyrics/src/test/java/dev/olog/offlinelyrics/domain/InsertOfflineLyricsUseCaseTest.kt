@@ -3,10 +3,9 @@ package dev.olog.offlinelyrics.domain
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.entity.OfflineLyrics
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.test.shared.*
+import dev.olog.domain.entity.OfflineLyrics
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import org.junit.Rule
 import org.junit.Test
 

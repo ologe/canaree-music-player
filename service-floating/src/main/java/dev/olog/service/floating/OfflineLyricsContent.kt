@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.MediaId
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog

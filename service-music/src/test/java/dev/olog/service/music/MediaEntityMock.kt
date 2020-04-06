@@ -1,6 +1,6 @@
 package dev.olog.service.music
 
-import dev.olog.core.MediaId
+import dev.olog.domain.MediaId
 import dev.olog.service.music.model.MediaEntity
 
 internal object MediaEntityMock {

@@ -1,9 +1,9 @@
 package dev.olog.presentation.edit.song
 
-import dev.olog.core.entity.LastFmTrack
-import dev.olog.core.entity.track.Song
-import dev.olog.core.gateway.ImageRetrieverGateway
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.entity.LastFmTrack
+import dev.olog.domain.entity.track.Song
+import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.PresentationId
 import javax.inject.Inject

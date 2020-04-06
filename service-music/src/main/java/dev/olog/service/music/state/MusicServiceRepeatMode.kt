@@ -2,7 +2,7 @@ package dev.olog.service.music.state
 
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import timber.log.Timber
 import javax.inject.Inject

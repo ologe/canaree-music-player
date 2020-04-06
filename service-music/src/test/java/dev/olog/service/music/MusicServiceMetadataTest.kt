@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v4.media.session.MediaSessionCompat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.state.MusicServiceMetadata
 import dev.olog.test.shared.MainCoroutineRule

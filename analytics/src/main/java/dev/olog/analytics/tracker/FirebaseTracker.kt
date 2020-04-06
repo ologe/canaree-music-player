@@ -3,7 +3,7 @@ package dev.olog.analytics.tracker
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import dev.olog.analytics.TrackerFacade
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.shared.launchUnit
 import kotlinx.coroutines.GlobalScope
 import timber.log.Timber

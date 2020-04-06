@@ -1,7 +1,7 @@
 package dev.olog.data.mapper
 
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
+import dev.olog.domain.entity.EqualizerBand
+import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.data.model.db.EqualizerBandEntity
 import dev.olog.data.model.db.EqualizerPresetEntity
 import org.junit.Assert.assertEquals

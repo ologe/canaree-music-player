@@ -1,8 +1,8 @@
 package dev.olog.presentation.edit.artist
 
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.track.ArtistGateway
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.track.ArtistGateway
 import dev.olog.presentation.PresentationId
 import javax.inject.Inject
 

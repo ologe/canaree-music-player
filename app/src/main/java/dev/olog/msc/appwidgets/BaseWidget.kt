@@ -9,8 +9,8 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
-import dev.olog.core.entity.LastMetadata
-import dev.olog.core.prefs.MusicPreferencesGateway
+import dev.olog.domain.entity.LastMetadata
+import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.service.music.MusicService
 import dev.olog.presentation.main.MainActivity
 import dev.olog.shared.android.palette.ImageProcessorResult

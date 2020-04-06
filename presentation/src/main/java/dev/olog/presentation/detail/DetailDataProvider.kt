@@ -1,16 +1,16 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.core.entity.spotify.SpotifyAlbumType
-import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.spotify.SpotifyGateway
-import dev.olog.core.gateway.track.*
-import dev.olog.core.interactor.mostplayed.ObserveMostPlayedSongsUseCase
-import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
-import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
-import dev.olog.core.interactor.songlist.ObserveSongListByParamUseCase
-import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
+import dev.olog.domain.entity.spotify.SpotifyAlbumType
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.spotify.SpotifyGateway
+import dev.olog.domain.gateway.track.*
+import dev.olog.domain.interactor.mostplayed.ObserveMostPlayedSongsUseCase
+import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
+import dev.olog.domain.interactor.ObserveRelatedArtistsUseCase
+import dev.olog.domain.interactor.songlist.ObserveSongListByParamUseCase
+import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R

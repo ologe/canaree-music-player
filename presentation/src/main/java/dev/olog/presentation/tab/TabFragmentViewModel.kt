@@ -1,10 +1,10 @@
 package dev.olog.presentation.tab
 
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.gateway.podcast.PodcastGateway
-import dev.olog.core.prefs.SortPreferences
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.prefs.SortPreferences
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import kotlinx.coroutines.flow.Flow

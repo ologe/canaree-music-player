@@ -1,8 +1,8 @@
 package dev.olog.presentation.detail.mapper
 
 import android.content.res.Resources
-import dev.olog.core.entity.spotify.SpotifyAlbum
-import dev.olog.core.entity.spotify.SpotifyTrack
+import dev.olog.domain.entity.spotify.SpotifyAlbum
+import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack

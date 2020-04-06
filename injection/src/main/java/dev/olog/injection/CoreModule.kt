@@ -8,7 +8,7 @@ import android.net.ConnectivityManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.IEncrypter
+import dev.olog.domain.IEncrypter
 import dev.olog.shared.ApplicationContext
 
 @Module

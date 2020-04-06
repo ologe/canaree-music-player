@@ -6,8 +6,8 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R

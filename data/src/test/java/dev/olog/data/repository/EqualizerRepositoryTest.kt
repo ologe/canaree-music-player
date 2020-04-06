@@ -1,9 +1,8 @@
 package dev.olog.data.repository
 
 import com.nhaarman.mockitokotlin2.*
-import dev.olog.core.entity.EqualizerPreset
-import dev.olog.core.gateway.EqualizerGateway
-import dev.olog.core.prefs.EqualizerPreferencesGateway
+import dev.olog.domain.entity.EqualizerPreset
+import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import dev.olog.data.db.EqualizerPresetsDao
 import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
@@ -12,7 +11,6 @@ import dev.olog.test.shared.schedulers
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 

@@ -19,8 +19,8 @@ import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.AndroidSupportInjection
-import dev.olog.core.MediaIdCategory
-import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.domain.MediaIdCategory
+import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.presentation.R

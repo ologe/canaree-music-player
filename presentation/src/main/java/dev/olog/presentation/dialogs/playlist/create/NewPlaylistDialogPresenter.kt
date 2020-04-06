@@ -1,11 +1,11 @@
 package dev.olog.presentation.dialogs.playlist.create
 
-import dev.olog.core.entity.PlaylistType
-import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.gateway.track.TrackGateway
-import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
-import dev.olog.core.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.PlaylistType
+import dev.olog.domain.gateway.PlayingQueueGateway
+import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext

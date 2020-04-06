@@ -1,7 +1,7 @@
 package dev.olog.presentation.dialogs.playlist.clear
 
-import dev.olog.core.interactor.playlist.ClearPlaylistUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.playlist.ClearPlaylistUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.toDomain
 import kotlinx.coroutines.withContext

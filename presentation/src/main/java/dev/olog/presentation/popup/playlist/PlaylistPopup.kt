@@ -1,9 +1,9 @@
 package dev.olog.presentation.popup.playlist
 
 import android.view.View
-import dev.olog.core.entity.AutoPlaylist
-import dev.olog.core.entity.track.Playlist
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.AutoPlaylist
+import dev.olog.domain.entity.track.Playlist
+import dev.olog.domain.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener

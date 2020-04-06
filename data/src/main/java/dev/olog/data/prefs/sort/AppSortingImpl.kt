@@ -2,11 +2,11 @@ package dev.olog.data.prefs.sort
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
-import dev.olog.core.prefs.SortDetail
-import dev.olog.core.prefs.SortPreferences
+import dev.olog.domain.entity.sort.SortArranging
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
+import dev.olog.domain.prefs.SortDetail
+import dev.olog.domain.prefs.SortPreferences
 import javax.inject.Inject
 
 internal class AppSortingImpl @Inject constructor(

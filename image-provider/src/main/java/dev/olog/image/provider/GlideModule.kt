@@ -12,7 +12,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import dev.olog.core.MediaId
+import dev.olog.domain.MediaId
 import dev.olog.image.provider.di.inject
 import dev.olog.image.provider.loader.*
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader

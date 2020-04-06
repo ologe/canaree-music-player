@@ -1,6 +1,6 @@
 package dev.olog.offlinelyrics.domain
 
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.track.Song
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File

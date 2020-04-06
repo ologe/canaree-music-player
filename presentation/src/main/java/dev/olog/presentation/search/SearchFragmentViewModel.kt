@@ -2,10 +2,10 @@ package dev.olog.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.interactor.search.ClearRecentSearchesUseCase
-import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
-import dev.olog.core.interactor.search.InsertRecentSearchUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.interactor.search.ClearRecentSearchesUseCase
+import dev.olog.domain.interactor.search.DeleteRecentSearchUseCase
+import dev.olog.domain.interactor.search.InsertRecentSearchUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem

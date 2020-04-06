@@ -2,7 +2,7 @@ package dev.olog.data.db
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.DatabaseBuilder
 import dev.olog.data.model.db.GenreMostPlayedEntity
 import dev.olog.data.model.db.MostTimesPlayedSongEntity

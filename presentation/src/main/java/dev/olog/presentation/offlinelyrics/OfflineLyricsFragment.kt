@@ -9,7 +9,7 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.MediaId
+import dev.olog.domain.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.media.MediaProvider

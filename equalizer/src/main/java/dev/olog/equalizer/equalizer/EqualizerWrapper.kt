@@ -2,8 +2,8 @@ package dev.olog.equalizer.equalizer
 
 import android.os.Build
 import dagger.Lazy
-import dev.olog.core.entity.EqualizerBand
-import dev.olog.core.entity.EqualizerPreset
+import dev.olog.domain.entity.EqualizerBand
+import dev.olog.domain.entity.EqualizerPreset
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import timber.log.Timber

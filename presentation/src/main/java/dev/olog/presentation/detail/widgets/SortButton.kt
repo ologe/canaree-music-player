@@ -3,9 +3,9 @@ package dev.olog.presentation.detail.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.olog.core.entity.sort.SortArranging
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.sort.SortType
+import dev.olog.domain.entity.sort.SortArranging
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.sort.SortType
 import dev.olog.presentation.R
 
 internal class SortButton(

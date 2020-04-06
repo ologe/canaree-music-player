@@ -9,9 +9,9 @@ import android.view.KeyEvent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.MediaId
-import dev.olog.core.gateway.FavoriteGateway
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.MediaId
+import dev.olog.domain.gateway.FavoriteGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.intents.MusicServiceCustomAction
@@ -27,7 +27,6 @@ import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.exhaustive
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch

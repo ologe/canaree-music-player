@@ -7,7 +7,7 @@ import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import dev.olog.core.entity.track.Playlist
+import dev.olog.domain.entity.track.Playlist
 import dev.olog.presentation.R
 
 abstract class AbsPopup(

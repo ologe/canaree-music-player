@@ -1,11 +1,11 @@
 package dev.olog.data.repository
 
-import dev.olog.core.MediaId
-import dev.olog.core.entity.SearchResult
-import dev.olog.core.gateway.RecentSearchesGateway
-import dev.olog.core.gateway.podcast.PodcastAuthorGateway
-import dev.olog.core.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.core.gateway.track.*
+import dev.olog.domain.MediaId
+import dev.olog.domain.entity.SearchResult
+import dev.olog.domain.gateway.RecentSearchesGateway
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
 import dev.olog.data.db.RecentSearchesDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

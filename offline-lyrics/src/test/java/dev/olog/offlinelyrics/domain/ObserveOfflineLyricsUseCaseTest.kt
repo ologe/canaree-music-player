@@ -2,8 +2,8 @@ package dev.olog.offlinelyrics.domain
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import dev.olog.core.gateway.OfflineLyricsGateway
-import dev.olog.core.gateway.track.TrackGateway
+import dev.olog.domain.gateway.OfflineLyricsGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.Mocks
 import dev.olog.test.shared.runBlockingTest

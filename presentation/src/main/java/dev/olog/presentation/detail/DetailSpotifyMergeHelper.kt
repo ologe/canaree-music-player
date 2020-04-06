@@ -1,8 +1,8 @@
 package dev.olog.presentation.detail
 
-import dev.olog.core.entity.sort.SortEntity
-import dev.olog.core.entity.spotify.SpotifyTrack
-import dev.olog.core.entity.track.Song
+import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.spotify.SpotifyTrack
+import dev.olog.domain.entity.track.Song
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.detail.mapper.toDetailDisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

@@ -2,10 +2,10 @@ package dev.olog.presentation.relatedartists
 
 import android.content.res.Resources
 import androidx.lifecycle.ViewModel
-import dev.olog.core.entity.track.Artist
-import dev.olog.core.interactor.GetItemTitleUseCase
-import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
-import dev.olog.core.schedulers.Schedulers
+import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.interactor.GetItemTitleUseCase
+import dev.olog.domain.interactor.ObserveRelatedArtistsUseCase
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
