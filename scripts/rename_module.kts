@@ -49,8 +49,11 @@ fun main() {
             StandardCopyOption.REPLACE_EXISTING
     )
 
+    // delete iml file
+    Files.delete(File(currentModule, "$moduleName.iml").toPath())
+
     updateGradleFiles(modules, moduleName, renameTo)
-    updateModulesXmlFile(rootDir, moduleName, renameTo)
+    updateModulesXmlFile(rootDir, moduleName)
 
     Runtime.getRuntime().exec(".././gradlew sync clean")
 
@@ -86,16 +89,16 @@ fun updateGradleFiles(modules: List<File>, moduleName: String, renameTo: String)
     }
 }
 
-fun updateModulesXmlFile(rootDir: File, moduleName: String, renameTo: String) {
-    println("update modules.xml in .idea")
+fun updateModulesXmlFile(rootDir: File, moduleName: String) {
+    println("remove from modules.xml in .idea")
     val ideaFolder = File(rootDir, ".idea")
     val modulesFile = File(ideaFolder, "modules.xml")
     val newContent = modulesFile.readText().replaceFirst(
-            "//\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml",
-            "//\$PROJECT_DIR\$/${renameTo}/${renameTo}.iml"
+            "<module fileurl=\"file://\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" filepath=\"\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" group=\"canaree-music-player/${moduleName}\" />"
+            ""
     )
     modulesFile.writeText(newContent)
-    println("modules.xml update")
+    println("modules.xml updated")
 }
 
 fun ensureNewModuleNameIsWellFormatted(renameTo: String): Boolean {
