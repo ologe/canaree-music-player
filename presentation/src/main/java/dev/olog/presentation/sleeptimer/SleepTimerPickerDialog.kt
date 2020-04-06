@@ -12,7 +12,7 @@ import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.flowInterval
+import dev.olog.core.coroutines.flowInterval
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile

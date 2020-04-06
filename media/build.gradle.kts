@@ -10,7 +10,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(project(":domain"))
+    implementation(project(":core"))
+
     implementation(project(":shared-android"))
     implementation(project(":intents"))
     implementation(project(":shared"))

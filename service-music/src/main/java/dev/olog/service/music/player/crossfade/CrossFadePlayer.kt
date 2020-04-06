@@ -17,7 +17,7 @@ import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.autoDisposeJob
 import dev.olog.core.clamp
-import dev.olog.shared.flowInterval
+import dev.olog.core.coroutines.flowInterval
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -172,7 +172,10 @@ internal class CrossFadePlayer @Inject internal constructor(
         )
         player.volume = min
 
-        fadeDisposable = flowInterval(interval, TimeUnit.MILLISECONDS)
+        fadeDisposable = flowInterval(
+            interval,
+            TimeUnit.MILLISECONDS
+        )
             .takeWhile { player.volume < max }
             .onEach {
                 val current = MathUtils.clamp(player.volume + delta, min, max)
@@ -202,7 +205,10 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeDisposable = flowInterval(interval, TimeUnit.MILLISECONDS)
+        fadeDisposable = flowInterval(
+            interval,
+            TimeUnit.MILLISECONDS
+        )
             .takeWhile { player.volume > min }
             .onEach {
                 val current = MathUtils.clamp(player.volume - delta, min, max)
