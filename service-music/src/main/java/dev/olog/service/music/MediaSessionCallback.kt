@@ -9,6 +9,8 @@ import android.view.KeyEvent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -23,11 +25,8 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -47,14 +46,14 @@ internal class MediaSessionCallback @Inject constructor(
     private val schedulers: Schedulers
 
 ) : MediaSessionCompat.Callback(),
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(schedulers.cpu) {
+    DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
         private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
     }
 
+    private val scope by DispatcherScope(schedulers.cpu)
     private var retrieveDataJob by autoDisposeJob()
 
     init {
@@ -62,7 +61,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
+        scope.cancel()
     }
 
     override fun onPrepare() {
@@ -82,7 +81,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
-        retrieveDataJob = launch {
+        retrieveDataJob = scope.launch {
             assertBackgroundThread()
             val entity = retrieve()
             if (entity != null) {
@@ -149,7 +148,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPause() {
         Timber.v("$TAG onPause")
-        launch(schedulers.main) {
+        scope.launch(schedulers.main) {
             updatePodcastPosition()
             player.pause(true)
         }
@@ -166,7 +165,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        launch(schedulers.main) {
+        scope.launch(schedulers.main) {
             Timber.v("$TAG onSkipToPrevious")
 
             updatePodcastPosition()
@@ -187,7 +186,7 @@ internal class MediaSessionCallback @Inject constructor(
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
-    private fun onSkipToNext(trackEnded: Boolean) = launch(schedulers.main) {
+    private fun onSkipToNext(trackEnded: Boolean) = scope.launch(schedulers.main) {
         Timber.v("$TAG onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
@@ -207,7 +206,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        launch(schedulers.main) {
+        scope.launch(schedulers.main) {
             Timber.v("$TAG onSkipToQueueItem id=$id")
 
             updatePodcastPosition()
@@ -222,7 +221,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         Timber.v("$TAG onSeekTo pos=$pos")
-        launch(schedulers.main) {
+        scope.launch(schedulers.main) {
             updatePodcastPosition()
             player.seekTo(pos)
         }
@@ -234,7 +233,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
         Timber.v("$TAG onSetRating rating=$rating, extras=$extras")
-        launch { favoriteGateway.toggleFavorite() }
+        scope.launch { favoriteGateway.toggleFavorite() }
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
@@ -306,7 +305,7 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.REPLAY_30 -> player.replayThirtySeconds()
             MusicServiceCustomAction.TOGGLE_FAVORITE -> onSetRating(null)
             MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
-                launch {
+                scope.launch {
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
@@ -316,7 +315,7 @@ internal class MediaSessionCallback @Inject constructor(
                 }
             }
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
-                launch {
+                scope.launch {
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!

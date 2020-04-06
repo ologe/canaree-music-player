@@ -5,6 +5,8 @@ import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.schedulers.Schedulers
@@ -15,8 +17,6 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.CustomScope
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -31,7 +31,7 @@ internal class MusicNotificationManager @Inject constructor(
     playerLifecycle: IPlayerLifecycle,
     schedulers: Schedulers
 
-) : DefaultLifecycleObserver, CoroutineScope by CustomScope(schedulers.cpu) {
+) : DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -43,6 +43,8 @@ internal class MusicNotificationManager @Inject constructor(
     private val publisher = Channel<Event>(Channel.UNLIMITED)
     private val currentState = MusicNotificationState()
     private var publishJob by autoDisposeJob()
+
+    private val scope by DispatcherScope(schedulers.cpu)
 
     private val playerListener = object : IPlayerLifecycle.Listener {
         override fun onPrepare(metadata: MetadataEntity) {
@@ -84,12 +86,12 @@ internal class MusicNotificationManager @Inject constructor(
                     is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
                 }
             }.onEach { consumeEvent(it) }
-            .launchIn(this)
+            .launchIn(scope)
 
         observeFavoriteUseCase()
             .map { it == FavoriteState.FAVORITE }
             .onEach { onNextFavorite(it) }
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     private suspend fun consumeEvent(event: Event){
@@ -135,7 +137,7 @@ internal class MusicNotificationManager @Inject constructor(
         stopForeground()
         publishJob = null
         publisher.close()
-        cancel()
+        scope.cancel()
     }
 
     private fun stopForeground() {

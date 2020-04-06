@@ -1,5 +1,6 @@
 package dev.olog.offlinelyrics
 
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.schedulers.Schedulers

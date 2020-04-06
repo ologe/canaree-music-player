@@ -7,6 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
@@ -20,16 +22,11 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,8 +38,7 @@ internal class MusicServiceMetadata @Inject constructor(
     musicPrefs: MusicPreferencesGateway,
     schedulers: Schedulers
 ) : IPlayerLifecycle.Listener,
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(schedulers.cpu) {
+    DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -53,6 +49,7 @@ internal class MusicServiceMetadata @Inject constructor(
 
     private var showLockScreenArtwork = false
 
+    private val scope by DispatcherScope(schedulers.cpu)
     private var imageJob by autoDisposeJob()
 
     init {
@@ -60,7 +57,7 @@ internal class MusicServiceMetadata @Inject constructor(
 
         musicPrefs.observeShowLockscreenArtwork()
             .onEach { showLockScreenArtwork = it }
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
@@ -73,13 +70,13 @@ internal class MusicServiceMetadata @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
+        scope.cancel()
     }
 
     private fun update(metadata: MetadataEntity) {
         Timber.v("$TAG update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        imageJob = launch {
+        imageJob = scope.launch {
 
             val entity = metadata.entity
 

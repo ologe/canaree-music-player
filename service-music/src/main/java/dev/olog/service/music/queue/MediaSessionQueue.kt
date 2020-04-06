@@ -5,11 +5,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.DispatcherScope
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -24,8 +23,7 @@ internal class MediaSessionQueue @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     private val mediaSession: MediaSessionCompat,
     private val schedulers: Schedulers
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(schedulers.cpu) {
+) : DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -33,6 +31,7 @@ internal class MediaSessionQueue @Inject constructor(
         private const val DELAY = 1000L
     }
 
+    private val scope by DispatcherScope(schedulers.cpu)
     private val delayedChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
     private val immediateChannel = ConflatedBroadcastChannel<List<MediaEntity>>()
 
@@ -42,11 +41,11 @@ internal class MediaSessionQueue @Inject constructor(
         delayedChannel.asFlow()
             .debounce(DELAY)
             .onEach { publish(it) }
-            .launchIn(this)
+            .launchIn(scope)
 
         immediateChannel.asFlow()
             .onEach { publish(it) }
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     private suspend fun publish(list: List<MediaEntity>) {
@@ -71,7 +70,7 @@ internal class MediaSessionQueue @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         delayedChannel.close()
         immediateChannel.close()
-        cancel()
+        scope.cancel()
     }
 
     private fun MediaEntity.toQueueItem(): MediaSessionCompat.QueueItem {

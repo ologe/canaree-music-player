@@ -4,6 +4,10 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.clamp
+import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.core.swap
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
@@ -14,13 +18,8 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.autoDisposeJob
-import dev.olog.core.clamp
-import dev.olog.core.swap
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -39,9 +38,9 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val trackGateway: TrackGateway,
     private val schedulers: Schedulers
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(schedulers.cpu) {
+) : DefaultLifecycleObserver {
 
+    private val scope by DispatcherScope(schedulers.cpu)
     private var savePlayingQueueJob by autoDisposeJob()
 
     private val playingQueue = Vector<MediaEntity>()
@@ -94,7 +93,7 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob = launch {
+        savePlayingQueueJob = scope.launch {
             assertBackgroundThread()
 
             val request = songList.map {
@@ -122,7 +121,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        launch {
+        scope.launch {
             assertBackgroundThread()
 
             val safePosition = ensurePosition(list, currentPosition)
