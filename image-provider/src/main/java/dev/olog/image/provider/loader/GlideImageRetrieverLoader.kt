@@ -12,7 +12,7 @@ import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -93,7 +93,7 @@ internal class GlideImageRetrieverLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
+        @dev.olog.core.ApplicationContext private val context: Context,
         private val imageRetrieverGateway: ImageRetrieverGateway,
         private val prefs: SharedPreferences
 

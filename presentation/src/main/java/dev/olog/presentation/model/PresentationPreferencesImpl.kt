@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

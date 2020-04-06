@@ -22,7 +22,7 @@ import dev.olog.service.music.voice.VoiceSearch
 import dev.olog.service.music.voice.VoiceSearchParams
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.clamp
+import dev.olog.core.clamp
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -355,7 +355,11 @@ internal class QueueManager @Inject constructor(
             return clamp(bookmark, 0L, mediaEntity.duration)
         } else {
             val bookmark = musicPreferencesUseCase.getBookmark().toInt()
-            return clamp(bookmark.toLong(), 0L, mediaEntity.duration)
+            return clamp(
+                bookmark.toLong(),
+                0L,
+                mediaEntity.duration
+            )
         }
     }
 

@@ -11,7 +11,7 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.data.repository.podcast.PodcastRepositoryInternal
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
@@ -19,7 +19,7 @@ import java.io.File
 import javax.inject.Inject
 
 internal class TrackRepository @Inject constructor(
-    @ApplicationContext context: Context,
+    @dev.olog.core.ApplicationContext context: Context,
     private val songRepository: SongRepositoryInternal,
     private val podcastRepository: PodcastRepositoryInternal
 

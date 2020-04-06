@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.domain.entity.track.Artist
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.base.HasLastPlayed
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class ArtistRepository @Inject constructor(
-    @ApplicationContext context: Context,
+    @dev.olog.core.ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,

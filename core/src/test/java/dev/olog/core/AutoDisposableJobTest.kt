@@ -1,4 +1,4 @@
-package dev.olog.shared
+package dev.olog.core
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

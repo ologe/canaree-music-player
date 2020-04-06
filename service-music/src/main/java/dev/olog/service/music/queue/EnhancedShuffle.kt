@@ -4,7 +4,7 @@ import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.removeFirst
+import dev.olog.core.removeFirst
 import javax.inject.Inject
 import kotlin.math.min
 

@@ -9,7 +9,7 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.*
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -48,7 +48,7 @@ internal class GlideOriginalImageLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
+        @dev.olog.core.ApplicationContext private val context: Context,
         private val trackGateway: TrackGateway
     ) : ModelLoaderFactory<MediaId, InputStream> {
 

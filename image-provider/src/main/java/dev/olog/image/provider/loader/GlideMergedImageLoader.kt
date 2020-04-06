@@ -13,7 +13,7 @@ import dev.olog.domain.gateway.track.GenreGateway
 import dev.olog.domain.gateway.track.PlaylistGateway
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.image.provider.fetcher.GlideMergedImageFetcher
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -58,7 +58,7 @@ class GlideMergedImageLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
+        @dev.olog.core.ApplicationContext private val context: Context,
         private val folderGateway: FolderGateway,
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway,

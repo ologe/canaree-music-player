@@ -11,7 +11,7 @@ import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import timber.log.Timber

@@ -10,7 +10,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(

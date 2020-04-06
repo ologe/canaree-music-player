@@ -14,7 +14,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.toDomain
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.swap
+import dev.olog.core.swap
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 internal class PlayingQueueFragmentAdapter(

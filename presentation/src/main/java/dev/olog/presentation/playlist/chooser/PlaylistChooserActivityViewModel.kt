@@ -10,8 +10,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.presentationId
-import dev.olog.shared.ApplicationContext
-import dev.olog.shared.mapListItem
+import dev.olog.core.ApplicationContext
+import dev.olog.core.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject

@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.toDomain
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
 import javax.inject.Inject

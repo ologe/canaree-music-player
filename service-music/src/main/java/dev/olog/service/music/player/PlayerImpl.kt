@@ -14,7 +14,7 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
-import dev.olog.shared.clamp
+import dev.olog.core.clamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel

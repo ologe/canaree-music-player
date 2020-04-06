@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.Permissions
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

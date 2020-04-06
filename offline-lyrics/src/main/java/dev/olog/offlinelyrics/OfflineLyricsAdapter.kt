@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.clamp
+import dev.olog.core.clamp
 import kotlinx.android.synthetic.main.item_offline_lyrics.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.awaitFrame
@@ -89,7 +89,7 @@ class OfflineLyricsAdapter(
             awaitFrame()
         }
         var index = currentList.indexOfFirst { it.time > time }
-        index = clamp(index - 1, 0, currentList.lastIndex)
+        index = dev.olog.core.clamp(index - 1, 0, currentList.lastIndex)
         if (index != selectedIndex) {
             notifyItemChanged(index)
             notifyItemChanged(selectedIndex)

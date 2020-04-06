@@ -17,7 +17,7 @@ import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow

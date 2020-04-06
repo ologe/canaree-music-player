@@ -23,7 +23,7 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.schedulers.SchedulersModule
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import javax.inject.Singleton
 
 @Component(
@@ -44,7 +44,7 @@ import javax.inject.Singleton
 @Singleton
 interface CoreComponent {
 
-    @ApplicationContext
+    @dev.olog.core.ApplicationContext
     fun context(): Context
 
     fun resources(): Resources

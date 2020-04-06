@@ -22,14 +22,14 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
-    @ApplicationContext context: Context,
+    @dev.olog.core.ApplicationContext context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,

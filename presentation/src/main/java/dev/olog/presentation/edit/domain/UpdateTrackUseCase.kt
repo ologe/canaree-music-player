@@ -7,7 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.presentation.PresentationId
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey

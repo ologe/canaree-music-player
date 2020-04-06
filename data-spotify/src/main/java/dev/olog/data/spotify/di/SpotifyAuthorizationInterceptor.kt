@@ -2,7 +2,7 @@ package dev.olog.data.spotify.di
 
 import android.content.Context
 import dev.olog.data.spotify.gateway.SpotifyLoginRepository
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.NetworkUtils
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -10,7 +10,7 @@ import okhttp3.Response
 import javax.inject.Inject
 
 internal class SpotifyAuthorizationInterceptor @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @dev.olog.core.ApplicationContext private val context: Context,
     private val loginRepository: SpotifyLoginRepository
 ) : Interceptor {
 

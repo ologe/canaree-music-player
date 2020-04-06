@@ -14,7 +14,7 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.clamp
+import dev.olog.core.clamp
 import timber.log.Timber
 
 /**

@@ -18,8 +18,8 @@ import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.clamp
-import dev.olog.shared.swap
+import dev.olog.core.clamp
+import dev.olog.core.swap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

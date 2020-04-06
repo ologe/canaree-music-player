@@ -19,7 +19,7 @@ import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean

@@ -7,7 +7,7 @@ import dev.olog.presentation.base.adapter.setOnDragListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.shared.swap
+import dev.olog.core.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 
 class LibraryCategoriesFragmentAdapter(

@@ -9,13 +9,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.IEncrypter
-import dev.olog.shared.ApplicationContext
+import dev.olog.core.ApplicationContext
 
 @Module
 abstract class CoreModule {
 
     @Binds
-    @ApplicationContext
+    @dev.olog.core.ApplicationContext
     internal abstract fun provideContext(instance: Application): Context
 
     @Binds
