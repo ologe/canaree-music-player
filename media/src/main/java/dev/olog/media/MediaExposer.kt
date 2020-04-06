@@ -7,6 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.Classes
@@ -17,10 +19,8 @@ import dev.olog.media.connection.OnConnectionChanged
 import dev.olog.media.controller.IMediaControllerCallback
 import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,8 +32,7 @@ class MediaExposer(
     private val schedulers: Schedulers,
     private val config: Config = Config(),
     private val canReadStorage: () -> Boolean
-) : CoroutineScope by MainScope(),
-    IMediaControllerCallback,
+) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
     class Config(
@@ -54,6 +53,8 @@ class MediaExposer(
         )
     }
 
+    private val scope by MainScope()
+
     private var connectionJob by autoDisposeJob()
     private var queueJob by autoDisposeJob()
 
@@ -70,12 +71,11 @@ class MediaExposer(
                     MusicServiceConnectionState.CONNECTED -> {
                         onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
                     }
-                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(
-                        mediaBrowser,
-                        callback
-                    )
+                    MusicServiceConnectionState.FAILED -> {
+                        onConnectionChanged.onConnectedFailed(mediaBrowser, callback)
+                    }
                 }
-            }.launchIn(this)
+            }.launchIn(scope)
 
         if (!mediaBrowser.isConnected) {
             try {
@@ -102,6 +102,7 @@ class MediaExposer(
         config.repeatModePublisher.close()
         config.shuffleModePublisher.close()
         config.queuePublisher.close()
+        scope.cancel()
     }
 
     /**
@@ -136,7 +137,7 @@ class MediaExposer(
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>) {
-        queueJob = launch(schedulers.cpu) {
+        queueJob = scope.launch(schedulers.cpu) {
             val result = queue.map { it.toDisplayableItem() }
             config.queuePublisher.offer(result)
         }

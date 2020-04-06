@@ -8,8 +8,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*
 import kotlin.coroutines.resume
@@ -21,15 +22,16 @@ class RippleTarget(
     private val darkAlpha: Float = .1f,
     private val lightAlpha: Float = .2f
 
-) : DrawableImageViewTarget(imageView), CoroutineScope by MainScope() {
+) : DrawableImageViewTarget(imageView) {
 
+    private val scope by MainScope()
     private var job by autoDisposeJob()
 
     @SuppressLint("ConcreteDispatcherIssue")
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
-            job = launch(Dispatchers.Default) {
+            job = scope.launch(Dispatchers.Default) {
                 generateRipple(drawable)
             }
         }
@@ -37,7 +39,7 @@ class RippleTarget(
 
     override fun onDestroy() {
         super.onDestroy()
-        cancel()
+        scope.cancel()
     }
 
     private suspend fun generateRipple(drawable: Drawable) {

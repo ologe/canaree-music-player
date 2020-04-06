@@ -6,23 +6,20 @@ import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import dev.olog.core.coroutines.fireAndForget
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AppShortcutsImp(
     private val context: Context,
     private val schedulers: Schedulers
 ) {
-
-    private var job by autoDisposeJob()
 
     init {
         ShortcutManagerCompat.removeAllDynamicShortcuts(context)
@@ -36,7 +33,7 @@ class AppShortcutsImp(
     fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-            job = GlobalScope.launch {
+            GlobalScope.fireAndForget {
                 val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())

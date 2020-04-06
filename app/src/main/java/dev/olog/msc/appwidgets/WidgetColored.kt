@@ -1,28 +1,34 @@
 package dev.olog.msc.appwidgets
 
-import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.widget.RemoteViews
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId.Companion.SONGS_CATEGORY
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.android.palette.ImageProcessor
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
+import javax.inject.Inject
 
 private const val IMAGE_SIZE = 300
 
-// TODO cancel scope
-open class WidgetColored : BaseWidget(), CoroutineScope by MainScope() {
+class WidgetColored : BaseWidget() {
 
+    private val scope by MainScope()
     private var job by autoDisposeJob()
 
-    @SuppressLint("ConcreteDispatcherIssue")
+    @Inject
+    internal lateinit var schedulers: Schedulers
+
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
-        job = launch(Dispatchers.Main) {
-            val bitmap = withContext(Dispatchers.IO){
+        job = scope.launch {
+            val bitmap = withContext(schedulers.io){
                 context.getCachedBitmap(SONGS_CATEGORY.playableItem(metadata.id), IMAGE_SIZE)
             } ?: return@launch
             yield()

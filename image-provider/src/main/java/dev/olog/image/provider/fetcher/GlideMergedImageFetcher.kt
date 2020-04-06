@@ -4,17 +4,17 @@ import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
+import dev.olog.core.coroutines.DispatcherScope
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.gateway.track.FolderGateway
 import dev.olog.domain.gateway.track.GenreGateway
 import dev.olog.domain.gateway.track.PlaylistGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.image.provider.creator.MergedImagesCreator
-import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.throwNotHandled
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,11 +25,14 @@ class GlideMergedImageFetcher(
     private val mediaId: MediaId.Category,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val genreGateway: GenreGateway
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+    private val genreGateway: GenreGateway,
+    schedulers: Schedulers
+) : DataFetcher<InputStream> {
+
+    private val scope by DispatcherScope(schedulers.io)
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
+        scope.launch {
             try {
                 val inputStream = when (mediaId.category) {
                     MediaIdCategory.FOLDERS -> makeFolderImage(mediaId.categoryId)
@@ -99,7 +102,7 @@ class GlideMergedImageFetcher(
     }
 
     override fun cancel() {
-        cancel(null)
+        scope.cancel()
     }
 
 }

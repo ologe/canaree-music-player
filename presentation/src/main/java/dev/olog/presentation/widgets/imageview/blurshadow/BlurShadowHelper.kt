@@ -5,9 +5,9 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.shared.android.extensions.dpToPx
 import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.android.awaitFrame
 
 class BlurShadowHelper(

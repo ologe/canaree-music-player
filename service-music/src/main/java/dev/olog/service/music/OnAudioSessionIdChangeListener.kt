@@ -4,12 +4,15 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.audio.AudioListener
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.injection.dagger.ServiceLifecycle
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.*
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,8 +23,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     private val bassBoost: IBassBoost
 
 ) : AudioListener,
-    DefaultLifecycleObserver,
-    CoroutineScope by MainScope() {
+    DefaultLifecycleObserver {
 
     companion object {
         @JvmStatic
@@ -29,6 +31,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         internal const val DELAY = 500L
     }
 
+    private val scope by MainScope()
     private var job by autoDisposeJob()
 
     private val hash by lazy { hashCode() }
@@ -39,11 +42,11 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         job = null
-        cancel()
+        scope.cancel()
     }
 
     override fun onAudioSessionId(audioSessionId: Int) {
-        job = launch {
+        job = scope.launch {
             delay(DELAY)
             onAudioSessionIdInternal(audioSessionId)
         }
@@ -57,6 +60,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         bassBoost.onAudioSessionIdChanged(hash, audioSessionId)
     }
 
+    // TODO is release called ??
     fun release() {
         Timber.v("$TAG onDestroy")
         equalizer.onDestroy(hash)

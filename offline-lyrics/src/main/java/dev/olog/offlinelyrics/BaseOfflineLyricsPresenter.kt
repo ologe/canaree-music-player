@@ -1,15 +1,19 @@
 package dev.olog.offlinelyrics
 
+import dev.olog.core.coroutines.MainScope
 import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.core.coroutines.fireAndForget
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.core.coroutines.fireAndForget
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 abstract class BaseOfflineLyricsPresenter constructor(
@@ -17,8 +21,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
     private val observeUseCase: ObserveOfflineLyricsUseCase,
     private val insertUseCase: InsertOfflineLyricsUseCase,
     private val schedulers: Schedulers
-
-): CoroutineScope by MainScope() {
+) {
 
     companion object {
         internal const val ELLIPSES = "..."
@@ -28,6 +31,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
     private val matcher = "\\[\\d{2}:\\d{2}.\\d{2,3}\\](.)*".toRegex()
 
+    private val scope by MainScope()
     private var insertLyricsJob by autoDisposeJob()
     private val currentTrackIdPublisher = ConflatedBroadcastChannel<Long>()
     private val syncAdjustmentPublisher = ConflatedBroadcastChannel<Long>(0)
@@ -44,13 +48,13 @@ abstract class BaseOfflineLyricsPresenter constructor(
             .flatMapLatest { id -> observeUseCase(id) }
             .onEach { onNextLyrics(it) }
             .flowOn(schedulers.cpu)
-            .launchIn(this)
+            .launchIn(scope)
 
         syncJob = currentTrackIdPublisher.asFlow()
             .flatMapLatest { lyricsGateway.observeSyncAdjustment(it) }
             .onEach { syncAdjustmentPublisher.offer(it) }
             .flowOn(schedulers.cpu)
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     fun onStop() {
@@ -63,7 +67,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         lyricsPublisher.close()
         syncAdjustmentPublisher.close()
         originalLyricsPublisher.close()
-        cancel()
+        scope.cancel()
     }
 
     fun observeLyrics(): Flow<Lyrics> = lyricsPublisher.asFlow()

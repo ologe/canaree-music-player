@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.autoDisposeJob
-import dev.olog.core.clamp
+import dev.olog.core.coroutines.autoDisposeJob
 import kotlinx.android.synthetic.main.item_offline_lyrics.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.awaitFrame
@@ -22,6 +21,7 @@ class OfflineLyricsAdapter(
     private val onSelectedChanged: (Int) -> Unit
 ) : ListAdapter<OfflineLyricsLine, RecyclerView.ViewHolder>(OfflineLyricsDiff) {
 
+    // TODO has to be cancelled on destroy?
     private var canUpdateJob by autoDisposeJob()
 
     /**

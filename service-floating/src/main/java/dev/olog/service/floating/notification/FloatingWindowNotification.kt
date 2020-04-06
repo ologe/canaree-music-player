@@ -6,6 +6,8 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -14,9 +16,6 @@ import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.utils.isOreo
-import dev.olog.shared.autoDisposeJob
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
@@ -33,7 +32,7 @@ class FloatingWindowNotification @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val schedulers: Schedulers
 
-) : DefaultLifecycleObserver, CoroutineScope by MainScope() {
+) : DefaultLifecycleObserver {
 
     companion object {
         const val NOTIFICATION_ID = 0xABC
@@ -43,6 +42,7 @@ class FloatingWindowNotification @Inject constructor(
         service,
         CHANNEL_ID
     )
+    private val scope by MainScope()
     private var disposable by autoDisposeJob()
 
     private var notificationTitle = ""
@@ -54,7 +54,7 @@ class FloatingWindowNotification @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         disposable = null
-        cancel()
+        scope.cancel()
     }
 
     fun startObserving() {
@@ -66,7 +66,7 @@ class FloatingWindowNotification @Inject constructor(
                 val notification = builder.setContentTitle(notificationTitle).build()
                 notificationManager.notify(NOTIFICATION_ID, notification)
             }.flowOn(schedulers.cpu)
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     fun buildNotification(): Notification {

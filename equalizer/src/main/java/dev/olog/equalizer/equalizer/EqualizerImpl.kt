@@ -1,32 +1,33 @@
 package dev.olog.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
+import dev.olog.core.coroutines.MainScope
 import dev.olog.domain.entity.EqualizerBand
 import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.gateway.EqualizerGateway
 import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.equalizer.audioeffect.NormalizedEqualizer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+// TODO implement equalizer as readwrite property for automatic release??
 internal class EqualizerImpl @Inject constructor(
     gateway: EqualizerGateway,
     prefs: EqualizerPreferencesGateway,
     schedulers: Schedulers
 
 ) : AbsEqualizer(gateway, prefs, schedulers),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizerInternal {
 
     companion object {
         private const val BANDS = 5
         private const val BAND_LIMIT = 15f
     }
+
+    private val scope by MainScope()
 
     private var equalizer: NormalizedEqualizer? = null
 
@@ -44,7 +45,7 @@ internal class EqualizerImpl @Inject constructor(
         if (!isImplementedByDevice){
             return
         }
-        launch {
+        scope.launch {
             release()
             try {
                 equalizer = NormalizedEqualizer(0, audioSessionId).apply {
@@ -66,7 +67,7 @@ internal class EqualizerImpl @Inject constructor(
 
     override fun onDestroy() {
         release()
-        cancel()
+        scope.cancel()
     }
 
     override fun setEnabled(enabled: Boolean) {

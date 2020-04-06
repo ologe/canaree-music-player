@@ -4,6 +4,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.clamp
+import dev.olog.core.coroutines.MainScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -14,9 +16,6 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
-import dev.olog.core.clamp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -37,8 +36,9 @@ internal class PlayerImpl @Inject constructor(
 
 ) : IPlayer,
     DefaultLifecycleObserver,
-    IPlayerLifecycle,
-    CoroutineScope by MainScope() {
+    IPlayerLifecycle {
+
+    private val scope by MainScope()
 
     private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
@@ -53,20 +53,20 @@ internal class PlayerImpl @Inject constructor(
             .onEach { volume ->
                 val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
                 playerDelegate.setVolume(newVolume)
-            }.launchIn(this)
+            }.launchIn(scope)
 
         musicPrefsUseCase.observePlaybackSpeed()
             .onEach {
                 currentSpeed = it
                 playerDelegate.setPlaybackSpeed(it)
                 playerState.updatePlaybackSpeed(it)
-            }.launchIn(this)
+            }.launchIn(scope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        cancel()
+        scope.cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {

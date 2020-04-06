@@ -9,7 +9,8 @@ import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.gateway.EqualizerGateway
 import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -19,8 +20,7 @@ internal class EqualizerImpl28 @Inject constructor(
     private val schedulers: Schedulers
 
 ) : AbsEqualizer(gateway, prefs, schedulers),
-    IEqualizerInternal,
-    CoroutineScope by MainScope() {
+    IEqualizerInternal {
 
     companion object {
         private const val CHANNELS = 2
@@ -89,7 +89,6 @@ internal class EqualizerImpl28 @Inject constructor(
 
     override fun onDestroy() {
         release()
-        cancel()
     }
 
     override fun setEnabled(enabled: Boolean) {

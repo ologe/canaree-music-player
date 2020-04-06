@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.OnImageLoadingError
@@ -13,7 +14,6 @@ import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.autoDisposeJob
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.flow.filter

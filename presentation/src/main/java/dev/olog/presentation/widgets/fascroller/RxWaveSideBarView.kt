@@ -3,12 +3,12 @@ package dev.olog.presentation.widgets.fascroller
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield

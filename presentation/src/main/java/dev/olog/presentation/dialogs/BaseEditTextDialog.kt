@@ -7,9 +7,9 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.delay
 
 abstract class BaseEditTextDialog : BaseDialog() {

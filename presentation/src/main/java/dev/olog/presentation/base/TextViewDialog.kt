@@ -10,13 +10,12 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -26,12 +25,14 @@ class TextViewDialog(
     private val title: String,
     private val subtitle: String?,
     private val layoutEditText: Int = R.layout.layout_material_edit_text
-): CoroutineScope by MainScope() {
+) {
 
     class Action(
         val title: String,
         val action: suspend (List<TextInputEditText>) -> Boolean
     )
+
+    private val scope by MainScope()
 
     private val container = LinearLayout(context).apply {
         val params = FrameLayout.LayoutParams(
@@ -86,7 +87,7 @@ class TextViewDialog(
         dialog.setupListeners(positiveAction, negativeAction, neutralAction, dismissAction)
         dialog.show()
 
-        launch {
+        scope.launch {
             delay(100)
             textViews[0].showIme()
         }
@@ -102,7 +103,7 @@ class TextViewDialog(
         var job by autoDisposeJob()
 
         getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = launch {
+            job = scope.launch {
                 if (positiveAction.action(textViews)) {
                     dismissAction()
                 }
@@ -110,7 +111,7 @@ class TextViewDialog(
         }
         negativeAction?.let { negative ->
             getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-                job = launch {
+                job = scope.launch {
                     if (negative.action(textViews)) {
                         dismissAction()
                     }
@@ -119,7 +120,7 @@ class TextViewDialog(
         }
         neutralAction?.let { neutral ->
             getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                job = launch {
+                job = scope.launch {
                     if (neutral.action(textViews)) {
                         dismissAction()
                     }

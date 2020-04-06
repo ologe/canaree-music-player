@@ -8,10 +8,9 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
-import dev.olog.shared.autoDisposeJob
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -19,11 +18,13 @@ import kotlinx.coroutines.launch
 class TextWrapper(
     context: Context,
     attrs: AttributeSet
-) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
+) : LinearLayout(context, attrs) {
 
     private val titleView by lazyFast { findViewById<TextView>(R.id.title) }
     private val artistView by lazyFast { findViewById<TextView>(R.id.artist) }
 
+    // TODO remove coroutine or find a view scope
+    private val scope by MainScope()
     private var job by autoDisposeJob()
 
     init {
@@ -31,7 +32,7 @@ class TextWrapper(
     }
 
     fun update(title: String, artist: String) {
-        job = launch {
+        job = scope.launch {
             updateInternal(title, artist)
         }
     }

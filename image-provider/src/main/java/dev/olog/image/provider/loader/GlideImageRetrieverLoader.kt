@@ -12,17 +12,20 @@ import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.domain.schedulers.Schedulers
 import java.io.InputStream
 import javax.inject.Inject
 
 private val allowedCategories = listOf(ALBUMS, ARTISTS)
 private val spotifyCategories = listOf(SPOTIFY_TRACK, SPOTIFY_ALBUMS)
 
+// TODO inject properly, don't fear dagger
 internal class GlideImageRetrieverLoader(
     private val context: Context,
     private val imageRetrieverGateway: ImageRetrieverGateway,
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
+    private val schedulers: Schedulers
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -55,7 +58,8 @@ internal class GlideImageRetrieverLoader(
                 context = context,
                 mediaId = mediaId,
                 imageRetrieverGateway = imageRetrieverGateway,
-                prefs = prefs
+                prefs = prefs,
+                schedulers = schedulers
             )
         )
     }
@@ -75,7 +79,8 @@ internal class GlideImageRetrieverLoader(
                 context = context,
                 mediaId = mediaId,
                 imageRetrieverGateway = imageRetrieverGateway,
-                prefs = prefs
+                prefs = prefs,
+                schedulers = schedulers
             )
         )
     }
@@ -87,23 +92,25 @@ internal class GlideImageRetrieverLoader(
                 context = context,
                 mediaId = mediaId,
                 imageRetrieverGateway = imageRetrieverGateway,
-                prefs = prefs
+                prefs = prefs,
+                schedulers = schedulers
             )
         )
     }
 
     class Factory @Inject constructor(
-        @dev.olog.core.ApplicationContext private val context: Context,
+        @ApplicationContext private val context: Context,
         private val imageRetrieverGateway: ImageRetrieverGateway,
-        private val prefs: SharedPreferences
-
+        private val prefs: SharedPreferences,
+        private val schedulers: Schedulers
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             return GlideImageRetrieverLoader(
                 context,
                 imageRetrieverGateway,
-                prefs
+                prefs,
+                schedulers
             )
         }
 

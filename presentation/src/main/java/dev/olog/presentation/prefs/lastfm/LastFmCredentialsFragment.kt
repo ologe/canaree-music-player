@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.umass.lastfm.Authenticator
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
@@ -20,7 +21,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -47,7 +47,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
     private var job by autoDisposeJob()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity!!)
+        val inflater = LayoutInflater.from(requireActivity())
         val view: View = inflater.inflate(R.layout.fragment_credentials, null, false)
 
         val builder = MaterialAlertDialogBuilder(requireContext())

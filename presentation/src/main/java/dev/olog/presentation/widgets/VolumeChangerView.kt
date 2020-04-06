@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOn
@@ -22,6 +22,7 @@ class VolumeChangerView(
         setImageResource(R.drawable.vd_volume_up)
     }
 
+    // TODO use a proper injection
     var musicPrefs: MusicPreferencesGateway? = null
         set(value) {
             field = value

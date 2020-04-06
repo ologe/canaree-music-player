@@ -8,7 +8,7 @@ import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.R
 import dev.olog.data.utils.observeKey
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -34,7 +34,7 @@ private const val LAST_ID_IN_PLAYLIST = "$TAG.last_id_in_playlist_2"
 private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 internal class MusicPreferencesImpl @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences,
     private val schedulers: Schedulers
 

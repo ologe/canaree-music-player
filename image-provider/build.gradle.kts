@@ -11,6 +11,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
+
     implementation(project(":jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":shared-android"))

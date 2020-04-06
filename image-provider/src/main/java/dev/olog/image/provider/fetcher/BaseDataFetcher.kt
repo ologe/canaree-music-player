@@ -7,8 +7,9 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
+import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.R
-import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -19,16 +20,20 @@ import java.util.concurrent.atomic.AtomicLong
  * Class that uses a 'global' counter to delay the image request for an image.
  * Because LastFm allows 5 request per second for user
  */
+// TODO check is only one fetcher is used or multiple
 abstract class BaseDataFetcher(
     private val context: Context,
-    private val prefs: SharedPreferences
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+    private val prefs: SharedPreferences,
+    schedulers: Schedulers
+) : DataFetcher<InputStream> {
 
     companion object {
         private const val TIMEOUT = 5000
         @JvmStatic
         private var requestCounter = AtomicLong(1)
     }
+
+    private val scope by DispatcherScope(schedulers.io)
 
     private var hasIncremented = false
     private var hasDecremented = false
@@ -42,18 +47,14 @@ abstract class BaseDataFetcher(
     }
 
     override fun cancel() {
-        unsubscribe()
-    }
-
-    private fun unsubscribe() {
-        cancel(null)
+        scope.cancel()
         if (hasIncremented && !hasDecremented) {
             requestCounter.decrementAndGet()
         }
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
+        scope.launch {
             try {
                 if (!mustFetch() && tryLocal(priority, callback)) {
                     return@launch

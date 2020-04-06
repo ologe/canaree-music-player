@@ -6,12 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
+import dev.olog.core.coroutines.MainScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,8 +23,7 @@ internal class ClippedSourceFactory @Inject constructor (
     musicPrefsUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver,
-    ISourceFactory<CrossFadePlayer.Model>,
-    CoroutineScope by MainScope() {
+    ISourceFactory<CrossFadePlayer.Model> {
 
     companion object {
         @JvmStatic
@@ -37,16 +35,18 @@ internal class ClippedSourceFactory @Inject constructor (
     // when gapless is on, clip mediaSource
     private var isGapless = false
 
+    private val scope by MainScope()
+
     init {
         lifecycle.addObserver(this)
 
         musicPrefsUseCase.observeGapless()
             .onEach { isGapless = it }
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
+        scope.cancel()
     }
 
 

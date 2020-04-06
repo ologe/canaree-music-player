@@ -9,20 +9,23 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.math.MathUtils
 import androidx.palette.graphics.Palette
+import dev.olog.core.coroutines.MainScope
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
-import dev.olog.shared.autoDisposeJob
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 // TODO cancel scope
 class AdaptiveColorImageViewPresenter(
     private val context: Context
-): CoroutineScope by MainScope() {
+) {
 
     private val isDarkMode by lazyFast {
         context.isDarkMode()
@@ -39,6 +42,7 @@ class AdaptiveColorImageViewPresenter(
     private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
     private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
 
+    private val scope by MainScope()
     private var processorJob by autoDisposeJob()
     private var paletteJob by autoDisposeJob()
 
@@ -60,7 +64,7 @@ class AdaptiveColorImageViewPresenter(
             return
         }
 
-        processorJob = launch(Dispatchers.Default) {
+        processorJob = scope.launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
             yield()
             processorPalettePublisher.offer(
@@ -72,7 +76,7 @@ class AdaptiveColorImageViewPresenter(
             )
         }
 
-        paletteJob = launch(Dispatchers.Default) {
+        paletteJob = scope.launch(Dispatchers.Default) {
             val palette = Palette.from(bitmap)
                 .maximumColorCount(24)
                 .generate()

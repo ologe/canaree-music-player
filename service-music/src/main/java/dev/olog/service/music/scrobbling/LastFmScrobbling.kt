@@ -3,12 +3,11 @@ package dev.olog.service.music.scrobbling
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.MainScope
 import dev.olog.domain.interactor.lastfm.ObserveLastFmUserCredentials
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -22,8 +21,9 @@ internal class LastFmScrobbling @Inject constructor(
     private val lastFmService: LastFmService
 
 ) : DefaultLifecycleObserver,
-    IPlayerLifecycle.Listener,
-    CoroutineScope by MainScope() {
+    IPlayerLifecycle.Listener {
+
+    private val scope by MainScope()
 
     init {
         lifecycle.addObserver(this)
@@ -32,11 +32,11 @@ internal class LastFmScrobbling @Inject constructor(
         observeLastFmUserCredentials()
             .filter { it.username.isNotBlank() }
             .onEach { lastFmService.tryAuthenticate(it) }
-            .launchIn(this)
+            .launchIn(scope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
+        scope.cancel()
         lastFmService.dispose()
     }
 

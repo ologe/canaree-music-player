@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.SPOTIFY_TRACK
 import dev.olog.domain.schedulers.Schedulers
@@ -28,7 +29,6 @@ import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield

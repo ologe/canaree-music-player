@@ -4,13 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.schedulers.Schedulers
 
 class GlideArtistFetcher(
     context: Context,
     private val mediaId: MediaId.Category,
     private val imageRetrieverGateway: ImageRetrieverGateway,
-    prefs: SharedPreferences
-) : BaseDataFetcher(context, prefs) {
+    prefs: SharedPreferences,
+    schedulers: Schedulers
+) : BaseDataFetcher(context, prefs, schedulers) {
 
     companion object {
         // for some reason last fm for some artists (maybe all) is returning a start instead of

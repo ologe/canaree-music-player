@@ -2,13 +2,12 @@ package dev.olog.media.widget
 
 import android.annotation.SuppressLint
 import android.widget.ProgressBar
+import dev.olog.core.coroutines.MainScope
 import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.core.coroutines.flowInterval
 import dev.olog.intents.AppConstants
 import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.core.coroutines.flowInterval
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
@@ -23,9 +22,9 @@ interface IProgressDeletegate {
 // TODO cancel scope
 class ProgressDelegate(
     private val progressBar: ProgressBar
-) : IProgressDeletegate,
-    CoroutineScope by MainScope() {
+) : IProgressDeletegate {
 
+    private val scope by MainScope()
     private var incrementJob by autoDisposeJob()
 
     private val channel = ConflatedBroadcastChannel<Long>()
@@ -46,7 +45,7 @@ class ProgressDelegate(
             .flowOn(Dispatchers.IO)
             .onEach {
                 setProgress(progressBar, it.toInt())
-            }.launchIn(this)
+            }.launchIn(scope)
     }
 
     private fun setProgress(progressBar: ProgressBar, position: Int){
