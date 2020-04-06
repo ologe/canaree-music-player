@@ -1,5 +1,5 @@
-#### Interpreter Usage
-`# !/usr/bin/env kscript`
+#### made the file executable with
+chmod
 
 #### Add bootstrap
 kscript --add-bootstrap-header file_name.kts
