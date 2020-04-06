@@ -9,29 +9,16 @@ exec kscript $0 "$@"
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 main()
 
 fun main() {
-    if (args.size != 3) {
-        println("the arguments needed")
-        return
-    }
-
     val fromModule = args[0]
     val toModule = args[1]
     val fileName = args[2]
 
-    if (!File("../${fromModule}").exists()) {
-        println(":${fromModule} not found")
-        return
-    }
-    if (!File("../${toModule}").exists()) {
-        println(":${toModule} not found")
-        return
-    }
-    if (fromModule == toModule) {
-        println("can't move to the same module")
+    if (!sanityChecks(fromModule, toModul)) {
         return
     }
 
@@ -45,7 +32,7 @@ fun main() {
         println("EXITING ...")
         return
     }
-    println("'${file.path}' found")
+
     val parentFile = file.parentFile.parentFile
 
     // find all files in all values-X folders
@@ -53,14 +40,21 @@ fun main() {
             .filter { it.name.startsWith("values") }
             .map { File(it, fileName) }
             .filter { it.exists() }
+            .map { it.absolutePath } // convert to path so list is not changed
 
-    println("found $filesToMove files")
+    println("found ${filesToMove.size} files")
 
     // change the update
     filesToMove.forEachIndexed { index, f ->
         val oldFolder = "${rootDir}/${fromModule}/"
-        val newModulePath = "${rootDir}/${toModule}/${f.absolutePath.drop(oldFolder.length)}"
-        Files.move(f.toPath(), File(newModulePath).toPath())
+        val newModulePath = "${rootDir}/${toModule}/${f.drop(oldFolder.length)}"
+
+        val p = File(newModulePath).parentFile
+        if (!p.exists()) {
+            p.mkdirs()
+        }
+
+        Files.move(File(f).toPath(), File(newModulePath).toPath(), StandardCopyOption.REPLACE_EXISTING)
 
         println("done ${index}/${filesToMove.size}")
     }
@@ -68,12 +62,28 @@ fun main() {
     println("Done")
 
 
-
 }
 
+fun sanityChecks(fromModule: String, toModule: String): Boolean {
+    if (args.size != 3) {
+        println("the arguments needed")
+        return false
+    }
 
-
-
+    if (!File("../${fromModule}").exists()) {
+        println(":${fromModule} not found")
+        return false
+    }
+    if (!File("../${toModule}").exists()) {
+        println(":${toModule} not found")
+        return false
+    }
+    if (fromModule == toModule) {
+        println("can't move to the same module")
+        return false
+    }
+    return true
+}
 
 
 
