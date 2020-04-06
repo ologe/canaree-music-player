@@ -7,7 +7,9 @@ exec kscript $0 "$@"
 \*** IMPORTANT: Any code including imports and annotations must come after this line ***/
 
 import java.io.File
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 val regex = "[\\w\\.\\-\\_]+".toRegex()
 
@@ -38,6 +40,26 @@ fun main() {
     }
 
     // get all build.gradle.kts from modules that are not $moduleName
+    val modules = searchForGradleFiles(rootDir, moduleName)
+
+    // move all fiels
+    Files.move(
+            currentModule.toPath(),
+            File(rootDir.absolutePath, renameTo).toPath(),
+            StandardCopyOption.REPLACE_EXISTING
+    )
+
+    updateGradleFiles(modules, moduleName, renameTo)
+    updateModulesXmlFile(rootDir, moduleName, renameTo)
+
+    Runtime.getRuntime().exec(".././gradlew sync clean")
+
+    println("done")
+}
+
+fun searchForGradleFiles(rootDir: File, moduleName: String): List<File> {
+    println("search for gradle files")
+
     val modules = rootDir
             .listFiles()!!
             .filter { it.name != moduleName } // exclude chosen module
@@ -50,28 +72,30 @@ fun main() {
 
     println("need to update ${modules.size} gradle files")
 
-    // move all fiels
-//    Files.move(
-//            currentModule.toPath(),
-//            File(rootDir.absolutePath, renameTo).toPath(),
-//            StandardCopyOption.REPLACE_EXISTING
-//    )
+    return modules
+}
 
-
-    modules.take(1).forEach {
+fun updateGradleFiles(modules: List<File>, moduleName: String, renameTo: String) {
+    modules.forEachIndexed { index, f ->
 
         // replaced (":moduleName") with (":renameTo")
-        val newFilesContent = it.readText().replace("(\":${moduleName}\")", "(\":${renameTo}\")")
-        it.writeText(newFilesContent)
-        
+        val newFilesContent = f.readText().replace("(\":${moduleName}\")", "(\":${renameTo}\")")
+        f.writeText(newFilesContent)
+
+        println("gradle rename ${index + 1}/${modules.size}")
     }
+}
 
-    println("done")
-
-    // TODO update modules.xml
-    // TODO update build.gradle.kts in all modules
-    // TODO delete settings.gradle
-    // TODO update settings.gradle.kts
+fun updateModulesXmlFile(rootDir: File, moduleName: String, renameTo: String) {
+    println("update modules.xml in .idea")
+    val ideaFolder = File(rootDir, ".idea")
+    val modulesFile = File(ideaFolder, "modules.xml")
+    val newContent = modulesFile.readText().replaceFirst(
+            "//\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml",
+            "//\$PROJECT_DIR\$/${renameTo}/${renameTo}.iml"
+    )
+    modulesFile.writeText(newContent)
+    println("modules.xml update")
 }
 
 fun ensureNewModuleNameIsWellFormatted(renameTo: String): Boolean {
