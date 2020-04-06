@@ -5,8 +5,7 @@ import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.shared.autoDisposeJob
-import dev.olog.shared.launchUnit
+import dev.olog.core.coroutines.fireAndForget
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -127,7 +126,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
         return originalLyricsPublisher.value
     }
 
-    fun updateSyncAdjustment(value: Long) = GlobalScope.launchUnit(schedulers.io) {
+    fun updateSyncAdjustment(value: Long) = GlobalScope.fireAndForget(schedulers.io) {
         lyricsGateway.setSyncAdjustment(currentTrackIdPublisher.value, value)
     }
 
