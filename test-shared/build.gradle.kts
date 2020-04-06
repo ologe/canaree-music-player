@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":domain"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

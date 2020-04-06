@@ -63,7 +63,7 @@ dependencies {
 
     implementation(project(":app-shortcuts"))
     implementation(project(":analytics"))
-    implementation(project(":core"))
+    implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":image-provider"))
     implementation(project(":injection"))
