@@ -61,7 +61,6 @@ fun main() {
         val oldFolder = "${rootDir}/${fromModule}/"
         val newModulePath = "${rootDir}/${toModule}/${f.absolutePath.drop(oldFolder.length)}"
         Files.move(f.toPath(), File(newModulePath).toPath())
-        Files.delete(f.toPath())
 
         println("done ${index}/${filesToMove.size}")
     }
