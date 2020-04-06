@@ -11,7 +11,7 @@ import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.flow.Flow

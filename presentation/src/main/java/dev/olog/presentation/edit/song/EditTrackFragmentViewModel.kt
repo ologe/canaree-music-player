@@ -7,7 +7,7 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.utils.NetworkUtils
 import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.Dispatchers

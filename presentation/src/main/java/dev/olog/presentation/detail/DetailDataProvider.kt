@@ -1,8 +1,8 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.core.ApplicationContext
-import dev.olog.core.mapListItem
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.coroutines.mapListItem
 import dev.olog.domain.entity.spotify.SpotifyAlbumType
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway

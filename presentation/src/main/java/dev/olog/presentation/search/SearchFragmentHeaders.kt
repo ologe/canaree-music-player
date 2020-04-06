@@ -7,7 +7,7 @@ import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import javax.inject.Inject
 
 @PerFragment

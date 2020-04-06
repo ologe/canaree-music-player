@@ -17,7 +17,7 @@ import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.widgets.BreadCrumbLayout
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

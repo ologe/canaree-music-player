@@ -14,7 +14,7 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.core.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.autoDisposeJob
 import dev.olog.core.clamp
 import dev.olog.shared.flowInterval

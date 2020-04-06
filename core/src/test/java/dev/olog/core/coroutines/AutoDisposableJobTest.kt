@@ -1,5 +1,6 @@
-package dev.olog.core
+package dev.olog.core.coroutines
 
+import dev.olog.core.coroutines.autoDisposeJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest

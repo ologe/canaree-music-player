@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.core
+package dev.olog.core.coroutines
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -10,8 +10,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.ApplicationContext
-import dev.olog.core.mapListItem
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.coroutines.mapListItem
 import dev.olog.core.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
