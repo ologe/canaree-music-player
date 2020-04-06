@@ -1,4 +1,8 @@
 include(":app")
+
+include(":core")
+
+
 include(":injection")
 include(":domain")
 include(":presentation")

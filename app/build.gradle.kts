@@ -61,6 +61,9 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
+
+
     implementation(project(":app-shortcuts"))
     implementation(project(":analytics"))
     implementation(project(":domain"))

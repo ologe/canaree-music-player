@@ -10,6 +10,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
+
     implementation(project(":prefs-keys"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
