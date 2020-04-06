@@ -94,7 +94,7 @@ fun updateModulesXmlFile(rootDir: File, moduleName: String) {
     val ideaFolder = File(rootDir, ".idea")
     val modulesFile = File(ideaFolder, "modules.xml")
     val newContent = modulesFile.readText().replaceFirst(
-            "<module fileurl=\"file://\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" filepath=\"\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" group=\"canaree-music-player/${moduleName}\" />"
+            "<module fileurl=\"file://\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" filepath=\"\$PROJECT_DIR\$/${moduleName}/${moduleName}.iml\" group=\"canaree-music-player/${moduleName}\" />",
             ""
     )
     modulesFile.writeText(newContent)
