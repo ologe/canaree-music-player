@@ -43,7 +43,10 @@ fun main() {
     val modules = searchForGradleFiles(rootDir, moduleName)
 
     // delete iml file
-    Files.delete(File(currentModule, "$moduleName.iml").toPath())
+    val imlFile = File(currentModule, "$moduleName.iml")
+    if (imlFile.exists()) {
+        Files.delete(imlFile.toPath())
+    }
 
     // move all fiels
     Files.move(
