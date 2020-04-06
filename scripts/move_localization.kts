@@ -18,7 +18,7 @@ fun main() {
     val toModule = args[1]
     val fileName = args[2]
 
-    if (!sanityChecks(fromModule, toModul)) {
+    if (!sanityChecks(fromModule, toModule)) {
         return
     }
 
