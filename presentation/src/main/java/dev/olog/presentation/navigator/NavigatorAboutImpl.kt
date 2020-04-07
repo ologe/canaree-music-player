@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
@@ -12,7 +13,6 @@ import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
 import dev.olog.presentation.translations.TranslationsFragment
 import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.PlayStoreUtils
@@ -40,7 +40,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
         fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, LicensesFragment.TAG)
             addToBackStack(LicensesFragment.TAG)
         }
@@ -107,7 +107,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
         fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, SpecialThanksFragment.TAG)
             addToBackStack(SpecialThanksFragment.TAG)
         }
@@ -176,7 +176,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
         fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, TranslationsFragment.TAG)
             addToBackStack(TranslationsFragment.TAG)
         }

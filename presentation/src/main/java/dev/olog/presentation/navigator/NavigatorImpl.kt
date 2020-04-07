@@ -3,6 +3,7 @@ package dev.olog.presentation.navigator
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
@@ -41,7 +42,6 @@ import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
 import dev.olog.shared.throwNotHandled
@@ -60,7 +60,7 @@ internal class NavigatorImpl @Inject internal constructor(
 
     override fun toFirstAccess() {
         val activity = activityRef.get() ?: return
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
         }
     }
@@ -75,7 +75,7 @@ internal class NavigatorImpl @Inject internal constructor(
         findFirstVisibleFragment(activity.supportFragmentManager)
             ?.setupExitAnimation(activity)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val fragment = DetailFragment.newInstance(mediaId, "")
             fragment.setupEnterAnimation(activity)
 
@@ -102,7 +102,7 @@ internal class NavigatorImpl @Inject internal constructor(
         findFirstVisibleFragment(activity.supportFragmentManager)
             ?.setupExitSharedAnimation()
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val fragment = DetailFragment.newInstance(mediaId, view.transitionName)
             fragment.setupEnterSharedAnimation(activity)
 
@@ -124,7 +124,7 @@ internal class NavigatorImpl @Inject internal constructor(
         findFirstVisibleFragment(activity.supportFragmentManager)
             ?.setupExitSharedAnimation()
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val fragment = RelatedArtistFragment.newInstance(mediaId, view.transitionName)
             fragment.setupEnterSharedAnimation(activity)
 
@@ -146,7 +146,7 @@ internal class NavigatorImpl @Inject internal constructor(
         findFirstVisibleFragment(activity.supportFragmentManager)
             ?.setupExitSharedAnimation()
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val fragment = RecentlyAddedFragment.newInstance(mediaId, view.transitionName)
             fragment.setupEnterSharedAnimation(activity)
 
@@ -160,7 +160,7 @@ internal class NavigatorImpl @Inject internal constructor(
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             add(android.R.id.content, OfflineLyricsFragment.newInstance(), OfflineLyricsFragment.TAG)
@@ -213,7 +213,7 @@ internal class NavigatorImpl @Inject internal constructor(
         current?.setupExitSharedAnimation()
         current?.reenterTransition = MaterialFadeThrough.create(activity)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val fragment = CreatePlaylistFragment.newInstance(type)
             fragment.setupEnterSharedAnimation(activity)
 

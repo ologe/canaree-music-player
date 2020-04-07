@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -30,7 +31,10 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.android.extensions.themeManager
+import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -100,7 +104,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         blacklist.setOnPreferenceClickListener {
-            requireActivity().fragmentTransaction {
+            requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -113,7 +117,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         lastFmCredentials.setOnPreferenceClickListener {
-            requireActivity().fragmentTransaction {
+            requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
             }

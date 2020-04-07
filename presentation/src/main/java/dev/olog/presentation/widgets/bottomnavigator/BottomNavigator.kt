@@ -3,6 +3,7 @@ package dev.olog.presentation.widgets.bottomnavigator
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
@@ -13,7 +14,6 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.getTopFragment
 
 internal class BottomNavigator {
@@ -57,7 +57,7 @@ internal class BottomNavigator {
         }
         topFragment?.let { setupExitAnimation(activity, it, newTag) }
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val newInstance = tagToInstance(newTag)
             trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
             topFragment?.let { setupEnterAnimation(activity, it, newInstance, newTag) }
@@ -73,7 +73,7 @@ internal class BottomNavigator {
     ) {
         topFragment.setupExitAnimation(activity)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             val newInstance = tagToInstance(newTag)
             trackerFacade.trackScreen(newInstance::class.java.simpleName, newInstance.arguments)
             newInstance.setupEnterAnimation(activity)

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -30,7 +31,6 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
@@ -198,7 +198,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context as FragmentActivity).fragmentTransaction {
+            (view.context as FragmentActivity).supportFragmentManager.commit {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,

@@ -3,6 +3,7 @@ package dev.olog.presentation.popup.main
 import android.content.Intent
 import android.media.audiofx.AudioEffect
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
@@ -13,7 +14,6 @@ import dev.olog.presentation.navigator.allowed
 import dev.olog.presentation.navigator.findFirstVisibleFragment
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.mandatory
 import java.lang.ref.WeakReference
@@ -34,7 +34,7 @@ internal class MainPopupNavigator @Inject constructor(
         val fragment = AboutFragment()
         fragment.setupEnterAnimation(activity)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, AboutFragment.TAG)
             addToBackStack(AboutFragment.TAG)
         }
@@ -81,7 +81,7 @@ internal class MainPopupNavigator @Inject constructor(
         val fragment = SettingsFragmentWrapper()
         fragment.setupEnterAnimation(activity)
 
-        activity.fragmentTransaction {
+        activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, SettingsFragmentWrapper.TAG)
             addToBackStack(SettingsFragmentWrapper.TAG)
         }
