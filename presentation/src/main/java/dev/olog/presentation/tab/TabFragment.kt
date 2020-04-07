@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.sort.SortType
-import dev.olog.media.MediaProvider
+import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory

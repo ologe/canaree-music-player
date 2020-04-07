@@ -1,6 +1,6 @@
 package dev.olog.presentation.player
 
-import dev.olog.media.model.PlayerItem
+import dev.olog.lib.media.model.PlayerItem
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem

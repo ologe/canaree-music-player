@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/firstText"
         tools:text="@tools:sample/lorem" />
 
-    <dev.olog.media.widget.CustomProgressBar
+    <dev.olog.lib.media.widget.CustomProgressBar
         android:id="@+id/progressBar"
         style="@style/DefaultHorizontalProgressBar"
         android:layout_width="0dp"

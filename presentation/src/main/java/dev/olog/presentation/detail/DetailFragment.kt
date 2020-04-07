@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
-import dev.olog.media.MediaProvider
+import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R

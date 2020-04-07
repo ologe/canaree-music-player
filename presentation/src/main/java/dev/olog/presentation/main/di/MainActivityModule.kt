@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import dev.olog.media.MediaProvider
+import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.main.MainActivity

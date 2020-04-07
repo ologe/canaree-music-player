@@ -10,10 +10,10 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.media.MediaProvider
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
-import dev.olog.media.model.PlayerState
+import dev.olog.lib.media.MediaProvider
+import dev.olog.lib.media.model.PlayerMetadata
+import dev.olog.lib.media.model.PlayerPlaybackState
+import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener

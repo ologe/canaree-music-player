@@ -20,7 +20,7 @@ import dev.olog.domain.MediaId
 import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
-import dev.olog.media.model.PlayerMetadata
+import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.android.theme.themeManager

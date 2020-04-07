@@ -1,5 +1,6 @@
 package dev.olog.intents
 
+// TODO remove this
 object Classes {
     const val ACTIVITY_MAIN = "dev.olog.presentation.main.MainActivity"
     const val ACTIVITY_SHORTCUTS = "dev.olog.appshortcuts.ShortcutsActivity"
