@@ -1,29 +1,25 @@
 package dev.olog.service.music.player.mediasource
 
 import android.net.Uri
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
-import dev.olog.shared.coroutines.MainScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class ClippedSourceFactory @Inject constructor (
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val sourceFactory: DefaultSourceFactory,
     musicPrefsUseCase: MusicPreferencesGateway
 
-) : DefaultLifecycleObserver,
-    ISourceFactory<CrossFadePlayer.Model> {
+) : ISourceFactory<CrossFadePlayer.Model> {
 
     companion object {
         @JvmStatic
@@ -35,20 +31,11 @@ internal class ClippedSourceFactory @Inject constructor (
     // when gapless is on, clip mediaSource
     private var isGapless = false
 
-    private val scope by MainScope()
-
     init {
-        lifecycle.addObserver(this)
-
         musicPrefsUseCase.observeGapless()
             .onEach { isGapless = it }
-            .launchIn(scope)
+            .launchIn(lifecycle.coroutineScope)
     }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        scope.cancel()
-    }
-
 
     /*
      * Clip the media source only when gapless is On,

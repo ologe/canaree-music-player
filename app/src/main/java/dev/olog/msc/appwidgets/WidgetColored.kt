@@ -4,13 +4,13 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.widget.RemoteViews
-import dev.olog.shared.coroutines.MainScope
-import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
 import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.shared.coroutines.autoDisposeJob
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -20,15 +20,13 @@ private const val IMAGE_SIZE = 300
 
 class WidgetColored : BaseWidget() {
 
-    // TODO cancel scope
-    private val scope by MainScope()
     private var job by autoDisposeJob()
 
     @Inject
     internal lateinit var schedulers: Schedulers
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
-        job = scope.launch {
+        job = GlobalScope.launch(schedulers.main) {
             val bitmap = withContext(schedulers.io){
                 context.getCachedBitmap(SONGS_CATEGORY.playableItem(metadata.id), IMAGE_SIZE)
             } ?: return@launch

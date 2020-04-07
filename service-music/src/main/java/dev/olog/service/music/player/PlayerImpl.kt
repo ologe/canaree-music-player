@@ -4,8 +4,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.clamp
-import dev.olog.shared.coroutines.MainScope
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -16,7 +15,7 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
-import kotlinx.coroutines.cancel
+import dev.olog.shared.clamp
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +23,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class PlayerImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val playerState: MusicServicePlaybackState,
     private val noisy: Noisy,
     private val serviceLifecycle: IServiceLifecycleController,
@@ -37,8 +36,6 @@ internal class PlayerImpl @Inject constructor(
 ) : IPlayer,
     DefaultLifecycleObserver,
     IPlayerLifecycle {
-
-    private val scope by MainScope()
 
     private val listeners = mutableListOf<IPlayerLifecycle.Listener>()
 
@@ -53,20 +50,19 @@ internal class PlayerImpl @Inject constructor(
             .onEach { volume ->
                 val newVolume = volume.toFloat() / 100f * playerVolume.getMaxAllowedVolume()
                 playerDelegate.setVolume(newVolume)
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
 
         musicPrefsUseCase.observePlaybackSpeed()
             .onEach {
                 currentSpeed = it
                 playerDelegate.setPlaybackSpeed(it)
                 playerState.updatePlaybackSpeed(it)
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        scope.cancel()
     }
 
     override fun prepare(playerModel: PlayerMediaEntity) {

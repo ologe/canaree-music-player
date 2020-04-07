@@ -4,19 +4,20 @@ import android.app.Notification
 import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.shared.coroutines.DispatcherScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -24,11 +25,12 @@ import javax.inject.Inject
 
 @PerService
 internal class MusicNotificationManager @Inject constructor(
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val service: Service,
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: IPlayerLifecycle,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 
 ) : DefaultLifecycleObserver {
 
@@ -42,8 +44,6 @@ internal class MusicNotificationManager @Inject constructor(
     private val publisher = Channel<Event>(Channel.UNLIMITED)
     private val currentState = MusicNotificationState()
 
-    private val scope by DispatcherScope(schedulers.cpu)
-
     private val playerListener = object : IPlayerLifecycle.Listener {
         override fun onPrepare(metadata: MetadataEntity) {
             onNextMetadata(metadata.entity)
@@ -56,6 +56,11 @@ internal class MusicNotificationManager @Inject constructor(
         override fun onStateChanged(state: PlaybackStateCompat) {
             onNextState(state)
         }
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        stopForeground()
+        publisher.close()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
@@ -83,13 +88,16 @@ internal class MusicNotificationManager @Inject constructor(
                     is Event.State -> currentState.isDifferentState(event.state)
                     is Event.Favorite -> currentState.isDifferentFavorite(event.favorite)
                 }
-            }.onEach { consumeEvent(it) }
-            .launchIn(scope)
+            }
+            .onEach { consumeEvent(it) }
+            .flowOn(schedulers.cpu)
+            .launchIn(lifecycle.coroutineScope)
 
         observeFavoriteUseCase()
             .map { it == FavoriteState.FAVORITE }
             .onEach { onNextFavorite(it) }
-            .launchIn(scope)
+            .flowOn(schedulers.cpu)
+            .launchIn(lifecycle.coroutineScope)
     }
 
     private suspend fun consumeEvent(event: Event){
@@ -129,12 +137,6 @@ internal class MusicNotificationManager @Inject constructor(
         } else {
             pauseForeground()
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        stopForeground()
-        publisher.close()
-        scope.cancel()
     }
 
     private fun stopForeground() {

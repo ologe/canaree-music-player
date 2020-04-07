@@ -5,15 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.DispatcherScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
@@ -31,13 +31,13 @@ import javax.inject.Inject
 
 @PerService
 internal class MusicServiceMetadata @Inject constructor(
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
     musicPrefs: MusicPreferencesGateway,
-    schedulers: Schedulers
-) : IPlayerLifecycle.Listener,
-    DefaultLifecycleObserver {
+    private val schedulers: Schedulers
+) : IPlayerLifecycle.Listener {
 
     companion object {
         @JvmStatic
@@ -48,7 +48,6 @@ internal class MusicServiceMetadata @Inject constructor(
 
     private var showLockScreenArtwork = false
 
-    private val scope by DispatcherScope(schedulers.cpu)
     private var imageJob by autoDisposeJob()
 
     init {
@@ -56,7 +55,7 @@ internal class MusicServiceMetadata @Inject constructor(
 
         musicPrefs.observeShowLockscreenArtwork()
             .onEach { showLockScreenArtwork = it }
-            .launchIn(scope)
+            .launchIn(lifecycle.coroutineScope)
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
@@ -68,14 +67,10 @@ internal class MusicServiceMetadata @Inject constructor(
         notifyWidgets(metadata.entity)
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        scope.cancel()
-    }
-
     private fun update(metadata: MetadataEntity) {
         Timber.v("$TAG update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        imageJob = scope.launch {
+        imageJob = lifecycle.coroutineScope.launch(schedulers.cpu) {
 
             val entity = metadata.entity
 
@@ -93,7 +88,9 @@ internal class MusicServiceMetadata @Inject constructor(
                 .putBoolean(MusicConstants.SKIP_PREVIOUS, metadata.skipType == SkipType.SKIP_PREVIOUS)
 
             if (showLockScreenArtwork) {
-                val bitmap = context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
+                val bitmap = withContext(schedulers.io) {
+                    context.getCachedBitmap(entity.mediaId, GlideUtils.OVERRIDE_BIG)
+                }
                 yield()
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
             }

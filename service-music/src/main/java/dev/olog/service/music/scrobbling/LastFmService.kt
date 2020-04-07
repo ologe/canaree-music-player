@@ -1,21 +1,18 @@
 package dev.olog.service.music.scrobbling
 
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
-import dev.olog.shared.coroutines.DispatcherScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jaudiotagger.audio.AudioFileIO
@@ -26,9 +23,9 @@ import java.util.logging.Level
 import javax.inject.Inject
 
 internal class LastFmService @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
-    schedulers: Schedulers
-): DefaultLifecycleObserver {
+    @ServiceLifecycle private val lifecycle: Lifecycle,
+    private val schedulers: Schedulers
+) {
 
     companion object {
         const val SCROBBLE_DELAY = 10L * 1000 // millis
@@ -37,17 +34,11 @@ internal class LastFmService @Inject constructor(
     private var session: Session? = null
     private var userCredentials: UserCredentials? = null
 
-    private val scope by DispatcherScope(schedulers.io)
     private var scrobbleJob by autoDisposeJob()
 
     init {
-        lifecycle.addObserver(this)
         Caller.getInstance().userAgent = "dev.olog.msc"
         Caller.getInstance().logger.level = Level.OFF
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        scope.cancel()
     }
 
     fun tryAuthenticate(credentials: UserCredentials) {
@@ -73,7 +64,7 @@ internal class LastFmService @Inject constructor(
             return
         }
 
-        scrobbleJob = scope.launch {
+        scrobbleJob = lifecycle.coroutineScope.launch(schedulers.io) {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()
             Track.scrobble(scrobbleData, session)

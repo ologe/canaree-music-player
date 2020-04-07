@@ -4,10 +4,7 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.clamp
-import dev.olog.shared.coroutines.DispatcherScope
-import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.shared.swap
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
@@ -20,7 +17,12 @@ import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import kotlinx.coroutines.*
+import dev.olog.shared.clamp
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.swap
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -28,7 +30,7 @@ import javax.inject.Inject
 const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 internal class QueueImpl @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
     private val repeatMode: MusicServiceRepeatMode,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -38,7 +40,6 @@ internal class QueueImpl @Inject constructor(
     private val schedulers: Schedulers
 ) : DefaultLifecycleObserver {
 
-    private val scope by DispatcherScope(schedulers.cpu)
     private var savePlayingQueueJob by autoDisposeJob()
 
     private val playingQueue = Vector<MediaEntity>()
@@ -54,7 +55,6 @@ internal class QueueImpl @Inject constructor(
         playingQueue.getOrNull(currentSongPosition)?.let {
             musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
         }
-        scope.cancel()
     }
 
     internal fun isEmpty() = playingQueue.isEmpty()
@@ -91,7 +91,7 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob = scope.launch(NonCancellable) {
+        savePlayingQueueJob = lifecycle.coroutineScope.launch(NonCancellable) {
             assertBackgroundThread()
 
             val request = songList.map {
@@ -114,7 +114,7 @@ internal class QueueImpl @Inject constructor(
         currentPosition: Int,
         immediate: Boolean
     ) {
-        scope.launch {
+        lifecycle.coroutineScope.launch(schedulers.cpu) {
             assertBackgroundThread()
 
             val safePosition = ensurePosition(list, currentPosition)

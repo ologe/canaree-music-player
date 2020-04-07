@@ -5,8 +5,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.MainScope
+import androidx.lifecycle.coroutineScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -16,7 +15,6 @@ import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.core.isOreo
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -27,7 +25,7 @@ private const val CHANNEL_ID = "0xfff"
 
 class FloatingWindowNotification @Inject constructor(
     private val service: Service,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     private val notificationManager: NotificationManager,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val schedulers: Schedulers
@@ -42,20 +40,10 @@ class FloatingWindowNotification @Inject constructor(
         service,
         CHANNEL_ID
     )
-    private val scope by MainScope()
+
     private var disposable by autoDisposeJob()
 
     private var notificationTitle = ""
-
-    init {
-        lifecycle.addObserver(this)
-
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        disposable = null
-        scope.cancel()
-    }
 
     fun startObserving() {
         // keeps playing song in sync
@@ -66,7 +54,7 @@ class FloatingWindowNotification @Inject constructor(
                 val notification = builder.setContentTitle(notificationTitle).build()
                 notificationManager.notify(NOTIFICATION_ID, notification)
             }.flowOn(schedulers.cpu)
-            .launchIn(scope)
+            .launchIn(lifecycle.coroutineScope)
     }
 
     fun buildNotification(): Notification {

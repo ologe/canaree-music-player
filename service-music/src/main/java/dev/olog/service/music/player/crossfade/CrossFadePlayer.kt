@@ -4,12 +4,9 @@ import android.content.Context
 import androidx.core.math.MathUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dev.olog.shared.clamp
-import dev.olog.shared.coroutines.MainScope
-import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.shared.coroutines.flowInterval
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
@@ -18,7 +15,9 @@ import dev.olog.service.music.OnAudioSessionIdChangeListener
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import kotlinx.coroutines.cancel
+import dev.olog.shared.clamp
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.flowInterval
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -29,7 +28,7 @@ import kotlin.math.abs
  */
 internal class CrossFadePlayer @Inject internal constructor(
     context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
     private val eventDispatcher: EventDispatcher,
@@ -46,7 +45,6 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     private var isCurrentSongPodcast = false
 
-    private val scope by MainScope()
     private var fadeDisposable by autoDisposeJob()
 
     private var gapless = false
@@ -66,7 +64,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             .filter { it }
             .onEach {
                 fadeOut(getDuration() - getBookmark())
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
 
         musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
             { crossfade, gapless ->
@@ -82,11 +80,11 @@ internal class CrossFadePlayer @Inject internal constructor(
                 }
 
             }.onEach { crossFadeTime = it }
-            .launchIn(scope)
+            .launchIn(lifecycle.coroutineScope)
 
         musicPreferencesUseCase.observeGapless()
             .onEach { gapless = it }
-            .launchIn(scope)
+            .launchIn(lifecycle.coroutineScope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -94,7 +92,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.removeListener(this)
         player.removeAudioListener(onAudioSessionIdChangeListener)
         cancelFade()
-        scope.cancel()
     }
 
     override fun setPlaybackSpeed(speed: Float) {
@@ -178,7 +175,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             .onEach {
                 val current = MathUtils.clamp(player.volume + delta, min, max)
                 player.volume = current
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
     }
 
     private fun fadeOut(time: Long) {
@@ -211,7 +208,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             .onEach {
                 val current = MathUtils.clamp(player.volume - delta, min, max)
                 player.volume = current
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
 
     }
 

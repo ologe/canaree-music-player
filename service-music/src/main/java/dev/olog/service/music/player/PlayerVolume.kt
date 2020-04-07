@@ -3,13 +3,12 @@ package dev.olog.service.music.player
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.MainScope
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IDuckVolume
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -27,14 +26,13 @@ private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 @PerService
 internal class PlayerVolume @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     musicPreferencesUseCase: MusicPreferencesGateway
 
 ) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver {
 
     override var listener: IMaxAllowedPlayerVolume.Listener? = null
 
-    private val scope by MainScope()
     private var volume: IDuckVolume = Volume()
     private var isDucking = false
 
@@ -51,7 +49,7 @@ internal class PlayerVolume @Inject constructor(
                 }
 
                 listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
 
         // observe at interval of 15 mins to detect if is day or night when
         // settigs is on
@@ -62,7 +60,7 @@ internal class PlayerVolume @Inject constructor(
             .onEach { isNight ->
                 volume = provideVolumeManager(isNight)
                 listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-            }.launchIn(scope)
+            }.launchIn(lifecycle.coroutineScope)
     }
 
     private fun isNight(): Boolean {
@@ -83,7 +81,6 @@ internal class PlayerVolume @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        scope.cancel()
         listener = null
     }
 

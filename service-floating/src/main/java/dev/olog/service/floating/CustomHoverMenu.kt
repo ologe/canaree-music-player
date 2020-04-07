@@ -2,18 +2,15 @@ package dev.olog.service.floating
 
 import android.content.Context
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.MainScope
-import dev.olog.shared.coroutines.autoDisposeJob
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceContext
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
-import kotlinx.coroutines.cancel
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -24,13 +21,13 @@ import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
     @ServiceContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     offlineLyricsContentPresenter: OfflineLyricsContentPresenter,
     private val schedulers: Schedulers
 
-) : HoverMenu(), DefaultLifecycleObserver {
+) : HoverMenu() {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
@@ -45,7 +42,6 @@ class CustomHoverMenu @Inject constructor(
         schedulers
     )
 
-    private val scope by MainScope()
     private var disposable by autoDisposeJob()
 
     private var item by Delegates.observable("", { _, _, new ->
@@ -56,21 +52,12 @@ class CustomHoverMenu @Inject constructor(
         }
     })
 
-    init {
-        lifecycle.addObserver(this)
-    }
-
     fun startObserving(){
         disposable = musicPreferencesUseCase.observeLastMetadata()
             .filter { it.isNotEmpty() }
             .flowOn(schedulers.cpu)
             .onEach { item = it.description }
-            .launchIn(scope)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        disposable = null
-        scope.cancel()
+            .launchIn(lifecycle.coroutineScope)
     }
 
     private val lyricsSection = Section(
