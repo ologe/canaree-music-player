@@ -70,7 +70,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":image-provider"))
     implementation(project(":injection"))
-    implementation(project(":media"))
+    implementation(project(":lib.media"))
     implementation(project(":prefs-keys"))
     implementation(project(":presentation"))
     implementation(project(":shared-android"))

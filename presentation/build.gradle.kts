@@ -40,7 +40,7 @@ dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared-widgets"))
     implementation(project(":prefs-keys"))
-    implementation(project(":media"))
+    implementation(project(":lib.media"))
     implementation(project(":offline-lyrics"))
     implementation(project(":jaudiotagger"))
     implementation(project(":intents"))
