@@ -7,7 +7,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
-import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.DispatcherScope
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.R
 import dev.olog.shared.android.utils.NetworkUtils

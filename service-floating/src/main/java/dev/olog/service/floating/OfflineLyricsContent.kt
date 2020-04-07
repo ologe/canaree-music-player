@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.OnImageLoadingError

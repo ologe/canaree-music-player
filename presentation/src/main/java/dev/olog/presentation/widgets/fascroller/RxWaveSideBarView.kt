@@ -3,7 +3,7 @@ package dev.olog.presentation.widgets.fascroller
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack

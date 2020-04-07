@@ -4,7 +4,7 @@ import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
-import dev.olog.core.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.DispatcherScope
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.AutoPlaylist

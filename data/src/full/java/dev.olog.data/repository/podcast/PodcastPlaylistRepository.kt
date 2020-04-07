@@ -20,7 +20,7 @@ import dev.olog.data.model.db.PodcastPlaylistTrackEntity
 import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.core.mapListItem
-import dev.olog.core.swap
+import dev.olog.shared.swap
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext

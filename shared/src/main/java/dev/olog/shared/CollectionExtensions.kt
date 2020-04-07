@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.core
+package dev.olog.shared
 
 import java.util.*
 

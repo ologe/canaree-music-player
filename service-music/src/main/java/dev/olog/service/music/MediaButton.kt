@@ -3,8 +3,8 @@ package dev.olog.service.music
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.injection.dagger.PerService
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher.Event

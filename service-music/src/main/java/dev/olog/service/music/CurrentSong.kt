@@ -2,8 +2,8 @@ package dev.olog.service.music
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.favorite.FavoriteItemState

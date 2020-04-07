@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.song
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId

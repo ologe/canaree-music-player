@@ -4,7 +4,7 @@ import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.core.clamp
+import dev.olog.shared.clamp
 import javax.inject.Inject
 
 internal class LibraryFragmentPresenter @Inject constructor(

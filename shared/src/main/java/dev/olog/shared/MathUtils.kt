@@ -1,4 +1,4 @@
-package dev.olog.core
+package dev.olog.shared
 
 fun clamp(value: Int, min: Int, max: Int): Int {
     if (value < min) {

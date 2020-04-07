@@ -11,7 +11,7 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.presentationId
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.coroutines.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject

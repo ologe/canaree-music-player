@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 

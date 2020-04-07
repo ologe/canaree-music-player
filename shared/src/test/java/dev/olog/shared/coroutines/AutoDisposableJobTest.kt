@@ -1,4 +1,4 @@
-package dev.olog.core.coroutines
+package dev.olog.shared.coroutines
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -9,7 +9,7 @@ import org.junit.Test
 
 class AutoDisposableJobTest {
 
-    private var sut by autoDisposeJob()
+    private var sut by dev.olog.shared.coroutines.autoDisposeJob()
 
     @Test
     fun `test initial value`() {

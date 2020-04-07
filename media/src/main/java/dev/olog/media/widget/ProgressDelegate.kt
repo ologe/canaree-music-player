@@ -2,9 +2,9 @@ package dev.olog.media.widget
 
 import android.annotation.SuppressLint
 import android.widget.ProgressBar
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
-import dev.olog.core.coroutines.flowInterval
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.flowInterval
 import dev.olog.intents.AppConstants
 import dev.olog.media.model.PlayerPlaybackState
 import kotlinx.coroutines.Dispatchers

@@ -18,7 +18,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.startWithIfNotEmpty
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber

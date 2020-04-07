@@ -1,4 +1,4 @@
-package dev.olog.core.coroutines
+package dev.olog.shared.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

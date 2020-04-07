@@ -7,8 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils

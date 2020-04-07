@@ -8,8 +8,8 @@ import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
 import de.umass.lastfm.Track
 import de.umass.lastfm.scrobble.ScrobbleData
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle

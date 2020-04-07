@@ -11,8 +11,8 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.coroutines.mapListItem
-import dev.olog.core.startWithIfNotEmpty
+import dev.olog.shared.coroutines.mapListItem
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

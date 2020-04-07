@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.umass.lastfm.Authenticator
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials

@@ -7,8 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.Classes

@@ -8,7 +8,7 @@ import android.view.ViewConfiguration
 import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import kotlinx.coroutines.android.awaitFrame

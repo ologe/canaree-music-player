@@ -1,8 +1,8 @@
 package dev.olog.offlinelyrics
 
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
-import dev.olog.core.coroutines.fireAndForget
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.fireAndForget
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.schedulers.Schedulers

@@ -9,8 +9,8 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.math.MathUtils
 import androidx.palette.graphics.Palette
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor

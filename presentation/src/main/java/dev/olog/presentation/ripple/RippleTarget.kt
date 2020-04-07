@@ -8,8 +8,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.widgets.ForegroundImageView
 import kotlinx.coroutines.*

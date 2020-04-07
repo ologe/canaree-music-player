@@ -6,10 +6,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dev.olog.core.clamp
-import dev.olog.core.coroutines.MainScope
-import dev.olog.core.coroutines.autoDisposeJob
-import dev.olog.core.coroutines.flowInterval
+import dev.olog.shared.clamp
+import dev.olog.shared.coroutines.MainScope
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.flowInterval
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle

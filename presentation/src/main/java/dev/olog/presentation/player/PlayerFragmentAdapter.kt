@@ -32,7 +32,7 @@ import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.theme.themeManager
-import dev.olog.core.swap
+import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*

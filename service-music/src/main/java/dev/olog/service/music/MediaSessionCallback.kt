@@ -9,8 +9,8 @@ import android.view.KeyEvent
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers

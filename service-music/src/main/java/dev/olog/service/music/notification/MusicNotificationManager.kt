@@ -5,8 +5,8 @@ import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.schedulers.Schedulers

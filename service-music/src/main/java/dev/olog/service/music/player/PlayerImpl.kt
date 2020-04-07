@@ -4,8 +4,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.clamp
-import dev.olog.core.coroutines.MainScope
+import dev.olog.shared.clamp
+import dev.olog.shared.coroutines.MainScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -166,22 +166,46 @@ internal class PlayerImpl @Inject constructor(
 
     override fun forwardTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(
+            clamp(
+                newBookmark,
+                0,
+                playerDelegate.getDuration()
+            )
+        )
     }
 
     override fun replayTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(
+            clamp(
+                newBookmark,
+                0,
+                playerDelegate.getDuration()
+            )
+        )
     }
 
     override fun forwardThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(
+            clamp(
+                newBookmark,
+                0,
+                playerDelegate.getDuration()
+            )
+        )
     }
 
     override fun replayThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(
+            clamp(
+                newBookmark,
+                0,
+                playerDelegate.getDuration()
+            )
+        )
     }
 
     override fun isPlaying(): Boolean = playerDelegate.isPlaying()

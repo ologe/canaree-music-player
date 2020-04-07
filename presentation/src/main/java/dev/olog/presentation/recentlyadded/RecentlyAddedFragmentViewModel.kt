@@ -9,7 +9,7 @@ import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.toDomain
-import dev.olog.core.coroutines.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject

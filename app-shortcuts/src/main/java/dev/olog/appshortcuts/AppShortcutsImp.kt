@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import dev.olog.core.coroutines.fireAndForget
+import dev.olog.shared.coroutines.fireAndForget
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.getCachedBitmap

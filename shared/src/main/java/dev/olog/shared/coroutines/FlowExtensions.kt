@@ -1,6 +1,4 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
-package dev.olog.core.coroutines
+package dev.olog.shared.coroutines
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,8 +1,7 @@
 package dev.olog.presentation.tab
 
 import android.content.Context
-import dev.olog.core.*
-import dev.olog.core.coroutines.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
@@ -13,6 +12,9 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
+import dev.olog.shared.doIf
+import dev.olog.shared.startWith
+import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn

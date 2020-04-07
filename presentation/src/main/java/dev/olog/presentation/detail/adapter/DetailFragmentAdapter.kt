@@ -28,7 +28,7 @@ import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
-import dev.olog.core.swap
+import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_detail_biography.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title

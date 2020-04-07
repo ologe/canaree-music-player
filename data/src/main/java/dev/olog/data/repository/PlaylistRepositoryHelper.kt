@@ -10,7 +10,7 @@ import dev.olog.data.db.PlaylistDao
 import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.core.swap
+import dev.olog.shared.swap
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

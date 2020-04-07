@@ -1,7 +1,7 @@
 package dev.olog.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
-import dev.olog.core.coroutines.MainScope
+import dev.olog.shared.coroutines.MainScope
 import dev.olog.domain.entity.EqualizerBand
 import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.gateway.EqualizerGateway

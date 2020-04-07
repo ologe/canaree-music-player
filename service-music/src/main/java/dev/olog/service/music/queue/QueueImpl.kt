@@ -4,10 +4,10 @@ import androidx.annotation.CheckResult
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.clamp
-import dev.olog.core.coroutines.DispatcherScope
-import dev.olog.core.coroutines.autoDisposeJob
-import dev.olog.core.swap
+import dev.olog.shared.clamp
+import dev.olog.shared.coroutines.DispatcherScope
+import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.swap
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase

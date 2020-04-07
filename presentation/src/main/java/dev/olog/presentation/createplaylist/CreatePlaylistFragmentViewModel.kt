@@ -14,7 +14,7 @@ import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
-import dev.olog.core.coroutines.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
