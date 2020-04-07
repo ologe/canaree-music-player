@@ -50,7 +50,7 @@ class ViewScope(
         block: suspend CoroutineScope.() -> Unit
     ): Job {
         return launch(context) {
-            view.get()?.awaitOnAttach()
+            view.get()?.awaitOnAttach() ?: return@launch
             block()
         }
     }
