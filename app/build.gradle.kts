@@ -11,6 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "dev.olog.msc"
+
+        configField("AES_PASSWORD" to localProperties.aesPassword)
     }
 
     bundle {
@@ -62,22 +64,31 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
+    implementation(project(":domain"))
 
+    implementation(project(":data"))
+    implementation(project(":data-spotify"))
+
+    // libs
+    implementation(project(":data-shared")) // TODO rename to lib.network
+    implementation(project(":equalizer"))
+    implementation(project(":lib.media"))
+    implementation(project(":offline-lyrics"))
+    implementation(project(":image-provider"))
+
+    implementation(project(":analytics"))
 
     implementation(project(":app-shortcuts"))
     implementation(project(":analytics"))
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":image-provider"))
+
+
     implementation(project(":injection"))
-    implementation(project(":lib.media"))
     implementation(project(":prefs-keys"))
     implementation(project(":presentation"))
     implementation(project(":shared-android"))
     implementation(project(":shared-widgets"))
     implementation(project(":service-music"))
     implementation(project(":service-floating"))
-    implementation(project(":offline-lyrics"))
     implementation(project(":intents"))
     implementation(project(":shared"))
 
@@ -97,6 +108,12 @@ dependencies {
 
     implementation(Libraries.UX.blurKit)
     implementation(Libraries.UX.customTabs)
+
+    implementation(Libraries.X.Room.core)
+    implementation(Libraries.Network.okHttp)
+    implementation(Libraries.Network.retrofit)
+
+    implementation(Libraries.Utils.aesCrypto)
 
     debugImplementation(Libraries.Debug.leakCanary)
     debugImplementation(Libraries.Debug.stetho)
