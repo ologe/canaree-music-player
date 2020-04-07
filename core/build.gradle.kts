@@ -13,6 +13,9 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
 
+    implementation(Libraries.X.material)
+    implementation(Libraries.X.preference)
+
     testImplementation(Libraries.Test.junit)
     testImplementation(Libraries.Test.mockito)
     testImplementation(Libraries.Test.mockitoKotlin)

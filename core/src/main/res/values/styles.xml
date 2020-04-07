@@ -107,7 +107,7 @@
         <item name="android:progressTint">@color/progressTint</item>
         <item name="android:thumbTint">@color/progressTint</item>
         <item name="android:progressBackgroundTint">@color/progressBackgroundTint</item>
-        <item name="android:thumb">@drawable/seekbar_thumb_circle</item>
+        <item name="android:thumb">@drawable/seek_bar_thumb</item>
         <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
     </style>
 
