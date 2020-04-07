@@ -20,9 +20,7 @@ import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
+import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
@@ -56,7 +54,7 @@ internal class QueueImpl @Inject constructor(
         playingQueue.getOrNull(currentSongPosition)?.let {
             musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
         }
-//        cancel() TODO mmm cancelling will not persist queue, is needed persist here??
+        scope.cancel()
     }
 
     internal fun isEmpty() = playingQueue.isEmpty()
@@ -93,17 +91,12 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob = scope.launch {
+        savePlayingQueueJob = scope.launch(NonCancellable) {
             assertBackgroundThread()
 
             val request = songList.map {
-                UpdatePlayingQueueUseCase.Request(
-                    it.mediaId,
-                    it.id,
-                    it.idInPlaylist
-                )
+                UpdatePlayingQueueUseCase.Request(it.mediaId, it.id, it.idInPlaylist)
             }
-            yield()
             updatePlayingQueueUseCase(request)
         }
     }
