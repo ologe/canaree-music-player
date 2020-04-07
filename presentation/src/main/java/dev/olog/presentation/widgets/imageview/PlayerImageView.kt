@@ -11,7 +11,7 @@ import dev.olog.image.provider.GlideApp
 import dev.olog.image.provider.GlideUtils
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
-import dev.olog.shared.lazyFast
+import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 
 open class PlayerImageView (
     context: Context,
@@ -19,26 +19,24 @@ open class PlayerImageView (
 
 ) : ShapeImageView(context, attr) {
 
-    private val adaptiveImageHelper by lazyFast {
-        AdaptiveImageHelper(context)
-    }
+    private val presenter = AdaptiveColorImageViewPresenter(this)
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
         if (!isInEditMode) {
-            adaptiveImageHelper.setImageBitmap(bm)
+            presenter.onNextImage(bm)
         }
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
         if (!isInEditMode) {
-            adaptiveImageHelper.setImageDrawable(drawable)
+            presenter.onNextImage(drawable)
         }
     }
 
-    fun observeProcessorColors() = adaptiveImageHelper.observeProcessorColors()
-    fun observePaletteColors() = adaptiveImageHelper.observePaletteColors()
+    fun observeProcessorColors() = presenter.observeProcessorColors()
+    fun observePaletteColors() = presenter.observePaletteColors()
 
     open fun loadImage(mediaId: MediaId) {
         GlideApp.with(context).clear(this)

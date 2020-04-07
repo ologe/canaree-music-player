@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import dev.olog.shared.lazyFast
 
 class AdaptiveColorImageView(
     context: Context,
@@ -13,9 +12,7 @@ class AdaptiveColorImageView(
 
 ) : AppCompatImageView(context, attr) {
 
-    private val presenter by lazyFast {
-        AdaptiveColorImageViewPresenter(this, context)
-    }
+    private val presenter = AdaptiveColorImageViewPresenter(this)
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
@@ -34,6 +31,6 @@ class AdaptiveColorImageView(
     }
 
     fun observeProcessorColors() = presenter.observeProcessorColors()
-    fun observePaletteColors() = presenter.observePalette()
+    fun observePaletteColors() = presenter.observePaletteColors()
 
 }

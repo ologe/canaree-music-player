@@ -23,13 +23,12 @@ import dev.olog.image.provider.GlideUtils
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.shared.android.theme.themeManager
 import dev.olog.presentation.widgets.BlurredBackground
-import dev.olog.presentation.widgets.imageview.AdaptiveImageHelper
 import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findChild
+import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.lazyFast
-import java.lang.IllegalStateException
+import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(
@@ -56,11 +55,7 @@ class CustomViewSwitcher(
         (parent as View).findViewById<BlurredBackground>(R.id.blurBackground)
     }
 
-    private val adaptiveImageHelper by lazyFast {
-        AdaptiveImageHelper(
-            context
-        )
-    }
+    private val adaptiveImageHelper = AdaptiveColorImageViewPresenter(this)
 
     private enum class Direction {
         NONE,
@@ -213,7 +208,7 @@ class CustomViewSwitcher(
                     if (resource !== view.drawable && version == imageVersion) {
                         // different image and same load
                         view.setImageDrawable(resource)
-                        adaptiveImageHelper.setImageDrawable(resource)
+                        adaptiveImageHelper.onNextImage(resource)
                         blurBackground?.loadImage(mediaId, resource)
                     }
                 }
@@ -243,7 +238,7 @@ class CustomViewSwitcher(
 
             if (model is MediaId) {
                 val defaultCover = CoverUtils.getGradient(context, model)
-                adaptiveImageHelper.setImageDrawable(defaultCover)
+                adaptiveImageHelper.onNextImage(defaultCover)
                 blurBackground?.loadImage(model, defaultCover)
             }
         }
@@ -261,7 +256,7 @@ class CustomViewSwitcher(
             animationFinished = true
             showNext()
         }
-        adaptiveImageHelper.setImageDrawable(resource)
+        adaptiveImageHelper.onNextImage(resource)
         blurBackground?.loadImage(model as MediaId, resource)
         return false
     }

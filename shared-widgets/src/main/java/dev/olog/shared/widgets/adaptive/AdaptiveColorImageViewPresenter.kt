@@ -22,13 +22,13 @@ import kotlinx.coroutines.yield
 import java.lang.ref.WeakReference
 
 class AdaptiveColorImageViewPresenter(
-    view: View,
-    private val context: Context
+    view: View
 ) {
 
+    private val context = view.context
     private val view = WeakReference(view)
 
-    private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val isDarkMode = context.isDarkMode()
 
     private val defaultProcessorColors = ValidProcessorColors(
         context.colorBackground(),
@@ -47,7 +47,7 @@ class AdaptiveColorImageViewPresenter(
     fun observeProcessorColors(): Flow<ProcessorColors> = processorPalettePublisher
         .asFlow()
 
-    fun observePalette(): Flow<PaletteColors> = palettePublisher.asFlow()
+    fun observePaletteColors(): Flow<PaletteColors> = palettePublisher.asFlow()
 
     fun onNextImage(drawable: Drawable?) {
         onNextImage(drawable?.toBitmap())
