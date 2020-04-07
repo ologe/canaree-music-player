@@ -8,27 +8,25 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.shared.lazyFast
 
 class AdaptiveColorImageView(
-        context: Context,
-        attr: AttributeSet
+    context: Context,
+    attr: AttributeSet
 
 ) : AppCompatImageView(context, attr) {
 
     private val presenter by lazyFast {
-        AdaptiveColorImageViewPresenter(
-            context
-        )
+        AdaptiveColorImageViewPresenter(this, context)
     }
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)
-        if (!isInEditMode){
+        if (!isInEditMode) {
             presenter.onNextImage(bm)
         }
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-        if (isInEditMode){
+        if (isInEditMode) {
             return
         }
 

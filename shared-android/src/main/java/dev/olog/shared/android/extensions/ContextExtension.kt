@@ -3,13 +3,11 @@
 package dev.olog.shared.android.extensions
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.R
 
@@ -40,9 +38,6 @@ inline fun Context.toast(message: CharSequence): Toast = Toast
     .apply {
         show()
     }
-
-inline val Context.configuration: android.content.res.Configuration
-    get() = resources.configuration
 
 inline fun Context.scrimBackground(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)

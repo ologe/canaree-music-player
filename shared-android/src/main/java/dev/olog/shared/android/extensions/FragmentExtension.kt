@@ -26,6 +26,7 @@ fun Fragment.launchWhenStarted(block: suspend CoroutineScope.() -> Unit): Job {
     return viewLifecycleOwner.lifecycleScope.launchWhenStarted(block)
 }
 
+// TODO check usages
 fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
     return viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }

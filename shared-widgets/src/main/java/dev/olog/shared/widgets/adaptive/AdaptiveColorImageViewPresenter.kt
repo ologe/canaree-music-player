@@ -3,33 +3,32 @@ package dev.olog.shared.widgets.adaptive
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import androidx.core.graphics.ColorUtils
+import android.view.View
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.math.MathUtils
 import androidx.palette.graphics.Palette
-import dev.olog.shared.coroutines.MainScope
-import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.core.coroutines.viewScope
+import dev.olog.lib.ColorDesaturationUtils
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
+import java.lang.ref.WeakReference
 
-// TODO cancel scope
 class AdaptiveColorImageViewPresenter(
+    view: View,
     private val context: Context
 ) {
 
-    private val isDarkMode by lazyFast {
-        context.isDarkMode()
-    }
+    private val view = WeakReference(view)
+
+    private val isDarkMode by lazyFast { context.isDarkMode() }
 
     private val defaultProcessorColors = ValidProcessorColors(
         context.colorBackground(),
@@ -42,7 +41,6 @@ class AdaptiveColorImageViewPresenter(
     private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
     private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
 
-    private val scope by MainScope()
     private var processorJob by autoDisposeJob()
     private var paletteJob by autoDisposeJob()
 
@@ -57,6 +55,8 @@ class AdaptiveColorImageViewPresenter(
 
     @SuppressLint("ConcreteDispatcherIssue")
     fun onNextImage(bitmap: Bitmap?) {
+        val view = view.get() ?: return
+
 
         if (bitmap == null) {
             processorPalettePublisher.offer(defaultProcessorColors)
@@ -64,7 +64,7 @@ class AdaptiveColorImageViewPresenter(
             return
         }
 
-        processorJob = scope.launch(Dispatchers.Default) {
+        processorJob = view.viewScope.launchWhenAttached(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
             yield()
             processorPalettePublisher.offer(
@@ -76,7 +76,7 @@ class AdaptiveColorImageViewPresenter(
             )
         }
 
-        paletteJob = scope.launch(Dispatchers.Default) {
+        paletteJob = view.viewScope.launchWhenAttached(Dispatchers.Default) {
             val palette = Palette.from(bitmap)
                 .maximumColorCount(24)
                 .generate()
@@ -90,24 +90,7 @@ class AdaptiveColorImageViewPresenter(
         if (!isDarkMode){
             return color
         }
-
-        if (color == Color.TRANSPARENT) {
-            // can't desaturate transparent color
-            return color
-        }
-        val amount = .25f
-        val minDesaturation = .75f
-
-        val hsl = floatArrayOf(0f, 0f, 0f)
-        ColorUtils.colorToHSL(color, hsl)
-        if (hsl[1] > minDesaturation) {
-            hsl[1] = MathUtils.clamp(
-                hsl[1] - amount,
-                minDesaturation - 0.1f,
-                1f
-            )
-        }
-        return ColorUtils.HSLToColor(hsl)
+        return ColorDesaturationUtils.desaturate(color, .25f, .75f)
     }
 
 }

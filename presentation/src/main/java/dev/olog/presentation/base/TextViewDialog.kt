@@ -1,27 +1,23 @@
 package dev.olog.presentation.base
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.DialogInterface
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.shared.coroutines.MainScope
-import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
-import dev.olog.shared.lazyFast
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-// TODO cancel scope
 class TextViewDialog(
-    private val context: Context,
+    private val activity: FragmentActivity,
     private val title: String,
     private val subtitle: String?,
     private val layoutEditText: Int = R.layout.layout_material_edit_text
@@ -32,9 +28,7 @@ class TextViewDialog(
         val action: suspend (List<TextInputEditText>) -> Boolean
     )
 
-    private val scope by MainScope()
-
-    private val container = LinearLayout(context).apply {
+    private val container = LinearLayout(activity).apply {
         val params = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT
@@ -45,17 +39,11 @@ class TextViewDialog(
 
     private val textViews = mutableListOf<TextInputEditText>()
 
-    private val inflater by lazyFast {
-        LayoutInflater.from(
-            context
-        )
-    }
-
     fun addTextView(
         customizeWrapper: TextInputLayout.() -> Unit = {},
         customizeTextView: TextInputEditText.() -> Unit = {}
     ): TextViewDialog {
-        val layout = inflater.inflate(layoutEditText, container, false)
+        val layout = activity.layoutInflater.inflate(layoutEditText, container, false)
         layout.wrapper.customizeWrapper()
         layout.editText.customizeTextView()
         textViews.add(layout.editText)
@@ -75,7 +63,7 @@ class TextViewDialog(
         neutralAction: Action? = null,
         dismissAction: AlertDialog.() -> Unit = { dismiss() }
     ) {
-        val builder = MaterialAlertDialogBuilder(context).apply {
+        val builder = MaterialAlertDialogBuilder(activity).apply {
             setTitle(title)
             subtitle?.let { setMessage(subtitle) }
             setPositiveButton(positiveAction.title, null)
@@ -87,7 +75,7 @@ class TextViewDialog(
         dialog.setupListeners(positiveAction, negativeAction, neutralAction, dismissAction)
         dialog.show()
 
-        scope.launch {
+        activity.lifecycleScope.launchWhenResumed {
             delay(100)
             textViews[0].showIme()
         }
@@ -103,7 +91,7 @@ class TextViewDialog(
         var job by autoDisposeJob()
 
         getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job = scope.launch {
+            job = activity.lifecycleScope.launchWhenResumed {
                 if (positiveAction.action(textViews)) {
                     dismissAction()
                 }
@@ -111,7 +99,7 @@ class TextViewDialog(
         }
         negativeAction?.let { negative ->
             getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-                job = scope.launch {
+                job = activity.lifecycleScope.launchWhenResumed {
                     if (negative.action(textViews)) {
                         dismissAction()
                     }
@@ -120,7 +108,7 @@ class TextViewDialog(
         }
         neutralAction?.let { neutral ->
             getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                job = scope.launch {
+                job = activity.lifecycleScope.launchWhenResumed {
                     if (neutral.action(textViews)) {
                         dismissAction()
                     }

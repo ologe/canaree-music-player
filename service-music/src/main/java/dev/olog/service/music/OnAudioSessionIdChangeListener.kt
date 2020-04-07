@@ -41,7 +41,6 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        job = null
         scope.cancel()
     }
 

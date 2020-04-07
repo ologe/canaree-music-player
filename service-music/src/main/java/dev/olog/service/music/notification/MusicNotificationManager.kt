@@ -5,8 +5,6 @@ import android.app.Service
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.DispatcherScope
-import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.schedulers.Schedulers
@@ -17,7 +15,8 @@ import dev.olog.service.music.model.Event
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.MusicNotificationState
-import kotlinx.coroutines.*
+import dev.olog.shared.coroutines.DispatcherScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -42,7 +41,6 @@ internal class MusicNotificationManager @Inject constructor(
 
     private val publisher = Channel<Event>(Channel.UNLIMITED)
     private val currentState = MusicNotificationState()
-    private var publishJob by autoDisposeJob()
 
     private val scope by DispatcherScope(schedulers.cpu)
 
@@ -135,7 +133,6 @@ internal class MusicNotificationManager @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
-        publishJob = null
         publisher.close()
         scope.cancel()
     }

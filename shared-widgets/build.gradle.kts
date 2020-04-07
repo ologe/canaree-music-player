@@ -10,6 +10,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
+
     implementation(project(":prefs-keys"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -20,6 +22,7 @@ dependencies {
     implementation(Libraries.X.material)
     implementation(Libraries.X.core)
     implementation(Libraries.X.palette)
+    implementation(Libraries.Utils.colorDesaturation)
 
     implementation(Libraries.Debug.timber)
 

@@ -13,8 +13,11 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
 
+    implementation(Libraries.X.core)
     implementation(Libraries.X.material)
     implementation(Libraries.X.preference)
+    implementation(Libraries.X.fragments)
+    implementation(Libraries.X.Lifecycle.java8)
 
     testImplementation(Libraries.Test.junit)
     testImplementation(Libraries.Test.mockito)

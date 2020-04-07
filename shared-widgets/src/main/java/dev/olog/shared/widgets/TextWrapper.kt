@@ -8,11 +8,10 @@ import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
-import dev.olog.shared.coroutines.MainScope
+import dev.olog.core.coroutines.viewScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 // linear layout wrapper (other viewgroup not working) is mandatory to avoid autoscroll collision with seekbar
 class TextWrapper(
@@ -23,8 +22,6 @@ class TextWrapper(
     private val titleView by lazyFast { findViewById<TextView>(R.id.title) }
     private val artistView by lazyFast { findViewById<TextView>(R.id.artist) }
 
-    // TODO remove coroutine or find a view scope
-    private val scope by MainScope()
     private var job by autoDisposeJob()
 
     init {
@@ -32,7 +29,7 @@ class TextWrapper(
     }
 
     fun update(title: String, artist: String) {
-        job = scope.launch {
+        job = viewScope.launchWhenAttached {
             updateInternal(title, artist)
         }
     }

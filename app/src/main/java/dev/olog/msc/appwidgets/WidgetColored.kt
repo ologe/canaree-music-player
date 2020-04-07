@@ -20,6 +20,7 @@ private const val IMAGE_SIZE = 300
 
 class WidgetColored : BaseWidget() {
 
+    // TODO cancel scope
     private val scope by MainScope()
     private var job by autoDisposeJob()
 
