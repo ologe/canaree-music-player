@@ -55,10 +55,6 @@ internal class LastFmService @Inject constructor(
         }
     }
 
-    fun dispose(){
-        scrobbleJob = null
-    }
-
     fun scrobble(entity: MediaEntity){
         if (session == null || userCredentials == null){
             return

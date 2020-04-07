@@ -1,8 +1,6 @@
 package dev.olog.service.music.scrobbling
 
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import dev.olog.domain.interactor.lastfm.ObserveLastFmUserCredentials
 import dev.olog.injection.dagger.ServiceLifecycle
@@ -19,21 +17,15 @@ internal class LastFmScrobbling @Inject constructor(
     playerLifecycle: IPlayerLifecycle,
     private val lastFmService: LastFmService
 
-) : DefaultLifecycleObserver,
-    IPlayerLifecycle.Listener {
+) : IPlayerLifecycle.Listener {
 
     init {
-        lifecycle.addObserver(this)
         playerLifecycle.addListener(this)
 
         observeLastFmUserCredentials()
             .filter { it.username.isNotBlank() }
             .onEach { lastFmService.tryAuthenticate(it) }
             .launchIn(lifecycle.coroutineScope)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        lastFmService.dispose()
     }
 
     override fun onMetadataChanged(metadata: MetadataEntity) {

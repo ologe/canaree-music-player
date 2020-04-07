@@ -30,7 +30,7 @@ internal class MusicNotificationManager @Inject constructor(
     private val notificationImpl: INotification,
     observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
     playerLifecycle: IPlayerLifecycle,
-    private val schedulers: Schedulers
+    schedulers: Schedulers
 
 ) : DefaultLifecycleObserver {
 
@@ -79,6 +79,7 @@ internal class MusicNotificationManager @Inject constructor(
     }
 
     init {
+        lifecycle.addObserver(this)
         playerLifecycle.addListener(playerListener)
 
         publisher.consumeAsFlow()
