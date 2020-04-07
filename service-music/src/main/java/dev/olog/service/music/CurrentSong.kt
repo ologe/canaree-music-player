@@ -1,9 +1,9 @@
 package dev.olog.service.music
 
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.DispatcherScope
-import dev.olog.shared.coroutines.autoDisposeJob
+import androidx.lifecycle.coroutineScope
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.favorite.FavoriteItemState
@@ -18,10 +18,11 @@ import dev.olog.domain.interactor.mostplayed.InsertMostPlayedUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.injection.dagger.PerService
+import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import kotlinx.coroutines.cancel
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,6 +30,7 @@ import javax.inject.Inject
 
 @PerService
 internal class CurrentSong @Inject constructor(
+    @ServiceLifecycle private val lifecycle: Lifecycle,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
     insertHistorySongUseCase: InsertHistorySongUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
@@ -37,7 +39,7 @@ internal class CurrentSong @Inject constructor(
     insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
     insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
     playerLifecycle: IPlayerLifecycle,
-    schedulers: Schedulers
+    private val schedulers: Schedulers
 
 ) : DefaultLifecycleObserver,
     IPlayerLifecycle.Listener {
@@ -47,16 +49,15 @@ internal class CurrentSong @Inject constructor(
         private val TAG = "SM:${CurrentSong::class.java.simpleName}"
     }
 
-    private val scope by DispatcherScope(schedulers.cpu)
-
     private var isFavoriteJob by autoDisposeJob()
 
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
     init {
+        lifecycle.addObserver(this)
         playerLifecycle.addListener(this)
 
-        scope.launch {
+        lifecycle.coroutineScope.launch(schedulers.cpu) {
             for (entity in channel) {
                 Timber.v("$TAG on new item ${entity.title}")
                 val mediaId = entity.mediaId
@@ -88,7 +89,6 @@ internal class CurrentSong @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         channel.close()
-        scope.cancel()
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
@@ -105,7 +105,7 @@ internal class CurrentSong @Inject constructor(
     private fun updateFavorite(mediaEntity: MediaEntity) {
         Timber.v("$TAG updateFavorite ${mediaEntity.title}")
 
-        isFavoriteJob = scope.launch {
+        isFavoriteJob = lifecycle.coroutineScope.launch(schedulers.cpu) {
             val type = if (mediaEntity.isPodcast) FavoriteTrackType.PODCAST else FavoriteTrackType.TRACK
             val isFavorite =
                 isFavoriteSongUseCase(mediaEntity.id, type)
@@ -117,7 +117,7 @@ internal class CurrentSong @Inject constructor(
 
     private fun saveLastMetadata(entity: MediaEntity) {
         Timber.v("$TAG saveLastMetadata ${entity.title}")
-        scope.launch {
+        lifecycle.coroutineScope.launch(schedulers.cpu) {
             musicPreferencesUseCase.setLastMetadata(
                 LastMetadata(entity.title, entity.artist, entity.id)
             )
