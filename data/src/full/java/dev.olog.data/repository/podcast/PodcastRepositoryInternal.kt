@@ -11,7 +11,6 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
-import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -19,7 +18,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 internal class PodcastRepositoryInternal @Inject constructor(
-    @dev.olog.core.ApplicationContext context: Context,
+    context: Context,
     private val schedulers: Schedulers,
     @Podcast private val queries: TrackQueries
 ) : BaseRepository<Song, Long>(context, schedulers) {

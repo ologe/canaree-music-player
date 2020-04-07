@@ -9,7 +9,6 @@ import dagger.Provides
 import dev.olog.domain.prefs.*
 import dev.olog.data.prefs.*
 import dev.olog.data.prefs.sort.AppSortingImpl
-import dev.olog.core.ApplicationContext
 import javax.inject.Singleton
 
 @Module
@@ -43,7 +42,7 @@ abstract class PreferenceModule {
 
         @Provides
         @Singleton
-        internal fun provideSharedPreferences(@dev.olog.core.ApplicationContext context: Context): SharedPreferences {
+        internal fun provideSharedPreferences(context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)
         }
     }

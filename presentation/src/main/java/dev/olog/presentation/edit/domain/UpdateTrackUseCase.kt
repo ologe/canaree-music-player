@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.presentation.PresentationId
-import dev.olog.core.dagger.ApplicationContext
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -17,7 +16,7 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
-    @ApplicationContext private val context: Context
+    private val context: Context
 ) {
 
     operator fun invoke(param: Data) {

@@ -15,12 +15,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.core.dagger.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences,
     private val presentationPrefs: PresentationPreferencesGateway

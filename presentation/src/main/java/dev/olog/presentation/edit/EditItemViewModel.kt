@@ -8,7 +8,6 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.exceptions.CannotReadException
@@ -17,7 +16,7 @@ import java.io.FileNotFoundException
 import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val presenter: EditItemPresenter,
     private val schedulers: Schedulers
 

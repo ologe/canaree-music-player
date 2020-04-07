@@ -10,10 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.shared.android.utils.PlayStoreUtils
-import dev.olog.shared.autoDisposeJob
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -24,7 +22,7 @@ private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 
 // TODO check implementation
 class RateAppDialog @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val activity: FragmentActivity
 
 ) : DefaultLifecycleObserver {

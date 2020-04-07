@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dev.olog.data.shared.retrofit.adapter.IoResultCallAdapterFactory
-import dev.olog.core.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -35,7 +34,7 @@ object SharedNetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttp(@dev.olog.core.ApplicationContext context: Context): OkHttpClient {
+    internal fun provideOkHttp(context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor())
             .addInterceptor(headerInterceptor(context))

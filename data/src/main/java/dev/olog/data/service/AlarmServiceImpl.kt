@@ -7,11 +7,10 @@ import android.content.Intent
 import android.os.Build
 import dev.olog.domain.C.ACTION_STOP_SLEEP_END
 import dev.olog.domain.gateway.AlarmService
-import dev.olog.core.ApplicationContext
 import javax.inject.Inject
 
 internal class AlarmServiceImpl @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context
+    private val context: Context
 ) : AlarmService {
 
 

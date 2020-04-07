@@ -3,7 +3,8 @@
 package dev.olog.presentation.folder.tree
 
 import android.content.Context
-import android.database.CursorIndexOutOfBoundsException import android.os.Environment
+import android.database.CursorIndexOutOfBoundsException
+import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,6 @@ import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.widgets.BreadCrumbLayout
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -26,7 +26,7 @@ import java.io.File
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
     private val gateway: FolderNavigatorGateway,
     schedulers: Schedulers

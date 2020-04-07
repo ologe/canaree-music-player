@@ -11,7 +11,6 @@ import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.SkipType
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import timber.log.Timber
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @PerService
 internal class MusicServicePlaybackState @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway
 

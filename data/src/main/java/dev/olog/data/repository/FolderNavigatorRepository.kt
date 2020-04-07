@@ -8,7 +8,6 @@ import dev.olog.domain.gateway.track.FolderGateway
 import dev.olog.domain.prefs.BlacklistPreferences
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.DataObserver
-import dev.olog.core.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -17,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 internal class FolderNavigatorRepository @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context,
+    private val context: Context,
     private val blacklistGateway: BlacklistPreferences,
     private val folderGateway: FolderGateway,
     private val schedulers: Schedulers

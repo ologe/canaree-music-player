@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.Permissions
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 internal class MainActivityViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 

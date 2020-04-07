@@ -10,11 +10,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
-import dev.olog.core.dagger.ApplicationContext
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val mediaId: PresentationId.Category
 ) {
 

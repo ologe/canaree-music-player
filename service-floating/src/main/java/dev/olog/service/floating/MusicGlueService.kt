@@ -17,7 +17,6 @@ import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +25,7 @@ import javax.inject.Inject
 
 @PerService
 class MusicGlueService @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val schedulers: Schedulers
 

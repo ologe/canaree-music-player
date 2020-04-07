@@ -8,14 +8,13 @@ import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.observeKey
-import dev.olog.core.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
 internal class AppPreferencesImpl @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context,
+    private val context: Context,
     private val preferences: SharedPreferences
 
 ) : AppPreferencesGateway {

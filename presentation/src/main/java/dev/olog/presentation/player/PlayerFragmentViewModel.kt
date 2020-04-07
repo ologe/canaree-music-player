@@ -11,7 +11,6 @@ import dev.olog.presentation.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +18,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 internal class PlayerFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway,

@@ -10,7 +10,6 @@ import dev.olog.shared.clamp
 import dev.olog.shared.coroutines.MainScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.coroutines.flowInterval
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
@@ -29,7 +28,7 @@ import kotlin.math.abs
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
  */
 internal class CrossFadePlayer @Inject internal constructor(
-    @ApplicationContext context: Context,
+    context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,

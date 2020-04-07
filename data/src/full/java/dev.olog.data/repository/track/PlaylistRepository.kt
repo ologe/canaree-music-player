@@ -29,9 +29,8 @@ import dev.olog.data.model.db.PlaylistEntity
 import dev.olog.data.model.db.PlaylistMostPlayedEntity
 import dev.olog.data.model.db.PlaylistTrackEntity
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.core.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -39,7 +38,7 @@ import java.text.Collator
 import javax.inject.Inject
 
 internal class PlaylistRepository @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context,
+    private val context: Context,
     private val trackGateway: TrackGateway,
     private val artistGateway: ArtistGateway,
     private val helper: PlaylistRepositoryHelper,

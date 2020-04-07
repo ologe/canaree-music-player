@@ -8,7 +8,6 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.utils.safeGet
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -24,7 +23,7 @@ import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val presenter: EditTrackFragmentPresenter,
     private val schedulers: Schedulers
 

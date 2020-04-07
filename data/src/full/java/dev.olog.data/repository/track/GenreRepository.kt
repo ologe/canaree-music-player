@@ -23,13 +23,12 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
-import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
-    @dev.olog.core.ApplicationContext context: Context,
+    context: Context,
     contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,

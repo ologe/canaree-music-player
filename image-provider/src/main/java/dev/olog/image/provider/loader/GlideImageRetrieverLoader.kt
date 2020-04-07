@@ -9,11 +9,10 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.*
 import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.fetcher.GlideAlbumFetcher
 import dev.olog.image.provider.fetcher.GlideArtistFetcher
 import dev.olog.image.provider.fetcher.GlideSongFetcher
-import dev.olog.core.dagger.ApplicationContext
-import dev.olog.domain.schedulers.Schedulers
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -99,7 +98,7 @@ internal class GlideImageRetrieverLoader(
     }
 
     class Factory @Inject constructor(
-        @ApplicationContext private val context: Context,
+        private val context: Context,
         private val imageRetrieverGateway: ImageRetrieverGateway,
         private val prefs: SharedPreferences,
         private val schedulers: Schedulers

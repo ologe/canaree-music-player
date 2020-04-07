@@ -8,8 +8,8 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.*
 import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.fetcher.GlideOriginalImageFetcher
-import dev.olog.core.ApplicationContext
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -18,8 +18,8 @@ private val spotifyCategories = listOf(SPOTIFY_TRACK, SPOTIFY_ALBUMS)
 
 internal class GlideOriginalImageLoader(
     private val context: Context,
-    private val trackGateway: TrackGateway
-
+    private val trackGateway: TrackGateway,
+    private val schedulers: Schedulers
 ) : ModelLoader<MediaId, InputStream> {
 
     override fun handles(mediaId: MediaId): Boolean {
@@ -42,20 +42,23 @@ internal class GlideOriginalImageLoader(
             GlideOriginalImageFetcher(
                 context = context,
                 mediaId = mediaId,
-                trackGateway = trackGateway
+                trackGateway = trackGateway,
+                schedulers = schedulers
             )
         )
     }
 
     class Factory @Inject constructor(
-        @dev.olog.core.ApplicationContext private val context: Context,
-        private val trackGateway: TrackGateway
+        private val context: Context,
+        private val trackGateway: TrackGateway,
+        private val schedulers: Schedulers
     ) : ModelLoaderFactory<MediaId, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaId, InputStream> {
             return GlideOriginalImageLoader(
                 context = context,
-                trackGateway = trackGateway
+                trackGateway = trackGateway,
+                schedulers = schedulers
             )
         }
 

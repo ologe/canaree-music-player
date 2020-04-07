@@ -17,9 +17,8 @@ import dev.olog.data.db.PodcastPlaylistDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.db.PodcastPlaylistEntity
 import dev.olog.data.model.db.PodcastPlaylistTrackEntity
-import dev.olog.core.ApplicationContext
 import dev.olog.shared.android.utils.assertBackgroundThread
-import dev.olog.core.mapListItem
+import dev.olog.shared.coroutines.mapListItem
 import dev.olog.shared.swap
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.*
@@ -27,7 +26,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
-    @dev.olog.core.ApplicationContext private val context: Context,
+    private val context: Context,
     private val trackGateway: TrackGateway,
     private val favoriteGateway: FavoriteGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway,

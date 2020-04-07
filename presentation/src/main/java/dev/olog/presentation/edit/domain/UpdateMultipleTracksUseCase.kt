@@ -7,13 +7,12 @@ import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.PresentationIdCategory
 import dev.olog.presentation.toDomain
-import dev.olog.core.dagger.ApplicationContext
 import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val updateTrackUseCase: UpdateTrackUseCase
 

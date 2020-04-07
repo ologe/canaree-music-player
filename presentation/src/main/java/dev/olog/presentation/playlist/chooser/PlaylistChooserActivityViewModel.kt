@@ -10,14 +10,13 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.presentationId
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class PlaylistChooserActivityViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     playlistGateway: PlaylistGateway,
     schedulers: Schedulers
 ) : ViewModel() {

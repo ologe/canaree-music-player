@@ -6,12 +6,11 @@ import androidx.core.content.edit
 import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
-import dev.olog.core.dagger.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class PresentationPreferencesImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {
 

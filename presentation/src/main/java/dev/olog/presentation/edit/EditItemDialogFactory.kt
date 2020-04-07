@@ -8,7 +8,6 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.toDomain
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +21,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class EditItemDialogFactory @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val trackGateway: TrackGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val schedulers: Schedulers

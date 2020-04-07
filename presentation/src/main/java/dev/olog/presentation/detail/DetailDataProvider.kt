@@ -1,7 +1,6 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.coroutines.mapListItem
 import dev.olog.domain.entity.spotify.SpotifyAlbumType
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
@@ -29,7 +28,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class DetailDataProvider @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val headers: DetailFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,

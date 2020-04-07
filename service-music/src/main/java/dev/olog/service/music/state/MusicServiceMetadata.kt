@@ -21,7 +21,6 @@ import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
-import dev.olog.core.dagger.ApplicationContext
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean
 import kotlinx.coroutines.*
@@ -32,7 +31,7 @@ import javax.inject.Inject
 
 @PerService
 internal class MusicServiceMetadata @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
     musicPrefs: MusicPreferencesGateway,
