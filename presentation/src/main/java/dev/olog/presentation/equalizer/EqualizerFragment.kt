@@ -102,7 +102,7 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         save.setOnClickListener {
             // create new preset
             // TODO localization
-            TextViewDialog(requireContext(), "Save preset", null)
+            TextViewDialog(requireActivity(), "Save preset", null)
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
                     val title = it[0].text.toString()
