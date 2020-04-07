@@ -2,7 +2,7 @@ package dev.olog.shared.android
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import dev.olog.shared.android.utils.isQ
+import dev.olog.core.isQ
 
 object DarkModeUtils {
 

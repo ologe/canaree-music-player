@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared.android.utils
+package dev.olog.core
 
 import android.os.Build
 

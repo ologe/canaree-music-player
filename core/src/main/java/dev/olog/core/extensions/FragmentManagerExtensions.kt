@@ -1,9 +1,7 @@
-package dev.olog.shared.android.extensions
+package dev.olog.core.extensions
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun FragmentManager.getTopFragment(): Fragment? {
     val topFragment = this.backStackEntryCount - 1
@@ -15,10 +13,4 @@ fun FragmentManager.getTopFragment(): Fragment? {
         }
     }
     return null
-}
-
-inline fun FragmentActivity.alertDialog(crossinline builder: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder) {
-    MaterialAlertDialogBuilder(this)
-        .builder()
-        .show()
 }

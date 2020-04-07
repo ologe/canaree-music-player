@@ -5,8 +5,6 @@ package dev.olog.shared.android.extensions
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import dev.olog.shared.android.theme.ThemeManager
-import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
@@ -32,5 +30,3 @@ fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
     return viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }
 
-val Fragment.themeManager: ThemeManager
-    get() = requireContext().themeManager

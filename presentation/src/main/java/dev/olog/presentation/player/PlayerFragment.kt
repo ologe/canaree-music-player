@@ -24,7 +24,7 @@ import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.PlayerAppearance
-import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.core.isMarshmallow
 import dev.olog.shared.lazyFast
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.android.synthetic.main.fragment_player_default.*

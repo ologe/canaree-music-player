@@ -35,7 +35,7 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.dip
-import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.core.extensions.getTopFragment
 import dev.olog.shared.android.extensions.setHeight
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager

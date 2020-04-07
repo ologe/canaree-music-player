@@ -5,7 +5,7 @@ package dev.olog.shared.android.extensions
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import dev.olog.shared.android.utils.isOreo
+import dev.olog.core.isOreo
 
 inline fun Intent.asServicePendingIntent(context: Context, flag: Int = PendingIntent.FLAG_CANCEL_CURRENT): PendingIntent{
     if (isOreo()){

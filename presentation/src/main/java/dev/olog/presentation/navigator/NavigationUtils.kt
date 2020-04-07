@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
-import dev.olog.shared.android.extensions.getTopFragment
+import dev.olog.core.extensions.getTopFragment
 import timber.log.Timber
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms

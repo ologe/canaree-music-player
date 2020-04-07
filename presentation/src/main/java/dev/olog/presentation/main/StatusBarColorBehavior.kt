@@ -14,7 +14,7 @@ import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.shared.android.theme.themeManager
-import dev.olog.shared.android.utils.isMarshmallow
+import dev.olog.core.isMarshmallow
 import dev.olog.shared.lazyFast
 import java.lang.ref.WeakReference
 import javax.inject.Inject

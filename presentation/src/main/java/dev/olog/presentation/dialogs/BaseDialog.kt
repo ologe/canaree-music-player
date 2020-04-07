@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.launchWhenResumed
-import dev.olog.shared.android.utils.isQ
+import dev.olog.core.isQ
 import timber.log.Timber
 
 abstract class BaseDialog : BaseDialogFragment() {

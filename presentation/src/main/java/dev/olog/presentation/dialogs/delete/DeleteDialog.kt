@@ -12,7 +12,7 @@ import dev.olog.shared.android.extensions.getArgument
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.android.utils.isQ
+import dev.olog.core.isQ
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
