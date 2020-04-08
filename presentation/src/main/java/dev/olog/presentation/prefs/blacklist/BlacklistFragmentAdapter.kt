@@ -2,7 +2,7 @@ package dev.olog.presentation.prefs.blacklist
 
 import androidx.core.view.isVisible
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.SimpleAdapter
+import dev.olog.feature.presentation.base.adapter.SimpleAdapter
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*

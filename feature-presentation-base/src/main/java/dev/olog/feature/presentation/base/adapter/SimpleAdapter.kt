@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.presentation.base.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.presentation.base.CustomListAdapter
-import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 
 private class SimpleItemCallback<T> : DiffUtil.ItemCallback<T>() {
 

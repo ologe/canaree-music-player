@@ -1,6 +1,9 @@
 package dev.olog.presentation.detail.adapter
 
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -17,7 +20,7 @@ internal class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
     private val mediaProvider: MediaProvider
 ) : ObservableAdapter<DisplayableTrack>(DiffCallbackDisplayableTrack),
-    CanShowIsPlaying by CanShowIsPlayingImpl(){
+    CanShowIsPlaying by CanShowIsPlayingImpl() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, _ ->

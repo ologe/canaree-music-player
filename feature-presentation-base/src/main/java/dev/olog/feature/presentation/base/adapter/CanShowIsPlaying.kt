@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.presentation.base.adapter
 
 import dev.olog.feature.presentation.base.model.PresentationId
 

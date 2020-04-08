@@ -1,7 +1,10 @@
 package dev.olog.presentation.recentlyadded
 
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

@@ -15,7 +15,7 @@ import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.animations.FastAutoTransition
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*

@@ -2,7 +2,7 @@ package dev.olog.presentation.prefs.categories
 
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.SimpleAdapter
+import dev.olog.feature.presentation.base.adapter.SimpleAdapter
 import dev.olog.presentation.base.adapter.setOnDragListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter

@@ -1,7 +1,10 @@
 package dev.olog.presentation.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*

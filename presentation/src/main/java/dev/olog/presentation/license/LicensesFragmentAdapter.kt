@@ -3,7 +3,7 @@ package dev.olog.presentation.license
 import android.text.method.LinkMovementMethod
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.model.LicenseModel
 import kotlinx.android.synthetic.main.item_license.view.*

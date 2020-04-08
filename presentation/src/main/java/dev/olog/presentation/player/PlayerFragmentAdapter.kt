@@ -10,7 +10,10 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
+import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerPlaybackState

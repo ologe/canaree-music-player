@@ -1,6 +1,7 @@
 package dev.olog.presentation.detail.adapter
 
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
