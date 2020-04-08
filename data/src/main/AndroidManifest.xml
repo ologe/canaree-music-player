@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.olog.data">
+    package="dev.olog.lib">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application>
 
         <provider
-            android:name=".test.InMemoryContentProvider"
+            android:name="dev.olog.lib.test.InMemoryContentProvider"
             android:authorities="canaree_media"
             android:exported="false" />
 
