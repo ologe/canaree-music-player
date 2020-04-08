@@ -9,7 +9,7 @@ import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragmentViewModel
-import dev.olog.shared.android.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.getArgument
 
 @Module
 abstract class RelatedArtistFragmentModule {

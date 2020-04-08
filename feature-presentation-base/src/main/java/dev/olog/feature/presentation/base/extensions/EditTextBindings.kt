@@ -1,4 +1,4 @@
-package dev.olog.shared.android.extensions
+package dev.olog.feature.presentation.base.extensions
 
 import android.text.Editable
 import android.text.TextWatcher

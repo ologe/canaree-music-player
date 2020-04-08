@@ -10,8 +10,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
-import dev.olog.shared.android.extensions.getArgument
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.coroutines.flow.launchIn

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.DaggerAppCompatDialogFragment
 import dev.olog.core.isQ
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import timber.log.Timber
 
 abstract class BaseDialog : DaggerAppCompatDialogFragment() {

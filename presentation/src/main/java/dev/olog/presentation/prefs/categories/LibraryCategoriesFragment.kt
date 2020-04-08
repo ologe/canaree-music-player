@@ -9,8 +9,8 @@ import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
-import dev.olog.shared.android.extensions.getArgument
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 

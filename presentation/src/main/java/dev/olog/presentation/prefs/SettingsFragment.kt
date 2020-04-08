@@ -32,7 +32,7 @@ import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.Dispatchers

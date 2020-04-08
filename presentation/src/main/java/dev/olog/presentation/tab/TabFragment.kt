@@ -26,9 +26,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.SetupNestedList
-import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
-import dev.olog.feature.presentation.base.extensions.dimen
-import dev.olog.feature.presentation.base.extensions.setMargin
+import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
@@ -41,7 +39,6 @@ import dev.olog.presentation.tab.layoutmanager.AbsSpanSizeLookup
 import dev.olog.presentation.tab.layoutmanager.LayoutManagerFactory
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.filterIsInstance

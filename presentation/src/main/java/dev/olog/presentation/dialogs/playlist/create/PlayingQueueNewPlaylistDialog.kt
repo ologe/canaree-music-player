@@ -7,7 +7,7 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.feature.presentation.base.extensions.toast
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.withArguments
 import timber.log.Timber
 import javax.inject.Inject
 

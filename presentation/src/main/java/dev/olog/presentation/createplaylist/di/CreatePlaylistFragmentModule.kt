@@ -9,7 +9,7 @@ import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.createplaylist.CreatePlaylistFragmentViewModel
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
-import dev.olog.shared.android.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.getArgument
 
 @Module
 abstract class CreatePlaylistFragmentModule {

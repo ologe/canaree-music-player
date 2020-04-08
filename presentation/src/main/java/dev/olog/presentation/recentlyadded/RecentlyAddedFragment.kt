@@ -14,8 +14,8 @@ import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.getArgument
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.coroutines.flow.launchIn

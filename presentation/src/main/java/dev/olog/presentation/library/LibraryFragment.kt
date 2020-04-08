@@ -18,10 +18,10 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.presentation.popup.main.toMainPopupCategory
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.shared.android.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mandatory
 import kotlinx.android.synthetic.main.fragment_library.*

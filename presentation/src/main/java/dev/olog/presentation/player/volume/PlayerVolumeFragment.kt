@@ -9,7 +9,7 @@ import dagger.android.support.DaggerFragment
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.DrawsOnTop
-import dev.olog.shared.android.extensions.withArguments
+import dev.olog.feature.presentation.base.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 

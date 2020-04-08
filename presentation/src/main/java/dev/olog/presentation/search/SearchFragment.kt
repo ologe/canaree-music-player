@@ -27,7 +27,7 @@ import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.feature.presentation.base.utils.showIme
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.afterTextChange
+import dev.olog.feature.presentation.base.extensions.afterTextChange
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce

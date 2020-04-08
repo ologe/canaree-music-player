@@ -9,7 +9,7 @@ import android.widget.Button
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
 import dev.olog.shared.coroutines.flowInterval

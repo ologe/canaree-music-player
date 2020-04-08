@@ -21,6 +21,9 @@ import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.SetupNestedList
+import dev.olog.feature.presentation.base.extensions.afterTextChange
+import dev.olog.feature.presentation.base.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator

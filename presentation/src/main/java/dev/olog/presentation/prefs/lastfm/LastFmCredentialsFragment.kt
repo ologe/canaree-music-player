@@ -19,7 +19,7 @@ import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

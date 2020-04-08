@@ -9,7 +9,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import kotlinx.coroutines.delay
 
 abstract class BaseEditTextDialog : BaseDialog() {

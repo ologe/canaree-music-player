@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared.android.extensions
+package dev.olog.feature.presentation.base.extensions
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
