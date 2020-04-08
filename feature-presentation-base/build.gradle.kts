@@ -24,6 +24,8 @@ dependencies {
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
 
+    implementation(Libraries.Dagger.androidSupport)
+
     implementation(Libraries.X.material)
     implementation(Libraries.X.core)
     implementation(Libraries.X.fragments)

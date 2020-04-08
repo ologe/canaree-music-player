@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
+import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.shared.android.extensions.getArgument

@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
-import dev.olog.presentation.base.TextViewDialog
-import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
+import dev.olog.feature.presentation.base.dialog.TextViewDialog
+import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
 import dev.olog.shared.android.extensions.onClick
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
@@ -102,7 +102,11 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
         save.setOnClickListener {
             // create new preset
             // TODO localization
-            TextViewDialog(requireActivity(), "Save preset", null)
+            TextViewDialog(
+                requireActivity(),
+                "Save preset",
+                null
+            )
                 .addTextView(customizeWrapper = { hint = "Preset name" })
                 .show(positiveAction = TextViewDialog.Action("OK") {
                     val title = it[0].text.toString()

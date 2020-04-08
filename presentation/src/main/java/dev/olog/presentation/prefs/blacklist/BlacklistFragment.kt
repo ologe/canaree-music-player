@@ -4,8 +4,8 @@ import android.provider.MediaStore
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.presentation.R
-import dev.olog.presentation.base.ListDialog
 import dev.olog.shared.android.extensions.toast
 import javax.inject.Inject
 
@@ -51,14 +51,14 @@ class BlacklistFragment : ListDialog() {
     }
 
     private fun notifyMediaStore() {
-        val contentResolver = context!!.contentResolver
+        val contentResolver = requireContext().contentResolver
         contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
     }
 
     private fun showErrorMessage() {
-        activity!!.toast(R.string.prefs_blacklist_error)
+        requireActivity().toast(R.string.prefs_blacklist_error)
     }
 
 }

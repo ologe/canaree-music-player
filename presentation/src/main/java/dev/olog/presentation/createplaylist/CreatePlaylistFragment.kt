@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.base.TextViewDialog
+import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.presentation.utils.hideIme
+import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
@@ -128,7 +128,11 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun showCreateDialog() {
-        TextViewDialog(requireActivity(), getString(R.string.popup_new_playlist), null)
+        TextViewDialog(
+            requireActivity(),
+            getString(R.string.popup_new_playlist),
+            null
+        )
             .addTextView(customizeWrapper = {
                 hint = getString(R.string.new_playlist_hint)
             })

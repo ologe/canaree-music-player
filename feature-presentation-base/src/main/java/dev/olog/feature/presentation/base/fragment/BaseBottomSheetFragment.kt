@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.bottomsheet
+package dev.olog.feature.presentation.base.fragment
 
 import android.content.Context
 import android.os.Bundle

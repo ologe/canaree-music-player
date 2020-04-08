@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.feature.presentation.base.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -8,13 +8,13 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.DaggerAppCompatDialogFragment
-import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.R
 
 abstract class ListDialog : DaggerAppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(requireContext())
-        val view : View = inflater.inflate(provideLayoutId(), null, false)
+        val view: View = inflater.inflate(provideLayoutId(), null, false)
 
         val builder = MaterialAlertDialogBuilder(requireContext())
             .setView(view)
@@ -32,14 +32,15 @@ abstract class ListDialog : DaggerAppCompatDialogFragment() {
         return dialog
     }
 
-    protected abstract fun setupBuilder(builder: MaterialAlertDialogBuilder):MaterialAlertDialogBuilder
+    protected abstract fun setupBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder
     protected abstract fun setupRecyclerView(list: RecyclerView)
 
     protected abstract fun positiveAction()
-    protected open fun negativeAction(){
+    protected open fun negativeAction() {
         dismiss()
     }
-    protected open fun neutralAction(){}
+
+    protected open fun neutralAction() {}
 
     protected open fun provideLayoutId() = R.layout.fragment_list
 

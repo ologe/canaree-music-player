@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.feature.presentation.base.utils
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
