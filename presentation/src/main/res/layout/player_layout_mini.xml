@@ -39,7 +39,7 @@
             android:translationY="-12dp"
             android:layout_marginStart="8dp" />
 
-        <dev.olog.shared.widgets.TextWrapper
+        <dev.olog.feature.presentation.base.widget.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="2dp"
                 android:scrollHorizontally="true"/>
 
-        </dev.olog.shared.widgets.TextWrapper>
+        </dev.olog.feature.presentation.base.widget.TextWrapper>
 
         <dev.olog.presentation.widgets.LottieFavorite
             android:id="@+id/favorite"
@@ -116,7 +116,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.feature.presentation.base.widget.DottedSeparator
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"

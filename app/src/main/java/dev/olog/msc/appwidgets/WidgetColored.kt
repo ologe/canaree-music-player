@@ -8,7 +8,7 @@ import dev.olog.domain.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.msc.R
-import dev.olog.shared.android.palette.ImageProcessor
+import dev.olog.feature.presentation.base.palette.ImageProcessor
 import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,7 +42,9 @@ class WidgetColored : BaseWidget() {
     }
 
     private fun colorize(context: Context, remoteViews: RemoteViews, bitmap: Bitmap){
-        val result = ImageProcessor(context).processImage(bitmap)
+        val result = ImageProcessor(
+            context
+        ).processImage(bitmap)
         remoteViews.setImageViewBitmap(R.id.cover, result.bitmap)
 
         updateTextColor(remoteViews, result)

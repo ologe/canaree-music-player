@@ -11,7 +11,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.setDarkMode
 import timber.log.Timber
 import kotlin.properties.Delegates

@@ -8,7 +8,7 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException

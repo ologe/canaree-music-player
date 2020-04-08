@@ -31,10 +31,10 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.isDarkMode
+import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.themeManager
-import dev.olog.shared.android.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -19,8 +19,8 @@ import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.awaitAnimationEnd
-import dev.olog.shared.android.extensions.dip
+import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
+import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers

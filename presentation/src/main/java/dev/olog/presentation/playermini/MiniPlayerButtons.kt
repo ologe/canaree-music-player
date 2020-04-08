@@ -10,7 +10,7 @@ import androidx.transition.TransitionManager
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+import dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.fragment_mini_player_buttons_podcast.view.*
 import kotlinx.android.synthetic.main.fragment_mini_player_buttons_song.view.*
 

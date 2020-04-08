@@ -19,13 +19,15 @@ import androidx.transition.TransitionManager
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.DottedDividerDecorator
+import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.SetupNestedList
+import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
+import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
@@ -121,9 +123,11 @@ class TabFragment : BaseFragment(),
         list.layoutManager = gridLayoutManager
         list.adapter = adapter
         list.setHasFixedSize(true)
-        list.addItemDecoration(DottedDividerDecorator(
-            requireContext(), listOf(R.layout.item_tab_header, R.layout.item_tab_shuffle)
-        ))
+        list.addItemDecoration(
+            DottedDividerDecorator(
+                requireContext(), listOf(R.layout.item_tab_header, R.layout.item_tab_shuffle)
+            )
+        )
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
             list.updatePadding(right = requireContext().dimen(R.dimen.playing_queue_margin_horizontal))

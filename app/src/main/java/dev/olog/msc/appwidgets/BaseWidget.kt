@@ -12,7 +12,7 @@ import dev.olog.msc.R
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.presentation.main.MainActivity
-import dev.olog.shared.android.palette.ImageProcessorResult
+import dev.olog.feature.presentation.base.palette.ImageProcessorResult
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants

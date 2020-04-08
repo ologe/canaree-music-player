@@ -2,7 +2,7 @@ package dev.olog.shared.android.theme
 
 import android.content.Context
 import android.content.SharedPreferences
-import dev.olog.shared.android.DarkModeUtils
+import dev.olog.shared.android.dark.mode.DarkModeUtils
 import dev.olog.shared.android.R
 import javax.inject.Inject
 

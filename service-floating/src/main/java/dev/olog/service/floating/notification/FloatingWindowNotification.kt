@@ -13,8 +13,8 @@ import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
-import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.core.isOreo
+import dev.olog.shared.android.extensions.colorControlNormal
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn

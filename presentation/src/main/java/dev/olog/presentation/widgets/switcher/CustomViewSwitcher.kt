@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.domain.MediaId
+import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils
@@ -24,11 +25,10 @@ import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
-import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.findChild
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
+import dev.olog.feature.presentation.base.widget.adaptive.AdaptiveColorImageViewPresenter
 import kotlin.properties.Delegates
 
 class CustomViewSwitcher(
@@ -55,7 +55,10 @@ class CustomViewSwitcher(
         (parent as View).findViewById<BlurredBackground>(R.id.blurBackground)
     }
 
-    private val adaptiveImageHelper = AdaptiveColorImageViewPresenter(this)
+    private val adaptiveImageHelper =
+        AdaptiveColorImageViewPresenter(
+            this
+        )
 
     private enum class Direction {
         NONE,

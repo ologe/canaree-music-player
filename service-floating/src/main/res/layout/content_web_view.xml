@@ -22,7 +22,7 @@
             android:layout_marginTop="48dp"
             android:background="?android:colorBackground"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/error"
             android:text="@string/common_no_internet"
             android:textSize="30sp"

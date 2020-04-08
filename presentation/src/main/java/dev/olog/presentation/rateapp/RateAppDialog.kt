@@ -11,7 +11,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.R
-import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.feature.presentation.base.utils.PlayStoreUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

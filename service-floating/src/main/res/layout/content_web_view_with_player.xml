@@ -70,7 +70,7 @@
                 android:clickable="true"
                 android:focusable="true"/>
 
-            <dev.olog.shared.widgets.TextWrapper
+            <dev.olog.feature.presentation.base.widget.TextWrapper
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom">
 
-                <dev.olog.shared.widgets.AutoScrollTextView
+                <dev.olog.feature.presentation.base.widget.AutoScrollTextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                     android:fontFamily="sans-serif-black"
                     android:layout_marginEnd="100dp"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,10 +125,10 @@
                     tools:max="100"
                     tools:progress="40" />
 
-            </dev.olog.shared.widgets.TextWrapper>
+            </dev.olog.feature.presentation.base.widget.TextWrapper>
 
 
-            <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageViewFab
+            <dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageViewFab
                 android:id="@+id/playPause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

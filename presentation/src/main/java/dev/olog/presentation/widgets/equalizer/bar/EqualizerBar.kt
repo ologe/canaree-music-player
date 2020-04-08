@@ -10,7 +10,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.math.MathUtils
-import dev.olog.shared.android.extensions.dip
+import dev.olog.feature.presentation.base.extensions.dip
 import kotlinx.coroutines.*
 import kotlin.math.abs
 import kotlin.math.sign

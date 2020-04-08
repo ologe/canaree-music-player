@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toast
 import javax.inject.Inject
 
 class BlacklistFragment : ListDialog() {

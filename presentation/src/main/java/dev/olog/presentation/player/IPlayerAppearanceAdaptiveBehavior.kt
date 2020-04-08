@@ -6,11 +6,11 @@ import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.lifecycleScope
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.shared.android.extensions.animateBackgroundColor
-import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.feature.presentation.base.extensions.animateBackgroundColor
+import dev.olog.feature.presentation.base.extensions.animateTextColor
+import dev.olog.shared.android.dark.mode.isDarkMode
+import dev.olog.feature.presentation.base.palette.ColorUtil
 import dev.olog.shared.android.extensions.colorBackground
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.theme.PlayerAppearance
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*

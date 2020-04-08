@@ -29,7 +29,10 @@ dependencies {
     implementation(Libraries.X.material)
     implementation(Libraries.X.core)
     implementation(Libraries.X.fragments)
+    implementation(Libraries.X.palette)
     implementation(Libraries.X.Lifecycle.runtime)
+
+    implementation(Libraries.Utils.colorDesaturation)
 
     implementation(Libraries.Debug.timber)
 

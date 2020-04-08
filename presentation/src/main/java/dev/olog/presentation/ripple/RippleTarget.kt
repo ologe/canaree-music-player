@@ -11,7 +11,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.coroutines.viewScope
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.feature.presentation.base.widget.ForegroundImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield

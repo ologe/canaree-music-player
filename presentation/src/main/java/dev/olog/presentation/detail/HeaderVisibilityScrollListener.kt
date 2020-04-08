@@ -5,8 +5,8 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.view.*

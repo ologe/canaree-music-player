@@ -31,8 +31,8 @@ import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.scrollhelper.ScrollType
-import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.dip
+import dev.olog.feature.presentation.base.extensions.dimen
+import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.feature.presentation.base.DrawsOnTop

@@ -22,7 +22,7 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <dev.olog.shared.widgets.adaptive.AdaptiveColorImageView
+            <dev.olog.feature.presentation.base.widget.adaptive.AdaptiveColorImageView
                 android:id="@+id/image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -86,7 +86,7 @@
                 android:layout_height="120dp"
                 android:background="@drawable/vd_fade"/>
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/search"
                 android:layout_width="@dimen/common_icon_size"
                 android:layout_height="@dimen/common_icon_size"
@@ -95,7 +95,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/sync"
                 android:layout_width="@dimen/common_icon_size"
                 android:layout_height="@dimen/common_icon_size"
@@ -104,7 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search" />
 
-            <dev.olog.shared.widgets.TextWrapper
+            <dev.olog.feature.presentation.base.widget.TextWrapper
                 android:id="@+id/textWrapper"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:orientation="vertical"
                 android:background="?colorSurface">
 
-                <dev.olog.shared.widgets.AutoScrollTextView
+                <dev.olog.feature.presentation.base.widget.AutoScrollTextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:fontFamily="sans-serif-black"
                     android:layout_marginEnd="100dp"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/artist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                     tools:max="100"
                     tools:progress="40" />
 
-            </dev.olog.shared.widgets.TextWrapper>
+            </dev.olog.feature.presentation.base.widget.TextWrapper>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit"

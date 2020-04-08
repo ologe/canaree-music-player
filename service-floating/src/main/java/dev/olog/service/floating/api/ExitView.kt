@@ -27,8 +27,8 @@ import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
+import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import kotlin.math.pow

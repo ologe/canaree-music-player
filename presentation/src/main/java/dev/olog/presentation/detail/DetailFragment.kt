@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.DottedDividerDecorator
+import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.transition.FastAutoTransition
@@ -21,6 +21,7 @@ import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.SetupNestedList
+import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar
@@ -121,14 +122,16 @@ class DetailFragment : BaseFragment(),
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
-        list.addItemDecoration(DottedDividerDecorator(
-            requireContext(), listOf(
-                R.layout.item_detail_header,
-                R.layout.item_detail_header_albums,
-                R.layout.item_detail_header_all_song,
-                R.layout.item_detail_header_recently_added
+        list.addItemDecoration(
+            DottedDividerDecorator(
+                requireContext(), listOf(
+                    R.layout.item_detail_header,
+                    R.layout.item_detail_header_albums,
+                    R.layout.item_detail_header_all_song,
+                    R.layout.item_detail_header_recently_added
+                )
             )
-        ))
+        )
 
         var swipeDirections = ItemTouchHelper.LEFT
         if (adapter.canSwipeRight) {

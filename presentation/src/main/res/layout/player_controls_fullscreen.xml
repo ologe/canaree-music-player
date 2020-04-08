@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         tools:tint="@color/colorControlNormal"/>
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
@@ -46,7 +46,7 @@
         android:layout_marginStart="16dp"
         tools:tint="@color/colorControlNormal"/>
 
-    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+    <dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
@@ -65,7 +65,7 @@
         android:layout_marginEnd="8dp"
         android:tint="@android:color/white" />
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"

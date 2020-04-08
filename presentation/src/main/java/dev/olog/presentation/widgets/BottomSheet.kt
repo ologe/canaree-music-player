@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.FrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
+import dev.olog.feature.presentation.base.extensions.dipf
 import dev.olog.shared.android.extensions.colorBackground
-import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 
@@ -22,8 +22,6 @@ class BottomSheet(
             BottomSheetType.FLOATING -> setupElevated()
         }
     }
-
-    private val color = context.colorBackground()
 
     private fun setupDefault() {
         elevation = context.dipf(8)

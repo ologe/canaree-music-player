@@ -14,7 +14,7 @@ import dev.olog.presentation.navigator.allowed
 import dev.olog.presentation.navigator.findFirstVisibleFragment
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
-import dev.olog.shared.android.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.mandatory
 import java.lang.ref.WeakReference
 import javax.inject.Inject

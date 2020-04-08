@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatSeekBar
 import dev.olog.lib.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
+// TODO move to presentaion-base
 class CustomSeekBar(
     context: Context,
     attrs: AttributeSet

@@ -19,7 +19,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
-import dev.olog.shared.android.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.GlobalScope

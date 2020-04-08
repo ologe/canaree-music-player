@@ -1,6 +1,7 @@
 package dev.olog.service.music.player.crossfade
 
 import android.content.Context
+import android.widget.Toast
 import androidx.core.math.MathUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -18,7 +19,6 @@ import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
-import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.coroutines.flowInterval
@@ -78,7 +78,8 @@ internal class CrossFadePlayer @Inject internal constructor(
             error.printStackTrace()
 
             Timber.e("Player: onPlayerError $what")
-            context.applicationContext.toast(R.string.music_player_error)
+            Toast.makeText(context.applicationContext, R.string.music_player_error, Toast.LENGTH_SHORT)
+                .show()
         }
 
     }

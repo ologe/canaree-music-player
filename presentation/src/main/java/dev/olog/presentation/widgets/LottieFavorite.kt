@@ -13,8 +13,8 @@ import com.airbnb.lottie.value.LottieValueCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
+import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.lazyFast
 

@@ -8,20 +8,20 @@
     android:elevation="@dimen/toolbar_elevation"
     android:theme="@style/AppTheme">
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <ImageButton
         android:id="@+id/navigateBack"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
         android:src="@drawable/vd_back_arrow" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <ImageButton
         android:id="@+id/navigateNext"
         android:layout_width="@dimen/common_icon_size"
         android:layout_marginStart="@dimen/common_icon_size"
         android:layout_height="match_parent"
         android:src="@drawable/vd_forward_arrow" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <ImageButton
         android:id="@+id/refresh"
         android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"

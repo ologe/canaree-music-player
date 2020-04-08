@@ -9,11 +9,11 @@ import com.google.android.material.shape.CutCornerTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
+import dev.olog.feature.presentation.base.extensions.dipf
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.themeManager
-import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.ImageShape
-import dev.olog.shared.widgets.ForegroundImageView
+import dev.olog.feature.presentation.base.widget.ForegroundImageView
 
 open class ShapeImageView(
     context: Context,

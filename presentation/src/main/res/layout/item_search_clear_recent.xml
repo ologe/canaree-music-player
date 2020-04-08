@@ -9,7 +9,7 @@
     android:layout_marginStart="@dimen/item_song_cover_margin_start"
     android:layout_marginEnd="@dimen/item_song_cover_margin_start">
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.feature.presentation.base.widget.DottedSeparator
         android:layout_width="match_parent"
         android:layout_height="2dp" />
 

@@ -3,12 +3,12 @@ package dev.olog.offlinelyrics
 import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
+import android.widget.Toast
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.text.isDigitsOnly
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.shared.android.extensions.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 
@@ -40,7 +40,8 @@ object OfflineLyricsSyncAdjustementDialog {
                 positiveAction(text.toLong())
                 dialog.dismiss()
             } else {
-                ctx.toast(ctx.getString(R.string.offline_lyrics_adjust_sync_error))
+                Toast.makeText(ctx, ctx.getString(R.string.offline_lyrics_adjust_sync_error), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

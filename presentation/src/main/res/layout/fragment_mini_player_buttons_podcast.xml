@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+    <dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="40dp"
         android:layout_height="0dp"

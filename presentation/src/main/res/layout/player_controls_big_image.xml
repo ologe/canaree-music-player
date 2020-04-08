@@ -16,7 +16,7 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
@@ -35,7 +35,7 @@
         android:scaleX="1.1"
         android:scaleY="1.1"/>
 
-    <dev.olog.shared.widgets.playpause.AnimatedPlayPauseImageView
+    <dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/common_icon_size"
@@ -51,7 +51,7 @@
         android:scaleX="1.1"
         android:scaleY="1.1"/>
 
-    <dev.olog.shared.widgets.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"

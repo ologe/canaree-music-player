@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <dev.olog.shared.widgets.TextWrapper
+        <dev.olog.feature.presentation.base.widget.TextWrapper
             android:id="@+id/textWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/mini_player_margin_start">
 
-            <dev.olog.shared.widgets.AutoScrollTextView
+            <dev.olog.feature.presentation.base.widget.AutoScrollTextView
                 android:id="@+id/title"
                 android:gravity="bottom"
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 android:textSize="13dp"
                 tools:text="@tools:sample/lorem" />
 
-        </dev.olog.shared.widgets.TextWrapper>
+        </dev.olog.feature.presentation.base.widget.TextWrapper>
 
         <dev.olog.lib.media.widget.CustomProgressBar
             android:id="@+id/progressBar"

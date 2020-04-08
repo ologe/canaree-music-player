@@ -7,15 +7,15 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import dev.olog.feature.presentation.base.extensions.getAnimatedVectorDrawable
 import dev.olog.lib.media.model.PlayerRepeatMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.themeManager
-import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ColorDelegateImpl
-import dev.olog.shared.widgets.IColorDelegate
+import dev.olog.feature.presentation.base.widget.ColorDelegateImpl
+import dev.olog.feature.presentation.base.widget.IColorDelegate
+import dev.olog.shared.android.dark.mode.isDarkMode
+import dev.olog.shared.android.extensions.colorAccent
 import java.lang.IllegalStateException
 
 class RepeatButton(
@@ -27,7 +27,7 @@ class RepeatButton(
     private var enabledColor: Int
     private var repeatMode = PlayerRepeatMode.NOT_SET
 
-    private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val isDarkMode = context.isDarkMode()
 
     init {
         setImageResource(R.drawable.vd_repeat)

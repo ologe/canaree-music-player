@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import kotlinx.android.synthetic.main.dummy.view.*
+import kotlinx.android.synthetic.main.ids_dummy.view.*
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 

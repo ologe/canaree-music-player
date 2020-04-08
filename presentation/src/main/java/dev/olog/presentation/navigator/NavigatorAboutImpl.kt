@@ -12,10 +12,10 @@ import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.license.LicensesFragment
 import dev.olog.presentation.thanks.SpecialThanksFragment
 import dev.olog.presentation.translations.TranslationsFragment
-import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.android.extensions.isIntentSafe
-import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.android.utils.PlayStoreUtils
+import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.feature.presentation.base.utils.PlayStoreUtils
+import dev.olog.shared.android.extensions.colorSurface
 import dev.olog.shared.mandatory
 import saschpe.android.customtabs.CustomTabsHelper
 import java.lang.ref.WeakReference

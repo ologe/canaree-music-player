@@ -42,7 +42,7 @@
         android:elevation="8dp"
         android:background="?colorSurface">
 
-        <dev.olog.shared.widgets.DottedSeparator
+        <dev.olog.feature.presentation.base.widget.DottedSeparator
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="2dp"

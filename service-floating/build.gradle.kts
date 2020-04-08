@@ -13,6 +13,7 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
+    implementation(project(":feature-presentation-base"))
 
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))

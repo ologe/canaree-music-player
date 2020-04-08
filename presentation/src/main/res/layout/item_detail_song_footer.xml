@@ -11,7 +11,7 @@
     android:layout_marginEnd="@dimen/detail_header_margin_start"
     android:paddingBottom="8dp">
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.feature.presentation.base.widget.DottedSeparator
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="2dp" />

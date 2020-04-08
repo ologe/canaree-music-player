@@ -82,7 +82,7 @@
         android:focusable="false"
         android:translationY="-15dp" />
 
-    <dev.olog.shared.widgets.TextWrapper
+    <dev.olog.feature.presentation.base.widget.TextWrapper
         android:id="@+id/textWrapper"
         app:layout_constraintTop_toBottomOf="@+id/innerRoot"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +124,7 @@
             android:focusable="false"
             android:gravity="center" />
 
-    </dev.olog.shared.widgets.TextWrapper>
+    </dev.olog.feature.presentation.base.widget.TextWrapper>
 
     <include
         android:id="@+id/playerControls"
@@ -191,7 +191,7 @@
         app:debug="true"
         app:skip_area_dimension="92dp"/>
 
-    <dev.olog.shared.widgets.DottedSeparator
+    <dev.olog.feature.presentation.base.widget.DottedSeparator
         android:id="@+id/separator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

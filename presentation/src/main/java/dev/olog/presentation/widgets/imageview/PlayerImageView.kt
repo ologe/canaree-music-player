@@ -11,7 +11,7 @@ import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
-import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter
+import dev.olog.feature.presentation.base.widget.adaptive.AdaptiveColorImageViewPresenter
 
 open class PlayerImageView (
     context: Context,
@@ -19,7 +19,10 @@ open class PlayerImageView (
 
 ) : ShapeImageView(context, attr) {
 
-    private val presenter = AdaptiveColorImageViewPresenter(this)
+    private val presenter =
+        AdaptiveColorImageViewPresenter(
+            this
+        )
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)

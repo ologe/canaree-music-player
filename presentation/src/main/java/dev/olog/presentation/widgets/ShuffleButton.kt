@@ -6,15 +6,14 @@ import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import dev.olog.feature.presentation.base.extensions.getAnimatedVectorDrawable
 import dev.olog.lib.media.model.PlayerShuffleMode
 import dev.olog.presentation.R
 import dev.olog.shared.android.theme.themeManager
+import dev.olog.feature.presentation.base.widget.ColorDelegateImpl
+import dev.olog.feature.presentation.base.widget.IColorDelegate
+import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.getAnimatedVectorDrawable
-import dev.olog.shared.android.extensions.isDarkMode
-import dev.olog.shared.lazyFast
-import dev.olog.shared.widgets.ColorDelegateImpl
-import dev.olog.shared.widgets.IColorDelegate
 import java.lang.IllegalStateException
 
 class ShuffleButton(
@@ -25,7 +24,7 @@ class ShuffleButton(
     private var enabledColor: Int
     private var shuffleMode = PlayerShuffleMode.NOT_SET
 
-    private val isDarkMode by lazyFast { context.isDarkMode() }
+    private val isDarkMode = context.isDarkMode()
 
     init {
         setImageResource(R.drawable.vd_shuffle)

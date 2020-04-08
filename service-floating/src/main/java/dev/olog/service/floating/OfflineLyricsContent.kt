@@ -8,6 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.presentation.base.extensions.animateBackgroundColor
+import dev.olog.feature.presentation.base.extensions.animateTextColor
+import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
+import dev.olog.feature.presentation.base.extensions.suspendSubmitList
 import dev.olog.lib.image.loader.OnImageLoadingError
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog

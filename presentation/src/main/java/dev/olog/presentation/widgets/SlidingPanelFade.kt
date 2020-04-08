@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
+import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.presentation.utils.collapse
-import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.android.extensions.scrimBackground
 import dev.olog.shared.lazyFast
 

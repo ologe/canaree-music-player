@@ -2,9 +2,9 @@ package dev.olog.presentation.player
 
 import android.content.Context
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.presentation.base.widget.adaptive.*
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.theme.themeManager
-import dev.olog.shared.widgets.adaptive.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

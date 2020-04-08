@@ -1,5 +1,6 @@
 package dev.olog.service.floating.api.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -8,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.service.floating.R
-import dev.olog.shared.android.extensions.dip
 
 private const val DURATION = 250
 
+@SuppressLint("ViewConstructor")
 class TabView(
         context: Context,
         private val backgroundColors : IntArray,
