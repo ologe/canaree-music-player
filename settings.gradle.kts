@@ -5,7 +5,7 @@ include(":domain")
 
 include(":lib.media")
 include(":lib.image-loader")
-include(":offline-lyrics")
+include(":lib.offline-lyrics")
 include(":lib.equalizer")
 
 include(":shared-widgets")

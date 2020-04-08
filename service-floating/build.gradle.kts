@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":shared-widgets"))
     implementation(project(":prefs-keys"))
     implementation(project(":lib.media"))
-    implementation(project(":offline-lyrics"))
+    implementation(project(":lib.offline-lyrics"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

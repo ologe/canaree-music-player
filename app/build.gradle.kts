@@ -76,7 +76,7 @@ dependencies {
     implementation(project(":lib.network")) // TODO rename to lib.network
     implementation(project(":lib.equalizer"))
     implementation(project(":lib.media"))
-    implementation(project(":offline-lyrics"))
+    implementation(project(":lib.offline-lyrics"))
     implementation(project(":lib.image-loader"))
 
     implementation(project(":analytics"))
