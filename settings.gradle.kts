@@ -3,7 +3,6 @@ include(":app")
 include(":core")
 
 
-include(":injection")
 include(":domain")
 include(":presentation")
 include(":shared-android")

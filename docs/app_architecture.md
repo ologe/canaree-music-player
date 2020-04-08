@@ -38,12 +38,7 @@
 
 #### `:image-provider`
 - Handles all image loading (from local storage and network) and caching
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/image-provider/build.gradle)
-
-#### `:injection`
-- Creates dagger shared core component
-- Binds `:core` gateways with `:data` implementations
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/injection/build.gradle) 
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/image-provider/build.gradle
 
 #### `:data`
 - Repositories implementation
