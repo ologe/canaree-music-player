@@ -10,6 +10,7 @@ import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.lib.image.loader.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.shared.exhaustive
 
 fun ImageView.loadFile(item: DisplayableFile) {
     GlideApp.with(context).clear(this)
