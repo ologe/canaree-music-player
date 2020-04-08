@@ -7,7 +7,7 @@ import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem

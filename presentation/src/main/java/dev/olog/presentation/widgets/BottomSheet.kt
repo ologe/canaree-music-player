@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.shared.android.extensions.colorBackground
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.BottomSheetType

@@ -19,8 +19,8 @@ import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.detail.adapter.*
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.presentation.base.CanChangeStatusBarColor
+import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.utils.removeLightStatusBar

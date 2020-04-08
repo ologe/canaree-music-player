@@ -1,4 +1,4 @@
-package dev.olog.presentation.interfaces
+package dev.olog.feature.presentation.base.activity
 
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior

@@ -17,8 +17,8 @@ import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
-import dev.olog.presentation.interfaces.CanChangeStatusBarColor
-import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.feature.presentation.base.CanChangeStatusBarColor
+import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
@@ -37,7 +37,8 @@ import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class OfflineLyricsFragment : BaseFragment(), DrawsOnTop, CanChangeStatusBarColor {
+class OfflineLyricsFragment : BaseFragment(),
+    DrawsOnTop, CanChangeStatusBarColor {
 
     companion object {
         @JvmStatic

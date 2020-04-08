@@ -25,7 +25,7 @@ import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
@@ -46,7 +46,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class TabFragment : BaseFragment(), SetupNestedList {
+class TabFragment : BaseFragment(),
+    SetupNestedList {
 
     companion object {
         @JvmStatic

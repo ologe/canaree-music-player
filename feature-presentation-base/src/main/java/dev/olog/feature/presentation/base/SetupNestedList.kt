@@ -1,4 +1,4 @@
-package dev.olog.presentation.interfaces
+package dev.olog.feature.presentation.base
 
 import androidx.recyclerview.widget.RecyclerView
 

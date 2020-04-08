@@ -34,6 +34,9 @@ import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.dip
 import dev.olog.core.extensions.getTopFragment
+import dev.olog.feature.presentation.base.CanHandleOnBackPressed
+import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.shared.android.extensions.setHeight
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager

@@ -21,7 +21,7 @@ import dev.olog.presentation.detail.DetailFragmentHeaders
 import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
-import dev.olog.presentation.interfaces.SetupNestedList
+import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml

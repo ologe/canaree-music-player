@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow

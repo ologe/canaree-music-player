@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.shared.android.extensions.findParentByType
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.AutoScrollTextView
