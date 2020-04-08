@@ -8,6 +8,8 @@ android {
 }
 
 dependencies {
+    lintChecks(project(":lint"))
+
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
 

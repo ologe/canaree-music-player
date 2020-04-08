@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.presentation.base
 
 import androidx.recyclerview.widget.*
 import kotlinx.coroutines.suspendCancellableCoroutine

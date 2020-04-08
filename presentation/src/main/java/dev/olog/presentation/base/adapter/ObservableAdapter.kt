@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.presentation.base.CustomListAdapter
 import dev.olog.presentation.model.BaseModel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

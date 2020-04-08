@@ -15,23 +15,10 @@ internal class MainActivityViewModel @Inject constructor(
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {
 
-    private val currentPlayingPublisher = ConflatedBroadcastChannel<PresentationId.Track>()
-
     fun isFirstAccess(): Boolean {
         val canReadStorage = Permissions.canReadStorage(context)
         val isFirstAccess = presentationPrefs.isFirstAccess()
         return !canReadStorage || isFirstAccess
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        currentPlayingPublisher.close()
-    }
-
-    fun setCurrentPlaying(mediaId: PresentationId.Track) {
-        currentPlayingPublisher.offer(mediaId)
-    }
-
-    val observeCurrentPlaying: Flow<PresentationId.Track> = currentPlayingPublisher.asFlow()
 
 }

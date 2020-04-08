@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.about.AboutItemType.*
-import dev.olog.presentation.base.adapter.CustomListAdapter
+import dev.olog.feature.presentation.base.CustomListAdapter
 import dev.olog.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.navigator.NavigatorAbout

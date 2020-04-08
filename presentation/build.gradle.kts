@@ -23,14 +23,11 @@ android {
 
 }
 
-androidExtensions {
-    isExperimental = true
-}
-
 dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
+    implementation(project(":feature-presentation-base"))
 
     implementation(project(":app-shortcuts"))
     implementation(project(":analytics"))

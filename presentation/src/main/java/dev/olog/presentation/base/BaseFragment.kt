@@ -14,7 +14,7 @@ import dagger.android.support.DaggerFragment
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
-import dev.olog.presentation.main.MainActivityViewModel
+import dev.olog.presentation.main.SharedViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,7 +22,7 @@ import javax.inject.Inject
 abstract class BaseFragment : DaggerFragment() {
 
     @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    internal lateinit var factory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +37,7 @@ abstract class BaseFragment : DaggerFragment() {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val activityViewModel by activityViewModels<MainActivityViewModel> { factory }
+        val activityViewModel by activityViewModels<SharedViewModel> { factory }
         activityViewModel.observeCurrentPlaying
             .onEach { onCurrentPlayingChanged(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)

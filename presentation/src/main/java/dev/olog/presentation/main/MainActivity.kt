@@ -58,6 +58,10 @@ class MainActivity : MusicGlueActivity(),
     private val viewModel by viewModels<MainActivityViewModel> {
         factory
     }
+    private val sharedViewModel by viewModels<SharedViewModel> {
+        factory
+    }
+
     @Inject
     internal lateinit var navigator: Navigator
 
@@ -77,7 +81,7 @@ class MainActivity : MusicGlueActivity(),
         observeMetadata()
             .map { it.mediaId.toPresentation() }
             .filterIsInstance<PresentationId.Track>()
-            .onEach { viewModel.setCurrentPlaying(it) }
+            .onEach { sharedViewModel.setCurrentPlaying(it) }
             .launchIn(lifecycleScope)
 
         if (themeManager.isImmersive){
