@@ -5,7 +5,7 @@ import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.drop

@@ -4,7 +4,7 @@ import android.content.res.Resources
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.presentationId
 
 

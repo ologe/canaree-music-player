@@ -4,8 +4,8 @@ import android.content.res.Resources
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.presentation.base.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 @PerFragment
@@ -13,22 +13,25 @@ class TabFragmentHeaders @Inject constructor(
         resources: Resources
 ) {
 
-    val allPlaylistHeader = DisplayableHeader(
-        R.layout.item_tab_header,
-        headerId("all playlist"),
-        resources.getString(R.string.tab_all_playlists)
-    )
+    val allPlaylistHeader =
+        DisplayableHeader(
+            R.layout.item_tab_header,
+            headerId("all playlist"),
+            resources.getString(R.string.tab_all_playlists)
+        )
 
-    val autoPlaylistHeader = DisplayableHeader(
-        R.layout.item_tab_header,
-        headerId("auto playlist"),
-        resources.getString(R.string.tab_auto_playlists)
-    )
+    val autoPlaylistHeader =
+        DisplayableHeader(
+            R.layout.item_tab_header,
+            headerId("auto playlist"),
+            resources.getString(R.string.tab_auto_playlists)
+        )
 
-    val shuffleHeader = DisplayableHeader(
-        R.layout.item_tab_shuffle,
-        headerId("tab shuffle"), ""
-    )
+    val shuffleHeader =
+        DisplayableHeader(
+            R.layout.item_tab_shuffle,
+            headerId("tab shuffle"), ""
+        )
 
     val allAlbumsHeader = listOf(
         DisplayableHeader(

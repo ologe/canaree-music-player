@@ -9,7 +9,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*

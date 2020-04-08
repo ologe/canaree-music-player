@@ -6,9 +6,9 @@ import dev.olog.domain.entity.SearchResult
 import dev.olog.domain.entity.track.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.feature.presentation.base.model.toPresentation
 

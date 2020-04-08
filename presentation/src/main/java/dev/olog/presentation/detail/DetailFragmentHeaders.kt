@@ -7,9 +7,9 @@ import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.feature.presentation.base.model.PresentationIdCategory.ALBUMS
 import dev.olog.feature.presentation.base.model.PresentationIdCategory.ARTISTS
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.presentation.base.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
@@ -126,11 +126,12 @@ class DetailFragmentHeaders @Inject constructor(
         )
     }
 
-    val shuffle: DisplayableItem = DisplayableHeader(
-        type = R.layout.item_detail_shuffle,
-        mediaId = headerId("detail shuffle"),
-        title = ""
-    )
+    val shuffle: DisplayableItem =
+        DisplayableHeader(
+            type = R.layout.item_detail_shuffle,
+            mediaId = headerId("detail shuffle"),
+            title = ""
+        )
 
     fun songs(isPodcast: Boolean): List<DisplayableItem> {
         val title = if (isPodcast) {

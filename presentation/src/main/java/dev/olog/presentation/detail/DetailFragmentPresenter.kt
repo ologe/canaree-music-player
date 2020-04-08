@@ -8,7 +8,7 @@ import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory.PLAYLISTS
 import dev.olog.feature.presentation.base.model.PresentationIdCategory.PODCASTS_PLAYLIST
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(

@@ -11,7 +11,7 @@ import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_recently_added.view.*

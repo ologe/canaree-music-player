@@ -1,9 +1,7 @@
-package dev.olog.presentation.model
+package dev.olog.feature.presentation.base.model
 
 import android.content.res.Resources
-import dev.olog.feature.presentation.base.model.BaseModel
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.R
 import dev.olog.shared.TextUtils
 
 sealed class DisplayableItem(

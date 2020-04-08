@@ -5,7 +5,7 @@ import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.domain.entity.track.Song
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.detail.mapper.toDetailDisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

@@ -4,9 +4,9 @@ import android.content.Context
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.presentation.base.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 @PerFragment
@@ -22,12 +22,13 @@ class SearchFragmentHeaders @Inject constructor(
         )
     )
 
-    fun trackHeaders(size: Int, showPodcast: Boolean): DisplayableItem = DisplayableHeader(
-        type = R.layout.item_search_header,
-        mediaId = headerId("songs header id"),
-        title = context.getString(if (showPodcast) R.string.search_podcasts else R.string.search_songs),
-        subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
-    )
+    fun trackHeaders(size: Int, showPodcast: Boolean): DisplayableItem =
+        DisplayableHeader(
+            type = R.layout.item_search_header,
+            mediaId = headerId("songs header id"),
+            title = context.getString(if (showPodcast) R.string.search_podcasts else R.string.search_songs),
+            subtitle = context.resources.getQuantityString(R.plurals.search_xx_results, size, size)
+        )
 
     fun albumsHeaders(size: Int): List<DisplayableItem> = listOf(
         DisplayableHeader(

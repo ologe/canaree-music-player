@@ -2,9 +2,9 @@
 
 package dev.olog.presentation.detail
 
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 
 class DetailValues (
     val songs: List<DisplayableItem>,

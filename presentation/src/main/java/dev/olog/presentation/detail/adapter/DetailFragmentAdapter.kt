@@ -15,9 +15,7 @@ import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
 import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.feature.presentation.base.model.PresentationIdCategory
-import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.presentation.base.model.*
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*
@@ -28,7 +26,6 @@ import dev.olog.presentation.detail.DetailFragmentViewModel
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.presentation.interfaces.SetupNestedList
-import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml

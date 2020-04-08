@@ -6,7 +6,7 @@ import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem

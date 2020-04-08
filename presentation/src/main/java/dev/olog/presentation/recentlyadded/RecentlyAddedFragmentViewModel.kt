@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow

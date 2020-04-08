@@ -10,16 +10,15 @@ import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
 import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.presentation.base.model.*
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.interfaces.SetupNestedList
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
-import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive

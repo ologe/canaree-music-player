@@ -3,9 +3,9 @@ package dev.olog.presentation.tab.mapper
 import android.content.res.Resources
 import dev.olog.domain.entity.track.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.presentationId
 import java.util.concurrent.TimeUnit
 
@@ -17,7 +17,10 @@ internal fun Folder.toTabDisplayableItem(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = presentationId,
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(
+            resources,
+            size
+        )
     )
 }
 
@@ -45,7 +48,10 @@ internal fun Playlist.toTabDisplayableItem(
         type = layoutId,
         mediaId = presentationId,
         title = title,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(
+            resources,
+            size
+        )
     )
 }
 
@@ -56,7 +62,8 @@ internal fun Song.toTabDisplayableItem(): DisplayableItem {
         title = title,
         artist = artist,
         album = album,
-        idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration).toInt() else this.idInPlaylist,
+        idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration)
+            .toInt() else this.idInPlaylist,
         dataModified = this.dateModified,
         duration = this.duration
     )
@@ -95,7 +102,10 @@ internal fun Genre.toTabDisplayableItem(
         type = if (requestedSpanSize == 1) R.layout.item_tab_song else R.layout.item_tab_album,
         mediaId = presentationId,
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, size)
+        subtitle = DisplayableAlbum.readableSongCount(
+            resources,
+            size
+        )
     )
 }
 
@@ -113,6 +123,9 @@ internal fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): Displa
         type = R.layout.item_tab_artist_last_played,
         mediaId = presentationId,
         title = name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
+        subtitle = DisplayableAlbum.readableSongCount(
+            resources,
+            songs
+        )
     )
 }

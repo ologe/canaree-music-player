@@ -7,8 +7,8 @@ import dev.olog.domain.entity.track.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.presentationId
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
@@ -16,7 +16,10 @@ internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
         type = R.layout.item_detail_related_artist,
         mediaId = presentationId,
         title = this.name,
-        subtitle = DisplayableAlbum.readableSongCount(resources, songs)
+        subtitle = DisplayableAlbum.readableSongCount(
+            resources,
+            songs
+        )
     )
 }
 

@@ -11,7 +11,7 @@ import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import dev.olog.shared.coroutines.mapListItem

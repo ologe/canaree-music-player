@@ -9,8 +9,8 @@ import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableHeader
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.flow.Flow
@@ -35,11 +35,12 @@ internal class PlayerFragmentViewModel @Inject constructor(
     val skipToPreviousVisibility = musicPrefsUseCase
         .observeSkipToPreviousVisibility()
 
-    val footerLoadMore : DisplayableItem = DisplayableHeader(
+    val footerLoadMore : DisplayableItem =
+        DisplayableHeader(
             type = R.layout.item_mini_queue_load_more,
             mediaId = headerId("load more"),
             title = ""
-    )
+        )
 
     fun playerControls(): DisplayableItem {
         val id = when (context.themeManager.playerAppearance) {

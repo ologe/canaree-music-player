@@ -7,8 +7,8 @@ import dev.olog.domain.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.domain.interactor.search.InsertRecentSearchUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

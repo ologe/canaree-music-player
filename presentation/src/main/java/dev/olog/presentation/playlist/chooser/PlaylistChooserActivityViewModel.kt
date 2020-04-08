@@ -7,8 +7,8 @@ import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.gateway.track.PlaylistGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +30,10 @@ class PlaylistChooserActivityViewModel @Inject constructor(
             type = R.layout.item_playlist_chooser,
             mediaId = presentationId,
             title = title,
-            subtitle = DisplayableAlbum.readableSongCount(resources, size)
+            subtitle = DisplayableAlbum.readableSongCount(
+                resources,
+                size
+            )
         )
     }
 

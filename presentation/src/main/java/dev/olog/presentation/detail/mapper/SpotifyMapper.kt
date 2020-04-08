@@ -4,8 +4,8 @@ import android.content.res.Resources
 import dev.olog.domain.entity.spotify.SpotifyAlbum
 import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableAlbum
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toPresentation
 
 internal fun SpotifyAlbum.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {

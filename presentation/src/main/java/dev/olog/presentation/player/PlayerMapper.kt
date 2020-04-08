@@ -3,8 +3,8 @@ package dev.olog.presentation.player
 import dev.olog.lib.media.model.PlayerItem
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toPresentation
 
 internal fun PlayerItem.toDisplayableItem(): DisplayableItem {
