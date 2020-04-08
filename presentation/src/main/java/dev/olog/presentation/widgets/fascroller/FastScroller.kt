@@ -20,11 +20,11 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.coroutines.viewScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
-import dev.olog.shared.android.extensions.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -228,7 +228,7 @@ class FastScroller(
                             else -> it
                         }
                     }.onEach { mBubbleView.text = it }
-                    .launchIn(lifecycleScope)
+                    .launchIn(viewScope)
             }
 
             scrollDisposable = scrollPublisher.asFlow()
@@ -236,7 +236,7 @@ class FastScroller(
                 .distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
                 .onEach { mRecyclerView?.layoutManager?.scrollToPosition(it) }
-                .launchIn(lifecycleScope)
+                .launchIn(viewScope)
         }
     }
 

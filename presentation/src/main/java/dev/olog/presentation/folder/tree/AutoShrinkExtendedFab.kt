@@ -3,8 +3,8 @@ package dev.olog.presentation.folder.tree
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import dev.olog.core.coroutines.viewScope
 import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.shared.android.extensions.launchWhenResumed
 import kotlinx.coroutines.delay
 
 class AutoShrinkExtendedFab(
@@ -16,7 +16,7 @@ class AutoShrinkExtendedFab(
 
     override fun extend() {
         super.extend()
-        job = launchWhenResumed {
+        job = viewScope.launchWhenAttached {
             delay(2000)
             shrink()
         }

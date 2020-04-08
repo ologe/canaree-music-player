@@ -5,9 +5,9 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import dev.olog.core.coroutines.viewScope
 import dev.olog.feature.presentation.base.extensions.dpToPx
 import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.shared.android.extensions.launchWhenResumed
 import kotlinx.coroutines.android.awaitFrame
 
 class BlurShadowHelper(
@@ -40,7 +40,7 @@ class BlurShadowHelper(
     }
 
     private fun tryMakeBlurShadow() {
-        job = view.launchWhenResumed {
+        job = view.viewScope.launchWhenAttached {
             loopUntilSizeIsValid()
         }
     }

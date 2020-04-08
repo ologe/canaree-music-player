@@ -8,14 +8,16 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
-import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.core.coroutines.viewScope
 import dev.olog.domain.MediaId
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.shared.android.dark.mode.isDarkMode
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import timber.log.Timber
 
 class BlurredBackground(
@@ -42,7 +44,7 @@ class BlurredBackground(
         if (drawable == null){
             return
         }
-        job = launchWhenResumed {
+        job = viewScope.launchWhenAttached {
             try {
                 loadImageInternal(mediaId, drawable.mutate())
             } catch (ex: Exception){

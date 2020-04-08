@@ -3,12 +3,12 @@ package dev.olog.presentation.widgets.fascroller
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.core.coroutines.viewScope
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -23,7 +23,7 @@ class RxWaveSideBarView(
     private var job by autoDisposeJob()
 
     fun onDataChanged(list: List<DisplayableItem>) {
-        job = launchWhenResumed {
+        job = viewScope.launchWhenAttached {
             updateLetters(generateLetters(list))
         }
     }

@@ -7,13 +7,8 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import androidx.annotation.Px
 import androidx.core.view.*
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
+import dev.olog.core.coroutines.viewScope
 import dev.olog.shared.coroutines.autoDisposeJob
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 
 
 fun View.toggleVisibility(visible: Boolean) {
@@ -108,20 +103,13 @@ fun <T> ViewGroup.map(action: (View) -> T): List<T> {
     return result
 }
 
-// TODO please remove
-val View.lifecycleScope: LifecycleCoroutineScope
-    get() = findFragment<Fragment>().viewLifecycleOwner.lifecycleScope
-
-fun View.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycleScope.launchWhenResumed(block)
-}
 
 // TODO check
 fun View.onClick(block: suspend (View) -> Unit) {
     @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var job by autoDisposeJob()
     setOnClickListener {
-        job = launchWhenResumed {
+        job = viewScope.launchWhenAttached {
             block(it)
         }
     }
