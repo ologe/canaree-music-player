@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.about.AboutItemType.*
 import dev.olog.feature.presentation.base.CustomListAdapter
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.shared.exhaustive
 import kotlinx.android.synthetic.main.item_about.view.*

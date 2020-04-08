@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.presentation.base.adapter.drag
 
 import android.graphics.Color
 import android.view.View
@@ -9,13 +9,17 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.R
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.colorSwipeBackground
 import dev.olog.shared.android.extensions.toggleVisibility
-import dev.olog.shared.lazyFast
 import kotlin.math.hypot
 
+private val decelerateInterpolator = DecelerateInterpolator()
+private val accelerateInterpolator = AccelerateInterpolator()
+private val bounceInterpolator = BounceInterpolator()
+
+// TODO rewrite
 internal class TouchHelperAnimationController {
 
     companion object {
@@ -32,10 +36,6 @@ internal class TouchHelperAnimationController {
     fun setAnimationIdle() {
         state = State.IDLE
     }
-
-    private val decelerateInterpolator by lazyFast { DecelerateInterpolator() }
-    private val accelerateInterpolator by lazyFast { AccelerateInterpolator() }
-    private val bounceInterpolator by lazyFast { BounceInterpolator() }
 
     fun initializeSwipe(
         viewHolder: RecyclerView.ViewHolder,
@@ -80,7 +80,8 @@ internal class TouchHelperAnimationController {
         if (state == State.CIRCULAR_REVEAL) {
             return
         }
-        state = State.CIRCULAR_REVEAL
+        state =
+            State.CIRCULAR_REVEAL
 
         val mainIcon =
             viewHolder.itemView.findViewById<ImageView>(if (dx > 0f) R.id.deleteIcon else R.id.playNextIcon)

@@ -4,9 +4,9 @@ package dev.olog.presentation.createplaylist
 import android.widget.CheckBox
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableTrack
+import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableTrack
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toDomain

@@ -1,15 +1,11 @@
 package dev.olog.presentation.recentlyadded
 
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.feature.presentation.base.adapter.CanShowIsPlaying
-import dev.olog.feature.presentation.base.adapter.CanShowIsPlayingImpl
-import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.feature.presentation.base.adapter.ObservableAdapter
+import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.*
-import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.base.drag.TouchableAdapter
+import dev.olog.feature.presentation.base.adapter.drag.IDragListener
+import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.presentation.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator

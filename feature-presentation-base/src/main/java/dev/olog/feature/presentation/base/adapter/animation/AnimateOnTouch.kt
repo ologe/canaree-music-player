@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.anim
+package dev.olog.feature.presentation.base.adapter.animation
 
 import android.animation.AnimatorInflater
 import android.content.Context

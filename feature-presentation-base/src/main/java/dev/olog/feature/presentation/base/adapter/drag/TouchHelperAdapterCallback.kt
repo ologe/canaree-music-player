@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.presentation.base.adapter.drag
 
 import android.graphics.Canvas
 import android.view.View
@@ -6,9 +6,9 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import kotlinx.android.synthetic.main.item_detail_song.view.*
+import kotlinx.android.synthetic.main.dummy.view.*
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 
@@ -27,7 +27,8 @@ class TouchHelperAdapterCallback(
         private const val SWIPE_DURATION = DEFAULT_SWIPE_ANIMATION_DURATION.toLong() - 50
     }
 
-    private val animationsController = TouchHelperAnimationController()
+    private val animationsController =
+        TouchHelperAnimationController()
 
     override fun onMove(
         recyclerView: RecyclerView,

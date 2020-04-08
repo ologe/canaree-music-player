@@ -6,9 +6,9 @@ import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
+import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem

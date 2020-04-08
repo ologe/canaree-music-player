@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.drag
+package dev.olog.feature.presentation.base.adapter.drag
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +13,8 @@ interface IDragListener {
     fun disposeDragListener()
 }
 
-class DragListenerImpl : IDragListener {
+class DragListenerImpl :
+    IDragListener {
 
     override var itemTouchHelper: ItemTouchHelper? = null
 

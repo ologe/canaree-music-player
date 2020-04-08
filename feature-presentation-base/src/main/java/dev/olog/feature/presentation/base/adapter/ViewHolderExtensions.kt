@@ -1,4 +1,4 @@
-package dev.olog.presentation.base.adapter
+package dev.olog.feature.presentation.base.adapter
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
@@ -6,9 +6,9 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.CustomListAdapter
-import dev.olog.presentation.base.anim.ScaleInOnTouch
-import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
-import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.feature.presentation.base.adapter.animation.ScaleInOnTouch
+import dev.olog.feature.presentation.base.adapter.animation.ScaleMoreInOnTouch
+import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.model.BaseModel
 
 fun <T: Any> RecyclerView.ViewHolder.setOnClickListener(
@@ -51,12 +51,20 @@ fun <T : BaseModel> RecyclerView.ViewHolder.setOnLongClickListener(
 }
 
 fun RecyclerView.ViewHolder.elevateAlbumOnTouch() {
-    itemView.setOnTouchListener(ScaleMoreInOnTouch(itemView))
+    itemView.setOnTouchListener(
+        ScaleMoreInOnTouch(
+            itemView
+        )
+    )
 }
 
 fun RecyclerView.ViewHolder.elevateSongOnTouch() {
     val viewToAnimate = itemView
-    itemView.setOnTouchListener(ScaleInOnTouch(viewToAnimate))
+    itemView.setOnTouchListener(
+        ScaleInOnTouch(
+            viewToAnimate
+        )
+    )
 }
 
 @SuppressLint("ClickableViewAccessibility")

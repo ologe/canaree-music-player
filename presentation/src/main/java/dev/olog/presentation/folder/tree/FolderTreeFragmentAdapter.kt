@@ -4,8 +4,8 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.base.adapter.setOnLongClickListener
+import dev.olog.feature.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.setOnLongClickListener
 import dev.olog.presentation.loadDirImage
 import dev.olog.presentation.loadFile
 import dev.olog.presentation.model.DisplayableFile
