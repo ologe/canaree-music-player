@@ -40,7 +40,7 @@ dependencies {
     implementation(project(":offline-lyrics"))
     implementation(project(":intents"))
     implementation(project(":shared"))
-    implementation(project(":equalizer"))
+    implementation(project(":lib.equalizer"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":prefs-keys"))
     implementation(project(":intents"))
-    implementation(project(":equalizer"))
+    implementation(project(":lib.equalizer"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
