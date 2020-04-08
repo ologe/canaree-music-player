@@ -1,4 +1,4 @@
-package dev.olog.presentation.ripple;
+package dev.olog.feature.presentation.base.ripple;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;

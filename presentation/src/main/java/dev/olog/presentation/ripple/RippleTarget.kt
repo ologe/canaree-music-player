@@ -9,9 +9,10 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.coroutines.viewScope
+import dev.olog.feature.presentation.base.widget.ForegroundImageView
+import dev.olog.feature.presentation.base.ripple.RippleUtils
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.coroutines.autoDisposeJob
-import dev.olog.feature.presentation.base.widget.ForegroundImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -28,7 +29,6 @@ class RippleTarget(
 
     private var job by autoDisposeJob()
 
-    @SuppressLint("ConcreteDispatcherIssue")
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
