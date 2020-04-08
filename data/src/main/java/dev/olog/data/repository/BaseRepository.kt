@@ -6,7 +6,7 @@ import android.net.Uri
 import dev.olog.domain.gateway.base.BaseGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.DataObserver
-import dev.olog.data.utils.PermissionsUtils
+import dev.olog.shared.android.utils.PermissionsUtils
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

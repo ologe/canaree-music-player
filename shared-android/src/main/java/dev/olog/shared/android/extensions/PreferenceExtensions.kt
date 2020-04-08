@@ -1,16 +1,12 @@
-package dev.olog.data.utils
+package dev.olog.shared.android.extensions
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flowOn
 
-@SuppressLint("ConcreteDispatcherIssue")
 inline fun <reified T> SharedPreferences.observeKey(key: String, default: T): Flow<T> {
-    val flow: Flow<T> = channelFlow {
+    return channelFlow {
         offer(getItem(key, default))
 
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
@@ -22,8 +18,6 @@ inline fun <reified T> SharedPreferences.observeKey(key: String, default: T): Fl
         registerOnSharedPreferenceChangeListener(listener)
         awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
     }
-    return flow
-        .flowOn(Dispatchers.Main)
 }
 
 inline fun <reified T> SharedPreferences.getItem(key: String, default: T): T {

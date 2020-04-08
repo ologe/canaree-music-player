@@ -7,7 +7,7 @@ import androidx.core.content.edit
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.data.R
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File

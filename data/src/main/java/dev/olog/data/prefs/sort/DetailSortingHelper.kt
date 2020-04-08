@@ -7,7 +7,7 @@ import dev.olog.domain.entity.sort.SortArranging
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortDetail
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject

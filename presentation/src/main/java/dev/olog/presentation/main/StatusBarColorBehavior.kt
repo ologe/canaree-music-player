@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
 import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.shared.android.theme.themeManager

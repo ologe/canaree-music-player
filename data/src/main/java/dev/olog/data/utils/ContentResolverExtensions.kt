@@ -3,6 +3,7 @@ package dev.olog.data.utils
 import android.content.ContentResolver
 import android.database.Cursor
 
+// TODO extend on cursor, not on content resovler
 @Suppress("unused")
 internal inline fun <T> ContentResolver.queryAll(
     cursor: Cursor,

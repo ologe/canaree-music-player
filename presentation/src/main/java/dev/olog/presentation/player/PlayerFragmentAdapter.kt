@@ -25,8 +25,8 @@ import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.feature.presentation.base.model.toDomain
-import dev.olog.presentation.utils.isCollapsed
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.feature.presentation.base.extensions.isCollapsed
+import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView

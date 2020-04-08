@@ -27,9 +27,9 @@ import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.presentation.utils.collapse
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.feature.presentation.base.extensions.collapse
+import dev.olog.feature.presentation.base.extensions.expand
+import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.feature.presentation.base.extensions.dip

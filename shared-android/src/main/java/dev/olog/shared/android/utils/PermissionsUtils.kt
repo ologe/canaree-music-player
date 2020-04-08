@@ -1,4 +1,4 @@
-package dev.olog.data.utils
+package dev.olog.shared.android.utils
 
 import android.Manifest
 import android.content.Context

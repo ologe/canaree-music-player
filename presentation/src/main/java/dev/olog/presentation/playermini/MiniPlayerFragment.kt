@@ -13,9 +13,9 @@ import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.presentation.loadSongImage
-import dev.olog.presentation.utils.expand
-import dev.olog.presentation.utils.isCollapsed
-import dev.olog.presentation.utils.isExpanded
+import dev.olog.feature.presentation.base.extensions.expand
+import dev.olog.feature.presentation.base.extensions.isCollapsed
+import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.lazyFast

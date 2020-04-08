@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import dev.olog.domain.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
+import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

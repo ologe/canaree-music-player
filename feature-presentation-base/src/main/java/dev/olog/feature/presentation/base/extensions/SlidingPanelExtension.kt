@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.presentation.utils
+package dev.olog.feature.presentation.base.extensions
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
