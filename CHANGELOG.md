@@ -5,6 +5,9 @@
 - Added Floating mini player
 - Bug fixes
 - Removed tablet support
+- Spotify integration
+- Updated jaudiotagger
+- Updated exoplayer
 
 ## 3.3.1
 - added dark mode to floating window on Q

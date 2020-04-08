@@ -20,13 +20,14 @@ buildscript {
 }
 
 allprojects {
+
     repositories {
         google()
         jcenter()
-        maven {
-            setUrl("https://jitpack.io")
-        }
+        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://dl.bintray.com/ijabz/maven") } // jaudiotagger
     }
+
     gradle.projectsEvaluated { // TODO remove after coroutines became stable
         tasks.withType(KotlinCompile::class).all {
             kotlinOptions.freeCompilerArgs = listOf(

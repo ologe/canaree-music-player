@@ -43,14 +43,7 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     private fun retrieveTag(audioFile: AudioFile): Tag {
-
-        val tag = audioFile.tagOrCreateAndSetDefault
-        try {
-            tag.setEncoding("UTF-8")
-        } catch (ex: Exception) {
-            Timber.e(ex)
-        }
-        return tag
+        return audioFile.tagOrCreateAndSetDefault
     }
 
     private fun updateMediaStore(id: Long, isPodcast: Boolean?) {

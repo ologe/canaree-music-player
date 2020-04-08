@@ -29,7 +29,6 @@ dependencies {
     implementation(project(":core"))
 
     implementation(project(":app-shortcuts"))
-    implementation(project(":lib.jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))
@@ -53,6 +52,7 @@ dependencies {
     implementation(Libraries.X.Lifecycle.runtime)
     implementation(Libraries.UX.glide)
 
+    implementation(Libraries.Utils.jaudiotagger) // TODO why??
     implementation(Libraries.Utils.lastFmBinding)
 
     // TODO replace

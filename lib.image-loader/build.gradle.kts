@@ -13,7 +13,6 @@ dependencies {
 
     implementation(project(":core"))
 
-    implementation(project(":lib.jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -36,6 +35,7 @@ dependencies {
     kapt(Libraries.UX.glideKapt)
 
     implementation(Libraries.Utils.colorDesaturation)
+    implementation(Libraries.Utils.jaudiotagger)
 
     implementation(Libraries.Debug.timber)
 

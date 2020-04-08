@@ -107,6 +107,7 @@ object Libraries {
         internal const val scroll_helper = "1.2.0"
         internal const val blur_kit = "1.0.0"
         internal const val color_desaturation = "1.0.2"
+        internal const val jaudiotagger = "2.2.5"
         internal const val tap_target_view = "2.0.0"
 
         //    data
@@ -238,6 +239,7 @@ object Libraries {
         const val fuzzy = "me.xdrop:fuzzywuzzy:$fuzzywuzzy"
         const val scrollHelper = "com.github.ologe:scroll-helper:$scroll_helper"
         const val colorDesaturation = "com.github.ologe:color-desaturation:$color_desaturation"
+        const val jaudiotagger = "net.jthink:jaudiotagger:${Versions.jaudiotagger}"
     }
 
     object Debug {

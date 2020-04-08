@@ -16,7 +16,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-    implementation(project(":lib.jaudiotagger"))
     implementation(project(":intents"))
 
     implementation(Libraries.kotlin)
@@ -30,6 +29,8 @@ dependencies {
     implementation(Libraries.X.recyclerView)
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.material)
+
+    implementation(Libraries.Utils.jaudiotagger) // TODO why??
 
     implementation(Libraries.Debug.timber)
 

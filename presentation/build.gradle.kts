@@ -41,7 +41,6 @@ dependencies {
     implementation(project(":prefs-keys"))
     implementation(project(":lib.media"))
     implementation(project(":offline-lyrics"))
-    implementation(project(":lib.jaudiotagger"))
     implementation(project(":intents"))
     implementation(project(":shared"))
     implementation(project(":equalizer"))
@@ -76,6 +75,7 @@ dependencies {
     implementation(Libraries.UX.customTabs)
     implementation(Libraries.UX.glide)
 
+    implementation(Libraries.Utils.jaudiotagger)
     implementation(Libraries.Utils.scrollHelper)
     implementation(Libraries.Utils.colorDesaturation)
     implementation(Libraries.Utils.lastFmBinding)
