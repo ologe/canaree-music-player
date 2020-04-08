@@ -1,10 +1,11 @@
-package dev.olog.shared.android.theme
+package dev.olog.feature.presentation.base.activity
 
 import android.content.Context
 import android.content.res.Resources
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import dev.olog.shared.android.R
+import dev.olog.feature.presentation.base.R
+import dev.olog.shared.android.theme.themeManager
 
 interface ThemedActivity {
 

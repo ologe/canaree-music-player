@@ -3,7 +3,7 @@ package dev.olog.presentation.about
 import android.os.Bundle
 import android.view.View
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast

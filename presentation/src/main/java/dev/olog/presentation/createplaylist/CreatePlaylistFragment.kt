@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.extensions.*

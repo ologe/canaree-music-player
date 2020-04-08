@@ -11,7 +11,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed

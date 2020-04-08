@@ -14,7 +14,7 @@ import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.transition.FastAutoTransition
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
@@ -27,8 +27,8 @@ import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
+import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast

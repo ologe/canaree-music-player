@@ -1,4 +1,4 @@
-package dev.olog.presentation.main
+package dev.olog.feature.presentation.base.activity
 
 import androidx.lifecycle.ViewModel
 import dev.olog.feature.presentation.base.model.PresentationId

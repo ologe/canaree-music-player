@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator

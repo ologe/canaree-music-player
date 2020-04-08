@@ -18,7 +18,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.connection.OnConnectionChanged
 import dev.olog.lib.media.model.*
 import dev.olog.lib.media.playPause
-import dev.olog.presentation.base.BaseActivity
+import dev.olog.feature.presentation.base.activity.BaseActivity
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow

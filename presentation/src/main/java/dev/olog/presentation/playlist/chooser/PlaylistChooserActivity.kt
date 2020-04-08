@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseActivity
+import dev.olog.feature.presentation.base.activity.BaseActivity
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*

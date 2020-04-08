@@ -1,0 +1,6 @@
+<resources>
+
+<!--  TODO check usages-->
+  <integer name="play">250</integer>
+
+</resources>

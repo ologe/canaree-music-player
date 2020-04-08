@@ -10,7 +10,7 @@ import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage

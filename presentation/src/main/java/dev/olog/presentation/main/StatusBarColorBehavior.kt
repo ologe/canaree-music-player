@@ -11,8 +11,8 @@ import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
+import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
+import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.core.isMarshmallow
 import dev.olog.shared.lazyFast

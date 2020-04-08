@@ -16,12 +16,12 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.presentation.tutorial.TutorialTapTarget
-import dev.olog.presentation.utils.removeLightStatusBar
+import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.throwNotHandled
 import io.alterac.blurkit.BlurKit

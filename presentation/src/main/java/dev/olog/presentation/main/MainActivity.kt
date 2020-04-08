@@ -36,7 +36,9 @@ import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.activity.HasScrollingInterface
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
+import dev.olog.feature.presentation.base.activity.SharedViewModel
 import dev.olog.feature.presentation.base.extensions.setHeight
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
@@ -53,6 +55,7 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
+    HasScrollingInterface,
     OnPermissionChanged {
 
     @Inject
@@ -251,7 +254,7 @@ class MainActivity : MusicGlueActivity(),
         bottomNavigation.navigate(page)
     }
 
-    fun restoreUpperWidgetsTranslation(){
+    override fun restoreUpperWidgetsTranslation(){
         findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
         findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
     }

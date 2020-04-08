@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.feature.presentation.base.extensions
 
 import android.view.View
 import android.view.Window

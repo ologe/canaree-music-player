@@ -23,7 +23,7 @@ import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseFragment
+import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.extensions.*

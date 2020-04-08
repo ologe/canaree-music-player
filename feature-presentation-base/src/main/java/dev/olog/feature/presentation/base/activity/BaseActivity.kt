@@ -1,25 +1,18 @@
-package dev.olog.presentation.base
+package dev.olog.feature.presentation.base.activity
 
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDelegate
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
+import dev.olog.feature.presentation.base.R
 import dev.olog.lib.DarkDesaturatedResources
-import dev.olog.presentation.R
-import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.shared.android.theme.ThemedActivity
+import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.shared.android.theme.themeManager
-import javax.inject.Inject
 
-abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity, HasAndroidInjector {
-
-    @Inject
-    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
+abstract class BaseActivity : DaggerAppCompatActivity(),
+    ThemedActivity {
 
     private var customResources: Resources? = null
 
@@ -54,7 +47,5 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity, HasAndr
         val darkMode = themeManager.darkMode
         AppCompatDelegate.setDefaultNightMode(darkMode)
     }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
 }

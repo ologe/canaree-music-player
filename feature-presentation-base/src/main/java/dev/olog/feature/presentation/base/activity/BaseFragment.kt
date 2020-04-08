@@ -1,4 +1,4 @@
-package dev.olog.presentation.base
+package dev.olog.feature.presentation.base.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerFragment
 import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.presentation.main.MainActivity
-import dev.olog.presentation.main.SharedViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -44,11 +41,11 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     fun getSlidingPanel(): BottomSheetBehavior<*>? {
-        return (activity as HasSlidingPanel).getSlidingPanel()
+        return (requireActivity() as HasSlidingPanel).getSlidingPanel()
     }
 
     fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
+        (requireActivity() as HasScrollingInterface).restoreUpperWidgetsTranslation()
     }
 
     protected open fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {}
