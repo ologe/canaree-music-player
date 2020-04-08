@@ -1,9 +1,10 @@
-package dev.olog.feature.presentation.base.widget
+package dev.olog.feature.presentation.base.widget.image.view
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import dev.olog.feature.presentation.base.R
+import dev.olog.feature.presentation.base.widget.image.view.ForegroundImageView
 
 class CircularImageView(
     context: Context,

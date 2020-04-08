@@ -15,7 +15,7 @@
         android:background="?android:colorBackground"
         android:clipToPadding="false">
 
-        <dev.olog.presentation.widgets.IsPlayingView
+        <dev.olog.feature.presentation.base.widget.IsPlayingView
             android:id="@+id/isPlaying"
             android:layout_width="2dp"
             android:layout_height="10dp"
@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/cover"
             app:layout_constraintTop_toTopOf="@+id/cover"/>
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
             android:id="@+id/cover"
             android:layout_width="@dimen/item_song_cover_size"
             android:layout_height="@dimen/item_song_cover_size"
@@ -63,7 +63,7 @@
             app:layout_goneMarginStart="0dp"
             tools:text="@tools:sample/lorem" />
 
-        <dev.olog.presentation.widgets.textview.ExplicitView
+        <dev.olog.feature.presentation.base.widget.text.view.ExplicitView
             android:id="@+id/explicit"
             android:layout_width="16dp"
             android:layout_height="16dp"

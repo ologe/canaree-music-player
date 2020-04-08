@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         tools:tint="@color/colorControlNormal"/>
 
-    <dev.olog.feature.presentation.base.widget.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.image.view.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
@@ -65,7 +65,7 @@
         android:layout_marginEnd="8dp"
         android:tint="@android:color/white" />
 
-    <dev.olog.feature.presentation.base.widget.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.image.view.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"

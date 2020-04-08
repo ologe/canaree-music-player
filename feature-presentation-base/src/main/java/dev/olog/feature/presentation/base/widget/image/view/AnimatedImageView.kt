@@ -1,4 +1,4 @@
-package dev.olog.feature.presentation.base.widget
+package dev.olog.feature.presentation.base.widget.image.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,8 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.extensions.getAnimatedVectorDrawable
+import dev.olog.feature.presentation.base.widget.ColorDelegateImpl
+import dev.olog.feature.presentation.base.widget.IColorDelegate
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.theme.themeManager
 

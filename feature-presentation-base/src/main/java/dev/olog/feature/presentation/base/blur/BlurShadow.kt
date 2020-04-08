@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.blurshadow
+package dev.olog.feature.presentation.base.blur
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -25,7 +25,9 @@ object BlurShadow {
 
     private val script by lazy {
         ScriptIntrinsicBlur.create(
-            renderScript, Element.U8_4(renderScript)
+            renderScript, Element.U8_4(
+                renderScript
+            )
         ).apply { setRadius(RADIUS) }
     }
 
@@ -55,7 +57,10 @@ object BlurShadow {
 
         val canvas = Canvas(bitmap)
         val matrix = Matrix()
-        matrix.preScale(DOWNSCALE_FACTOR, DOWNSCALE_FACTOR)
+        matrix.preScale(
+            DOWNSCALE_FACTOR,
+            DOWNSCALE_FACTOR
+        )
         canvas.setMatrix(matrix)
         view.draw(canvas)
         return bitmap

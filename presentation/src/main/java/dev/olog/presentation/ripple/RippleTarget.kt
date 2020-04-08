@@ -9,7 +9,7 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.core.coroutines.viewScope
-import dev.olog.feature.presentation.base.widget.ForegroundImageView
+import dev.olog.feature.presentation.base.widget.image.view.ForegroundImageView
 import dev.olog.feature.presentation.base.ripple.RippleUtils
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
 import dev.olog.shared.coroutines.autoDisposeJob

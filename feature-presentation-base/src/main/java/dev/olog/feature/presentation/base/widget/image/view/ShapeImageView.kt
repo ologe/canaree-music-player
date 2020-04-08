@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.shape
+package dev.olog.feature.presentation.base.widget.image.view
 
 import android.content.Context
 import android.graphics.*
@@ -9,11 +9,10 @@ import com.google.android.material.shape.CutCornerTreatment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
+import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.extensions.dipf
-import dev.olog.presentation.R
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.android.theme.ImageShape
-import dev.olog.feature.presentation.base.widget.ForegroundImageView
 
 open class ShapeImageView(
     context: Context,
@@ -44,16 +43,12 @@ open class ShapeImageView(
     private val squareShapeModel: ShapeAppearanceModel
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornersImageView)
-        radius = a.getInt(
-            R.styleable.RoundedCornersImageView_imageViewCornerRadius,
-            DEFAULT_RADIUS
-        )
-        a.recycle()
+        radius = DEFAULT_RADIUS
 
         clipToOutline = true
 
-        paint.xfermode = X_FERMO_MODE
+        paint.xfermode =
+            X_FERMO_MODE
 
         cutCornerShapeModel = ShapeAppearanceModel.Builder()
             .setAllCorners(CutCornerTreatment())

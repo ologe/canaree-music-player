@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/item_album_margin">
 
-    <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+    <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
         android:id="@+id/cover"
         tools:src="@drawable/placeholder_album"
         android:layout_width="0dp"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="@string/item_podcast_ratio" />
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.feature.presentation.base.widget.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"

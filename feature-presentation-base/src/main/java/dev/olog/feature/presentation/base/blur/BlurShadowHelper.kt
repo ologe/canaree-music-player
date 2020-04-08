@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.blurshadow
+package dev.olog.feature.presentation.base.blur
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter

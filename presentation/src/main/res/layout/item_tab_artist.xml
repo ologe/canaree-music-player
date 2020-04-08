@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/item_album_margin">
 
-    <dev.olog.feature.presentation.base.widget.CircularImageView
+    <dev.olog.feature.presentation.base.widget.image.view.CircularImageView
         android:id="@+id/cover"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,7 +18,7 @@
         app:layout_constraintDimensionRatio="1"
         tools:src="@drawable/placeholder_artist" />
 
-    <dev.olog.presentation.widgets.QuickActionView
+    <dev.olog.feature.presentation.base.widget.QuickActionView
         android:id="@+id/quickAction"
         style="@style/QuickActionStyle"
         android:layout_width="@dimen/smallShuffleSize"

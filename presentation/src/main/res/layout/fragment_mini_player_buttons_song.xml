@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/sliding_panel_peek">
 
-    <dev.olog.feature.presentation.base.widget.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.image.view.AnimatedImageView
         android:id="@+id/next"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_playpause_play" />
 
-    <dev.olog.feature.presentation.base.widget.AnimatedImageView
+    <dev.olog.feature.presentation.base.widget.image.view.AnimatedImageView
         android:id="@+id/previous"
         android:layout_width="40dp"
         android:layout_height="0dp"

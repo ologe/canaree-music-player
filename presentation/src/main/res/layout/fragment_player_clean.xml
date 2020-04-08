@@ -8,7 +8,7 @@
     android:background="?android:colorBackground"
     android:alpha="0">
 
-    <dev.olog.presentation.widgets.StatusBarView
+    <dev.olog.feature.presentation.base.widget.StatusBarView
         android:id="@+id/statusBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

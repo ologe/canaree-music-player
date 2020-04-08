@@ -17,6 +17,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":domain"))
+    implementation(project(":lib.media")) // TODO not too sure about that
     implementation(project(":shared"))
     implementation(project(":shared-android"))
     implementation(project(":shared-widgets"))

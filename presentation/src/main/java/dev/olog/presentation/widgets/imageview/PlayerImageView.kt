@@ -10,7 +10,7 @@ import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+import dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
 import dev.olog.feature.presentation.base.widget.adaptive.AdaptiveColorImageViewPresenter
 
 open class PlayerImageView (

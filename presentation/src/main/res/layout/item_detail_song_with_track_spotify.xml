@@ -17,7 +17,7 @@
         android:paddingEnd="@dimen/detail_margin_horizontal"
         android:clipToPadding="false">
 
-        <dev.olog.presentation.widgets.IsPlayingView
+        <dev.olog.feature.presentation.base.widget.IsPlayingView
             android:id="@+id/isPlaying"
             android:layout_width="2dp"
             android:layout_height="10dp"
@@ -53,7 +53,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"/>
 
-        <dev.olog.presentation.widgets.textview.ExplicitView
+        <dev.olog.feature.presentation.base.widget.text.view.ExplicitView
             android:id="@+id/explicit"
             android:layout_width="16dp"
             android:layout_height="16dp"

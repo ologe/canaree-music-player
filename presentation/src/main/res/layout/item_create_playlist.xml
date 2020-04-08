@@ -21,7 +21,7 @@
             android:clickable="false"
             android:focusable="false"/>
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
             android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/selected"

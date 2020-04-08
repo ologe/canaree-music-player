@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import dev.olog.feature.presentation.base.blur.BlurShadowHelper
 import dev.olog.shared.lazyFast
 
 class ShadowImageView(
@@ -13,7 +14,11 @@ class ShadowImageView(
 
 ) : AppCompatImageView(context, attr) {
 
-    private val helper by lazyFast { BlurShadowHelper(this) }
+    private val helper by lazyFast {
+        BlurShadowHelper(
+            this
+        )
+    }
 
     init {
         scaleType = ScaleType.CENTER_CROP

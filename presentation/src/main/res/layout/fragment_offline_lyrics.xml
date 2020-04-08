@@ -11,7 +11,7 @@
     android:focusable="true"
     android:background="?android:colorBackground">
 
-    <dev.olog.presentation.widgets.StatusBarView
+    <dev.olog.feature.presentation.base.widget.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"

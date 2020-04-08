@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.textview
+package dev.olog.feature.presentation.base.widget.text.view
 
 import android.annotation.SuppressLint
 import android.content.Context

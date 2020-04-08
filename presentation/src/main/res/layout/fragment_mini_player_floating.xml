@@ -63,7 +63,7 @@
 
         </dev.olog.feature.presentation.base.widget.TextWrapper>
 
-        <dev.olog.presentation.widgets.imageview.shape.ShapeImageView
+        <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
             android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

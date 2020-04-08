@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground">
 
-    <dev.olog.feature.presentation.base.widget.CircularImageView
+    <dev.olog.feature.presentation.base.widget.image.view.CircularImageView
         android:id="@+id/cover"
         android:layout_width="@dimen/item_song_cover_size"
         android:layout_height="@dimen/item_song_cover_size"

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets
+package dev.olog.feature.presentation.base.widget
 
 import android.content.Context
 import android.graphics.Color
@@ -20,7 +20,7 @@ class StatusBarView(
         // workaround: caching value because when changing page in bottom navigation view
         // setOnApplyWindowInsetsListener is not called
         @JvmStatic
-        var viewHeight = -1
+        var viewHeight = -1 // TODO I think there an androidx API to fetch cached window inset
     }
 
     init {

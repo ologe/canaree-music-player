@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import dev.olog.feature.presentation.base.blur.BlurShadowHelper
 import dev.olog.shared.lazyFast
 
 class PlayerShadowImageView(
@@ -13,7 +14,11 @@ class PlayerShadowImageView(
 
 ) : AppCompatImageView(context, attr) {
 
-    private val helper by lazyFast { BlurShadowHelper(this) }
+    private val helper by lazyFast {
+        BlurShadowHelper(
+            this
+        )
+    }
 
     override fun setImageBitmap(bm: Bitmap?) {
         super.setImageBitmap(bm)

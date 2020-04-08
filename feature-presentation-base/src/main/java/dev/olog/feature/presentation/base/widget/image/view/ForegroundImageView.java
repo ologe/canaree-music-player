@@ -1,4 +1,4 @@
-package dev.olog.feature.presentation.base.widget;
+package dev.olog.feature.presentation.base.widget.image.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
