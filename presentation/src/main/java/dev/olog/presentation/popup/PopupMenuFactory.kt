@@ -6,8 +6,8 @@ import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory.*
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.*
 import dev.olog.presentation.popup.album.AlbumPopup
 import dev.olog.presentation.popup.artist.ArtistPopup
 import dev.olog.presentation.popup.folder.FolderPopup

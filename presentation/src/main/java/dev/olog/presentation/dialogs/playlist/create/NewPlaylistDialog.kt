@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseEditTextDialog
 import dev.olog.shared.android.extensions.getArgument

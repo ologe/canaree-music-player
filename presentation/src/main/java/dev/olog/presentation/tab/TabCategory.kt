@@ -1,6 +1,6 @@
 package dev.olog.presentation.tab
 
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 
 internal enum class TabCategory {
     FOLDERS,

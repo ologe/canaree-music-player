@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.BaseModel
+import dev.olog.feature.presentation.base.model.PresentationId
 import java.io.File
 
 data class DisplayableFile(

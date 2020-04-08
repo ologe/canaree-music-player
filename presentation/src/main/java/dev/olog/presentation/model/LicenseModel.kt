@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.BaseModel
+import dev.olog.feature.presentation.base.model.PresentationId
 
 data class LicenseModel(
     override val type: Int,

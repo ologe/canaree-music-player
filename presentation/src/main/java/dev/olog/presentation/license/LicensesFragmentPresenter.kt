@@ -1,7 +1,7 @@
 package dev.olog.presentation.license
 
 import android.content.Context
-import dev.olog.presentation.PresentationId.Companion.headerId
+import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LicenseModel
 

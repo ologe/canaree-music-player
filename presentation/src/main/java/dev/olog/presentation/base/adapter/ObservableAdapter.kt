@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.presentation.base.CustomListAdapter
-import dev.olog.presentation.model.BaseModel
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.model.BaseModel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -38,7 +39,8 @@ abstract class ObservableAdapter<T : BaseModel>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(view)
+        val viewHolder =
+            DataBoundViewHolder(view)
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
     }

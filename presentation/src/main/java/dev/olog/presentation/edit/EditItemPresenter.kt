@@ -1,10 +1,10 @@
 package dev.olog.presentation.edit
 
 import dev.olog.domain.gateway.ImageRetrieverGateway
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
 import dev.olog.presentation.edit.domain.UpdateTrackUseCase
-import dev.olog.presentation.presentationId
+import dev.olog.feature.presentation.base.model.presentationId
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
 

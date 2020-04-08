@@ -1,6 +1,6 @@
 package dev.olog.presentation.base.adapter
 
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 
 interface CanShowIsPlaying {
 

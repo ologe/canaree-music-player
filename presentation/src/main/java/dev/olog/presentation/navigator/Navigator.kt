@@ -2,7 +2,7 @@ package dev.olog.presentation.navigator
 
 import android.view.View
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.popup.main.MainPopupCategory
 
 internal interface Navigator {

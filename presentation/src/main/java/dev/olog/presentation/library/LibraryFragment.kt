@@ -8,7 +8,7 @@ import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation

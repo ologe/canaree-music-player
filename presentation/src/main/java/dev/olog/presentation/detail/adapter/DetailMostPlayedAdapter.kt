@@ -1,13 +1,14 @@
 package dev.olog.presentation.detail.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailMostPlayedAdapter(

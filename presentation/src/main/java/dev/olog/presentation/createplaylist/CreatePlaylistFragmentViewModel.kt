@@ -9,7 +9,7 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.toList

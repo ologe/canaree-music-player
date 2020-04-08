@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId.Companion.headerId
+import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem

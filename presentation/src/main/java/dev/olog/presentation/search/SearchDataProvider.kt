@@ -5,7 +5,7 @@ import dev.olog.domain.gateway.RecentSearchesGateway
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
-import dev.olog.presentation.PresentationId.Companion.headerId
+import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader

@@ -1,7 +1,7 @@
 package dev.olog.presentation.main
 
 import androidx.lifecycle.ViewModel
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

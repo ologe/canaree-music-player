@@ -1,12 +1,13 @@
 package dev.olog.presentation.detail.adapter
 
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_recent.view.explicit

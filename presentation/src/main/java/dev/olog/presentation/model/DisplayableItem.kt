@@ -1,7 +1,8 @@
 package dev.olog.presentation.model
 
 import android.content.res.Resources
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.BaseModel
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.shared.TextUtils
 

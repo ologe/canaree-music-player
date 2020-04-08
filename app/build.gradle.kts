@@ -69,6 +69,9 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":data-spotify"))
 
+    // feature
+    implementation(project(":feature-presentation-base")) // TODO is needed?
+
     // libs
     implementation(project(":data-shared")) // TODO rename to lib.network
     implementation(project(":equalizer"))

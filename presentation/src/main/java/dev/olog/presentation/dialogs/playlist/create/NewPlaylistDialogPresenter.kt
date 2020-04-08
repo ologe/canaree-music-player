@@ -6,8 +6,8 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

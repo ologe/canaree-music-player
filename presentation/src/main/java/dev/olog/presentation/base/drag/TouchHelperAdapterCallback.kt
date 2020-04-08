@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import kotlinx.android.synthetic.main.item_detail_song.view.*
 import kotlinx.coroutines.delay
 import kotlin.math.abs

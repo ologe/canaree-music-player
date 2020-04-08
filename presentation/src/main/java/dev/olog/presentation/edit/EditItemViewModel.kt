@@ -5,7 +5,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.toast

@@ -6,11 +6,11 @@ import dev.olog.domain.entity.track.Artist
 import dev.olog.domain.interactor.GetItemTitleUseCase
 import dev.olog.domain.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
-import dev.olog.presentation.presentationId
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

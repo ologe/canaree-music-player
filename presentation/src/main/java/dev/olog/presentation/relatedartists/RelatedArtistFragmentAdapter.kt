@@ -1,10 +1,11 @@
 package dev.olog.presentation.relatedartists
 
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_related_artist.view.*
 
 internal class RelatedArtistFragmentAdapter(

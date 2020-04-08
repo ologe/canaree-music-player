@@ -3,7 +3,7 @@ package dev.olog.presentation.edit.artist
 import dev.olog.domain.entity.track.Artist
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.track.ArtistGateway
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import javax.inject.Inject
 
 class EditArtistFragmentPresenter @Inject constructor(

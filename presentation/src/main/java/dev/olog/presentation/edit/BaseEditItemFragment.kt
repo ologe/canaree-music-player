@@ -9,10 +9,10 @@ import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 

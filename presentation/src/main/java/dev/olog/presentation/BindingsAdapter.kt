@@ -4,6 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.domain.MediaId
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils

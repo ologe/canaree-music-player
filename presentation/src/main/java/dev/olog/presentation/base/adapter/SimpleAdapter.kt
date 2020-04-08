@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.feature.presentation.base.CustomListAdapter
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 
 private class SimpleItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
@@ -24,7 +25,10 @@ abstract class SimpleAdapter<T: Any> : CustomListAdapter<T, DataBoundViewHolder>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = inflater.inflate(viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(binding)
+        val viewHolder =
+            DataBoundViewHolder(
+                binding
+            )
         initViewHolderListeners(viewHolder, viewType)
         return viewHolder
     }

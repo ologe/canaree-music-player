@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerFragment
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.SharedViewModel

@@ -4,10 +4,10 @@ import android.os.Environment
 import dev.olog.domain.entity.track.Folder
 import dev.olog.domain.gateway.track.FolderGateway
 import dev.olog.domain.prefs.BlacklistPreferences
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BaseModel
-import dev.olog.presentation.presentationId
+import dev.olog.feature.presentation.base.model.BaseModel
+import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import java.util.*

@@ -2,7 +2,7 @@ package dev.olog.presentation.dialogs.favorite
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml

@@ -3,6 +3,7 @@ package dev.olog.presentation.queue
 import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -11,7 +12,7 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swap

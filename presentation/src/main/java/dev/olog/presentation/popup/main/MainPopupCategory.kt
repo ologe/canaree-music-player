@@ -1,6 +1,6 @@
 package dev.olog.presentation.popup.main
 
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.throwNotHandled
 

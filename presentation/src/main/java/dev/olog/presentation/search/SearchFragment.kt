@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.adapter.ObservableAdapter

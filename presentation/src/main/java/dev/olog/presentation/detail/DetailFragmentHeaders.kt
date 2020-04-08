@@ -1,11 +1,11 @@
 package dev.olog.presentation.detail
 
 import android.content.Context
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationId.Companion.headerId
-import dev.olog.presentation.PresentationIdCategory
-import dev.olog.presentation.PresentationIdCategory.ALBUMS
-import dev.olog.presentation.PresentationIdCategory.ARTISTS
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.ALBUMS
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.ARTISTS
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem

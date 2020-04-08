@@ -1,6 +1,7 @@
 package dev.olog.presentation.recentlyadded
 
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -9,7 +10,7 @@ import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 internal class RecentlyAddedFragmentAdapter(

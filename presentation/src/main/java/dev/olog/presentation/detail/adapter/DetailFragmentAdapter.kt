@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.entity.spotify.SpotifyTrack
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.presentation.base.adapter.*

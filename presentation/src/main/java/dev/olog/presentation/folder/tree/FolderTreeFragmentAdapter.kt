@@ -2,7 +2,7 @@ package dev.olog.presentation.folder.tree
 
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.base.adapter.setOnLongClickListener
@@ -10,7 +10,7 @@ import dev.olog.presentation.loadDirImage
 import dev.olog.presentation.loadFile
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 internal class FolderTreeFragmentAdapter(

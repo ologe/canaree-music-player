@@ -6,12 +6,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaIdCategory
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.tab.TabFragment
-import dev.olog.presentation.toPresentation
+import dev.olog.feature.presentation.base.model.toPresentation
 
 @Suppress("DEPRECATION") // the newer version has problems with scroll helper when using 'BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT'
 internal class LibraryFragmentAdapter(

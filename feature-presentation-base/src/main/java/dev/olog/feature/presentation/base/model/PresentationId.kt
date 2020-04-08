@@ -1,4 +1,4 @@
-package dev.olog.presentation
+package dev.olog.feature.presentation.base.model
 
 import android.os.Parcelable
 import dev.olog.domain.MediaId
@@ -40,7 +40,10 @@ sealed class PresentationId(
     companion object {
         @JvmStatic
         fun headerId(value: String): Category {
-            return Category(PresentationIdCategory.HEADER, value)
+            return Category(
+                PresentationIdCategory.HEADER,
+                value
+            )
         }
     }
 

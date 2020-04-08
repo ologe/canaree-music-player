@@ -9,7 +9,7 @@ import dev.olog.feature.presentation.base.CustomListAdapter
 import dev.olog.presentation.base.anim.ScaleInOnTouch
 import dev.olog.presentation.base.anim.ScaleMoreInOnTouch
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.presentation.model.BaseModel
+import dev.olog.feature.presentation.base.model.BaseModel
 
 fun <T: Any> RecyclerView.ViewHolder.setOnClickListener(
     data: CustomListAdapter<T, *>,

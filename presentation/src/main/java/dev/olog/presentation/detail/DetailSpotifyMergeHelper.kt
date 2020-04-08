@@ -3,7 +3,7 @@ package dev.olog.presentation.detail
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.domain.entity.track.Song
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.detail.mapper.toDetailDisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import kotlinx.coroutines.async

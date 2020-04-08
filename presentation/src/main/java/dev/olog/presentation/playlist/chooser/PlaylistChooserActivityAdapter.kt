@@ -5,14 +5,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.presentation.base.adapter.ObservableAdapter
 import dev.olog.presentation.base.adapter.setOnClickListener
 import dev.olog.presentation.loadAlbumImage
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 
 class PlaylistChooserActivityAdapter(

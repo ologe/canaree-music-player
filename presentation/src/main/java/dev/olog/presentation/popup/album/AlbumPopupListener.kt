@@ -10,6 +10,10 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.artistPresentationId
+import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.MediaId
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
@@ -15,7 +16,7 @@ import dev.olog.presentation.loadSongImage
 import dev.olog.presentation.model.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive

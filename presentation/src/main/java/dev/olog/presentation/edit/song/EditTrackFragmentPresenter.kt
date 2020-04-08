@@ -5,7 +5,7 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.intents.AppConstants
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(

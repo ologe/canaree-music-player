@@ -6,7 +6,7 @@ import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.toPresentation
+import dev.olog.feature.presentation.base.model.toPresentation
 
 internal fun SpotifyAlbum.toDetailDisplayableItem(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(

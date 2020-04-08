@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragmentViewModel

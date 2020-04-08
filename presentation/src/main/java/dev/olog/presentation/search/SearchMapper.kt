@@ -4,13 +4,13 @@ import android.content.Context
 import dev.olog.domain.RecentSearchesTypes
 import dev.olog.domain.entity.SearchResult
 import dev.olog.domain.entity.track.*
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.presentationId
-import dev.olog.presentation.toPresentation
+import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.toPresentation
 
 internal fun SearchResult.toSearchDisplayableItem(context: Context): DisplayableItem {
     val subtitle = when (this.itemType) {

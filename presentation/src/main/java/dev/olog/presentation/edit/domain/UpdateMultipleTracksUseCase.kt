@@ -4,9 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.toDomain
 import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
 import javax.inject.Inject

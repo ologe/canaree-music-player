@@ -6,7 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.presentationId
+import dev.olog.feature.presentation.base.model.presentationId
 import java.util.concurrent.TimeUnit
 
 internal fun Folder.toTabDisplayableItem(

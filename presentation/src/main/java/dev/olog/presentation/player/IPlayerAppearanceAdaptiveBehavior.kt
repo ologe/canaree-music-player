@@ -5,7 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.lifecycleScope
-import dev.olog.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.shared.android.extensions.animateBackgroundColor
 import dev.olog.shared.android.extensions.animateTextColor
 import dev.olog.shared.android.extensions.colorBackground

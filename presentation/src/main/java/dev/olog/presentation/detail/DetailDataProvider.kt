@@ -12,8 +12,8 @@ import dev.olog.domain.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.domain.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.domain.interactor.songlist.ObserveSongListByParamUseCase
 import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragmentViewModel.Companion.VISIBLE_RECENTLY_ADDED_PAGES
 import dev.olog.presentation.detail.mapper.*
@@ -21,7 +21,7 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.*
 import dev.olog.shared.android.utils.TimeUtils
 import kotlinx.coroutines.flow.*

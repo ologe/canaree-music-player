@@ -4,12 +4,12 @@ import android.content.res.Resources
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.entity.track.*
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.presentationId
+import dev.olog.feature.presentation.base.model.presentationId
 
 internal fun Artist.toRelatedArtist(resources: Resources): DisplayableAlbum {
     return DisplayableAlbum(

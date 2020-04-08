@@ -5,9 +5,9 @@ import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.domain.interactor.playlist.RemoveFromPlaylistUseCase
 import dev.olog.domain.prefs.TutorialPreferenceGateway
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory.PLAYLISTS
-import dev.olog.presentation.PresentationIdCategory.PODCASTS_PLAYLIST
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.PLAYLISTS
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.PODCASTS_PLAYLIST
 import dev.olog.presentation.model.DisplayableTrack
 import javax.inject.Inject
 

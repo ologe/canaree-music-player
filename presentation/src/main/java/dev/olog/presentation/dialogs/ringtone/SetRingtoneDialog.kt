@@ -3,7 +3,7 @@ package dev.olog.presentation.dialogs.ringtone
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.intents.AppConstants
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml

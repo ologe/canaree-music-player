@@ -18,7 +18,7 @@ import dev.olog.intents.Classes
 import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
@@ -26,7 +26,7 @@ import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.presentation.toPresentation
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded

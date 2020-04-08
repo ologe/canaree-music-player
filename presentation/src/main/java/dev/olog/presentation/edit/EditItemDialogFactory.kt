@@ -5,9 +5,9 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

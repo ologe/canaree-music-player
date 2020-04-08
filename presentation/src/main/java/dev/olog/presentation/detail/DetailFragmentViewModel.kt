@@ -12,12 +12,12 @@ import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.domain.interactor.sort.SetSortOrderUseCase
 import dev.olog.domain.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
-import dev.olog.presentation.PresentationIdCategory.*
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationIdCategory.*
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers

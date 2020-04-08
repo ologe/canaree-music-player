@@ -8,7 +8,7 @@ import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.presentation.toPresentation
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.shared.swap
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*

@@ -25,6 +25,7 @@ dependencies {
     implementation(Libraries.X.material)
     implementation(Libraries.X.core)
     implementation(Libraries.X.fragments)
+    implementation(Libraries.X.Lifecycle.runtime)
 
     implementation(Libraries.Debug.timber)
 

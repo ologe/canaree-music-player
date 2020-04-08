@@ -6,11 +6,11 @@ import dev.olog.domain.interactor.search.ClearRecentSearchesUseCase
 import dev.olog.domain.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.domain.interactor.search.InsertRecentSearchUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

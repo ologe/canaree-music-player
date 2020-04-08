@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
-import dev.olog.presentation.PresentationId
+import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.animations.FastAutoTransition
 import dev.olog.presentation.base.BaseFragment

@@ -10,6 +10,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.domain.prefs.MusicPreferencesGateway
+import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.lib.media.MediaProvider
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerPlaybackState
@@ -24,7 +25,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
-import dev.olog.presentation.toDomain
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.presentation.widgets.StatusBarView
