@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.olog.presentation
+package dev.olog.msc.viewmodel
 
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
@@ -25,5 +25,5 @@ abstract class ViewModelModule {
 
     @Binds
     internal abstract fun bindViewModelFactory(factory: AppViewModelFactory):
-        ViewModelProvider.Factory
+            ViewModelProvider.Factory
 }

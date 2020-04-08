@@ -10,7 +10,7 @@ import dev.olog.lib.image.loader.di.LibImageLoaderDagger
 import dev.olog.msc.app.App
 import dev.olog.msc.appwidgets.WidgetBindingModule
 import dev.olog.msc.schedulers.SchedulersModule
-import dev.olog.presentation.ViewModelModule
+import dev.olog.msc.viewmodel.ViewModelModule
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
 import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
 import dev.olog.service.floating.di.FeatureFloatingWindowDagger
