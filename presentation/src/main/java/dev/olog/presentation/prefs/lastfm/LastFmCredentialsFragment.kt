@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.android.support.DaggerAppCompatDialogFragment
 import de.umass.lastfm.Authenticator
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
@@ -18,7 +19,6 @@ import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-class LastFmCredentialsFragment : BaseDialogFragment() {
+class LastFmCredentialsFragment : DaggerAppCompatDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"

@@ -10,12 +10,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.android.extensions.launchWhenResumed
+import dagger.android.support.DaggerAppCompatDialogFragment
 import dev.olog.core.isQ
+import dev.olog.shared.android.extensions.launchWhenResumed
 import timber.log.Timber
 
-abstract class BaseDialog : BaseDialogFragment() {
+abstract class BaseDialog : DaggerAppCompatDialogFragment() {
 
     companion object {
         const val ACCESS_CODE = 101
