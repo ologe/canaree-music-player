@@ -1,19 +1,19 @@
-package dev.olog.equalizer
+package dev.olog.lib.equalizer
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.equalizer.bassboost.BassBoostImpl
-import dev.olog.equalizer.bassboost.BassBoostProxy
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.bassboost.IBassBoostInternal
-import dev.olog.equalizer.equalizer.EqualizerProxy
-import dev.olog.equalizer.equalizer.EqualizerWrapper
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.equalizer.IEqualizerInternal
-import dev.olog.equalizer.virtualizer.IVirtualizer
-import dev.olog.equalizer.virtualizer.IVirtualizerInternal
-import dev.olog.equalizer.virtualizer.VirtualizerImpl
-import dev.olog.equalizer.virtualizer.VirtualizerProxy
+import dev.olog.lib.equalizer.bassboost.BassBoostImpl
+import dev.olog.lib.equalizer.bassboost.BassBoostProxy
+import dev.olog.lib.equalizer.bassboost.IBassBoost
+import dev.olog.lib.equalizer.bassboost.IBassBoostInternal
+import dev.olog.lib.equalizer.equalizer.EqualizerProxy
+import dev.olog.lib.equalizer.equalizer.EqualizerWrapper
+import dev.olog.lib.equalizer.equalizer.IEqualizer
+import dev.olog.lib.equalizer.equalizer.IEqualizerInternal
+import dev.olog.lib.equalizer.virtualizer.IVirtualizer
+import dev.olog.lib.equalizer.virtualizer.IVirtualizerInternal
+import dev.olog.lib.equalizer.virtualizer.VirtualizerImpl
+import dev.olog.lib.equalizer.virtualizer.VirtualizerProxy
 import javax.inject.Singleton
 
 @Module

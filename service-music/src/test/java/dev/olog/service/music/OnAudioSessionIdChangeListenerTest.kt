@@ -1,17 +1,6 @@
 package dev.olog.service.music
 
-import androidx.lifecycle.Lifecycle
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
 import dev.olog.test.shared.MainCoroutineRule
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
-import org.junit.Test
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 class OnAudioSessionIdChangeListenerTest {
 

@@ -1,4 +1,4 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import android.media.audiofx.AudioEffect
 import dev.olog.shared.coroutines.MainScope
@@ -7,7 +7,7 @@ import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.gateway.EqualizerGateway
 import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.equalizer.audioeffect.NormalizedEqualizer
+import dev.olog.lib.equalizer.audioeffect.NormalizedEqualizer
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import timber.log.Timber

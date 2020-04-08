@@ -1,4 +1,4 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import dev.olog.domain.entity.EqualizerBand
 import dev.olog.domain.entity.EqualizerPreset

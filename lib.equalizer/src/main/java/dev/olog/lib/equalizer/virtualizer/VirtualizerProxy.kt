@@ -1,4 +1,4 @@
-package dev.olog.equalizer.virtualizer
+package dev.olog.lib.equalizer.virtualizer
 
 import javax.inject.Inject
 

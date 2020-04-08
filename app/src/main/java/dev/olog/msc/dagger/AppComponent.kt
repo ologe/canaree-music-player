@@ -5,7 +5,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dev.olog.analytics.AnalyticsModule
 import dev.olog.lib.di.*
-import dev.olog.equalizer.EqualizerModule
+import dev.olog.lib.equalizer.EqualizerModule
 import dev.olog.lib.image.loader.di.LibImageLoaderDagger
 import dev.olog.msc.app.App
 import dev.olog.msc.appwidgets.WidgetBindingModule

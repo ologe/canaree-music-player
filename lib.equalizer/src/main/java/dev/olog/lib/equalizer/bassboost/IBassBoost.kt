@@ -1,9 +1,9 @@
-package dev.olog.equalizer.virtualizer
+package dev.olog.lib.equalizer.bassboost
 
 /**
- * Virtualizer range 0.1000
+ * Strength range 0.1000
  */
-interface IVirtualizer {
+interface IBassBoost {
 
     fun getStrength(): Int
     fun setStrength(value: Int)

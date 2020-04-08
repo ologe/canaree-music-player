@@ -1,4 +1,4 @@
-package dev.olog.equalizer.virtualizer
+package dev.olog.lib.equalizer.virtualizer
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.Virtualizer

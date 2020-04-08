@@ -1,4 +1,4 @@
-package dev.olog.equalizer.equalizer
+package dev.olog.lib.equalizer.equalizer
 
 import android.os.Build
 import dagger.Lazy

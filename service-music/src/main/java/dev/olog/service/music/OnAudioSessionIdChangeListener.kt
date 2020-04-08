@@ -3,9 +3,9 @@ package dev.olog.service.music
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import dev.olog.core.dagger.ServiceLifecycle
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.lib.equalizer.bassboost.IBassBoost
+import dev.olog.lib.equalizer.equalizer.IEqualizer
+import dev.olog.lib.equalizer.virtualizer.IVirtualizer
 import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.delay
 import timber.log.Timber

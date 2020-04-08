@@ -6,9 +6,9 @@ import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.gateway.EqualizerGateway
 import dev.olog.domain.prefs.EqualizerPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.equalizer.bassboost.IBassBoost
-import dev.olog.equalizer.equalizer.IEqualizer
-import dev.olog.equalizer.virtualizer.IVirtualizer
+import dev.olog.lib.equalizer.bassboost.IBassBoost
+import dev.olog.lib.equalizer.equalizer.IEqualizer
+import dev.olog.lib.equalizer.virtualizer.IVirtualizer
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn

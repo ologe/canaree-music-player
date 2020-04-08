@@ -1,4 +1,4 @@
-package dev.olog.equalizer.bassboost
+package dev.olog.lib.equalizer.bassboost
 
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.BassBoost
