@@ -29,7 +29,7 @@ dependencies {
     implementation(project(":core"))
 
     implementation(project(":app-shortcuts"))
-    implementation(project(":jaudiotagger"))
+    implementation(project(":lib.jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))

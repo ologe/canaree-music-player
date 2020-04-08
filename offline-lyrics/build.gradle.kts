@@ -16,7 +16,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-    implementation(project(":jaudiotagger"))
+    implementation(project(":lib.jaudiotagger"))
     implementation(project(":intents"))
 
     implementation(Libraries.kotlin)

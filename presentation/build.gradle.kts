@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":prefs-keys"))
     implementation(project(":lib.media"))
     implementation(project(":offline-lyrics"))
-    implementation(project(":jaudiotagger"))
+    implementation(project(":lib.jaudiotagger"))
     implementation(project(":intents"))
     implementation(project(":shared"))
     implementation(project(":equalizer"))

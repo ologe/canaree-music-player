@@ -13,7 +13,7 @@ dependencies {
 
     implementation(project(":core"))
 
-    implementation(project(":jaudiotagger"))
+    implementation(project(":lib.jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
