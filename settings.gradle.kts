@@ -16,7 +16,7 @@ include(":app-shortcuts")
 
 include(":data")
 include(":data-spotify")
-include(":data-shared")
+include(":lib.network")
 
 include(":presentation")
 
