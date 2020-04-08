@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":app-shortcuts"))
     implementation(project(":analytics"))
     implementation(project(":domain"))
-    implementation(project(":image-provider"))
+    implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":shared-widgets"))
     implementation(project(":prefs-keys"))

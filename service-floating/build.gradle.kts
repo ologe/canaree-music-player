@@ -15,7 +15,7 @@ dependencies {
     implementation(project(":core"))
 
     implementation(project(":domain"))
-    implementation(project(":image-provider"))
+    implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
     implementation(project(":shared-widgets"))

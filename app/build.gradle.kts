@@ -74,7 +74,7 @@ dependencies {
     implementation(project(":equalizer"))
     implementation(project(":lib.media"))
     implementation(project(":offline-lyrics"))
-    implementation(project(":image-provider"))
+    implementation(project(":lib.image-loader"))
 
     implementation(project(":analytics"))
 

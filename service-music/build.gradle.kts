@@ -31,7 +31,7 @@ dependencies {
     implementation(project(":app-shortcuts"))
     implementation(project(":jaudiotagger"))
     implementation(project(":domain"))
-    implementation(project(":image-provider"))
+    implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
     implementation(project(":prefs-keys"))
