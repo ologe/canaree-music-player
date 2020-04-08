@@ -10,7 +10,7 @@ class ScaleMoreInOnTouch(
 ) : AnimateOnTouch() {
 
     override fun animate(context: Context) {
-        setAnimationAndPlay(view, R.animator.scale_in)
+        setAnimationAndPlay(view, R.animator.scale_more_in)
     }
 
     override fun restore(context: Context) {
