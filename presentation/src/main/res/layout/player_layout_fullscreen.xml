@@ -131,7 +131,7 @@
             android:layout_marginBottom="16dp">
 
             <!-- title -->
-            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+            <dev.olog.feature.presentation.base.widget.autoscroll.SlidingParentAutoScrollTextView
                 android:id="@+id/title"
                 tools:text="In Da Club"
                 android:layout_width="wrap_content"

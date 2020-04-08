@@ -30,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/mini_player_margin_start">
 
-            <dev.olog.feature.presentation.base.widget.AutoScrollTextView
+            <dev.olog.feature.presentation.base.widget.autoscroll.AutoScrollTextView
                 android:id="@+id/title"
                 android:gravity="bottom"
                 android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.fascroller
+package dev.olog.feature.presentation.base.widget.fastscroller
 
 import android.annotation.SuppressLint
 import android.content.Context

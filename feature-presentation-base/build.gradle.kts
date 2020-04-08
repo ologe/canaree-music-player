@@ -31,6 +31,7 @@ dependencies {
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.palette)
     implementation(Libraries.X.preference)
+    implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.Lifecycle.runtime)
 
     implementation(Libraries.Utils.colorDesaturation)

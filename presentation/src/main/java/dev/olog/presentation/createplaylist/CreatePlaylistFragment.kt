@@ -15,7 +15,7 @@ import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.utils.hideIme
-import dev.olog.presentation.widgets.fascroller.WaveSideBarView
+import dev.olog.feature.presentation.base.widget.fastscroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.lazyFast

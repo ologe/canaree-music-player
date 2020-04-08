@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/mini_player_margin_start"
             android:layout_marginEnd="@dimen/mini_player_margin_start">
 
-            <dev.olog.presentation.widgets.autoscroll.SlidingParentAutoScrollTextView
+            <dev.olog.feature.presentation.base.widget.autoscroll.SlidingParentAutoScrollTextView
                 android:id="@+id/title"
                 tools:text="@tools:sample/lorem"
                 android:layout_width="wrap_content"

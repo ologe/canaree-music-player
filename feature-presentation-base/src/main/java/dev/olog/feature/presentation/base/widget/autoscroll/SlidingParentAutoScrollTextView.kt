@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.autoscroll
+package dev.olog.feature.presentation.base.widget.autoscroll
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.feature.presentation.base.widget.AutoScrollTextView
 import dev.olog.feature.presentation.base.extensions.findParentByType
 import dev.olog.shared.lazyFast
 

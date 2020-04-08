@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.fascroller;
+package dev.olog.feature.presentation.base.widget.fastscroller;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -19,7 +19,8 @@ import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import dev.olog.presentation.R;
+
+import dev.olog.feature.presentation.base.R;
 import dev.olog.shared.TextUtils;
 import dev.olog.shared.android.extensions.ColorManagerKt;
 
