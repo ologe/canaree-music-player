@@ -4,6 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.favorite.FavoriteItemState
@@ -17,8 +18,7 @@ import dev.olog.domain.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.domain.interactor.mostplayed.InsertMostPlayedUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 internal class CurrentSong @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,

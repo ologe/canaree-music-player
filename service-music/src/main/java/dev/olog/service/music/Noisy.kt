@@ -8,14 +8,14 @@ import android.media.AudioManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceContext
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.FeatureScope
+import dev.olog.core.dagger.ServiceContext
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher.Event
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 internal class Noisy @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     @ServiceContext private val context: Context,

@@ -4,11 +4,11 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.setLightStatusBar
@@ -16,7 +16,7 @@ import dev.olog.shared.android.theme.ThemedActivity
 import dev.olog.shared.android.theme.themeManager
 import javax.inject.Inject
 
-abstract class BaseActivity : AppCompatActivity(), ThemedActivity, HasAndroidInjector {
+abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity, HasAndroidInjector {
 
     @Inject
     internal lateinit var androidInjector: DispatchingAndroidInjector<Any>

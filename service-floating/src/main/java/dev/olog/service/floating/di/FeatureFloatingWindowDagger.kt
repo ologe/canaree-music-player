@@ -1,4 +1,4 @@
-package dev.olog.presentation.playlist.chooser.di
+package dev.olog.service.floating.di
 
 import dagger.Binds
 import dagger.Module
@@ -7,16 +7,16 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
-import dev.olog.presentation.playlist.chooser.PlaylistChooserActivity
+import dev.olog.service.floating.FloatingWindowService
 
-class FeaturePlaylistChooserDagger {
+class FeatureFloatingWindowDagger {
 
-    @Subcomponent(modules = [PlaylistChooserActivityModule::class])
+    @Subcomponent(modules = [FloatingWindowServiceModule::class])
     @FeatureScope
-    internal interface Graph : AndroidInjector<PlaylistChooserActivity> {
+    internal interface Graph : AndroidInjector<FloatingWindowService> {
 
         @Subcomponent.Factory
-        interface Factory : AndroidInjector.Factory<PlaylistChooserActivity>
+        interface Factory : AndroidInjector.Factory<FloatingWindowService>
 
     }
 
@@ -25,10 +25,9 @@ class FeaturePlaylistChooserDagger {
 
         @Binds
         @IntoMap
-        @ClassKey(PlaylistChooserActivity::class)
+        @ClassKey(FloatingWindowService::class)
         internal abstract fun provideFactory(factory: Graph.Factory): AndroidInjector.Factory<*>
 
     }
 
 }
-

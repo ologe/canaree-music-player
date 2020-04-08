@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dagger.ViewModelKey
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.MainActivityViewModel
@@ -23,7 +23,7 @@ abstract class MainActivityModule {
     internal abstract fun provideMusicGlue(instance: MainActivity): MediaProvider
 
     @Binds
-    @PerActivity
+    @FeatureScope
     internal abstract fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator
 
     @Binds

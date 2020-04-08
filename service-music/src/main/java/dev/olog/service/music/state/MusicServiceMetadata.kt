@@ -7,13 +7,13 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants
 import dev.olog.intents.WidgetConstants
@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 internal class MusicServiceMetadata @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val context: Context,

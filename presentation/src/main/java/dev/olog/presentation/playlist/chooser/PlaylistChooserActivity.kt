@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseActivity
-import dev.olog.presentation.playlist.chooser.di.inject
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
@@ -33,7 +32,6 @@ class PlaylistChooserActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist_chooser)
 

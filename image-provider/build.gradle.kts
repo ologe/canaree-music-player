@@ -11,11 +11,12 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
+
     implementation(project(":jaudiotagger"))
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-    implementation(project(":injection"))
     implementation(project(":prefs-keys"))
     implementation(project(":intents"))
 
@@ -24,6 +25,9 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.Dagger.android)
+    implementation(Libraries.Dagger.androidSupport)
+    kapt(Libraries.Dagger.androidKapt)
 
     implementation(Libraries.X.core)
     implementation(Libraries.X.preference)

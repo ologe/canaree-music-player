@@ -9,7 +9,7 @@ import androidx.lifecycle.coroutineScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent

@@ -6,6 +6,7 @@ import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.playermini.MiniPlayerFragment
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialog
+import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
 
 @Module
 abstract class MainActivityFragmentsModule {
@@ -21,4 +22,8 @@ abstract class MainActivityFragmentsModule {
 
     @ContributesAndroidInjector
     internal abstract fun provideCategoriesFragment(): LibraryFragment
+
+    // TODO probably won't work, use a real subcomponent
+    @ContributesAndroidInjector
+    internal abstract fun provideBottomSheetFragment(): CanareeBottomNavigationView
 }

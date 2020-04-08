@@ -13,10 +13,8 @@ import androidx.media.MediaBrowserServiceCompat
 import dev.olog.domain.C.ACTION_STOP_SLEEP_END
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IServiceLifecycleController
 import timber.log.Timber
-import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
     LifecycleOwner,
@@ -28,9 +26,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
     @Suppress("LeakingThis")
     private val dispatcher = ServiceLifecycleDispatcher(this)
-
-    @Inject
-    internal lateinit var player: IPlayer
 
     private var serviceStarted = false
 

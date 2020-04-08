@@ -4,9 +4,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import dev.olog.core.dagger.FeatureScope
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IDuckVolume
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import kotlinx.coroutines.delay
@@ -24,7 +24,7 @@ private const val VOLUME_LOWERED_DUCK = 0.1f
 private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
-@PerService
+@FeatureScope
 internal class PlayerVolume @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     musicPreferencesUseCase: MusicPreferencesGateway

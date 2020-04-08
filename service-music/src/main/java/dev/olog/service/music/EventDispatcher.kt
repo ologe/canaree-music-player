@@ -3,7 +3,7 @@ package dev.olog.service.music
 import android.content.Context
 import android.media.AudioManager
 import android.view.KeyEvent
-import dev.olog.injection.dagger.ServiceContext
+import dev.olog.core.dagger.ServiceContext
 import timber.log.Timber
 import javax.inject.Inject
 

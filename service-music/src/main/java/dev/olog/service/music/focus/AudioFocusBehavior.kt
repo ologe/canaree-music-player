@@ -6,7 +6,7 @@ import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
 import dagger.Lazy
-import dev.olog.injection.dagger.ServiceContext
+import dev.olog.core.dagger.ServiceContext
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.model.FocusState

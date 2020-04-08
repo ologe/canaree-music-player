@@ -3,10 +3,10 @@ package dev.olog.service.floating
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
+import dagger.android.AndroidInjection
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.HoverView
 import dev.olog.service.floating.api.window.HoverMenuService
-import dev.olog.service.floating.di.inject
 import dev.olog.service.floating.notification.FloatingWindowNotification
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class FloatingWindowService : HoverMenuService() {
     }
 
     override fun onCreate() {
-        inject()
+        AndroidInjection.inject(this)
         super.onCreate()
     }
 

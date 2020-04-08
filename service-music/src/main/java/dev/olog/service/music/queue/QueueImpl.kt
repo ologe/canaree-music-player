@@ -10,7 +10,7 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity

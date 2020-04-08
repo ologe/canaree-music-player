@@ -7,9 +7,9 @@ import android.support.v4.media.session.MediaControllerCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.lib.media.MediaExposer
 import dev.olog.lib.media.connection.OnConnectionChanged
 import dev.olog.lib.media.model.PlayerMetadata
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 class MusicGlueService @Inject constructor(
     private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,

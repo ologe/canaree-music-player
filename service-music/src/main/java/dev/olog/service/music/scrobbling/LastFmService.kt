@@ -10,7 +10,7 @@ import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.model.MediaEntity
 import kotlinx.coroutines.delay

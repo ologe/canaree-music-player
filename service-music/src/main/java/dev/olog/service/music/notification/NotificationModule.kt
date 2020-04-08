@@ -3,16 +3,16 @@ package dev.olog.service.music.notification
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.injection.dagger.PerService
-import dev.olog.service.music.interfaces.INotification
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.core.isNougat
 import dev.olog.core.isOreo
+import dev.olog.service.music.interfaces.INotification
 
 @Module
 internal object NotificationModule {
 
     @Provides
-    @PerService
+    @FeatureScope
     internal fun provideNotificationImpl(
         notificationImpl26: Lazy<NotificationImpl26>,
         notificationImpl24: Lazy<NotificationImpl24>,

@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.Noisy
 import dev.olog.service.music.focus.AudioFocusBehavior
 import dev.olog.service.music.interfaces.*

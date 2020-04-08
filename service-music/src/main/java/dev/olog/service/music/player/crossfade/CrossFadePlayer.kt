@@ -5,20 +5,25 @@ import androidx.core.math.MathUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.audio.AudioListener
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
+import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
+import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.coroutines.flowInterval
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -27,7 +32,7 @@ import kotlin.math.abs
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
  */
 internal class CrossFadePlayer @Inject internal constructor(
-    context: Context,
+    private val context: Context,
     @ServiceLifecycle private val lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
@@ -35,8 +40,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
-    Player.EventListener {
+) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume) {
 
     companion object {
         private const val MIN_CROSSFADE_FOR_GAPLESS = 1500
@@ -50,10 +54,45 @@ internal class CrossFadePlayer @Inject internal constructor(
     private var gapless = false
     private var crossFadeTime = 0
 
+    private val eventListener = object : Player.EventListener {
+
+        override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+//        debug("new state $playbackState")
+            when (playbackState) {
+                Player.STATE_ENDED -> {
+                    stop()
+                    if (crossFadeTime == 0) {
+                        requestNextSong()
+                    }
+                }
+            }
+        }
+
+        override fun onPlayerError(error: ExoPlaybackException) {
+            val what = when (error.type) {
+                ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
+                ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
+                ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
+                else -> "Unknown: $error"
+            }
+            error.printStackTrace()
+
+            Timber.e("Player: onPlayerError $what")
+            context.applicationContext.toast(R.string.music_player_error)
+        }
+
+    }
+
+    private val audioListener = object : AudioListener {
+        override fun onAudioSessionId(audioSessionId: Int) {
+            onAudioSessionIdChangeListener.onAudioSessionId(audioSessionId)
+        }
+    }
+
     init {
-        player.addListener(this)
+        player.addListener(eventListener)
         player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
-        player.addAudioListener(onAudioSessionIdChangeListener)
+        player.addAudioListener(audioListener)
 
         flowInterval(1, TimeUnit.SECONDS)
             .filter { crossFadeTime > 0 } // crossFade enabled
@@ -89,8 +128,8 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
-        player.removeListener(this)
-        player.removeAudioListener(onAudioSessionIdChangeListener)
+        player.removeListener(eventListener)
+        player.removeAudioListener(audioListener)
         cancelFade()
     }
 
@@ -142,18 +181,6 @@ internal class CrossFadePlayer @Inject internal constructor(
 //        debug("stop")
         player.stop()
         cancelFade()
-    }
-
-    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-//        debug("new state $playbackState")
-        when (playbackState) {
-            Player.STATE_ENDED -> {
-                stop()
-                if (crossFadeTime == 0) {
-                    requestNextSong()
-                }
-            }
-        }
     }
 
     private fun fadeIn() {

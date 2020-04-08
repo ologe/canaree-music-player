@@ -11,7 +11,6 @@ import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.service.music.MusicService
 import dev.olog.presentation.main.MainActivity
 import dev.olog.shared.android.palette.ImageProcessorResult
 import dev.olog.shared.android.extensions.asServicePendingIntent
@@ -101,7 +100,7 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
-        val intent = Intent(context, MusicService::class.java)
+        val intent = Intent(context, Class.forName(Classes.SERVICE_MUSIC))
         intent.action = action
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }

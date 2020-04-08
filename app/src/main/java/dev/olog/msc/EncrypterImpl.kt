@@ -1,4 +1,4 @@
-package dev.olog.injection
+package dev.olog.msc
 
 import com.tozny.crypto.android.AesCbcWithIntegrity
 import dev.olog.domain.IEncrypter
@@ -11,7 +11,7 @@ private val SALT = byteArrayOf(
 )
 
 @Singleton
-class EncrypterImpl @Inject constructor(
+internal class EncrypterImpl @Inject constructor(
 
 ) : IEncrypter {
 

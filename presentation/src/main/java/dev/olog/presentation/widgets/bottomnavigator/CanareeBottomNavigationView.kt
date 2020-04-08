@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.android.HasAndroidInjector
 import dev.olog.analytics.TrackerFacade
+import dev.olog.core.extensions.findActivity
 import dev.olog.presentation.R
-import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import javax.inject.Inject
@@ -25,7 +26,9 @@ internal class CanareeBottomNavigationView(
     private val navigator = BottomNavigator()
 
     init {
-        inject()
+        (findActivity() as HasAndroidInjector)
+            .androidInjector()
+            .inject(this)
     }
 
     override fun onAttachedToWindow() {

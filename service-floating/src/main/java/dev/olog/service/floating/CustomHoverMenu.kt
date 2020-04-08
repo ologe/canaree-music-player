@@ -6,8 +6,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceContext
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceContext
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import dev.olog.shared.coroutines.autoDisposeJob

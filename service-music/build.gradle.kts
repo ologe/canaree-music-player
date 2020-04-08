@@ -31,7 +31,6 @@ dependencies {
     implementation(project(":app-shortcuts"))
     implementation(project(":jaudiotagger"))
     implementation(project(":domain"))
-    implementation(project(":injection"))
     implementation(project(":image-provider"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -44,6 +43,9 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.Dagger.android)
+    implementation(Libraries.Dagger.androidSupport)
+    kapt(Libraries.Dagger.androidKapt)
 
     implementation(Libraries.X.media)
     implementation(Libraries.X.Lifecycle.service)

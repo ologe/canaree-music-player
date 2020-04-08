@@ -8,11 +8,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.intents.MusicServiceCustomAction
 import dev.olog.service.music.interfaces.IPlayer
 import dev.olog.service.music.interfaces.IQueue
@@ -30,7 +30,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 internal class MediaSessionCallback @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val queue: IQueue,

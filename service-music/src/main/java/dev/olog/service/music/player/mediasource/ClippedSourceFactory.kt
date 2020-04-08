@@ -6,7 +6,7 @@ import androidx.lifecycle.coroutineScope
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.service.music.player.crossfade.CrossFadePlayer
 import kotlinx.coroutines.flow.launchIn

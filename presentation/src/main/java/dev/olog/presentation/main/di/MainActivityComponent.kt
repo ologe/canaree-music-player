@@ -1,13 +1,14 @@
 package dev.olog.presentation.main.di
 
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dev.olog.injection.CoreComponent
-import dev.olog.presentation.ViewModelModule
+import dagger.Binds
+import dagger.Module
+import dagger.Subcomponent
+import dagger.android.AndroidInjector
+import dagger.multibindings.ClassKey
+import dagger.multibindings.IntoMap
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.presentation.about.di.AboutFragmentModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
-import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.detail.di.DetailFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.edit.di.EditItemModule
@@ -22,75 +23,52 @@ import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.search.di.SearchFragmentInjector
 import dev.olog.presentation.tab.di.TabFragmentInjector
-import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
-import dev.olog.shared.android.utils.assertMainThread
-import java.lang.ref.WeakReference
 
-private var activityComponent: WeakReference<MainActivityComponent>? = null
+class FeatureMainActivityDagger {
 
-private fun buildComponent(activity: MainActivity): MainActivityComponent {
-    assertMainThread()
+    @Subcomponent(
+        modules = [
+            PresentationModelModule::class,
 
-    if (activityComponent?.get() == null){
-        val component = DaggerMainActivityComponent.factory()
-            .create(activity, CoreComponent.coreComponent(activity.application))
-        activityComponent = WeakReference(component)
-    }
-    return activityComponent!!.get()!!
-}
-
-internal fun MainActivity.inject() {
-    buildComponent(this).inject(this)
-}
-
-internal fun CanareeBottomNavigationView.inject(){
-    buildComponent(context as MainActivity).inject(this)
-}
-
-internal fun MainActivity.clearComponent(){
-    activityComponent?.clear()
-    activityComponent = null
-}
-
-@Component(
-    modules = arrayOf(
-        PresentationModelModule::class,
-
-        AndroidInjectionModule::class,
-        ViewModelModule::class,
-        MainActivityModule::class,
-        MainActivityFragmentsModule::class,
+            MainActivityModule::class,
+            MainActivityFragmentsModule::class,
 //
 //        // fragments
-        TabFragmentInjector::class,
-        FolderTreeFragmentModule::class,
-        DetailFragmentInjector::class,
-        PlayerFragmentModule::class,
-        RecentlyAddedFragmentInjector::class,
-        RelatedArtistFragmentInjector::class,
-        SearchFragmentInjector::class,
-        PlayingQueueFragmentInjector::class,
-        CreatePlaylistFragmentInjector::class,
-        EqualizerModule::class,
+            TabFragmentInjector::class,
+            FolderTreeFragmentModule::class,
+            DetailFragmentInjector::class,
+            PlayerFragmentModule::class,
+            RecentlyAddedFragmentInjector::class,
+            RelatedArtistFragmentInjector::class,
+            SearchFragmentInjector::class,
+            PlayingQueueFragmentInjector::class,
+            CreatePlaylistFragmentInjector::class,
+            EqualizerModule::class,
 
-        SettingsFragmentsModule::class,
+            SettingsFragmentsModule::class,
 
-        EditItemModule::class,
-        AboutFragmentModule::class,
+            EditItemModule::class,
+            AboutFragmentModule::class,
 
-        DialogModule::class
-    ), dependencies = [CoreComponent::class]
-)
-@PerActivity
-internal interface MainActivityComponent {
+            DialogModule::class
+        ]
+    )
+    @FeatureScope
+    internal interface Graph : AndroidInjector<MainActivity> {
 
-    fun inject(instance: MainActivity)
-    fun inject(bottomNavigation: CanareeBottomNavigationView)
+        @Subcomponent.Factory
+        interface Factory : AndroidInjector.Factory<MainActivity>
 
-    @Component.Factory
-    interface Factory {
+    }
 
-        fun create(@BindsInstance instance: MainActivity, component: CoreComponent): MainActivityComponent
+    @Module(subcomponents = [Graph::class])
+    abstract class AppModule {
+
+        @Binds
+        @IntoMap
+        @ClassKey(MainActivity::class)
+        internal abstract fun provideFactory(factory: Graph.Factory): AndroidInjector.Factory<*>
+
     }
 
 }

@@ -10,13 +10,13 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
+import dagger.android.AndroidInjection
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceCustomAction
-import dev.olog.service.music.di.inject
 import dev.olog.service.music.helper.CarHelper
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
 import dev.olog.service.music.helper.CarHelper.CONTENT_STYLE_LIST_ITEM_HINT_VALUE
@@ -32,7 +32,7 @@ import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MusicService : BaseMusicService() {
+internal class MusicService : BaseMusicService() {
 
     companion object {
         @JvmStatic
@@ -62,7 +62,7 @@ class MusicService : BaseMusicService() {
     internal lateinit var schedulers: Schedulers
 
     override fun onCreate() {
-        inject()
+        AndroidInjection.inject(this)
         super.onCreate()
         setupMediaSession()
     }

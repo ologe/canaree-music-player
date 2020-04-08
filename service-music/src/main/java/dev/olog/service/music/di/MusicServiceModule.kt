@@ -9,9 +9,9 @@ import androidx.media.session.MediaButtonReceiver
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceContext
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.FeatureScope
+import dev.olog.core.dagger.ServiceContext
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.PlayerMediaEntity
@@ -31,27 +31,27 @@ abstract class MusicServiceModule {
     internal abstract fun provideService(instance: MusicService): Service
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun provideServiceLifecycle(instance: MusicService): IServiceLifecycleController
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun provideQueue(queue: QueueManager): IQueue
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun providePlayer(player: PlayerImpl): IPlayer
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun providePlayerLifecycle(player: IPlayer): IPlayerLifecycle
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
 
     @Binds
-    @PerService
+    @FeatureScope
     internal abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
 
     companion object {
@@ -61,7 +61,7 @@ abstract class MusicServiceModule {
         internal fun provideLifecycle(instance: MusicService): Lifecycle = instance.lifecycle
 
         @Provides
-        @PerService
+        @FeatureScope
         internal fun provideMediaSession(instance: MusicService): MediaSessionCompat {
             return MediaSessionCompat(
                 instance,

@@ -1,18 +1,16 @@
 package dev.olog.msc.app
 
-import android.app.Application
 import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.android.DaggerApplication
 import dev.olog.analytics.TrackerFacade
 import dev.olog.appshortcuts.AppShortcuts
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.CoreComponent
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
+import dev.olog.msc.dagger.DaggerAppComponent
 import dev.olog.msc.debug.CrashlyticsLogTree
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import dev.olog.shared.android.theme.ThemeManager
@@ -21,12 +19,9 @@ import io.alterac.blurkit.BlurKit
 import timber.log.Timber
 import javax.inject.Inject
 
-class App : Application(), HasAndroidInjector {
+class App : DaggerApplication() {
 
     private lateinit var appShortcuts: AppShortcuts
-
-    @Inject
-    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -42,12 +37,12 @@ class App : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-        inject()
         initializeTimber()
         initializeComponents()
         initializeConstants()
         resetSleepTimer()
 
+        // TODO inject from a set?
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
         registerActivityLifecycleCallbacks(ActivityAndFragmentsTracker(trackerFacade))
     }
@@ -76,13 +71,9 @@ class App : Application(), HasAndroidInjector {
         sleepTimerUseCase.reset()
     }
 
-    private fun inject() {
-        DaggerAppComponent.factory()
-            .create(CoreComponent.coreComponent(this))
-            .inject(this)
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(this)
     }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun getSystemService(name: String): Any? {
         if (name == THEME_SERVICE) {

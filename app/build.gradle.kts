@@ -82,7 +82,6 @@ dependencies {
     implementation(project(":analytics"))
 
 
-    implementation(project(":injection"))
     implementation(project(":prefs-keys"))
     implementation(project(":presentation"))
     implementation(project(":shared-android"))
@@ -105,9 +104,15 @@ dependencies {
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.browser)
     implementation(Libraries.X.preference)
+    implementation(Libraries.X.media)
+    implementation(Libraries.X.material)
+    implementation(Libraries.X.Lifecycle.service)
+    implementation(Libraries.X.Lifecycle.java8)
 
     implementation(Libraries.UX.blurKit)
     implementation(Libraries.UX.customTabs)
+    implementation(Libraries.UX.glide)
+    implementation(Libraries.UX.dialogs)
 
     implementation(Libraries.X.Room.core)
     implementation(Libraries.Network.okHttp)

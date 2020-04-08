@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
@@ -16,7 +16,7 @@ import dev.olog.shared.throwNotHandled
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerService
+@FeatureScope
 internal class MusicServicePlaybackState @Inject constructor(
     private val context: Context,
     private val mediaSession: MediaSessionCompat,

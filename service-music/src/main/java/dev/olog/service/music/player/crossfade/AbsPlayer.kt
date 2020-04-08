@@ -6,28 +6,22 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.IPlayerDelegate
 import dev.olog.service.music.interfaces.ISourceFactory
-import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.clamp
-import timber.log.Timber
 
 /**
  * This class handles playback
  */
 internal abstract class AbsPlayer<T>(
-    private val context: Context,
+    context: Context,
     lifecycle: Lifecycle,
     private val mediaSourceFactory: ISourceFactory<T>,
     volume: IMaxAllowedPlayerVolume
 
 ) : IPlayerDelegate<T>,
-    Player.EventListener,
     DefaultLifecycleObserver {
 
     private val factory = DefaultRenderersFactory(context).apply {
@@ -103,20 +97,6 @@ internal abstract class AbsPlayer<T>(
     @CallSuper
     override fun setVolume(volume: Float) {
         player.volume = volume
-    }
-
-    @CallSuper
-    override fun onPlayerError(error: ExoPlaybackException) {
-        val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: $error"
-        }
-        error.printStackTrace()
-
-        Timber.e("Player: onPlayerError $what")
-        context.applicationContext.toast(R.string.music_player_error)
     }
 
 }

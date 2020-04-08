@@ -12,8 +12,8 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import dagger.android.HasAndroidInjector
 import dev.olog.domain.MediaId
-import dev.olog.image.provider.di.inject
 import dev.olog.image.provider.loader.*
 import dev.olog.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
@@ -35,15 +35,6 @@ class GlideModule : AppGlideModule() {
     @Inject
     internal lateinit var spotifyFactory: GlideSpotifyImageLoader.Factory
 
-    private var injected = false
-
-    private fun injectIfNeeded(context: Context) {
-        if (!injected) {
-            injected = true
-            inject(context)
-        }
-    }
-
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setLogLevel(Log.ERROR)
             .setDefaultRequestOptions(defaultRequestOptions(context))
@@ -63,7 +54,9 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        injectIfNeeded(context)
+        // TODO incapsulate
+        val injector = context.applicationContext as HasAndroidInjector
+        injector.androidInjector().inject(this)
 
         registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 

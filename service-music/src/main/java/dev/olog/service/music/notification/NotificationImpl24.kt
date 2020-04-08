@@ -7,7 +7,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.shared.TextUtils
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package dev.olog.injection.dagger
+package dev.olog.core.dagger
 
 import javax.inject.Qualifier
 

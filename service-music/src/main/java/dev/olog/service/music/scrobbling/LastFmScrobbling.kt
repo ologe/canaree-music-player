@@ -3,7 +3,7 @@ package dev.olog.service.music.scrobbling
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import dev.olog.domain.interactor.lastfm.ObserveLastFmUserCredentials
-import dev.olog.injection.dagger.ServiceLifecycle
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MetadataEntity
 import kotlinx.coroutines.flow.filter
