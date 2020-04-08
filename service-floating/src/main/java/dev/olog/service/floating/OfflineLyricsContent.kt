@@ -8,16 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.presentation.base.extensions.animateBackgroundColor
-import dev.olog.feature.presentation.base.extensions.animateTextColor
-import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
-import dev.olog.feature.presentation.base.extensions.suspendSubmitList
+import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.lib.image.loader.OnImageLoadingError
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.*
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.flow.filter

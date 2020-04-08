@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.shared.android.extensions
+package dev.olog.feature.presentation.base.extensions
 
 import android.view.View
 import android.view.ViewGroup
@@ -103,11 +103,12 @@ fun <T> ViewGroup.map(action: (View) -> T): List<T> {
     return result
 }
 
-
-// TODO check
+// TODO test this
 fun View.onClick(block: suspend (View) -> Unit) {
+
     @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var job by autoDisposeJob()
+
     setOnClickListener {
         job = viewScope.launchWhenAttached {
             block(it)

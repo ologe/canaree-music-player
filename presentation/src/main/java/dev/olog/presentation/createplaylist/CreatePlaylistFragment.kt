@@ -15,6 +15,8 @@ import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.feature.presentation.base.extensions.toggleSelected
+import dev.olog.feature.presentation.base.extensions.toggleVisibility
 import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.presentation.widgets.fascroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager

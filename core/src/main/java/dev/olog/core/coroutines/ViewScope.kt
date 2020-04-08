@@ -14,13 +14,13 @@ import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-private val JOB_KEY = "canaree.JOB_KEY".hashCode()
+private val SCOPE_KEY = "canaree.SCOPE_KEY".hashCode()
 
 val View.viewScope: ViewScope
     get() {
         require(Looper.getMainLooper() == Looper.myLooper())
 
-        var scope = getTag(JOB_KEY) as? ViewScope
+        var scope = getTag(SCOPE_KEY) as? ViewScope
         if (scope != null) {
             return scope
         }
@@ -30,7 +30,7 @@ val View.viewScope: ViewScope
             AttachableView(this)
         }
 
-        setTag(JOB_KEY, scope)
+        setTag(SCOPE_KEY, scope)
         return scope
     }
 

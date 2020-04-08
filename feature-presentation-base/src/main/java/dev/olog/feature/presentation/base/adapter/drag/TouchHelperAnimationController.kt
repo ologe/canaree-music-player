@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.R
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.colorSwipeBackground
-import dev.olog.shared.android.extensions.toggleVisibility
+import dev.olog.feature.presentation.base.extensions.toggleVisibility
 import kotlin.math.hypot
 
 private val decelerateInterpolator = DecelerateInterpolator()

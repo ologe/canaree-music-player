@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
-import dev.olog.shared.android.extensions.onClick
+import dev.olog.feature.presentation.base.extensions.onClick
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import dev.olog.shared.android.extensions.setHeight
+import dev.olog.feature.presentation.base.extensions.setHeight
 import dev.olog.core.isMarshmallow
 import dev.olog.shared.android.extensions.colorSurface
 

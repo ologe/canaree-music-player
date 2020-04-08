@@ -28,6 +28,7 @@ import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.dimen
+import dev.olog.feature.presentation.base.extensions.setMargin
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack

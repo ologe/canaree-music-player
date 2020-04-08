@@ -25,7 +25,7 @@ import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
-import dev.olog.shared.android.extensions.findChild
+import dev.olog.feature.presentation.base.extensions.findChild
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.lazyFast
 import dev.olog.feature.presentation.base.widget.adaptive.AdaptiveColorImageViewPresenter
