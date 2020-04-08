@@ -18,6 +18,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":shared"))
+    implementation(project(":shared-android"))
+    implementation(project(":shared-widgets"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
