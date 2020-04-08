@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.image.provider.OnImageLoadingError
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.loader.OnImageLoadingError
+import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.offlinelyrics.EditLyricsDialog
 import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content

@@ -9,7 +9,7 @@ import androidx.core.graphics.drawable.IconCompat
 import dev.olog.shared.coroutines.fireAndForget
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction

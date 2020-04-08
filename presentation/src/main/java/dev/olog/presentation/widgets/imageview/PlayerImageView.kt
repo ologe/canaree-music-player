@@ -6,9 +6,9 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import dev.olog.domain.MediaId
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
+import dev.olog.lib.image.loader.CoverUtils
+import dev.olog.lib.image.loader.GlideApp
+import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.presentation.widgets.imageview.shape.ShapeImageView
 import dev.olog.shared.widgets.adaptive.AdaptiveColorImageViewPresenter

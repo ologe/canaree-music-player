@@ -11,8 +11,8 @@ import dev.olog.core.dagger.FeatureScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.getCachedBitmap
+import dev.olog.lib.image.loader.GlideUtils
+import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicConstants

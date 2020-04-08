@@ -22,8 +22,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.prefs.TutorialPreferenceGateway
-import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.creator.ImagesFolderUtils
+import dev.olog.lib.image.loader.GlideApp
+import dev.olog.lib.image.loader.creator.ImagesFolderUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.model.LibraryPage
 import dev.olog.presentation.model.PresentationPreferencesGateway

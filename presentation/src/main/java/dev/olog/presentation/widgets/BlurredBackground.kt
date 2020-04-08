@@ -10,7 +10,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
-import dev.olog.image.provider.CoverUtils
+import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.launchWhenResumed
 import dev.olog.shared.lazyFast

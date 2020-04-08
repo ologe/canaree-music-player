@@ -7,8 +7,8 @@ import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import com.bumptech.glide.Priority
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
+import dev.olog.lib.image.loader.CoverUtils
+import dev.olog.lib.image.loader.GlideApp
 import dev.olog.presentation.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment

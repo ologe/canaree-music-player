@@ -4,13 +4,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.domain.MediaId
-import dev.olog.image.provider.CoverUtils
-import dev.olog.image.provider.GlideApp
-import dev.olog.image.provider.GlideUtils
-import dev.olog.image.provider.model.AudioFileCover
+import dev.olog.lib.image.loader.CoverUtils
+import dev.olog.lib.image.loader.GlideApp
+import dev.olog.lib.image.loader.GlideUtils
+import dev.olog.lib.image.loader.model.AudioFileCover
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.ripple.RippleTarget
-import dev.olog.shared.exhaustive
 
 fun ImageView.loadFile(item: DisplayableFile) {
     GlideApp.with(context).clear(this)

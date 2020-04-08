@@ -20,7 +20,7 @@ import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.SPOTIFY_TRACK
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.image.provider.getBitmap
+import dev.olog.lib.image.loader.getBitmap
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
