@@ -1,28 +1,38 @@
 include(":app")
 
 include(":core")
-
-
 include(":domain")
-include(":presentation")
-include(":shared-android")
-include(":data")
-include(":lib.image-loader")
-include(":prefs-keys")
+
 include(":lib.media")
-include(":app-shortcuts")
+include(":lib.image-loader")
+include(":offline-lyrics")
+include(":equalizer")
+
+include(":shared-widgets")
+include (":feature-presentation-base")
 include(":service-music")
 include(":service-floating")
-include(":offline-lyrics")
-include(":test-shared")
-include(":intents")
-include(":shared")
-include(":shared-widgets")
-include(":equalizer")
-include(":analytics")
-include(":lint")
+include(":app-shortcuts")
+
+include(":data")
 include(":data-spotify")
 include(":data-shared")
+
+include(":presentation")
+
+
+include(":shared")
+include(":shared-android")
+include(":prefs-keys")
+
+include(":analytics")
+
+include(":lint")
+include(":test-shared")
+
+// remove
+include(":intents")
+
 
 
 val extensionAware = gradle as ExtensionAware
