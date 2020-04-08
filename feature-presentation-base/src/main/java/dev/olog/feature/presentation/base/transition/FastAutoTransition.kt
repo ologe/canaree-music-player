@@ -1,4 +1,4 @@
-package dev.olog.presentation.animations
+package dev.olog.feature.presentation.base.transition
 
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade

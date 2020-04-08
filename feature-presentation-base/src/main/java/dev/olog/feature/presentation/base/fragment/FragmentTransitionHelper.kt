@@ -1,4 +1,4 @@
-package dev.olog.presentation.animations
+package dev.olog.feature.presentation.base.fragment
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -27,7 +27,8 @@ fun Fragment.setupEnterAnimation(context: Context) {
 //////////////////////////////////////////////////////////
 
 fun Fragment.setupExitSharedAnimation() {
-    val transition = SharedElementTransitionHold().apply {
+    val transition = SharedElementTransitionHold()
+        .apply {
         //        duration = DURATION
     }
     exitTransition = transition
@@ -35,7 +36,9 @@ fun Fragment.setupExitSharedAnimation() {
 }
 
 fun Fragment.setupEnterSharedAnimation(context: Context) {
-    sharedElementEnterTransition = SharedElementTransition(context).apply {
+    sharedElementEnterTransition = SharedElementTransition(
+        context
+    ).apply {
 //        duration = DURATION
     }
 }

@@ -12,10 +12,10 @@ import dev.olog.domain.entity.PlaylistType
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.animations.setupEnterAnimation
-import dev.olog.presentation.animations.setupEnterSharedAnimation
-import dev.olog.presentation.animations.setupExitAnimation
-import dev.olog.presentation.animations.setupExitSharedAnimation
+import dev.olog.feature.presentation.base.fragment.setupEnterAnimation
+import dev.olog.feature.presentation.base.fragment.setupEnterSharedAnimation
+import dev.olog.feature.presentation.base.fragment.setupExitAnimation
+import dev.olog.feature.presentation.base.fragment.setupExitSharedAnimation
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog

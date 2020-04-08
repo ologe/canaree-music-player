@@ -7,8 +7,8 @@ import androidx.fragment.app.commit
 import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
-import dev.olog.presentation.animations.setupEnterAnimation
-import dev.olog.presentation.animations.setupExitAnimation
+import dev.olog.feature.presentation.base.fragment.setupEnterAnimation
+import dev.olog.feature.presentation.base.fragment.setupExitAnimation
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage

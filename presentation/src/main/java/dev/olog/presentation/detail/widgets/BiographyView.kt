@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.transition.TransitionManager
-import dev.olog.presentation.animations.FastAutoTransition
+import dev.olog.feature.presentation.base.transition.FastAutoTransition
 import kotlin.properties.Delegates
 
 internal class BiographyView(
@@ -21,7 +21,9 @@ internal class BiographyView(
     }
 
     private var isExpanded by Delegates.observable(false) { _, _, new ->
-        TransitionManager.beginDelayedTransition(parent as ViewGroup, FastAutoTransition)
+        TransitionManager.beginDelayedTransition(parent as ViewGroup,
+            FastAutoTransition
+        )
         if (new){
             maxLines = Int.MAX_VALUE
         } else {

@@ -13,7 +13,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
-import dev.olog.presentation.animations.FastAutoTransition
+import dev.olog.feature.presentation.base.transition.FastAutoTransition
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
@@ -239,7 +239,9 @@ class DetailFragment : BaseFragment(),
         back.setOnClickListener { requireActivity().onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more, null) }
         filter.setOnClickListener {
-            TransitionManager.beginDelayedTransition(toolbar, FastAutoTransition)
+            TransitionManager.beginDelayedTransition(toolbar,
+                FastAutoTransition
+            )
             searchWrapper.isVisible = !searchWrapper.isVisible
         }
     }
