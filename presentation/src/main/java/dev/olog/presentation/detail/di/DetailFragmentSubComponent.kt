@@ -3,7 +3,7 @@ package dev.olog.presentation.detail.di
 import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.feature.presentation.base.dagger.PerFragment
+import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.presentation.detail.DetailFragment
 
 
@@ -12,7 +12,7 @@ import dev.olog.presentation.detail.DetailFragment
         DetailFragmentModule::class
     )
 )
-@PerFragment
+@ScreenScope
 internal interface DetailFragmentSubComponent : AndroidInjector<DetailFragment> {
 
     @Subcomponent.Factory

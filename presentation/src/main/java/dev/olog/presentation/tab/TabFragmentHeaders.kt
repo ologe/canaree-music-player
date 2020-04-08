@@ -3,12 +3,12 @@ package dev.olog.presentation.tab
 import android.content.res.Resources
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.dagger.PerFragment
+import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
-@PerFragment
+@ScreenScope
 class TabFragmentHeaders @Inject constructor(
         resources: Resources
 ) {

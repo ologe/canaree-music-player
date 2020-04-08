@@ -3,11 +3,11 @@ package dev.olog.presentation.relatedartists.di
 import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.feature.presentation.base.dagger.PerFragment
+import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 
 @Subcomponent(modules = [RelatedArtistFragmentModule::class])
-@PerFragment
+@ScreenScope
 interface RelatedArtistFragmentSubComponent : AndroidInjector<RelatedArtistFragment> {
 
     @Subcomponent.Factory

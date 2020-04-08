@@ -3,13 +3,13 @@ package dev.olog.presentation.search
 import android.content.Context
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.dagger.PerFragment
+import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
-@PerFragment
+@ScreenScope
 class SearchFragmentHeaders @Inject constructor(
     private val context: Context
 ) {
