@@ -23,7 +23,7 @@ import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.presentation.R
-import dev.olog.presentation.ripple.RippleTarget
+import dev.olog.feature.presentation.base.ripple.RippleTarget
 import dev.olog.presentation.widgets.BlurredBackground
 import dev.olog.feature.presentation.base.extensions.findChild
 import dev.olog.shared.android.theme.themeManager

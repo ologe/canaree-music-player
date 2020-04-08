@@ -1,7 +1,7 @@
 package dev.olog.presentation.relatedartists
 
 import dev.olog.feature.presentation.base.adapter.*
-import dev.olog.presentation.loadAlbumImage
+import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.feature.presentation.base.model.toDomain

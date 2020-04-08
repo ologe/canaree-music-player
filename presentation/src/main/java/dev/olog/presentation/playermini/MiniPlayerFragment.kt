@@ -12,7 +12,7 @@ import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.presentation.loadSongImage
+import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.extensions.expand
 import dev.olog.feature.presentation.base.extensions.isCollapsed
 import dev.olog.feature.presentation.base.extensions.isExpanded

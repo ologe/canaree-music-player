@@ -19,7 +19,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.presentation.loadSongImage
+import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator

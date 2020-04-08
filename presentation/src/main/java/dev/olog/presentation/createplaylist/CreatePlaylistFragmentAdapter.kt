@@ -7,7 +7,7 @@ import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableTrack
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.setOnClickListener
-import dev.olog.presentation.loadSongImage
+import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_create_playlist.view.*

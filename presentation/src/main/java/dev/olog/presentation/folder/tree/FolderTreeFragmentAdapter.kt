@@ -1,17 +1,16 @@
 package dev.olog.presentation.folder.tree
 
-import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.feature.presentation.base.adapter.setOnLongClickListener
-import dev.olog.presentation.loadDirImage
-import dev.olog.presentation.loadFile
+import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.lib.media.MediaProvider
+import dev.olog.presentation.R
+import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.presentation.model.DisplayableFile
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
+import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 internal class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
@@ -50,14 +49,7 @@ internal class FolderTreeFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
         holder.itemView.apply {
             firstText.text = item.title
-        }
-        when (holder.itemViewType){
-            R.layout.item_folder_tree_directory -> {
-                holder.imageView!!.loadDirImage(item)
-            }
-            R.layout.item_folder_tree_track -> {
-                holder.imageView!!.loadFile(item)
-            }
+            cover.loadSongImage(item.mediaId.toDomain())
         }
     }
 }

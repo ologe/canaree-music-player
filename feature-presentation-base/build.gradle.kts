@@ -15,6 +15,8 @@ androidExtensions {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":lib.image-loader"))
+
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":lib.media")) // TODO not too sure about that
@@ -34,6 +36,8 @@ dependencies {
     implementation(Libraries.X.preference)
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.Lifecycle.runtime)
+
+    implementation(Libraries.UX.glide)
 
     implementation(Libraries.Utils.colorDesaturation)
 

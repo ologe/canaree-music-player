@@ -14,11 +14,10 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import dagger.android.HasAndroidInjector
 import dev.olog.domain.MediaId
-import dev.olog.lib.image.loader.loader.*
 import dev.olog.lib.image.loader.loader.GlideImageRetrieverLoader
+import dev.olog.lib.image.loader.loader.GlideMergedImageLoader
 import dev.olog.lib.image.loader.loader.GlideOriginalImageLoader
 import dev.olog.lib.image.loader.loader.GlideSpotifyImageLoader
-import dev.olog.lib.image.loader.model.AudioFileCover
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -57,8 +56,6 @@ class GlideModule : AppGlideModule() {
         // TODO incapsulate
         val injector = context.applicationContext as HasAndroidInjector
         injector.androidInjector().inject(this)
-
-        registry.prepend(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 
         registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
         registry.prepend(MediaId.Category::class.java, InputStream::class.java, mergedFactory)

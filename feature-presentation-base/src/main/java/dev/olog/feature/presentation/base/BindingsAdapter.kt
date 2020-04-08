@@ -1,38 +1,17 @@
-package dev.olog.presentation
+package dev.olog.feature.presentation.base
 
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.domain.MediaId
-import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.presentation.base.ripple.RippleTarget
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.GlideUtils
-import dev.olog.lib.image.loader.model.AudioFileCover
-import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.ripple.RippleTarget
 import dev.olog.shared.exhaustive
 
-fun ImageView.loadFile(item: DisplayableFile) {
-    GlideApp.with(context).clear(this)
-
-//    val id = item.mediaId.categoryId
-
-    GlideApp.with(context)
-        .load(AudioFileCover(item.path!!))
-        .override(GlideUtils.OVERRIDE_SMALL)
-//        .placeholder(CoverUtils.getGradient(context, item.mediaId.playableItem(id).toDomain()))// TODO WAT
-        .placeholder(CoverUtils.getGradient(context, item.mediaId.toDomain()))
-        .into(this)
-}
-
-fun ImageView.loadDirImage(item: DisplayableFile) {
-    loadImageImpl(
-        item.mediaId.toDomain(),
-        GlideUtils.OVERRIDE_SMALL
-    )
-}
-
+// TODo rename file
+// TODO should it depend on glide??
 fun ImageView.loadSongImage(mediaId: MediaId) {
     loadImageImpl(
         mediaId,

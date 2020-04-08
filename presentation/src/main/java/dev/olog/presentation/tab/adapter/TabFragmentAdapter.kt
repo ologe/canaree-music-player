@@ -11,8 +11,8 @@ import dev.olog.feature.presentation.base.model.*
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.SetupNestedList
-import dev.olog.presentation.loadAlbumImage
-import dev.olog.presentation.loadSongImage
+import dev.olog.feature.presentation.base.loadAlbumImage
+import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.colorAccent

@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.parallax
+package dev.olog.feature.presentation.base.widget.image.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,8 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
-import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.widget.image.view.ForegroundImageView
+import dev.olog.feature.presentation.base.R
 import kotlin.math.abs
 
 private const val DEFAULT_PARALLAX = .7f
@@ -27,7 +26,10 @@ class ParallaxImageView(
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.ParallaxImageView)
-        parallax = a.getFloat(R.styleable.ParallaxImageView_parallax, DEFAULT_PARALLAX)
+        parallax = a.getFloat(
+            R.styleable.ParallaxImageView_parallax,
+            DEFAULT_PARALLAX
+        )
         a.recycle()
 
         // start transparent
@@ -40,14 +42,18 @@ class ParallaxImageView(
 
         translationY = diff.toFloat() * parallax
 
-        val currentAlpha = clamp((diff * .05f).toInt(), 0, MAX_ALPHA)
+        val currentAlpha = clamp((diff * .05f).toInt(), 0,
+            MAX_ALPHA
+        )
         paint.alpha = currentAlpha
         invalidate()
     }
 
     fun setScrimColor(color: Int){
         paint.color = color
-        paint.alpha = clamp(translationY.toInt(), 0, MAX_ALPHA)
+        paint.alpha = clamp(translationY.toInt(), 0,
+            MAX_ALPHA
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
