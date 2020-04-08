@@ -1,4 +1,4 @@
-package dev.olog.presentation.dagger
+package dev.olog.feature.presentation.base.dagger
 
 import javax.inject.Scope
 

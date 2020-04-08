@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
-import dev.olog.presentation.dagger.PerFragment
+import dev.olog.feature.presentation.base.dagger.PerFragment
 
 
 @Subcomponent(modules = [CreatePlaylistFragmentModule::class])

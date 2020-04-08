@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.album.EditAlbumFragmentViewModel

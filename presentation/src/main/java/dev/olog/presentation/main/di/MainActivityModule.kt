@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.dagger.ViewModelKey
+import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.MainActivityViewModel
 import dev.olog.presentation.navigator.Navigator
