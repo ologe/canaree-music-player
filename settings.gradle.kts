@@ -9,8 +9,8 @@ include(":lib.offline-lyrics")
 include(":lib.equalizer")
 
 include (":feature-presentation-base")
-include(":service-music")
-include(":service-floating")
+include(":feature-service-music")
+include(":feature-service-floating")
 include(":feature-app-shortcuts")
 
 include(":data")
