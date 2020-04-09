@@ -4,7 +4,12 @@ import android.view.View
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 
-interface Navigator: BottomNavigator {
+interface Navigator: BottomNavigator, ServiceNavigator {
+
+    companion object {
+        const val REQUEST_CODE_HOVER_PERMISSION = 1000
+
+    }
 
     fun toFirstAccess()
 

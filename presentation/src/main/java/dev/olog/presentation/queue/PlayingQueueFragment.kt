@@ -9,17 +9,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
-import dev.olog.navigation.Navigator
-import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.dip
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.lib.media.MediaProvider
+import dev.olog.navigation.Navigator
+import dev.olog.presentation.R
+import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
@@ -88,7 +87,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
             // TODO restore navigation
 //            navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE)
         }
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener { navigator.toFloating(requireActivity()) }
     }
 
     override fun onPause() {
@@ -105,10 +104,6 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
-    }
-
-    private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

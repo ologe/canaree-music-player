@@ -1,14 +1,14 @@
-package dev.olog.presentation.search.di
+package dev.olog.feature.search.dagger
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
-import dev.olog.presentation.search.SearchFragmentViewModel
+import dev.olog.feature.search.SearchFragmentViewModel
 
 @Module
-abstract class SearchFragmentModule {
+abstract class SearchModule {
 
     @Binds
     @IntoMap

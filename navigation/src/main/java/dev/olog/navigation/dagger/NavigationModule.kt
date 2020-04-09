@@ -1,5 +1,6 @@
 package dev.olog.navigation.dagger
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import dagger.Binds
 import dagger.Module
@@ -7,6 +8,7 @@ import dagger.multibindings.Multibinds
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.NavigatorImpl
 import dev.olog.navigation.screens.FragmentScreen
+import dev.olog.navigation.screens.NavigationIntent
 import javax.inject.Singleton
 
 @Module
@@ -18,5 +20,8 @@ abstract class NavigationModule {
 
     @Multibinds
     internal abstract fun fragments(): Map<FragmentScreen, @JvmSuppressWildcards Fragment>
+
+    @Multibinds
+    internal abstract fun navigationIntents(): Map<NavigationIntent, @JvmSuppressWildcards Intent>
 
 }

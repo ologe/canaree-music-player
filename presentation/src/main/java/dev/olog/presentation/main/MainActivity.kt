@@ -24,9 +24,7 @@ import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation
 import dev.olog.feature.presentation.base.activity.OnPermissionChanged
@@ -154,9 +152,6 @@ class MainActivity : MusicGlueActivity(),
 
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
-            FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
-            }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
@@ -184,8 +179,8 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION) {
-            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+        if (requestCode == Navigator.REQUEST_CODE_HOVER_PERMISSION) {
+            navigator.toFloating(this)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

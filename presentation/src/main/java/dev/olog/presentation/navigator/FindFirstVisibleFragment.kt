@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
-import dev.olog.presentation.search.SearchFragment
+import dev.olog.feature.search.SearchFragment
 import timber.log.Timber
 
 private val basicFragments = listOf(

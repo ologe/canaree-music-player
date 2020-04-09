@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
 import dev.olog.domain.gateway.RecentSearchesGateway
@@ -6,7 +6,6 @@ import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
 import dev.olog.domain.gateway.track.*
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem

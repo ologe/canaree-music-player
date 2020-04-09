@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

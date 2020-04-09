@@ -27,7 +27,7 @@ internal abstract class BaseNavigator {
         }
     }
 
-    private fun mandatory(activity: FragmentActivity, condition: Boolean): Unit? {
+    protected fun mandatory(activity: FragmentActivity, condition: Boolean): Unit? {
         if (!allowed()) {
             // avoid click spam
             return null

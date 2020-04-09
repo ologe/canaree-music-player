@@ -2,7 +2,7 @@ package dev.olog.msc.dagger
 
 import dagger.Module
 import dev.olog.feature.library.dagger.FeatureLibraryDagger
-import dev.olog.feature.search.FeatureSearchDagger
+import dev.olog.feature.search.dagger.FeatureSearchDagger
 import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
 import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.presentation.main.di.FeatureMainActivityDagger

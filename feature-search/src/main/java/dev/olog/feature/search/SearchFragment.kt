@@ -1,4 +1,4 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.os.Bundle
 import android.view.View
@@ -12,21 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.DottedDividerDecorator
-import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.SetupNestedList
-import dev.olog.navigation.Navigator
-import dev.olog.presentation.search.adapter.SearchFragmentAdapter
-import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
+import dev.olog.feature.presentation.base.extensions.afterTextChange
 import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.feature.presentation.base.utils.showIme
+import dev.olog.navigation.Navigator
+import dev.olog.feature.search.adapter.SearchFragmentAdapter
+import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.feature.presentation.base.extensions.afterTextChange
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
@@ -167,7 +165,9 @@ class SearchFragment : BaseFragment(),
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         fab.setOnClickListener { editText.showIme() }
 
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener {
+            navigator.toFloating(requireActivity())
+        }
         more.setOnClickListener {
             // TODO restore navigation
 //            navigator.toMainPopup(it, MainPopupCategory.SEARCH)
@@ -197,11 +197,6 @@ class SearchFragment : BaseFragment(),
     override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
         adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
-
-    private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
-    }
-
 
     override fun onStop() {
         super.onStop()

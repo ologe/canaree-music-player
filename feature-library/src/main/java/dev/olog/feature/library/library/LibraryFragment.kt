@@ -95,7 +95,9 @@ internal class LibraryFragment : BaseFragment() {
             // TODO restore navigation
 //            navigator.toMainPopup(it, createPopupCategory())
         }
-        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+        floatingWindow.setOnClickListener {
+            navigator.toFloating(requireActivity())
+        }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
         podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
@@ -141,11 +143,6 @@ internal class LibraryFragment : BaseFragment() {
 //    private fun createPopupCategory(): MainPopupCategory {
 //        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem).toMainPopupCategory()
 //    }
-
-    private fun startServiceOrRequestOverlayPermission() {
-        // TODO should be in :navigation
-//        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
-    }
 
     private val onPageChangeListener =
         object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {

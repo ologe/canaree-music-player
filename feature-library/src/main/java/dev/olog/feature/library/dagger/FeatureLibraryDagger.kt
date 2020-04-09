@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.feature.library.library.LibraryFragment
 import dev.olog.feature.library.tab.TabFragment
-import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.navigation.dagger.FragmentScreenKey
 import dev.olog.navigation.screens.FragmentScreen
 
@@ -18,15 +18,15 @@ class FeatureLibraryDagger {
     abstract class AppModule {
 
         @ContributesAndroidInjector
-        @ScreenScope
+        @FeatureScope
         internal abstract fun provideCategoriesFragment(): LibraryFragment
 
         @ContributesAndroidInjector(modules = [TabFragmentModule::class])
-        @ScreenScope
+        @FeatureScope
         internal abstract fun provideTabFragment(): TabFragment
 
         @ContributesAndroidInjector(modules = [FolderTreeFragmentModule::class])
-        @ScreenScope
+        @FeatureScope
         internal abstract fun provideFolderTreeFragment(): FolderTreeFragment
 
         companion object {

@@ -1,15 +1,15 @@
-package dev.olog.presentation.search
+package dev.olog.feature.search
 
 import android.content.Context
+import dev.olog.core.dagger.FeatureScope
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.dagger.ScreenScope
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
-@ScreenScope
+@FeatureScope
 class SearchFragmentHeaders @Inject constructor(
     private val context: Context
 ) {

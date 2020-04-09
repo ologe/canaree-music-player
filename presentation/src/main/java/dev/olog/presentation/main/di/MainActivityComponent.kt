@@ -20,7 +20,6 @@ import dev.olog.presentation.prefs.di.SettingsFragmentsModule
 import dev.olog.presentation.queue.di.PlayingQueueFragmentInjector
 import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
-import dev.olog.presentation.search.di.SearchFragmentInjector
 
 class FeatureMainActivityDagger {
 
@@ -36,7 +35,6 @@ class FeatureMainActivityDagger {
             PlayerFragmentModule::class,
             RecentlyAddedFragmentInjector::class,
             RelatedArtistFragmentInjector::class,
-            SearchFragmentInjector::class,
             PlayingQueueFragmentInjector::class,
             CreatePlaylistFragmentInjector::class,
             EqualizerModule::class,
