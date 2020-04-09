@@ -8,7 +8,8 @@ include(":lib.image-loader")
 include(":lib.offline-lyrics")
 include(":lib.equalizer")
 
-include (":feature-presentation-base")
+include(":navigation")
+include(":feature-presentation-base")
 include(":feature-service-music")
 include(":feature-service-floating")
 include(":feature-app-shortcuts")
@@ -31,7 +32,6 @@ include(":test-shared")
 
 // remove
 include(":intents")
-
 
 
 val extensionAware = gradle as ExtensionAware
