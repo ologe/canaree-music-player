@@ -13,6 +13,8 @@ include(":feature-presentation-base")
 include(":feature-service-music")
 include(":feature-service-floating")
 include(":feature-app-shortcuts")
+include(":feature-library")
+
 
 include(":data")
 include(":data-spotify")

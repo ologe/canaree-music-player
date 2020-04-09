@@ -26,15 +26,10 @@ import javax.inject.Singleton
         ViewModelModule::class,
 
         NavigationModule::class,
+        FeaturesModule::class,
 
         // libs
         LibImageLoaderDagger.AppModule::class,
-
-        // feature
-        FeatureFloatingWindowDagger.AppModule::class,
-        FeatureMusicServiceDagger.AppModule::class,
-        FeaturePlaylistChooserDagger.AppModule::class,
-        FeatureMainActivityDagger.AppModule::class,
 
         NetworkModule::class,
         ServiceModule::class,
