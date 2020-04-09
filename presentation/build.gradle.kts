@@ -27,10 +27,12 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
-    implementation(project(":feature-presentation-base"))
-    implementation(project(":navigation"))
 
+    implementation(project(":navigation"))
     implementation(project(":feature-app-shortcuts"))
+    implementation(project(":feature-presentation-base"))
+    implementation(project(":feature-library"))
+
     implementation(project(":analytics"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))

@@ -70,8 +70,10 @@ dependencies {
     implementation(project(":data-spotify"))
 
     // feature
-    implementation(project(":feature-presentation-base")) // TODO is needed?
     implementation(project(":navigation"))
+
+    implementation(project(":feature-presentation-base")) // TODO is needed?
+    implementation(project(":feature-library"))
 
     // libs
     implementation(project(":lib.network")) // TODO rename to lib.network
