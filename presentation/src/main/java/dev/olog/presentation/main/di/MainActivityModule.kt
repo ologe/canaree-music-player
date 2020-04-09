@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import dev.olog.feature.presentation.base.activity.SharedViewModel
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.main.MainActivity
@@ -22,6 +23,11 @@ abstract class MainActivityModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
-    internal abstract fun proviewViewModel(impl: MainActivityViewModel): ViewModel
+    internal abstract fun provideViewModel(impl: MainActivityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SharedViewModel::class)
+    internal abstract fun provideSharedViewModel(impl: SharedViewModel): ViewModel
 
 }

@@ -28,7 +28,7 @@ internal class AlarmServiceImpl @Inject constructor(
     }
 
     private fun stopMusicServiceIntent(context: Context): PendingIntent {
-        val intent = Intent(context, Class.forName("dev.olog.service.music.MusicService"))
+        val intent = Intent(context, Class.forName("dev.olog.feature.service.music.MusicService"))
         intent.action = ACTION_STOP_SLEEP_END
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_CANCEL_CURRENT)
     }
