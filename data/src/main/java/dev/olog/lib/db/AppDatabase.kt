@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.olog.lib.model.db.*
-import dev.olog.lib.spotify.db.SpotifyImageEntity
-import dev.olog.lib.spotify.db.SpotifyImagesDao
+import dev.olog.data.spotify.db.SpotifyImageEntity
+import dev.olog.data.spotify.db.SpotifyImagesDao
 
 
 @Database(

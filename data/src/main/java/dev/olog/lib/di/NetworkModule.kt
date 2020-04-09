@@ -7,7 +7,7 @@ import dev.olog.lib.api.DeezerService
 import dev.olog.lib.api.LastFmService
 import dev.olog.lib.network.SharedNetworkModule
 import dev.olog.lib.network.withLazyCallFactory
-import dev.olog.lib.spotify.di.SpotifyNetworkModule
+import dev.olog.data.spotify.di.SpotifyNetworkModule
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Converter

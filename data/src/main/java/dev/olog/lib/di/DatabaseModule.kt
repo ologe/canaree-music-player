@@ -3,7 +3,7 @@ package dev.olog.lib.di
 import dagger.Module
 import dagger.Provides
 import dev.olog.lib.db.*
-import dev.olog.lib.spotify.db.SpotifyImagesDao
+import dev.olog.data.spotify.db.SpotifyImagesDao
 
 @Module
 class DatabaseModule {
