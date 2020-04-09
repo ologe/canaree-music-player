@@ -28,7 +28,7 @@ import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission

@@ -8,7 +8,7 @@ import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.feature.library.folder.tree.FolderTreeFragment
 import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.tab.TabFragment
 import dev.olog.feature.presentation.base.model.toPresentation

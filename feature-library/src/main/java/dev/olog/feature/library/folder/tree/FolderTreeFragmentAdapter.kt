@@ -1,14 +1,15 @@
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder.tree
 
+import dev.olog.feature.library.R
+import dev.olog.feature.library.model.DiffCallbackDisplayableFile
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.feature.presentation.base.adapter.setOnLongClickListener
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.loadSongImage
-import dev.olog.presentation.model.DisplayableFile
+import dev.olog.feature.library.model.DisplayableFile
 import dev.olog.navigation.Navigator
 import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 

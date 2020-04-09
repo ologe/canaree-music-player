@@ -1,7 +1,6 @@
-package dev.olog.presentation.widgets;
+package dev.olog.feature.library.widgets;
 
 import android.content.Context;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -21,7 +20,7 @@ import java.util.List;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import dev.olog.presentation.R;
+import dev.olog.feature.library.R;
 import dev.olog.shared.android.extensions.ColorManagerKt;
 import timber.log.Timber;
 

@@ -12,9 +12,17 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":core"))
     implementation(project(":domain"))
+
     implementation(project(":lib.image-loader"))
+    implementation(project(":lib.media"))
+
     implementation(project(":navigation"))
+    implementation(project(":feature-presentation-base"))
+
+    implementation(project(":shared-android"))
+    implementation(project(":shared"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
@@ -25,7 +33,13 @@ dependencies {
     implementation(Libraries.Dagger.androidSupport)
     kapt(Libraries.Dagger.androidKapt)
 
+    implementation(Libraries.X.core)
+    implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
+    implementation(Libraries.X.recyclerView)
+    implementation(Libraries.X.material)
+
+    implementation(Libraries.Utils.scrollHelper)
 
     implementation(Libraries.Debug.timber)
 

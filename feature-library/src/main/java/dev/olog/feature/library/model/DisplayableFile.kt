@@ -1,4 +1,4 @@
-package dev.olog.presentation.model
+package dev.olog.feature.library.model
 
 import dev.olog.feature.presentation.base.model.BaseModel
 import dev.olog.feature.presentation.base.model.PresentationId

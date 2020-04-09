@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.folder.tree
+package dev.olog.feature.library.folder.tree
 
 import android.content.Context
 import android.database.CursorIndexOutOfBoundsException
@@ -13,11 +13,11 @@ import dev.olog.domain.entity.FileType
 import dev.olog.domain.gateway.FolderNavigatorGateway
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.widgets.BreadCrumbLayout
+import dev.olog.feature.library.model.DisplayableFile
+import dev.olog.feature.library.widgets.BreadCrumbLayout
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
