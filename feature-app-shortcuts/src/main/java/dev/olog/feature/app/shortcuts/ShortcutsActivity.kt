@@ -1,4 +1,4 @@
-package dev.olog.appshortcuts
+package dev.olog.feature.app.shortcuts
 
 import android.content.Intent
 import android.os.Bundle

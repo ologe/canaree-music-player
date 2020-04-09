@@ -76,7 +76,7 @@
 
 
         <!--dummy shortcuts activity-->
-        <activity android:name="dev.olog.appshortcuts.ShortcutsActivity"
+        <activity android:name="dev.olog.feature.app.shortcuts.ShortcutsActivity"
             android:theme="@style/TransparentTheme"/>
 
         <!--app shortcust playlist chooser-->

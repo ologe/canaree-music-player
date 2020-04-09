@@ -3,7 +3,7 @@ package dev.olog.presentation.popup.playlist
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.entity.track.Song

@@ -1,4 +1,4 @@
-package dev.olog.appshortcuts
+package dev.olog.feature.app.shortcuts
 
 import android.content.Context
 import android.content.Intent
@@ -13,6 +13,7 @@ import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.lib.app.shortcuts.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.withContext
 
@@ -58,43 +59,61 @@ class AppShortcutsImp(
     }
 
     private fun onAddedSuccess(context: Context) {
-        Toast.makeText(context, R.string.app_shortcut_added_to_home_screen, Toast.LENGTH_SHORT)
+        Toast.makeText(context,
+            R.string.app_shortcut_added_to_home_screen, Toast.LENGTH_SHORT)
             .show()
     }
 
     private fun onAddedNotSupported(context: Context) {
-        Toast.makeText(context, R.string.app_shortcut_add_to_home_screen_not_supported, Toast.LENGTH_SHORT)
+        Toast.makeText(context,
+            R.string.app_shortcut_add_to_home_screen_not_supported, Toast.LENGTH_SHORT)
             .show()
     }
 
     private fun search(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.SEARCH)
+        return ShortcutInfoCompat.Builder(context,
+            Shortcuts.SEARCH
+        )
             .setShortLabel(context.getString(R.string.shortcut_search))
-            .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_search))
+            .setIcon(IconCompat.createWithResource(context,
+                R.drawable.shortcut_search
+            ))
             .setIntent(createSearchIntent())
             .build()
     }
 
     private fun play(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.PLAY)
+        return ShortcutInfoCompat.Builder(context,
+            Shortcuts.PLAY
+        )
             .setShortLabel(context.getString(R.string.shortcut_play))
-            .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_play))
+            .setIcon(IconCompat.createWithResource(context,
+                R.drawable.shortcut_play
+            ))
             .setIntent(createPlayIntent())
             .build()
     }
 
     private fun shuffle(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.SHUFFLE)
+        return ShortcutInfoCompat.Builder(context,
+            Shortcuts.SHUFFLE
+        )
             .setShortLabel(context.getString(R.string.shortcut_shuffle))
-            .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_shuffle))
+            .setIcon(IconCompat.createWithResource(context,
+                R.drawable.shortcut_shuffle
+            ))
             .setIntent(createShuffleIntent())
             .build()
     }
 
     private fun playlistChooser(): ShortcutInfoCompat {
-        return ShortcutInfoCompat.Builder(context, Shortcuts.PLAYLIST_CHOOSER)
+        return ShortcutInfoCompat.Builder(context,
+            Shortcuts.PLAYLIST_CHOOSER
+        )
             .setShortLabel(context.getString(R.string.shortcut_playlist_chooser))
-            .setIcon(IconCompat.createWithResource(context, R.drawable.shortcut_playlist_add))
+            .setIcon(IconCompat.createWithResource(context,
+                R.drawable.shortcut_playlist_add
+            ))
             .setIntent(createPlaylistChooserIntent())
             .build()
     }

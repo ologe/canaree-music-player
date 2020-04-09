@@ -5,7 +5,7 @@ import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dev.olog.analytics.TrackerFacade
-import dev.olog.appshortcuts.AppShortcuts
+import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.msc.BuildConfig

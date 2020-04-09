@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.appshortcuts.Shortcuts
+import dev.olog.feature.app.shortcuts.Shortcuts
 import dev.olog.domain.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes

@@ -1,4 +1,4 @@
-package dev.olog.appshortcuts
+package dev.olog.feature.app.shortcuts
 
 import android.content.Context
 import dev.olog.domain.MediaId
@@ -10,7 +10,10 @@ class AppShortcuts private constructor(
     schedulers: Schedulers
 ) {
 
-    private val appShortcuts = AppShortcutsImp(context.applicationContext, schedulers)
+    private val appShortcuts = AppShortcutsImp(
+        context.applicationContext,
+        schedulers
+    )
 
     companion object {
         @JvmStatic
@@ -19,7 +22,11 @@ class AppShortcuts private constructor(
         @JvmStatic
         fun instance(context: Context, schedulers: Schedulers): AppShortcuts {
             if (instance == null) {
-                instance = AppShortcuts(context, schedulers)
+                instance =
+                    AppShortcuts(
+                        context,
+                        schedulers
+                    )
             }
             return instance!!
         }

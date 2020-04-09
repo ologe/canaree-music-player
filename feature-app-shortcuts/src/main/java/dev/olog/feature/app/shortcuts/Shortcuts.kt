@@ -1,4 +1,4 @@
-package dev.olog.appshortcuts
+package dev.olog.feature.app.shortcuts
 
 object Shortcuts {
 
