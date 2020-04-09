@@ -59,19 +59,18 @@ dependencies {
     implementation(project(":navigation"))
 
     implementation(project(":feature-presentation-base")) // TODO is needed?
+    implementation(project(":feature-app-shortcuts"))
     implementation(project(":feature-library"))
+    implementation(project(":feature-search"))
 
     // libs
-    implementation(project(":lib.network")) // TODO rename to lib.network
+    implementation(project(":lib.network"))
     implementation(project(":lib.equalizer"))
     implementation(project(":lib.media"))
     implementation(project(":lib.offline-lyrics"))
     implementation(project(":lib.image-loader"))
-
     implementation(project(":lib.analytics"))
 
-    implementation(project(":feature-app-shortcuts"))
-    implementation(project(":lib.analytics"))
 
 
     implementation(project(":prefs-keys"))
