@@ -88,7 +88,6 @@ dependencies {
     implementation(project(":prefs-keys"))
     implementation(project(":presentation"))
     implementation(project(":shared-android"))
-    implementation(project(":shared-widgets"))
     implementation(project(":service-music"))
     implementation(project(":service-floating"))
     implementation(project(":intents"))

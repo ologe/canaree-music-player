@@ -34,7 +34,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))
-    implementation(project(":shared-widgets"))
     implementation(project(":prefs-keys"))
     implementation(project(":lib.media"))
     implementation(project(":lib.offline-lyrics"))

@@ -22,7 +22,6 @@ dependencies {
     implementation(project(":lib.media")) // TODO not too sure about that
     implementation(project(":shared"))
     implementation(project(":shared-android"))
-    implementation(project(":shared-widgets"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

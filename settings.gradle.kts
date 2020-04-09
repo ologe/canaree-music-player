@@ -8,7 +8,6 @@ include(":lib.image-loader")
 include(":lib.offline-lyrics")
 include(":lib.equalizer")
 
-include(":shared-widgets")
 include (":feature-presentation-base")
 include(":service-music")
 include(":service-floating")

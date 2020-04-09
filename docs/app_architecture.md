@@ -85,6 +85,3 @@
 - Self explanatory
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/shared-android/build.gradle) 
 
-#### `:shared-widgets`
-- Self explanatory
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/shared-widgets/build.gradle)
