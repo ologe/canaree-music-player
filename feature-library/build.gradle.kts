@@ -38,6 +38,7 @@ dependencies {
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.recyclerView)
+    implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
