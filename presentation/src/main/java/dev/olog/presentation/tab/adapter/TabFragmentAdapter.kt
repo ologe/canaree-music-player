@@ -13,7 +13,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.loadSongImage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary

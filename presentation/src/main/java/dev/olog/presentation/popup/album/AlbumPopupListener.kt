@@ -16,7 +16,7 @@ import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import java.lang.ref.WeakReference

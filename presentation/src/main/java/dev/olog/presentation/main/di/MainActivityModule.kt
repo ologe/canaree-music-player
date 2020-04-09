@@ -10,7 +10,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.main.MainActivityViewModel
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.navigator.NavigatorImpl
 
 @Module

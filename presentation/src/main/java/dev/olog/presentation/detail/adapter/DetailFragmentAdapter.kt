@@ -24,7 +24,7 @@ import dev.olog.presentation.detail.DetailSortDialog
 import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.loadBigAlbumImage
 import dev.olog.feature.presentation.base.loadSongImage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.colorAccent

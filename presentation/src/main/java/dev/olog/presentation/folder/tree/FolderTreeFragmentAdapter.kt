@@ -9,7 +9,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 internal class FolderTreeFragmentAdapter(

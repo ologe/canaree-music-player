@@ -13,7 +13,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments

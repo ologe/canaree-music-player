@@ -13,7 +13,7 @@ import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.tab.TabCategory
 import timber.log.Timber
 import javax.inject.Inject

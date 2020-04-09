@@ -3,7 +3,7 @@ package dev.olog.presentation.search.adapter
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.search.SearchFragmentViewModel
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_search_album.view.*

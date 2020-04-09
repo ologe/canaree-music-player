@@ -42,6 +42,7 @@ import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.feature.presentation.base.extensions.collapse
 import dev.olog.feature.presentation.base.extensions.isExpanded
+import dev.olog.navigation.Navigator
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
 import dev.olog.shared.throwNotHandled

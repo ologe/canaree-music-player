@@ -26,7 +26,7 @@ import dev.olog.feature.presentation.base.transition.FastAutoTransition
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.adapter.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.colorControlNormal

@@ -20,8 +20,7 @@ import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.SetupNestedList
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.popup.main.MainPopupCategory
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.search.adapter.SearchFragmentAdapter
 import dev.olog.presentation.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.feature.presentation.base.utils.hideIme
@@ -169,7 +168,10 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
-        more.setOnClickListener { navigator.toMainPopup(it, MainPopupCategory.SEARCH) }
+        more.setOnClickListener {
+            // TODO restore navigation
+//            navigator.toMainPopup(it, MainPopupCategory.SEARCH)
+        }
 
         podcasts.setOnClickListener {
             podcasts.isSelected = !podcasts.isSelected

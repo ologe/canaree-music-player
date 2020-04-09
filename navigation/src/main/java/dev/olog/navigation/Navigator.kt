@@ -1,11 +1,10 @@
-package dev.olog.presentation.navigator
+package dev.olog.navigation
 
 import android.view.View
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.presentation.popup.main.MainPopupCategory
 
-internal interface Navigator {
+interface Navigator {
 
     fun toFirstAccess()
 
@@ -41,10 +40,10 @@ internal interface Navigator {
         container: View?
     )
 
-    fun toMainPopup(
-        anchor: View,
-        category: MainPopupCategory
-    )
+//    fun toMainPopup(
+//        anchor: View,
+//        category: MainPopupCategory
+//    )
 
     fun toSetRingtoneDialog(
         mediaId: MediaId.Track,

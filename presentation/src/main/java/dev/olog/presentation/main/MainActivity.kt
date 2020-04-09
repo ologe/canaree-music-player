@@ -34,7 +34,7 @@ import dev.olog.presentation.interfaces.OnPermissionChanged
 import dev.olog.presentation.interfaces.Permission
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.theme.BottomSheetType

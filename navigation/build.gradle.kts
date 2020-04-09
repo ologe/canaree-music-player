@@ -10,6 +10,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
+    implementation(project(":domain"))
+
     implementation(Libraries.kotlin)
     implementation(Libraries.Dagger.core)
 

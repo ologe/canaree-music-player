@@ -14,7 +14,7 @@ import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.presentation.popup.main.toMainPopupCategory
 import dev.olog.presentation.tutorial.TutorialTapTarget
@@ -99,7 +99,8 @@ class LibraryFragment : BaseFragment() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
         more.setOnClickListener {
-            navigator.toMainPopup(it, createPopupCategory())
+            // TODO restore navigation
+//            navigator.toMainPopup(it, createPopupCategory())
         }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 

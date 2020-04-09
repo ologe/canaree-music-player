@@ -9,7 +9,7 @@ import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.*
 import dev.olog.presentation.*
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
 import java.lang.ref.WeakReference

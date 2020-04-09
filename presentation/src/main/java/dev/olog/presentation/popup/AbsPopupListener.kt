@@ -17,7 +17,7 @@ import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.R
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.lazyFast

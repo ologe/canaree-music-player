@@ -16,8 +16,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.popup.main.MainPopupCategory
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.dip
@@ -85,7 +84,10 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener { navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE) }
+        more.setOnClickListener {
+            // TODO restore navigation
+//            navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE)
+        }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 

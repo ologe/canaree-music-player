@@ -6,10 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import dev.olog.domain.MediaId
-import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments

@@ -22,7 +22,7 @@ import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.player.volume.PlayerVolumeFragment
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.feature.presentation.base.extensions.isCollapsed

@@ -11,7 +11,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
-import dev.olog.presentation.navigator.Navigator
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.dimen
