@@ -3,15 +3,14 @@ package dev.olog.presentation.navigator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import dev.olog.core.extensions.getTopFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
-import dev.olog.feature.search.SearchFragment
+import dev.olog.navigation.screens.FragmentScreen
 import timber.log.Timber
 
 private val basicFragments = listOf(
-//    LibraryFragment.TAG_TRACK, TODO
-//    LibraryFragment.TAG_PODCAST,
-    SearchFragment.TAG,
-    PlayingQueueFragment.TAG
+    FragmentScreen.LIBRARY_TRACKS.tag,
+    FragmentScreen.LIBRARY_PODCAST.tag,
+    FragmentScreen.SEARCH.tag,
+    FragmentScreen.QUEUE.tag
 )
 
 fun findFirstVisibleFragment(fragmentManager: FragmentManager): Fragment? {

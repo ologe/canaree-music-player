@@ -33,7 +33,6 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-    implementation(project(":feature-search"))
 
     implementation(project(":lib.analytics"))
     implementation(project(":domain"))
