@@ -9,6 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import timber.log.Timber
 import javax.inject.Inject
 
+// TODO make a lib??
 internal class FirebaseTracker @Inject constructor(
     private val schedulers: Schedulers
 ) : TrackerFacade {
