@@ -16,14 +16,19 @@
 
 package dev.olog.msc.viewmodel
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.Multibinds
 
 @Module
 abstract class ViewModelModule {
 
     @Binds
-    internal abstract fun bindViewModelFactory(factory: AppViewModelFactory):
-            ViewModelProvider.Factory
+    internal abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
+
+    @Multibinds
+    internal abstract fun viewModels(): Map<Class<out ViewModel>, @JvmSuppressWildcards ViewModel>
+
 }

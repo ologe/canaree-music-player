@@ -28,12 +28,10 @@ import dev.olog.intents.FloatingWindowsConstants
 import dev.olog.intents.MusicServiceAction
 import dev.olog.presentation.FloatingWindowHelper
 import dev.olog.presentation.R
-import dev.olog.feature.library.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.HasBottomNavigation
-import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.presentation.interfaces.Permission
-import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.feature.presentation.base.activity.HasBottomNavigation
+import dev.olog.feature.presentation.base.activity.OnPermissionChanged
+import dev.olog.feature.presentation.base.activity.Permission
+import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.scrollhelper.ScrollType
@@ -227,16 +225,19 @@ class MainActivity : MusicGlueActivity(),
     }
 
     private fun tryPopFolderBack(): Boolean {
-        val categoriesFragment = supportFragmentManager
-            .findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment ?: return false
-
-        if (categoriesFragment.isVisible && categoriesFragment.isCurrentFragmentFolderTree()){
-            val folderTree = categoriesFragment.childFragmentManager.fragments
-                .filter { it.isVisible }
-                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-            return folderTree?.handleOnBackPressed() == true
-        }
+//        TODO
         return false
+//        val categoriesFragment = supportFragmentManager
+//            .findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment
+//            ?: return false
+//
+//        if (categoriesFragment.isVisible && categoriesFragment.isCurrentFragmentFolderTree()){
+//            val folderTree = categoriesFragment.childFragmentManager.fragments
+//                .filter { it.isVisible }
+//                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
+//            return folderTree?.handleOnBackPressed() == true
+//        }
+//        return false
     }
 
     override fun getSlidingPanel(): BottomSheetBehavior<*> {

@@ -23,6 +23,8 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":shared-android"))
 
+    implementation(project(":navigation"))
+
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
 

@@ -1,33 +1,33 @@
 package dev.olog.presentation.prefs.categories
 
 import dev.olog.domain.MediaIdCategory
-import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
+import dev.olog.feature.presentation.base.prefs.SharedPreferences
 import javax.inject.Inject
 
 internal class LibraryCategoriesFragmentPresenter @Inject constructor(
-        private val appPreferencesUseCase: PresentationPreferencesGateway
-){
+    private val preferences: SharedPreferences
+) {
 
-    fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior>{
-        if (category == MediaIdCategory.PODCASTS){
-            return appPreferencesUseCase.getDefaultPodcastLibraryCategories()
+    fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior> {
+        if (category == MediaIdCategory.PODCASTS) {
+            return preferences.getDefaultPodcastLibraryCategories()
         }
-        return appPreferencesUseCase.getDefaultLibraryCategories()
+        return preferences.getDefaultLibraryCategories()
     }
 
-    fun getDataSet(category: MediaIdCategory) : List<LibraryCategoryBehavior> {
-        if (category == MediaIdCategory.PODCASTS){
-            return appPreferencesUseCase.getPodcastLibraryCategories()
+    fun getDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior> {
+        if (category == MediaIdCategory.PODCASTS) {
+            return preferences.getPodcastLibraryCategories()
         }
-        return appPreferencesUseCase.getLibraryCategories()
+        return preferences.getLibraryCategories()
     }
 
-    fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>){
-        if (category == MediaIdCategory.PODCASTS){
-            appPreferencesUseCase.setPodcastLibraryCategories(list)
+    fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>) {
+        if (category == MediaIdCategory.PODCASTS) {
+            preferences.setPodcastLibraryCategories(list)
         } else {
-            appPreferencesUseCase.setLibraryCategories(list)
+            preferences.setLibraryCategories(list)
         }
 
     }

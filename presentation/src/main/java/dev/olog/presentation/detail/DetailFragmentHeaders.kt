@@ -106,7 +106,7 @@ class DetailFragmentHeaders @Inject constructor(
         return DisplayableHeader(
             type = R.layout.item_detail_header_albums,
             mediaId = headerId("detail spotify albums"),
-            title = context.getString(R.string.category_albums)
+            title = context.getString(R.string.common_albums)
         )
     }
 

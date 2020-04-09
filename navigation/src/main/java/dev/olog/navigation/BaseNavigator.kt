@@ -2,10 +2,7 @@ package dev.olog.navigation
 
 import android.graphics.Color
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import androidx.fragment.app.*
 import com.google.android.material.snackbar.Snackbar
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms

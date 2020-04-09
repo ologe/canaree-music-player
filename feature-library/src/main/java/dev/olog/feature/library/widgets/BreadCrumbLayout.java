@@ -24,6 +24,8 @@ import dev.olog.feature.library.R;
 import dev.olog.shared.android.extensions.ColorManagerKt;
 import timber.log.Timber;
 
+// TODO convert to kt
+// TODO made internal
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 
     @ColorInt

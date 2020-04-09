@@ -25,7 +25,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class FolderTreeFragmentViewModel @Inject constructor(
+internal class FolderTreeFragmentViewModel @Inject constructor(
     private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
     private val gateway: FolderNavigatorGateway,

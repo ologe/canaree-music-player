@@ -9,8 +9,8 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.presentation.base.prefs.SharedPreferences
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -24,14 +24,14 @@ internal class SearchFragmentViewModel @Inject constructor(
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
-    private val appPrefsUseCase: PresentationPreferencesGateway,
+    private val preferences: SharedPreferences,
     private val schedulers: Schedulers
 
 ) : ViewModel() {
 
-    private val isPodcastPublisher = ConflatedBroadcastChannel<Boolean>(false)
+    private val isPodcastPublisher = ConflatedBroadcastChannel(false)
 
-    fun canShowPodcasts() = appPrefsUseCase.canShowPodcasts()
+    fun canShowPodcasts() = preferences.canShowPodcasts()
 
     val data: Flow<List<DisplayableItem>> = isPodcastPublisher.asFlow()
         .flatMapLatest { dataProvider.observe(it) }

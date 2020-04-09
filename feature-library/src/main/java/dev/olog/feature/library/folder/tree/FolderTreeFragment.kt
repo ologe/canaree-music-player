@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class FolderTreeFragment : BaseFragment(),
+internal class FolderTreeFragment : BaseFragment(),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
 

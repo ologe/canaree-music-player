@@ -7,7 +7,7 @@ import dev.olog.core.coroutines.viewScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.delay
 
-class AutoShrinkExtendedFab(
+internal class AutoShrinkExtendedFab(
     context: Context,
     attrs: AttributeSet
 ) : ExtendedFloatingActionButton(context, attrs) {

@@ -36,12 +36,12 @@ import kotlinx.android.synthetic.main.item_detail_header.view.*
 import kotlinx.android.synthetic.main.item_detail_header.view.title
 import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_podcast.view.*
 import kotlinx.android.synthetic.main.item_detail_song.view.explicit
 import kotlinx.android.synthetic.main.item_detail_song.view.firstText
 import kotlinx.android.synthetic.main.item_detail_song.view.secondText
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
 import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
-import kotlinx.android.synthetic.main.item_tab_podcast.view.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -304,8 +304,8 @@ internal class DetailFragmentAdapter(
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
         val progress = podcastPositions[item.mediaId.id.toLong()] ?: 0
-        view.progressBar?.max = duration
-        view.progressBar?.progress = progress
+        view.progressBar.max = duration
+        view.progressBar.progress = progress
 
         val percentage = (progress.toFloat() / duration.toFloat() * 100f).toInt()
         view.percentage?.text = "$percentage%"
@@ -317,7 +317,7 @@ internal class DetailFragmentAdapter(
         } else {
             view.context.textColorPrimary()
         }
-        view.progressBar?.progressTintList = ColorStateList.valueOf(color)
+        view.progressBar.progressTintList = ColorStateList.valueOf(color)
     }
 
     fun updatePodcastPositions(positions: Map<Long, Int>) {

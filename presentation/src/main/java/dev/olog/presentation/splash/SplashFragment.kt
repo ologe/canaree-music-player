@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
-import dev.olog.presentation.interfaces.OnPermissionChanged
-import dev.olog.presentation.interfaces.Permission
+import dev.olog.feature.presentation.base.activity.OnPermissionChanged
+import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.core.extensions.alertDialog
 import dev.olog.shared.lazyFast
@@ -88,9 +88,10 @@ class SplashFragment : Fragment() {
             .remove(this)
             .commitAllowingStateLoss()
 
-        (requireActivity() as OnPermissionChanged).onPermissionGranted(Permission.STORAGE)
+        (requireActivity() as OnPermissionChanged).onPermissionGranted(
+            Permission.STORAGE)
 
-//        ExplainTrialDialog.show(requireContext()) {
+//        ExplainTrialDialog.show(requireContext()) { TODO
 //            requireActivity().supportFragmentManager
 //                .beginTransaction()
 //                .remove(this)

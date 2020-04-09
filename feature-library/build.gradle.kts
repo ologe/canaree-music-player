@@ -17,6 +17,7 @@ dependencies {
 
     implementation(project(":lib.image-loader"))
     implementation(project(":lib.media"))
+    implementation(project(":analytics"))
 
     implementation(project(":navigation"))
     implementation(project(":feature-presentation-base"))
@@ -37,6 +38,7 @@ dependencies {
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.recyclerView)
+    implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
     implementation(Libraries.Utils.scrollHelper)
