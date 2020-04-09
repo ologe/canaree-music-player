@@ -87,9 +87,9 @@ internal class AlbumPopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), album.songs, album.title)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), album.songs, album.title)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
@@ -107,42 +107,42 @@ internal class AlbumPopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            navigator.toPlayLater(getMediaId(), album.songs, album.title)
+            navigator.toPlayLater(getMediaId().toDomain(), album.songs, album.title)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun playNext() {
         if (song == null) {
-            navigator.toPlayNext(getMediaId(), album.songs, album.title)
+            navigator.toPlayNext(getMediaId().toDomain(), album.songs, album.title)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
 
     private fun addToFavorite() {
         if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), album.songs, album.title)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), album.songs, album.title)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun delete() {
         if (song == null) {
-            navigator.toDeleteDialog(getMediaId(), album.songs, album.title)
+            navigator.toDeleteDialog(getMediaId().toDomain(), album.songs, album.title)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun viewArtist() {
         if (container == null) {
-            navigator.toDetailFragment(album.artistPresentationId)
+            navigator.toDetailFragment(album.artistPresentationId.toDomain())
         } else {
-            navigator.toDetailFragment(album.artistPresentationId, container!!)
+            navigator.toDetailFragment(album.artistPresentationId.toDomain(), container!!)
         }
     }
 

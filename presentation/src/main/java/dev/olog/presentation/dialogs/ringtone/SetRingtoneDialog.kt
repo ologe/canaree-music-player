@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.olog.domain.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
@@ -11,6 +12,7 @@ import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.extensions.withArguments
+import dev.olog.feature.presentation.base.model.toPresentation
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,9 +25,9 @@ class SetRingtoneDialog : BaseDialog() {
         const val ARGUMENTS_ARTIST = "${TAG}_arguments_artist"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId.Track, title: String, artist: String): SetRingtoneDialog {
+        fun newInstance(mediaId: MediaId.Track, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
                     ARGUMENTS_TITLE to title,
                     ARGUMENTS_ARTIST to artist
             )

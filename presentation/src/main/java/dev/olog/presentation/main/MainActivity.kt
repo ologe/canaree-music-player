@@ -11,35 +11,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.feature.app.shortcuts.Shortcuts
-import dev.olog.domain.MediaId
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.intents.FloatingWindowsConstants
-import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.FloatingWindowHelper
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
-import dev.olog.presentation.folder.tree.FolderTreeFragment
-import dev.olog.presentation.interfaces.*
-import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.feature.presentation.base.extensions.collapse
-import dev.olog.feature.presentation.base.extensions.expand
-import dev.olog.feature.presentation.base.extensions.isExpanded
-import dev.olog.scrollhelper.ScrollType
-import dev.olog.feature.presentation.base.extensions.dimen
-import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.core.extensions.getTopFragment
+import dev.olog.domain.MediaId
+import dev.olog.feature.app.shortcuts.Shortcuts
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.activity.HasScrollingInterface
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.feature.presentation.base.activity.SharedViewModel
-import dev.olog.feature.presentation.base.extensions.setHeight
+import dev.olog.feature.presentation.base.extensions.*
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toPresentation
+import dev.olog.intents.AppConstants
+import dev.olog.intents.Classes
+import dev.olog.intents.FloatingWindowsConstants
+import dev.olog.intents.MusicServiceAction
+import dev.olog.presentation.FloatingWindowHelper
+import dev.olog.presentation.R
+import dev.olog.presentation.folder.tree.FolderTreeFragment
+import dev.olog.presentation.interfaces.HasBottomNavigation
+import dev.olog.presentation.interfaces.OnPermissionChanged
+import dev.olog.presentation.interfaces.Permission
+import dev.olog.presentation.library.LibraryFragment
+import dev.olog.presentation.model.BottomNavigationPage
+import dev.olog.presentation.navigator.Navigator
+import dev.olog.presentation.rateapp.RateAppDialog
+import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -173,8 +170,8 @@ class MainActivity : MusicGlueActivity(),
                 lifecycleScope.launchWhenResumed {
                     // TODO check
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
-                    val mediaId = MediaId.fromString(string).toPresentation()
-                    navigator.toDetailFragment(mediaId as PresentationId.Category)
+                    val mediaId = MediaId.fromString(string)
+                    navigator.toDetailFragment(mediaId as MediaId.Category)
                 }
             }
             Intent.ACTION_VIEW -> {

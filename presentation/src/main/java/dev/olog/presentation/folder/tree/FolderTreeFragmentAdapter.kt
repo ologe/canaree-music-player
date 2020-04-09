@@ -37,7 +37,7 @@ internal class FolderTreeFragmentAdapter(
                 viewHolder.setOnLongClickListener(this) { item, _, view ->
                     if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
-                            navigator.toDialog(mediaId, view, viewHolder.itemView)
+                            navigator.toDialog(mediaId.toDomain(), view, viewHolder.itemView)
                         }
                     }
                 }

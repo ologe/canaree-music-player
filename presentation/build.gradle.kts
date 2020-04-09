@@ -28,6 +28,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":feature-presentation-base"))
+    implementation(project(":navigation"))
 
     implementation(project(":feature-app-shortcuts"))
     implementation(project(":analytics"))

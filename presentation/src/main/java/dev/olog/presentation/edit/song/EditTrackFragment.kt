@@ -6,8 +6,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import dev.olog.domain.MediaId
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
@@ -28,9 +30,9 @@ class EditTrackFragment : BaseEditItemFragment() {
         const val ARGUMENTS_MEDIA_ID = "${TAG}_arguments_media_id"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId.Track): EditTrackFragment {
+        fun newInstance(mediaId: MediaId.Track): EditTrackFragment {
             return EditTrackFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId
+                ARGUMENTS_MEDIA_ID to mediaId.toPresentation()
             )
         }
     }

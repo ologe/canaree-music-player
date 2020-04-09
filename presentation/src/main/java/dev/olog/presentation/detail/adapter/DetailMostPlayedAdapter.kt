@@ -23,11 +23,11 @@ internal class DetailMostPlayedAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+            navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
         }
 
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-            navigator.toDialog(item.mediaId, view, viewHolder.itemView)
+            navigator.toDialog(item.mediaId.toDomain(), view, viewHolder.itemView)
         }
         viewHolder.elevateSongOnTouch()
     }

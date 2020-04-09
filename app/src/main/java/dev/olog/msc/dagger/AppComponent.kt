@@ -13,6 +13,7 @@ import dev.olog.msc.app.App
 import dev.olog.msc.appwidgets.WidgetBindingModule
 import dev.olog.msc.schedulers.SchedulersModule
 import dev.olog.msc.viewmodel.ViewModelModule
+import dev.olog.navigation.NavigationModule
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
 import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
 import dev.olog.shared.android.theme.ThemeModule
@@ -23,6 +24,8 @@ import javax.inject.Singleton
         AppModule::class,
         SchedulersModule::class,
         ViewModelModule::class,
+
+        NavigationModule::class,
 
         // libs
         LibImageLoaderDagger.AppModule::class,

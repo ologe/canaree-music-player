@@ -9,28 +9,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
-import dev.olog.lib.media.MediaProvider
+import dev.olog.domain.MediaId
+import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.DottedDividerDecorator
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.transition.FastAutoTransition
+import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
-import dev.olog.presentation.detail.adapter.*
-import dev.olog.feature.presentation.base.CanChangeStatusBarColor
-import dev.olog.feature.presentation.base.SetupNestedList
-import dev.olog.feature.presentation.base.extensions.afterTextChange
-import dev.olog.feature.presentation.base.extensions.getArgument
-import dev.olog.feature.presentation.base.extensions.withArguments
-import dev.olog.shared.android.dark.mode.isDarkMode
+import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.DisplayableHeader
+import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.presentation.base.model.toPresentation
+import dev.olog.feature.presentation.base.transition.FastAutoTransition
+import dev.olog.lib.media.MediaProvider
+import dev.olog.presentation.R
+import dev.olog.presentation.detail.adapter.*
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
-import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.dark.mode.isDarkMode
+import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.*
@@ -50,9 +49,9 @@ class DetailFragment : BaseFragment(),
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId.Category, transition: String): DetailFragment {
+        fun newInstance(mediaId: MediaId.Category, transition: String): DetailFragment {
             return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId,
+                ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
                 ARGUMENTS_TRANSITION to transition
             )
         }
@@ -243,7 +242,7 @@ class DetailFragment : BaseFragment(),
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
         back.setOnClickListener { requireActivity().onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more, null) }
+        more.setOnClickListener { navigator.toDialog(viewModel.mediaId.toDomain(), more, null) }
         filter.setOnClickListener {
             TransitionManager.beginDelayedTransition(toolbar,
                 FastAutoTransition

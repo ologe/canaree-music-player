@@ -13,13 +13,13 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.R
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
-import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.GlobalScope
@@ -129,28 +129,28 @@ internal abstract class AbsPopupListener(
     }
 
     protected fun viewInfo(navigator: Navigator, mediaId: PresentationId) {
-        navigator.toEditInfoFragment(mediaId)
+        navigator.toEditInfoFragment(mediaId.toDomain())
     }
 
     protected fun viewAlbum(navigator: Navigator, mediaId: PresentationId.Category) {
         if (container == null) {
-            navigator.toDetailFragment(mediaId)
+            navigator.toDetailFragment(mediaId.toDomain())
         } else {
-            navigator.toDetailFragment(mediaId, container!!)
+            navigator.toDetailFragment(mediaId.toDomain(), container!!)
         }
     }
 
     protected fun viewArtist(navigator: Navigator, mediaId: PresentationId.Category) {
         if (container == null) {
-            navigator.toDetailFragment(mediaId)
+            navigator.toDetailFragment(mediaId.toDomain())
         } else {
-            navigator.toDetailFragment(mediaId, container!!)
+            navigator.toDetailFragment(mediaId.toDomain(), container!!)
         }
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: PresentationId, song: Song) {
         when (mediaId) {
-            is PresentationId.Track -> navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
+            is PresentationId.Track -> navigator.toSetRingtoneDialog(mediaId.toDomain(), song.title, song.artist)
             is PresentationId.Category -> throwNotHandled(mediaId)
         }
     }

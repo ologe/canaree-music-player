@@ -1,5 +1,6 @@
 package dev.olog.domain
 
+// TODO rename this, causes confusiont with [MediaId.Category], maybe to MediaIdType
 enum class MediaIdCategory {
     FOLDERS,
     PLAYLISTS,

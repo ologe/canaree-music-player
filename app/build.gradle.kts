@@ -71,6 +71,7 @@ dependencies {
 
     // feature
     implementation(project(":feature-presentation-base")) // TODO is needed?
+    implementation(project(":navigation"))
 
     // libs
     implementation(project(":lib.network")) // TODO rename to lib.network

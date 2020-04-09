@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import dev.olog.domain.MediaId
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -12,6 +13,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.coroutines.flow.launchIn
@@ -27,9 +29,9 @@ class RelatedArtistFragment : BaseFragment() {
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId.Category, transition: String): RelatedArtistFragment {
+        fun newInstance(mediaId: MediaId.Category, transition: String): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId,
+                ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
                 ARGUMENTS_TRANSITION to transition
             )
         }

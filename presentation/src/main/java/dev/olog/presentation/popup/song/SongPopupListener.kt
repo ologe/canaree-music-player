@@ -7,10 +7,7 @@ import dev.olog.domain.entity.track.Song
 import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.feature.presentation.base.model.albumPresentationId
-import dev.olog.feature.presentation.base.model.artistPresentationId
-import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.*
 import dev.olog.presentation.*
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.popup.AbsPopup
@@ -71,23 +68,23 @@ internal class SongPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist() {
-        navigator.toCreatePlaylistDialog(getMediaId(), -1, song.title)
+        navigator.toCreatePlaylistDialog(getMediaId().toDomain(), -1, song.title)
     }
 
     private fun playLater() {
-        navigator.toPlayLater(getMediaId(), -1, song.title)
+        navigator.toPlayLater(getMediaId().toDomain(), -1, song.title)
     }
 
     private fun playNext() {
-        navigator.toPlayNext(getMediaId(), -1, song.title)
+        navigator.toPlayNext(getMediaId().toDomain(), -1, song.title)
     }
 
     private fun addToFavorite() {
-        navigator.toAddToFavoriteDialog(getMediaId(), -1, song.title)
+        navigator.toAddToFavoriteDialog(getMediaId().toDomain(), -1, song.title)
     }
 
     private fun delete() {
-        navigator.toDeleteDialog(getMediaId(), -1, song.title)
+        navigator.toDeleteDialog(getMediaId().toDomain(), -1, song.title)
     }
 
 }

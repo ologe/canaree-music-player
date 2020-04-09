@@ -1,14 +1,13 @@
 package dev.olog.presentation.edit
 
 import android.content.Context
+import dev.olog.domain.MediaId
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.presentation.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,7 +28,7 @@ class EditItemDialogFactory @Inject constructor(
 ) {
 
     fun toEditTrack(
-        mediaId: PresentationId.Track,
+        mediaId: MediaId.Track,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
@@ -47,11 +46,11 @@ class EditItemDialogFactory @Inject constructor(
     }
 
     fun toEditAlbum(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            getSongListByParamUseCase.invoke(mediaId.toDomain()).forEach { checkItem(it) }
+            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
             withContext(schedulers.main) {
                 action()
             }
@@ -64,11 +63,11 @@ class EditItemDialogFactory @Inject constructor(
     }
 
     fun toEditArtist(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         action: () -> Unit
     ) = GlobalScope.launch(schedulers.io) {
         try {
-            getSongListByParamUseCase.invoke(mediaId.toDomain()).forEach { checkItem(it) }
+            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
             withContext(schedulers.main) {
                 action()
             }

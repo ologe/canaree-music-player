@@ -13,6 +13,8 @@ import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.core.isQ
+import dev.olog.domain.MediaId
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,9 +28,9 @@ class DeleteDialog: BaseDialog() {
         const val ARGUMENTS_ITEM_TITLE = "${TAG}_arguments_item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId, listSize: Int, itemTitle: String): DeleteDialog {
+        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): DeleteDialog {
             return DeleteDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )

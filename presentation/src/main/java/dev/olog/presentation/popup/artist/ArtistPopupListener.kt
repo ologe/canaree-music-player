@@ -85,9 +85,9 @@ internal class ArtistPopupListener @Inject constructor(
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), artist.songs, artist.name)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), artist.songs, artist.name)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
@@ -105,34 +105,34 @@ internal class ArtistPopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            navigator.toPlayLater(getMediaId(), artist.songs, artist.name)
+            navigator.toPlayLater(getMediaId().toDomain(), artist.songs, artist.name)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun playNext() {
         if (song == null) {
-            navigator.toPlayNext(getMediaId(), artist.songs, artist.name)
+            navigator.toPlayNext(getMediaId().toDomain(), artist.songs, artist.name)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
 
     private fun addToFavorite() {
         if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), artist.songs, artist.name)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), artist.songs, artist.name)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun delete() {
         if (song == null) {
-            navigator.toDeleteDialog(getMediaId(), artist.songs, artist.name)
+            navigator.toDeleteDialog(getMediaId().toDomain(), artist.songs, artist.name)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 

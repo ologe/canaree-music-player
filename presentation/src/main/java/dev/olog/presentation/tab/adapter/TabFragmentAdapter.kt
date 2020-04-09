@@ -51,7 +51,7 @@ internal class TabFragmentAdapter(
 
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.elevateSongOnTouch()
             }
@@ -64,7 +64,7 @@ internal class TabFragmentAdapter(
                     onItemClick(view, item)
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.elevateAlbumOnTouch()
             }
@@ -107,7 +107,7 @@ internal class TabFragmentAdapter(
             val sort = viewModel.getAllTracksSortOrder()
             mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, sort)
         } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(item.mediaId, view)
+            navigator.toDetailFragment(item.mediaId.toDomain(), view)
         }
     }
 

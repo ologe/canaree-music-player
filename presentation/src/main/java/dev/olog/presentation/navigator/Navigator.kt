@@ -1,28 +1,28 @@
 package dev.olog.presentation.navigator
 
 import android.view.View
+import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.popup.main.MainPopupCategory
 
 internal interface Navigator {
 
     fun toFirstAccess()
 
-    fun toDetailFragment(mediaId: PresentationId.Category)
+    fun toDetailFragment(mediaId: MediaId.Category)
 
     fun toDetailFragment(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     )
 
     fun toRelatedArtists(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     )
 
     fun toRecentlyAdded(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     )
 
@@ -31,12 +31,12 @@ internal interface Navigator {
         view: View
     )
 
-    fun toEditInfoFragment(mediaId: PresentationId)
+    fun toEditInfoFragment(mediaId: MediaId)
 
     fun toOfflineLyrics()
 
     fun toDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         anchor: View,
         container: View?
     )
@@ -47,13 +47,13 @@ internal interface Navigator {
     )
 
     fun toSetRingtoneDialog(
-        mediaId: PresentationId.Track,
+        mediaId: MediaId.Track,
         title: String,
         artist: String
     )
 
     fun toCreatePlaylistDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     )
@@ -61,42 +61,41 @@ internal interface Navigator {
     fun toCreatePlaylistDialogFromPlayingQueue()
 
     fun toAddToFavoriteDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     )
 
     fun toPlayLater(
-        mediaId:
-        PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     )
 
     fun toPlayNext(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     )
 
     fun toRenameDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     )
 
     fun toClearPlaylistDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     )
 
     fun toDeleteDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     )
 
     fun toRemoveDuplicatesDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     )
 }

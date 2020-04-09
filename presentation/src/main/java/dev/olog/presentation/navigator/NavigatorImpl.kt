@@ -8,9 +8,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
+import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.fragment.setupEnterAnimation
 import dev.olog.feature.presentation.base.fragment.setupEnterSharedAnimation
@@ -65,7 +65,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toDetailFragment(mediaId: PresentationId.Category) {
+    override fun toDetailFragment(mediaId: MediaId.Category) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
         (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
@@ -85,7 +85,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDetailFragment(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     ) {
         val activity = activityRef.get() ?: return
@@ -113,7 +113,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRelatedArtists(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     ) {
         mandatory(allowed()) ?: return
@@ -135,7 +135,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRecentlyAdded(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         view: View
     ) {
         mandatory(allowed()) ?: return
@@ -168,27 +168,27 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toEditInfoFragment(mediaId: PresentationId) {
+    override fun toEditInfoFragment(mediaId: MediaId) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
         when (mediaId) {
-            is PresentationId.Track -> {
+            is MediaId.Track -> {
                 editItemDialogFactory.get().toEditTrack(mediaId) {
                     val instance = EditTrackFragment.newInstance(mediaId)
                     instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
                 }
             }
-            is PresentationId.Category -> {
+            is MediaId.Category -> {
                 when (mediaId.category) {
-                    PresentationIdCategory.ALBUMS -> {
+                    MediaIdCategory.ALBUMS -> {
                         editItemDialogFactory.get().toEditAlbum(mediaId) {
                             val instance = EditAlbumFragment.newInstance(mediaId)
                             instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
                         }
                     }
-                    PresentationIdCategory.ARTISTS,
-                    PresentationIdCategory.PODCASTS_AUTHORS -> {
+                    MediaIdCategory.ARTISTS,
+                    MediaIdCategory.PODCASTS_AUTHORS -> {
                         editItemDialogFactory.get().toEditArtist(mediaId) {
                             val instance = EditArtistFragment.newInstance(mediaId)
                             instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
@@ -224,7 +224,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         anchor: View,
         container: View?
     ) {
@@ -247,7 +247,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toSetRingtoneDialog(
-        mediaId: PresentationId.Track,
+        mediaId: MediaId.Track,
         title: String,
         artist: String
     ) {
@@ -259,7 +259,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toAddToFavoriteDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     ) {
@@ -271,7 +271,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toPlayLater(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     ) {
@@ -283,7 +283,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toPlayNext(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     ) {
@@ -295,7 +295,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRenameDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     ) {
         mandatory(allowed()) ?: return
@@ -306,7 +306,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDeleteDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     ) {
@@ -318,7 +318,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toCreatePlaylistDialog(
-        mediaId: PresentationId,
+        mediaId: MediaId,
         listSize: Int,
         itemTitle: String
     ) {
@@ -338,7 +338,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toClearPlaylistDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     ) {
         mandatory(allowed()) ?: return
@@ -348,7 +348,7 @@ internal class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toRemoveDuplicatesDialog(
-        mediaId: PresentationId.Category,
+        mediaId: MediaId.Category,
         itemTitle: String
     ) {
         mandatory(allowed()) ?: return

@@ -81,7 +81,7 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
                 }
             }
             R.layout.item_detail_song_with_track_spotify -> {
@@ -103,10 +103,10 @@ internal class DetailFragmentAdapter(
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
-                    navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
-                    navigator.toDialog(item.mediaId, view, viewHolder.itemView)
+                    navigator.toDialog(item.mediaId.toDomain(), view, viewHolder.itemView)
                 }
 
                 viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
@@ -119,14 +119,14 @@ internal class DetailFragmentAdapter(
 
             R.layout.item_detail_header_recently_added -> {
                 viewHolder.setOnClickListener(this) { _, _, _ ->
-                    navigator.toRecentlyAdded(mediaId, viewHolder.itemView)
+                    navigator.toRecentlyAdded(mediaId.toDomain(), viewHolder.itemView)
                 }
             }
             R.layout.item_detail_header -> {
 
                 viewHolder.setOnClickListener(this) { item, _, _ ->
                     if (item.mediaId == DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL) {
-                        navigator.toRelatedArtists(mediaId, viewHolder.itemView)
+                        navigator.toRelatedArtists(mediaId.toDomain(), viewHolder.itemView)
                     }
                 }
             }

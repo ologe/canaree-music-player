@@ -35,7 +35,7 @@ internal class PlayingQueueFragmentAdapter(
         }
 
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
-            navigator.toDialog(item.mediaId, viewHolder.itemView, viewHolder.itemView)
+            navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)
         }
         viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
         viewHolder.elevateSongOnTouch()

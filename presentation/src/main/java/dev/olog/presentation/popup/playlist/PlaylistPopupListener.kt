@@ -89,14 +89,14 @@ internal class PlaylistPopupListener @Inject constructor(
     }
 
     private fun removeDuplicates() {
-        navigator.toRemoveDuplicatesDialog(playlist.presentationId, playlist.title)
+        navigator.toRemoveDuplicatesDialog(playlist.presentationId.toDomain(), playlist.title)
     }
 
     private fun toCreatePlaylist() {
         if (song == null) {
-            navigator.toCreatePlaylistDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), playlist.size, playlist.title)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
@@ -126,43 +126,43 @@ internal class PlaylistPopupListener @Inject constructor(
 
     private fun playLater() {
         if (song == null) {
-            navigator.toPlayLater(getMediaId(), playlist.size, playlist.title)
+            navigator.toPlayLater(getMediaId().toDomain(), playlist.size, playlist.title)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun playNext() {
         if (song == null) {
-            navigator.toPlayNext(getMediaId(), playlist.size, playlist.title)
+            navigator.toPlayNext(getMediaId().toDomain(), playlist.size, playlist.title)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
 
     private fun addToFavorite() {
         if (song == null) {
-            navigator.toAddToFavoriteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), playlist.size, playlist.title)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun delete() {
         if (song == null) {
-            navigator.toDeleteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toDeleteDialog(getMediaId().toDomain(), playlist.size, playlist.title)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId().toDomain(), -1, song!!.title)
         }
     }
 
     private fun rename() {
-        navigator.toRenameDialog(playlist.presentationId, playlist.title)
+        navigator.toRenameDialog(playlist.presentationId.toDomain(), playlist.title)
     }
 
     private fun clearPlaylist() {
-        navigator.toClearPlaylistDialog(playlist.presentationId, playlist.title)
+        navigator.toClearPlaylistDialog(playlist.presentationId.toDomain(), playlist.title)
     }
 
 

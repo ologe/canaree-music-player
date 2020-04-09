@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import dev.olog.domain.MediaId
 import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
@@ -16,6 +17,7 @@ import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.coroutines.flow.launchIn
@@ -31,9 +33,9 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         const val ARGUMENTS_TRANSITION = "transition"
 
         @JvmStatic
-        fun newInstance(mediaId: PresentationId.Category, transition: String): RecentlyAddedFragment {
+        fun newInstance(mediaId: MediaId.Category, transition: String): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId,
+                ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
                 ARGUMENTS_TRANSITION to transition
             )
         }
