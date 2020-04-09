@@ -1,6 +1,7 @@
 package dev.olog.msc.dagger
 
 import dagger.Module
+import dev.olog.feature.library.FeatureLibraryDagger
 import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
 import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
@@ -11,7 +12,8 @@ import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
         FeatureFloatingWindowDagger.AppModule::class,
         FeatureMusicServiceDagger.AppModule::class,
         FeaturePlaylistChooserDagger.AppModule::class,
-        FeatureMainActivityDagger.AppModule::class
+        FeatureMainActivityDagger.AppModule::class,
+        FeatureLibraryDagger.AppModule::class
     ]
 )
 abstract class FeaturesModule
