@@ -17,16 +17,12 @@ dependencies {
 
     implementation(project(":lib.image-loader"))
     implementation(project(":lib.media"))
-    implementation(project(":analytics")) // TODO check if is needed
 
     implementation(project(":navigation"))
     implementation(project(":feature-presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
