@@ -55,7 +55,7 @@ internal class NavigatorImpl @Inject internal constructor(
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
 
-) : DefaultLifecycleObserver, Navigator {
+) : Navigator {
 
     private val activityRef = WeakReference(activity)
 
@@ -238,14 +238,14 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toMainPopup(
-        anchor: View,
-        category: MainPopupCategory
-    ) {
-        mandatory(allowed()) ?: return
-
-        mainPopup.get().show(anchor, this, category)
-    }
+//    override fun toMainPopup(
+//        anchor: View,
+//        category: MainPopupCategory
+//    ) {
+//        mandatory(allowed()) ?: return
+//
+//        mainPopup.get().show(anchor, this, category)
+//    }
 
     override fun toSetRingtoneDialog(
         mediaId: MediaId.Track,
