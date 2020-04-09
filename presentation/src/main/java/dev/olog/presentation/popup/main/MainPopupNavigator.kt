@@ -7,8 +7,8 @@ import androidx.fragment.app.commit
 import androidx.preference.PreferenceManager
 import dev.olog.presentation.R
 import dev.olog.presentation.about.AboutFragment
-import dev.olog.feature.presentation.base.fragment.setupEnterAnimation
-import dev.olog.feature.presentation.base.fragment.setupExitAnimation
+import dev.olog.navigation.transition.setupEnterAnimation
+import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.allowed
 import dev.olog.presentation.navigator.findFirstVisibleFragment

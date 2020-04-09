@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.presentation.detail.DetailFragment
-import dev.olog.feature.library.folder.tree.FolderTreeFragment
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
@@ -19,6 +17,7 @@ import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
 import dev.olog.feature.presentation.base.extensions.setMargin
+import dev.olog.navigation.screens.FragmentScreen
 
 class SuperCerealScrollHelper(
     activity: FragmentActivity,
@@ -31,16 +30,17 @@ class SuperCerealScrollHelper(
             // apply only top padding
             list.updatePadding(top = 0)
         }
-        if (fragment is FolderTreeFragment){
-            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
-            if (crumbsWrapper.marginTop < 1){
+
+//        if (fragment.tag is FolderTreeFragment){ TODO
+//            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
+//            if (crumbsWrapper.marginTop < 1){
 //                 margin not set yet
-                fragment.requireView().doOnPreDraw {
-                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
-                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
-                }
-            }
-        }
+//                fragment.requireView().doOnPreDraw {
+//                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
+//                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
+//                }
+//            }
+//        }
     }
 
     override fun searchForFab(fragment: Fragment): View? {
@@ -84,7 +84,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {
         val tag = fragment.tag
-        if (tag == LibraryFragment.TAG_TRACK || tag == LibraryFragment.TAG_PODCAST){
+        if (tag == FragmentScreen.LIBRARY_TRACKS.tag || tag == FragmentScreen.LIBRARY_PODCAST.tag) {
             return fragment.view?.findViewByIdNotRecursive(R.id.viewPager)
         }
         return null

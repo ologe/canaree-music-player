@@ -1,7 +1,6 @@
 package dev.olog.presentation.popup.main
 
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
-import dev.olog.presentation.tab.TabCategory
 import dev.olog.shared.throwNotHandled
 
 internal enum class MainPopupCategory {
@@ -19,21 +18,21 @@ internal enum class MainPopupCategory {
     PLAYING_QUEUE,
     SEARCH;
 
-    fun toTabCategory(): TabCategory {
-        return when (this) {
-            PLAYING_QUEUE,
-            SEARCH -> throwNotHandled(this)
-            FOLDERS -> TabCategory.FOLDERS
-            PLAYLISTS -> TabCategory.PLAYLISTS
-            SONGS -> TabCategory.SONGS
-            ALBUMS -> TabCategory.ALBUMS
-            ARTISTS -> TabCategory.ARTISTS
-            GENRES -> TabCategory.GENRES
-            PODCASTS_PLAYLIST -> TabCategory.PODCASTS_PLAYLIST
-            PODCASTS -> TabCategory.PODCASTS
-            PODCASTS_AUTHORS -> TabCategory.PODCASTS_AUTHORS
-        }
-    }
+//    fun toTabCategory(): TabCategory { TODO
+//        return when (this) {
+//            PLAYING_QUEUE,
+//            SEARCH -> throwNotHandled(this)
+//            FOLDERS -> TabCategory.FOLDERS
+//            PLAYLISTS -> TabCategory.PLAYLISTS
+//            SONGS -> TabCategory.SONGS
+//            ALBUMS -> TabCategory.ALBUMS
+//            ARTISTS -> TabCategory.ARTISTS
+//            GENRES -> TabCategory.GENRES
+//            PODCASTS_PLAYLIST -> TabCategory.PODCASTS_PLAYLIST
+//            PODCASTS -> TabCategory.PODCASTS
+//            PODCASTS_AUTHORS -> TabCategory.PODCASTS_AUTHORS
+//        }
+//    }
 
 }
 

@@ -2,14 +2,16 @@ package dev.olog.presentation.widgets.bottomnavigator
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.HasAndroidInjector
-import dev.olog.analytics.TrackerFacade
 import dev.olog.core.extensions.findActivity
+import dev.olog.feature.presentation.base.prefs.CommonPreferences
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.R
-import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.navigation.screens.BottomNavigationPage
+import dev.olog.navigation.screens.FragmentScreen
+import dev.olog.navigation.screens.LibraryPage
+import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
 internal class CanareeBottomNavigationView(
@@ -18,12 +20,10 @@ internal class CanareeBottomNavigationView(
 ) : BottomNavigationView(context, attrs) {
 
     @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    internal lateinit var preferences: CommonPreferences
 
     @Inject
-    internal lateinit var trackerFacade: TrackerFacade
-
-    private val navigator = BottomNavigator()
+    lateinit var navigator: Navigator
 
     init {
         (findActivity() as HasAndroidInjector)
@@ -33,18 +33,16 @@ internal class CanareeBottomNavigationView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val lastLibraryPage = presentationPrefs.getLastBottomViewPage()
+        val lastLibraryPage = preferences.getLastBottomViewPage()
         selectedItemId = lastLibraryPage.toMenuId()
 
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
-            val libraryPage = presentationPrefs.getLastLibraryPage()
+            val libraryPage = preferences.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.navigate(
-                context as FragmentActivity,
-                trackerFacade,
-                navigationPage,
-                libraryPage
+            navigator.bottomNavigate(
+                findActivity(),
+                navigationPage.toScreen(libraryPage)
             )
             true
         }
@@ -55,18 +53,32 @@ internal class CanareeBottomNavigationView(
         setOnNavigationItemSelectedListener(null)
     }
 
+    private fun BottomNavigationPage.toScreen(libraryPage: LibraryPage): FragmentScreen {
+        return when (this){
+            BottomNavigationPage.LIBRARY -> {
+                when(libraryPage){
+                    LibraryPage.TRACKS -> FragmentScreen.LIBRARY_TRACKS
+                    LibraryPage.PODCASTS -> FragmentScreen.LIBRARY_PODCAST
+                }
+            }
+            BottomNavigationPage.SEARCH -> FragmentScreen.SEARCH
+            BottomNavigationPage.QUEUE -> FragmentScreen.QUEUE
+            else -> throwNotHandled(this)
+        }
+    }
+
     fun navigate(page: BottomNavigationPage) {
         selectedItemId = page.toMenuId()
     }
 
     fun navigateToLastPage() {
-        val navigationPage = presentationPrefs.getLastBottomViewPage()
-        val libraryPage = presentationPrefs.getLastLibraryPage()
-        navigator.navigate(context as FragmentActivity, trackerFacade, navigationPage, libraryPage)
+        val navigationPage = preferences.getLastBottomViewPage()
+        val libraryPage = preferences.getLastLibraryPage()
+        navigator.bottomNavigate(findActivity(), navigationPage.toScreen(libraryPage))
     }
 
     private fun saveLastPage(page: BottomNavigationPage) {
-        presentationPrefs.setLastBottomViewPage(page)
+        preferences.setLastBottomViewPage(page)
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this) {

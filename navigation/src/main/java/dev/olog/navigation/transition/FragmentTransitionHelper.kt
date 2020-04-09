@@ -1,4 +1,4 @@
-package dev.olog.feature.presentation.base.fragment
+package dev.olog.navigation.transition
 
 import android.content.Context
 import androidx.fragment.app.Fragment

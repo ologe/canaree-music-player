@@ -9,8 +9,12 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 internal class NavigatorImpl @Inject constructor(
-    private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>
-) : BaseNavigator(), Navigator {
+    private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
+    bottomNavigator: BottomNavigatorImpl
+) : BaseNavigator(),
+    Navigator,
+    BottomNavigator by bottomNavigator
+{
 
     override fun toFirstAccess() {
         

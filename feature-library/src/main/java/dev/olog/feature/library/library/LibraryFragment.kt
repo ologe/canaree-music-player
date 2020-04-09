@@ -8,16 +8,16 @@ import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.feature.library.R
-import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.feature.library.model.LibraryPage
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation
-import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.extensions.getArgument
+import dev.olog.feature.presentation.base.extensions.withArguments
+import dev.olog.feature.presentation.base.model.PresentationIdCategory
+import dev.olog.navigation.Navigator
+import dev.olog.navigation.screens.BottomNavigationPage
+import dev.olog.navigation.screens.LibraryPage
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.feature.presentation.base.extensions.withArguments
-import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mandatory
 import kotlinx.android.synthetic.main.fragment_library.*
@@ -27,10 +27,6 @@ import javax.inject.Inject
 internal class LibraryFragment : BaseFragment() {
 
     companion object {
-        @JvmStatic
-        val TAG_TRACK = LibraryFragment::class.java.name
-        @JvmStatic
-        val TAG_PODCAST = LibraryFragment::class.java.name + "_podcast"
         const val IS_PODCAST = "is_podcast"
 
         @JvmStatic

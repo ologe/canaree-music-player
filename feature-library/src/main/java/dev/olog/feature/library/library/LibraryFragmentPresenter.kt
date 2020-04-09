@@ -1,16 +1,16 @@
 package dev.olog.feature.library.library
 
 import dev.olog.domain.prefs.TutorialPreferenceGateway
-import dev.olog.feature.library.model.LibraryPage
 import dev.olog.feature.library.prefs.LibraryPreferences
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
-import dev.olog.feature.presentation.base.prefs.SharedPreferences
+import dev.olog.feature.presentation.base.prefs.CommonPreferences
+import dev.olog.navigation.screens.LibraryPage
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
 internal class LibraryFragmentPresenter @Inject constructor(
     private val preferences: LibraryPreferences,
-    private val sharedPreferences: SharedPreferences,
+    private val commonPreferences: CommonPreferences,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {
 
@@ -37,17 +37,17 @@ internal class LibraryFragmentPresenter @Inject constructor(
 
     fun getCategories(isPodcast: Boolean): List<LibraryCategoryBehavior> {
         if (isPodcast) {
-            return sharedPreferences.getPodcastLibraryCategories()
+            return commonPreferences.getPodcastLibraryCategories()
                 .filter { it.visible }
         }
-        return sharedPreferences.getLibraryCategories()
+        return commonPreferences.getLibraryCategories()
             .filter { it.visible }
     }
 
     fun setLibraryPage(page: LibraryPage) {
-        preferences.setLibraryPage(page)
+        commonPreferences.setLibraryPage(page)
     }
 
-    fun canShowPodcasts() = sharedPreferences.canShowPodcasts()
+    fun canShowPodcasts() = commonPreferences.canShowPodcasts()
 
 }

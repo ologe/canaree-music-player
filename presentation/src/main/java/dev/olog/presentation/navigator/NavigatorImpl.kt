@@ -10,11 +10,14 @@ import dagger.Lazy
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
+import dev.olog.feature.presentation.base.activity.HasSlidingPanel
+import dev.olog.feature.presentation.base.extensions.collapse
+import dev.olog.feature.presentation.base.extensions.isExpanded
+import dev.olog.navigation.transition.setupEnterAnimation
+import dev.olog.navigation.transition.setupEnterSharedAnimation
+import dev.olog.navigation.transition.setupExitAnimation
+import dev.olog.navigation.transition.setupExitSharedAnimation
 import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.fragment.setupEnterAnimation
-import dev.olog.feature.presentation.base.fragment.setupEnterSharedAnimation
-import dev.olog.feature.presentation.base.fragment.setupExitAnimation
-import dev.olog.feature.presentation.base.fragment.setupExitSharedAnimation
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
@@ -31,16 +34,12 @@ import dev.olog.presentation.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment
-import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
-import dev.olog.feature.presentation.base.extensions.collapse
-import dev.olog.feature.presentation.base.extensions.isExpanded
-import dev.olog.navigation.Navigator
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
 import dev.olog.shared.throwNotHandled
@@ -53,18 +52,18 @@ internal class NavigatorImpl @Inject internal constructor(
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
 
-) : Navigator {
+) {
 
     private val activityRef = WeakReference(activity)
 
-    override fun toFirstAccess() {
+    fun toFirstAccess() {
         val activity = activityRef.get() ?: return
         activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
         }
     }
 
-    override fun toDetailFragment(mediaId: MediaId.Category) {
+    fun toDetailFragment(mediaId: MediaId.Category) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
         (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
@@ -83,7 +82,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toDetailFragment(
+    fun toDetailFragment(
         mediaId: MediaId.Category,
         view: View
     ) {
@@ -111,7 +110,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toRelatedArtists(
+    fun toRelatedArtists(
         mediaId: MediaId.Category,
         view: View
     ) {
@@ -133,7 +132,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toRecentlyAdded(
+    fun toRecentlyAdded(
         mediaId: MediaId.Category,
         view: View
     ) {
@@ -155,7 +154,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toOfflineLyrics() {
+    fun toOfflineLyrics() {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
@@ -167,7 +166,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toEditInfoFragment(mediaId: MediaId) {
+    fun toEditInfoFragment(mediaId: MediaId) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
@@ -199,7 +198,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }.exhaustive
     }
 
-    override fun toChooseTracksForPlaylistFragment(
+    fun toChooseTracksForPlaylistFragment(
         type: PlaylistType,
         view: View
     ) {
@@ -222,7 +221,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toDialog(
+    fun toDialog(
         mediaId: MediaId,
         anchor: View,
         container: View?
@@ -236,7 +235,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
-//    override fun toMainPopup(
+//    fun toMainPopup(
 //        anchor: View,
 //        category: MainPopupCategory
 //    ) {
@@ -245,7 +244,7 @@ internal class NavigatorImpl @Inject internal constructor(
 //        mainPopup.get().show(anchor, this, category)
 //    }
 
-    override fun toSetRingtoneDialog(
+    fun toSetRingtoneDialog(
         mediaId: MediaId.Track,
         title: String,
         artist: String
@@ -257,7 +256,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 
-    override fun toAddToFavoriteDialog(
+    fun toAddToFavoriteDialog(
         mediaId: MediaId,
         listSize: Int,
         itemTitle: String
@@ -269,7 +268,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
-    override fun toPlayLater(
+    fun toPlayLater(
         mediaId: MediaId,
         listSize: Int,
         itemTitle: String
@@ -281,7 +280,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, PlayLaterDialog.TAG)
     }
 
-    override fun toPlayNext(
+    fun toPlayNext(
         mediaId: MediaId,
         listSize: Int,
         itemTitle: String
@@ -293,7 +292,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, PlayNextDialog.TAG)
     }
 
-    override fun toRenameDialog(
+    fun toRenameDialog(
         mediaId: MediaId.Category,
         itemTitle: String
     ) {
@@ -304,7 +303,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 
-    override fun toDeleteDialog(
+    fun toDeleteDialog(
         mediaId: MediaId,
         listSize: Int,
         itemTitle: String
@@ -316,7 +315,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 
-    override fun toCreatePlaylistDialog(
+    fun toCreatePlaylistDialog(
         mediaId: MediaId,
         listSize: Int,
         itemTitle: String
@@ -328,7 +327,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
-    override fun toCreatePlaylistDialogFromPlayingQueue() {
+    fun toCreatePlaylistDialogFromPlayingQueue() {
         mandatory(allowed()) ?: return
 
         val activity = activityRef.get() ?: return
@@ -336,7 +335,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
-    override fun toClearPlaylistDialog(
+    fun toClearPlaylistDialog(
         mediaId: MediaId.Category,
         itemTitle: String
     ) {
@@ -346,7 +345,7 @@ internal class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
     }
 
-    override fun toRemoveDuplicatesDialog(
+    fun toRemoveDuplicatesDialog(
         mediaId: MediaId.Category,
         itemTitle: String
     ) {

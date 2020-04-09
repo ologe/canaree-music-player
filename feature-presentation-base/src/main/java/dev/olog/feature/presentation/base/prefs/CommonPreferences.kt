@@ -6,6 +6,8 @@ import androidx.core.content.edit
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
+import dev.olog.navigation.screens.BottomNavigationPage
+import dev.olog.navigation.screens.LibraryPage
 import javax.inject.Inject
 
 private const val TAG = "AppPreferencesDataStoreImpl"
@@ -32,7 +34,11 @@ private const val CATEGORY_PODCAST_PLAYLIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_
 private const val CATEGORY_PODCAST_VISIBILITY = "$TAG.CATEGORY_PODCAST_VISIBILITY"
 private const val CATEGORY_PODCAST_ARTIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
 
-class SharedPreferences @Inject constructor(
+private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
+
+private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
+
+class CommonPreferences @Inject constructor(
     private val context: Context,
     private val preferences: SharedPreferences
 ) {
@@ -164,6 +170,26 @@ class SharedPreferences @Inject constructor(
 
     fun canShowPodcasts(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
+    }
+
+    fun getLastBottomViewPage(): BottomNavigationPage {
+        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
+        return BottomNavigationPage.valueOf(page)
+    }
+
+    fun setLastBottomViewPage(page: BottomNavigationPage) {
+        preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
+    }
+
+    fun getLastLibraryPage(): LibraryPage {
+        val page = preferences.getString(LIBRARY_LAST_PAGE, LibraryPage.TRACKS.toString())!!
+        return LibraryPage.valueOf(page)
+    }
+
+    fun setLibraryPage(page: LibraryPage) {
+        preferences.edit {
+            putString(LIBRARY_LAST_PAGE, page.toString())
+        }
     }
 
 }

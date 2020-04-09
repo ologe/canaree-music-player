@@ -3,14 +3,13 @@ package dev.olog.presentation.navigator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import dev.olog.core.extensions.getTopFragment
-import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
 import timber.log.Timber
 
 private val basicFragments = listOf(
-    LibraryFragment.TAG_TRACK,
-    LibraryFragment.TAG_PODCAST,
+//    LibraryFragment.TAG_TRACK, TODO
+//    LibraryFragment.TAG_PODCAST,
     SearchFragment.TAG,
     PlayingQueueFragment.TAG
 )

@@ -18,11 +18,11 @@ internal abstract class BaseNavigator {
         activity: FragmentActivity,
         fragment: Fragment?,
         tag: String,
-        block: FragmentTransaction.(Fragment) -> FragmentTransaction
+        block: FragmentTransaction.(Fragment) -> Any?
     ) {
         mandatory(activity, fragment != null) ?: return
         activity.supportFragmentManager.commit {
-            replace(R.id.fragmentContainer, fragment!!, createBackStackTag(tag))
+            replace(R.id.fragmentContainer, fragment!!, tag)
             block(fragment)
         }
     }
@@ -48,7 +48,7 @@ internal abstract class BaseNavigator {
     /**
      * Use this when you can instantiate multiple times same fragment
      */
-    private fun createBackStackTag(fragmentTag: String): String {
+    protected fun createBackStackTag(fragmentTag: String): String {
         // get last + 1
         val counter = backStackCount.getOrPut(fragmentTag) { 0 } + 1
         // update

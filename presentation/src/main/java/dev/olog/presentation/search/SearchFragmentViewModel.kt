@@ -10,7 +10,7 @@ import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.toDomain
-import dev.olog.feature.presentation.base.prefs.SharedPreferences
+import dev.olog.feature.presentation.base.prefs.CommonPreferences
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -24,7 +24,7 @@ internal class SearchFragmentViewModel @Inject constructor(
     private val insertRecentUse: InsertRecentSearchUseCase,
     private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
     private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
-    private val preferences: SharedPreferences,
+    private val preferences: CommonPreferences,
     private val schedulers: Schedulers
 
 ) : ViewModel() {

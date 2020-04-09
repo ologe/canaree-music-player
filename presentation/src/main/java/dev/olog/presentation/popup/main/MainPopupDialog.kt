@@ -1,6 +1,5 @@
 package dev.olog.presentation.popup.main
 
-import android.app.Activity
 import android.content.Context
 import android.provider.MediaStore
 import android.view.Menu
@@ -11,10 +10,9 @@ import dev.olog.domain.entity.sort.SortArranging
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortPreferences
+import dev.olog.navigation.Navigator
 import dev.olog.presentation.R
 import dev.olog.presentation.model.PresentationPreferencesGateway
-import dev.olog.navigation.Navigator
-import dev.olog.presentation.tab.TabCategory
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -69,10 +67,10 @@ internal class MainPopupDialog @Inject constructor(
                 R.id.settings -> popupNavigator.toSettingsActivity()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
                 SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialogFromPlayingQueue()
-                R.id.gridSize1 -> updateSpanCount(anchor, category.toTabCategory(), 1)
-                R.id.gridSize2 -> updateSpanCount(anchor, category.toTabCategory(), 2)
-                R.id.gridSize3 -> updateSpanCount(anchor, category.toTabCategory(), 3)
-                R.id.gridSize4 -> updateSpanCount(anchor, category.toTabCategory(), 4)
+//                R.id.gridSize1 -> updateSpanCount(anchor, category.toTabCategory(), 1) TODO
+//                R.id.gridSize2 -> updateSpanCount(anchor, category.toTabCategory(), 2)
+//                R.id.gridSize3 -> updateSpanCount(anchor, category.toTabCategory(), 3)
+//                R.id.gridSize4 -> updateSpanCount(anchor, category.toTabCategory(), 4)
                 else -> {
                     when (category) {
                         MainPopupCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
@@ -88,13 +86,14 @@ internal class MainPopupDialog @Inject constructor(
         popup.show()
     }
 
-    private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
-        val current = presentationPrefs.getSpanCount(category)
-        presentationPrefs.setSpanCount(category, spanCount)
-        if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
-            (view.context as Activity).recreate()
-        }
-    }
+//    private fun updateSpanCount(view: View, category: TabCategory, spanCount: Int){
+        // TODO
+//        val current = presentationPrefs.getSpanCount(category)
+//        presentationPrefs.setSpanCount(category, spanCount)
+//        if (current == 1 && spanCount > 1 || current > 1 && spanCount == 1){
+//            (view.context as Activity).recreate()
+//        }
+//    }
 
     private fun initializeTracksSort(menu: Menu): SortEntity {
         val sort = gateway.getAllTracksSort()

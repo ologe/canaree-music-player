@@ -25,8 +25,6 @@ import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.lib.image.loader.creator.ImagesFolderUtils
 import dev.olog.presentation.R
-import dev.olog.presentation.model.LibraryPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
@@ -35,6 +33,8 @@ import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.feature.presentation.base.prefs.CommonPreferences
+import dev.olog.navigation.screens.LibraryPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -53,7 +53,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     internal lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
 
     @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
+    internal lateinit var preferences: CommonPreferences
 
     private lateinit var libraryCategories: Preference
     private lateinit var podcastCategories: Preference
@@ -170,7 +170,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
-                presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
+                preferences.setLibraryPage(LibraryPage.TRACKS)
                 requireActivity().recreate()
             }
         }
