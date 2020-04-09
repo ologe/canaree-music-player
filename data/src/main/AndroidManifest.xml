@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.olog.lib">
+    package="dev.olog.data">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application>
 
+<!--        TODO try to remove, use an alternative solution-->
         <provider
-            android:name="dev.olog.lib.test.InMemoryContentProvider"
+            android:name="dev.olog.data.test.InMemoryContentProvider"
             android:authorities="canaree_media"
             android:exported="false" />
 

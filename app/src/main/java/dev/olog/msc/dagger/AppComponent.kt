@@ -4,7 +4,9 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dev.olog.analytics.AnalyticsModule
-import dev.olog.lib.di.*
+import dev.olog.data.di.*
+import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
+import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.lib.equalizer.EqualizerModule
 import dev.olog.lib.image.loader.di.LibImageLoaderDagger
 import dev.olog.msc.app.App
@@ -13,8 +15,6 @@ import dev.olog.msc.schedulers.SchedulersModule
 import dev.olog.msc.viewmodel.ViewModelModule
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
 import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
-import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
-import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.shared.android.theme.ThemeModule
 import javax.inject.Singleton
 
