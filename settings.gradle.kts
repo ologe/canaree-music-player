@@ -7,6 +7,8 @@ include(":lib.media")
 include(":lib.image-loader")
 include(":lib.offline-lyrics")
 include(":lib.equalizer")
+include(":lib.network")
+include(":lib.analytics")
 
 include(":navigation")
 include(":feature-presentation-base")
@@ -18,7 +20,6 @@ include(":feature-search")
 
 include(":data")
 include(":data-spotify")
-include(":lib.network")
 
 include(":presentation")
 
@@ -27,7 +28,6 @@ include(":shared")
 include(":shared-android")
 include(":prefs-keys")
 
-include(":lib.analytics")
 
 include(":lint")
 include(":test-shared")

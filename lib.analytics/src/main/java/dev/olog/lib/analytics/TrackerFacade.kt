@@ -1,4 +1,4 @@
-package dev.olog.analytics
+package dev.olog.lib.analytics
 
 import android.os.Bundle
 

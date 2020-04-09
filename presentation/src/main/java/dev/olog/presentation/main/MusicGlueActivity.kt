@@ -7,7 +7,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
-import dev.olog.analytics.TrackerFacade
+import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.schedulers.Schedulers
@@ -29,6 +29,7 @@ abstract class MusicGlueActivity : BaseActivity(),
     MediaProvider,
     OnConnectionChanged {
 
+    // TODO maybe should be better to track from music service directly
     @Inject
     internal lateinit var trackerFacade: TrackerFacade
 

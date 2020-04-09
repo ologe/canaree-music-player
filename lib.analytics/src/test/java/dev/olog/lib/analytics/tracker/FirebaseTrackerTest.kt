@@ -1,4 +1,4 @@
-package dev.olog.analytics.tracker
+package dev.olog.lib.analytics.tracker
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
@@ -7,7 +7,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import dev.olog.analytics.tracker.FirebaseTracker.Companion.MAX_SIZE_ALLOWED
+import dev.olog.lib.analytics.tracker.FirebaseTracker.Companion.MAX_SIZE_ALLOWED
 import dev.olog.domain.MediaIdCategory
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest

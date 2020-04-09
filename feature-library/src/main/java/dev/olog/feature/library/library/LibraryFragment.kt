@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
-import dev.olog.analytics.TrackerFacade
+import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation

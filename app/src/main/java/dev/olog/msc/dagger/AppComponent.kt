@@ -3,7 +3,7 @@ package dev.olog.msc.dagger
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import dev.olog.analytics.AnalyticsModule
+import dev.olog.lib.analytics.AnalyticsModule
 import dev.olog.data.di.*
 import dev.olog.lib.equalizer.EqualizerModule
 import dev.olog.lib.image.loader.di.LibImageLoaderDagger

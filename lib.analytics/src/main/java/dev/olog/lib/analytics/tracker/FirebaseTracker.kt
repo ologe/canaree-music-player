@@ -1,8 +1,8 @@
-package dev.olog.analytics.tracker
+package dev.olog.lib.analytics.tracker
 
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
-import dev.olog.analytics.TrackerFacade
+import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.shared.coroutines.fireAndForget
 import kotlinx.coroutines.GlobalScope

@@ -7,7 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import dev.olog.analytics.TrackerFacade
+import dev.olog.lib.analytics.TrackerFacade
 import timber.log.Timber
 import javax.inject.Inject
 
