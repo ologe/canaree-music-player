@@ -81,7 +81,7 @@ dependencies {
 
     implementation(project(":analytics"))
 
-    implementation(project(":app-shortcuts"))
+    implementation(project(":feature-app-shortcuts"))
     implementation(project(":analytics"))
 
 

@@ -29,7 +29,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":feature-presentation-base"))
 
-    implementation(project(":app-shortcuts"))
+    implementation(project(":feature-app-shortcuts"))
     implementation(project(":analytics"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))

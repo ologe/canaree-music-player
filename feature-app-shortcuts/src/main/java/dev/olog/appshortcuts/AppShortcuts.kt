@@ -4,6 +4,7 @@ import android.content.Context
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 
+// TODO made a feature
 class AppShortcuts private constructor(
     context: Context,
     schedulers: Schedulers

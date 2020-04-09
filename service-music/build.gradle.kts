@@ -28,7 +28,7 @@ dependencies {
 
     implementation(project(":core"))
 
-    implementation(project(":app-shortcuts"))
+    implementation(project(":feature-app-shortcuts"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))

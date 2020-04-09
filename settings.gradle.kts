@@ -11,7 +11,7 @@ include(":lib.equalizer")
 include (":feature-presentation-base")
 include(":service-music")
 include(":service-floating")
-include(":app-shortcuts")
+include(":feature-app-shortcuts")
 
 include(":data")
 include(":data-spotify")
