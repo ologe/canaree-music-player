@@ -64,7 +64,7 @@
                 android:clickable="false"
                 android:focusable="false"/>
 
-            <dev.olog.offlinelyrics.OfflineLyricsRecyclerView
+            <dev.olog.lib.offline.lyrics.OfflineLyricsRecyclerView
                 android:id="@+id/list"
                 app:layout_constraintBottom_toTopOf="@+id/textWrapper"
                 app:layout_constraintEnd_toStartOf="@+id/search"

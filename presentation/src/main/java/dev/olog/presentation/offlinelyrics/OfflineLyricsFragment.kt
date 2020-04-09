@@ -13,8 +13,8 @@ import dev.olog.domain.MediaId
 import dev.olog.lib.image.loader.OnImageLoadingError
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.lib.media.MediaProvider
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.lib.offline.lyrics.EditLyricsDialog
+import dev.olog.lib.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor

@@ -11,8 +11,8 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.lib.image.loader.OnImageLoadingError
 import dev.olog.lib.image.loader.getCachedBitmap
-import dev.olog.offlinelyrics.EditLyricsDialog
-import dev.olog.offlinelyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.lib.offline.lyrics.EditLyricsDialog
+import dev.olog.lib.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.service.floating.api.Content
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*

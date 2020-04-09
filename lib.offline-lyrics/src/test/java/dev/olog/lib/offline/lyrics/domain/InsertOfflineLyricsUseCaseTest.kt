@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics.domain
+package dev.olog.lib.offline.lyrics.domain
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -6,6 +6,8 @@ import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.gateway.track.TrackGateway
+import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
+import dev.olog.lib.offline.lyrics.domain.PersistLyricsUseCase
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,9 +19,10 @@ class InsertOfflineLyricsUseCaseTest {
     private val gateway = mock<OfflineLyricsGateway>()
     private val trackGateway = mock<TrackGateway>()
     private val persistLyrics = mock<PersistLyricsUseCase>()
-    private val sut = InsertOfflineLyricsUseCase(
-        gateway, trackGateway, coroutineRule.schedulers, persistLyrics
-    )
+    private val sut =
+        InsertOfflineLyricsUseCase(
+            gateway, trackGateway, coroutineRule.schedulers, persistLyrics
+        )
 
     @Test
     fun test() = coroutineRule.runBlockingTest {

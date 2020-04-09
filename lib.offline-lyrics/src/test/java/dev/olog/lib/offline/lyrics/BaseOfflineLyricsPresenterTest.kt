@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -6,9 +6,9 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
-import dev.olog.offlinelyrics.BaseOfflineLyricsPresenter.Companion.ELLIPSES
-import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
-import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
+import dev.olog.lib.offline.lyrics.BaseOfflineLyricsPresenter.Companion.ELLIPSES
+import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
+import dev.olog.lib.offline.lyrics.domain.ObserveOfflineLyricsUseCase
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import dev.olog.test.shared.schedulers
@@ -56,7 +56,14 @@ class BaseOfflineLyricsPresenterTest {
         val actual = sut.observeLyrics().first()
         val originalLyricsActual = sut.getLyrics()
 
-        val expected = Lyrics(listOf(OfflineLyricsLine(lyrics, 0)))
+        val expected = Lyrics(
+            listOf(
+                OfflineLyricsLine(
+                    lyrics,
+                    0
+                )
+            )
+        )
         assertEquals(expected, actual)
         assertEquals(lyrics, originalLyricsActual)
     }
@@ -118,30 +125,32 @@ class BaseOfflineLyricsPresenterTest {
         val actual = sut.observeLyrics().first()
         val originalLyricsActual = sut.getLyrics()
 
-        val expected = Lyrics(listOf(
-            OfflineLyricsLine(
-                "Grind hard ni**a grind hard I done grind hard",
-                20
-            ), OfflineLyricsLine(
-                "Late nights playin' b ball with a decoy",
-                220
-            ), OfflineLyricsLine(
-                ELLIPSES,
-                250
-            ), OfflineLyricsLine(
-                "I was on the corner with the robbers and the d boys",
-                SECONDS.toMillis(2) + 220
-            ), OfflineLyricsLine(
-                "Now it's Louis rags when my nose runnin'",
-                SECONDS.toMillis(22) + 220
-            ), OfflineLyricsLine(
-                "Now I'm on the charts man this sh*t is unbelievable",
-                MINUTES.toMillis(2) + SECONDS.toMillis(22) + 220
-            ), OfflineLyricsLine(
-                "Mama it's a lot of secrets that I had to keep from you",
-                MINUTES.toMillis(22) + SECONDS.toMillis(22) + 220
+        val expected = Lyrics(
+            listOf(
+                OfflineLyricsLine(
+                    "Grind hard ni**a grind hard I done grind hard",
+                    20
+                ), OfflineLyricsLine(
+                    "Late nights playin' b ball with a decoy",
+                    220
+                ), OfflineLyricsLine(
+                    ELLIPSES,
+                    250
+                ), OfflineLyricsLine(
+                    "I was on the corner with the robbers and the d boys",
+                    SECONDS.toMillis(2) + 220
+                ), OfflineLyricsLine(
+                    "Now it's Louis rags when my nose runnin'",
+                    SECONDS.toMillis(22) + 220
+                ), OfflineLyricsLine(
+                    "Now I'm on the charts man this sh*t is unbelievable",
+                    MINUTES.toMillis(2) + SECONDS.toMillis(22) + 220
+                ), OfflineLyricsLine(
+                    "Mama it's a lot of secrets that I had to keep from you",
+                    MINUTES.toMillis(22) + SECONDS.toMillis(22) + 220
+                )
             )
-        ))
+        )
         assertEquals(expected, actual)
         assertEquals(lyrics, originalLyricsActual)
     }

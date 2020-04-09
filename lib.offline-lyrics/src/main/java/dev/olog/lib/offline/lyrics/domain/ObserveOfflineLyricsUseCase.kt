@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics.domain
+package dev.olog.lib.offline.lyrics.domain
 
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.gateway.track.TrackGateway

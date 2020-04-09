@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
+import dev.olog.lib.R
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.clamp
@@ -20,7 +21,9 @@ import kotlin.properties.Delegates
 
 class OfflineLyricsAdapter(
     private val onSelectedChanged: (Int) -> Unit
-) : ListAdapter<OfflineLyricsLine, RecyclerView.ViewHolder>(OfflineLyricsDiff) {
+) : ListAdapter<OfflineLyricsLine, RecyclerView.ViewHolder>(
+    OfflineLyricsDiff
+) {
 
     // TODO has to be cancelled on destroy?
     private var canUpdateJob by autoDisposeJob()
@@ -122,6 +125,9 @@ private object OfflineLyricsDiff : DiffUtil.ItemCallback<OfflineLyricsLine>() {
         oldItem: OfflineLyricsLine,
         newItem: OfflineLyricsLine
     ): Boolean {
-        return areItemsTheSame(oldItem, newItem)
+        return areItemsTheSame(
+            oldItem,
+            newItem
+        )
     }
 }

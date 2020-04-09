@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 import dev.olog.shared.coroutines.MainScope
 import dev.olog.shared.coroutines.autoDisposeJob
@@ -6,8 +6,8 @@ import dev.olog.shared.coroutines.fireAndForget
 import dev.olog.domain.entity.OfflineLyrics
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
-import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
+import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
+import dev.olog.lib.offline.lyrics.domain.ObserveOfflineLyricsUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -83,9 +83,22 @@ abstract class BaseOfflineLyricsPresenter constructor(
         if (matches.isEmpty()) {
             // not synced
             if (lyrics.isBlank()) {
-                lyricsPublisher.offer(Lyrics(emptyList()))
+                lyricsPublisher.offer(
+                    Lyrics(
+                        emptyList()
+                    )
+                )
             } else {
-                lyricsPublisher.offer(Lyrics(listOf(OfflineLyricsLine(lyrics, 0L))))
+                lyricsPublisher.offer(
+                    Lyrics(
+                        listOf(
+                            OfflineLyricsLine(
+                                lyrics,
+                                0L
+                            )
+                        )
+                    )
+                )
             }
         } else {
             // synced lyrics
@@ -104,7 +117,10 @@ abstract class BaseOfflineLyricsPresenter constructor(
 
                 val textOnly = it.drop(10)
 
-                OfflineLyricsLine(textOnly.trim(), time)
+                OfflineLyricsLine(
+                    textOnly.trim(),
+                    time
+                )
             }.fold(mutableListOf<OfflineLyricsLine>()) { acc, item ->
                 if (acc.isEmpty()) {
                     acc.add(item)

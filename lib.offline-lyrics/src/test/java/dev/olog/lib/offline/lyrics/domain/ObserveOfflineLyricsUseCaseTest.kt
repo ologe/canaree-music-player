@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics.domain
+package dev.olog.lib.offline.lyrics.domain
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -22,9 +22,10 @@ class ObserveOfflineLyricsUseCaseTest {
     private val gateway = mock<OfflineLyricsGateway>()
     private val trackGateway = mock<TrackGateway>()
     private val readPersistedLyrics = mock<ReadPersistedLyricsUseCase>()
-    private val sut = ObserveOfflineLyricsUseCase(
-        gateway, trackGateway, coroutineRule.schedulers, readPersistedLyrics
-    )
+    private val sut =
+        ObserveOfflineLyricsUseCase(
+            gateway, trackGateway, coroutineRule.schedulers, readPersistedLyrics
+        )
 
     @Test
     fun `test get non persisted lyrics`() = coroutineRule.runBlockingTest {

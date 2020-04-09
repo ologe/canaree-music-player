@@ -1,18 +1,20 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
-import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dev.olog.lib.R
 
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit) {
-        val themeWrapper = ContextThemeWrapper(context, R.style.AppTheme)
+        val themeWrapper = ContextThemeWrapper(context,
+            R.style.AppTheme
+        )
         val builder = MaterialAlertDialogBuilder(themeWrapper)
             .setTitle(R.string.offline_lyrics_edit_title)
             .setView(R.layout.layout_edit_text)

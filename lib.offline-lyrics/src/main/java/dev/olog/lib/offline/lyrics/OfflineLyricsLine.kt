@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 data class Lyrics(
     val lines: List<OfflineLyricsLine>

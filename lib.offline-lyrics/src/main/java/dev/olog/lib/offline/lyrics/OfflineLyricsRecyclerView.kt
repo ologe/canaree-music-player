@@ -1,4 +1,4 @@
-package dev.olog.offlinelyrics
+package dev.olog.lib.offline.lyrics
 
 import android.annotation.SuppressLint
 import android.content.Context
