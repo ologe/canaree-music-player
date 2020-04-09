@@ -4,7 +4,6 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
@@ -35,7 +34,6 @@ import dev.olog.presentation.edit.song.EditTrackFragment
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
-import dev.olog.presentation.popup.main.MainPopupCategory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment

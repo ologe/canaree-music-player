@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import dev.olog.lib.R
 import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.clamp

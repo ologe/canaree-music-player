@@ -15,6 +15,10 @@ dependencies {
     implementation(Libraries.kotlin)
     implementation(Libraries.Dagger.core)
 
+    implementation(Libraries.X.core)
+    implementation(Libraries.X.fragments)
+    implementation(Libraries.X.material)
+
     testImplementation(Libraries.Test.junit)
     testImplementation(Libraries.Test.mockito)
     testImplementation(Libraries.Test.mockitoKotlin)

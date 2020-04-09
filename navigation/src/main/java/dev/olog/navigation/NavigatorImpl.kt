@@ -1,13 +1,16 @@
 package dev.olog.navigation
 
 import android.view.View
+import androidx.fragment.app.Fragment
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
+import dev.olog.navigation.screens.FragmentScreen
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class NavigatorImpl @Inject constructor(
-
-) : Navigator {
+    private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>
+) : BaseNavigator(), Navigator {
 
     override fun toFirstAccess() {
         

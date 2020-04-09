@@ -7,7 +7,6 @@ import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import dev.olog.lib.R
 
 object EditLyricsDialog {
 
