@@ -84,7 +84,7 @@
 
         <!--music service-->
         <service
-            android:name="dev.olog.service.music.MusicService"
+            android:name="dev.olog.feature.service.music.MusicService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
@@ -100,7 +100,7 @@
 
         <!--floating window service-->
         <service
-            android:name="dev.olog.service.floating.FloatingWindowService"
+            android:name="dev.olog.feature.service.floating.FloatingWindowService"
             android:exported="false" />
 
 

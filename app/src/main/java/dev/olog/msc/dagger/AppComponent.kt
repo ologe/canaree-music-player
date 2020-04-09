@@ -13,8 +13,8 @@ import dev.olog.msc.schedulers.SchedulersModule
 import dev.olog.msc.viewmodel.ViewModelModule
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
 import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
-import dev.olog.service.floating.di.FeatureFloatingWindowDagger
-import dev.olog.service.music.di.FeatureMusicServiceDagger
+import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
+import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.shared.android.theme.ThemeModule
 import javax.inject.Singleton
 

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:theme="@style/AppTheme">
 
-    <dev.olog.service.floating.widget.AutoPivotView
+    <dev.olog.feature.service.floating.widget.AutoPivotView
         android:id="@+id/view_exit_gradient"
         android:layout_width="@dimen/exit_width"
         android:translationY="20dp"

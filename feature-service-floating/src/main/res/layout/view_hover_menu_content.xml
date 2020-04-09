@@ -9,7 +9,7 @@
     tools:background="@android:color/darker_gray"
     android:theme="@style/AppTheme">
 
-    <dev.olog.service.floating.api.TabSelectorView
+    <dev.olog.feature.service.floating.api.TabSelectorView
         android:id="@+id/tabselector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
