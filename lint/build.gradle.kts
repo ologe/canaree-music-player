@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(Libraries.kotlin)
+    compileOnly(Libraries.kotlin)
 
     compileOnly(Libraries.Lint.core)
     compileOnly(Libraries.Lint.checks)

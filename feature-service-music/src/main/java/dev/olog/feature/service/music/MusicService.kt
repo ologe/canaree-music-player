@@ -32,7 +32,7 @@ import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class MusicService : BaseMusicService() {
+class MusicService : BaseMusicService() {
 
     companion object {
         @JvmStatic

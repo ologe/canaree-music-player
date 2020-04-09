@@ -44,20 +44,6 @@ android {
         }
     }
 
-
-    lintOptions {
-        isCheckReleaseBuilds = false
-        disable("MissingTranslation")
-    }
-
-    packagingOptions {
-        excludes = setOf(
-            "META-INF/core.kotlin_module",
-            "META-INF/MANIFEST.MF",
-            "META-INF/proguard/coroutines.pro"
-        )
-    }
-
 }
 
 dependencies {
