@@ -17,7 +17,7 @@ dependencies {
 
     implementation(project(":lib.image-loader"))
     implementation(project(":lib.media"))
-    implementation(project(":analytics")) // TODO check if is needed
+    implementation(project(":lib.analytics")) // TODO check if is needed
 
     implementation(project(":navigation"))
     implementation(project(":feature-presentation-base"))

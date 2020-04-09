@@ -32,7 +32,7 @@ dependencies {
     implementation(project(":feature-app-shortcuts"))
     implementation(project(":feature-presentation-base"))
 
-    implementation(project(":analytics"))
+    implementation(project(":lib.analytics"))
     implementation(project(":domain"))
     implementation(project(":lib.image-loader"))
     implementation(project(":shared-android"))

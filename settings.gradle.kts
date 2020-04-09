@@ -27,7 +27,7 @@ include(":shared")
 include(":shared-android")
 include(":prefs-keys")
 
-include(":analytics")
+include(":lib.analytics")
 
 include(":lint")
 include(":test-shared")

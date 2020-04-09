@@ -68,10 +68,10 @@ dependencies {
     implementation(project(":lib.offline-lyrics"))
     implementation(project(":lib.image-loader"))
 
-    implementation(project(":analytics"))
+    implementation(project(":lib.analytics"))
 
     implementation(project(":feature-app-shortcuts"))
-    implementation(project(":analytics"))
+    implementation(project(":lib.analytics"))
 
 
     implementation(project(":prefs-keys"))
