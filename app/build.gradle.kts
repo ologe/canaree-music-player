@@ -63,6 +63,7 @@ dependencies {
     api(project(":feature-app-shortcuts"))
     api(project(":feature-library"))
     api(project(":feature-search"))
+    api(project(":feature-detail"))
     api(project(":feature-service-music"))
     api(project(":feature-service-floating"))
     api(project(":presentation"))

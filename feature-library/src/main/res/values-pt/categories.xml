@@ -20,12 +20,4 @@
         <item>Sem artista</item>
     </string-array>
 
-    <string name="category_sort_by_title">Título</string>
-    <string name="category_sort_by_artist">Artista</string>
-    <string name="category_sort_by_album">Álbum</string>
-    <string name="category_sort_by_duration">Duração</string>
-    <string name="category_sort_by_date">Data</string>
-    <string name="category_sort_by_ascending">Ascendente</string>
-    <string name="category_sort_by_descending">Descendente</string>
-
 </resources>

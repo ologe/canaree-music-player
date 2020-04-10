@@ -29,9 +29,7 @@
         <item>कोई संगीतकार नहीं</item>
     </string-array>
 
-    <string name="category_sort_by_date">तिथि</string>
-    <string name="category_sort_by_ascending">बढ़ते क्रम में</string>
-    <string name="category_sort_by_descending">घटते क्रम में</string>
+
 
 
 </resources>

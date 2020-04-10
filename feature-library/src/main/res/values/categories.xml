@@ -38,15 +38,7 @@
         <item>No artists</item>
     </string-array>
 
-    <string name="category_sort_by" translatable="false">@string/common_sort_by</string>
-    <string name="category_sort_by_title" translatable="false">@string/common_title</string>
-    <string name="category_sort_by_artist" translatable="false">@string/common_artist</string>
-    <string name="category_sort_by_album_artist" translatable="false">@string/common_album_artist</string>
-    <string name="category_sort_by_album" translatable="false">@string/common_album</string>
-    <string name="category_sort_by_duration" translatable="false">@string/common_duration</string>
-    <string name="category_sort_by_date">Date</string>
-    <string name="category_sort_by_ascending">Ascending</string>
-    <string name="category_sort_by_descending">Descending</string>
+
 
 
 </resources>

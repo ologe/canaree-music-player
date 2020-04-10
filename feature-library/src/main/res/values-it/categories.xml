@@ -18,10 +18,5 @@
     <item>Nessun artista</item>
   </string-array>
 
-  <string name="category_sort_by_title">Titolo</string>
-  <string name="category_sort_by_artist">Artista</string>
-  <string name="category_sort_by_duration">Durata</string>
-  <string name="category_sort_by_date">Data</string>
-  <string name="category_sort_by_ascending">Ascendente</string>
-  <string name="category_sort_by_descending">Discendente</string>
+
 </resources>

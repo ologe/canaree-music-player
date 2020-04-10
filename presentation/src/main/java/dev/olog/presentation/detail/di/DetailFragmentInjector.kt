@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.detail.DetailFragment
+import dev.olog.feature.detail.DetailFragment
 
 @Module(subcomponents = [DetailFragmentSubComponent::class])
 abstract class DetailFragmentInjector {

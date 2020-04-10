@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.text.parseAsHtml
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.entity.track.Song
@@ -18,7 +19,6 @@ import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.presentation.R
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.FileProvider
 import dev.olog.shared.lazyFast
 import dev.olog.shared.throwNotHandled
@@ -104,7 +104,7 @@ internal abstract class AbsPopupListener(
         try {
             if (intent.resolveActivity(activity.packageManager) != null) {
                 val string = activity.getString(R.string.share_song_x, song.title)
-                activity.startActivity(Intent.createChooser(intent, string.asHtml()))
+                activity.startActivity(Intent.createChooser(intent, string.parseAsHtml()))
             } else {
                 activity.toast(R.string.song_not_shareable)
             }

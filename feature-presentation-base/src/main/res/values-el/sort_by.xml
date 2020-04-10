@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="category_sort_by_date">Ημερομηνία</string>
+    <string name="category_sort_by_ascending">Αύξουσα</string>
+    <string name="category_sort_by_descending">Φθίνων</string>
+
+</resources>

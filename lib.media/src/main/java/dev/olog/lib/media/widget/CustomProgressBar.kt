@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import dev.olog.lib.media.model.PlayerPlaybackState
 import kotlinx.coroutines.flow.Flow
 
+// TODO to presentatino-base
 class CustomProgressBar(
     context: Context,
     attrs: AttributeSet

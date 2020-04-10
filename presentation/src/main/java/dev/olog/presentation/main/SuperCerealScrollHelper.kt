@@ -1,22 +1,19 @@
 package dev.olog.presentation.main
 
 import android.view.View
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.marginTop
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
-import dev.olog.presentation.detail.DetailFragment
+import dev.olog.feature.detail.DetailFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
-import dev.olog.feature.presentation.base.extensions.setMargin
 import dev.olog.navigation.screens.FragmentScreen
 
 class SuperCerealScrollHelper(

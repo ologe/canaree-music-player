@@ -18,7 +18,5 @@
   </string-array>
 
 
-  <string name="category_sort_by_date">Datum</string>
-  <string name="category_sort_by_ascending">Vzestupně</string>
-  <string name="category_sort_by_descending">Sestupně</string>
+
 </resources>

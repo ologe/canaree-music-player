@@ -29,9 +29,7 @@
         <item>Không có người làm</item>
     </string-array>
 
-    <string name="category_sort_by_date">Ngày</string>
-    <string name="category_sort_by_ascending">Tăng dần</string>
-    <string name="category_sort_by_descending">Giảm dần</string>
+
 
 
 </resources>

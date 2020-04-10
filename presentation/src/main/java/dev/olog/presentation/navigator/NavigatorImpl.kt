@@ -19,7 +19,7 @@ import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
 import dev.olog.presentation.R
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
-import dev.olog.presentation.detail.DetailFragment
+import dev.olog.feature.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog

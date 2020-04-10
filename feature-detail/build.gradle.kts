@@ -42,6 +42,7 @@ dependencies {
     implementation(Libraries.X.material)
 
     implementation(Libraries.Utils.scrollHelper)
+    implementation(Libraries.Utils.fuzzy)
 
     implementation(Libraries.Debug.timber)
 

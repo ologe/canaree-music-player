@@ -14,7 +14,5 @@
         <item>Tidak ada podcast</item>
         <item>Tidak ada artis</item>
     </string-array>
-    <string name="category_sort_by_date">Tanggal</string>
-    <string name="category_sort_by_ascending">Naik</string>
-    <string name="category_sort_by_descending">Turun</string>
+
 </resources>
