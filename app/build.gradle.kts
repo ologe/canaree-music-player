@@ -4,6 +4,7 @@ plugins {
     id(BuildPlugins.kotlinKapt)
     id(BuildPlugins.kotlinAndroidExtensions)
     id(BuildPlugins.fabric)
+    id("dynamic-flavor")
 }
 
 android {
@@ -59,9 +60,12 @@ dependencies {
     implementation(project(":navigation"))
 
     implementation(project(":feature-presentation-base")) // TODO is needed?
-    implementation(project(":feature-app-shortcuts"))
-    implementation(project(":feature-library"))
-    implementation(project(":feature-search"))
+    api(project(":feature-app-shortcuts"))
+    api(project(":feature-library"))
+    api(project(":feature-search"))
+    api(project(":feature-service-music"))
+    api(project(":feature-service-floating"))
+    api(project(":presentation"))
 
     // libs
     implementation(project(":lib.network"))
@@ -74,10 +78,8 @@ dependencies {
 
 
     implementation(project(":prefs-keys"))
-    implementation(project(":presentation"))
     implementation(project(":shared-android"))
-    implementation(project(":feature-service-music"))
-    implementation(project(":feature-service-floating"))
+
     implementation(project(":intents"))
     implementation(project(":shared"))
 
