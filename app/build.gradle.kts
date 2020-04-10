@@ -65,6 +65,10 @@ dependencies {
     api(project(":feature-search"))
     api(project(":feature-detail"))
     api(project(":feature-player"))
+    api(project(":feature-player-mini"))
+    api(project(":feature-queue"))
+    api(project(":feature-settings"))
+    api(project(":feature-about"))
 
     api(project(":feature-service-music"))
     api(project(":feature-service-floating"))

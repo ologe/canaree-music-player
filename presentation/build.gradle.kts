@@ -33,7 +33,9 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-//    implementation(project(":feature-player-mini"))
+    implementation(project(":feature-queue"))
+    implementation(project(":feature-settings"))
+    implementation(project(":feature-about"))
 
     implementation(project(":lib.analytics"))
     implementation(project(":domain"))
