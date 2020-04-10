@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?colorSurface">
+    android:clipChildren="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/mini_player_elevated_background"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sliding_panel_peek">
+        android:layout_height="@dimen/sliding_panel_peek"
+        android:layout_margin="8dp"
+        android:elevation="4dp">
 
-        <dev.olog.presentation.playermini.MiniPlayerButtons
+        <dev.olog.feature.player.mini.MiniPlayerButtons
             android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -26,7 +30,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttons"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/mini_player_margin_start">
 
@@ -59,6 +63,18 @@
 
         </dev.olog.feature.presentation.base.widget.TextWrapper>
 
+        <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            tools:src="@drawable/placeholder_musical_note"
+            android:elevation="8dp"
+            android:translationY="-12dp"
+            android:layout_marginStart="8dp"/>
+
         <dev.olog.lib.media.widget.CustomProgressBar
             android:id="@+id/progressBar"
             style="@style/DefaultHorizontalProgressBar"
@@ -67,7 +83,7 @@
             android:progressTint="@color/textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:max="100"
             tools:progress="40" />
 

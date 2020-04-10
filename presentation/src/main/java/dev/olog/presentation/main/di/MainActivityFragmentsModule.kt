@@ -1,31 +1,13 @@
 package dev.olog.presentation.main.di
 
-import androidx.fragment.app.Fragment
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
-import dagger.multibindings.IntoMap
-import dev.olog.navigation.dagger.FragmentScreenKey
-import dev.olog.navigation.screens.FragmentScreen
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.playermini.MiniPlayerFragment
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialog
 import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
 
 @Module
 abstract class MainActivityFragmentsModule {
-
-    @ContributesAndroidInjector
-    internal abstract fun provideMiniPlayer(): MiniPlayerFragment
-
-    companion object {
-        @Provides
-        @IntoMap
-        @FragmentScreenKey(FragmentScreen.PLAYER_MINI)
-        fun providePlayerFragment(): Fragment {
-            return MiniPlayerFragment()
-        }
-    }
 
     @ContributesAndroidInjector
     internal abstract fun provideSleepTimerDialog(): SleepTimerPickerDialog

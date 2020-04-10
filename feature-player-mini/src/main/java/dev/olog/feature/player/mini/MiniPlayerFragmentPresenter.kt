@@ -1,4 +1,4 @@
-package dev.olog.presentation.playermini
+package dev.olog.feature.player.mini
 
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import kotlinx.coroutines.flow.Flow
@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MiniPlayerFragmentPresenter @Inject constructor(
+internal class MiniPlayerFragmentPresenter @Inject constructor(
     private val musicPrefsUseCase: MusicPreferencesGateway
 
 ) {

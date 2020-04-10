@@ -1,4 +1,4 @@
-package dev.olog.presentation.playermini
+package dev.olog.feature.player.mini
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,13 +8,12 @@ import androidx.core.view.isVisible
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.shared.lazyFast
 import dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.fragment_mini_player_buttons_podcast.view.*
 import kotlinx.android.synthetic.main.fragment_mini_player_buttons_song.view.*
 
-class MiniPlayerButtons(
+internal class MiniPlayerButtons(
     context: Context,
     attrs: AttributeSet
 ) : FrameLayout(context, attrs) {

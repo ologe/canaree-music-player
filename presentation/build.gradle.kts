@@ -33,7 +33,7 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-    implementation(project(":feature-player"))
+//    implementation(project(":feature-player-mini"))
 
     implementation(project(":lib.analytics"))
     implementation(project(":domain"))
