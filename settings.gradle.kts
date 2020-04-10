@@ -25,6 +25,7 @@ include(":feature-settings")
 include(":feature-about")
 include(":feature-onboarding")
 include(":feature-equalizer")
+include(":feature-edit")
 
 include(":data")
 include(":data-spotify")
