@@ -7,7 +7,6 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
-import dev.olog.presentation.about.di.AboutFragmentModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.edit.di.EditItemModule
@@ -33,7 +32,6 @@ class FeatureMainActivityDagger {
             EqualizerModule::class,
 
             EditItemModule::class,
-            AboutFragmentModule::class,
 
             DialogModule::class
         ]

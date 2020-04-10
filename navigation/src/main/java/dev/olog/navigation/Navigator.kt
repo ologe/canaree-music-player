@@ -32,9 +32,9 @@ interface Navigator: BottomNavigator, ServiceNavigator {
     )
 
     // TODO shared element??
-    fun toSettings(
-        activity: FragmentActivity
-    )
+    fun toSettings(activity: FragmentActivity)
+
+    fun toAbout(activity: FragmentActivity)
 
     fun toRelatedArtists(
         mediaId: MediaId.Category,

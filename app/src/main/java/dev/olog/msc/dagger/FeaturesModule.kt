@@ -4,7 +4,8 @@ import dagger.Module
 
 @Module(
     includes = [
-        dev.olog.feature.detail.dagger.FeatureDetailDagger.AppModule::class,
+        dev.olog.feature.about.dagger.FeatureAboutDagger.AppModule::class,
+		dev.olog.feature.detail.dagger.FeatureDetailDagger.AppModule::class,
 		dev.olog.feature.library.dagger.FeatureLibraryDagger.AppModule::class,
 		dev.olog.feature.player.dagger.FeaturePlayerDagger.AppModule::class,
 		dev.olog.feature.player.mini.FeatureMiniPlayerDagger.AppModule::class,

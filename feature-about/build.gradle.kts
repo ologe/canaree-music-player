@@ -34,12 +34,18 @@ dependencies {
     kapt(Libraries.Dagger.androidKapt)
 
     implementation(Libraries.X.core)
+    implementation(Libraries.X.browser)
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.recyclerView)
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
+
+    implementation(Libraries.UX.customTabs)
+    implementation(Libraries.UX.glide)
+
+    implementation(Libraries.Utils.scrollHelper)
 
     implementation(Libraries.Debug.timber)
 

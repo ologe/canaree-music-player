@@ -85,6 +85,18 @@ internal class NavigatorImpl @Inject constructor(
 
     }
 
+    override fun toAbout(activity: FragmentActivity) {
+        val fragment = fragments[FragmentScreen.ABOUT]?.get()
+        val tag = FragmentScreen.ABOUT.tag
+        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        current!!.setupExitAnimation(activity)
+
+        replaceFragment(activity, fragment, tag) {
+            it.setupEnterAnimation(activity)
+            addToBackStack(tag)
+        }
+    }
+
     override fun toRelatedArtists(mediaId: MediaId.Category, view: View) {
 
     }
