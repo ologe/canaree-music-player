@@ -1,17 +1,17 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue.adapter
 
 import android.content.Context
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.presentation.base.loadSongImage
-import dev.olog.presentation.model.DisplayableQueueSong
-import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.queue.PlayingQueueFragmentViewModel
+import dev.olog.feature.queue.R
+import dev.olog.feature.queue.model.DisplayableQueueSong
+import dev.olog.navigation.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swap
@@ -114,28 +114,3 @@ internal class PlayingQueueFragmentAdapter(
 
 }
 
-object DiffCallbackPlayingQueue : DiffUtil.ItemCallback<DisplayableQueueSong>() {
-    override fun areItemsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override fun areContentsTheSame(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun getChangePayload(
-        oldItem: DisplayableQueueSong,
-        newItem: DisplayableQueueSong
-    ): Any? {
-        if (oldItem.relativePosition != newItem.relativePosition) {
-            return newItem.relativePosition
-        }
-        return super.getChangePayload(oldItem, newItem)
-    }
-}

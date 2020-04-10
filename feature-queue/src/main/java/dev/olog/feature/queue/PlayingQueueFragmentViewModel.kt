@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,16 +6,15 @@ import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.feature.presentation.base.model.toPresentation
+import dev.olog.feature.queue.model.DisplayableQueueSong
 import dev.olog.shared.swap
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayingQueueFragmentViewModel @Inject constructor(
+internal class PlayingQueueFragmentViewModel @Inject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     playingQueueGateway: PlayingQueueGateway,
     private val schedulers: Schedulers

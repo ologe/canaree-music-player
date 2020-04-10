@@ -1,10 +1,10 @@
-package dev.olog.presentation.model
+package dev.olog.feature.queue.model
 
 import dev.olog.feature.presentation.base.model.BaseModel
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.shared.TextUtils
 
-data class DisplayableQueueSong(
+internal data class DisplayableQueueSong(
     override val type: Int,
     override val mediaId: PresentationId.Track,
     val title: String,

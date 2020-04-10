@@ -1,11 +1,11 @@
-package dev.olog.presentation.widgets.textview
+package dev.olog.feature.queue.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
 import androidx.appcompat.widget.AppCompatTextView
 
-class FadeTextView(
+internal class FadeTextView(
     context: Context,
     attrs: AttributeSet
 ) : AppCompatTextView(context, attrs) {

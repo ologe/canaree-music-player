@@ -41,6 +41,8 @@ dependencies {
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
+    implementation(Libraries.Utils.scrollHelper)
+
     implementation(Libraries.Debug.timber)
 
     testImplementation(Libraries.Test.junit)

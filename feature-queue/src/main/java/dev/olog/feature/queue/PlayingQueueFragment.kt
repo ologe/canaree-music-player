@@ -1,4 +1,4 @@
-package dev.olog.presentation.queue
+package dev.olog.feature.queue
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,9 +15,9 @@ import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.queue.adapter.PlayingQueueFragmentAdapter
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
-import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
+internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
         val TAG = PlayingQueueFragment::class.java.name

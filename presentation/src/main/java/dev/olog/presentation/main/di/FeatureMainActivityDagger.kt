@@ -15,7 +15,6 @@ import dev.olog.presentation.equalizer.EqualizerModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
 import dev.olog.presentation.prefs.di.SettingsFragmentsModule
-import dev.olog.presentation.queue.di.PlayingQueueFragmentInjector
 import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
 
@@ -31,7 +30,6 @@ class FeatureMainActivityDagger {
 //        // fragments
             RecentlyAddedFragmentInjector::class,
             RelatedArtistFragmentInjector::class,
-            PlayingQueueFragmentInjector::class,
             CreatePlaylistFragmentInjector::class,
             EqualizerModule::class,
 

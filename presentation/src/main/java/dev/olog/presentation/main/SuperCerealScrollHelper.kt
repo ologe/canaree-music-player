@@ -9,7 +9,6 @@ import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragment
-import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
@@ -27,7 +26,7 @@ class SuperCerealScrollHelper(
             list.updatePadding(top = 0)
         }
 
-//        if (fragment.tag is FolderTreeFragment){ TODO
+//        if (fragment is FolderTreeFragment){ TODO folder tree fragment has a viewpager tag
 //            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
 //            if (crumbsWrapper.marginTop < 1){
 //                 margin not set yet
@@ -63,7 +62,7 @@ class SuperCerealScrollHelper(
     }
 
     override fun searchForToolbar(fragment: Fragment): View? {
-        if (fragment.tag == PlayingQueueFragment.TAG){
+        if (fragment.tag == FragmentScreen.QUEUE.tag){
             // for some reason when drag and drop in queue fragment, the queue became crazy
             return null
         }
@@ -98,7 +97,7 @@ class SuperCerealScrollHelper(
 
     private fun isViewPagerChildTag(tag: String?) = tag?.startsWith("android:switcher:") == true
 
-    private fun hasFragmentOwnership(tag: String?) = tag?.startsWith("dev.olog") == true
+    private fun hasFragmentOwnership(tag: String?) = tag?.startsWith(FragmentScreen.OWNERSHIP) == true
 
-    private fun isPlayerTag(tag: String?) = tag?.contains("Player") == true
+    private fun isPlayerTag(tag: String?) = tag?.startsWith(FragmentScreen.PLAYER.tag) == true
 }
