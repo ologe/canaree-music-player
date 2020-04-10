@@ -1,14 +1,13 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
 import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
 
-class SettingsFragmentWrapper : Fragment() {
+internal class SettingsFragmentWrapper : Fragment() {
 
     companion object {
         val TAG = SettingsFragmentWrapper::class.java.name

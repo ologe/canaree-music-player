@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
-import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
@@ -44,7 +43,8 @@ class SuperCerealScrollHelper(
 
     override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
         var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(R.id.list)
-        if (recyclerView == null && fragment.tag == SettingsFragment.TAG) {
+        if (recyclerView == null && fragment.tag == FragmentScreen.SETTINGS.tag) {
+            // preferences fragment has and internal list called `recycler_view`
             recyclerView = fragment.view?.findViewById(R.id.recycler_view)
         }
         return recyclerView
@@ -71,7 +71,7 @@ class SuperCerealScrollHelper(
                 // search toolbar and tab layout in parent fragment
                 fragment.parentFragment?.view
             }
-            fragment.tag == SettingsFragment.TAG -> fragment.parentFragment?.view
+            fragment.tag == FragmentScreen.SETTINGS.tag -> fragment.parentFragment?.view
             else -> fragment.view
         }
         return view?.findViewByIdNotRecursive(R.id.toolbar)

@@ -1,9 +1,9 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.graphics.Color
 import dev.olog.lib.ColorDesaturationUtils
 
-object ColorPalette {
+internal object ColorPalette {
 
     @JvmStatic
     fun getAccentColors(isDarkMode: Boolean): IntArray {
@@ -44,6 +44,7 @@ object ColorPalette {
     @JvmStatic
     private val ACCENT_COLORS_SUB_DESATURATED: Array<IntArray> by lazy {
         ACCENT_COLORS_SUB.map { ints ->
+            // TODO why copyOf ??
             ints.copyOf().map { ColorDesaturationUtils.desaturate(it, 0.25f, 0.75f) }.toIntArray()
         }.toTypedArray()
     }

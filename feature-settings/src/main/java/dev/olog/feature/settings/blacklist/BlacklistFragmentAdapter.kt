@@ -1,13 +1,14 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.settings.blacklist
 
 import androidx.core.view.isVisible
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.SimpleAdapter
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.settings.model.BlacklistModel
 import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*
 
-class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
+internal class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
 
     override fun getItemViewType(position: Int): Int = getItem(position).type
 

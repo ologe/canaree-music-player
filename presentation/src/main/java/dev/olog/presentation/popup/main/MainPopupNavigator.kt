@@ -12,11 +12,9 @@ import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.allowed
 import dev.olog.navigation.findFirstVisibleFragment
-import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.shared.mandatory
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 internal class MainPopupNavigator @Inject constructor(
@@ -65,17 +63,7 @@ internal class MainPopupNavigator @Inject constructor(
     fun toSettingsActivity() {
         mandatory(allowed()) ?: return
 
-        val current =
-            findFirstVisibleFragment(activity.supportFragmentManager)
-        current!!.setupExitAnimation(activity)
 
-        val fragment = SettingsFragmentWrapper()
-        fragment.setupEnterAnimation(activity)
-
-        activity.supportFragmentManager.commit {
-            replace(R.id.fragmentContainer, fragment, SettingsFragmentWrapper.TAG)
-            addToBackStack(SettingsFragmentWrapper.TAG)
-        }
     }
 
     fun toSleepTimer() {

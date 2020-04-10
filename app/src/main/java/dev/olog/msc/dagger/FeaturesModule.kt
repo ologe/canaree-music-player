@@ -12,6 +12,7 @@ import dagger.Module
 		dev.olog.feature.search.dagger.FeatureSearchDagger.AppModule::class,
 		dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger.AppModule::class,
 		dev.olog.feature.service.music.di.FeatureMusicServiceDagger.AppModule::class,
+		dev.olog.feature.settings.dagger.FeatureSettingsDagger.AppModule::class,
 		dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger.AppModule::class,
 		dev.olog.presentation.main.di.FeatureMainActivityDagger.AppModule::class
     ]

@@ -1,16 +1,16 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.categories
 
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.SimpleAdapter
 import dev.olog.feature.presentation.base.adapter.setOnDragListener
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
+import dev.olog.feature.settings.R
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 
-class LibraryCategoriesFragmentAdapter(
+internal class LibraryCategoriesFragmentAdapter(
     private val dragListener: IDragListener
 ) : SimpleAdapter<LibraryCategoryBehavior>(),
     TouchableAdapter {

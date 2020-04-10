@@ -10,7 +10,9 @@ enum class FragmentScreen(val tag: String) {
     QUEUE("$PREFIX.queue"),
     DETAIL("$PREFIX.detail"),
     PLAYER("$PREFIX.player"),
-    PLAYER_MINI("$PREFIX.player.mini");
+    PLAYER_MINI("$PREFIX.player.mini"),
+    SETTINGS("$PREFIX.settings"),
+    ABOUT("$PREFIX.about");
 
     companion object {
         const val OWNERSHIP = PREFIX

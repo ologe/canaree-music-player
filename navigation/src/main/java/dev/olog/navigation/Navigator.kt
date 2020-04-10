@@ -31,6 +31,11 @@ interface Navigator: BottomNavigator, ServiceNavigator {
         view: View?
     )
 
+    // TODO shared element??
+    fun toSettings(
+        activity: FragmentActivity
+    )
+
     fun toRelatedArtists(
         mediaId: MediaId.Category,
         view: View

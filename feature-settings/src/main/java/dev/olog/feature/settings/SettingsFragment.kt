@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs
+package dev.olog.feature.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,27 +22,23 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.prefs.TutorialPreferenceGateway
-import dev.olog.lib.image.loader.GlideApp
-import dev.olog.lib.image.loader.creator.ImagesFolderUtils
-import dev.olog.presentation.R
-import dev.olog.presentation.prefs.blacklist.BlacklistFragment
-import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
-import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
+import dev.olog.feature.settings.blacklist.BlacklistFragment
+import dev.olog.feature.settings.categories.LibraryCategoriesFragment
+import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.prefs.CommonPreferences
+import dev.olog.lib.image.loader.ImageLoader
 import dev.olog.navigation.screens.LibraryPage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Keep
-class SettingsFragment : PreferenceFragmentCompat(),
-    ColorCallback,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+internal class SettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    ColorCallback{
 
     companion object {
         @JvmStatic
@@ -189,17 +185,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun clearGlideCache() {
-        GlideApp.get(requireContext().applicationContext).clearMemory()
-
-        withContext(Dispatchers.IO) {
-            GlideApp.get(requireContext().applicationContext).clearDiskCache()
-            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.FOLDER).listFiles()
-                ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.PLAYLIST).listFiles()
-                ?.forEach { it.delete() }
-            ImagesFolderUtils.getImageFolderFor(requireContext(), ImagesFolderUtils.GENRE).listFiles()
-                ?.forEach { it.delete() }
-        }
+        ImageLoader.clearCache(requireContext())
         requireContext().applicationContext.toast(R.string.prefs_delete_cached_images_success)
     }
 

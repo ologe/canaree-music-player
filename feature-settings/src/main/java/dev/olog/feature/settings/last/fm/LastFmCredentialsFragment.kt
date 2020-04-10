@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.prefs.lastfm
+package dev.olog.feature.settings.last.fm
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -17,16 +17,16 @@ import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.interactor.lastfm.GetLastFmUserCredentials
 import dev.olog.domain.interactor.lastfm.UpdateLastFmUserCredentials
-import dev.olog.presentation.BuildConfig
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.extensions.launchWhenResumed
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.feature.settings.BuildConfig
+import dev.olog.feature.settings.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-class LastFmCredentialsFragment : DaggerAppCompatDialogFragment() {
+internal class LastFmCredentialsFragment : DaggerAppCompatDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"

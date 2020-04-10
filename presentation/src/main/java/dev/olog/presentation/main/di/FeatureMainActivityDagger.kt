@@ -14,7 +14,6 @@ import dev.olog.presentation.edit.di.EditItemModule
 import dev.olog.presentation.equalizer.EqualizerModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
-import dev.olog.presentation.prefs.di.SettingsFragmentsModule
 import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.relatedartists.di.RelatedArtistFragmentInjector
 
@@ -32,8 +31,6 @@ class FeatureMainActivityDagger {
             RelatedArtistFragmentInjector::class,
             CreatePlaylistFragmentInjector::class,
             EqualizerModule::class,
-
-            SettingsFragmentsModule::class,
 
             EditItemModule::class,
             AboutFragmentModule::class,

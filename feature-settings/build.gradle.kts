@@ -7,6 +7,13 @@ plugins {
 
 android {
     applyDefaults()
+
+    defaultConfig {
+        val properties = localProperties
+        configField("LAST_FM_KEY" to properties.lastFmKey)
+        configField("LAST_FM_SECRET" to properties.lastFmSecret)
+    }
+
 }
 
 dependencies {
@@ -40,6 +47,12 @@ dependencies {
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
+
+    implementation(Libraries.UX.dialogs)
+
+    implementation(Libraries.Utils.colorDesaturation)
+    implementation(Libraries.Utils.scrollHelper)
+    implementation(Libraries.Utils.lastFmBinding) // TODO remove this
 
     implementation(Libraries.Debug.timber)
 

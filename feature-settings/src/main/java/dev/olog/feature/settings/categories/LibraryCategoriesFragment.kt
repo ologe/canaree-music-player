@@ -1,20 +1,20 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.categories
 
 import android.content.DialogInterface
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.domain.MediaIdCategory
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments
+import dev.olog.feature.settings.R
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
-class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
+internal class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"

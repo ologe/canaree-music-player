@@ -1,15 +1,15 @@
-package dev.olog.presentation.prefs.blacklist
+package dev.olog.feature.settings.blacklist
 
 import android.provider.MediaStore
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.feature.presentation.base.dialog.ListDialog
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.feature.settings.R
 import javax.inject.Inject
 
-class BlacklistFragment : ListDialog() {
+internal class BlacklistFragment : ListDialog() {
 
     companion object {
         const val TAG = "BlacklistFragment"

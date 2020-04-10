@@ -1,4 +1,4 @@
-package dev.olog.presentation.prefs.categories
+package dev.olog.feature.settings.categories
 
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
