@@ -25,7 +25,7 @@ import dev.olog.presentation.dialogs.playlist.create.PlayingQueueNewPlaylistDial
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
-import dev.olog.presentation.edit.EditItemDialogFactory
+import dev.olog.feature.edit.EditItemDialogFactory
 import dev.olog.presentation.edit.album.EditAlbumFragment
 import dev.olog.presentation.edit.artist.EditArtistFragment
 import dev.olog.presentation.edit.song.EditTrackFragment

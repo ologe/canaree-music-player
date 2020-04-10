@@ -17,6 +17,7 @@ dependencies {
 
     implementation(project(":lib.image-loader"))
     implementation(project(":lib.media"))
+    implementation(project(":lib-audio-tagger"))
 
     implementation(project(":navigation"))
     implementation(project(":feature-presentation-base"))
@@ -40,6 +41,8 @@ dependencies {
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
+
+    implementation(Libraries.UX.glide)
 
     implementation(Libraries.Debug.timber)
 

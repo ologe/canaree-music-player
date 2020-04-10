@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.domain
+package dev.olog.feature.edit.domain
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,14 +7,16 @@ import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.feature.presentation.base.model.toDomain
-import org.jaudiotagger.tag.FieldKey
+import dev.olog.lib.audio.tagger.AudioTagger
+import dev.olog.lib.audio.tagger.model.AudioTaggerKey
 import timber.log.Timber
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
     private val context: Context,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
-    private val updateTrackUseCase: UpdateTrackUseCase
+    private val updateTrackUseCase: UpdateTrackUseCase,
+    private val audioTagger: AudioTagger
 
 ) {
 
@@ -63,7 +65,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
 
     data class Data(
         val mediaId: PresentationId.Category,
-        val fields: Map<FieldKey, String>,
+        val fields: Map<AudioTaggerKey, String>,
         val isPodcast: Boolean
     )
 

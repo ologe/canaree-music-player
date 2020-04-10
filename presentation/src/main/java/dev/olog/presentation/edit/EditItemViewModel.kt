@@ -3,16 +3,15 @@ package dev.olog.presentation.edit
 import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
-import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.edit.EditItemPresenter
+import dev.olog.feature.edit.model.UpdateAlbumInfo
+import dev.olog.feature.edit.model.UpdateArtistInfo
+import dev.olog.feature.edit.model.UpdateSongInfo
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.withContext
-import org.jaudiotagger.audio.exceptions.CannotReadException
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
-import java.io.FileNotFoundException
 import javax.inject.Inject
 
 class EditItemViewModel @Inject constructor(
@@ -85,41 +84,13 @@ class EditItemViewModel @Inject constructor(
 
     private fun showErrorMessage(throwable: Exception) {
         // TODO
-        when (throwable) {
-            is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
-            is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
-            is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
-            else -> context.toast(R.string.popup_error_message)
-        }
+//        when (throwable) {
+//            is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
+//            is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
+//            is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
+//            else -> context.toast(R.string.popup_error_message)
+//        }
     }
 
 }
 
-data class UpdateSongInfo(
-    val originalSong: Song,
-    val title: String,
-    val artist: String,
-    val albumArtist: String,
-    val album: String,
-    val genre: String,
-    val year: String,
-    val disc: String,
-    val track: String,
-    val isPodcast: Boolean
-)
-
-data class UpdateAlbumInfo(
-    val mediaId: PresentationId.Category,
-    val title: String,
-    val artist: String,
-    val albumArtist: String,
-    val genre: String,
-    val year: String
-)
-
-data class UpdateArtistInfo(
-    val mediaId: PresentationId.Category,
-    val name: String,
-    val albumArtist: String,
-    val isPodcast: Boolean
-)

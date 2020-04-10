@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
 class EditArtistFragmentViewModel @Inject constructor(
@@ -18,10 +17,6 @@ class EditArtistFragmentViewModel @Inject constructor(
     private val schedulers: Schedulers
 
 ) : ViewModel() {
-
-    init {
-        TagOptionSingleton.getInstance().isAndroid = true
-    }
 
     private val displayableArtistPublisher = ConflatedBroadcastChannel<DisplayableArtist>()
 

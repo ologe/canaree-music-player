@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package dev.olog.presentation.edit
+package dev.olog.feature.edit
 
 import android.app.ProgressDialog
 import android.widget.ImageView
@@ -10,7 +10,6 @@ import com.bumptech.glide.Priority
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
 import dev.olog.feature.presentation.base.model.toDomain
 

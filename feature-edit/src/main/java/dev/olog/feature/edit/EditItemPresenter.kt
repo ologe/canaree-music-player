@@ -1,11 +1,14 @@
-package dev.olog.presentation.edit
+package dev.olog.feature.edit
 
 import dev.olog.domain.gateway.ImageRetrieverGateway
+import dev.olog.feature.edit.domain.UpdateMultipleTracksUseCase
+import dev.olog.feature.edit.domain.UpdateTrackUseCase
+import dev.olog.feature.edit.model.UpdateAlbumInfo
+import dev.olog.feature.edit.model.UpdateArtistInfo
+import dev.olog.feature.edit.model.UpdateSongInfo
 import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.presentation.edit.domain.UpdateMultipleTracksUseCase
-import dev.olog.presentation.edit.domain.UpdateTrackUseCase
 import dev.olog.feature.presentation.base.model.presentationId
-import org.jaudiotagger.tag.FieldKey
+import dev.olog.lib.audio.tagger.model.AudioTaggerKey
 import javax.inject.Inject
 
 class EditItemPresenter @Inject constructor(
@@ -35,14 +38,14 @@ class EditItemPresenter @Inject constructor(
                 info.originalSong.presentationId,
                 info.originalSong.path,
                 mapOf(
-                    FieldKey.TITLE to info.title,
-                    FieldKey.ARTIST to info.artist,
-                    FieldKey.ALBUM_ARTIST to albumArtist,
-                    FieldKey.ALBUM to info.album,
-                    FieldKey.GENRE to info.genre,
-                    FieldKey.YEAR to info.year,
-                    FieldKey.DISC_NO to info.disc,
-                    FieldKey.TRACK to info.track
+                    AudioTaggerKey.TITLE to info.title,
+                    AudioTaggerKey.ARTIST to info.artist,
+                    AudioTaggerKey.ALBUM_ARTIST to albumArtist,
+                    AudioTaggerKey.ALBUM to info.album,
+                    AudioTaggerKey.GENRE to info.genre,
+                    AudioTaggerKey.YEAR to info.year,
+                    AudioTaggerKey.DISC to info.disc,
+                    AudioTaggerKey.TRACK to info.track
                 ),
                 info.isPodcast
             )
@@ -55,11 +58,11 @@ class EditItemPresenter @Inject constructor(
             UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
                 mapOf(
-                    FieldKey.ALBUM to info.title,
-                    FieldKey.ARTIST to info.artist,
-                    FieldKey.ALBUM_ARTIST to albumArtist,
-                    FieldKey.GENRE to info.genre,
-                    FieldKey.YEAR to info.year
+                    AudioTaggerKey.ALBUM to info.title,
+                    AudioTaggerKey.ARTIST to info.artist,
+                    AudioTaggerKey.ALBUM_ARTIST to albumArtist,
+                    AudioTaggerKey.GENRE to info.genre,
+                    AudioTaggerKey.YEAR to info.year
                 ),
                 false
             )
@@ -73,8 +76,8 @@ class EditItemPresenter @Inject constructor(
             UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
                 mapOf(
-                    FieldKey.ARTIST to info.name,
-                    FieldKey.ALBUM_ARTIST to albumArtist
+                    AudioTaggerKey.ARTIST to info.name,
+                    AudioTaggerKey.ALBUM_ARTIST to albumArtist
                 ),
                 info.isPodcast
             )

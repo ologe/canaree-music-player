@@ -11,9 +11,9 @@ import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.presentation.R
-import dev.olog.presentation.edit.BaseEditItemFragment
+import dev.olog.feature.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
-import dev.olog.presentation.edit.UpdateSongInfo
+import dev.olog.feature.edit.model.UpdateSongInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast

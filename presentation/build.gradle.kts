@@ -19,7 +19,7 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-    implementation(project(":feature-equalizer"))
+    implementation(project(":feature-edit"))
 
     implementation(project(":lib.analytics"))
     implementation(project(":domain"))
@@ -62,7 +62,6 @@ dependencies {
     implementation(Libraries.UX.customTabs)
     implementation(Libraries.UX.glide)
 
-    implementation(Libraries.Utils.jaudiotagger)
     implementation(Libraries.Utils.scrollHelper)
     implementation(Libraries.Utils.colorDesaturation)
     implementation(Libraries.Utils.lastFmBinding)

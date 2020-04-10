@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit
+package dev.olog.feature.edit
 
 import android.content.Context
 import dev.olog.domain.MediaId
@@ -7,13 +7,9 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.extensions.toast
-import dev.olog.presentation.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.audio.exceptions.CannotReadException
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -80,21 +76,21 @@ class EditItemDialogFactory @Inject constructor(
     }
 
     private fun checkItem(song: Song) {
-        val file = File(song.path)
-        val audioFile = AudioFileIO.read(file)
-        audioFile.tagOrCreateAndSetDefault
+//        val file = File(song.path) TODO
+//        val audioFile = AudioFileIO.read(file)
+//        audioFile.tagOrCreateAndSetDefault
     }
 
     private fun showError(error: Exception) {
-        when (error) {
-            is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
-            is IOException -> context.toast(R.string.edit_song_error_io)
-            is ReadOnlyFileException -> context.toast(R.string.edit_song_error_read_only)
-            else -> {
-                error.printStackTrace()
-                context.toast(R.string.edit_song_error)
-            }
-        }
+//        when (error) {
+//            is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
+//            is IOException -> context.toast(R.string.edit_song_error_io)
+//            is ReadOnlyFileException -> context.toast(R.string.edit_song_error_read_only)
+//            else -> {
+//                error.printStackTrace()
+//                context.toast(R.string.edit_song_error)
+//            }
+//        }
     }
 
 }
