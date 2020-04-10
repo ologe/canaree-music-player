@@ -1,8 +1,8 @@
 package dev.olog.feature.detail.adapter
 
+import dev.olog.feature.detail.R
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.navigation.Navigator

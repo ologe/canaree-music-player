@@ -1,8 +1,12 @@
 package dev.olog.navigation.screens
 
+// TODO can be used in scrollHelper#hasFragmentOwnership
+private const val PREFIX = "dev.olog"
+
 enum class FragmentScreen(val tag: String) {
-    LIBRARY_TRACKS("dev.olog.library.track"),
-    LIBRARY_PODCAST("dev.olog.library.podcast"),
-    SEARCH("dev.olog.search"),
-    QUEUE("dev.olog.queue")
+    LIBRARY_TRACKS("$PREFIX.library.track"),
+    LIBRARY_PODCAST("$PREFIX.library.podcast"),
+    SEARCH("$PREFIX.search"),
+    QUEUE("$PREFIX.queue"),
+    DETAIL("$PREFIX.detail")
 }

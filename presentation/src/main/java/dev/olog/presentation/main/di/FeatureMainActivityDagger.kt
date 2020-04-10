@@ -9,7 +9,6 @@ import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.presentation.about.di.AboutFragmentModule
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
-import dev.olog.presentation.detail.di.DetailFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.edit.di.EditItemModule
 import dev.olog.presentation.equalizer.EqualizerModule
@@ -31,7 +30,6 @@ class FeatureMainActivityDagger {
             MainActivityFragmentsModule::class,
 //
 //        // fragments
-            DetailFragmentInjector::class,
             PlayerFragmentModule::class,
             RecentlyAddedFragmentInjector::class,
             RelatedArtistFragmentInjector::class,

@@ -13,6 +13,7 @@ class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.itemView.setOnClickListener {
+            // TODO, 3 states, unhide, hide this only, hide this and subfolders
             val item = getItem(viewHolder.adapterPosition)
             item.isBlacklisted = !item.isBlacklisted
             notifyItemChanged(viewHolder.adapterPosition)
