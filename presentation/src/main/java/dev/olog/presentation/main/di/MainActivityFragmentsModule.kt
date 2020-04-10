@@ -21,7 +21,7 @@ abstract class MainActivityFragmentsModule {
     companion object {
         @Provides
         @IntoMap
-        @FragmentScreenKey(FragmentScreen.MINI_PLAYER)
+        @FragmentScreenKey(FragmentScreen.PLAYER_MINI)
         fun providePlayerFragment(): Fragment {
             return MiniPlayerFragment()
         }

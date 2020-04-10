@@ -34,8 +34,8 @@ internal class NavigatorImpl @Inject constructor(
     }
 
     override fun toMiniPlayer(activity: FragmentActivity, containerId: Int) {
-        val fragment = fragments[FragmentScreen.MINI_PLAYER]?.get()
-        replaceFragment(activity, fragment, FragmentScreen.MINI_PLAYER.tag, containerId) {}
+        val fragment = fragments[FragmentScreen.PLAYER_MINI]?.get()
+        replaceFragment(activity, fragment, FragmentScreen.PLAYER_MINI.tag, containerId) {}
     }
 
     override fun toDetailFragment(

@@ -10,5 +10,5 @@ enum class FragmentScreen(val tag: String) {
     QUEUE("$PREFIX.queue"),
     DETAIL("$PREFIX.detail"),
     PLAYER("$PREFIX.player"),
-    MINI_PLAYER("$PREFIX.mini.player"),
+    PLAYER_MINI("$PREFIX.player.mini"),
 }
