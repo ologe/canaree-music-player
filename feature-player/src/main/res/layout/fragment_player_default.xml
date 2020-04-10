@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:colorBackground"
+    android:alpha="0">
+
+    <dev.olog.feature.presentation.base.widget.StatusBarView
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar" />
+
+    <dev.olog.feature.player.widgets.SimpleNestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/list"
+            tools:listitem="@layout/player_layout_default"
+            tools:itemCount="1"/>
+
+    </dev.olog.feature.player.widgets.SimpleNestedScrollView>
+
+</LinearLayout>

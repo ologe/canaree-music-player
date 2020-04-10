@@ -20,7 +20,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 import dagger.multibindings.Multibinds
+import dev.olog.feature.presentation.base.activity.SharedViewModel
+import dev.olog.feature.presentation.base.dagger.ViewModelKey
 
 @Module
 abstract class ViewModelModule {
@@ -30,5 +33,11 @@ abstract class ViewModelModule {
 
     @Multibinds
     internal abstract fun viewModels(): Map<Class<out ViewModel>, @JvmSuppressWildcards ViewModel>
+
+    // TODO not too sure about this
+    @Binds
+    @IntoMap
+    @ViewModelKey(SharedViewModel::class)
+    internal abstract fun provideSharedViewModel(impl: SharedViewModel): ViewModel
 
 }

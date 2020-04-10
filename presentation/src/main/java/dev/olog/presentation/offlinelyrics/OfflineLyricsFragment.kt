@@ -20,7 +20,6 @@ import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
 import dev.olog.feature.presentation.base.DrawsOnTop
 import dev.olog.feature.presentation.base.extensions.*
-import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.throwNotHandled
@@ -59,7 +58,7 @@ class OfflineLyricsFragment : BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (presenter.showAddLyricsIfNeverShown()) {
-            TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
+//            TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) TODO tutorial
         }
 
         list.onTap = {

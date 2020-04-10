@@ -77,6 +77,9 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        navigator.toPlayer(this, R.id.playerFragment)
+        navigator.toMiniPlayer(this, R.id.miniPlayerFragment)
+
         observeMetadata()
             .map { it.mediaId.toPresentation() }
             .filterIsInstance<PresentationId.Track>()

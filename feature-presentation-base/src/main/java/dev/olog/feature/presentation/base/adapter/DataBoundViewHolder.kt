@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.R
 import kotlinx.android.extensions.LayoutContainer
 
+// TODO test lifecycle
 class DataBoundViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view),

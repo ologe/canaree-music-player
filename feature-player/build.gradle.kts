@@ -41,6 +41,10 @@ dependencies {
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
+    implementation(Libraries.UX.glide)
+    implementation(Libraries.UX.blurKit)
+    implementation(Libraries.UX.lottie)
+
     implementation(Libraries.Debug.timber)
 
     testImplementation(Libraries.Test.junit)

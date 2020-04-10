@@ -14,11 +14,11 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.domain.MediaIdCategory
+import dev.olog.feature.presentation.base.widget.swipeable.SwipeableView
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.widgets.StoppingViewPager
-import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

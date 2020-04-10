@@ -25,9 +25,4 @@ abstract class MainActivityModule {
     @ViewModelKey(MainActivityViewModel::class)
     internal abstract fun provideViewModel(impl: MainActivityViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(SharedViewModel::class)
-    internal abstract fun provideSharedViewModel(impl: SharedViewModel): ViewModel
-
 }

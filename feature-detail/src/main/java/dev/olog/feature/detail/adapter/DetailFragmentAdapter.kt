@@ -178,7 +178,7 @@ internal class DetailFragmentAdapter(
                     .launchIn(holder.lifecycleScope)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
-//                    TutorialTapTarget.sortBy(sortText, sortImage) TODO
+//                    TutorialTapTarget.sortBy(sortText, sortImage) TODO tutorial
                 }
             }
             R.layout.item_detail_biography -> {

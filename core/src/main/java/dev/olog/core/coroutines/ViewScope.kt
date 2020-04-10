@@ -16,6 +16,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 private val SCOPE_KEY = "canaree.SCOPE_KEY".hashCode()
 
+// TODO test
 val View.viewScope: ViewScope
     get() {
         require(Looper.getMainLooper() == Looper.myLooper())

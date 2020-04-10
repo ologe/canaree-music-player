@@ -2,6 +2,7 @@ package dev.olog.navigation
 
 import android.graphics.Color
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.fragment.app.*
 import com.google.android.material.snackbar.Snackbar
 
@@ -18,11 +19,12 @@ internal abstract class BaseNavigator {
         activity: FragmentActivity,
         fragment: Fragment?,
         tag: String,
+        @IdRes containerId: Int = R.id.fragmentContainer,
         block: FragmentTransaction.(Fragment) -> Any?
     ) {
         mandatory(activity, fragment != null) ?: return
         activity.supportFragmentManager.commit {
-            replace(R.id.fragmentContainer, fragment!!, tag)
+            replace(containerId, fragment!!, tag)
             block(fragment)
         }
     }

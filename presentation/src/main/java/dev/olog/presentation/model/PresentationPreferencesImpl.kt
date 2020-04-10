@@ -1,16 +1,10 @@
 package dev.olog.presentation.model
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dev.olog.navigation.screens.BottomNavigationPage
-import dev.olog.presentation.R
-import dev.olog.shared.android.extensions.observeKey
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class PresentationPreferencesImpl @Inject constructor(
-    private val context: Context,
     private val preferences: SharedPreferences
 ) : PresentationPreferencesGateway {
 
@@ -32,17 +26,6 @@ internal class PresentationPreferencesImpl @Inject constructor(
 
         return isFirstAccess
     }
-
-
-    override fun observePlayerControlsVisibility(): Flow<Boolean> {
-        return preferences.observeKey(context.getString(R.string.prefs_player_controls_visibility_key), false)
-    }
-
-    override fun isAdaptiveColorEnabled(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
-    }
-
-
 
 
 }

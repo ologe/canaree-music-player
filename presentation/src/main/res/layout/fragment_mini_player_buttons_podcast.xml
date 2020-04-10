@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/sliding_panel_peek">
 
-    <dev.olog.presentation.widgets.RotateView
+    <dev.olog.feature.presentation.base.widget.RotateView
         android:id="@+id/forward30"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/vd_playpause_play" />
 
-    <dev.olog.presentation.widgets.RotateView
+    <dev.olog.feature.presentation.base.widget.RotateView
         android:id="@+id/replay"
         app:direction="left"
         android:layout_width="40dp"
