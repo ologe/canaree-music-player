@@ -1,4 +1,4 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.onboarding
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -14,16 +14,15 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.domain.MediaIdCategory
+import dev.olog.feature.onboarding.widgets.StoppingViewPager
 import dev.olog.feature.presentation.base.widget.swipeable.SwipeableView
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
-import dev.olog.presentation.R
-import dev.olog.presentation.widgets.StoppingViewPager
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class SplashTutorialFragment : Fragment(),
+internal class SplashTutorialFragment : Fragment(),
     SwipeableView.SwipeListener {
 
     private var progressive = 0

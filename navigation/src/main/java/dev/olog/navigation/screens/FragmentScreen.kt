@@ -12,7 +12,8 @@ enum class FragmentScreen(val tag: String) {
     PLAYER("$PREFIX.player"),
     PLAYER_MINI("$PREFIX.player.mini"),
     SETTINGS("$PREFIX.settings"),
-    ABOUT("$PREFIX.about");
+    ABOUT("$PREFIX.about"),
+    ONBOARDING("$PREFIX.onboarding");
 
     companion object {
         const val OWNERSHIP = PREFIX

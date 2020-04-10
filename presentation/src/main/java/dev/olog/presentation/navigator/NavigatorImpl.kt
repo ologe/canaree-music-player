@@ -34,7 +34,6 @@ import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
-import dev.olog.presentation.splash.SplashFragment
 import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
 import dev.olog.shared.throwNotHandled
@@ -50,13 +49,6 @@ internal class NavigatorImpl @Inject internal constructor(
 ) {
 
     private val activityRef = WeakReference(activity)
-
-    fun toFirstAccess() {
-        val activity = activityRef.get() ?: return
-        activity.supportFragmentManager.commit {
-            add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
-        }
-    }
 
     fun toRelatedArtists(
         mediaId: MediaId.Category,

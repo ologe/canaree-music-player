@@ -103,7 +103,7 @@ class MainActivity : MusicGlueActivity(),
 
         when {
             viewModel.isFirstAccess() -> {
-                navigator.toFirstAccess()
+                navigator.toFirstAccess(this)
                 return
             }
             savedInstanceState == null -> navigateToLastPage()

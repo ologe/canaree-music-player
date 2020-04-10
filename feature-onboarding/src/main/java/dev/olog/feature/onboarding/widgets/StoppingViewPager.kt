@@ -1,26 +1,27 @@
-package dev.olog.presentation.widgets
+package dev.olog.feature.onboarding.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.viewpager.widget.ViewPager
 
-class StoppingViewPager (
-        context: Context,
-        attrs: AttributeSet
+internal class StoppingViewPager(
+    context: Context,
+    attrs: AttributeSet
 
-) : androidx.viewpager.widget.ViewPager(context, attrs) {
+) : ViewPager(context, attrs) {
 
     var isSwipeEnabled = true
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        if (isSwipeEnabled){
+        if (isSwipeEnabled) {
             return super.onInterceptTouchEvent(ev)
         }
         return false
     }
 
     override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        if (isSwipeEnabled){
+        if (isSwipeEnabled) {
             return super.onTouchEvent(ev)
         }
         return false

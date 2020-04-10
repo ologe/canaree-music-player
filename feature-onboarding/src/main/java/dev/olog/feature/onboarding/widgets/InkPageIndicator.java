@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets;
+package dev.olog.feature.onboarding.widgets;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -22,7 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.Arrays;
 
-import dev.olog.presentation.R;
+import dev.olog.feature.onboarding.R;
 import timber.log.Timber;
 
 

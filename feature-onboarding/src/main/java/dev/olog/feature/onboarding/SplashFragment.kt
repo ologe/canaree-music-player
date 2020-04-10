@@ -1,4 +1,4 @@
-package dev.olog.presentation.splash
+package dev.olog.feature.onboarding
 
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.OnPermissionChanged
 import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.shared.android.Permissions
@@ -16,7 +15,7 @@ import dev.olog.core.extensions.alertDialog
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_splash.*
 
-class SplashFragment : Fragment() {
+internal class SplashFragment : Fragment() {
 
     companion object {
         @JvmStatic
@@ -106,7 +105,7 @@ class SplashFragment : Fragment() {
             requireActivity().alertDialog {
                 setTitle(R.string.splash_storage_permission)
                 setMessage(R.string.splash_storage_permission_disabled)
-                setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })
+                setPositiveButton(R.string.popup_positive_ok) { _, _ -> toSettings() }
                 setNegativeButton(R.string.popup_negative_no, null)
             }
         }

@@ -24,8 +24,10 @@ internal class NavigatorImpl @Inject constructor(
     BottomNavigator by bottomNavigator,
     ServiceNavigator by serviceNavigator {
 
-    override fun toFirstAccess() {
-
+    override fun toFirstAccess(activity: FragmentActivity) {
+        val fragment = fragments[FragmentScreen.ONBOARDING]?.get()
+        val tag = FragmentScreen.ONBOARDING.tag
+        replaceFragment(activity, fragment, tag) {}
     }
 
     override fun toPlayer(activity: FragmentActivity, containerId: Int) {

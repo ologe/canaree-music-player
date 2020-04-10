@@ -13,7 +13,7 @@ interface Navigator: BottomNavigator, ServiceNavigator {
 
     }
 
-    fun toFirstAccess()
+    fun toFirstAccess(activity: FragmentActivity)
 
     fun toPlayer(
         activity: FragmentActivity,
