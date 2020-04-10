@@ -94,7 +94,7 @@ object Libraries {
         internal const val android_x_palette = "1.0.0"
         internal const val android_x_annotations = "1.1.0"
         internal const val android_x_coordinator = "1.1.0"
-        internal const val android_x_fragments = "1.2.2"
+        internal const val android_x_fragments = "1.2.4"
         internal const val constraint_layout = "2.0.0-beta4"
         internal const val lifecycle = "2.2.0"
         internal const val android_x_webview = "1.2.0"
