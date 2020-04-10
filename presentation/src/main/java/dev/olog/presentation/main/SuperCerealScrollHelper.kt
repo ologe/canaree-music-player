@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.R
-import dev.olog.feature.detail.DetailFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.prefs.SettingsFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
@@ -23,7 +22,7 @@ class SuperCerealScrollHelper(
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
         super.applyInsetsToList(fragment, list, toolbar, tabLayout)
-        if (fragment.tag?.startsWith(DetailFragment.TAG) == true){
+        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true){
             // apply only top padding
             list.updatePadding(top = 0)
         }

@@ -23,10 +23,10 @@ import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
-import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.feature.presentation.base.transition.FastAutoTransition
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
+import dev.olog.navigation.Params
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.colorControlNormal
@@ -42,22 +42,6 @@ class DetailFragment : BaseFragment(),
     SetupNestedList,
     IDragListener by DragListenerImpl() {
 
-    companion object {
-        @JvmStatic
-        val TAG = DetailFragment::class.java.name
-        const val ARGUMENTS_MEDIA_ID = "media_id"
-        const val ARGUMENTS_TRANSITION = "transition"
-
-        @JvmStatic
-        fun newInstance(mediaId: MediaId.Category, transition: String): DetailFragment {
-            return DetailFragment().withArguments(
-                ARGUMENTS_MEDIA_ID to mediaId.toPresentation(),
-                ARGUMENTS_TRANSITION to transition
-            )
-        }
-
-    }
-
     @Inject
     internal lateinit var navigator: Navigator
 
@@ -68,9 +52,8 @@ class DetailFragment : BaseFragment(),
         viewModelFactory
     }
 
-    private val mediaId by lazyFast {
-        getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)
-    }
+    @Inject
+    lateinit var mediaId: PresentationId.Category
 
     private val mostPlayedAdapter by lazyFast {
         DetailMostPlayedAdapter(navigator, requireActivity() as MediaProvider)
@@ -118,7 +101,7 @@ class DetailFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.transitionName = requireArguments().getString(ARGUMENTS_TRANSITION)
+        view.transitionName = requireArguments().getString(Params.CONTAINER_TRANSITION_NAME)
 
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter

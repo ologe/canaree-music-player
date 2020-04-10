@@ -31,11 +31,9 @@ internal class PlaylistPopupListener @Inject constructor(
 ) : AbsPopupListener(
     getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
     addToPlaylistUseCase = addToPlaylistUseCase,
-    schedulers = schedulers
+    schedulers = schedulers,
+    activity = activity
 ) {
-
-    private val activityRef = WeakReference(activity)
-
 
     private lateinit var playlist: Playlist
     private var song: Song? = null
@@ -57,9 +55,6 @@ internal class PlaylistPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
-
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), playlist.size, playlist.title)
@@ -101,8 +96,6 @@ internal class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId() {
-        val activity = activityRef.get() ?: return
-
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {
@@ -113,8 +106,6 @@ internal class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playShuffle() {
-        val activity = activityRef.get() ?: return
-
         if (playlist.size == 0) {
             activity.toast(R.string.common_empty_list)
         } else {

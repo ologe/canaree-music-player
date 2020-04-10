@@ -11,7 +11,7 @@ import dev.olog.navigation.transition.setupEnterAnimation
 import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.presentation.equalizer.EqualizerFragment
 import dev.olog.presentation.navigator.allowed
-import dev.olog.presentation.navigator.findFirstVisibleFragment
+import dev.olog.navigation.findFirstVisibleFragment
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.feature.presentation.base.extensions.toast
@@ -20,15 +20,12 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 internal class MainPopupNavigator @Inject constructor(
-    activity: FragmentActivity
+    private val activity: FragmentActivity
 ) {
 
-    private val activityRef = WeakReference(activity)
-
     fun toAboutActivity() {
-        val activity = activityRef.get() ?: return
-
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         current!!.setupExitAnimation(activity)
 
         val fragment = AboutFragment()
@@ -41,8 +38,6 @@ internal class MainPopupNavigator @Inject constructor(
     }
 
     fun toEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
                 .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
@@ -54,15 +49,11 @@ internal class MainPopupNavigator @Inject constructor(
     }
 
     private fun toBuiltInEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val instance = EqualizerFragment.newInstance()
         instance.show(activity.supportFragmentManager, EqualizerFragment.TAG)
     }
 
     private fun searchForEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
         if (intent.resolveActivity(activity.packageManager) != null) {
             activity.startActivity(intent)
@@ -73,9 +64,9 @@ internal class MainPopupNavigator @Inject constructor(
 
     fun toSettingsActivity() {
         mandatory(allowed()) ?: return
-        val activity = activityRef.get() ?: return
 
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         current!!.setupExitAnimation(activity)
 
         val fragment = SettingsFragmentWrapper()
@@ -89,7 +80,6 @@ internal class MainPopupNavigator @Inject constructor(
 
     fun toSleepTimer() {
         mandatory(allowed()) ?: return
-        val activity = activityRef.get() ?: return
 
         SleepTimerPickerDialogBuilder(activity, activity.supportFragmentManager).show()
     }

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.parseAsHtml
+import androidx.fragment.app.FragmentActivity
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.entity.track.Song
@@ -28,6 +29,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 internal abstract class AbsPopupListener(
+    protected val activity: FragmentActivity,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     private val addToPlaylistUseCase: AddToPlaylistUseCase,
     private val schedulers: Schedulers
@@ -133,19 +135,11 @@ internal abstract class AbsPopupListener(
     }
 
     protected fun viewAlbum(navigator: Navigator, mediaId: PresentationId.Category) {
-        if (container == null) {
-            navigator.toDetailFragment(mediaId.toDomain())
-        } else {
-            navigator.toDetailFragment(mediaId.toDomain(), container!!)
-        }
+        navigator.toDetailFragment(activity, mediaId.toDomain(), container)
     }
 
     protected fun viewArtist(navigator: Navigator, mediaId: PresentationId.Category) {
-        if (container == null) {
-            navigator.toDetailFragment(mediaId.toDomain())
-        } else {
-            navigator.toDetailFragment(mediaId.toDomain(), container!!)
-        }
+        navigator.toDetailFragment(activity, mediaId.toDomain(), container)
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: PresentationId, song: Song) {

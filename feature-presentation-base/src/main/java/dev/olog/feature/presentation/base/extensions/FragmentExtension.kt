@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
+// TODO remove this??
 inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
     arguments = bundleOf(*params)
     return this

@@ -25,10 +25,9 @@ internal class SongPopupListener @Inject constructor(
 ) : AbsPopupListener(
     getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
     addToPlaylistUseCase = addToPlaylistUseCase,
-    schedulers = schedulers
+    schedulers = schedulers,
+    activity = activity
 ) {
-
-    private val activityRef = WeakReference(activity)
 
     private lateinit var song: Song
 
@@ -44,8 +43,6 @@ internal class SongPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
         val itemId = menuItem.itemId
 
         onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, song.title)

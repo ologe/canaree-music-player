@@ -10,16 +10,11 @@ import dagger.Lazy
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.feature.presentation.base.extensions.collapse
-import dev.olog.feature.presentation.base.extensions.isExpanded
-import dev.olog.navigation.transition.setupEnterAnimation
+import dev.olog.navigation.findFirstVisibleFragment
 import dev.olog.navigation.transition.setupEnterSharedAnimation
-import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
 import dev.olog.presentation.R
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
-import dev.olog.feature.detail.DetailFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
 import dev.olog.presentation.dialogs.favorite.AddFavoriteDialog
 import dev.olog.presentation.dialogs.play.later.PlayLaterDialog
@@ -60,53 +55,6 @@ internal class NavigatorImpl @Inject internal constructor(
         val activity = activityRef.get() ?: return
         activity.supportFragmentManager.commit {
             add(android.R.id.content, SplashFragment(), SplashFragment.TAG)
-        }
-    }
-
-    fun toDetailFragment(mediaId: MediaId.Category) {
-        mandatory(allowed()) ?: return
-        val activity = activityRef.get() ?: return
-        (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
-
-        val newTag = createBackStackTag(DetailFragment.TAG)
-
-        findFirstVisibleFragment(activity.supportFragmentManager)
-            ?.setupExitAnimation(activity)
-
-        activity.supportFragmentManager.commit {
-            val fragment = DetailFragment.newInstance(mediaId, "")
-            fragment.setupEnterAnimation(activity)
-
-            replace(R.id.fragmentContainer, fragment, newTag)
-            addToBackStack(newTag)
-        }
-    }
-
-    fun toDetailFragment(
-        mediaId: MediaId.Category,
-        view: View
-    ) {
-        val activity = activityRef.get() ?: return
-        val slidingPanel = (activity as HasSlidingPanel?)?.getSlidingPanel()
-        if (slidingPanel.isExpanded()) {
-            slidingPanel.collapse()
-            toDetailFragment(mediaId)
-            return
-        }
-        mandatory(allowed()) ?: return
-
-        val newTag = createBackStackTag(DetailFragment.TAG)
-
-        findFirstVisibleFragment(activity.supportFragmentManager)
-            ?.setupExitSharedAnimation()
-
-        activity.supportFragmentManager.commit {
-            val fragment = DetailFragment.newInstance(mediaId, view.transitionName)
-            fragment.setupEnterSharedAnimation(activity)
-
-            replace(R.id.fragmentContainer, fragment, newTag)
-            addToBackStack(newTag)
-            addSharedElement(view, view.transitionName)
         }
     }
 

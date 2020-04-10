@@ -1,6 +1,7 @@
 package dev.olog.navigation
 
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 
@@ -13,11 +14,10 @@ interface Navigator: BottomNavigator, ServiceNavigator {
 
     fun toFirstAccess()
 
-    fun toDetailFragment(mediaId: MediaId.Category)
-
     fun toDetailFragment(
+        activity: FragmentActivity,
         mediaId: MediaId.Category,
-        view: View
+        view: View?
     )
 
     fun toRelatedArtists(

@@ -33,11 +33,9 @@ internal class AlbumPopupListener @Inject constructor(
 ) : AbsPopupListener(
     getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
     addToPlaylistUseCase = addToPlaylistUseCase,
-    schedulers = schedulers
+    schedulers = schedulers,
+    activity = activity
 ) {
-
-    private val activityRef = WeakReference(activity)
-
 
     private lateinit var album: Album
     private var song: Song? = null
@@ -58,8 +56,6 @@ internal class AlbumPopupListener @Inject constructor(
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-        val activity = activityRef.get() ?: return true
-
 
         val itemId = menuItem.itemId
 
@@ -139,11 +135,7 @@ internal class AlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist() {
-        if (container == null) {
-            navigator.toDetailFragment(album.artistPresentationId.toDomain())
-        } else {
-            navigator.toDetailFragment(album.artistPresentationId.toDomain(), container!!)
-        }
+        navigator.toDetailFragment(activity, album.artistPresentationId.toDomain(), container)
     }
 
 

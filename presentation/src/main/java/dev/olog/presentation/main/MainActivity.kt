@@ -164,7 +164,7 @@ class MainActivity : MusicGlueActivity(),
                     // TODO check
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(mediaId as MediaId.Category)
+                    navigator.toDetailFragment(this@MainActivity, mediaId as MediaId.Category, null)
                 }
             }
             Intent.ACTION_VIEW -> {

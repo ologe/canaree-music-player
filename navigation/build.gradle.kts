@@ -20,6 +20,8 @@ dependencies {
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.material)
 
+    implementation(Libraries.Debug.timber)
+
     testImplementation(Libraries.Test.junit)
     testImplementation(Libraries.Test.mockito)
     testImplementation(Libraries.Test.mockitoKotlin)

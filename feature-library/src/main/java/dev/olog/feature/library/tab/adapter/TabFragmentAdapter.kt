@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.extensions.findActivity
 import dev.olog.domain.MediaId
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.adapter.*
@@ -87,7 +88,7 @@ internal class TabFragmentAdapter(
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
             holder.itemView.isPlaying.animateVisibility(payload)
-            if (item is DisplayableTrack) {
+            if (item is DisplayableTrack && holder.isPodcast()) {
                 bindPodcastProgressBarTint(holder.itemView, item)
             }
         }
@@ -107,7 +108,7 @@ internal class TabFragmentAdapter(
             val sort = viewModel.getAllTracksSortOrder()
             mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, sort)
         } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(item.mediaId.toDomain(), view)
+            navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
         }
     }
 
@@ -130,11 +131,15 @@ internal class TabFragmentAdapter(
             explicit?.onItemChanged(item.title)
             isPlaying.toggleVisibility(item.mediaId == playingMediaId)
 
-            if (holder.itemViewType == R.layout.item_tab_podcast) {
+            if (holder.isPodcast()) {
                 bindPodcast(this, item)
                 bindPodcastProgressBarTint(this, item)
             }
         }
+    }
+
+    private fun RecyclerView.ViewHolder.isPodcast(): Boolean {
+        return itemViewType == R.layout.item_tab_podcast
     }
 
     @SuppressLint("SetTextI18n")

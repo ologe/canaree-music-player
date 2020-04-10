@@ -5,11 +5,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import dev.olog.domain.MediaId
 import dev.olog.feature.detail.DetailFragment
 import dev.olog.feature.detail.DetailFragmentViewModel
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.toPresentation
+import dev.olog.navigation.Params
 
 @Module
 internal abstract class DetailFragmentModule {
@@ -23,7 +26,8 @@ internal abstract class DetailFragmentModule {
 
         @Provides
         internal fun provideMediaId(instance: DetailFragment): PresentationId.Category {
-            return instance.getArgument(DetailFragment.ARGUMENTS_MEDIA_ID)
+            val mediaId = MediaId.fromString(instance.getArgument(Params.MEDIA_ID))
+            return (mediaId as MediaId.Category).toPresentation()
         }
 
     }

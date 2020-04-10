@@ -1,5 +1,6 @@
 package dev.olog.feature.search.adapter
 
+import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
@@ -16,7 +17,7 @@ internal class SearchFragmentNestedAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, view ->
-            navigator.toDetailFragment(item.mediaId.toDomain(), view)
+            navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
             viewModel.insertToRecent(item.mediaId)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->

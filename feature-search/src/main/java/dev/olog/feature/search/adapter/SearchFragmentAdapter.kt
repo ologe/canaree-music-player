@@ -1,6 +1,7 @@
 package dev.olog.feature.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
@@ -69,7 +70,9 @@ internal class SearchFragmentAdapter(
                         is PresentationId.Track -> {
                             mediaProvider.playFromMediaId(mediaId.toDomain(), null, null)
                         }
-                        is PresentationId.Category -> navigator.toDetailFragment(mediaId.toDomain(), view)
+                        is PresentationId.Category -> {
+                            navigator.toDetailFragment(view.findActivity(), mediaId.toDomain(), view)
+                        }
                     }
                 }
                 viewHolder.setOnLongClickListener(this) { item, _, _ ->
