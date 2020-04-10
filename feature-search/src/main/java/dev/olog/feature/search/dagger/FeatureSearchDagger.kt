@@ -24,7 +24,7 @@ class FeatureSearchDagger {
             @Provides
             @IntoMap
             @FragmentScreenKey(FragmentScreen.SEARCH)
-            internal fun provideLibraryTracksFragment(): Fragment {
+            internal fun provideFragment(): Fragment {
                 return SearchFragment.newInstance()
             }
 
