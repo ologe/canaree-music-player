@@ -23,6 +23,8 @@ include(":feature-player-mini")
 include(":feature-queue")
 include(":feature-settings")
 include(":feature-about")
+include(":feature-onboarding")
+include(":feature-equalizer")
 
 include(":data")
 include(":data-spotify")

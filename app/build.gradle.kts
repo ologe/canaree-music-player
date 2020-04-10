@@ -69,6 +69,8 @@ dependencies {
     api(project(":feature-queue"))
     api(project(":feature-settings"))
     api(project(":feature-about"))
+    api(project(":feature-onboarding"))
+    api(project(":feature-equalizer"))
 
     api(project(":feature-service-music"))
     api(project(":feature-service-floating"))
