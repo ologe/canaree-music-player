@@ -33,7 +33,6 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-    implementation(project(":feature-queue"))
     implementation(project(":feature-settings"))
     implementation(project(":feature-about"))
 
