@@ -9,7 +9,7 @@ include(":lib.offline-lyrics")
 include(":lib.equalizer")
 include(":lib.network")
 include(":lib.analytics")
-include(":lib-audio-tagger")
+include(":lib.audio-tagger")
 
 include(":navigation")
 include(":feature-presentation-base")

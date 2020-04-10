@@ -84,7 +84,7 @@ dependencies {
     implementation(project(":lib.offline-lyrics"))
     implementation(project(":lib.image-loader"))
     implementation(project(":lib.analytics"))
-    implementation(project(":lib-audio-tagger"))
+    implementation(project(":lib.audio-tagger"))
 
 
 
