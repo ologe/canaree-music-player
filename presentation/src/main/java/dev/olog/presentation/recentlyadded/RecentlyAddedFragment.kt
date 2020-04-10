@@ -48,7 +48,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
-        RecentlyAddedFragmentAdapter(navigator, requireActivity() as MediaProvider, this)
+        RecentlyAddedFragmentAdapter(navigator, requireActivity() as MediaProvider)
     }
 
     private val viewModel by viewModels<RecentlyAddedFragmentViewModel> {

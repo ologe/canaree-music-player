@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.lib.media.MediaProvider
 import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
@@ -12,10 +11,10 @@ import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_recently_added.view.*
 
+// TODO
 internal class RecentlyAddedFragmentAdapter(
     private val navigator: Navigator,
-    private val mediaProvider: MediaProvider,
-    private val dragListener: IDragListener
+    private val mediaProvider: MediaProvider
 
 ) : ObservableAdapter<DisplayableTrack>(DiffCallbackDisplayableTrack),
     TouchableAdapter,
@@ -31,8 +30,7 @@ internal class RecentlyAddedFragmentAdapter(
         viewHolder.setOnClickListener(R.id.more, this) { item, _, view ->
             navigator.toDialog(item.mediaId.toDomain(), view, viewHolder.itemView)
         }
-        viewHolder.elevateAlbumOnTouch()
-        viewHolder.setOnDragListener(R.id.dragHandle, dragListener)
+        viewHolder.elevateSongOnTouch()
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
@@ -63,6 +61,7 @@ internal class RecentlyAddedFragmentAdapter(
         return viewType == R.layout.item_recently_added
     }
 
+    // TODO check is works
     override fun afterSwipeLeft(viewHolder: RecyclerView.ViewHolder) {
         val item = getItem(viewHolder.adapterPosition)
         mediaProvider.addToPlayNext(item.mediaId.toDomain())
