@@ -1,3 +1,5 @@
+package plugin
+
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.internal.plugins.AppPlugin
 import org.gradle.api.Plugin

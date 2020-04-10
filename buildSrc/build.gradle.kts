@@ -23,7 +23,7 @@ gradlePlugin {
     plugins {
         create("dynamic-flavor") {
             id = "dynamic-flavor"
-            implementationClass = "DynamicFlavorPlugin"
+            implementationClass = "plugin.DynamicFlavorPlugin"
         }
     }
 
