@@ -19,6 +19,7 @@ include(":feature-library")
 include(":feature-search")
 include(":feature-detail")
 include(":feature-player")
+include(":feature-player-mini")
 
 include(":data")
 include(":data-spotify")
