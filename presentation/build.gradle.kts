@@ -19,7 +19,6 @@ dependencies {
     implementation(project(":feature-presentation-base"))
 
     // TODO temp
-    implementation(project(":feature-onboarding"))
     implementation(project(":feature-equalizer"))
 
     implementation(project(":lib.analytics"))

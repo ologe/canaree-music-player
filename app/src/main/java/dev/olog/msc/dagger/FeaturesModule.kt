@@ -7,6 +7,7 @@ import dagger.Module
         dev.olog.feature.about.dagger.FeatureAboutDagger.AppModule::class,
 		dev.olog.feature.detail.dagger.FeatureDetailDagger.AppModule::class,
 		dev.olog.feature.library.dagger.FeatureLibraryDagger.AppModule::class,
+		dev.olog.feature.onboarding.dagger.FeatureOnboardingDagger.AppModule::class,
 		dev.olog.feature.player.dagger.FeaturePlayerDagger.AppModule::class,
 		dev.olog.feature.player.mini.FeatureMiniPlayerDagger.AppModule::class,
 		dev.olog.feature.queue.dagger.FeaturePlayingQueueDagger.AppModule::class,
