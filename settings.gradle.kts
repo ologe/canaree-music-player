@@ -18,6 +18,7 @@ include(":feature-app-shortcuts")
 include(":feature-library")
 include(":feature-search")
 include(":feature-detail")
+include(":feature-player")
 
 include(":data")
 include(":data-spotify")

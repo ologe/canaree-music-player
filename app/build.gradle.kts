@@ -64,6 +64,8 @@ dependencies {
     api(project(":feature-library"))
     api(project(":feature-search"))
     api(project(":feature-detail"))
+    api(project(":feature-player"))
+
     api(project(":feature-service-music"))
     api(project(":feature-service-floating"))
     api(project(":presentation"))
