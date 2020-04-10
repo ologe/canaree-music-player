@@ -17,6 +17,7 @@ include(":feature-service-floating")
 include(":feature-app-shortcuts")
 include(":feature-library")
 include(":feature-search")
+include(":feature-detail")
 
 include(":data")
 include(":data-spotify")
