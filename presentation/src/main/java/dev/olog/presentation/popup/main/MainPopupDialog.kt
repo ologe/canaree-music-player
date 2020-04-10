@@ -13,7 +13,6 @@ import dev.olog.domain.entity.sort.SortType
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.R
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ internal class MainPopupDialog @Inject constructor(
         private const val SAVE_AS_PLAYLIST_ID = -12345
     }
     
-    fun show(anchor: View, navigator: Navigator, category: MainPopupCategory) {
+    fun show(anchor: View, category: MainPopupCategory) {
         val popup = PopupMenu(anchor.context, anchor)
         val layoutId = when (category) {
             MainPopupCategory.ALBUMS -> R.menu.main_albums
@@ -64,7 +63,7 @@ internal class MainPopupDialog @Inject constructor(
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.about -> navigator.toAbout(anchor.findActivity())
-                R.id.equalizer -> popupNavigator.toEqualizer()
+                R.id.equalizer -> navigator.toEqualizer(anchor.findActivity())
                 R.id.settings -> navigator.toSettings(anchor.findActivity())
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
                 SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialogFromPlayingQueue()

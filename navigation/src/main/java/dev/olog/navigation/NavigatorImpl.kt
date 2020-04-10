@@ -1,9 +1,13 @@
 package dev.olog.navigation
 
+import android.content.Intent
+import android.media.audiofx.AudioEffect
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.navigation.screens.FragmentScreen
@@ -96,6 +100,35 @@ internal class NavigatorImpl @Inject constructor(
         replaceFragment(activity, fragment, tag) {
             it.setupEnterAnimation(activity)
             addToBackStack(tag)
+        }
+    }
+
+    override fun toEqualizer(activity: FragmentActivity) {
+        val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
+            .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
+
+        if (useCustomEqualizer) {
+            toBuiltInEqualizer(activity)
+        } else {
+            searchForEqualizer(activity)
+        }
+
+    }
+
+    private fun toBuiltInEqualizer(activity: FragmentActivity) {
+        val fragment = fragments[FragmentScreen.EQUALIZER]?.get()
+        val tag = FragmentScreen.EQUALIZER.tag
+        replaceFragment(activity, fragment, tag) {}
+    }
+
+    private fun searchForEqualizer(activity: FragmentActivity) {
+        val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+        if (intent.resolveActivity(activity.packageManager) != null) {
+            activity.startActivity(intent)
+        } else {
+            // TODO show snackbar
+            Toast.makeText(activity, R.string.equalizer_not_found, Toast.LENGTH_LONG)
+                .show()
         }
     }
 

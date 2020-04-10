@@ -1,9 +1,9 @@
-package dev.olog.presentation.widgets.equalizer.croller
+package dev.olog.feature.equalizer.widgets.croller
 
 import android.content.Context
 import android.util.AttributeSet
 
-class CanareeCroller(
+internal class CanareeCroller(
     context: Context,
     attrs: AttributeSet
 ) : Croller(context, attrs) {

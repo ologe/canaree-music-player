@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <dev.olog.presentation.widgets.equalizer.bar.EqualizerBar
+    <dev.olog.feature.equalizer.widgets.band.EqualizerBar
         android:id="@+id/bar"
         android:layout_width="24dp"
         android:layout_height="150dp"

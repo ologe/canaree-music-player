@@ -6,6 +6,7 @@ import dagger.Module
     includes = [
         dev.olog.feature.about.dagger.FeatureAboutDagger.AppModule::class,
 		dev.olog.feature.detail.dagger.FeatureDetailDagger.AppModule::class,
+		dev.olog.feature.equalizer.dagger.FeatureEqualizerDagger.AppModule::class,
 		dev.olog.feature.library.dagger.FeatureLibraryDagger.AppModule::class,
 		dev.olog.feature.onboarding.dagger.FeatureOnboardingDagger.AppModule::class,
 		dev.olog.feature.player.dagger.FeaturePlayerDagger.AppModule::class,

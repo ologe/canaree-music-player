@@ -21,6 +21,8 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":feature-presentation-base"))
 
+    implementation(project(":lib.equalizer"))
+
     implementation(project(":shared-android"))
     implementation(project(":shared"))
 

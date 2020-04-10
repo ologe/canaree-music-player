@@ -1,4 +1,4 @@
-package dev.olog.presentation.equalizer
+package dev.olog.feature.equalizer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

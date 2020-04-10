@@ -1,4 +1,4 @@
-package dev.olog.presentation.equalizer
+package dev.olog.feature.equalizer
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,10 +10,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
-import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
 import dev.olog.feature.presentation.base.extensions.onClick
+import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
 import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers
@@ -23,15 +22,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class EqualizerFragment : BaseBottomSheetFragment() {
-
-    companion object {
-        const val TAG = "EqualizerFragment"
-
-        @JvmStatic
-        fun newInstance(): EqualizerFragment {
-            return EqualizerFragment()
-        }
-    }
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

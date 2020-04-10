@@ -12,6 +12,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":domain"))
+    implementation(project(":prefs-keys"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Dagger.core)
@@ -19,6 +20,7 @@ dependencies {
     implementation(Libraries.X.core)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.material)
+    implementation(Libraries.X.preference)
 
     implementation(Libraries.Debug.timber)
 

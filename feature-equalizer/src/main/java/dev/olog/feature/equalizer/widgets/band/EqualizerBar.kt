@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.equalizer.bar
+package dev.olog.feature.equalizer.widgets.band
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -11,15 +11,13 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.math.MathUtils
 import dev.olog.feature.presentation.base.extensions.dip
-import kotlinx.coroutines.*
 import kotlin.math.abs
-import kotlin.math.sign
 
 private const val DEFAULT_ALPHA = 190 // .75f
 private const val PRESSED_ALPHA = 255 // 1f
 private const val DURATION = 150L
 
-class EqualizerBar(
+internal class EqualizerBar(
     context: Context,
     attrs: AttributeSet
 ) : View(context, attrs) {

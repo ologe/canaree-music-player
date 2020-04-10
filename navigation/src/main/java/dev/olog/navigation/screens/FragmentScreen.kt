@@ -13,7 +13,8 @@ enum class FragmentScreen(val tag: String) {
     PLAYER_MINI("$PREFIX.player.mini"),
     SETTINGS("$PREFIX.settings"),
     ABOUT("$PREFIX.about"),
-    ONBOARDING("$PREFIX.onboarding");
+    ONBOARDING("$PREFIX.onboarding"),
+    EQUALIZER("$PREFIX.equalizer");
 
     companion object {
         const val OWNERSHIP = PREFIX

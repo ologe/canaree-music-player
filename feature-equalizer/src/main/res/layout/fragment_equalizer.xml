@@ -71,7 +71,7 @@
         android:clickable="true"
         android:focusable="true"/>
 
-    <dev.olog.presentation.widgets.equalizer.croller.CanareeCroller
+    <dev.olog.feature.equalizer.widgets.croller.CanareeCroller
         android:id="@+id/bassKnob"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -94,7 +94,7 @@
         app:sweep_angle="270"
         app:start_offset="60" />
 
-    <dev.olog.presentation.widgets.equalizer.croller.CanareeCroller
+    <dev.olog.feature.equalizer.widgets.croller.CanareeCroller
         android:id="@+id/virtualizerKnob"
         android:layout_width="150dp"
         android:layout_height="150dp"

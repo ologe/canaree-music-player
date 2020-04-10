@@ -3,7 +3,11 @@ package dev.olog.navigation
 import android.graphics.Color
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.fragment.app.*
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -23,9 +27,14 @@ internal abstract class BaseNavigator {
         block: FragmentTransaction.(Fragment) -> Any?
     ) {
         mandatory(activity, fragment != null) ?: return
-        activity.supportFragmentManager.commit {
-            replace(containerId, fragment!!, tag)
-            block(fragment)
+
+        if (fragment is AppCompatDialogFragment) {
+            fragment.show(activity.supportFragmentManager, tag)
+        } else {
+            activity.supportFragmentManager.commit {
+                replace(containerId, fragment!!, tag)
+                block(fragment)
+            }
         }
     }
 

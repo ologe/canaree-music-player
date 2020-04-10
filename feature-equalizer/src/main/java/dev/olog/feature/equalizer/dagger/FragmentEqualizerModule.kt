@@ -1,17 +1,14 @@
-package dev.olog.presentation.equalizer
+package dev.olog.feature.equalizer.dagger
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import dev.olog.feature.equalizer.EqualizerFragmentViewModel
 import dev.olog.feature.presentation.base.dagger.ViewModelKey
 
 @Module
-abstract class EqualizerModule {
-
-    @ContributesAndroidInjector
-    internal abstract fun provideEqualizerFragment(): EqualizerFragment
+internal abstract class FragmentEqualizerModule {
 
     @Binds
     @IntoMap

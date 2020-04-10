@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.equalizer.croller;
+package dev.olog.feature.equalizer.widgets.croller;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -13,10 +13,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dev.olog.presentation.R;
-import kotlin.jvm.JvmName;
+import dev.olog.feature.equalizer.R;
 
-public class Croller extends View {
+class Croller extends View {
 
     private float midx, midy;
     private Paint textPaint, circlePaint, circlePaint2, linePaint;
