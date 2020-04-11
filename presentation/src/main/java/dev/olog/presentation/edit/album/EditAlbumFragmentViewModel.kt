@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.domain.entity.track.Album
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.lib.audio.tagger.AudioTagger
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class EditAlbumFragmentViewModel @Inject constructor(
     private val presenter: EditAlbumFragmentPresenter,
+    private val audioTagger: AudioTagger,
     private val schedulers: Schedulers
 
 ) : ViewModel() {
@@ -36,20 +38,18 @@ class EditAlbumFragmentViewModel @Inject constructor(
     fun observeData(): Flow<DisplayableAlbum> = displayableAlbumPublisher.asFlow()
 
     private suspend fun Album.toDisplayableAlbum(mediaId: PresentationId.Category): DisplayableAlbum {
-        TODO()
-//        val path = presenter.getPath(mediaId)
-//        val audioFile = AudioFileIO.read(File(path))
-//        val tag = audioFile.tagOrCreateAndSetDefault
-//
-//        return DisplayableAlbum(
-//            id = this.id,
-//            title = this.title,
-//            artist = tag.safeGet(FieldKey.ARTIST),
-//            albumArtist = tag.safeGet(FieldKey.ALBUM_ARTIST),
-//            genre = tag.safeGet(FieldKey.GENRE),
-//            year = tag.safeGet(FieldKey.YEAR),
-//            songs = this.songs
-//        )
+        val path = presenter.getPath(mediaId)
+        val tags = audioTagger.read(File(path))
+
+        return DisplayableAlbum(
+            id = this.id,
+            title = tags.album ?: this.title,
+            artist = tags.artist ?: this.artist,
+            albumArtist = tags.albumArtist ?: this.albumArtist,
+            genre = tags.genre ?: "",
+            year = tags.year ?: "",
+            songs = this.songs
+        )
     }
 
 }

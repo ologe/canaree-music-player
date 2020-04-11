@@ -22,9 +22,6 @@
     <string name="edit_song_cannot_read">Tidak dapat memperbarui trek (berkas mungkin korup)</string>
     <string name="edit_song_read_only">Tidak dapat memperbarui trek, berkas tsb hanya baca</string>
     <string name="edit_song_file_not_found">Tidak dapat memperbarui trek saat ini, berkas tidak ditemukan</string>
-    <string name="edit_song_error_can_not_read">Tidak dapat membaca berkas</string>
-    <string name="edit_song_error_io">Berkas tidak ditemukan</string>
-    <string name="edit_song_error_read_only">Berkas hanya baca</string>
     <string name="edit_song_error">Sesuatu tidak beres, tidak dapat memperbarui berkas ini</string>
     <plurals name="edit_item_xx_tracks_will_be_updated">
         <item quantity="other">Perubahan anda akan diterapkan pada lagu %d</item>

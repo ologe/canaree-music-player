@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":intents"))
     implementation(project(":shared"))
     implementation(project(":lib.equalizer"))
+    implementation(project(":lib.audio-tagger"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

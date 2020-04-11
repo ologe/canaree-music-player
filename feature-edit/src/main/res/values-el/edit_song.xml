@@ -36,9 +36,6 @@
     <string name="edit_song_read_only">Δεν γίνεται ενημέρωση κομματιού, το αρχείο ειναι μόνο για ανάγνωση</string>
     <string name="edit_song_file_not_found">Δεν γίνεται ενημέρωση κομματιού, δεν βρέθηκε το αρχείο</string>
 
-    <string name="edit_song_error_can_not_read">Δεν γίνεται ανάγνωση απο το αρχείο</string>
-    <string name="edit_song_error_io">Δεν βρέθηκε το αρχείο</string>
-    <string name="edit_song_error_read_only">Το αρχείο είναι μόνο για ανάγνωση</string>
     <string name="edit_song_error">Κάτι πήγε στραβά, δεν γίνεται ενημέρωση του αρχείου</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">

@@ -7,6 +7,7 @@ import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.lib.audio.tagger.AudioTagger
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -15,11 +16,13 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
     private val context: Context,
     private val presenter: EditTrackFragmentPresenter,
+    private val audioTagger: AudioTagger,
     private val schedulers: Schedulers
 
 ) : ViewModel() {
@@ -76,30 +79,27 @@ class EditTrackFragmentViewModel @Inject constructor(
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {
-        TODO()
-//        val file = File(path)
-//        val audioFile = AudioFileIO.read(file)
-//        val audioHeader = audioFile.audioHeader
-//        val tag = audioFile.tagOrCreateAndSetDefault
-//
-//        return DisplayableSong(
-//            id = this.id,
-//            artistId = this.artistId,
-//            albumId = this.albumId,
-//            title = this.title,
-//            artist = tag.safeGet(FieldKey.ARTIST),
-//            albumArtist = tag.safeGet(FieldKey.ALBUM_ARTIST),
-//            album = this.album,
-//            genre = tag.safeGet(FieldKey.GENRE),
-//            year = tag.safeGet(FieldKey.YEAR),
-//            disc = tag.safeGet(FieldKey.DISC_NO),
-//            track = tag.safeGet(FieldKey.TRACK),
-//            path = this.path,
-//            bitrate = audioHeader.bitRate + " kb/s",
-//            format = audioHeader.format,
-//            sampling = audioHeader.sampleRate + " Hz",
-//            isPodcast = this.isPodcast
-//        )
+        val file = File(path)
+        val tags = audioTagger.read(file)
+
+        return DisplayableSong(
+            id = this.id,
+            artistId = this.artistId,
+            albumId = this.albumId,
+            title = tags.title ?: this.title,
+            artist = tags.artist ?: this.artist,
+            albumArtist = tags.albumArtist ?: this.albumArtist,
+            album = tags.album ?: this.album,
+            genre = tags.genre ?: "",
+            year = tags.year ?: "",
+            disc = tags.discNo ?: this.discNumber.toString(),
+            track = tags.trackNo ?: this.trackNumber.toString(),
+            path = this.path,
+            bitrate = tags.bitrate,
+            format = tags.format,
+            sampling = tags.sampling,
+            isPodcast = this.isPodcast
+        )
     }
 
 }

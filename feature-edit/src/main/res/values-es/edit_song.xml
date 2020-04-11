@@ -30,9 +30,6 @@
     <string name="edit_song_read_only">No se puede actualizar la pista, el archivo es de solo lectura</string>
     <string name="edit_song_file_not_found">No se puede actualizar la pista actual, archivo no encontrado</string>
 
-    <string name="edit_song_error_can_not_read">No se puede leer del archivo</string>
-    <string name="edit_song_error_io">Archivo no encontrado</string>
-    <string name="edit_song_error_read_only">El archivo es de solo lectura</string>
     <string name="edit_song_error">Algo salió mal, no puedo actualizar este archivo</string>
 
 </resources>

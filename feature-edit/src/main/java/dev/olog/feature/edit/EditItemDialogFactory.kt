@@ -7,6 +7,7 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.lib.audio.tagger.AudioTagger
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,78 +20,61 @@ class EditItemDialogFactory @Inject constructor(
     private val context: Context,
     private val trackGateway: TrackGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val audioTagger: AudioTagger
 
 ) {
 
     fun toEditTrack(
         mediaId: MediaId.Track,
         action: () -> Unit
-    ) = GlobalScope.launch(schedulers.io) {
-        try {
-            val track = trackGateway.getByParam(mediaId.id.toLong())!!
-            checkItem(track)
-            withContext(schedulers.main) {
-                action()
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            withContext(schedulers.main) {
-                showError(ex)
-            }
+    ) = GlobalScope.launch(schedulers.main) {
+        val canBeHandled = withContext(schedulers.io) {
+            canBeHandled(trackGateway.getByParam(mediaId.id.toLong())!!)
+        }
+        if (canBeHandled) {
+            action()
+        } else {
+            showError()
         }
     }
 
     fun toEditAlbum(
         mediaId: MediaId.Category,
         action: () -> Unit
-    ) = GlobalScope.launch(schedulers.io) {
-        try {
-            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
-            withContext(schedulers.main) {
-                action()
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            withContext(schedulers.main) {
-                showError(ex)
-            }
+    ) = GlobalScope.launch(schedulers.main) {
+        val canBeHandled = withContext(schedulers.io) {
+            getSongListByParamUseCase.invoke(mediaId).all { canBeHandled(it) }
+        }
+        if (canBeHandled) {
+            action()
+        } else {
+            showError()
         }
     }
 
     fun toEditArtist(
         mediaId: MediaId.Category,
         action: () -> Unit
-    ) = GlobalScope.launch(schedulers.io) {
-        try {
-            getSongListByParamUseCase.invoke(mediaId).forEach { checkItem(it) }
-            withContext(schedulers.main) {
-                action()
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            withContext(schedulers.main) {
-                showError(ex)
-            }
+    ) = GlobalScope.launch(schedulers.main) {
+        val canBeHandled = withContext(schedulers.io) {
+            getSongListByParamUseCase.invoke(mediaId).all { canBeHandled(it) }
+        }
+        if (canBeHandled) {
+            action()
+        } else {
+            showError()
         }
     }
 
-    private fun checkItem(song: Song) {
-//        val file = File(song.path) TODO
-//        val audioFile = AudioFileIO.read(file)
-//        audioFile.tagOrCreateAndSetDefault
+    private fun canBeHandled(song: Song): Boolean {
+        val file = File(song.path)
+        return audioTagger.canBeHandled(file)
     }
 
-    private fun showError(error: Exception) {
-//        when (error) {
-//            is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
-//            is IOException -> context.toast(R.string.edit_song_error_io)
-//            is ReadOnlyFileException -> context.toast(R.string.edit_song_error_read_only)
-//            else -> {
-//                error.printStackTrace()
-//                context.toast(R.string.edit_song_error)
-//            }
-//        }
+    private fun showError() {
+        // TODO show snackbar
+        context.toast(R.string.edit_song_error)
     }
 
 }

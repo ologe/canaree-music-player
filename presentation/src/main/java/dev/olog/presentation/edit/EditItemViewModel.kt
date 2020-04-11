@@ -23,13 +23,13 @@ class EditItemViewModel @Inject constructor(
 
     suspend fun updateSong(data: UpdateSongInfo): UpdateResult {
         when {
-            data.title.isBlank() -> return UpdateResult.EMPTY_TITLE
-            data.year.isNotBlank() && !data.year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
-            data.disc.isNotBlank() && !data.disc.isDigitsOnly() -> return UpdateResult.ILLEGAL_DISC_NUMBER
-            data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
+            data.tags.title!!.isBlank() -> return UpdateResult.EMPTY_TITLE
+            data.tags.year!!.isNotBlank() && !data.tags.year!!.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
+            data.tags.discNo!!.isNotBlank() && !data.tags.discNo!!.isDigitsOnly() -> return UpdateResult.ILLEGAL_DISC_NUMBER
+            data.tags.trackNo!!.isNotBlank() && !data.tags.trackNo!!.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
         withContext(schedulers.io) {
-            presenter.deleteTrack(data.originalSong.id)
+            presenter.deleteTrack(data.trackId)
             presenter.updateSingle(data)
         }
 
@@ -42,8 +42,8 @@ class EditItemViewModel @Inject constructor(
 
     suspend fun updateAlbum(data: UpdateAlbumInfo): UpdateResult {
         when {
-            data.title.isBlank() -> return UpdateResult.EMPTY_TITLE
-            data.year.isNotBlank() && !data.year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
+            data.tags.album!!.isBlank() -> return UpdateResult.EMPTY_TITLE
+            data.tags.year!!.isNotBlank() && !data.tags.year!!.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
         }
 
         withContext(schedulers.main) {
@@ -64,7 +64,7 @@ class EditItemViewModel @Inject constructor(
 
     suspend fun updateArtist(data: UpdateArtistInfo): UpdateResult {
         when {
-            data.name.isBlank() -> return UpdateResult.EMPTY_TITLE
+            data.tags.artist!!.isBlank() -> return UpdateResult.EMPTY_TITLE
         }
 
         withContext(schedulers.main) {

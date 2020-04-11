@@ -3,9 +3,6 @@
 <resources>
   <string name="edit_song_read_only">Nelze nahrát skladbu, soubor je pouze pro čtení</string>
   <string name="edit_song_file_not_found">Nelze skladbu, soubor nenalezen</string>
-  <string name="edit_song_error_can_not_read">Nelze přečíst ze souboru</string>
-  <string name="edit_song_error_io">Soubor nenalezen</string>
-  <string name="edit_song_error_read_only">Soubor je pouze pro čtení</string>
   <string name="edit_song_error">Něco se pokazilo, nelze nahrát soubor</string>
 
   <string name="edit_info_year">Rock</string>

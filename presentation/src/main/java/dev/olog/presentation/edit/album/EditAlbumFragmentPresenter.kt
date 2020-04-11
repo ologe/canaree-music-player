@@ -1,19 +1,17 @@
 package dev.olog.presentation.edit.album
 
 import dev.olog.domain.entity.track.Album
-import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.domain.gateway.track.AlbumGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.intents.AppConstants
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.intents.AppConstants
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
     private val albumGateway: AlbumGateway,
-    private val lastFmGateway: ImageRetrieverGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val schedulers: Schedulers
 

@@ -14,6 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.feature.edit.BaseEditItemFragment
 import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.feature.edit.model.UpdateArtistInfo
+import dev.olog.lib.audio.tagger.Tags
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
@@ -95,10 +96,12 @@ class EditArtistFragment : BaseEditItemFragment() {
     private suspend fun trySave() {
         val result = editItemViewModel.updateArtist(
             UpdateArtistInfo(
-                mediaId,
-                artist.extractText().trim(),
-                albumArtist.extractText().trim(),
-                podcast.isChecked
+                mediaId = mediaId,
+                tags = Tags(
+                    artist = artist.extractText().trim(),
+                    albumArtist = albumArtist.extractText().trim()
+                ),
+                isPodcast = podcast.isChecked
             )
         )
 

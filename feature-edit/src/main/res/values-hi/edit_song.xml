@@ -36,9 +36,6 @@
     <string name="edit_song_read_only">ट्रैक का नवनीकरण नहीं हो सकता, फाइल सिर्फ पढ़ी जा सकती है</string>
     <string name="edit_song_file_not_found">ट्रैक का नवनीकरण नहीं हो सकता, फाइल नहीं मिली</string>
 
-    <string name="edit_song_error_can_not_read">फाइल पढ़ने में असमर्थ</string>
-    <string name="edit_song_error_io">फाइल नहीं मिली</string>
-    <string name="edit_song_error_read_only">फाइल सिर्फ पढ़ी जा सकती है</string>
     <string name="edit_song_error">कुछ गलत हुआ, फाइल का नवनीकरण असफल</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">

@@ -36,9 +36,6 @@
     <string name="edit_song_read_only">Can not update track, the file is read only</string>
     <string name="edit_song_file_not_found">Can not update current track, file not found</string>
 
-    <string name="edit_song_error_can_not_read">Can not read from file</string>
-    <string name="edit_song_error_io">File not found</string>
-    <string name="edit_song_error_read_only">File is read only</string>
     <string name="edit_song_error">Something went wrong, can not update this file</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">
