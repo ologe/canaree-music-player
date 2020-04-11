@@ -8,7 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
-import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
@@ -68,7 +68,7 @@ class StatusBarColorBehavior @Inject constructor(
             activity.window.setLightStatusBar()
         } else {
             when {
-                fragment is DrawsOnTop -> fragment.adjustStatusBarColor()
+                fragment is FloatingWindow -> fragment.adjustStatusBarColor()
                 slidingPanel?.isExpanded() == true -> activity.window.setLightStatusBar()
                 else -> fragment.adjustStatusBarColor()
             }

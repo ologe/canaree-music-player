@@ -18,7 +18,7 @@ import dev.olog.lib.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
-import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
@@ -38,7 +38,8 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 class OfflineLyricsFragment : BaseFragment(),
-    DrawsOnTop, CanChangeStatusBarColor {
+    FloatingWindow,
+    CanChangeStatusBarColor {
 
     companion object {
         @JvmStatic

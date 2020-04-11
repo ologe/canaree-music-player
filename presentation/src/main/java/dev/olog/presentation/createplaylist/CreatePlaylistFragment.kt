@@ -12,7 +12,7 @@ import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
-import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.feature.presentation.base.widget.fastscroller.WaveSideBarView
@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class CreatePlaylistFragment : BaseFragment(),
-    DrawsOnTop {
+    FloatingWindow {
 
     companion object {
         val TAG = CreatePlaylistFragment::class.java.name

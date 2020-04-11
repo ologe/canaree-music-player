@@ -15,7 +15,7 @@ import dev.olog.core.extensions.getTopFragment
 import dev.olog.domain.MediaId
 import dev.olog.feature.app.shortcuts.Shortcuts
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
-import dev.olog.feature.presentation.base.DrawsOnTop
+import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.activity.HasScrollingInterface
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.feature.presentation.base.activity.SharedViewModel
@@ -197,7 +197,7 @@ class MainActivity : MusicGlueActivity(),
                 topFragment is CanHandleOnBackPressed && topFragment.handleOnBackPressed()-> {
                     return
                 }
-                topFragment is DrawsOnTop -> {
+                topFragment is FloatingWindow -> {
                     super.onBackPressed()
                     return
                 }
