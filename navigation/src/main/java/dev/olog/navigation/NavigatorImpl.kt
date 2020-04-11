@@ -31,17 +31,19 @@ internal class NavigatorImpl @Inject constructor(
     override fun toFirstAccess(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.ONBOARDING]?.get()
         val tag = FragmentScreen.ONBOARDING.tag
-        replaceFragment(activity, fragment, tag) {}
+        replaceFragment(activity, fragment, tag, android.R.id.content, forced = true)
     }
 
     override fun toPlayer(activity: FragmentActivity, containerId: Int) {
         val fragment = fragments[FragmentScreen.PLAYER]?.get()
-        replaceFragment(activity, fragment, FragmentScreen.PLAYER.tag, containerId) {}
+        val tag = FragmentScreen.PLAYER.tag
+        replaceFragment(activity, fragment, tag, containerId, forced = true)
     }
 
     override fun toMiniPlayer(activity: FragmentActivity, containerId: Int) {
         val fragment = fragments[FragmentScreen.PLAYER_MINI]?.get()
-        replaceFragment(activity, fragment, FragmentScreen.PLAYER_MINI.tag, containerId) {}
+        val tag = FragmentScreen.PLAYER_MINI.tag
+        replaceFragment(activity, fragment, tag, containerId, forced = true)
     }
 
     override fun toDetailFragment(
@@ -122,7 +124,7 @@ internal class NavigatorImpl @Inject constructor(
     private fun toBuiltInEqualizer(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.EQUALIZER]?.get()
         val tag = FragmentScreen.EQUALIZER.tag
-        replaceFragment(activity, fragment, tag) {}
+        replaceFragment(activity, fragment, tag)
     }
 
     private fun searchForEqualizer(activity: FragmentActivity) {

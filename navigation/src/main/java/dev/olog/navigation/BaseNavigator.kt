@@ -4,10 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import androidx.fragment.app.*
 import com.google.android.material.snackbar.Snackbar
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -24,22 +21,31 @@ internal abstract class BaseNavigator {
         fragment: Fragment?,
         tag: String,
         @IdRes containerId: Int = R.id.fragmentContainer,
-        block: FragmentTransaction.(Fragment) -> Any?
+        forced: Boolean = false,
+        block: FragmentTransaction.(Fragment) -> Any? = {}
     ) {
-        mandatory(activity, fragment != null) ?: return
+        mandatory(activity, fragment != null, forced) ?: return
 
         if (fragment is AppCompatDialogFragment) {
             fragment.show(activity.supportFragmentManager, tag)
-        } else {
-            activity.supportFragmentManager.commit {
-                replace(containerId, fragment!!, tag)
-                block(fragment)
-            }
+            return
+        }
+
+        activity.supportFragmentManager.commit {
+            replace(containerId, fragment!!, tag)
+            block(fragment)
         }
     }
 
-    protected fun mandatory(activity: FragmentActivity, condition: Boolean): Unit? {
-        if (!allowed()) {
+    /**
+     * @param forced, skips [allowed] check
+     */
+    protected fun mandatory(
+        activity: FragmentActivity,
+        condition: Boolean,
+        forced: Boolean = false
+    ): Unit? {
+        if (!forced && !allowed()) {
             // avoid click spam
             return null
         }
