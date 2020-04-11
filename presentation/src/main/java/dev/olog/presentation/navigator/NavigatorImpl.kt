@@ -25,10 +25,6 @@ import dev.olog.presentation.dialogs.playlist.create.PlayingQueueNewPlaylistDial
 import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
-import dev.olog.feature.edit.EditItemDialogFactory
-import dev.olog.feature.edit.album.EditAlbumFragment
-import dev.olog.feature.edit.artist.EditArtistFragment
-import dev.olog.feature.edit.track.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
@@ -43,8 +39,7 @@ import javax.inject.Inject
 internal class NavigatorImpl @Inject internal constructor(
     activity: FragmentActivity,
     private val mainPopup: Lazy<MainPopupDialog>,
-    private val popupFactory: Lazy<PopupMenuFactory>,
-    private val editItemDialogFactory: Lazy<EditItemDialogFactory>
+    private val popupFactory: Lazy<PopupMenuFactory>
 
 ) {
 
@@ -111,32 +106,32 @@ internal class NavigatorImpl @Inject internal constructor(
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return
 
-        when (mediaId) {
-            is MediaId.Track -> {
-                editItemDialogFactory.get().toEditTrack(mediaId) {
-                    val instance = EditTrackFragment.newInstance(mediaId)
-                    instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
-                }
-            }
-            is MediaId.Category -> {
-                when (mediaId.category) {
-                    MediaIdCategory.ALBUMS -> {
-                        editItemDialogFactory.get().toEditAlbum(mediaId) {
-                            val instance = EditAlbumFragment.newInstance(mediaId)
-                            instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
-                        }
-                    }
-                    MediaIdCategory.ARTISTS,
-                    MediaIdCategory.PODCASTS_AUTHORS -> {
-                        editItemDialogFactory.get().toEditArtist(mediaId) {
-                            val instance = EditArtistFragment.newInstance(mediaId)
-                            instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
-                        }
-                    }
-                    else -> throwNotHandled(mediaId)
-                }
-            }
-        }.exhaustive
+//        when (mediaId) {
+//            is MediaId.Track -> {
+//                editItemDialogFactory.get().toEditTrack(mediaId) {
+//                    val instance = EditTrackFragment.newInstance(mediaId)
+//                    instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
+//                }
+//            }
+//            is MediaId.Category -> {
+//                when (mediaId.category) {
+//                    MediaIdCategory.ALBUMS -> {
+//                        editItemDialogFactory.get().toEditAlbum(mediaId) {
+//                            val instance = EditAlbumFragment.newInstance(mediaId)
+//                            instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
+//                        }
+//                    }
+//                    MediaIdCategory.ARTISTS,
+//                    MediaIdCategory.PODCASTS_AUTHORS -> {
+//                        editItemDialogFactory.get().toEditArtist(mediaId) {
+//                            val instance = EditArtistFragment.newInstance(mediaId)
+//                            instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
+//                        }
+//                    }
+//                    else -> throwNotHandled(mediaId)
+//                }
+//            }
+//        }.exhaustive
     }
 
     fun toChooseTracksForPlaylistFragment(
