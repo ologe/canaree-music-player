@@ -112,7 +112,7 @@ object Libraries {
 
         //    data
         internal const val room = "2.2.4"
-        internal const val sql_content_resolver = "1.2.2"
+        internal const val sql_content_resolver = "1.2.3"
 
         //    network
         internal const val ok_http = "4.4.1"
