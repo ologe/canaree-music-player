@@ -20,7 +20,7 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <dev.olog.presentation.widgets.imageview.blurshadow.ShadowImageView
+            <dev.olog.feature.edit.widgets.ShadowImageView
                 android:id="@+id/cover"
                 android:layout_width="200dp"
                 android:layout_height="200dp"

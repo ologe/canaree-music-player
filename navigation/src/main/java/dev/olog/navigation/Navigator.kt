@@ -40,6 +40,11 @@ interface Navigator: BottomNavigator, ServiceNavigator {
     // TODO shared element??
     fun toEqualizer(activity: FragmentActivity)
 
+    fun toEdit(
+        activity: FragmentActivity,
+        mediaId: MediaId
+    )
+
     fun toRelatedArtists(
         mediaId: MediaId.Category,
         view: View

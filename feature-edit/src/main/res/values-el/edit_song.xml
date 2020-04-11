@@ -32,9 +32,6 @@
     <string name="edit_song_invalid_disc_number">Μη έγκυρο νούμερο δίσκου</string>
     <string name="edit_song_invalid_track_number">Μη έγκυρο νούμερο κομματιού</string>
     <string name="edit_song_invalid_year">Μη έγκυρος χρόνος</string>
-    <string name="edit_song_cannot_read">Δεν γίνεται ενημέρωση κομματιού (το αρχείο μπορεί να είναι κατεστραμμένο)</string>
-    <string name="edit_song_read_only">Δεν γίνεται ενημέρωση κομματιού, το αρχείο ειναι μόνο για ανάγνωση</string>
-    <string name="edit_song_file_not_found">Δεν γίνεται ενημέρωση κομματιού, δεν βρέθηκε το αρχείο</string>
 
     <string name="edit_song_error">Κάτι πήγε στραβά, δεν γίνεται ενημέρωση του αρχείου</string>
 

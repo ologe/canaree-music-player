@@ -1,12 +1,12 @@
-package dev.olog.presentation.edit.album
+package dev.olog.feature.edit.album
 
+import android.provider.MediaStore
 import dev.olog.domain.entity.track.Album
 import dev.olog.domain.gateway.track.AlbumGateway
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
-import dev.olog.intents.AppConstants
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
             artistId = album.artistId,
             albumArtist = album.albumArtist,
             title = album.title,
-            artist = if (album.artist == AppConstants.UNKNOWN) "" else album.artist,
+            artist = if (album.artist == MediaStore.UNKNOWN_STRING) "" else album.artist,
             hasSameNameAsFolder = album.hasSameNameAsFolder,
             songs = album.songs
         )

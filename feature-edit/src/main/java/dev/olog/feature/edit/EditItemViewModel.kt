@@ -1,15 +1,13 @@
-package dev.olog.presentation.edit
+package dev.olog.feature.edit
 
 import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.edit.EditItemPresenter
 import dev.olog.feature.edit.model.UpdateAlbumInfo
 import dev.olog.feature.edit.model.UpdateArtistInfo
+import dev.olog.feature.edit.model.UpdateResult
 import dev.olog.feature.edit.model.UpdateSongInfo
-import dev.olog.presentation.R
-import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -83,13 +81,7 @@ class EditItemViewModel @Inject constructor(
     }
 
     private fun showErrorMessage(throwable: Exception) {
-        // TODO
-//        when (throwable) {
-//            is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
-//            is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
-//            is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
-//            else -> context.toast(R.string.popup_error_message)
-//        }
+        context.toast(R.string.popup_error_message)
     }
 
 }

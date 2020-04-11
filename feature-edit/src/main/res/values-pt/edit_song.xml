@@ -20,9 +20,6 @@
     <string name="edit_song_invalid_disc_number">Número do disco inválido</string>
     <string name="edit_song_invalid_track_number">Número da faixa inválido</string>
     <string name="edit_song_invalid_year">Ano inválido</string>
-    <string name="edit_song_cannot_read">Não é possível atualizar a faixa</string>
-    <string name="edit_song_read_only">Não é possível atualizar faixa, o ficheiro é apenas de leitura</string>
-    <string name="edit_song_file_not_found">Não é possível atualizar a faixa, o ficheiro não foi encontrado</string>
     <string name="edit_song_error">Alguma coisa correu mal, não é possível atualizar o ficheiro</string>
     <plurals name="edit_item_xx_tracks_will_be_updated">
         <item quantity="one">As tuas mudanças foram aplicadas a %d música</item>

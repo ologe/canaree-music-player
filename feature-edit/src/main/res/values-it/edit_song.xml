@@ -20,9 +20,6 @@
   <string name="edit_song_invalid_disc_number"># disco non valido</string>
   <string name="edit_song_invalid_track_number"># brano non valido</string>
   <string name="edit_song_invalid_year">Anno non valido</string>
-  <string name="edit_song_cannot_read">Impossibile aggiornare il brano (il file potrebbe essere corrotto)</string>
-  <string name="edit_song_read_only">Impossibile aggiornare il brano (file di sola lettura)</string>
-  <string name="edit_song_file_not_found">Impossibile aggiornare il brano  file non trovato</string>
   <string name="edit_song_error">Qualcosa è andato storto, impossibile aggiornare il file</string>
   <plurals name="edit_item_xx_tracks_will_be_updated">
     <item quantity="one">I cambiamenti verrano applicati a %d brano</item>

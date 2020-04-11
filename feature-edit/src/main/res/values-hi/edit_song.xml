@@ -32,9 +32,6 @@
     <string name="edit_song_invalid_disc_number">अमान्य डिस्क संख्या</string>
     <string name="edit_song_invalid_track_number">अमान्य ट्रैक संख्या</string>
     <string name="edit_song_invalid_year">अमान्य साल</string>
-    <string name="edit_song_cannot_read">ट्रैक का नवनीकरण नहीं हो सकता (फाइल ख़राब हो सकती है)</string>
-    <string name="edit_song_read_only">ट्रैक का नवनीकरण नहीं हो सकता, फाइल सिर्फ पढ़ी जा सकती है</string>
-    <string name="edit_song_file_not_found">ट्रैक का नवनीकरण नहीं हो सकता, फाइल नहीं मिली</string>
 
     <string name="edit_song_error">कुछ गलत हुआ, फाइल का नवनीकरण असफल</string>
 

@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.song
+package dev.olog.feature.edit.model
 
 data class DisplayableSong(
     val id: Long,

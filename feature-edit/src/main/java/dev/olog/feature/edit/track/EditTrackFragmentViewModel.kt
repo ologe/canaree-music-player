@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.song
+package dev.olog.feature.edit.track
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.edit.model.DisplayableSong
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.lib.audio.tagger.AudioTagger
 import dev.olog.shared.android.utils.NetworkUtils

@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.artist
+package dev.olog.feature.edit.model
 
 data class DisplayableArtist(
     val id: Long,

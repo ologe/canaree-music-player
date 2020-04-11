@@ -32,9 +32,6 @@
     <string name="edit_song_invalid_disc_number">Không được bỏ trống số đĩa</string>
     <string name="edit_song_invalid_track_number">Số bài không hợp lệ</string>
     <string name="edit_song_invalid_year">Năm xuất hành không hợp lệ</string>
-    <string name="edit_song_cannot_read">Không thể cập nhật thông tin bài hát (file can be corrupted)</string>
-    <string name="edit_song_read_only">Không thể cập nhật thông tin bài hát, the tệp chỉ đọc</string>
-    <string name="edit_song_file_not_found">Không thể cập nhật thông tin bài hát hiện tại, không tìm thấy tệp</string>
 
     <string name="edit_song_error">Có lỗi xảy ra, không thể cập nhật tệp</string>
 

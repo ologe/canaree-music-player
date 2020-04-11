@@ -1,4 +1,4 @@
-package dev.olog.presentation.widgets.imageview.blurshadow
+package dev.olog.feature.edit.widgets
 
 import android.content.Context
 import android.graphics.Bitmap

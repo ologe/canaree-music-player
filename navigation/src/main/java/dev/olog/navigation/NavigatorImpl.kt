@@ -115,6 +115,10 @@ internal class NavigatorImpl @Inject constructor(
 
     }
 
+    override fun toEdit(activity: FragmentActivity, mediaId: MediaId) {
+        TODO("see old navigator")
+    }
+
     private fun toBuiltInEqualizer(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.EQUALIZER]?.get()
         val tag = FragmentScreen.EQUALIZER.tag

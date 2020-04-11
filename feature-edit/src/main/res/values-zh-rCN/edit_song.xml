@@ -19,9 +19,6 @@
     <string name="edit_song_invalid_disc_number">无效唱片编号</string>
     <string name="edit_song_invalid_track_number">无效歌曲编号</string>
     <string name="edit_song_invalid_year">无效年份</string>
-    <string name="edit_song_cannot_read">无法更新歌曲（文件可能已损坏）</string>
-    <string name="edit_song_read_only">歌曲无法更新，文件只读</string>
-    <string name="edit_song_file_not_found">无法更新当前歌曲，文件不存在</string>
     <string name="edit_song_error">出现一些错误导致无法更新此文件</string>
     <plurals name="edit_item_xx_tracks_will_be_updated">
         <item quantity="other">你的更改将应用到 %d 首歌</item>

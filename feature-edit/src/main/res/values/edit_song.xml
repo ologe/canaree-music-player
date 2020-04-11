@@ -32,9 +32,6 @@
     <string name="edit_song_invalid_disc_number">Invalid disc number</string>
     <string name="edit_song_invalid_track_number">Invalid track number</string>
     <string name="edit_song_invalid_year">Invalid year</string>
-    <string name="edit_song_cannot_read">Can not update track (file can be corrupted)</string>
-    <string name="edit_song_read_only">Can not update track, the file is read only</string>
-    <string name="edit_song_file_not_found">Can not update current track, file not found</string>
 
     <string name="edit_song_error">Something went wrong, can not update this file</string>
 

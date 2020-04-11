@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.model
+package dev.olog.feature.edit.model
 
 enum class UpdateResult{
     OK,

@@ -26,9 +26,9 @@ import dev.olog.presentation.dialogs.playlist.duplicates.RemoveDuplicatesDialog
 import dev.olog.presentation.dialogs.playlist.rename.RenameDialog
 import dev.olog.presentation.dialogs.ringtone.SetRingtoneDialog
 import dev.olog.feature.edit.EditItemDialogFactory
-import dev.olog.presentation.edit.album.EditAlbumFragment
-import dev.olog.presentation.edit.artist.EditArtistFragment
-import dev.olog.presentation.edit.song.EditTrackFragment
+import dev.olog.feature.edit.album.EditAlbumFragment
+import dev.olog.feature.edit.artist.EditArtistFragment
+import dev.olog.feature.edit.track.EditTrackFragment
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
@@ -106,6 +106,7 @@ internal class NavigatorImpl @Inject internal constructor(
         }
     }
 
+    // TODO move this to dialogs, then if is valid, delegate to navigator
     fun toEditInfoFragment(mediaId: MediaId) {
         mandatory(allowed()) ?: return
         val activity = activityRef.get() ?: return

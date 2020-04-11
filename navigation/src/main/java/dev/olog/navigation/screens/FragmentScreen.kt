@@ -1,6 +1,5 @@
 package dev.olog.navigation.screens
 
-// TODO can be used in scrollHelper#hasFragmentOwnership
 private const val PREFIX = "dev.olog"
 
 enum class FragmentScreen(val tag: String) {
@@ -14,7 +13,10 @@ enum class FragmentScreen(val tag: String) {
     SETTINGS("$PREFIX.settings"),
     ABOUT("$PREFIX.about"),
     ONBOARDING("$PREFIX.onboarding"),
-    EQUALIZER("$PREFIX.equalizer");
+    EQUALIZER("$PREFIX.equalizer"),
+    EDIT_TRACK("$PREFIX.edit.track"),
+    EDIT_ALBUM("$PREFIX.edit.album"),
+    EDIT_ARTIST("$PREFIX.edit.artist");
 
     companion object {
         const val OWNERSHIP = PREFIX

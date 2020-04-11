@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.song
+package dev.olog.feature.edit.track
 
 import android.os.Bundle
 import android.view.View
@@ -10,13 +10,13 @@ import dev.olog.domain.MediaId
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.presentation.R
 import dev.olog.feature.edit.BaseEditItemFragment
-import dev.olog.presentation.edit.EditItemViewModel
+import dev.olog.feature.edit.EditItemViewModel
+import dev.olog.feature.edit.R
 import dev.olog.feature.edit.model.UpdateSongInfo
 import dev.olog.lib.audio.tagger.model.Tags
-import dev.olog.presentation.edit.model.UpdateResult
-import dev.olog.shared.android.extensions.*
+import dev.olog.feature.edit.model.UpdateResult
+import dev.olog.shared.android.extensions.extractText
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.coroutines.flow.launchIn

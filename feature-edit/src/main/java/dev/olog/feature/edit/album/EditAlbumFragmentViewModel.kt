@@ -1,9 +1,10 @@
-package dev.olog.presentation.edit.album
+package dev.olog.feature.edit.album
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.domain.entity.track.Album
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.edit.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.lib.audio.tagger.AudioTagger
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel

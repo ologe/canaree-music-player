@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.album
+package dev.olog.feature.edit.model
 
 data class DisplayableAlbum(
     val id: Long,

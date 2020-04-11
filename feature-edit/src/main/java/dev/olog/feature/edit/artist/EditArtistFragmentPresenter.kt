@@ -1,4 +1,4 @@
-package dev.olog.presentation.edit.artist
+package dev.olog.feature.edit.artist
 
 import dev.olog.domain.entity.track.Artist
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway

@@ -9,7 +9,6 @@ import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
-import dev.olog.presentation.edit.di.EditItemModule
 import dev.olog.presentation.main.MainActivity
 import dev.olog.presentation.model.PresentationModelModule
 import dev.olog.presentation.recentlyadded.di.RecentlyAddedFragmentInjector
@@ -28,8 +27,6 @@ class FeatureMainActivityDagger {
             RecentlyAddedFragmentInjector::class,
             RelatedArtistFragmentInjector::class,
             CreatePlaylistFragmentInjector::class,
-
-            EditItemModule::class,
 
             DialogModule::class
         ]

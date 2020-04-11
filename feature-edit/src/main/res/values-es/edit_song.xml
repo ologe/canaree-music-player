@@ -26,9 +26,6 @@
     <string name="edit_song_invalid_disc_number">Número de disco inválido</string>
     <string name="edit_song_invalid_track_number">Número de pista inválido</string>
     <string name="edit_song_invalid_year">Año no válido</string>
-    <string name="edit_song_cannot_read">No se puede actualizar la pista (el archivo puede estar dañado)</string>
-    <string name="edit_song_read_only">No se puede actualizar la pista, el archivo es de solo lectura</string>
-    <string name="edit_song_file_not_found">No se puede actualizar la pista actual, archivo no encontrado</string>
 
     <string name="edit_song_error">Algo salió mal, no puedo actualizar este archivo</string>
 
