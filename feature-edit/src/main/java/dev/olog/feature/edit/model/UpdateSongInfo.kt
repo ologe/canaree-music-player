@@ -1,6 +1,6 @@
 package dev.olog.feature.edit.model
 
-import dev.olog.lib.audio.tagger.Tags
+import dev.olog.lib.audio.tagger.model.Tags
 
 data class UpdateSongInfo(
     val trackId: Long,

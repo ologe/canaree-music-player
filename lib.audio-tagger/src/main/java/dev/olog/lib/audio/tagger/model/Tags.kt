@@ -1,4 +1,4 @@
-package dev.olog.lib.audio.tagger
+package dev.olog.lib.audio.tagger.model
 
 data class Tags(
     val title: String? = null,

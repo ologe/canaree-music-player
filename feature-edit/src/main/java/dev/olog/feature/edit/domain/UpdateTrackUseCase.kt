@@ -7,7 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.lib.audio.tagger.AudioTagger
-import dev.olog.lib.audio.tagger.Tags
+import dev.olog.lib.audio.tagger.model.Tags
 import java.io.File
 import javax.inject.Inject
 

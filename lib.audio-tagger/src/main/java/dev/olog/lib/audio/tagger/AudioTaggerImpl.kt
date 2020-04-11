@@ -1,5 +1,6 @@
 package dev.olog.lib.audio.tagger
 
+import dev.olog.lib.audio.tagger.model.Tags
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException

@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.feature.presentation.base.model.toDomain
-import dev.olog.lib.audio.tagger.Tags
+import dev.olog.lib.audio.tagger.model.Tags
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
