@@ -6,6 +6,7 @@ import org.jaudiotagger.tag.FieldKey
 import java.io.File
 import javax.inject.Inject
 
+// TODO remove all AudioFileIO
 class ReadPersistedLyricsUseCase @Inject constructor() {
 
     operator fun invoke(song: Song): String {
