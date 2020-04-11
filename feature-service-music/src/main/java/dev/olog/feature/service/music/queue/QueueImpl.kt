@@ -1,16 +1,14 @@
 package dev.olog.feature.service.music.queue
 
 import androidx.annotation.CheckResult
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.interactor.UpdatePlayingQueueUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.feature.service.music.model.MediaEntity
 import dev.olog.feature.service.music.model.PositionInQueue
 import dev.olog.feature.service.music.model.toMediaEntity
@@ -20,7 +18,6 @@ import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.swap
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.Contract
@@ -38,24 +35,13 @@ internal class QueueImpl @Inject constructor(
     private val enhancedShuffle: EnhancedShuffle,
     private val trackGateway: TrackGateway,
     private val schedulers: Schedulers
-) : DefaultLifecycleObserver {
+) {
 
     private var savePlayingQueueJob by autoDisposeJob()
 
     private val playingQueue = Vector<MediaEntity>()
 
     private var currentSongPosition = -1
-
-    init {
-        lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        persist(playingQueue)
-        playingQueue.getOrNull(currentSongPosition)?.let {
-            musicPreferencesUseCase.setLastIdInPlaylist(it.idInPlaylist)
-        }
-    }
 
     internal fun isEmpty() = playingQueue.isEmpty()
 
@@ -91,9 +77,7 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob = lifecycle.coroutineScope.launch(NonCancellable) {
-            assertBackgroundThread()
-
+        savePlayingQueueJob = lifecycle.coroutineScope.launch(schedulers.io) {
             val request = songList.map {
                 UpdatePlayingQueueUseCase.Request(it.mediaId, it.id, it.idInPlaylist)
             }
