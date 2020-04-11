@@ -5,22 +5,7 @@ plugins {
 }
 
 android {
-
     applyDefaults()
-
-    buildTypes {
-        val properties = localProperties
-
-        release {
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
-        }
-        debug {
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
-        }
-    }
-
 }
 
 dependencies {

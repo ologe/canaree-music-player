@@ -14,6 +14,8 @@ android {
         applicationId = "dev.olog.msc"
 
         configField("AES_PASSWORD" to localProperties.aesPassword)
+        configField("LAST_FM_KEY" to localProperties.lastFmKey)
+        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
     }
 
     bundle {
@@ -23,25 +25,17 @@ android {
     }
 
     buildTypes {
-        val properties = localProperties
-
         release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
         }
         debug {
             isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             multiDexEnabled = true
-
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
         }
     }
 

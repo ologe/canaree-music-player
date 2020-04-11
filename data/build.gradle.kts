@@ -19,18 +19,9 @@ android {
             }
         }
 
-    }
+        configField("LAST_FM_KEY" to localProperties.lastFmKey)
+        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
 
-    buildTypes {
-        val properties = localProperties
-        release {
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
-        }
-        debug {
-            configField("LAST_FM_KEY" to properties.lastFmKey)
-            configField("LAST_FM_SECRET" to properties.lastFmSecret)
-        }
     }
 
     sourceSets {
