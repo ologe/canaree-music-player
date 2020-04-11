@@ -15,10 +15,7 @@ import dev.olog.feature.service.music.BuildConfig
 import dev.olog.feature.service.music.model.MediaEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.tag.FieldKey
 import timber.log.Timber
-import java.io.File
 import java.util.logging.Level
 import javax.inject.Inject
 
@@ -69,16 +66,6 @@ internal class LastFmService @Inject constructor(
     }
 
     private fun MediaEntity.toScrollData(): ScrobbleData {
-        val musicBrainzId = try {
-            val audioFile = AudioFileIO.read(File(this.path))
-            audioFile.tagAndConvertOrCreateAndSetDefault
-            val tag = audioFile.tag
-            tag.getFirst(FieldKey.MUSICBRAINZ_TRACK_ID)
-        } catch (ex: Exception){
-            Timber.e(ex)
-            null
-        }
-
         return ScrobbleData(
             this.artist,
             this.title,
@@ -86,7 +73,7 @@ internal class LastFmService @Inject constructor(
             this.duration.toInt(),
             this.album,
             null,
-            musicBrainzId,
+            null,
             this.trackNumber,
             null,
             true

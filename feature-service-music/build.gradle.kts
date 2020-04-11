@@ -52,7 +52,6 @@ dependencies {
     implementation(Libraries.X.Lifecycle.runtime)
     implementation(Libraries.UX.glide)
 
-    implementation(Libraries.Utils.jaudiotagger) // TODO why??
     implementation(Libraries.Utils.lastFmBinding)
 
     // TODO replace
