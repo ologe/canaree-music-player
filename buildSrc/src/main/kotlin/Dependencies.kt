@@ -38,7 +38,7 @@ const val kotlinVersion = "1.3.70"
 object BuildPlugins {
 
     object Versions {
-        const val buildToolsVersion = "3.6.1"
+        const val buildToolsVersion = "4.0.0-beta04"
         const val gms = "4.3.3"
         const val fabric = "1.31.2"
     }
@@ -79,7 +79,7 @@ object Libraries {
     object Versions {
 
         //    core
-        internal const val coroutines = "1.3.4"
+        internal const val coroutines = "1.3.5"
         internal const val dagger = "2.27"
 
         //    android x
@@ -111,7 +111,7 @@ object Libraries {
         internal const val tap_target_view = "2.0.0"
 
         //    data
-        internal const val room = "2.2.4"
+        internal const val room = "2.2.5"
         internal const val sql_content_resolver = "1.2.3"
 
         //    network
