@@ -21,17 +21,17 @@ dependencies {
     // TODO temp
 //    implementation(project(":feature-edit"))
 
-    implementation(project(":libraries:lib.analytics"))
+    implementation(project(":libraries:analytics"))
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":prefs-keys"))
-    implementation(project(":libraries:lib.media"))
-    implementation(project(":libraries:lib.offline-lyrics"))
+    implementation(project(":libraries:media"))
+    implementation(project(":libraries:offline-lyrics"))
     implementation(project(":intents"))
     implementation(project(":shared"))
-    implementation(project(":libraries:lib.equalizer"))
-    implementation(project(":libraries:lib.audio-tagger"))
+    implementation(project(":libraries:equalizer"))
+    implementation(project(":libraries:audio-tagger"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

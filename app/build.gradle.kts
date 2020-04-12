@@ -68,13 +68,13 @@ dependencies {
     implementation(project(":navigation"))
 
     // libs
-    implementation(project(":libraries:lib.network"))
-    implementation(project(":libraries:lib.equalizer"))
-    implementation(project(":libraries:lib.media"))
-    implementation(project(":libraries:lib.offline-lyrics"))
-    implementation(project(":libraries:lib.image-loader"))
-    implementation(project(":libraries:lib.analytics"))
-    implementation(project(":libraries:lib.audio-tagger"))
+    implementation(project(":libraries:network"))
+    implementation(project(":libraries:equalizer"))
+    implementation(project(":libraries:media"))
+    implementation(project(":libraries:offline-lyrics"))
+    implementation(project(":libraries:image-loader"))
+    implementation(project(":libraries:analytics"))
+    implementation(project(":libraries:audio-tagger"))
 
 
 

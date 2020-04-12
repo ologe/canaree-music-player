@@ -17,12 +17,12 @@ dependencies {
     implementation(project(":navigation"))
 
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
     implementation(project(":prefs-keys"))
-    implementation(project(":libraries:lib.media"))
-    implementation(project(":libraries:lib.offline-lyrics"))
+    implementation(project(":libraries:media"))
+    implementation(project(":libraries:offline-lyrics"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

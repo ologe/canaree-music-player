@@ -11,7 +11,7 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:image-loader"))
     implementation(project(":intents"))
     implementation(project(":shared"))
 

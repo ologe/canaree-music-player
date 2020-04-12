@@ -15,9 +15,9 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
-    implementation(project(":libraries:lib.image-loader"))
-    implementation(project(":libraries:lib.media"))
-    implementation(project(":libraries:lib.audio-tagger"))
+    implementation(project(":libraries:image-loader"))
+    implementation(project(":libraries:media"))
+    implementation(project(":libraries:audio-tagger"))
 
     implementation(project(":navigation"))
     implementation(project(":features:feature-presentation-base"))

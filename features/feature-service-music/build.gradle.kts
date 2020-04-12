@@ -20,12 +20,12 @@ dependencies {
 
     implementation(project(":features:feature-app-shortcuts"))
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:image-loader"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
     implementation(project(":prefs-keys"))
     implementation(project(":intents"))
-    implementation(project(":libraries:lib.equalizer"))
+    implementation(project(":libraries:equalizer"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

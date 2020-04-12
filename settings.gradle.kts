@@ -9,13 +9,13 @@ include(":flavors:flavor-full")
 include(":flavors:flavor-lite")
 
 // libraries
-include(":libraries:lib.media")
-include(":libraries:lib.image-loader")
-include(":libraries:lib.offline-lyrics")
-include(":libraries:lib.equalizer")
-include(":libraries:lib.network")
-include(":libraries:lib.analytics")
-include(":libraries:lib.audio-tagger")
+include(":libraries:media")
+include(":libraries:image-loader")
+include(":libraries:offline-lyrics")
+include(":libraries:equalizer")
+include(":libraries:network")
+include(":libraries:analytics")
+include(":libraries:audio-tagger")
 
 // features
 include(":navigation")

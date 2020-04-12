@@ -18,7 +18,7 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.network"))
+    implementation(project(":libraries:network"))
     implementation(project(":shared"))
     implementation(project(":shared-android"))
 

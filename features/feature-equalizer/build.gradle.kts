@@ -15,13 +15,13 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
-    implementation(project(":libraries:lib.image-loader"))
-    implementation(project(":libraries:lib.media"))
+    implementation(project(":libraries:image-loader"))
+    implementation(project(":libraries:media"))
 
     implementation(project(":navigation"))
     implementation(project(":features:feature-presentation-base"))
 
-    implementation(project(":libraries:lib.equalizer"))
+    implementation(project(":libraries:equalizer"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))

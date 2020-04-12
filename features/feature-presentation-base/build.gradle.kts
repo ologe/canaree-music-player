@@ -15,11 +15,11 @@ androidExtensions {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:image-loader"))
 
     implementation(project(":core"))
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.media")) // TODO not too sure about that
+    implementation(project(":libraries:media")) // TODO not too sure about that
     implementation(project(":shared"))
     implementation(project(":shared-android"))
 
