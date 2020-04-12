@@ -5,7 +5,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dev.olog.lib.analytics.AnalyticsModule
 import dev.olog.data.di.*
-import dev.olog.flavor.full.FeaturesModule
+import dev.olog.flavor.FeaturesModule
 import dev.olog.lib.audio.tagger.dagger.AudioTaggerModule
 import dev.olog.lib.equalizer.EqualizerModule
 import dev.olog.lib.image.loader.di.LibImageLoaderDagger

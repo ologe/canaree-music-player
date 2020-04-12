@@ -6,7 +6,7 @@ class FlavorOptions(
 val featureFlavors: Map<String, FlavorOptions>
     get() {
         return mapOf(
-            "full" to FlavorOptions(":flavor-full")
-//            "lite" to FlavorOptions(":flavor-lite")
+            "full" to FlavorOptions(":flavor-full"),
+            "lite" to FlavorOptions(":flavor-lite")
         )
     }

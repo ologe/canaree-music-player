@@ -6,6 +6,7 @@ include(":domain")
 
 // flavors
 include(":flavor-full")
+include(":flavor-lite")
 
 // libraries
 include(":lib.media")
