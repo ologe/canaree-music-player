@@ -15,8 +15,8 @@ dependencies {
     implementation(project(":core"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-app-shortcuts"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:app-shortcuts"))
+    implementation(project(":features:presentation-base"))
 
     // TODO temp
 //    implementation(project(":feature-edit"))

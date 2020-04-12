@@ -19,7 +19,7 @@ dependencies {
     implementation(project(":libraries:media"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -40,6 +40,10 @@ dependencies {
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
+
+    implementation(Libraries.UX.glide)
+    implementation(Libraries.UX.blurKit)
+    implementation(Libraries.UX.lottie)
 
     implementation(Libraries.Debug.timber)
 

@@ -17,12 +17,16 @@ dependencies {
 
     implementation(project(":libraries:image-loader"))
     implementation(project(":libraries:media"))
+    implementation(project(":libraries:analytics")) // TODO check if is needed
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
+
+    implementation(Libraries.kotlin)
+    implementation(Libraries.Coroutines.core)
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
@@ -34,8 +38,8 @@ dependencies {
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.recyclerView)
-    implementation(Libraries.X.preference)
     implementation(Libraries.X.constraintLayout)
+    implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
     implementation(Libraries.Utils.scrollHelper)

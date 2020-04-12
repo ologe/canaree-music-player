@@ -7,13 +7,6 @@ plugins {
 
 android {
     applyDefaults()
-
-    defaultConfig {
-        val properties = localProperties
-        configField("LAST_FM_KEY" to properties.lastFmKey)
-        configField("LAST_FM_SECRET" to properties.lastFmSecret)
-    }
-
 }
 
 dependencies {
@@ -26,7 +19,7 @@ dependencies {
     implementation(project(":libraries:media"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -41,6 +34,7 @@ dependencies {
     kapt(Libraries.Dagger.androidKapt)
 
     implementation(Libraries.X.core)
+    implementation(Libraries.X.browser)
     implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
     implementation(Libraries.X.recyclerView)
@@ -48,11 +42,10 @@ dependencies {
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
 
-    implementation(Libraries.UX.dialogs)
+    implementation(Libraries.UX.customTabs)
+    implementation(Libraries.UX.glide)
 
-    implementation(Libraries.Utils.colorDesaturation)
     implementation(Libraries.Utils.scrollHelper)
-    implementation(Libraries.Utils.lastFmBinding) // TODO remove this
 
     implementation(Libraries.Debug.timber)
 

@@ -2,30 +2,27 @@ plugins {
     id(BuildPlugins.androidLibrary)
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.kotlinAndroidExtensions)
 }
 
 android {
     applyDefaults()
-
-    defaultConfig {
-        configField("LAST_FM_KEY" to localProperties.lastFmKey)
-        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
-    }
 }
 
 dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
-
-    implementation(project(":features:feature-app-shortcuts"))
     implementation(project(":domain"))
+
     implementation(project(":libraries:image-loader"))
+    implementation(project(":libraries:media"))
+
+    implementation(project(":navigation"))
+    implementation(project(":features:presentation-base"))
+
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-    implementation(project(":prefs-keys"))
-    implementation(project(":intents"))
-    implementation(project(":libraries:equalizer"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
@@ -36,20 +33,15 @@ dependencies {
     implementation(Libraries.Dagger.androidSupport)
     kapt(Libraries.Dagger.androidKapt)
 
-    implementation(Libraries.X.media)
-    implementation(Libraries.X.Lifecycle.service)
-    implementation(Libraries.X.Lifecycle.java8)
-    implementation(Libraries.X.Lifecycle.runtime)
+    implementation(Libraries.X.core)
+    implementation(Libraries.X.appcompat)
+    implementation(Libraries.X.fragments)
+    implementation(Libraries.X.recyclerView)
+    implementation(Libraries.X.constraintLayout)
+    implementation(Libraries.X.preference)
+    implementation(Libraries.X.material)
+
     implementation(Libraries.UX.glide)
-
-    implementation(Libraries.Utils.lastFmBinding)
-
-    // TODO replace
-    implementation("com.google.android.exoplayer:exoplayer-core:2.11.3")
-//    implementation project(":exoplayer-library-core")
-//    implementation project(":exoplayer-extension-flac")
-//    implementation project(":exoplayer-extension-opus")
-//    implementation project(":exoplayer-extension-ffmpeg")
 
     implementation(Libraries.Debug.timber)
 

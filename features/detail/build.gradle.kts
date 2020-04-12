@@ -19,7 +19,7 @@ dependencies {
     implementation(project(":libraries:media"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -42,6 +42,7 @@ dependencies {
     implementation(Libraries.X.material)
 
     implementation(Libraries.Utils.scrollHelper)
+    implementation(Libraries.Utils.fuzzy)
 
     implementation(Libraries.Debug.timber)
 

@@ -17,10 +17,9 @@ dependencies {
 
     implementation(project(":libraries:image-loader"))
     implementation(project(":libraries:media"))
-    implementation(project(":libraries:analytics")) // TODO check if is needed
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))

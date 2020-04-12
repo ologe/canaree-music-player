@@ -17,10 +17,11 @@ dependencies {
 
     implementation(project(":libraries:image-loader"))
     implementation(project(":libraries:media"))
-    implementation(project(":libraries:audio-tagger"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-presentation-base"))
+    implementation(project(":features:presentation-base"))
+
+    implementation(project(":libraries:equalizer"))
 
     implementation(project(":shared-android"))
     implementation(project(":shared"))
@@ -41,8 +42,6 @@ dependencies {
     implementation(Libraries.X.constraintLayout)
     implementation(Libraries.X.preference)
     implementation(Libraries.X.material)
-
-    implementation(Libraries.UX.glide)
 
     implementation(Libraries.Debug.timber)
 
