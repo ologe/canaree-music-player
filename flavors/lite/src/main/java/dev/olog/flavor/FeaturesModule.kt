@@ -7,7 +7,6 @@ import dev.olog.feature.player.dagger.FeaturePlayerDagger
 import dev.olog.feature.player.mini.FeatureMiniPlayerDagger
 import dev.olog.feature.queue.dagger.FeaturePlayingQueueDagger
 import dev.olog.feature.search.dagger.FeatureSearchDagger
-import dev.olog.feature.service.floating.di.FeatureFloatingWindowDagger
 import dev.olog.feature.service.music.di.FeatureMusicServiceDagger
 import dev.olog.presentation.main.di.FeatureMainActivityDagger
 import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
@@ -20,7 +19,6 @@ import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
 		FeatureMiniPlayerDagger.AppModule::class,
 		FeaturePlayingQueueDagger.AppModule::class,
 		FeatureSearchDagger.AppModule::class,
-		FeatureFloatingWindowDagger.AppModule::class,
 		FeatureMusicServiceDagger.AppModule::class,
 		FeaturePlaylistChooserDagger.AppModule::class,
 		FeatureMainActivityDagger.AppModule::class

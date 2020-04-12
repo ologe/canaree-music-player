@@ -23,6 +23,5 @@ dependencies {
     api(project(":features:onboarding"))
 
     api(project(":features:service-music"))
-    api(project(":features:service-floating"))
     api(project(":presentation"))
 }
