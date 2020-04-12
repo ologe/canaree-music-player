@@ -12,6 +12,7 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(Libraries.kotlin)
+    implementation(Libraries.Dagger.core)
 
     api(project(":feature-app-shortcuts"))
     api(project(":feature-library"))
