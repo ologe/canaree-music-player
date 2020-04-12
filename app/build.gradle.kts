@@ -4,7 +4,6 @@ plugins {
     id(BuildPlugins.kotlinKapt)
     id(BuildPlugins.kotlinAndroidExtensions)
     id(BuildPlugins.fabric)
-    id("dynamic-flavor")
 }
 
 android {
@@ -39,6 +38,21 @@ android {
         }
     }
 
+    flavorDimensions("scope")
+    productFlavors {
+        featureFlavors.forEach { (flavor, _) ->
+            register(flavor) {
+                dimension = "scope"
+                if (flavor != "full"){
+                    versionNameSuffix = ".$flavor"
+                }
+            }
+        }
+    }
+    featureFlavors.forEach { (flavor, config) ->
+        project.dependencies.add("${flavor}Implementation", project(config.entryModule))
+    }
+
 }
 
 dependencies {
@@ -52,24 +66,6 @@ dependencies {
 
     // feature
     implementation(project(":navigation"))
-
-    implementation(project(":feature-presentation-base")) // TODO is needed?
-    api(project(":feature-app-shortcuts"))
-    api(project(":feature-library"))
-    api(project(":feature-search"))
-    api(project(":feature-detail"))
-    api(project(":feature-player"))
-    api(project(":feature-player-mini"))
-    api(project(":feature-queue"))
-    api(project(":feature-settings"))
-    api(project(":feature-about"))
-    api(project(":feature-onboarding"))
-    api(project(":feature-equalizer"))
-    api(project(":feature-edit"))
-
-    api(project(":feature-service-music"))
-    api(project(":feature-service-floating"))
-    api(project(":presentation"))
 
     // libs
     implementation(project(":lib.network"))

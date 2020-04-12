@@ -1,8 +1,13 @@
 include(":app")
 
+// domain
 include(":core")
 include(":domain")
 
+// flavors
+include(":flavor-full")
+
+// libraries
 include(":lib.media")
 include(":lib.image-loader")
 include(":lib.offline-lyrics")
@@ -11,6 +16,7 @@ include(":lib.network")
 include(":lib.analytics")
 include(":lib.audio-tagger")
 
+// features
 include(":navigation")
 include(":feature-presentation-base")
 include(":feature-service-music")
@@ -27,18 +33,16 @@ include(":feature-about")
 include(":feature-onboarding")
 include(":feature-equalizer")
 include(":feature-edit")
+include(":presentation")
 
+// data
 include(":data")
 include(":data-spotify")
 
-include(":presentation")
-
-
+// shared
 include(":shared")
 include(":shared-android")
 include(":prefs-keys")
-
-
 include(":lint")
 include(":test-shared")
 

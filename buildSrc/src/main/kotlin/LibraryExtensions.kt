@@ -1,13 +1,6 @@
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 
-const val FLAVOR_DIMENSION = "version"
-
-enum class Flavors(val value: String) {
-    MOCK("mock"),
-    FULL("full")
-}
-
 fun BaseExtension.applyDefaults() {
     compileSdkVersion(AndroidSdk.compile)
 
@@ -15,7 +8,6 @@ fun BaseExtension.applyDefaults() {
         applyDefaults()
     }
 
-    setupFlavors()
     enableJava8()
 
     lintOptions {
@@ -35,18 +27,6 @@ fun BaseExtension.applyDefaults() {
 //        unitTests.isIncludeAndroidResources = true
 //        unitTests.isReturnDefaultValues = true
 //    }
-}
-
-fun BaseExtension.setupFlavors() {
-    flavorDimensions(FLAVOR_DIMENSION)
-    productFlavors {
-        register(Flavors.MOCK.value) {
-            dimension = FLAVOR_DIMENSION
-        }
-        register(Flavors.FULL.value) {
-            dimension = FLAVOR_DIMENSION
-        }
-    }
 }
 
 fun BaseExtension.enableJava8() {
