@@ -1,39 +1,27 @@
 plugins {
     id(BuildPlugins.androidLibrary)
     id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinKapt)
 }
 
 android {
     applyDefaults()
-
-    defaultConfig {
-        val properties = localProperties
-        configField("SPOTIFY_ENCODED_CLIENT" to properties.spotifyEncodedClient)
-    }
-
 }
 
 dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":domain"))
-    implementation(project(":libraries:lib.network"))
+    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":intents"))
     implementation(project(":shared"))
-    implementation(project(":shared-android"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.X.core)
+    implementation(Libraries.X.appcompat)
 
-    implementation(Libraries.X.Room.core)
-    implementation(Libraries.X.Room.coroutines)
-    kapt(Libraries.X.Room.kapt)
-
-    implementation(Libraries.Network.retrofit)
-    implementation(Libraries.Utils.fuzzy)
+    implementation(Libraries.UX.glide)
 
     implementation(Libraries.Debug.timber)
 

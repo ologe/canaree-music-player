@@ -13,25 +13,16 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
+    implementation(project(":domain"))
+
+    implementation(project(":libraries:lib.image-loader"))
+    implementation(project(":libraries:lib.media"))
 
     implementation(project(":navigation"))
-    implementation(project(":features:feature-app-shortcuts"))
     implementation(project(":features:feature-presentation-base"))
 
-    // TODO temp
-//    implementation(project(":feature-edit"))
-
-    implementation(project(":libraries:lib.analytics"))
-    implementation(project(":domain"))
-    implementation(project(":libraries:lib.image-loader"))
     implementation(project(":shared-android"))
-    implementation(project(":prefs-keys"))
-    implementation(project(":libraries:lib.media"))
-    implementation(project(":libraries:lib.offline-lyrics"))
-    implementation(project(":intents"))
     implementation(project(":shared"))
-    implementation(project(":libraries:lib.equalizer"))
-    implementation(project(":libraries:lib.audio-tagger"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
@@ -42,31 +33,19 @@ dependencies {
     implementation(Libraries.Dagger.androidSupport)
     kapt(Libraries.Dagger.androidKapt)
 
-    implementation(Libraries.X.appcompat)
-    implementation(Libraries.X.material)
     implementation(Libraries.X.core)
-    implementation(Libraries.X.constraintLayout)
-    implementation(Libraries.X.palette)
-    implementation(Libraries.X.media)
     implementation(Libraries.X.browser)
-    implementation(Libraries.X.preference)
-    implementation(Libraries.X.coordinatorLayout)
+    implementation(Libraries.X.appcompat)
     implementation(Libraries.X.fragments)
+    implementation(Libraries.X.recyclerView)
+    implementation(Libraries.X.constraintLayout)
+    implementation(Libraries.X.preference)
+    implementation(Libraries.X.material)
 
-    implementation(Libraries.X.Lifecycle.viewmodel)
-    implementation(Libraries.X.Lifecycle.java8)
-
-    implementation(Libraries.UX.lottie)
-    implementation(Libraries.UX.tapTargetView)
-    implementation(Libraries.UX.dialogs)
-    implementation(Libraries.UX.blurKit)
     implementation(Libraries.UX.customTabs)
     implementation(Libraries.UX.glide)
 
     implementation(Libraries.Utils.scrollHelper)
-    implementation(Libraries.Utils.colorDesaturation)
-    implementation(Libraries.Utils.lastFmBinding)
-    implementation(Libraries.Utils.fuzzy)
 
     implementation(Libraries.Debug.timber)
 
