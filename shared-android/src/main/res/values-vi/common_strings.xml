@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="settings">Thiết lập</string>
+    <string name="about">V+HsE</string>
 
     <string name="common_spacing" translatable="false">·</string>
 

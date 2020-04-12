@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="settings">Ajustes</string>
+    <string name="about">Información</string>
+
     <string name="common_library">Biblioteca</string>
 
     <string name="network_timeout">Por favor, intenta de nuevo</string>

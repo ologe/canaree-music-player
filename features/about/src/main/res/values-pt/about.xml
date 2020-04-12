@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="about">Sobre</string>
     <string name="about_author">Autor</string>
     <string name="about_version">Versão</string>
     <string name="about_join_community">Comunidade</string>

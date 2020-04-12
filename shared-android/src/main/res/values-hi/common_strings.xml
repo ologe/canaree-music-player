@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings">सेटिंग्स</string>
+    <string name="about">के बारे में</string>
+
     <string name="common_spacing" translatable="false">·</string>
 
     <string name="common_library">संग्रह</string>

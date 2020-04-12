@@ -2,9 +2,6 @@
 <resources>
     <!--entry values are used as keys, do not translate-->
     <!--however, entries are human readable -->
-    <string name="settings">Pengaturan</string>
-    <string name="prefs_not_premium_action">Beli</string>
-    <string name="premium_ad_key_title">Tampilkan iklan untuk membuka fitur premium</string>
     <!--categories-->
     <string name="prefs_category_library">Pustaka</string>
     <string name="prefs_category_audio">Audio</string>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="about">के बारे में</string>
 
     <string name="about_author">रचियता</string>
     <string name="about_version">संस्करण</string>

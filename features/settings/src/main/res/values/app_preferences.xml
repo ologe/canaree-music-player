@@ -4,13 +4,6 @@
     <!--entry values are used as keys, do not translate-->
     <!--however, entries are human readable -->
 
-    <string name="settings">Settings</string>
-
-    <string name="prefs_not_premium_action">Buy</string>
-
-    <string name="premium_ad_key_title">Show ads to unlock premium features</string>
-    <string name="premium_ad_key_summary_on" translatable="false">@string/common_enabled</string>
-    <string name="premium_ad_key_summary_off" translatable="false">@string/common_disabled</string>
 
     <!--categories-->
     <string name="prefs_category_library">Library</string>

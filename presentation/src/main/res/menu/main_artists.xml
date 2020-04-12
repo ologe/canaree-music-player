@@ -14,7 +14,7 @@
         android:title="@string/popup_about"/>
 
     <item android:id="@+id/sort_by"
-        android:title="@string/detail_sort_by">
+        android:title="@string/common_sort_by">
 
         <menu>
 

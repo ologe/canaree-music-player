@@ -142,7 +142,7 @@ class DetailFragmentHeaders @Inject constructor(
             type = R.layout.item_detail_header_all_song,
             mediaId = headerId("detail songs header"),
             title = context.getString(title),
-            subtitle = context.getString(R.string.detail_sort_by).toLowerCase()
+            subtitle = context.getString(R.string.common_sort_by).toLowerCase()
         )
         return if (isPodcast) {
             listOf(header)

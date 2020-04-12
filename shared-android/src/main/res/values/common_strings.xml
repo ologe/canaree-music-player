@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+
     <string name="common_spacing" translatable="false">·</string>
 
     <string name="common_library">Library</string>

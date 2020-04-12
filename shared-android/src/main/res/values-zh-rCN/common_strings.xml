@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+
     <string name="common_library">曲库</string>
     <string name="common_folders">文件夹</string>
     <string name="common_playlists">播放列表</string>

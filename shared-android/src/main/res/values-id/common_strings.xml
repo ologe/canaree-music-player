@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="settings">Pengaturan</string>
+    <string name="about">Tentang</string>
+
     <string name="common_library">Pustaka</string>
     <string name="common_folders">Folder</string>
     <string name="common_playlists">Daftar Putar</string>

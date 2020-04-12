@@ -2,9 +2,6 @@
 <resources>
     <!--entry values are used as keys, do not translate-->
     <!--however, entries are human readable -->
-    <string name="settings">设置</string>
-    <string name="prefs_not_premium_action">购买</string>
-    <string name="premium_ad_key_title">显示广告来解锁高级功能</string>
     <!--categories-->
     <string name="prefs_category_library">曲库</string>
     <string name="prefs_category_audio">音频</string>

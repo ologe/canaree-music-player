@@ -1,6 +1,5 @@
 package dev.olog.msc.app
 
-import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -9,7 +8,6 @@ import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.R
 import dev.olog.msc.dagger.DaggerAppComponent
 import dev.olog.msc.debug.CrashlyticsLogTree
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
@@ -57,7 +55,8 @@ class App : DaggerApplication() {
     }
 
     private fun initializeConstants() {
-        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+        // TODO delegate via multibindigs
+//        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
     }
 
     private fun initializeTimber() {

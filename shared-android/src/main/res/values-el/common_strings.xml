@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="about">Περί</string>
+
+
     <string name="common_spacing" translatable="false">·</string>
 
     <string name="common_library">Βιβλιοθήκη</string>

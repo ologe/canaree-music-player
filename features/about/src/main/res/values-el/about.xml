@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="about">Περί</string>
 
     <string name="about_author">Δημιουργός</string>
     <string name="about_version">Έκδοση</string>

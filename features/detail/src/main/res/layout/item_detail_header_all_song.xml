@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toStartOf="@+id/sortImage"
         app:layout_constraintTop_toTopOf="@+id/title"
         app:layout_constraintBottom_toBottomOf="@+id/title"
-        tools:text="@string/detail_sort_by" />
+        tools:text="@string/common_sort_by" />
 
     <dev.olog.feature.detail.widget.SortButton
         android:id="@+id/sortImage"
