@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="colorPrimaryTransparent" format="reference" />
+    <attr name="colorSwipeBackground" format="reference" />
+    <attr name="colorUnselectedButton" format="reference" />
+    <attr name="colorSurfaceSecondary" format="reference" />
+
+    <attr name="colorBackgroundTransparent" format="reference" />
+
+    <attr name="motionInterpolatorPersistent" format="reference" />
+    <attr name="motionInterpolatorIncoming" format="reference" />
+    <attr name="motionInterpolatorOutgoing" format="reference" />
+
+</resources>

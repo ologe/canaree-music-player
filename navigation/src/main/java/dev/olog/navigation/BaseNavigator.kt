@@ -32,6 +32,7 @@ internal abstract class BaseNavigator {
         }
 
         activity.supportFragmentManager.commit {
+            setReorderingAllowed(true)
             replace(containerId, fragment!!, tag)
             block(fragment)
         }

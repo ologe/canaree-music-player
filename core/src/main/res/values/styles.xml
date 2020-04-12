@@ -1,12 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <attr name="colorPrimaryTransparent" format="reference|color" />
-    <attr name="colorSwipeBackground" format="reference|color"/>
-    <attr name="colorUnselectedButton" format="reference|color"/>
-    <attr name="colorSurfaceSecondary" format="reference|color"/>
-
-    <attr name="colorBackgroundTransparent" format="reference|color"/>
-
     <style name="TransparentTheme" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -33,6 +26,11 @@
 
         <item name="android:textColorPrimary">@color/text_color_primary_selector</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_selector</item>
+
+
+        <item name="motionInterpolatorPersistent">@android:interpolator/fast_out_slow_in</item>
+        <item name="motionInterpolatorIncoming">@android:interpolator/decelerate_cubic</item>
+        <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
 

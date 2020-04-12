@@ -3,6 +3,7 @@ package dev.olog.feature.library.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
@@ -61,6 +62,11 @@ internal class LibraryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
 
         removeFolderFragment()
 

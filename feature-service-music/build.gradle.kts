@@ -6,6 +6,11 @@ plugins {
 
 android {
     applyDefaults()
+
+    defaultConfig {
+        configField("LAST_FM_KEY" to localProperties.lastFmKey)
+        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
+    }
 }
 
 dependencies {
