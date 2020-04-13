@@ -198,9 +198,6 @@ class MainActivity : MusicGlueActivity(),
                     return
                 }
             }
-            if (tryPopFolderBack()) {
-                return
-            }
 
             super.onBackPressed()
         } catch (ex: IllegalStateException) {
@@ -208,22 +205,6 @@ class MainActivity : MusicGlueActivity(),
             Timber.e(ex)
         }
 
-    }
-
-    private fun tryPopFolderBack(): Boolean {
-//        TODO
-        return false
-//        val categoriesFragment = supportFragmentManager
-//            .findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment
-//            ?: return false
-//
-//        if (categoriesFragment.isVisible && categoriesFragment.isCurrentFragmentFolderTree()){
-//            val folderTree = categoriesFragment.childFragmentManager.fragments
-//                .filter { it.isVisible }
-//                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-//            return folderTree?.handleOnBackPressed() == true
-//        }
-//        return false
     }
 
     override fun getSlidingPanel(): BottomSheetBehavior<*> {

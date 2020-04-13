@@ -13,11 +13,6 @@
     <!--detail visible sections-->
     <string name="prefs_detail_sections_title">可见部分</string>
     <string name="prefs_detail_sections_summary">在详细视图中设置可见部分</string>
-    <!--library categories-->
-    <string name="prefs_library_categories_title">曲库分类</string>
-    <string name="prefs_library_categories_summary">设置可见性与顺序</string>
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">播客分类</string>
     <!--blacklist-->
     <string name="prefs_blacklist_title">黑名单</string>
     <string name="prefs_blacklist_summary">在曲库中隐藏文件夹</string>

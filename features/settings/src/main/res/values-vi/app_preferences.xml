@@ -56,12 +56,6 @@
 
 
 
-    <!--library categories-->
-    <string name="prefs_library_categories_title">Thể loại thư viện</string>
-    <string name="prefs_library_categories_summary">Cấu hình mức độ hiển thị và thứ tự của danh mục thư viện</string>
-
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">Thể loại podcast</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Danh sách đen</string>

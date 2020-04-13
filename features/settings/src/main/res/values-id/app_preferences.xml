@@ -13,11 +13,6 @@
     <!--detail visible sections-->
     <string name="prefs_detail_sections_title">Tampilkan bagian</string>
     <string name="prefs_detail_sections_summary">Mengkonfigurasi bagian terlihat dalam tampilan detail</string>
-    <!--library categories-->
-    <string name="prefs_library_categories_title">Kategori pustaka</string>
-    <string name="prefs_library_categories_summary">Mengatur tampilan dan susunan</string>
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">Kategori podcast</string>
     <!--blacklist-->
     <string name="prefs_blacklist_title">Daftar hitam</string>
     <string name="prefs_blacklist_summary">Sembunyikan folder dari pustaka</string>

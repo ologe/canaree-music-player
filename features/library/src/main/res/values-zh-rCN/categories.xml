@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="category_no_tab_visible">现在呢？</string>
     <string-array name="tab_empty_state">
         <item>无文件夹</item>
         <item>无播放列表</item>

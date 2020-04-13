@@ -2,8 +2,6 @@
 <resources>
 
     <string name="prefs_detail_sections_key" translatable="false">key_detail_items</string>
-    <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
-    <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
     <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
     <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
     <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts_2</string>

@@ -12,7 +12,6 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_no_tab_visible">और अब?</string>
 
     <string-array name="tab_empty_state">
         <item>कोई फोल्डर नहीं</item>

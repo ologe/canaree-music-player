@@ -16,12 +16,6 @@
   <!--detail visible sections-->
   <string name="prefs_detail_sections_title">Viditelné části</string>
   <string name="prefs_detail_sections_summary">Konfigurace viditelných částí v detailním náhledu</string>
-  <!--library categories-->
-  <string name="prefs_library_categories_title">Kategorie knihovny</string>
-  <string name="prefs_library_categories_summary">Konfigurovat viditelnost a pořadí</string>
-
-  <!--podcast categories-->
-  <string name="prefs_podcast_library_categories_title">Kategorie podcast</string>
 
   <!--blacklist-->
   <string name="prefs_blacklist_title">Černá listina</string>

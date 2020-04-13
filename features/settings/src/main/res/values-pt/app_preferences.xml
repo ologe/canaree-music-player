@@ -19,16 +19,6 @@
     <string name="prefs_detail_sections_title">Secções visíveis</string>
     <string name="prefs_detail_sections_summary">Configurar as secções visíveis na vista detalhada</string>
 
-    <!-- library categories -->
-    <!-- Fuzzy -->
-    <string name="prefs_library_categories_title">Categorias da biblioteca</string>
-
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">Categorias de podcast</string>
-
-    <!-- Fuzzy -->
-    <string name="prefs_library_categories_summary">Configurar a visibilidade e a ordem</string>
-
     <!-- blacklist -->
     <string name="prefs_blacklist_title">Lista negra</string>
     <string name="prefs_blacklist_summary">Esconder pastas da biblioteca</string>

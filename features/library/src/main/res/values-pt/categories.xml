@@ -3,7 +3,6 @@
 
 
     <string name="category_header">Biblioteca</string>
-    <string name="category_no_tab_visible">E agora?</string>
 
     <string-array name="tab_empty_state">
         <item>Sem pasta</item>

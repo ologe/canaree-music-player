@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="category_no_tab_visible">Dan sekarang?</string>
     <string-array name="tab_empty_state">
         <item>Tidak ada Folder</item>
         <item>Tidak ada daftar putar</item>

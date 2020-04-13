@@ -20,10 +20,8 @@ import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.AndroidSupportInjection
-import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.settings.blacklist.BlacklistFragment
-import dev.olog.feature.settings.categories.LibraryCategoriesFragment
 import dev.olog.feature.settings.last.fm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
@@ -51,8 +49,6 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
     @Inject
     internal lateinit var preferences: CommonPreferences
 
-    private lateinit var libraryCategories: Preference
-    private lateinit var podcastCategories: Preference
     private lateinit var blacklist: Preference
     private lateinit var iconShape: Preference
     private lateinit var deleteCache: Preference
@@ -68,8 +64,6 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
-        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))!!
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))!!
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))!!
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))!!
@@ -82,23 +76,13 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val list = view.findViewById<RecyclerView>(R.id.recycler_view)
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.layoutManager = OverScrollLinearLayoutManager(requireContext())
     }
 
     override fun onResume() {
         super.onResume()
         preferenceManager.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        libraryCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
-                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
-            true
-        }
-        podcastCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
-            true
-        }
         blacklist.setOnPreferenceClickListener {
             requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
@@ -142,8 +126,6 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
     override fun onPause() {
         super.onPause()
         preferenceManager.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        libraryCategories.onPreferenceClickListener = null
-        podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
         lastFmCredentials.onPreferenceClickListener = null

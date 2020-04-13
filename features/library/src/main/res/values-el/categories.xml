@@ -12,7 +12,6 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_no_tab_visible">Και τώρα;</string>
 
     <string-array name="tab_empty_state">
         <item>Δεν υπάρχουν φάκελοι</item>

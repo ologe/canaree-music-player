@@ -55,13 +55,6 @@
 
 
 
-    <!--library categories-->
-    <string name="prefs_library_categories_title">Κατηγορίες βιβλιοθήκης</string>
-    <string name="prefs_library_categories_summary">Τροποποίησε την ορατότητα και την σειρά</string>
-
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">Κατηγορίες Podcast</string>
-
     <!--blacklist-->
     <string name="prefs_blacklist_title">Μαύρη Λίστα</string>
     <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>

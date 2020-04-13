@@ -5,24 +5,11 @@
 
     <PreferenceCategory app:title="@string/prefs_category_library">
 
-        <Preference
-            app:key="@string/prefs_library_categories_key"
-            app:summary="@string/prefs_library_categories_summary"
-            app:title="@string/prefs_library_categories_title"
-            tools:enabled="false" />
-
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="@string/prefs_show_podcasts_key"
             app:summary="@string/prefs_show_podcasts_summary"
             app:title="@string/prefs_show_podcasts_title" />
-
-        <Preference
-            app:dependency="@string/prefs_show_podcasts_key"
-            app:key="@string/prefs_podcast_library_categories_key"
-            app:summary="@string/prefs_podcast_library_categories_summary"
-            app:title="@string/prefs_podcast_library_categories_title"
-            tools:enabled="false" />
 
         <Preference
             app:key="@string/prefs_blacklist_key"

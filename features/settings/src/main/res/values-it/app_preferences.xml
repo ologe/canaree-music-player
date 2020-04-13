@@ -16,12 +16,6 @@
   <!--detail visible sections-->
   <string name="prefs_detail_sections_title">Sezioni visibili</string>
   <string name="prefs_detail_sections_summary">Scegli le sezioni visibili nella schermata dettagliata</string>
-  <!--library categories-->
-  <string name="prefs_library_categories_title">Categorie libreria</string>
-  <string name="prefs_library_categories_summary">Configura la visibilità e l\'ordine</string>
-  <!--podcast categories-->
-  <string name="prefs_podcast_library_categories_title">Categorie podcast</string>
-
   <!--blacklist-->
   <string name="prefs_blacklist_title">Lista nera</string>
   <string name="prefs_blacklist_summary">Nascondi le cartelle dalla libreria</string>

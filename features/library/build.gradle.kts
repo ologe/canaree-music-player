@@ -17,7 +17,6 @@ dependencies {
 
     implementation(project(":libraries:image-loader"))
     implementation(project(":libraries:media"))
-    implementation(project(":libraries:analytics")) // TODO check if is needed
 
     implementation(project(":navigation"))
     implementation(project(":features:presentation-base"))

@@ -54,14 +54,6 @@
 
 
 
-    <!--library categories-->
-    <string name="prefs_library_categories_title">Library categories</string>
-    <string name="prefs_library_categories_summary">Configure visibility and order</string>
-
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">Podcast categories</string>
-    <string name="prefs_podcast_library_categories_summary" translatable="false">@string/prefs_library_categories_summary</string>
-
     <!--blacklist-->
     <string name="prefs_blacklist_title">Blacklist</string>
     <string name="prefs_blacklist_summary">Hide folders from the library</string>

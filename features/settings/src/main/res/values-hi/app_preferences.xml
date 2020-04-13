@@ -56,13 +56,6 @@
 
 
 
-    <!--library categories-->
-    <string name="prefs_library_categories_title">संग्रह वर्गीकरण</string>
-    <string name="prefs_library_categories_summary">संग्रह वर्गीकरण का दिखना और क्रम बदलें</string>
-
-    <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_title">पॉडकास्ट वर्गीकरण</string>
-
     <!--blacklist-->
     <string name="prefs_blacklist_title">काली सूची</string>
     <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>

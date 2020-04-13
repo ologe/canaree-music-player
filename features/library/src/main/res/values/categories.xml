@@ -21,8 +21,6 @@
     <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
     <string name="category_podcast_authors" translatable="false">@string/common_podcast_authors</string>
 
-    <string name="category_no_tab_visible">And now?</string>
-
     <string-array name="tab_empty_state">
         <item>No folders</item>
         <item>No playlist</item>
