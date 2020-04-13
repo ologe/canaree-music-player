@@ -9,6 +9,7 @@ import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.shared.TextUtils
 import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -32,6 +33,7 @@ class RxWaveSideBarView(
         this.listener = listener
     }
 
+    // TODO check performance on big lists
     @SuppressLint("ConcreteDispatcherIssue")
     private suspend fun generateLetters(data: List<DisplayableItem>): List<String> = withContext(Dispatchers.Default) {
         if (scrollableLayoutId == 0){
@@ -39,24 +41,29 @@ class RxWaveSideBarView(
         }
 
         val list = data.asSequence()
-                .filter { it.type == scrollableLayoutId }
-                .mapNotNull {
-                    when (it) {
-                        is DisplayableTrack -> it.title.firstOrNull()?.toUpperCase()
-                        is DisplayableAlbum -> it.title.firstOrNull()?.toUpperCase()
-                        else -> throw IllegalArgumentException("invalid type $it")
-                    }
+            .filter { it.type == scrollableLayoutId }
+            .distinctBy {
+                when (it) {
+                    is DisplayableTrack -> it.title.firstOrNull()
+                    is DisplayableAlbum -> it.title.firstOrNull()
+                    else -> throwNotHandled(it)
                 }
-                .distinctBy { it }
-                .map { it.toString() }
-                .toList()
+            }
+            .mapNotNull {
+                when (it) {
+                    is DisplayableTrack -> it.title.firstOrNull()?.toUpperCase()
+                    is DisplayableAlbum -> it.title.firstOrNull()?.toUpperCase()
+                    else -> throwNotHandled(it)
+                }
+            }
+            .distinct()
+            .map { it.toString() }
+            .toList()
 
         val letters = LETTERS.map { letter -> list.firstOrNull { it == letter } ?: TextUtils.MIDDLE_DOT }
                 .toMutableList()
         list.firstOrNull { it < "A" }?.let { letters[0] = "#" }
         list.firstOrNull { it > "Z" }?.let { letters[letters.lastIndex] = "?" }
-
-        yield()
 
         return@withContext letters
     }
