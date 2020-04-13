@@ -30,7 +30,7 @@ internal class SpecialThanksFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val layoutManager = OverScrollLinearLayoutManager(list)
+        val layoutManager = OverScrollLinearLayoutManager(requireContext())
         val adapter = SpecialThanksFragmentAdapter()
         list.adapter = adapter
         list.layoutManager = layoutManager

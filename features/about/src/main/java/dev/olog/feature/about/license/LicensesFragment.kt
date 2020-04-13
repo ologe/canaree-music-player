@@ -30,7 +30,7 @@ internal class LicensesFragment : Fragment() {
         val adapter = LicensesFragmentAdapter()
 
         view.list.adapter = adapter
-        view.list.layoutManager = OverScrollLinearLayoutManager(list)
+        view.list.layoutManager = OverScrollLinearLayoutManager(requireContext())
 
         adapter.submitList(presenter.data)
     }

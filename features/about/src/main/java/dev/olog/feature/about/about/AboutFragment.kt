@@ -28,7 +28,7 @@ internal class AboutFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.adapter = adapter
 
         adapter.submitList(presenter.data)

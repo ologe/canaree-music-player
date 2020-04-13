@@ -103,7 +103,7 @@ class DetailFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
         view.transitionName = requireArguments().getString(Params.CONTAINER_TRANSITION_NAME)
 
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
