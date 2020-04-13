@@ -21,7 +21,7 @@ internal class SpecialThanksPresenter(
             R.layout.item_special_thanks,
             headerId("playlist img id"),
             context.getString(R.string.about_icon_made_by_x_from_y, "Smashicons", "www.flaticon.com "),
-            R.drawable.vd_playlist
+            R.drawable.vd_playlist_custom
         ), // playlist icon
 
         SpecialThanksModel(
@@ -42,14 +42,14 @@ internal class SpecialThanksPresenter(
             R.layout.item_special_thanks,
             headerId("artist img id"),
             context.getString(R.string.about_icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
-            R.drawable.vd_artist
+            R.drawable.vd_artist_custom
         ), // artist icon
 
         SpecialThanksModel(
             R.layout.item_special_thanks,
             headerId("genre img id"),
             context.getString(R.string.about_icon_made_by_x_from_y, "Nikita Golubev", "www.flaticon.com "),
-            R.drawable.vd_genre
+            R.drawable.vd_genre_custom
         ), // genre icon
         SpecialThanksModel(
             R.layout.item_special_thanks,
