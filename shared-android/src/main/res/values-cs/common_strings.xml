@@ -46,7 +46,7 @@
   <string name="common_custom">Vlastní</string>
   <string name="common_track_number">Číslo skladby</string>
   <string name="common_play">Přehrát</string>
-  <string name="common_shuffle">Náhodně přehrát vše</string>
+  <string name="common_shuffle">Zamíchat</string>
   <string name="common_search">Hledat</string>
   <string name="common_hide">Skrýt</string>
   <string name="common_shape_square">Čtverec</string>

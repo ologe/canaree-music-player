@@ -59,7 +59,7 @@
   <string name="common_custom">Personalizzato</string>
   <string name="common_track_number">Numero brano</string>
   <string name="common_play">Riproduci</string>
-  <string name="common_shuffle">Riproduzione casuale</string>
+  <string name="common_shuffle">Casuale</string>
   <string name="common_search">Cerca</string>
   <string name="common_hide">Nascondi</string>
   <string name="common_shape_square">Quadrato</string>
