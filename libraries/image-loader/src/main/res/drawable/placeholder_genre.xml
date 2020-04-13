@@ -3,7 +3,7 @@
 
     <item android:drawable="@drawable/placeholder_gradient"/>
 
-    <item android:drawable="@drawable/vd_genre"
+    <item android:drawable="@drawable/vd_genre_custom"
         android:top="@dimen/placeholder_genre_padding"
         android:bottom="@dimen/placeholder_genre_padding"
         android:left="@dimen/placeholder_genre_padding"
