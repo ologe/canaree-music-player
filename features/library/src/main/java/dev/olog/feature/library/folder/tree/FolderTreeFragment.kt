@@ -57,7 +57,7 @@ internal class FolderTreeFragment : BaseFragment(),
         fab.shrink()
 
         list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.setHasFixedSize(true)
 
         fastScroller.attachRecyclerView(list)

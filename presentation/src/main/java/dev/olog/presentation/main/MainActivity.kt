@@ -32,7 +32,6 @@ import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -72,6 +71,8 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
+
+    private lateinit var scrollHelper: SuperCerealScrollHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,10 +122,6 @@ class MainActivity : MusicGlueActivity(),
 
     private fun setupSlidingPanel(){
         getSlidingPanel().peekHeight = when (themeManager.bottomSheetType) {
-            BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek_plus_navigation)
-            BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek_plus_navigation) + dip(16)
-        }
-        val peekHeight = when (themeManager.bottomSheetType) {
             BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek)
             BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek) + dip(16)
         }
@@ -132,16 +129,7 @@ class MainActivity : MusicGlueActivity(),
             separator.isVisible = false
         }
 
-        val scrollHelper = SuperCerealScrollHelper(
-            this, ScrollType.Full(
-                slidingPanel = slidingPanel,
-                bottomNavigation = bottomWrapper,
-                toolbarHeight = dimen(R.dimen.toolbar),
-                tabLayoutHeight = dimen(R.dimen.tab),
-                realSlidingPanelPeek = peekHeight
-            )
-        )
-        lifecycle.addObserver(scrollHelper)
+        scrollHelper = SuperCerealScrollHelper(this)
     }
 
     private fun navigateToLastPage(){

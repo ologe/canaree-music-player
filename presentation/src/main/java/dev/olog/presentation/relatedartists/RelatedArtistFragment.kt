@@ -54,7 +54,7 @@ class RelatedArtistFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         view.transitionName = getArgument(ARGUMENTS_TRANSITION)
 
-        list.layoutManager = OverScrollGridLayoutManager(list, 2)
+        list.layoutManager = OverScrollGridLayoutManager(requireContext(), 2)
         list.adapter = adapter
         list.setHasFixedSize(true)
 

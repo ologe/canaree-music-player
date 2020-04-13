@@ -59,7 +59,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
         super.onViewCreated(view, savedInstanceState)
         view.transitionName = getArgument(ARGUMENTS_TRANSITION)
         list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
+        list.layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.setHasFixedSize(true)
 
         setupDragListener(list, ItemTouchHelper.LEFT)

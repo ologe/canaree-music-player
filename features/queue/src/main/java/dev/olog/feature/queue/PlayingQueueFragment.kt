@@ -52,7 +52,7 @@ internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListe
     @SuppressLint("ConcreteDispatcherIssue")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = OverScrollLinearLayoutManager(list)
+        val layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setHasFixedSize(true)

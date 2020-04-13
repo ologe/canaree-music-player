@@ -39,7 +39,7 @@ internal object LayoutManagerFactory {
             adapter as ObservableAdapter<BaseModel>,
             requestedSpanSize
         )
-        val layoutManager = OverScrollGridLayoutManager(recyclerView, spanSizeLookup.getSpanCount())
+        val layoutManager = OverScrollGridLayoutManager(recyclerView.context, spanSizeLookup.getSpanCount())
         layoutManager.spanSizeLookup = spanSizeLookup
         return layoutManager
     }

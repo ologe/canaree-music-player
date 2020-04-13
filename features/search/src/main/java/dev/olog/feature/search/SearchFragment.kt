@@ -81,7 +81,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManager = OverScrollLinearLayoutManager(list)
+        layoutManager = OverScrollLinearLayoutManager(requireContext())
         list.adapter = adapter
         list.layoutManager = layoutManager
         list.setRecycledViewPool(recycledViewPool)
