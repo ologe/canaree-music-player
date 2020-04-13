@@ -61,11 +61,6 @@
     <string name="prefs_blacklist_description">Πάτα για να εμφανίσεις/κρύψεις</string>
     <string name="prefs_blacklist_error">Δεν μπορεί να γίνει η προσθήκη όλων των φακέλων στην μαύρη λίστα</string>
 
-    <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">Προβολή φακέλων σε ιεραρχεία</string>
-    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
-    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
-
     <string name="prefs_show_podcasts_title">Εμφάνιση Podcasts</string>
     <string name="prefs_show_podcasts_summary">Εμφάνιση Podcasts κατηγορία στην βιοβλιοθήκη</string>
 

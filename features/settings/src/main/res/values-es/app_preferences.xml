@@ -20,8 +20,6 @@
     <string name="prefs_blacklist_summary">Ocultar carpetas de la biblioteca</string>
     <string name="prefs_blacklist_description">Presione para mostrar/ocultar</string>
     <string name="prefs_blacklist_error">No se pueden ocultar todas las carpetas</string>
-    <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">Vista jerárquica de las carpetas</string>
     <!--used equalizer-->
     <string name="prefs_used_equalizer_title">Ecualizador</string>
     <string name="prefs_used_equalizer_summary_on">Usar el ecualizador de la aplicación</string>

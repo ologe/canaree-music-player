@@ -63,10 +63,6 @@
     <string name="prefs_blacklist_description">Nhấn vào đây để hiện/ẩn</string>
     <string name="prefs_blacklist_error">Không thể chặn tất cả các thư mục</string>
 
-    <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">Chế độ xem phân cấp thư mục</string>
-    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
-    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
 
     <string name="prefs_show_podcasts_title">Hiển thị podcast</string>
     <string name="prefs_show_podcasts_summary">Hiển thị thẻ podcast trong thư viện</string>

@@ -17,14 +17,6 @@
             app:title="@string/prefs_blacklist_title"
             tools:enabled="false" />
 
-        <SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:key="@string/prefs_folder_tree_view_key"
-            app:summaryOff="@string/prefs_folder_tree_view_summary_off"
-            app:summaryOn="@string/prefs_folder_tree_view_summary_on"
-            app:title="@string/prefs_folder_tree_view_title"
-            tools:enabled="false" />
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/prefs_category_audio">

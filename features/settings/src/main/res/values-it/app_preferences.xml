@@ -21,8 +21,6 @@
   <string name="prefs_blacklist_summary">Nascondi le cartelle dalla libreria</string>
   <string name="prefs_blacklist_description">Premi per mostrare/nascondere</string>
   <string name="prefs_blacklist_error">Non puoi nascondere tutte le cartelle</string>
-  <!--folder tree-->
-  <string name="prefs_folder_tree_view_title">Vista gerarchica delle cartelle</string>
   <!--used equalizer-->
   <string name="prefs_used_equalizer_title">Equalizzatore</string>
   <string name="prefs_used_equalizer_summary_on">Usa l\'equalizzatore dell\'app</string>

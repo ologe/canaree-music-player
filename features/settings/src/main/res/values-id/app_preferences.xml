@@ -19,7 +19,6 @@
     <string name="prefs_blacklist_description">Klik untuk tampilkan/sembunyi</string>
     <string name="prefs_blacklist_error">Tidak bisa memblokir semua folder</string>
     <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">Tampilan folder hirarki</string>
     <string name="prefs_show_podcasts_title">Tampilkan podcast</string>
     <string name="prefs_show_podcasts_summary">Tampilkan tab podcast di pustaka</string>
     <!--used equalizer-->

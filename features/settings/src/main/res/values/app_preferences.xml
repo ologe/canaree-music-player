@@ -60,11 +60,6 @@
     <string name="prefs_blacklist_description">Click to show/hide</string>
     <string name="prefs_blacklist_error">Can not blacklist all folders</string>
 
-    <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">Folder hierarchy view</string>
-    <string name="prefs_folder_tree_view_summary_off" translatable="false">@string/common_disabled</string>
-    <string name="prefs_folder_tree_view_summary_on" translatable="false">@string/common_enabled</string>
-
     <string name="prefs_show_podcasts_title">Show podcasts</string>
     <string name="prefs_show_podcasts_summary">Show podcasts tab in library</string>
 

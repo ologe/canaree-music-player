@@ -22,8 +22,6 @@
   <string name="prefs_blacklist_summary">Skrýt složky z knihovny</string>
   <string name="prefs_blacklist_description">Klepnutím zobrazíte/skryjete</string>
   <string name="prefs_blacklist_error">Nelze vložit všechny složky na černou listinu</string>
-  <!--folder tree-->
-  <string name="prefs_folder_tree_view_title">Zobrazení hierarchie složek</string>
   <!--used equalizer-->
   <string name="prefs_used_equalizer_title">Ekvalizér</string>
   <string name="prefs_used_equalizer_summary_on">Použít ekvalizér aplikace</string>

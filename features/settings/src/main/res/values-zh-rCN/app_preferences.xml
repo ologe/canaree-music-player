@@ -18,8 +18,7 @@
     <string name="prefs_blacklist_summary">在曲库中隐藏文件夹</string>
     <string name="prefs_blacklist_description">点击显示或隐藏</string>
     <string name="prefs_blacklist_error">不能屏蔽所有文件夹</string>
-    <!--folder tree-->
-    <string name="prefs_folder_tree_view_title">以树状图显示文件夹</string>
+
     <string name="prefs_show_podcasts_title">显示播客</string>
     <string name="prefs_show_podcasts_summary">显示播客选项卡</string>
     <!--used equalizer-->
