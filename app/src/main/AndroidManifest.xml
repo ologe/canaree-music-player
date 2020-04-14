@@ -110,7 +110,7 @@
 
         <!--widget -->
         <receiver
-            android:name=".appwidgets.WidgetColored"
+            android:name="dev.olog.feature.app.widgets.WidgetColored"
             android:label="@string/app_widget_default">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

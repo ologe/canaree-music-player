@@ -10,7 +10,6 @@ import dev.olog.lib.audio.tagger.dagger.AudioTaggerModule
 import dev.olog.lib.equalizer.EqualizerModule
 import dev.olog.lib.image.loader.di.LibImageLoaderDagger
 import dev.olog.msc.app.App
-import dev.olog.msc.appwidgets.WidgetBindingModule
 import dev.olog.msc.schedulers.SchedulersModule
 import dev.olog.msc.viewmodel.ViewModelModule
 import dev.olog.navigation.dagger.NavigationModule
@@ -40,7 +39,6 @@ import javax.inject.Singleton
         EqualizerModule::class,
 
         AndroidInjectionModule::class,
-        WidgetBindingModule::class,
         ThemeModule::class
     ]
 )
