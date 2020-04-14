@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/common_icon_size"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_vertical"
+        tools:text="@string/common_play"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textSize="@dimen/item_shuffle_text_size" />
+
+    <ImageButton
+        android:id="@+id/icon"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:layout_gravity="end|center_vertical"
+        android:background="@null"
+        android:clickable="false"
+        android:focusable="false"
+        tools:src="@drawable/vd_play"
+        android:tint="?android:textColorPrimaryInverse" />
+
+</merge>

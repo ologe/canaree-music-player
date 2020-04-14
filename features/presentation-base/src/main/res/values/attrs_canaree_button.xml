@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CanareeButton">
+        <attr name="android:text" format="reference"/>
+        <attr name="android:src" format="reference"/>
+        <attr name="android:drawablePadding" format="dimension"/>
+        <attr name="android:drawableTint" format="reference"/>
+    </declare-styleable>
+
+    <dimen name="canaree_button_margin">16dp</dimen>
+
+</resources>
