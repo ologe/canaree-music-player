@@ -3,10 +3,20 @@ package dev.olog.navigation.screens
 private const val PREFIX = "dev.olog"
 
 enum class FragmentScreen(val tag: String) {
-    LIBRARY_TRACKS("$PREFIX.library.track"),
-    LIBRARY_PODCAST("$PREFIX.library.podcast"),
+    HOME("$PREFIX.home"),
+
+    TRACKS("$PREFIX.tracks"),
+    PLAYLISTS("$PREFIX.playlists"),
+    ALBUMS("$PREFIX.albums"),
+    ARTISTS("$PREFIX.artists"),
+    GENRES("$PREFIX.genres"),
+    FOLDERS("$PREFIX.folders"),
+    FOLDERS_NORMAL("$PREFIX.folders.normal"),
+    FOLDERS_TREE("$PREFIX.folders.tree"),
+
     SEARCH("$PREFIX.search"),
     QUEUE("$PREFIX.queue"),
+
     DETAIL("$PREFIX.detail"),
     PLAYER("$PREFIX.player"),
     PLAYER_MINI("$PREFIX.player.mini"),
