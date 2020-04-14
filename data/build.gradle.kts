@@ -38,7 +38,7 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":shared-android"))
     implementation(project(":prefs-keys"))
-    implementation(project(":libraries:network"))
+    implementation(project(":libraries:lib-network"))
     implementation(project(":data-spotify"))
 
     implementation(Libraries.kotlin)
