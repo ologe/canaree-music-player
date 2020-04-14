@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +39,11 @@ abstract class BaseFragment : DaggerFragment() {
         activityViewModel.observeCurrentPlaying
             .onEach { onCurrentPlayingChanged(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        postponeEnterTransition()
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     fun getSlidingPanel(): BottomSheetBehavior<*>? {

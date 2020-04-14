@@ -26,24 +26,17 @@ class SuperCerealScrollHelper(
         FragmentScreen.FOLDERS.tag
     )
 
-//    override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
-//        super.applyInsetsToList(fragment, list, toolbar, tabLayout)
-//        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true){
-//             apply only top padding
-//            list.updatePadding(top = 0)
-//        }
-
-//        if (fragment is FolderTreeFragment){ TODO folder tree fragment has a viewpager tag
-//            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
-//            if (crumbsWrapper.marginTop < 1){
-//                 margin not set yet
-//                fragment.requireView().doOnPreDraw {
-//                    crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
-//                    list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
-//                }
-//            }
-//        }
-//    }
+    override fun updateRecyclerViewPadding(
+        fragment: Fragment,
+        recyclerView: RecyclerView,
+        topPadding: Int,
+        bottomPadding: Int
+    ) {
+        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true) {
+            return
+        }
+        super.updateRecyclerViewPadding(fragment, recyclerView, topPadding, bottomPadding)
+    }
 
     override fun findFab(fragment: Fragment): View? {
         return fragment.requireView().findViewById(R.id.fab)
