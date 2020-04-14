@@ -2,17 +2,21 @@ package dev.olog.feature.library.tracks
 
 import androidx.lifecycle.ViewModel
 import dev.olog.domain.entity.sort.SortEntity
+import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.library.R
 import dev.olog.feature.library.tab.TabFragmentHeaders
-import dev.olog.feature.library.tab.toTabDisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableItem
+import dev.olog.feature.presentation.base.model.DisplayableTrack
+import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class TracksFragmentViewModel @Inject constructor(
@@ -41,6 +45,20 @@ internal class TracksFragmentViewModel @Inject constructor(
 
     fun getAllTracksSortOrder(): SortEntity {
         return sortPreferences.getAllTracksSort()
+    }
+
+    private fun Song.toTabDisplayableItem(): DisplayableItem {
+        return DisplayableTrack(
+            type = if (isPodcast) R.layout.item_podcast else R.layout.item_track,
+            mediaId = presentationId,
+            title = title,
+            artist = artist,
+            album = album,
+            idInPlaylist = if (isPodcast) TimeUnit.MILLISECONDS.toMinutes(duration) // TOOD what's that??
+                .toInt() else this.idInPlaylist,
+            dataModified = this.dateModified,
+            duration = this.duration
+        )
     }
 
 }
