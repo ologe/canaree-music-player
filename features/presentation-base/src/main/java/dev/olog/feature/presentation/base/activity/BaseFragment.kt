@@ -44,6 +44,7 @@ abstract class BaseFragment : DaggerFragment() {
         return (requireActivity() as HasSlidingPanel).getSlidingPanel()
     }
 
+    // TODO refactor a bit
     fun restoreUpperWidgetsTranslation(){
         (requireActivity() as HasScrollingInterface).restoreUpperWidgetsTranslation()
     }

@@ -5,14 +5,11 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.feature.presentation.base.R
 import dev.olog.navigation.screens.BottomNavigationPage
-import dev.olog.navigation.screens.LibraryPage
 import javax.inject.Inject
 
 private const val TAG = "AppPreferencesDataStoreImpl"
 
 private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
-
-private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
 
 class CommonPreferences @Inject constructor(
     private val context: Context,
@@ -31,17 +28,6 @@ class CommonPreferences @Inject constructor(
 
     fun setLastBottomViewPage(page: BottomNavigationPage) {
         preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
-    }
-
-    fun getLastLibraryPage(): LibraryPage {
-        val page = preferences.getString(LIBRARY_LAST_PAGE, LibraryPage.TRACKS.toString())!!
-        return LibraryPage.valueOf(page)
-    }
-
-    fun setLibraryPage(page: LibraryPage) {
-        preferences.edit {
-            putString(LIBRARY_LAST_PAGE, page.toString())
-        }
     }
 
 }
