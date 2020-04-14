@@ -1,9 +1,7 @@
 package dev.olog.navigation
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.navigation.screens.FragmentScreen
 import dev.olog.navigation.transition.setupEnterAnimation
@@ -16,9 +14,10 @@ internal class BottomNavigatorImpl @Inject constructor(
 ): BaseNavigator(), BottomNavigator {
 
     private val tags = listOf(
-        FragmentScreen.LIBRARY_TRACKS.tag,
-        FragmentScreen.LIBRARY_PODCAST.tag,
+        FragmentScreen.HOME.tag,
+        FragmentScreen.TRACKS.tag,
         FragmentScreen.SEARCH.tag,
+        FragmentScreen.PLAYLISTS.tag,
         FragmentScreen.QUEUE.tag
     )
 
@@ -60,43 +59,10 @@ internal class BottomNavigatorImpl @Inject constructor(
             // don't reopen same page
             return
         }
-        topFragment?.let { setupExitAnimation(activity, it, screen.tag) }
+        topFragment?.setupExitAnimation(activity)
 
         replaceFragment(activity, fragments[screen]?.get(), screen.tag, forced = true) { fragment ->
-            topFragment?.let { setupEnterAnimation(activity, it, fragment, screen.tag) }
-        }
-    }
-
-    private fun setupEnterAnimation(
-        context: Context,
-        current: Fragment,
-        new: Fragment,
-        newTag: String
-    ) {
-        val libraryTrack = FragmentScreen.LIBRARY_TRACKS.tag
-        val libraryPodcast = FragmentScreen.LIBRARY_PODCAST.tag
-        if (current.tag == libraryTrack && newTag == libraryPodcast) {
-            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
-        } else if (current.tag == libraryPodcast && newTag == libraryTrack) {
-            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
-        } else {
-            new.setupEnterAnimation(context)
-        }
-    }
-
-    private fun setupExitAnimation(
-        context: Context,
-        current: Fragment,
-        newTag: String
-    ) {
-        val libraryTrack = FragmentScreen.LIBRARY_TRACKS.tag
-        val libraryPodcast = FragmentScreen.LIBRARY_PODCAST.tag
-        if (current.tag == libraryTrack && newTag == libraryPodcast) {
-            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
-        } else if (current.tag == libraryPodcast && newTag == libraryTrack) {
-            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
-        } else {
-            current.setupExitAnimation(context)
+            topFragment?.let { fragment.setupEnterAnimation(activity) }
         }
     }
 

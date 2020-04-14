@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
+<!--        TODO localization-->
         <item
-            android:id="@+id/navigation_library"
-            android:title="@string/category_header"
-            android:icon="@drawable/vd_home_alt_selector"/>
+            android:id="@+id/navigation_home"
+            android:title="Home"
+            android:icon="@drawable/vd_home"/>
+
+        <item
+            android:id="@+id/navigation_songs"
+            android:title="Tracks"
+            android:icon="@drawable/vd_audiotrack"/>
+
         <item
             android:id="@+id/navigation_search"
             android:title="@string/common_search"
-            android:icon="@drawable/vd_search_alt_selector"/>
+            android:icon="@drawable/vd_search_alt"/>
+
+        <item
+            android:id="@+id/navigation_playlists"
+            android:title="Playlists"
+            android:icon="@drawable/vd_playlist_play"/>
 
         <item
             android:id="@+id/navigation_queue"
             android:title="@string/playing_queue"
-            android:icon="@drawable/vd_queue_alt_selector"/>
+            android:icon="@drawable/vd_queue_alt"/>
 
     </group>
 </menu>

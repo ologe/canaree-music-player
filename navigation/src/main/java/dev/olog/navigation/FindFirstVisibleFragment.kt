@@ -6,10 +6,12 @@ import dev.olog.core.extensions.getTopFragment
 import dev.olog.navigation.screens.FragmentScreen
 import timber.log.Timber
 
+// TODO can merge with BottomNavigatorImpl?
 private val basicFragments = listOf(
-    FragmentScreen.LIBRARY_TRACKS.tag,
-    FragmentScreen.LIBRARY_PODCAST.tag,
+    FragmentScreen.HOME.tag,
+    FragmentScreen.TRACKS.tag,
     FragmentScreen.SEARCH.tag,
+    FragmentScreen.PLAYLISTS.tag,
     FragmentScreen.QUEUE.tag
 )
 
