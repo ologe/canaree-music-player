@@ -8,10 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
 import dev.olog.domain.MediaId
-import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.navigation.findFirstVisibleFragment
-import dev.olog.navigation.transition.setupEnterSharedAnimation
+import dev.olog.navigation.transition.setupSharedAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
 import dev.olog.presentation.R
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
@@ -30,9 +29,7 @@ import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
-import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
-import dev.olog.shared.throwNotHandled
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -59,7 +56,7 @@ internal class NavigatorImpl @Inject internal constructor(
 
         activity.supportFragmentManager.commit {
             val fragment = RelatedArtistFragment.newInstance(mediaId, view.transitionName)
-            fragment.setupEnterSharedAnimation(activity)
+            fragment.setupSharedAnimation(activity)
 
             replace(R.id.fragmentContainer, fragment, newTag)
             addToBackStack(newTag)
@@ -81,7 +78,7 @@ internal class NavigatorImpl @Inject internal constructor(
 
         activity.supportFragmentManager.commit {
             val fragment = RecentlyAddedFragment.newInstance(mediaId, view.transitionName)
-            fragment.setupEnterSharedAnimation(activity)
+            fragment.setupSharedAnimation(activity)
 
             replace(R.id.fragmentContainer, fragment, newTag)
             addToBackStack(newTag)
@@ -145,11 +142,11 @@ internal class NavigatorImpl @Inject internal constructor(
 
         val current = findFirstVisibleFragment(activity.supportFragmentManager)
         current?.setupExitSharedAnimation()
-        current?.reenterTransition = MaterialFadeThrough.create(activity)
+        current?.reenterTransition = MaterialFadeThrough.create()
 
         activity.supportFragmentManager.commit {
             val fragment = CreatePlaylistFragment.newInstance(type)
-            fragment.setupEnterSharedAnimation(activity)
+            fragment.setupSharedAnimation(activity)
 
             replace(R.id.fragmentContainer, fragment, newTag)
             addToBackStack(newTag)
