@@ -14,6 +14,7 @@ dependencies {
     implementation(Libraries.kotlin)
     implementation(Libraries.Dagger.core)
 
+    api(project(":features:presentation-base"))
     api(project(":features:app-shortcuts"))
     api(project(":features:library"))
     api(project(":features:search"))

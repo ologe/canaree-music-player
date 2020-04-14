@@ -38,6 +38,14 @@ android {
         }
     }
 
+    packagingOptions {
+        excludes = setOf(
+            "META-INF/equalizer_debug.kotlin_module",
+            "META-INF/MANIFEST.MF",
+            "META-INF/proguard/coroutines.pro"
+        )
+    }
+
     flavorDimensions("scope")
     productFlavors {
         featureFlavors.forEach { (flavor, _) ->
