@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="@string/item_podcast_ratio" />
+        app:layout_constraintDimensionRatio="1" />
 
     <dev.olog.feature.presentation.base.widget.QuickActionView
         android:id="@+id/quickAction"

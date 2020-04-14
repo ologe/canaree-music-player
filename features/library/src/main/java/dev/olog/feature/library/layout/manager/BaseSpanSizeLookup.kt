@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab.layout.manager
+package dev.olog.feature.library.layout.manager
 
 internal class BaseSpanSizeLookup(
     requestedSpanSize: Int

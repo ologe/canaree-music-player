@@ -25,15 +25,13 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-internal class FolderTreeFragmentViewModel @Inject constructor(
+internal class FoldersTreeFragmentViewModel @Inject constructor(
     private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
     private val gateway: FolderNavigatorGateway,
     schedulers: Schedulers
 
 ) : ViewModel() {
-
-    var breadCrumbState: BreadCrumbLayout.SavedStateWrapper? = null
 
     private val currentDirectoryPublisher = ConflatedBroadcastChannel(appPreferencesUseCase.getDefaultMusicFolder())
 

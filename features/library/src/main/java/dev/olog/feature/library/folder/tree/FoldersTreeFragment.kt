@@ -3,7 +3,7 @@ package dev.olog.feature.library.folder.tree
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -17,42 +17,30 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_folder_tree.*
+import kotlinx.android.synthetic.main.fragment_folders_tree.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-internal class FolderTreeFragment : BaseFragment(),
+internal class FoldersTreeFragment : BaseFragment(),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): FolderTreeFragment {
-            return FolderTreeFragment()
-        }
-    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     internal lateinit var navigator: Navigator
-    private val viewModel by activityViewModels<FolderTreeFragmentViewModel> {
+    private val viewModel by viewModels<FoldersTreeFragmentViewModel> {
         viewModelFactory
     }
 
     private val adapter by lazyFast {
-        FolderTreeFragmentAdapter(viewModel, activity as MediaProvider, navigator)
+        FoldersTreeFragmentAdapter(viewModel, activity as MediaProvider, navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.breadCrumbState?.let {
-            bread_crumbs.restoreFromStateWrapper(it)
-        }
 
         fab.shrink()
 
@@ -98,7 +86,6 @@ internal class FolderTreeFragment : BaseFragment(),
         bread_crumbs.setCallback(null)
         list.removeOnScrollListener(scrollListener)
         fab.setOnClickListener(null)
-        viewModel.breadCrumbState = bread_crumbs.stateWrapper
     }
 
     override fun onDestroyView() {
@@ -137,5 +124,5 @@ internal class FolderTreeFragment : BaseFragment(),
         }
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_folder_tree
+    override fun provideLayoutId(): Int = R.layout.fragment_folders_tree
 }
