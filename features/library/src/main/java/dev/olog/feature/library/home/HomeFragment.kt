@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.library.R
-import dev.olog.feature.library.tab.adapter.TabFragmentNestedAdapter
 import dev.olog.feature.presentation.base.SetupNestedList
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation
@@ -38,11 +37,11 @@ class HomeFragment : BaseFragment(), SetupNestedList {
     private lateinit var layoutManager: LinearLayoutManager
 
     private val recentlyAddedAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator)
+        HomeFragmentNestedAdapter(navigator)
     }
 
     private val lastPlayedAdapter by lazyFast {
-        TabFragmentNestedAdapter(navigator)
+        HomeFragmentNestedAdapter(navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

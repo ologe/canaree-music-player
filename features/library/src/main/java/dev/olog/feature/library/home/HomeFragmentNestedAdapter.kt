@@ -1,4 +1,4 @@
-package dev.olog.feature.library.tab.adapter
+package dev.olog.feature.library.home
 
 import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.adapter.*
@@ -8,7 +8,7 @@ import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.android.synthetic.main.item_tab_album_last_played.view.*
 
-internal class TabFragmentNestedAdapter(
+internal class HomeFragmentNestedAdapter(
     private val navigator: Navigator
 ) : ObservableAdapter<DisplayableAlbum>(DiffCallbackDisplayableAlbum) {
 

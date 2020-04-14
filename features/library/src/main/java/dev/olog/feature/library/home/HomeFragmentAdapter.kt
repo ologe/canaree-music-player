@@ -56,6 +56,7 @@ internal class HomeFragmentAdapter(
                 }
             }
         }
+        // TODO elevate
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
