@@ -1,6 +1,7 @@
 package dev.olog.navigation
 
 import android.annotation.SuppressLint
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,19 +11,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.isMarshmallow
 import dev.olog.navigation.Navigator.Companion.REQUEST_CODE_HOVER_PERMISSION
-import dev.olog.navigation.screens.NavigationIntent
+import dev.olog.navigation.screens.Services
 import javax.inject.Inject
 
 internal class ServiceNavigatorImpl @Inject constructor(
-    private val intents: Map<NavigationIntent, @JvmSuppressWildcards Intent>
+    private val intents: Map<Services, @JvmSuppressWildcards Class<out Service>>
 ) : BaseNavigator(), ServiceNavigator {
 
     override fun toFloating(activity: FragmentActivity) {
-        val intent = intents[NavigationIntent.SERVICE_FLOATING]
-        mandatory(activity, intent != null) ?: return
+        val clazz = intents[Services.FLOATING]
+        mandatory(activity, clazz != null) ?: return
+        val intent = Intent(activity, clazz)
 
         if (hasOverlayPermission(activity)){
-            ContextCompat.startForegroundService(activity, intent!!)
+            ContextCompat.startForegroundService(activity, intent)
         } else {
             val permissionIntent = createIntentToRequestOverlayPermission(activity)
             activity.startActivityForResult(permissionIntent, REQUEST_CODE_HOVER_PERMISSION)
