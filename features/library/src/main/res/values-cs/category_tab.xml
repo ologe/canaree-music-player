@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tab_auto_playlists">Automatické seznamy skladeb</string>
-    <string name="tab_all_playlists">Všechny seznamy skladeb</string>
-    <string name="tab_all_albums">Všechna alba</string>
-    <string name="tab_all_artists">Všichni umělci</string>
     <string name="tab_recent_played">Nedávno hrané</string>
     <string name="tab_recent_added">Nedávno přidané</string>
-
-    <string-array name="tab_new_items">
-        <item>Nová alba</item>
-        <item>Noví umělci</item>
-    </string-array>
 
 </resources>

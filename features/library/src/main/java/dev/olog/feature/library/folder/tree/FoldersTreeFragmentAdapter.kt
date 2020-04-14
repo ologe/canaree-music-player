@@ -21,6 +21,7 @@ internal class FoldersTreeFragmentAdapter(
 ) : ObservableAdapter<DisplayableFile>(DiffCallbackDisplayableFile) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+        // TODO elevate
         when (viewType) {
             R.layout.item_folder_tree_directory,
             R.layout.item_folder_tree_track -> {

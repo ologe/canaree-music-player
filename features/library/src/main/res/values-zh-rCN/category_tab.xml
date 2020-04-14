@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tab_auto_playlists">自动播放列表</string>
-    <string name="tab_all_playlists">所有播放列表</string>
-    <string name="tab_all_albums">所有专辑</string>
-    <string name="tab_all_artists">所有艺术家</string>
     <string name="tab_recent_played">最近播放</string>
     <string name="tab_recent_added">最近添加</string>
-    <string-array name="tab_new_items">
-        <item>新专辑</item>
-        <item>新艺术家</item>
-    </string-array>
 </resources>

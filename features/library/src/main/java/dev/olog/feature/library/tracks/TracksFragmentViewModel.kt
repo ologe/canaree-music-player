@@ -8,10 +8,7 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.library.R
-import dev.olog.feature.library.tab.TabFragmentHeaders
-import dev.olog.feature.presentation.base.model.DisplayableItem
-import dev.olog.feature.presentation.base.model.DisplayableTrack
-import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.*
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,7 +17,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class TracksFragmentViewModel @Inject constructor(
-    private val headers: TabFragmentHeaders,
     private val trackGateway: TrackGateway,
     private val podcastGateway: PodcastGateway,
     private val sortPreferences: SortPreferences,
@@ -34,7 +30,7 @@ internal class TracksFragmentViewModel @Inject constructor(
             trackGateway.observeAllTracks()
         }.map {
             it.map { it.toTabDisplayableItem() }
-                .startWithIfNotEmpty(headers.shuffleHeader)
+                .startWithIfNotEmpty(shuffleHeader)
         }.flowOn(schedulers.cpu)
     }
 
@@ -46,6 +42,11 @@ internal class TracksFragmentViewModel @Inject constructor(
     fun getAllTracksSortOrder(): SortEntity {
         return sortPreferences.getAllTracksSort()
     }
+
+    private val shuffleHeader = DisplayableHeader(
+        R.layout.item_tracks_header,
+        PresentationId.headerId("header"), ""
+    )
 
     private fun Song.toTabDisplayableItem(): DisplayableItem {
         return DisplayableTrack(

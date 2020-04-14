@@ -19,6 +19,7 @@ internal class FoldersNormalFragmentAdapter(
         viewHolder.setOnClickListener(this) { item, _, view ->
             navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
         }
+        // TODO elevate
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableAlbum, position: Int) {

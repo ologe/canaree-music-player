@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import dev.olog.feature.library.R
-import dev.olog.feature.library.layout.manager.BaseSpanSizeLookup
+import dev.olog.feature.library.layout.manager.DefaultSpanSizeLookup
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.navigation.Navigator
@@ -38,7 +38,7 @@ internal class FoldersNormalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spanSizeLookup = BaseSpanSizeLookup(viewModel.getSpanCount())
+        val spanSizeLookup = DefaultSpanSizeLookup(viewModel.getSpanCount())
         val layoutManager = OverScrollGridLayoutManager(requireContext(), spanSizeLookup.getSpanCount())
         layoutManager.spanSizeLookup = spanSizeLookup
         list.layoutManager = layoutManager
