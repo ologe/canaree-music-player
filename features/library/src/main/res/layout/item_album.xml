@@ -7,7 +7,7 @@
     tools:layout_width="150dp"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="@dimen/item_album_margin">
 
     <dev.olog.feature.presentation.base.widget.image.view.ShapeImageView
         android:id="@+id/cover"
