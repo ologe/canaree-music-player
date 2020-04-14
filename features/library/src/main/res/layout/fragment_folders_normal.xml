@@ -46,8 +46,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        android:text="@string/common_no_tracks"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/common_no_results"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

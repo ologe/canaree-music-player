@@ -52,7 +52,7 @@
             android:text="@string/common_albums"
             android:textAppearance="@style/Header.Main"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/more" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/more"
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        android:text="@string/common_no_tracks"
+        android:text="@string/common_no_results"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

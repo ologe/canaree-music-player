@@ -39,9 +39,9 @@
             android:gravity="center"
             android:text="@string/common_playlists"
             android:textAppearance="@style/Header.Main"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/more" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/more"
