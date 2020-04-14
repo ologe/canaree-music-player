@@ -27,7 +27,7 @@ internal class AlbumsFragmentAdapter(
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
             quickAction?.setId(item.mediaId)
             firstText.text = item.title
-            secondText?.text = item.subtitle
+            secondText.text = item.subtitle
         }
     }
 }

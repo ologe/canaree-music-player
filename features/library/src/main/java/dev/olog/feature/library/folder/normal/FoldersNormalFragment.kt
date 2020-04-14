@@ -38,14 +38,18 @@ internal class FoldersNormalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spanCount = viewModel.getSpanCount()
-        val layoutManager = OverScrollGridLayoutManager(requireContext(), spanCount)
         val spanSizeLookup = BaseSpanSizeLookup(viewModel.getSpanCount())
+        val layoutManager = OverScrollGridLayoutManager(requireContext(), spanSizeLookup.getSpanCount())
+        layoutManager.spanSizeLookup = spanSizeLookup
         list.layoutManager = layoutManager
         list.adapter = adapter
 
         viewModel.data
-            .onEach { adapter.submitList(it) }
+            .onEach {
+                // TODO sidebar
+                // TODO empty state
+                adapter.submitList(it)
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeSpanCount()

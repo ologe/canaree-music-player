@@ -2,6 +2,7 @@ package dev.olog.feature.library.model
 
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 
+// TODO still needed?
 internal enum class TabCategory {
     FOLDERS,
     PLAYLISTS,
