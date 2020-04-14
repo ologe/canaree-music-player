@@ -15,9 +15,15 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":domain"))
     implementation(project(":shared"))
+    implementation(project(":shared-android"))
+
+    implementation(project(":libraries:lib-image-loader"))
+    implementation(project(":features:feature-presentation-base"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
+
+    implementation(Libraries.X.core)
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)

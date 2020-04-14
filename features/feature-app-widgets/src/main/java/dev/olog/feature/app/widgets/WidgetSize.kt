@@ -1,6 +1,6 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.app.widgets
 
-data class WidgetSize(
+internal data class WidgetSize(
     val minWidth: Int,
     val maxWidth: Int,
     val minHeight: Int,

@@ -1,39 +1,51 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.app.widgets
 
+import android.app.Activity
 import android.app.PendingIntent
+import android.app.Service
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import dev.olog.msc.R
+import dev.olog.core.constants.AppConstants
+import dev.olog.core.constants.MusicServiceAction
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.presentation.main.MainActivity
 import dev.olog.feature.presentation.base.palette.ImageProcessorResult
+import dev.olog.navigation.screens.Activities
+import dev.olog.navigation.screens.Services
+import dev.olog.navigation.screens.Widgets
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.core.constants.AppConstants
-import dev.olog.intents.Classes
-import dev.olog.core.constants.MusicServiceAction
 import javax.inject.Inject
 
-abstract class BaseWidget : AbsWidgetApp() {
+internal abstract class BaseWidget : AbsWidgetApp() {
 
     companion object {
         @JvmStatic
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    @Inject
+    lateinit var musicPrefsUseCase: MusicPreferencesGateway
+
+    @Inject
+    lateinit var activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
+    @Inject
+    lateinit var widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
+    @Inject
+    lateinit var services: Map<Services, @JvmSuppressWildcards Class<out Service>>
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
             val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
-            for (clazz in Classes.widgets) {
+
+            for (clazz in widgets.values) {
                 val ids = context.getAppWidgetsIdsFor(clazz)
                 onUpdate(context, appWidgetManager, ids)
             }
@@ -100,13 +112,13 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
-        val intent = Intent(context, Class.forName(Classes.SERVICE_MUSIC))
+        val intent = Intent(context, services[Services.MUSIC])
         intent.action = action
         return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, activities[Activities.MAIN])
         intent.action = AppConstants.ACTION_CONTENT_VIEW
         return PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)

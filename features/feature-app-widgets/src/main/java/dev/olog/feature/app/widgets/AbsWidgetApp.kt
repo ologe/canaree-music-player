@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.app.widgets
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 import dagger.android.AndroidInjection
 import dev.olog.core.constants.WidgetConstants
 
-abstract class AbsWidgetApp : AppWidgetProvider() {
+internal abstract class AbsWidgetApp : AppWidgetProvider() {
 
     companion object {
         @JvmStatic

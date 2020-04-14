@@ -1,4 +1,4 @@
-package dev.olog.msc.appwidgets
+package dev.olog.feature.app.widgets
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -7,7 +7,6 @@ import android.widget.RemoteViews
 import dev.olog.domain.MediaId.Companion.SONGS_CATEGORY
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.getCachedBitmap
-import dev.olog.msc.R
 import dev.olog.feature.presentation.base.palette.ImageProcessor
 import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 private const val IMAGE_SIZE = 300
 
-class WidgetColored : BaseWidget() {
+internal class WidgetColored : BaseWidget() {
 
     private var job by autoDisposeJob()
 
