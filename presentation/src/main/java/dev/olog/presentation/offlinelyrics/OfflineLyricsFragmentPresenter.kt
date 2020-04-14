@@ -1,9 +1,9 @@
 package dev.olog.presentation.offlinelyrics
 
+import android.provider.MediaStore
 import dev.olog.domain.gateway.OfflineLyricsGateway
 import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.intents.AppConstants
 import dev.olog.lib.offline.lyrics.BaseOfflineLyricsPresenter
 import dev.olog.lib.offline.lyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.lib.offline.lyrics.domain.ObserveOfflineLyricsUseCase
@@ -33,7 +33,7 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
 
     fun getInfoMetadata(): String {
         var result = currentTitle
-        if (currentArtist != AppConstants.UNKNOWN) {
+        if (currentArtist != MediaStore.UNKNOWN_STRING) {
             result += " $currentArtist"
         }
         result += " lyrics"

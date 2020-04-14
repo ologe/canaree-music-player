@@ -4,7 +4,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.os.bundleOf
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.core.constants.MusicServiceCustomAction
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
 import kotlinx.coroutines.withContext

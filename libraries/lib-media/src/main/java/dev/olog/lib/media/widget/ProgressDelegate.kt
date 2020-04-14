@@ -3,7 +3,7 @@ package dev.olog.lib.media.widget
 import android.annotation.SuppressLint
 import android.widget.ProgressBar
 import dev.olog.core.coroutines.viewScope
-import dev.olog.intents.AppConstants
+import dev.olog.core.constants.AppConstants
 import dev.olog.lib.media.model.PlayerPlaybackState
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.shared.coroutines.flowInterval

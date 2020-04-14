@@ -15,8 +15,8 @@ import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicConstants
-import dev.olog.intents.WidgetConstants
+import dev.olog.core.constants.MusicConstants
+import dev.olog.core.constants.WidgetConstants
 import dev.olog.feature.service.music.interfaces.IPlayerLifecycle
 import dev.olog.feature.service.music.model.MediaEntity
 import dev.olog.feature.service.music.model.MetadataEntity

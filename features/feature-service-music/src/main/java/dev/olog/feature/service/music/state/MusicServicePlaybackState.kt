@@ -8,7 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.intents.Classes
-import dev.olog.intents.WidgetConstants
+import dev.olog.navigation.param.WidgetConstants
 import dev.olog.feature.service.music.model.PositionInQueue
 import dev.olog.feature.service.music.model.SkipType
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor

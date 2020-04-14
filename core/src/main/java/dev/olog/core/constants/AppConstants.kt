@@ -1,6 +1,4 @@
-package dev.olog.intents
-
-import android.provider.MediaStore
+package dev.olog.core.constants
 
 object AppConstants {
 
@@ -8,7 +6,5 @@ object AppConstants {
     const val ACTION_CONTENT_VIEW = "${TAG}_action_content_view"
 
     const val PROGRESS_BAR_INTERVAL = 50L
-
-    const val UNKNOWN = MediaStore.UNKNOWN_STRING
 
 }

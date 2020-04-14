@@ -15,9 +15,9 @@ import dev.olog.presentation.main.MainActivity
 import dev.olog.feature.presentation.base.palette.ImageProcessorResult
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import dev.olog.intents.AppConstants
+import dev.olog.core.constants.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
+import dev.olog.core.constants.MusicServiceAction
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {

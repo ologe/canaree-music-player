@@ -1,10 +1,10 @@
 package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
+import android.provider.MediaStore
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.domain.MediaId
-import dev.olog.intents.AppConstants
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
@@ -77,7 +77,7 @@ class SetRingtoneDialog : BaseDialog() {
     private fun generateItemDescription(): String{
         var title = getArgument<String>(ARGUMENTS_TITLE)
         val artist = getArgument<String>(ARGUMENTS_ARTIST)
-        if (artist != AppConstants.UNKNOWN){
+        if (artist != MediaStore.UNKNOWN_STRING){
             title += " $artist"
         }
         return title

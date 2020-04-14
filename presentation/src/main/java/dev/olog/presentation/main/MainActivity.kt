@@ -22,9 +22,9 @@ import dev.olog.feature.presentation.base.activity.SharedViewModel
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.intents.AppConstants
+import dev.olog.core.constants.AppConstants
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
+import dev.olog.core.constants.MusicServiceAction
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation
 import dev.olog.feature.presentation.base.activity.OnPermissionChanged

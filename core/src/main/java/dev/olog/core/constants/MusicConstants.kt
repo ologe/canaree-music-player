@@ -1,4 +1,4 @@
-package dev.olog.intents
+package dev.olog.core.constants
 
 object MusicConstants {
 

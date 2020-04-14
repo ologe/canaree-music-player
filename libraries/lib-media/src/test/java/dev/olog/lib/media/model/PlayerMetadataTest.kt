@@ -2,10 +2,10 @@ package dev.olog.lib.media.model
 
 import android.support.v4.media.MediaMetadataCompat.*
 import dev.olog.domain.MediaId
-import dev.olog.intents.MusicConstants.IS_PODCAST
-import dev.olog.intents.MusicConstants.PATH
-import dev.olog.intents.MusicConstants.SKIP_NEXT
-import dev.olog.intents.MusicConstants.SKIP_PREVIOUS
+import dev.olog.core.constants.MusicConstants.IS_PODCAST
+import dev.olog.core.constants.MusicConstants.PATH
+import dev.olog.core.constants.MusicConstants.SKIP_NEXT
+import dev.olog.core.constants.MusicConstants.SKIP_PREVIOUS
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.extensions.putBoolean
 import org.junit.Assert.assertEquals

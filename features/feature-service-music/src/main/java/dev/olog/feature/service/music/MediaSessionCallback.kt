@@ -13,7 +13,7 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.core.dagger.ServiceLifecycle
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.core.constants.MusicServiceCustomAction
 import dev.olog.feature.service.music.interfaces.IPlayer
 import dev.olog.feature.service.music.interfaces.IQueue
 import dev.olog.feature.service.music.model.PlayerMediaEntity

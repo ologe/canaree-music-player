@@ -11,8 +11,8 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.intents.Classes
-import dev.olog.intents.MusicServiceAction
-import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.core.constants.MusicServiceAction
+import dev.olog.core.constants.MusicServiceCustomAction
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.withContext
 
