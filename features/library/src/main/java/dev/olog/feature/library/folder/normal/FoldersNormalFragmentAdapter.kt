@@ -1,10 +1,7 @@
 package dev.olog.feature.library.folder.normal
 
 import dev.olog.core.extensions.findActivity
-import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableAlbum
-import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.feature.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.toDomain
@@ -19,10 +16,12 @@ internal class FoldersNormalFragmentAdapter(
         viewHolder.setOnClickListener(this) { item, _, view ->
             navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
         }
-        // TODO elevate
+        viewHolder.elevateAlbumOnTouch() // TODO span 1
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableAlbum, position: Int) {
+        holder.itemView.transitionName = "folders ${item.mediaId}"
+
         holder.itemView.apply {
             // TODO load song image if span is 1
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())

@@ -1,10 +1,7 @@
 package dev.olog.feature.library.genre
 
 import dev.olog.core.extensions.findActivity
-import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableAlbum
-import dev.olog.feature.presentation.base.adapter.ObservableAdapter
-import dev.olog.feature.presentation.base.adapter.setOnClickListener
+import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.toDomain
@@ -19,10 +16,12 @@ internal class GenresFragmentAdapter(
         viewHolder.setOnClickListener(this) { item, _, view ->
             navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
         }
-        // TODO elevate
+        viewHolder.elevateSongOnTouch()
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableAlbum, position: Int) {
+        holder.itemView.transitionName = "genre ${item.mediaId}"
+
         holder.itemView.apply {
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
             firstText.text = item.title

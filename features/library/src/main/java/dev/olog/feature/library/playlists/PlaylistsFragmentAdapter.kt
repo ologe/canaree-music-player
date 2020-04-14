@@ -46,7 +46,6 @@ internal class PlaylistsFragmentAdapter (
                 viewHolder.elevateSongOnTouch()
             }
         }
-        // TODO elevate
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
