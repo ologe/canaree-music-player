@@ -75,7 +75,7 @@ internal abstract class BaseNavigator {
         return "$fragmentTag$counter"
     }
 
-    fun allowed(): Boolean {
+    private fun allowed(): Boolean {
         val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD
         lastRequest = System.currentTimeMillis()
         return allowed
