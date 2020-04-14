@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="default_list_margin_horizontal">8dp</dimen>
+    <dimen name="default_list_margin_horizontal">12dp</dimen>
     <dimen name="default_list_margin_vertical">@dimen/default_list_margin_horizontal</dimen>
 
 </resources>
