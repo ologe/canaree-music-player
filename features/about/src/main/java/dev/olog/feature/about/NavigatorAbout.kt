@@ -15,6 +15,8 @@ import dev.olog.feature.about.translation.TranslationsFragment
 import dev.olog.shared.android.extensions.isIntentSafe
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.presentation.base.utils.PlayStoreUtils
+import dev.olog.navigation.transition.setupEnterSharedAxisAnimation
+import dev.olog.navigation.transition.setupExitSharedAxisAnimation
 import dev.olog.shared.android.extensions.colorSurface
 import saschpe.android.customtabs.CustomTabsHelper
 import javax.inject.Inject
@@ -27,12 +29,10 @@ internal class NavigatorAbout @Inject constructor(
     fun toLicensesFragment(activity: FragmentActivity) {
 
         val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
-        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        current.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         val fragment = LicensesFragment()
-        fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        fragment.setupEnterSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, LicensesFragment.TAG)
@@ -85,12 +85,10 @@ internal class NavigatorAbout @Inject constructor(
 
     fun toSpecialThanksFragment(activity: FragmentActivity) {
         val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
-        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        current.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         val fragment = SpecialThanksFragment()
-        fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        fragment.setupEnterSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, SpecialThanksFragment.TAG)
@@ -134,12 +132,10 @@ internal class NavigatorAbout @Inject constructor(
 
     fun toTranslations(activity: FragmentActivity) {
         val current = activity.supportFragmentManager.findFragmentByTag(AboutFragment.TAG)!!
-        current.exitTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        current.reenterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        current.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         val fragment = TranslationsFragment()
-        fragment.enterTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, true)
-        fragment.returnTransition = MaterialSharedAxis.create(activity, MaterialSharedAxis.X, false)
+        fragment.setupEnterSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         activity.supportFragmentManager.commit {
             replace(R.id.fragmentContainer, fragment, TranslationsFragment.TAG)
