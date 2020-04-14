@@ -24,6 +24,7 @@
 
 
     <style name="Album.MainText">
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/item_album_title</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:maxLines">2</item>
@@ -32,6 +33,7 @@
     </style>
 
     <style name="Album.SecondaryText">
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/item_album_subtitle</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="android:maxLines">1</item>
