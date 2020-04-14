@@ -1,24 +1,26 @@
 package dev.olog.feature.app.shortcuts
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import dev.olog.shared.coroutines.fireAndForget
+import dev.olog.core.constants.MusicServiceAction
+import dev.olog.core.constants.MusicServiceCustomAction
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.getCachedBitmap
-import dev.olog.intents.Classes
-import dev.olog.core.constants.MusicServiceAction
-import dev.olog.core.constants.MusicServiceCustomAction
+import dev.olog.navigation.screens.Activities
+import dev.olog.shared.coroutines.fireAndForget
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.withContext
 
 class AppShortcutsImp(
     private val context: Context,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
 ) {
 
     init {
@@ -34,7 +36,9 @@ class AppShortcutsImp(
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
             GlobalScope.fireAndForget {
-                val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
+                // TODO show message
+                val clazz = activities[Activities.MAIN] ?: return@fireAndForget
+                val intent = Intent(context, clazz)
                 intent.action = Shortcuts.DETAIL
                 intent.putExtra(Shortcuts.DETAIL_EXTRA_ID, mediaId.toString())
 
@@ -118,25 +122,29 @@ class AppShortcutsImp(
     }
 
     private fun createSearchIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_MAIN))
+        val clazz = activities[Activities.MAIN] ?: TODO("show message")
+        val intent = Intent(context, clazz)
         intent.action = Shortcuts.SEARCH
         return intent
     }
 
     private fun createPlayIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
+        val clazz = activities[Activities.SHORTCUTS] ?: TODO("show message")
+        val intent = Intent(context, clazz)
         intent.action = MusicServiceAction.PLAY.name
         return intent
     }
 
     private fun createShuffleIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_SHORTCUTS))
+        val clazz = activities[Activities.SHORTCUTS] ?: TODO("show message")
+        val intent = Intent(context, clazz)
         intent.action = MusicServiceCustomAction.SHUFFLE.name
         return intent
     }
 
     private fun createPlaylistChooserIntent(): Intent {
-        val intent = Intent(context, Class.forName(Classes.ACTIVITY_PLAYLIST_CHOOSER))
+        val clazz = activities[Activities.PLAYLIST_CHOOSER] ?: TODO("show message")
+        val intent = Intent(context, clazz)
         intent.action = Shortcuts.PLAYLIST_CHOOSER
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         return intent

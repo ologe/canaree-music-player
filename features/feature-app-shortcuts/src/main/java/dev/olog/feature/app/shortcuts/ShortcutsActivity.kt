@@ -1,13 +1,18 @@
 package dev.olog.feature.app.shortcuts
 
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import dev.olog.intents.Classes
+import dagger.android.support.DaggerAppCompatActivity
+import dev.olog.navigation.screens.Services
+import javax.inject.Inject
 
-class ShortcutsActivity : AppCompatActivity() {
+class ShortcutsActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    lateinit var services: Map<Services, @JvmSuppressWildcards Class<out Service>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +28,8 @@ class ShortcutsActivity : AppCompatActivity() {
         val action = intent.action ?: return
 
         // forwards action to music service
-        val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
+        val clazz = services[Services.MUSIC] ?: TODO("message")
+        val serviceIntent = Intent(this, clazz)
         serviceIntent.action = action
         ContextCompat.startForegroundService(this, serviceIntent)
     }
