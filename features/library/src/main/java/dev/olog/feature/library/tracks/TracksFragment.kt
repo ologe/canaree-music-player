@@ -49,7 +49,7 @@ internal class TracksFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val scrollableLayoutId = if (isPodcast) {
-            R.layout.item_podcast
+            R.layout.item_track_podcast
         } else {
             R.layout.item_track
         }

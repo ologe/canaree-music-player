@@ -65,10 +65,10 @@ class HomeFragment : BaseFragment(), SetupNestedList {
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
         when (layoutId) {
-            R.layout.item_tab_last_played_album_horizontal_list -> setupHorizontalList(
+            R.layout.item_home_last_played_horizontal_list -> setupHorizontalList(
                 recyclerView, lastPlayedAdapter
             )
-            R.layout.item_tab_new_album_horizontal_list -> setupHorizontalList(
+            R.layout.item_home_new_album_horizontal_list -> setupHorizontalList(
                 recyclerView, recentlyAddedAdapter
             )
         }

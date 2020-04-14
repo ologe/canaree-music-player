@@ -15,7 +15,7 @@ import dev.olog.shared.throwNotHandled
 import kotlinx.android.synthetic.main.item_tab_album.view.*
 import kotlinx.android.synthetic.main.item_tab_album.view.firstText
 import kotlinx.android.synthetic.main.item_tab_album.view.secondText
-import kotlinx.android.synthetic.main.item_tab_header.view.*
+import kotlinx.android.synthetic.main.item_home_header.view.*
 import kotlinx.android.synthetic.main.item_track.view.*
 
 internal class PlaylistsFragmentAdapter (
@@ -71,7 +71,7 @@ internal class PlaylistsFragmentAdapter (
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        if (holder.itemViewType == R.layout.item_tab_header){
+        if (holder.itemViewType == R.layout.item_home_header){
             holder.itemView.title.text = item.title
         }
     }

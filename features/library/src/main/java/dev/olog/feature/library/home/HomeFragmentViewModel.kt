@@ -41,30 +41,30 @@ internal class HomeFragmentViewModel @Inject constructor(
             .mapListItem { it.toTabLastPlayedDisplayableItem() }
 
     private val homeHeader = DisplayableHeader(
-        R.layout.item_home_header,
+        R.layout.item_home,
         PresentationId.headerId("home header"),
         ""
     )
 
     private val lastPlayedAlbumHeaders = listOf(
         DisplayableHeader(
-            R.layout.item_tab_header,
+            R.layout.item_home_header,
             PresentationId.headerId("recently played albums"),
             context.getString(R.string.tab_recent_played)
         ),
         DisplayableNestedListPlaceholder(
-            R.layout.item_tab_last_played_album_horizontal_list,
+            R.layout.item_home_last_played_horizontal_list,
             PresentationId.headerId("recently played albums list")
         )
     )
 
     private val recentlyAddedAlbumsHeaders = listOf(
         DisplayableHeader(
-            R.layout.item_tab_header, PresentationId.headerId("recently added albums"),
+            R.layout.item_home_header, PresentationId.headerId("recently added albums"),
             context.getString(R.string.tab_recent_added)
         ),
         DisplayableNestedListPlaceholder(
-            R.layout.item_tab_new_album_horizontal_list,
+            R.layout.item_home_new_album_horizontal_list,
             PresentationId.headerId("recently added albums list")
         )
     )

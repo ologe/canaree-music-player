@@ -15,7 +15,7 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
-import kotlinx.android.synthetic.main.item_podcast.view.*
+import kotlinx.android.synthetic.main.item_track_podcast.view.*
 import kotlinx.android.synthetic.main.item_track.view.*
 import kotlinx.android.synthetic.main.item_track.view.firstText
 import kotlinx.android.synthetic.main.item_track.view.isPlaying
@@ -44,7 +44,7 @@ internal class TracksFragmentAdapter(
                 }
             }
             R.layout.item_track,
-            R.layout.item_podcast -> {
+            R.layout.item_track_podcast -> {
                 viewHolder.setOnClickListener(this) { item, _, view ->
                     val sort = viewModel.getAllTracksSortOrder()
                     mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, sort)
@@ -104,7 +104,7 @@ internal class TracksFragmentAdapter(
     }
 
     private fun RecyclerView.ViewHolder.isPodcast(): Boolean {
-        return itemViewType == R.layout.item_podcast
+        return itemViewType == R.layout.item_track_podcast
     }
 
     @SuppressLint("SetTextI18n")

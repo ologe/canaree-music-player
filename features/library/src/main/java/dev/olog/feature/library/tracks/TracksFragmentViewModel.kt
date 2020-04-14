@@ -50,7 +50,7 @@ internal class TracksFragmentViewModel @Inject constructor(
 
     private fun Song.toTabDisplayableItem(): DisplayableItem {
         return DisplayableTrack(
-            type = if (isPodcast) R.layout.item_podcast else R.layout.item_track,
+            type = if (isPodcast) R.layout.item_track_podcast else R.layout.item_track,
             mediaId = presentationId,
             title = title,
             artist = artist,

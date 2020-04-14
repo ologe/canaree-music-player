@@ -16,7 +16,7 @@ import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.screens.BottomNavigationPage
-import kotlinx.android.synthetic.main.item_tab_header.view.*
+import kotlinx.android.synthetic.main.item_home_header.view.*
 
 internal class HomeFragmentAdapter(
     private val navigator: Navigator,
@@ -26,12 +26,12 @@ internal class HomeFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
-            R.layout.item_tab_last_played_album_horizontal_list,
-            R.layout.item_tab_new_album_horizontal_list -> {
+            R.layout.item_home_last_played_horizontal_list,
+            R.layout.item_home_new_album_horizontal_list -> {
                 val view = viewHolder.itemView as RecyclerView
                 setupNestedList.setupNestedList(viewType, view)
             }
-            R.layout.item_home_header -> {
+            R.layout.item_home -> {
                 viewHolder.setOnClickListener(R.id.tracks,this) { _, _, _ ->
                     bottomNavigator.navigate(BottomNavigationPage.LIBRARY)
                 }
@@ -66,7 +66,7 @@ internal class HomeFragmentAdapter(
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
-        if (holder.itemViewType == R.layout.item_tab_header){
+        if (holder.itemViewType == R.layout.item_home_header){
             holder.itemView.title.text = item.title
         }
     }
