@@ -9,7 +9,7 @@
     <dimen name="item_song_subtitle">11dp</dimen>
 
     <!--item tab album last played-->
-    <dimen name="item_tab_album_last_player_width">100dp</dimen>
+    <dimen name="item_tab_album_last_player_width">165dp</dimen>
 
     <!--item album-->
     <dimen name="item_album_title">14dp</dimen>

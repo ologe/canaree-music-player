@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--item tab album last played-->
-    <dimen name="item_tab_album_last_player_width">120dp</dimen>
-
     <!--item detail main header-->
     <dimen name="item_detail_main_header_title_size">40dp</dimen>
     <dimen name="item_detail_main_header_subtitle_size">15dp</dimen>
