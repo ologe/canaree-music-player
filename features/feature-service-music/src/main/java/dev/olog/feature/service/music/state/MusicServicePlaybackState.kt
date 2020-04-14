@@ -1,16 +1,17 @@
 package dev.olog.feature.service.music.state
 
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.core.constants.WidgetConstants
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.intents.Classes
-import dev.olog.navigation.param.WidgetConstants
 import dev.olog.feature.service.music.model.PositionInQueue
 import dev.olog.feature.service.music.model.SkipType
+import dev.olog.navigation.screens.Widgets
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import timber.log.Timber
@@ -20,7 +21,8 @@ import javax.inject.Inject
 internal class MusicServicePlaybackState @Inject constructor(
     private val context: Context,
     private val mediaSession: MediaSessionCompat,
-    private val musicPreferencesUseCase: MusicPreferencesGateway
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
 
 ) {
 
@@ -144,7 +146,7 @@ internal class MusicServicePlaybackState @Inject constructor(
 
     private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long) {
         Timber.v("$TAG notify widgets state changed isPlaying=$isPlaying, bookmark=$bookmark")
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
@@ -160,7 +162,7 @@ internal class MusicServicePlaybackState @Inject constructor(
 
     private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean) {
         Timber.v("$TAG notify widgets actions changed showPrevious=$showPrevious, showNext=$showNext")
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

@@ -1,6 +1,7 @@
 package dev.olog.feature.service.music.state
 
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
@@ -14,13 +15,13 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.GlideUtils
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.core.dagger.ServiceLifecycle
-import dev.olog.intents.Classes
 import dev.olog.core.constants.MusicConstants
 import dev.olog.core.constants.WidgetConstants
 import dev.olog.feature.service.music.interfaces.IPlayerLifecycle
 import dev.olog.feature.service.music.model.MediaEntity
 import dev.olog.feature.service.music.model.MetadataEntity
 import dev.olog.feature.service.music.model.SkipType
+import dev.olog.navigation.screens.Widgets
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean
 import kotlinx.coroutines.*
@@ -36,7 +37,8 @@ internal class MusicServiceMetadata @Inject constructor(
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
     musicPrefs: MusicPreferencesGateway,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
 ) : IPlayerLifecycle.Listener {
 
     companion object {
@@ -101,7 +103,7 @@ internal class MusicServiceMetadata @Inject constructor(
     private fun notifyWidgets(entity: MediaEntity) {
         Timber.v("$TAG notify widgets ${entity.title}")
 
-        for (clazz in Classes.widgets) {
+        for (clazz in widgets.values) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {

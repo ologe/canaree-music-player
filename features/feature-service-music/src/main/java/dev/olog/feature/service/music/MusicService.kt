@@ -1,5 +1,6 @@
 package dev.olog.feature.service.music
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Intent
@@ -15,7 +16,6 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.intents.Classes
 import dev.olog.core.constants.MusicServiceCustomAction
 import dev.olog.feature.service.music.helper.CarHelper
 import dev.olog.feature.service.music.helper.CarHelper.CONTENT_STYLE_BROWSABLE_HINT
@@ -28,6 +28,7 @@ import dev.olog.feature.service.music.helper.WearHelper
 import dev.olog.feature.service.music.notification.MusicNotificationManager
 import dev.olog.feature.service.music.scrobbling.LastFmScrobbling
 import dev.olog.feature.service.music.state.MusicServiceMetadata
+import dev.olog.navigation.screens.Activities
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,6 +61,8 @@ class MusicService : BaseMusicService() {
     internal lateinit var noisy: Noisy
     @Inject
     internal lateinit var schedulers: Schedulers
+    @Inject
+    lateinit var activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -211,7 +214,7 @@ class MusicService : BaseMusicService() {
     private fun buildSessionActivityPendingIntent(): PendingIntent {
         return PendingIntent.getActivity(
             this, 0,
-            Intent(this, Class.forName(Classes.ACTIVITY_MAIN)), PendingIntent.FLAG_CANCEL_CURRENT
+            Intent(this, activities[Activities.MAIN]), PendingIntent.FLAG_CANCEL_CURRENT
         )
     }
 }

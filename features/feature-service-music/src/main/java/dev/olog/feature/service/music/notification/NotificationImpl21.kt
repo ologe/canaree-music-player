@@ -1,10 +1,7 @@
 package dev.olog.feature.service.music.notification
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -16,19 +13,19 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.shared.coroutines.autoDisposeJob
+import dev.olog.core.constants.AppConstants
+import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.SPOTIFY_TRACK
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.lib.image.loader.getBitmap
-import dev.olog.core.dagger.ServiceLifecycle
-import dev.olog.core.constants.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.feature.service.music.R
 import dev.olog.feature.service.music.interfaces.INotification
 import dev.olog.feature.service.music.model.MusicNotificationState
+import dev.olog.lib.image.loader.getBitmap
+import dev.olog.navigation.screens.Activities
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.utils.assertBackgroundThread
+import dev.olog.shared.coroutines.autoDisposeJob
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
@@ -38,7 +35,8 @@ internal open class NotificationImpl21 @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     protected val service: Service,
     private val mediaSession: MediaSessionCompat,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
 ) : INotification, DefaultLifecycleObserver {
 
     protected val notificationManager by lazy {
@@ -172,7 +170,7 @@ internal open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildContentIntent(): PendingIntent {
-        val intent = Intent(service, Class.forName(Classes.ACTIVITY_MAIN))
+        val intent = Intent(service, activities[Activities.MAIN])
         intent.action = AppConstants.ACTION_CONTENT_VIEW
         return intent.asActivityPendingIntent(service)
     }
