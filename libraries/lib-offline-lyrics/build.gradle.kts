@@ -16,7 +16,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
-    implementation(project(":intents"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

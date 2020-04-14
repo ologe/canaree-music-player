@@ -17,7 +17,6 @@ dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared"))
     implementation(project(":prefs-keys"))
-    implementation(project(":intents"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)

@@ -1,6 +1,7 @@
 plugins {
     id(BuildPlugins.androidLibrary)
     id(BuildPlugins.kotlinAndroid)
+    id(BuildPlugins.kotlinKapt)
 }
 
 android {
@@ -11,13 +12,19 @@ dependencies {
     lintChecks(project(":lint"))
 
     implementation(project(":core"))
+    implementation(project(":navigation"))
     implementation(project(":domain"))
     implementation(project(":libraries:lib-image-loader"))
-    implementation(project(":intents"))
     implementation(project(":shared"))
 
     implementation(Libraries.kotlin)
     implementation(Libraries.Coroutines.core)
+
+    implementation(Libraries.Dagger.core)
+    kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.Dagger.android)
+    implementation(Libraries.Dagger.androidSupport)
+    kapt(Libraries.Dagger.androidKapt)
 
     implementation(Libraries.X.core)
     implementation(Libraries.X.appcompat)

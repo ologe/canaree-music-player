@@ -28,7 +28,6 @@ dependencies {
     implementation(project(":prefs-keys"))
     implementation(project(":libraries:lib-media"))
     implementation(project(":libraries:lib-offline-lyrics"))
-    implementation(project(":intents"))
     implementation(project(":shared"))
     implementation(project(":libraries:lib-equalizer"))
     implementation(project(":libraries:lib-audio-tagger"))
