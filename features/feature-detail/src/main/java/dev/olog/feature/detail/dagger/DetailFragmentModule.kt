@@ -12,7 +12,7 @@ import dev.olog.feature.presentation.base.dagger.ViewModelKey
 import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.navigation.Params
+import dev.olog.navigation.param.Params
 
 @Module
 internal abstract class DetailFragmentModule {

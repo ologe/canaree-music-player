@@ -1,4 +1,4 @@
-package dev.olog.navigation
+package dev.olog.navigation.param
 
 object Params {
 

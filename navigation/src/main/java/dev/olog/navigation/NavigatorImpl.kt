@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
+import dev.olog.navigation.extensions.findFirstVisibleFragment
+import dev.olog.navigation.param.Params
 import dev.olog.navigation.screens.FragmentScreen
 import dev.olog.navigation.transition.setupEnterFadeAnimation
 import dev.olog.navigation.transition.setupSharedAnimation
@@ -62,7 +64,8 @@ internal class NavigatorImpl @Inject constructor(
             Params.CONTAINER_TRANSITION_NAME to (view?.transitionName ?: "")
         )
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         if (view == null) {
             visibleFragment?.setupExitFadeAnimation(activity)
         } else {
@@ -85,7 +88,8 @@ internal class NavigatorImpl @Inject constructor(
     override fun toSettings(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.SETTINGS]?.get()
         val tag = FragmentScreen.SETTINGS.tag
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         current!!.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {
@@ -98,7 +102,8 @@ internal class NavigatorImpl @Inject constructor(
     override fun toAbout(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.ABOUT]?.get()
         val tag = FragmentScreen.ABOUT.tag
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         current!!.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
-import dev.olog.domain.MediaId
 import dev.olog.feature.detail.adapter.*
 import dev.olog.feature.detail.model.DetailValues
 import dev.olog.feature.presentation.base.CanChangeStatusBarColor
@@ -26,7 +25,7 @@ import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.feature.presentation.base.transition.FastAutoTransition
 import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
-import dev.olog.navigation.Params
+import dev.olog.navigation.param.Params
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.shared.android.extensions.colorControlNormal

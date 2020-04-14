@@ -9,7 +9,7 @@ import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.navigation.findFirstVisibleFragment
+import dev.olog.navigation.extensions.findFirstVisibleFragment
 import dev.olog.navigation.transition.setupSharedAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
 import dev.olog.presentation.R
@@ -140,7 +140,8 @@ internal class NavigatorImpl @Inject internal constructor(
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
 
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         current?.setupExitSharedAnimation()
         current?.reenterTransition = MaterialFadeThrough.create()
 

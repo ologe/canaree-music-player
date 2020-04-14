@@ -1,4 +1,4 @@
-package dev.olog.navigation
+package dev.olog.navigation.extensions
 
 import android.content.Context
 import android.graphics.Color

@@ -3,6 +3,7 @@ package dev.olog.navigation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.transition.MaterialSharedAxis
+import dev.olog.navigation.extensions.findFirstVisibleFragment
 import dev.olog.navigation.screens.FragmentScreen
 import dev.olog.navigation.transition.setupEnterSharedAxisAnimation
 import dev.olog.navigation.transition.setupExitSharedAxisAnimation
@@ -17,7 +18,8 @@ internal class LibraryNavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.ALBUMS]?.get()
         val tag = FragmentScreen.ALBUMS.tag
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         visibleFragment?.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         replaceFragment(activity, fragment, tag) {
@@ -30,7 +32,8 @@ internal class LibraryNavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.ARTISTS]?.get()
         val tag = FragmentScreen.ARTISTS.tag
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         visibleFragment?.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         replaceFragment(activity, fragment, tag){
@@ -43,7 +46,8 @@ internal class LibraryNavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.FOLDERS]?.get()
         val tag = FragmentScreen.FOLDERS.tag
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         visibleFragment?.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         replaceFragment(activity, fragment, tag) {
@@ -56,7 +60,8 @@ internal class LibraryNavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.GENRES]?.get()
         val tag = FragmentScreen.GENRES.tag
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment =
+            findFirstVisibleFragment(activity.supportFragmentManager)
         visibleFragment?.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
 
         replaceFragment(activity, fragment, tag) {

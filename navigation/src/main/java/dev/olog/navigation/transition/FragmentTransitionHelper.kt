@@ -7,7 +7,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.navigation.R
-import dev.olog.navigation.themeAttributeToColor
+import dev.olog.navigation.extensions.themeAttributeToColor
 
 fun Fragment.setupExitFadeAnimation(context: Context) {
     val transition = MaterialFadeThrough.create().apply {

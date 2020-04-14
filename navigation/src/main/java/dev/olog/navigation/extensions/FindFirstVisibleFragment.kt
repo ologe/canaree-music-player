@@ -1,4 +1,4 @@
-package dev.olog.navigation
+package dev.olog.navigation.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
