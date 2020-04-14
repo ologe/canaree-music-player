@@ -49,6 +49,6 @@
     </style>
 
     <dimen name="smallShuffleSize">30dp</dimen>
-    <dimen name="item_album_margin">5dp</dimen>
+    <dimen name="item_album_margin">8dp</dimen>
 
 </resources>
