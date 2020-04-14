@@ -89,7 +89,7 @@ object Libraries {
         internal const val android_x_media = "1.1.0"
         internal const val android_x_recycler = "1.1.0"
         internal const val android_x_browser = "1.2.0"
-        internal const val android_x_material = "1.2.0-alpha05"
+        internal const val android_x_material = "1.2.0-alpha06"
         internal const val android_x_preference = "1.1.0"
         internal const val android_x_palette = "1.0.0"
         internal const val android_x_annotations = "1.1.0"
