@@ -2,6 +2,8 @@ package dev.olog.flavor
 
 import dagger.Module
 import dev.olog.feature.about.dagger.FeatureAboutDagger
+import dev.olog.feature.app.shortcuts.FeatureAppShortcutsDagger
+import dev.olog.feature.app.widgets.dagger.FeatureAppWidgetsDagger
 import dev.olog.feature.detail.dagger.FeatureDetailDagger
 import dev.olog.feature.edit.dagger.FeatureEditDagger
 import dev.olog.feature.equalizer.dagger.FeatureEqualizerDagger
@@ -33,7 +35,9 @@ import dev.olog.presentation.playlist.chooser.di.FeaturePlaylistChooserDagger
 		FeatureMusicServiceDagger.AppModule::class,
 		FeatureSettingsDagger.AppModule::class,
 		FeaturePlaylistChooserDagger.AppModule::class,
-		FeatureMainActivityDagger.AppModule::class
+		FeatureMainActivityDagger.AppModule::class,
+		FeatureAppShortcutsDagger.AppModule::class,
+		FeatureAppWidgetsDagger.AppModule::class
     ]
 )
 class FeaturesModule

@@ -15,7 +15,6 @@ dependencies {
     implementation(Libraries.Dagger.core)
 
     api(project(":features:feature-presentation-base"))
-    api(project(":features:feature-app-shortcuts"))
     api(project(":features:feature-library"))
     api(project(":features:feature-search"))
     api(project(":features:feature-player"))
