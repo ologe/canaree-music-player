@@ -1,5 +1,6 @@
 package dev.olog.presentation.main
 
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,7 +24,6 @@ import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.core.constants.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.core.constants.MusicServiceAction
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.HasBottomNavigation
@@ -31,6 +31,7 @@ import dev.olog.feature.presentation.base.activity.OnPermissionChanged
 import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.navigation.Navigator
+import dev.olog.navigation.screens.Services
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
@@ -71,6 +72,9 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
+
+    @Inject
+    lateinit var services: Map<Services, @JvmSuppressWildcards Class<out Service>>
 
     private lateinit var scrollHelper: SuperCerealScrollHelper
 
@@ -146,7 +150,7 @@ class MainActivity : MusicGlueActivity(),
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
+                val serviceIntent = Intent(this, services[Services.MUSIC])
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
@@ -159,7 +163,7 @@ class MainActivity : MusicGlueActivity(),
                 }
             }
             Intent.ACTION_VIEW -> {
-                val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
+                val serviceIntent = Intent(this, services[Services.MUSIC])
                 serviceIntent.action = MusicServiceAction.PLAY_URI.name
                 serviceIntent.data = intent.data
                 ContextCompat.startForegroundService(this, serviceIntent)
