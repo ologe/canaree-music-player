@@ -56,7 +56,7 @@ internal abstract class BaseNavigator {
 
         val rootView = activity.findViewById<View>(android.R.id.content)
 
-        val snackBar = Snackbar.make(rootView, "Module not plugged", Snackbar.LENGTH_LONG)
+        val snackBar = Snackbar.make(rootView, "Module not plugged", Snackbar.LENGTH_SHORT)
         snackBar.view.setBackgroundColor(Color.parseColor("#bf485a"))
         snackBar.show()
 
