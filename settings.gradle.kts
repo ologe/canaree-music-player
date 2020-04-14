@@ -34,6 +34,7 @@ include(":features:feature-about")
 include(":features:feature-onboarding")
 include(":features:feature-equalizer")
 include(":features:feature-edit")
+include(":features:feature-app-widgets")
 include(":presentation")
 
 // data
