@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp"
+    android:paddingStart="@dimen/item_song_cover_margin_start"
+    android:layout_marginBottom="@dimen/item_header_bottom_inset"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <dev.olog.feature.presentation.base.widget.CanareeButton
+        android:id="@+id/play"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/shuffle"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="@dimen/canaree_button_margin"
+        android:text="@string/common_play"
+        android:src="@drawable/vd_play"
+        style="@style/CanareeButton"/>
+
+    <dev.olog.feature.presentation.base.widget.CanareeButton
+        android:id="@+id/shuffle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/play"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:text="@string/common_shuffle"
+        android:src="@drawable/vd_shuffle"
+        android:drawablePadding="14dp"
+        style="@style/CanareeButton"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -6,39 +6,42 @@
     android:layout_height="match_parent"
     android:background="?android:colorBackground">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/default_list_margin_horizontal"
+        android:paddingTop="@dimen/default_list_margin_vertical"
+        android:paddingEnd="@dimen/tab_margin_end"
+        android:paddingBottom="@dimen/default_list_margin_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        tools:listitem="@layout/item_track"
+        android:scrollbars="none"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         android:background="?colorSurface"
-        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBar">
 
         <TextView
-            android:id="@+id/tracks"
+            android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:gravity="center"
-            android:text="@string/common_tracks"
+            android:text="@string/common_library"
             android:textAppearance="@style/Header.Main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/more" />
-
-        <TextView
-            android:id="@+id/podcasts"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="12dp"
-            android:gravity="center"
-            android:text="@string/common_podcasts"
-            android:textColor="?android:textColorSecondary"
-            android:textAppearance="@style/Header.Main"
-            app:layout_constraintBottom_toBottomOf="@+id/tracks"
-            app:layout_constraintStart_toEndOf="@+id/tracks"
             app:layout_constraintTop_toTopOf="@+id/more" />
 
         <ImageButton
@@ -69,59 +72,38 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/tab"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:background="?colorSurface"
-        android:elevation="@dimen/toolbar_elevation"/>
-
     <dev.olog.feature.presentation.base.widget.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="0dp"
+    <dev.olog.feature.presentation.base.widget.fastscroller.RxWaveSideBarView
+        android:id="@+id/sidebar"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar" />
+        app:layout_constraintHeight_max="420dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_marginBottom="0dp"
+        tools:layout_marginTop="0dp" />
 
     <TextView
-        android:id="@+id/pagerEmptyState"
+        android:id="@+id/emptyStateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/category_no_tab_visible"
-        android:visibility="gone"
+        android:layout_marginTop="16dp"
         style="@style/EmptyState"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/sharedFab"
-        android:transitionName="@string/create_playlist_shared"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="16dp"
-        app:srcCompat="@drawable/vd_add"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        android:text="@string/common_no_tracks"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
