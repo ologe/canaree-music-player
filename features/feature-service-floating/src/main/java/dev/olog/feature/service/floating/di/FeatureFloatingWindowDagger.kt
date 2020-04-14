@@ -1,7 +1,6 @@
 package dev.olog.feature.service.floating.di
 
-import android.content.Context
-import android.content.Intent
+import android.app.Service
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -11,8 +10,8 @@ import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
 import dev.olog.feature.service.floating.FloatingWindowService
-import dev.olog.navigation.dagger.NavigationIntentKey
-import dev.olog.navigation.screens.NavigationIntent
+import dev.olog.navigation.dagger.ServiceKey
+import dev.olog.navigation.screens.Services
 
 class FeatureFloatingWindowDagger {
 
@@ -37,9 +36,9 @@ class FeatureFloatingWindowDagger {
 
             @Provides
             @IntoMap
-            @NavigationIntentKey(NavigationIntent.SERVICE_FLOATING)
-            fun provideIntent(context: Context): Intent {
-                return Intent(context, FloatingWindowService::class.java)
+            @ServiceKey(Services.FLOATING)
+            fun provideService(): Class<out Service> {
+                return FloatingWindowService::class.java
             }
 
         }
