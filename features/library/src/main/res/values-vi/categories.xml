@@ -13,22 +13,4 @@
     </string-array>
 
 
-    <string-array name="tab_empty_state">
-        <item>Không có thư mục</item>
-        <item>Không có danh sách phát</item>
-        <item>@string/common_no_tracks</item>
-        <item>Không có album</item>
-        <item>Không có nhạc sĩ</item>
-        <item>Không có thể loại</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>Không có danh sách phát</item>
-        <item>Không có podcast</item>
-        <item>Không có người làm</item>
-    </string-array>
-
-
-
-
 </resources>

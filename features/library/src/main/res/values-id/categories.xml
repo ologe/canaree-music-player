@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tab_empty_state">
-        <item>Tidak ada Folder</item>
-        <item>Tidak ada daftar putar</item>
-        <item>@string/common_no_tracks</item>
-        <item>Tidak ada album</item>
-        <item>Tidak ada artis</item>
-        <item>Tidak ada aliran</item>
-    </string-array>
-    <string-array name="tab_empty_podcast">
-        <item>Tidak ada daftar putar</item>
-        <item>Tidak ada podcast</item>
-        <item>Tidak ada artis</item>
-    </string-array>
+
 
 </resources>

@@ -21,22 +21,5 @@
     <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
     <string name="category_podcast_authors" translatable="false">@string/common_podcast_authors</string>
 
-    <string-array name="tab_empty_state">
-        <item>No folders</item>
-        <item>No playlist</item>
-        <item>@string/common_no_tracks</item>
-        <item>No albums</item>
-        <item>No artists</item>
-        <item>No genres</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>No playlist</item>
-        <item>No podcasts</item>
-        <item>No artists</item>
-    </string-array>
-
-
-
 
 </resources>

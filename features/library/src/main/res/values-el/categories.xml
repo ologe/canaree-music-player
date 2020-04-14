@@ -13,21 +13,6 @@
     </string-array>
 
 
-    <string-array name="tab_empty_state">
-        <item>Δεν υπάρχουν φάκελοι</item>
-        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
-        <item>@string/common_no_tracks</item>
-        <item>Δεν υπάρχει άλμπουμ</item>
-        <item>Δεν υπάρχει καλλιτέχνης </item>
-        <item>Δεν υπάρχει είδος</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
-        <item>Δεν υπάρχει Podcast</item>
-        <item>Δεν υπάρχει καλλιτέχνης</item>
-    </string-array>
-
 
 
 
