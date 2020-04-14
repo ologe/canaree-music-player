@@ -11,9 +11,9 @@ import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.navigation.screens.FragmentScreen
-import dev.olog.navigation.transition.setupEnterAnimation
-import dev.olog.navigation.transition.setupEnterSharedAnimation
-import dev.olog.navigation.transition.setupExitAnimation
+import dev.olog.navigation.transition.setupEnterFadeAnimation
+import dev.olog.navigation.transition.setupSharedAnimation
+import dev.olog.navigation.transition.setupExitFadeAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
 import javax.inject.Inject
 import javax.inject.Provider
@@ -22,11 +22,13 @@ import javax.inject.Provider
 internal class NavigatorImpl @Inject constructor(
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
     bottomNavigator: BottomNavigatorImpl,
-    serviceNavigator: ServiceNavigatorImpl
+    serviceNavigator: ServiceNavigatorImpl,
+    libraryNavigator: LibraryNavigatorImpl
 ) : BaseNavigator(),
     Navigator,
     BottomNavigator by bottomNavigator,
-    ServiceNavigator by serviceNavigator {
+    ServiceNavigator by serviceNavigator,
+    LibraryNavigator by libraryNavigator {
 
     override fun toFirstAccess(activity: FragmentActivity) {
         val fragment = fragments[FragmentScreen.ONBOARDING]?.get()
@@ -62,7 +64,7 @@ internal class NavigatorImpl @Inject constructor(
 
         val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
         if (view == null) {
-            visibleFragment?.setupExitAnimation(activity)
+            visibleFragment?.setupExitFadeAnimation(activity)
         } else {
             visibleFragment?.setupExitSharedAnimation()
         }
@@ -71,9 +73,9 @@ internal class NavigatorImpl @Inject constructor(
             addToBackStack(tag)
 
             if (view == null) {
-                it.setupEnterAnimation(activity)
+                it.setupEnterFadeAnimation(activity)
             } else {
-                it.setupEnterSharedAnimation(activity)
+                it.setupSharedAnimation(activity)
                 addSharedElement(view, view.transitionName)
 
             }
@@ -84,10 +86,10 @@ internal class NavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.SETTINGS]?.get()
         val tag = FragmentScreen.SETTINGS.tag
         val current = findFirstVisibleFragment(activity.supportFragmentManager)
-        current!!.setupExitAnimation(activity)
+        current!!.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {
-            it.setupEnterAnimation(activity)
+            it.setupEnterFadeAnimation(activity)
             addToBackStack(tag)
         }
 
@@ -97,10 +99,10 @@ internal class NavigatorImpl @Inject constructor(
         val fragment = fragments[FragmentScreen.ABOUT]?.get()
         val tag = FragmentScreen.ABOUT.tag
         val current = findFirstVisibleFragment(activity.supportFragmentManager)
-        current!!.setupExitAnimation(activity)
+        current!!.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {
-            it.setupEnterAnimation(activity)
+            it.setupEnterFadeAnimation(activity)
             addToBackStack(tag)
         }
     }

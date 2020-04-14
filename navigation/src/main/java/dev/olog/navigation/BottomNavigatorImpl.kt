@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.navigation.screens.FragmentScreen
-import dev.olog.navigation.transition.setupEnterAnimation
-import dev.olog.navigation.transition.setupExitAnimation
+import dev.olog.navigation.transition.setupEnterFadeAnimation
+import dev.olog.navigation.transition.setupExitFadeAnimation
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -43,10 +43,10 @@ internal class BottomNavigatorImpl @Inject constructor(
         topFragment: Fragment,
         screen: FragmentScreen
     ) {
-        topFragment.setupExitAnimation(activity)
+        topFragment.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragments[screen]?.get(), screen.tag, forced = true) { fragment ->
-            fragment.setupEnterAnimation(activity)
+            fragment.setupEnterFadeAnimation(activity)
         }
     }
 
@@ -59,10 +59,10 @@ internal class BottomNavigatorImpl @Inject constructor(
             // don't reopen same page
             return
         }
-        topFragment?.setupExitAnimation(activity)
+        topFragment?.setupExitFadeAnimation(activity)
 
         replaceFragment(activity, fragments[screen]?.get(), screen.tag, forced = true) { fragment ->
-            topFragment?.let { fragment.setupEnterAnimation(activity) }
+            topFragment?.let { fragment.setupEnterFadeAnimation(activity) }
         }
     }
 

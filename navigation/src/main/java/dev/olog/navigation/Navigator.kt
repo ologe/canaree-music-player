@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 
-interface Navigator: BottomNavigator, ServiceNavigator {
+interface Navigator: BottomNavigator, ServiceNavigator, LibraryNavigator {
 
     companion object {
         const val REQUEST_CODE_HOVER_PERMISSION = 1000
