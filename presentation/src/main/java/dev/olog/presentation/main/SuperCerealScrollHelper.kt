@@ -1,29 +1,37 @@
 package dev.olog.presentation.main
 
 import android.view.View
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
+import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
 import dev.olog.presentation.R
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
 import dev.olog.scrollhelper.ScrollHelper
-import dev.olog.scrollhelper.ScrollType
-import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
 import dev.olog.navigation.screens.FragmentScreen
 
 class SuperCerealScrollHelper(
-    activity: FragmentActivity,
-    input: ScrollType
-) : ScrollHelper(activity, input, false, false, false) { // debug is very slow
+    private val activity: FragmentActivity
+) : ScrollHelper(activity, true, false) {
 
-    override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
-        super.applyInsetsToList(fragment, list, toolbar, tabLayout)
-        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true){
-            // apply only top padding
-            list.updatePadding(top = 0)
-        }
+    private val subFragments = listOf(
+        FragmentScreen.FOLDERS_NORMAL.tag,
+        FragmentScreen.FOLDERS_TREE.tag,
+        FragmentScreen.SETTINGS.tag
+    )
+
+    private val skipFragments = listOf(
+        OfflineLyricsFragment.TAG,
+        FragmentScreen.FOLDERS.tag
+    )
+
+//    override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
+//        super.applyInsetsToList(fragment, list, toolbar, tabLayout)
+//        if (fragment.tag?.startsWith(FragmentScreen.DETAIL.tag) == true){
+//             apply only top padding
+//            list.updatePadding(top = 0)
+//        }
 
 //        if (fragment is FolderTreeFragment){ TODO folder tree fragment has a viewpager tag
 //            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
@@ -35,67 +43,55 @@ class SuperCerealScrollHelper(
 //                }
 //            }
 //        }
+//    }
+
+    override fun findFab(fragment: Fragment): View? {
+        return fragment.requireView().findViewById(R.id.fab)
     }
 
-    override fun searchForFab(fragment: Fragment): View? {
-        return fragment.view?.findViewById(R.id.fab)
-    }
-
-    override fun searchForRecyclerView(fragment: Fragment): RecyclerView? {
-        var recyclerView = fragment.view?.findViewByIdNotRecursive<RecyclerView>(R.id.list)
+    override fun findRecyclerView(fragment: Fragment): RecyclerView? {
+        var recyclerView = fragment.requireView().findViewByIdNotRecursive<RecyclerView>(R.id.list)
         if (recyclerView == null && fragment.tag == FragmentScreen.SETTINGS.tag) {
             // preferences fragment has and internal list called `recycler_view`
-            recyclerView = fragment.view?.findViewById(R.id.recycler_view)
+            recyclerView = fragment.requireView().findViewByIdNotRecursive(R.id.recycler_view)
         }
         return recyclerView
     }
 
-    override fun searchForTabLayout(fragment: Fragment): View? {
-        val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
-                // search toolbar and tab layout in parent fragment
-                fragment.parentFragment?.view
-            }
-            else -> fragment.view
-        }
-        return view?.findViewByIdNotRecursive(R.id.tabLayout)
+    override fun findTabLayout(fragment: Fragment): View? {
+        return fragment.requireView().findViewByIdNotRecursive(R.id.tabLayout)
     }
 
-    override fun searchForToolbar(fragment: Fragment): View? {
+    override fun findToolbar(fragment: Fragment): View? {
         if (fragment.tag == FragmentScreen.QUEUE.tag){
             // for some reason when drag and drop in queue fragment, the queue became crazy
             return null
         }
-        val view : View? = when {
-            isViewPagerChildTag(fragment.tag) -> {
-                // search toolbar and tab layout in parent fragment
-                fragment.parentFragment?.view
-            }
-            fragment.tag == FragmentScreen.SETTINGS.tag -> fragment.parentFragment?.view
-            else -> fragment.view
+        val view = when (fragment.tag) {
+            in subFragments -> fragment.requireParentFragment().requireView()
+            else -> fragment.requireView()
         }
-        return view?.findViewByIdNotRecursive(R.id.toolbar)
+        return view.findViewByIdNotRecursive(R.id.toolbar)
     }
 
-    override fun searchForViewPager(fragment: Fragment): ViewPager? {
-        val tag = fragment.tag
-        if (tag == FragmentScreen.LIBRARY_TRACKS.tag || tag == FragmentScreen.LIBRARY_PODCAST.tag) {
-            return fragment.view?.findViewByIdNotRecursive(R.id.viewPager)
-        }
+    override fun findViewPager(fragment: Fragment): ViewPager2? {
         return null
     }
 
-    override fun skipFragment(fragment: Fragment): Boolean {
-        if (isViewPagerChildTag(fragment.tag)){
-            return false
-        }
-        if (fragment.tag == OfflineLyricsFragment.TAG) {
+    override fun findBottomNavigation(): View? {
+        return activity.findViewById(R.id.bottomWrapper)
+    }
+
+    override fun findBottomSheet(): View? {
+        return activity.findViewById(R.id.slidingPanel)
+    }
+
+    override fun shouldSkipFragment(fragment: Fragment): Boolean {
+        if (fragment.tag in skipFragments) {
             return true
         }
         return isPlayerTag(fragment.tag) || !hasFragmentOwnership(fragment.tag)
     }
-
-    private fun isViewPagerChildTag(tag: String?) = tag?.startsWith("android:switcher:") == true
 
     private fun hasFragmentOwnership(tag: String?) = tag?.startsWith(FragmentScreen.OWNERSHIP) == true
 
