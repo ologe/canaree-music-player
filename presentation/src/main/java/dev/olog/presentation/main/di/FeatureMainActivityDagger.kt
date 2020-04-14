@@ -1,5 +1,6 @@
 package dev.olog.presentation.main.di
 
+import android.app.Activity
 import dagger.Binds
 import dagger.Module
 import dagger.Subcomponent
@@ -7,6 +8,8 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.core.dagger.FeatureScope
+import dev.olog.navigation.dagger.ActivityKey
+import dev.olog.navigation.screens.Activities
 import dev.olog.presentation.createplaylist.di.CreatePlaylistFragmentInjector
 import dev.olog.presentation.dialogs.DialogModule
 import dev.olog.presentation.main.MainActivity
@@ -46,6 +49,17 @@ class FeatureMainActivityDagger {
         @IntoMap
         @ClassKey(MainActivity::class)
         internal abstract fun provideFactory(factory: Graph.Factory): AndroidInjector.Factory<*>
+
+        companion object {
+
+            @Binds
+            @IntoMap
+            @ActivityKey(Activities.MAIN)
+            internal fun provideActivity(): Class<out Activity> {
+                return MainActivity::class.java
+            }
+
+        }
 
     }
 
