@@ -38,7 +38,7 @@ abstract class CustomListAdapter<T: Any, VH : RecyclerView.ViewHolder>(
 
     fun submitList(
         list: List<T>?,
-        commitCallback: Runnable?
+        commitCallback: (() -> Unit)?
     ) {
         mDiffer.submitList(list, commitCallback)
     }
@@ -62,9 +62,9 @@ abstract class CustomListAdapter<T: Any, VH : RecyclerView.ViewHolder>(
     }
 
     suspend fun suspendSubmitList(list: List<T>) = suspendCancellableCoroutine<Unit> {
-        submitList(list, Runnable {
+        submitList(list) {
             it.resume(Unit)
-        })
+        }
     }
 
 }
