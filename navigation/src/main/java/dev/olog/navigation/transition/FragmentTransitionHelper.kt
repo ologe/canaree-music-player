@@ -29,10 +29,10 @@ fun Fragment.setupExitSharedAxisAnimation(
     context: Context,
     @MaterialSharedAxis.Axis axis: Int
 ) {
-    reenterTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, false).apply {
+    reenterTransition = MaterialSharedAxis.create(axis, false).apply {
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()
     }
-    exitTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, true).apply {
+    exitTransition = MaterialSharedAxis.create(axis, true).apply {
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()
     }
 }
@@ -41,10 +41,10 @@ fun Fragment.setupEnterSharedAxisAnimation(
     context: Context,
     @MaterialSharedAxis.Axis axis: Int
 ) {
-    enterTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, true).apply {
+    enterTransition = MaterialSharedAxis.create(axis, true).apply {
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()
     }
-    returnTransition = MaterialSharedAxis.create(MaterialSharedAxis.X, false).apply {
+    returnTransition = MaterialSharedAxis.create(axis, false).apply {
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()
     }
 }
