@@ -54,6 +54,7 @@ class GlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         // TODO incapsulate
+        // TODO check threading or something, app is lagging
         val injector = context.applicationContext as HasAndroidInjector
         injector.androidInjector().inject(this)
 
