@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
+// TODO show first visibile as current?
 class RxWaveSideBarView(
         context: Context,
         attrs: AttributeSet
