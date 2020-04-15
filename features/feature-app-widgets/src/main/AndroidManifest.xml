@@ -1,2 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.olog.feature.app.widgets"/>
+    package="dev.olog.feature.app.widgets">
+
+    <application>
+
+        <!--widget -->
+        <receiver
+            android:name="dev.olog.feature.app.widgets.WidgetColored"
+            android:label="@string/app_widget_default">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_colored" />
+        </receiver>
+
+    </application>
+
+</manifest>

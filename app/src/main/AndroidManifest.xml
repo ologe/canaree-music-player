@@ -74,53 +74,13 @@
 
         </activity>
 
-
-        <!--dummy shortcuts activity-->
-        <activity android:name="dev.olog.feature.app.shortcuts.ShortcutsActivity"
-            android:theme="@style/TransparentTheme"/>
-
+<!--        TODO move to feature module-->
         <!--app shortcust playlist chooser-->
         <activity android:name="dev.olog.presentation.playlist.chooser.PlaylistChooserActivity" />
-
-        <!--music service-->
-        <service
-            android:name="dev.olog.feature.service.music.MusicService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-
-        <!--media button receiver-->
-        <receiver android:name="androidx.media.session.MediaButtonReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
-        <!--floating window service-->
-        <service
-            android:name="dev.olog.feature.service.floating.FloatingWindowService"
-            android:exported="false" />
-
 
         <uses-library
             android:name="android.test.runner"
             android:required="false" />
-
-        <!--widget -->
-        <receiver
-            android:name="dev.olog.feature.app.widgets.WidgetColored"
-            android:label="@string/app_widget_default">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_colored" />
-        </receiver>
-
 
         <!--provide storage permission to share intents-->
         <provider

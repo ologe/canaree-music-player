@@ -1,2 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.olog.feature.service.floating" />
+    package="dev.olog.feature.service.floating">
+
+    <application>
+
+        <service
+            android:name="dev.olog.feature.service.floating.FloatingWindowService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

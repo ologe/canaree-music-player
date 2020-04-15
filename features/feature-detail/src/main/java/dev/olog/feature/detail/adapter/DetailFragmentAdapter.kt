@@ -215,7 +215,7 @@ internal class DetailFragmentAdapter(
         val currentPayload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (currentPayload != null) {
             holder.itemView.isPlaying.animateVisibility(currentPayload)
-            if (item is DisplayableTrack) {
+            if (item is DisplayableTrack && item.mediaId.isAnyPodcast) {
                 bindPodcastProgressBarTint(holder.itemView, item)
             }
         }

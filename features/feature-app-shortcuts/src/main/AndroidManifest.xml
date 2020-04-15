@@ -1,2 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="dev.olog.feature.app.shortcuts"/>
+          package="dev.olog.feature.app.shortcuts">
+
+    <application>
+
+        <!--dummy shortcuts activity-->
+        <activity android:name="dev.olog.feature.app.shortcuts.ShortcutsActivity"
+            android:theme="@style/TransparentTheme"/>
+
+    </application>
+
+</manifest>
