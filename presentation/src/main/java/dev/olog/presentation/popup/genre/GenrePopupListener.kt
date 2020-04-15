@@ -3,20 +3,19 @@ package dev.olog.presentation.popup.genre
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.track.Genre
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.interactor.playlist.AddToPlaylistUseCase
 import dev.olog.domain.interactor.playlist.GetPlaylistsUseCase
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.feature.presentation.base.model.*
 import dev.olog.lib.media.MediaProvider
-import dev.olog.presentation.*
 import dev.olog.navigation.Navigator
+import dev.olog.presentation.R
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 internal class GenrePopupListener @Inject constructor(
@@ -25,7 +24,8 @@ internal class GenrePopupListener @Inject constructor(
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val schedulers: Schedulers
+    schedulers: Schedulers,
+    private val appShortcuts: AppShortcuts
 
 ) : AbsPopupListener(
     getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
@@ -70,8 +70,7 @@ internal class GenrePopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, song!!.artistPresentationId)
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers)
-                .addDetailShortcut(getMediaId().toDomain(), genre.name)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId().toDomain(), genre.name)
         }
 
         return true

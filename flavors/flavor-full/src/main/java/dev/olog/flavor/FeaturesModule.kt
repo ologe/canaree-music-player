@@ -2,7 +2,7 @@ package dev.olog.flavor
 
 import dagger.Module
 import dev.olog.feature.about.dagger.FeatureAboutDagger
-import dev.olog.feature.app.shortcuts.FeatureAppShortcutsDagger
+import dev.olog.feature.app.shortcuts.dagger.FeatureAppShortcutsDagger
 import dev.olog.feature.app.widgets.dagger.FeatureAppWidgetsDagger
 import dev.olog.feature.detail.dagger.FeatureDetailDagger
 import dev.olog.feature.edit.dagger.FeatureEditDagger

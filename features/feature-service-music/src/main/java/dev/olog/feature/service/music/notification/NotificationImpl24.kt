@@ -6,8 +6,9 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
-import dev.olog.domain.schedulers.Schedulers
 import dev.olog.core.dagger.ServiceLifecycle
+import dev.olog.domain.schedulers.Schedulers
+import dev.olog.navigation.screens.ActivitiesMap
 import dev.olog.shared.TextUtils
 import javax.inject.Inject
 
@@ -16,9 +17,9 @@ internal open class NotificationImpl24 @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     service: Service,
     mediaSession: MediaSessionCompat,
-    schedulers: Schedulers
-
-) : NotificationImpl21(lifecycle, service, mediaSession, schedulers) {
+    schedulers: Schedulers,
+    activities: ActivitiesMap
+) : NotificationImpl21(lifecycle, service, mediaSession, schedulers, activities) {
 
     override fun startChronometer(bookmark: Long) {
         builder.setWhen(System.currentTimeMillis() - bookmark)

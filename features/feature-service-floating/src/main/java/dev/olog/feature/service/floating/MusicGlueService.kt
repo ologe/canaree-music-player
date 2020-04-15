@@ -17,6 +17,8 @@ import dev.olog.lib.media.model.PlayerPlaybackState
 import dev.olog.lib.media.playPause
 import dev.olog.lib.media.skipToNext
 import dev.olog.lib.media.skipToPrevious
+import dev.olog.navigation.screens.Services
+import dev.olog.navigation.screens.ServicesMap
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
@@ -27,12 +29,13 @@ import javax.inject.Inject
 class MusicGlueService @Inject constructor(
     private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
-    private val schedulers: Schedulers
+    private val schedulers: Schedulers,
+    private val services: ServicesMap
 
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
-        MediaExposer(context, this, schedulers) {
+        MediaExposer(context, this, schedulers, services[Services.MUSIC]!!) {
             Permissions.canReadStorage(context)
         }
     }

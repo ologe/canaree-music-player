@@ -1,10 +1,7 @@
 package dev.olog.feature.app.widgets
 
-import android.app.Activity
 import android.app.PendingIntent
-import android.app.Service
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -16,9 +13,7 @@ import dev.olog.core.constants.MusicServiceAction
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.presentation.base.palette.ImageProcessorResult
-import dev.olog.navigation.screens.Activities
-import dev.olog.navigation.screens.Services
-import dev.olog.navigation.screens.Widgets
+import dev.olog.navigation.screens.*
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import javax.inject.Inject
@@ -34,11 +29,11 @@ internal abstract class BaseWidget : AbsWidgetApp() {
     lateinit var musicPrefsUseCase: MusicPreferencesGateway
 
     @Inject
-    lateinit var activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
+    lateinit var activities: ActivitiesMap
     @Inject
-    lateinit var widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
+    lateinit var widgets: WidgetsMap
     @Inject
-    lateinit var services: Map<Services, @JvmSuppressWildcards Class<out Service>>
+    lateinit var services: ServicesMap
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)

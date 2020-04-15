@@ -19,6 +19,8 @@ import dev.olog.lib.media.connection.OnConnectionChanged
 import dev.olog.lib.media.model.*
 import dev.olog.lib.media.playPause
 import dev.olog.feature.presentation.base.activity.BaseActivity
+import dev.olog.navigation.screens.Services
+import dev.olog.navigation.screens.ServicesMap
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
@@ -36,8 +38,11 @@ abstract class MusicGlueActivity : BaseActivity(),
     @Inject
     internal lateinit var schedulers: Schedulers
 
+    @Inject
+    internal lateinit var services: ServicesMap
+
     private val mediaExposer by lazyFast {
-        MediaExposer(this, this, schedulers) {
+        MediaExposer(this, this, schedulers, services[Services.MUSIC]!!) {
             Permissions.canReadStorage(this)
         }
     }

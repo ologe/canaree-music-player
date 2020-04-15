@@ -1,6 +1,5 @@
 package dev.olog.feature.app.shortcuts
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -13,15 +12,17 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.lib.image.loader.getCachedBitmap
 import dev.olog.navigation.screens.Activities
+import dev.olog.navigation.screens.ActivitiesMap
 import dev.olog.shared.coroutines.fireAndForget
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AppShortcutsImp(
+internal class AppShortcutsImp @Inject constructor(
     private val context: Context,
     private val schedulers: Schedulers,
-    private val activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
-) {
+    private val activities: ActivitiesMap
+): AppShortcuts {
 
     init {
         ShortcutManagerCompat.removeAllDynamicShortcuts(context)
@@ -32,7 +33,7 @@ class AppShortcutsImp(
         )
     }
 
-    fun addDetailShortcut(mediaId: MediaId, title: String) {
+    override fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
             GlobalScope.fireAndForget {

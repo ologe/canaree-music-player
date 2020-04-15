@@ -12,6 +12,7 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.feature.service.music.R
 import dev.olog.feature.service.music.interfaces.INotification
+import dev.olog.navigation.screens.ActivitiesMap
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -19,9 +20,9 @@ internal class NotificationImpl26 @Inject constructor(
     @ServiceLifecycle lifecycle: Lifecycle,
     service: Service,
     mediaSession: MediaSessionCompat,
-    schedulers: Schedulers
-
-) : NotificationImpl24(lifecycle, service, mediaSession, schedulers) {
+    schedulers: Schedulers,
+    activities: ActivitiesMap
+) : NotificationImpl24(lifecycle, service, mediaSession, schedulers, activities) {
 
     override fun extendInitialization() {
         builder.setColorized(true)

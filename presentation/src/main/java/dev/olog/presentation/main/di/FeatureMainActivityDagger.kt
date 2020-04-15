@@ -3,6 +3,7 @@ package dev.olog.presentation.main.di
 import android.app.Activity
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
@@ -52,7 +53,7 @@ class FeatureMainActivityDagger {
 
         companion object {
 
-            @Binds
+            @Provides
             @IntoMap
             @ActivityKey(Activities.MAIN)
             internal fun provideActivity(): Class<out Activity> {

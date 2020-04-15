@@ -19,7 +19,6 @@ import dev.olog.presentation.*
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.popup.AbsPopup
 import dev.olog.presentation.popup.AbsPopupListener
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 internal class AlbumPopupListener @Inject constructor(
@@ -28,7 +27,8 @@ internal class AlbumPopupListener @Inject constructor(
     private val mediaProvider: MediaProvider,
     getPlaylistBlockingUseCase: GetPlaylistsUseCase,
     addToPlaylistUseCase: AddToPlaylistUseCase,
-    private val schedulers: Schedulers
+    schedulers: Schedulers,
+    private val appShortcuts: AppShortcuts
 
 ) : AbsPopupListener(
     getPlaylistBlockingUseCase = getPlaylistBlockingUseCase,
@@ -74,8 +74,7 @@ internal class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> AppShortcuts.instance(activity, schedulers)
-                .addDetailShortcut(getMediaId().toDomain(), album.title)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId().toDomain(), album.title)
         }
 
         return true

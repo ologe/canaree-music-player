@@ -3,10 +3,10 @@ package dev.olog.msc.app
 import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import dev.olog.lib.analytics.TrackerFacade
-import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.app.shortcuts.AppShortcuts
+import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.DaggerAppComponent
 import dev.olog.msc.debug.CrashlyticsLogTree
@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 class App : DaggerApplication() {
 
-    private lateinit var appShortcuts: AppShortcuts
+    @Inject
+    lateinit var appShortcuts: AppShortcuts
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase
@@ -46,8 +47,6 @@ class App : DaggerApplication() {
     }
 
     private fun initializeComponents() {
-        appShortcuts = AppShortcuts.instance(this, schedulers)
-
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this)

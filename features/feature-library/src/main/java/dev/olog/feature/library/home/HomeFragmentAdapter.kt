@@ -52,7 +52,7 @@ internal class HomeFragmentAdapter(
                 }
                 viewHolder.setOnClickListener(R.id.favorites,this) { _, _, view ->
                     val mediaId = MediaId.Category(MediaIdCategory.PLAYLISTS, AutoPlaylist.FAVORITE.id.toString())
-                    navigator.toDetailFragment(view.findActivity(), mediaId, view)
+                    navigator.toDetailFragment(view.findActivity(), mediaId, null)
                 }
             }
         }

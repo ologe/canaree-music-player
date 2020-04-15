@@ -1,7 +1,6 @@
 package dev.olog.feature.service.music.state
 
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
@@ -21,7 +20,7 @@ import dev.olog.feature.service.music.interfaces.IPlayerLifecycle
 import dev.olog.feature.service.music.model.MediaEntity
 import dev.olog.feature.service.music.model.MetadataEntity
 import dev.olog.feature.service.music.model.SkipType
-import dev.olog.navigation.screens.Widgets
+import dev.olog.navigation.screens.WidgetsMap
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.android.extensions.putBoolean
 import kotlinx.coroutines.*
@@ -38,7 +37,7 @@ internal class MusicServiceMetadata @Inject constructor(
     playerLifecycle: IPlayerLifecycle,
     musicPrefs: MusicPreferencesGateway,
     private val schedulers: Schedulers,
-    private val widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
+    private val widgets: WidgetsMap
 ) : IPlayerLifecycle.Listener {
 
     companion object {

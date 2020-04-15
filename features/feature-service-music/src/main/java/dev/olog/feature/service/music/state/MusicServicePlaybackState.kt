@@ -1,7 +1,6 @@
 package dev.olog.feature.service.music.state
 
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
@@ -11,7 +10,7 @@ import dev.olog.core.dagger.FeatureScope
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.service.music.model.PositionInQueue
 import dev.olog.feature.service.music.model.SkipType
-import dev.olog.navigation.screens.Widgets
+import dev.olog.navigation.screens.WidgetsMap
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import timber.log.Timber
@@ -22,7 +21,7 @@ internal class MusicServicePlaybackState @Inject constructor(
     private val context: Context,
     private val mediaSession: MediaSessionCompat,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
-    private val widgets: Map<Widgets, @JvmSuppressWildcards Class<out AppWidgetProvider>>
+    private val widgets: WidgetsMap
 
 ) {
 

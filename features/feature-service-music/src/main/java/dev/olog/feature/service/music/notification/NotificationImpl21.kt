@@ -23,6 +23,7 @@ import dev.olog.feature.service.music.interfaces.INotification
 import dev.olog.feature.service.music.model.MusicNotificationState
 import dev.olog.lib.image.loader.getBitmap
 import dev.olog.navigation.screens.Activities
+import dev.olog.navigation.screens.ActivitiesMap
 import dev.olog.shared.android.extensions.asActivityPendingIntent
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.coroutines.autoDisposeJob
@@ -36,7 +37,7 @@ internal open class NotificationImpl21 @Inject constructor(
     protected val service: Service,
     private val mediaSession: MediaSessionCompat,
     private val schedulers: Schedulers,
-    private val activities: Map<Activities, @JvmSuppressWildcards Class<out Activity>>
+    private val activities: ActivitiesMap
 ) : INotification, DefaultLifecycleObserver {
 
     protected val notificationManager by lazy {

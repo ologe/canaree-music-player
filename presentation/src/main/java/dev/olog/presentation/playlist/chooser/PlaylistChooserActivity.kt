@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.domain.schedulers.Schedulers
+import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseActivity
 import dev.olog.feature.presentation.base.extensions.toast
@@ -23,12 +24,15 @@ class PlaylistChooserActivity : BaseActivity() {
     @Inject
     lateinit var schedulers: Schedulers
 
+    @Inject
+    lateinit var appShortcuts: AppShortcuts
+
     private val viewModel by viewModels<PlaylistChooserActivityViewModel> {
         factory
     }
 
     private val adapter by lazyFast {
-        PlaylistChooserActivityAdapter(this, schedulers)
+        PlaylistChooserActivityAdapter(this, appShortcuts)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

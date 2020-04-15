@@ -3,8 +3,6 @@ package dev.olog.presentation.playlist.chooser
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.feature.app.shortcuts.AppShortcuts
-import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.DiffCallbackDisplayableItem
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
@@ -13,11 +11,12 @@ import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.presentation.R
 import kotlinx.android.synthetic.main.item_playlist_chooser.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity,
-    private val schedulers: Schedulers
+    private val appShortcuts: AppShortcuts
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
@@ -33,8 +32,7 @@ class PlaylistChooserActivityAdapter(
             .setTitle(R.string.playlist_chooser_dialog_title)
             .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
             .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
-                AppShortcuts.instance(activity, schedulers)
-                    .addDetailShortcut(item.mediaId.toDomain(), item.title)
+                appShortcuts.addDetailShortcut(item.mediaId.toDomain(), item.title)
                 activity.finish()
             }
             .setNegativeButton(R.string.popup_negative_no, null)

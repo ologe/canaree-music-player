@@ -1,5 +1,6 @@
 package dev.olog.lib.media
 
+import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
@@ -11,7 +12,6 @@ import dev.olog.shared.coroutines.MainScope
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.MediaId
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.intents.Classes
 import dev.olog.lib.media.connection.IMediaConnectionCallback
 import dev.olog.lib.media.connection.MusicServiceConnection
 import dev.olog.lib.media.connection.MusicServiceConnectionState
@@ -30,6 +30,7 @@ class MediaExposer(
     private val context: Context,
     private val onConnectionChanged: OnConnectionChanged,
     private val schedulers: Schedulers,
+    private val musicService: Class<out Service>,
     private val config: Config = Config(),
     private val canReadStorage: () -> Boolean
 ) : IMediaControllerCallback,
@@ -58,7 +59,7 @@ class MediaExposer(
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
         MediaBrowserCompat(
             context,
-            ComponentName(context, Classes.SERVICE_MUSIC),
+            ComponentName(context, musicService),
             MusicServiceConnection(this),
             null
         )

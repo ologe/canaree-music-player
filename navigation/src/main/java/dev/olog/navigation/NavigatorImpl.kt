@@ -8,15 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
+import com.google.android.material.transition.MaterialSharedAxis
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.navigation.extensions.findFirstVisibleFragment
 import dev.olog.navigation.param.Params
 import dev.olog.navigation.screens.FragmentScreen
-import dev.olog.navigation.transition.setupEnterFadeAnimation
-import dev.olog.navigation.transition.setupSharedAnimation
-import dev.olog.navigation.transition.setupExitFadeAnimation
-import dev.olog.navigation.transition.setupExitSharedAnimation
+import dev.olog.navigation.transition.*
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -67,7 +65,7 @@ internal class NavigatorImpl @Inject constructor(
         val visibleFragment =
             findFirstVisibleFragment(activity.supportFragmentManager)
         if (view == null) {
-            visibleFragment?.setupExitFadeAnimation(activity)
+            visibleFragment?.setupExitSharedAxisAnimation(activity, MaterialSharedAxis.X)
         } else {
             visibleFragment?.setupExitSharedAnimation()
         }
@@ -76,7 +74,7 @@ internal class NavigatorImpl @Inject constructor(
             addToBackStack(tag)
 
             if (view == null) {
-                it.setupEnterFadeAnimation(activity)
+                it.setupEnterSharedAxisAnimation(activity, MaterialSharedAxis.X)
             } else {
                 it.setupSharedAnimation(activity)
                 addSharedElement(view, view.transitionName)

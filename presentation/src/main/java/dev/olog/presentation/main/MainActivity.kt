@@ -1,6 +1,5 @@
 package dev.olog.presentation.main
 
-import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -72,9 +71,6 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
-
-    @Inject
-    lateinit var services: Map<Services, @JvmSuppressWildcards Class<out Service>>
 
     private lateinit var scrollHelper: SuperCerealScrollHelper
 
