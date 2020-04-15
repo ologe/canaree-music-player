@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
     android:paddingBottom="4dp"
-    android:paddingStart="@dimen/item_song_cover_margin_start"
     android:layout_marginBottom="@dimen/item_header_bottom_inset"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/default_list_margin_horizontal"
+    android:paddingEnd="@dimen/default_list_margin_horizontal">
 
     <dev.olog.feature.presentation.base.widget.CanareeButton
         android:id="@+id/play"
@@ -21,7 +22,8 @@
         android:layout_marginEnd="@dimen/canaree_button_margin"
         android:text="@string/common_play"
         android:src="@drawable/vd_play"
-        style="@style/CanareeButton"/>
+        style="@style/CanareeButton"
+        android:layout_marginStart="@dimen/item_song_cover_margin_start" />
 
     <dev.olog.feature.presentation.base.widget.CanareeButton
         android:id="@+id/shuffle"
@@ -33,7 +35,8 @@
         android:text="@string/common_shuffle"
         android:src="@drawable/vd_shuffle"
         android:drawablePadding="14dp"
-        style="@style/CanareeButton"/>
+        style="@style/CanareeButton"
+        android:layout_marginEnd="@dimen/item_song_cover_margin_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
