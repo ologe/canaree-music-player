@@ -32,6 +32,7 @@ import Libraries.Versions.room
 import Libraries.Versions.scroll_helper
 import Libraries.Versions.sql_content_resolver
 import Libraries.Versions.tap_target_view
+import Libraries.Versions.workManager
 
 const val kotlinVersion = "1.3.70"
 
@@ -112,6 +113,7 @@ object Libraries {
 
         //    data
         internal const val room = "2.2.5"
+        internal const val workManager = "2.3.4"
         internal const val sql_content_resolver = "1.2.3"
 
         //    network
@@ -201,6 +203,11 @@ object Libraries {
             const val coroutines = "androidx.room:room-ktx:$room"
             const val kapt = "androidx.room:room-compiler:$room"
             const val test = "androidx.room:room-testing:$room"
+        }
+
+        object WorkManager {
+            const val core = "androidx.work:work-runtime-ktx:${workManager}"
+            const val test = "androidx.work:work-testing:${workManager}"
         }
 
     }

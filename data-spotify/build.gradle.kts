@@ -32,6 +32,8 @@ dependencies {
     implementation(Libraries.X.Room.coroutines)
     kapt(Libraries.X.Room.kapt)
 
+    implementation(Libraries.X.WorkManager.core)
+
     implementation(Libraries.Network.retrofit)
     implementation(Libraries.Utils.fuzzy)
 

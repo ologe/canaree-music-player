@@ -118,6 +118,8 @@ dependencies {
     implementation(Libraries.Network.okHttp)
     implementation(Libraries.Network.retrofit)
 
+    implementation(Libraries.X.WorkManager.core)
+
     implementation(Libraries.Utils.aesCrypto)
 
     debugImplementation(Libraries.Debug.leakCanary)
