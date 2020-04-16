@@ -25,6 +25,18 @@ data class Song(
 
 ) {
 
+    val hasSameAlbumAsFolder: Boolean
+        get() {
+            val dirName = try {
+                val end = path.lastIndexOf(File.separator)
+                val before = path.lastIndexOf(File.separator, end - 1)
+                path.substring(before + 1, end)
+            } catch (ex: Exception){
+                ""
+            }
+            return dirName == album
+        }
+
     val discNumber: Int
         get() {
             if (trackColumn >= 1000) {
