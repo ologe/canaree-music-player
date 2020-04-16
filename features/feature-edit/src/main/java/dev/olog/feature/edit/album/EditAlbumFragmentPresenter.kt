@@ -25,7 +25,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
             albumArtist = album.albumArtist,
             title = album.title,
             artist = if (album.artist == MediaStore.UNKNOWN_STRING) "" else album.artist,
-            hasSameNameAsFolder = album.hasSameNameAsFolder,
+            path = album.path,
             songs = album.songs
         )
     }
