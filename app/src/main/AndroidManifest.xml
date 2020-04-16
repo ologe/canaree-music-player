@@ -93,6 +93,11 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            tools:node="remove"
+            android:authorities="${applicationId}.workmanager-init" />
+
         <!--car support-->
         <meta-data
             android:name="com.google.android.gms.car.application"
