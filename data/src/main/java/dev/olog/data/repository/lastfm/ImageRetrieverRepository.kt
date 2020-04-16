@@ -16,9 +16,9 @@ import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.model.deezer.DeezerArtistResponse
+import dev.olog.lib.network.QueryNormalizer
 import dev.olog.lib.network.networkCall
 import dev.olog.lib.network.safeNetworkCall
-import dev.olog.shared.TextUtils
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -64,7 +64,7 @@ internal class ImageRetrieverRepository @Inject constructor(
 
         val song = trackGateway.getByParam(trackId) ?: return@coroutineScope null
 
-        val trackTitle = TextUtils.addSpacesToDash(song.title)
+        val trackTitle = QueryNormalizer.normalize(song.title)
             // removes content between parenthesis
             .replace("(\\(|\\[)[\\w\\s]+(\\)|\\])".toRegex(), "")
             .trim()
