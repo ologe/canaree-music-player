@@ -19,6 +19,7 @@ import Libraries.Versions.constraint_layout
 import Libraries.Versions.coroutines
 import Libraries.Versions.custom_tabs
 import Libraries.Versions.dagger
+import Libraries.Versions.daggerAssisted
 import Libraries.Versions.firebase_analytics
 import Libraries.Versions.firebase_core
 import Libraries.Versions.firebase_crashlytics
@@ -34,7 +35,7 @@ import Libraries.Versions.sql_content_resolver
 import Libraries.Versions.tap_target_view
 import Libraries.Versions.workManager
 
-const val kotlinVersion = "1.3.70"
+const val kotlinVersion = "1.3.72"
 
 object BuildPlugins {
 
@@ -82,6 +83,7 @@ object Libraries {
         //    core
         internal const val coroutines = "1.3.5"
         internal const val dagger = "2.27"
+        internal const val daggerAssisted = "0.5.2"
 
         //    android x
         internal const val android_x_core = "1.2.0"
@@ -163,6 +165,8 @@ object Libraries {
         const val android = "com.google.dagger:dagger-android:$dagger"
         const val androidSupport = "com.google.dagger:dagger-android-support:$dagger"
         const val androidKapt = "com.google.dagger:dagger-android-processor:$dagger"
+        const val assisted = "com.squareup.inject:assisted-inject-annotations-dagger2:$daggerAssisted"
+        const val assistedKapt = "com.squareup.inject:assisted-inject-processor-dagger2:$daggerAssisted"
     }
 
     object Coroutines {
@@ -194,6 +198,7 @@ object Libraries {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
             const val java8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+            const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
             const val service = "androidx.lifecycle:lifecycle-service:$lifecycle"
             const val process = "androidx.lifecycle:lifecycle-process:$lifecycle"
         }
