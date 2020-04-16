@@ -1,4 +1,4 @@
-package dev.olog.data.spotify.entity
+package dev.olog.data.spotify.dto
 
 data class RemoteSpotifyImage(
     val height: Int,

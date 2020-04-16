@@ -1,6 +1,6 @@
-package dev.olog.data.spotify.entity.complex
+package dev.olog.data.spotify.dto.complex
 
-import dev.olog.data.spotify.entity.RemoteSpotifyTrack
+import dev.olog.data.spotify.dto.RemoteSpotifyTrack
 
 data class RemoteSpotifyAlbumTracks(
     val href: String,
