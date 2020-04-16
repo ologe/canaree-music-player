@@ -26,6 +26,8 @@ dependencies {
     implementation(Libraries.Network.okHttp)
     implementation(Libraries.Network.okHttpInterceptor)
 
+    implementation(Libraries.X.WorkManager.core)
+
     implementation(Libraries.Debug.timber)
     debugImplementation(Libraries.Debug.chucker)
     releaseImplementation(Libraries.Debug.chuckerNoOp)

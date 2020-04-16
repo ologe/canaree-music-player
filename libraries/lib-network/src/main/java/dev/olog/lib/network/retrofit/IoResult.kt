@@ -1,5 +1,8 @@
 package dev.olog.lib.network.retrofit
 
+import java.io.PrintWriter
+import java.io.StringWriter
+
 sealed class IoResult<out T : Any> {
 
     data class Success<T : Any>(val data: T) : IoResult<T>()
@@ -31,3 +34,54 @@ fun <T: Any> IoResult<T>.fix(orDefault: T): T {
         is IoResult.Error -> orDefault
     }
 }
+
+suspend inline fun <T : Any> IoResult<T>.filter(
+    crossinline predicate: suspend (T) -> Boolean
+): IoResult<T>? {
+
+    return when (this) {
+        is IoResult.Success<T> -> {
+            if (predicate(data)) {
+                this
+            } else {
+                null
+            }
+        }
+        is IoResult.Error -> this
+    }
+}
+
+fun <T: Any> IoResult<T>?.orDefault(default: T): T {
+    if (this == null) {
+        return default
+    }
+    return fix(default)
+}
+
+suspend fun <T: Any, R: Any, S: Any> IoResult<T>.combine(
+    other: IoResult<R>, combiner: suspend(T, R) -> S
+) : IoResult<S> {
+    if (this is IoResult.Success && other is IoResult.Success) {
+        return IoResult.Success(combiner(this.data, other.data))
+    }
+    val first = (this as? IoResult.Error)?.extractError()
+    val second = (other as? IoResult.Error)?.extractError()
+    return IoResult.Error.Generic(
+        Exception("first=$first, second=$second")
+    )
+}
+
+private fun IoResult.Error.extractError(): String {
+    return when (this) {
+        is IoResult.Error.NetworkError -> "no network"
+        is IoResult.Error.TooManyRequests -> "too many request"
+        is IoResult.Error.Generic -> this.exception.extractStackTrace
+    }
+}
+
+private val Throwable.extractStackTrace: String
+    get() {
+        val sw = StringWriter()
+        printStackTrace(PrintWriter(sw))
+        return sw.toString()
+    }
