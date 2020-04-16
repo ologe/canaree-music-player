@@ -31,7 +31,7 @@ object Mocks {
         artist = "artist",
         albumArtist = "album artist",
         songs = 10,
-        hasSameNameAsFolder = true
+        path = "/path/song.mp3"
     )
 
     val artist = Artist(
