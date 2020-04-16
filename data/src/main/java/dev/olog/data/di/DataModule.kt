@@ -85,6 +85,6 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideEqualzierRepository(repository: EqualizerRepository): EqualizerGateway
+    internal abstract fun provideEqualizerRepository(repository: EqualizerRepository): EqualizerGateway
 
 }
