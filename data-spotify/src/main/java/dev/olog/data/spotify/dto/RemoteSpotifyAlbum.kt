@@ -1,6 +1,6 @@
 package dev.olog.data.spotify.dto
 
-data class RemoteSpotifyAlbum(
+internal data class RemoteSpotifyAlbum(
     val album_type: String,
     val id: String,
     val images: List<RemoteSpotifyImage>,

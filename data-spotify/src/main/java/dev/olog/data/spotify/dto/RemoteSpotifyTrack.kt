@@ -1,6 +1,6 @@
 package dev.olog.data.spotify.dto
 
-data class RemoteSpotifyTrack(
+internal data class RemoteSpotifyTrack(
     val album: RemoteSpotifyAlbum?,
     val artists: List<RemoteSpotifyArtist>,
     val disc_number: Int,

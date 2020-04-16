@@ -7,7 +7,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface SpotifyService {
+// https://developer.spotify.com/documentation/web-api/reference/search/search/
+// TODO what is it include_external=audio??
+// TODO marker, what market to use? US may not be the best
+internal interface SpotifyService {
 
     @GET("search?offset=0&limit=10&type=artist&market=US")
     suspend fun searchArtist(

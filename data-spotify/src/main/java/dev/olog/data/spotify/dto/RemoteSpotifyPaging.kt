@@ -1,6 +1,6 @@
 package dev.olog.data.spotify.dto
 
-data class RemoteSpotifyPaging<T>(
+internal data class RemoteSpotifyPaging<T>(
     val href: String,
     val items: List<T>,
     val limit: Int,

@@ -2,7 +2,7 @@ package dev.olog.data.spotify.dto.complex
 
 import dev.olog.data.spotify.dto.RemoteSpotifyTrack
 
-data class RemoteSpotifyAlbumTracks(
+internal data class RemoteSpotifyAlbumTracks(
     val href: String,
     val items: List<RemoteSpotifyTrack>,
     val limit: Int,
