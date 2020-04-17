@@ -154,34 +154,22 @@ internal class SpotifyRepository @Inject constructor(
 
     override fun observeFetchStatus(): Flow<Int> {
         val fetchTrackFlow = workManager
-            .getWorkInfosByTagLiveData(SpotifyTrackFetcherWorker.TAG)
-            .asFlow()
-            .map {
-                if (it != null && it.isNotEmpty()) {
-                    it[0].progress.getInt(SpotifyTrackFetcherWorker.PROGRESS, 0)
-                } else {
-                    -1
-                }
-            }
+            .getWorkInfoAsFlow(SpotifyTrackFetcherWorker.TAG)
+            .map { it.getInt(SpotifyTrackFetcherWorker.PROGRESS, 0) }
 
         val fetchTrackAudioFeatureFlow = workManager
-            .getWorkInfosByTagLiveData(SpotifyTrackAudioFeatureFetcherWorker.TAG)
-            .asFlow()
-            .map {
-                if (it != null && it.isNotEmpty()) {
-                    it[0].progress.getInt(SpotifyTrackAudioFeatureFetcherWorker.PROGRESS, 0)
-                } else {
-                    -1
-                }
-            }
+            .getWorkInfoAsFlow(SpotifyTrackAudioFeatureFetcherWorker.TAG)
+            .map { it.getInt(SpotifyTrackAudioFeatureFetcherWorker.PROGRESS, 0) }
 
         return fetchTrackFlow.combine(fetchTrackAudioFeatureFlow) { tracks, audio ->
-            println("tracks $tracks, audio $audio") // TODO remove print
             when {
                 tracks == -1 && audio == -1 -> -1 // both finished
-                tracks == -1 -> 50 + audio / 2
-                audio == -1 -> tracks / 2
-                else -> -1
+                audio <= 0 -> tracks / 2
+                tracks <= 0 -> 50 + audio / 2
+                else -> 100
+            }
+        }
+    }
 
     override fun observePlaylists(): Flow<List<GeneratedPlaylist>> {
         return generatedPlaylistsDao.observePlaylists()
