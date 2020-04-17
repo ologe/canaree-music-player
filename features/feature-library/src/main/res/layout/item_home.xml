@@ -97,5 +97,26 @@
         style="@style/CanareeButton"
         android:drawablePadding="14dp"/>
 
+    <TextView
+        android:id="@+id/generatedPlaylistHeader"
+        android:text="Generating custom playlists"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/Headline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genres"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <ProgressBar
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/generatedPlaylistHeader"
+        android:id="@+id/progressBar"
+        android:layout_margin="8dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

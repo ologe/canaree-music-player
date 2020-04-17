@@ -5,6 +5,7 @@ import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.domain.gateway.track.*
 import dev.olog.shared.throwNotHandled
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,8 @@ class ObserveSongListByParamUseCase @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAuthorGateway: PodcastAuthorGateway
+    private val podcastAuthorGateway: PodcastAuthorGateway,
+    private val spotifyGateway: SpotifyGateway
 
 ) {
 
@@ -34,6 +36,7 @@ class ObserveSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS -> trackGateway.observeAllPodcasts()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.GENERATED_PLAYLIST -> spotifyGateway.observePlaylistsTracks(mediaId.categoryId.toLong())
             MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
             MediaIdCategory.SPOTIFY_TRACK -> throwNotHandled(mediaId)
         }

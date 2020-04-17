@@ -24,7 +24,8 @@ class GetDetailSortUseCase @Inject constructor(
 
             // here just to avoid crash or an ugly refactor
             MediaIdCategory.PODCASTS_AUTHORS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> SortEntity(SortType.TITLE, SortArranging.ASCENDING)
+            MediaIdCategory.PODCASTS_PLAYLIST,
+            MediaIdCategory.GENERATED_PLAYLIST -> SortEntity(SortType.TITLE, SortArranging.ASCENDING)
             else -> throwNotHandled(mediaId)
         }
     }

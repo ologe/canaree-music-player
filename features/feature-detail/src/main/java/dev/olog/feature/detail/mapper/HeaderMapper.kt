@@ -82,3 +82,17 @@ internal fun Genre.toHeaderItem(resources: Resources): DisplayableHeader {
         ).toLowerCase()
     )
 }
+
+internal fun GeneratedPlaylist.toHeaderItem(resources: Resources): DisplayableHeader {
+
+    return DisplayableHeader(
+        type = R.layout.item_detail_image,
+        mediaId = presentationId,
+        title = title,
+        subtitle = resources.getQuantityString(
+            R.plurals.common_plurals_song,
+            this.size,
+            this.size
+        ).toLowerCase()
+    )
+}

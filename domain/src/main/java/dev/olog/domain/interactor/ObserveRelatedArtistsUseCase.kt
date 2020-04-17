@@ -25,6 +25,7 @@ class ObserveRelatedArtistsUseCase @Inject constructor(
             MediaIdCategory.PLAYLISTS -> playlistGateway.observeRelatedArtists(mediaId.categoryId.toLong())
             MediaIdCategory.GENRES -> genreGateway.observeRelatedArtists(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeRelatedArtists(mediaId.categoryId.toLong())
+            // TODO GENERATED_PLAYLISTS
             else -> flowOf(listOf())
         }
     }

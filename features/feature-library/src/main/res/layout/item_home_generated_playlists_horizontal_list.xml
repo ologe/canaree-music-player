@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    tools:listitem="@layout/item_home_last_played"
+    tools:listitem="@layout/item_home_generated_playlist"
     tools:orientation="horizontal"
     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:layout_marginStart="16dp"/>

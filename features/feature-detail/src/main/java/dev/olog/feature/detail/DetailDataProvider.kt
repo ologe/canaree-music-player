@@ -65,12 +65,12 @@ class DetailDataProvider @Inject constructor(
                 .mapNotNull { it?.toHeaderItem(resources) }
             PresentationIdCategory.GENRES -> genreGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
-            PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(
-                mediaId.categoryId.toLong()
-            )
+            PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
             PresentationIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.observeByParam(mediaId.categoryId.toLong())
                 .mapNotNull { it?.toHeaderItem(resources) }
+            PresentationIdCategory.GENERATED_PLAYLIST -> spotifyGateway.observePlaylistByParam(mediaId.categoryId.toLong())
+                .mapNotNull { it.toHeaderItem(resources) }
             PresentationIdCategory.HEADER,
             PresentationIdCategory.SONGS,
             PresentationIdCategory.PODCASTS,
@@ -92,6 +92,7 @@ class DetailDataProvider @Inject constructor(
         val spotifySongs = flow {
             emit(emptyList())
             if (mediaId.category == PresentationIdCategory.ALBUMS) {
+                // TODO cache first
                 emit(spotifyGateway.getAlbumTracks(mediaId.toDomain()))
             }
         }
@@ -217,27 +218,21 @@ class DetailDataProvider @Inject constructor(
     }
 
     fun observeSiblings(mediaId: PresentationId.Category): Flow<List<DisplayableAlbum>> = when (mediaId.category) {
-        PresentationIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryId).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
-        PresentationIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
-        PresentationIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
-        PresentationIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId.toLong()).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
-        PresentationIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
+        PresentationIdCategory.FOLDERS -> folderGateway.observeSiblings(mediaId.categoryId)
+            .mapListItem { it.toDetailDisplayableItem(resources) }
+        PresentationIdCategory.PLAYLISTS -> playlistGateway.observeSiblings(mediaId.categoryId.toLong())
+            .mapListItem { it.toDetailDisplayableItem(resources) }
+        PresentationIdCategory.ALBUMS -> albumGateway.observeSiblings(mediaId.categoryId.toLong())
+            .mapListItem { it.toDetailDisplayableItem(resources) }
+        PresentationIdCategory.ARTISTS -> albumGateway.observeArtistsAlbums(mediaId.categoryId.toLong())
+            .mapListItem { it.toDetailDisplayableItem(resources) }
+        PresentationIdCategory.GENRES -> genreGateway.observeSiblings(mediaId.categoryId.toLong())
+            .mapListItem { it.toDetailDisplayableItem(resources) }
         // podcasts
-        PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId.toLong()).mapListItem {
-            it.toDetailDisplayableItem(resources)
-        }
-        PresentationIdCategory.PODCASTS_AUTHORS -> flowOf(emptyList())
-//        else ->
+        PresentationIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.observeSiblings(mediaId.categoryId.toLong())
+            .mapListItem { it.toDetailDisplayableItem(resources) }
+        PresentationIdCategory.PODCASTS_AUTHORS,
+        PresentationIdCategory.GENERATED_PLAYLIST -> flowOf(emptyList())
         PresentationIdCategory.SONGS,
         PresentationIdCategory.PODCASTS,
         PresentationIdCategory.HEADER,

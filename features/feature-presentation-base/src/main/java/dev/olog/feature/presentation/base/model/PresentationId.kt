@@ -19,6 +19,8 @@ enum class PresentationIdCategory {
     PODCASTS,
     PODCASTS_AUTHORS,
 
+    GENERATED_PLAYLIST,
+
     SPOTIFY_ALBUMS,
     SPOTIFY_TRACK,
 
@@ -134,6 +136,7 @@ fun MediaIdCategory.toPresentation() : PresentationIdCategory {
         MediaIdCategory.PODCASTS_AUTHORS -> PresentationIdCategory.PODCASTS_AUTHORS
         MediaIdCategory.SPOTIFY_ALBUMS -> PresentationIdCategory.SPOTIFY_ALBUMS
         MediaIdCategory.SPOTIFY_TRACK -> PresentationIdCategory.SPOTIFY_TRACK
+        MediaIdCategory.GENERATED_PLAYLIST -> PresentationIdCategory.GENERATED_PLAYLIST
     }
 }
 
@@ -150,6 +153,7 @@ fun PresentationIdCategory.toDomain() : MediaIdCategory {
         PresentationIdCategory.PODCASTS_AUTHORS -> MediaIdCategory.PODCASTS_AUTHORS
         PresentationIdCategory.SPOTIFY_ALBUMS -> MediaIdCategory.SPOTIFY_ALBUMS
         PresentationIdCategory.SPOTIFY_TRACK -> MediaIdCategory.SPOTIFY_TRACK
+        PresentationIdCategory.GENERATED_PLAYLIST -> MediaIdCategory.GENERATED_PLAYLIST
         PresentationIdCategory.HEADER -> throwNotHandled(this)
     }
 }
@@ -179,4 +183,7 @@ val Artist.presentationId: PresentationId.Category
     get() = mediaId.toPresentation()
 
 val Genre.presentationId: PresentationId.Category
+    get() = mediaId.toPresentation()
+
+val GeneratedPlaylist.presentationId: PresentationId.Category
     get() = mediaId.toPresentation()

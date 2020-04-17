@@ -12,9 +12,6 @@ import dev.olog.feature.presentation.base.model.*
 import dev.olog.navigation.Navigator
 import dev.olog.shared.exhaustive
 import dev.olog.shared.throwNotHandled
-import kotlinx.android.synthetic.main.item_tab_album.view.*
-import kotlinx.android.synthetic.main.item_tab_album.view.firstText
-import kotlinx.android.synthetic.main.item_tab_album.view.secondText
 import kotlinx.android.synthetic.main.item_home_header.view.*
 import kotlinx.android.synthetic.main.item_track.view.*
 
@@ -62,7 +59,6 @@ internal class PlaylistsFragmentAdapter (
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            quickAction?.setId(item.mediaId)
             firstText.text = item.title
             secondText?.text = item.subtitle
             explicit?.isVisible = false

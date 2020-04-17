@@ -25,7 +25,8 @@ class ObserveDetailSortUseCase @Inject constructor(
 
             // here just to avoid crash or an ugly refactor
             MediaIdCategory.PODCASTS_AUTHORS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> flowOf(SortEntity(SortType.TITLE, SortArranging.ASCENDING))
+            MediaIdCategory.PODCASTS_PLAYLIST,
+            MediaIdCategory.GENERATED_PLAYLIST -> flowOf(SortEntity(SortType.TITLE, SortArranging.ASCENDING))
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

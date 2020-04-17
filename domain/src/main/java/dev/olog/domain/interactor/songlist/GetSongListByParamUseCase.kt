@@ -5,6 +5,7 @@ import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.domain.gateway.track.*
 import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
@@ -18,7 +19,8 @@ class GetSongListByParamUseCase @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAuthorGateway: PodcastAuthorGateway
+    private val podcastAuthorGateway: PodcastAuthorGateway,
+    private val spotifyGateway: SpotifyGateway
 
 ) {
 
@@ -33,6 +35,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.PODCASTS -> trackGateway.getAllPodcasts()
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistGateway.getTrackListByParam(mediaId.categoryId.toLong())
             MediaIdCategory.PODCASTS_AUTHORS -> podcastAuthorGateway.getTrackListByParam(mediaId.categoryId.toLong())
+            MediaIdCategory.GENERATED_PLAYLIST -> spotifyGateway.getPlaylistsTracks(mediaId.categoryId.toLong())
             MediaIdCategory.SPOTIFY_ALBUMS -> throwNotHandled(mediaId)
             MediaIdCategory.SPOTIFY_TRACK -> throwNotHandled(mediaId)
         }

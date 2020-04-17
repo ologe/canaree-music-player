@@ -32,7 +32,12 @@ class HomeFragment : BaseFragment(), SetupNestedList {
         viewModelFactory
     }
     private val adapter by lazyFast {
-        HomeFragmentAdapter(navigator, requireActivity() as HasBottomNavigation, this)
+        HomeFragmentAdapter(
+            navigator,
+            requireActivity() as HasBottomNavigation,
+            this,
+            viewModel
+        )
     }
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -41,6 +46,10 @@ class HomeFragment : BaseFragment(), SetupNestedList {
     }
 
     private val lastPlayedAdapter by lazyFast {
+        HomeFragmentNestedAdapter(navigator)
+    }
+
+    private val generatedPlaylistAdapter by lazyFast {
         HomeFragmentNestedAdapter(navigator)
     }
 
@@ -61,6 +70,10 @@ class HomeFragment : BaseFragment(), SetupNestedList {
         viewModel.lastPlayed
             .onEach { lastPlayedAdapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.generatedPlaylists
+            .onEach { generatedPlaylistAdapter.submitList(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
@@ -70,6 +83,9 @@ class HomeFragment : BaseFragment(), SetupNestedList {
             )
             R.layout.item_home_new_album_horizontal_list -> setupHorizontalList(
                 recyclerView, recentlyAddedAdapter
+            )
+            R.layout.item_home_generated_playlists_horizontal_list -> setupHorizontalList(
+                recyclerView, generatedPlaylistAdapter
             )
         }
     }

@@ -25,7 +25,8 @@ class SetSortOrderUseCase @Inject constructor(
 
             // here just to avoid crash or an ugly refactor
             MediaIdCategory.PODCASTS_PLAYLIST,
-            MediaIdCategory.PODCASTS_AUTHORS -> {}
+            MediaIdCategory.PODCASTS_AUTHORS,
+            MediaIdCategory.GENERATED_PLAYLIST -> {}
             else -> throw IllegalArgumentException("invalid param $param")
         }
     }

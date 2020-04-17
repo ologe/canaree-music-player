@@ -103,7 +103,8 @@ object CoverUtils {
     private fun getDrawable(category: MediaIdCategory): Int = when (category) {
         MediaIdCategory.FOLDERS -> R.drawable.placeholder_folder
         MediaIdCategory.PLAYLISTS,
-        MediaIdCategory.PODCASTS_PLAYLIST -> R.drawable.placeholder_playlist
+        MediaIdCategory.PODCASTS_PLAYLIST,
+        MediaIdCategory.GENERATED_PLAYLIST -> R.drawable.placeholder_playlist
         MediaIdCategory.SONGS,
         MediaIdCategory.SPOTIFY_TRACK -> R.drawable.placeholder_musical_note
         MediaIdCategory.ALBUMS,

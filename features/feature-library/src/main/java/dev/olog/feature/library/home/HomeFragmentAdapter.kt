@@ -1,5 +1,7 @@
 package dev.olog.feature.library.home
 
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.extensions.findActivity
 import dev.olog.domain.MediaId
@@ -16,17 +18,22 @@ import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.screens.BottomNavigationPage
+import kotlinx.android.synthetic.main.item_home.view.*
 import kotlinx.android.synthetic.main.item_home_header.view.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 internal class HomeFragmentAdapter(
     private val navigator: Navigator,
     private val bottomNavigator: HasBottomNavigation,
-    private val setupNestedList: SetupNestedList
+    private val setupNestedList: SetupNestedList,
+    private val viewModel: HomeFragmentViewModel
 ) : ObservableAdapter<DisplayableItem>(DiffCallbackDisplayableItem) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_home_last_played_horizontal_list,
+            R.layout.item_home_generated_playlists_horizontal_list,
             R.layout.item_home_new_album_horizontal_list -> {
                 val view = viewHolder.itemView as RecyclerView
                 setupNestedList.setupNestedList(viewType, view)
@@ -54,6 +61,15 @@ internal class HomeFragmentAdapter(
                     val mediaId = MediaId.Category(MediaIdCategory.PLAYLISTS, AutoPlaylist.FAVORITE.id.toString())
                     navigator.toDetailFragment(view.findActivity(), mediaId, null)
                 }
+
+                viewModel.observeSpotifyFetchProgress
+                    .onEach {
+                        viewHolder.itemView.progressBar.progress = it
+                        val isVisible = it in 1..99
+                        viewHolder.itemView.progressBar.isVisible = isVisible
+                        viewHolder.itemView.generatedPlaylistHeader.isVisible = isVisible
+                    }
+                    .launchIn(viewHolder.lifecycleScope)
             }
         }
     }
