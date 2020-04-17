@@ -14,7 +14,7 @@ class CustomTypeConvertersTest {
     @Test
     fun testFromString(){
         // when
-        val actual = CustomTypeConverters.fromString(json)
+        val actual = CustomTypeConverters.deserializeBands(json)
 
         // then
         assertEquals(data, actual)
@@ -23,7 +23,7 @@ class CustomTypeConvertersTest {
     @Test
     fun testFromList(){
         // when
-        val actual = CustomTypeConverters.fromArrayList(data)
+        val actual = CustomTypeConverters.serializeBands(data)
 
         // then
         assertEquals(json, actual)

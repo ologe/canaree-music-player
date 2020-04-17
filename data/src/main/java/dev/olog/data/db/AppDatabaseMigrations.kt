@@ -221,6 +221,10 @@ internal object AppDatabaseMigrations {
             // spotify tracks audio features
             database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_tracks_audio_feature` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `uri` TEXT NOT NULL, `acousticness` REAL NOT NULL, `analysis_url` TEXT NOT NULL, `danceability` REAL NOT NULL, `duration_ms` INTEGER NOT NULL, `energy` REAL NOT NULL, `instrumentalness` REAL NOT NULL, `key` INTEGER NOT NULL, `liveness` REAL NOT NULL, `loudness` REAL NOT NULL, `mode` INTEGER NOT NULL, `speechiness` REAL NOT NULL, `tempo` REAL NOT NULL, `track_href` TEXT NOT NULL, `valence` REAL NOT NULL, PRIMARY KEY(`localId`))")
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_audio_feature_localId` ON `spotify_tracks_audio_feature` (`localId`)")
+
+            // generated playlists
+            database.execSQL("CREATE TABLE IF NOT EXISTS `generated_playlist` (`playlistId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `tracks` TEXT NOT NULL)")
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_generated_playlist_playlistId` ON `generated_playlist` (`playlistId`)")
         }
     }
 

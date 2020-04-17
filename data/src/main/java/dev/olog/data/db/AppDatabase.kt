@@ -4,9 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.olog.data.model.db.*
+import dev.olog.data.spotify.db.GeneratedPlaylistsDao
 import dev.olog.data.spotify.db.SpotifyImageEntity
 import dev.olog.data.spotify.db.SpotifyImagesDao
 import dev.olog.data.spotify.db.SpotifyTracksDao
+import dev.olog.data.spotify.entity.GeneratedPlaylistEntity
 import dev.olog.data.spotify.entity.SpotifyTrackAudioFeatureEntity
 import dev.olog.data.spotify.entity.SpotifyTrackEntity
 
@@ -49,7 +51,8 @@ import dev.olog.data.spotify.entity.SpotifyTrackEntity
 
         SpotifyImageEntity::class,
         SpotifyTrackEntity::class,
-        SpotifyTrackAudioFeatureEntity::class
+        SpotifyTrackAudioFeatureEntity::class,
+        GeneratedPlaylistEntity::class
 
     ], version = 19, exportSchema = true
 )
@@ -88,4 +91,5 @@ internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun spotifyImagesDao(): SpotifyImagesDao
     abstract fun spotifyTracksDao(): SpotifyTracksDao
+    abstract fun generatedPlaylistsDao(): GeneratedPlaylistsDao
 }

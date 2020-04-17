@@ -1,12 +1,15 @@
 package dev.olog.data.spotify.gateway
 
-import androidx.lifecycle.asFlow
 import androidx.work.*
+import dev.olog.data.spotify.db.GeneratedPlaylistsDao
 import dev.olog.data.spotify.db.SpotifyImageEntity
 import dev.olog.data.spotify.db.SpotifyImagesDao
 import dev.olog.data.spotify.dto.RemoteSpotifyAlbum
 import dev.olog.data.spotify.dto.RemoteSpotifyArtist
+import dev.olog.data.spotify.extensions.getInt
+import dev.olog.data.spotify.extensions.getWorkInfoAsFlow
 import dev.olog.data.spotify.mapper.toDomain
+import dev.olog.data.spotify.mapper.toPlaylist
 import dev.olog.data.spotify.service.SpotifyService
 import dev.olog.data.spotify.workers.SpotifyTrackAudioFeatureFetcherWorker
 import dev.olog.data.spotify.workers.SpotifyTrackFetcherWorker
@@ -16,13 +19,17 @@ import dev.olog.domain.entity.spotify.SpotifyAlbumType
 import dev.olog.domain.entity.spotify.SpotifyTrack
 import dev.olog.domain.entity.track.Album
 import dev.olog.domain.entity.track.Artist
+import dev.olog.domain.entity.track.GeneratedPlaylist
+import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.domain.gateway.track.AlbumGateway
 import dev.olog.domain.gateway.track.ArtistGateway
+import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.lib.network.retrofit.IoResult
 import dev.olog.lib.network.retrofit.fix
 import dev.olog.lib.network.retrofit.flatMap
 import dev.olog.lib.network.retrofit.map
+import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -35,7 +42,9 @@ internal class SpotifyRepository @Inject constructor(
     private val albumGateway: AlbumGateway,
     private val service: SpotifyService,
     private val imageDao: SpotifyImagesDao,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val generatedPlaylistsDao: GeneratedPlaylistsDao,
+    private val trackGateway: TrackGateway
 ) : SpotifyGateway {
 
     override suspend fun getArtistAlbums(
@@ -174,7 +183,26 @@ internal class SpotifyRepository @Inject constructor(
                 audio == -1 -> tracks / 2
                 else -> -1
 
-            }
+    override fun observePlaylists(): Flow<List<GeneratedPlaylist>> {
+        return generatedPlaylistsDao.observePlaylists()
+            .mapListItem { it.toPlaylist() }
+    }
+
+    override fun observePlaylistByParam(id: Long): Flow<GeneratedPlaylist> {
+        return generatedPlaylistsDao.observePlaylistById(id)
+            .map { it.toPlaylist() }
+    }
+
+    override fun getPlaylistsTracks(id: Long): List<Song> {
+        val tracks = trackGateway.getAllTracks()
+        val playlist = generatedPlaylistsDao.getPlaylistById(id)
+        return tracks.filter { it.id in playlist.tracks }
+
+    }
+
+    override fun observePlaylistsTracks(id: Long): Flow<List<Song>> {
+        return generatedPlaylistsDao.observePlaylistById(id).combine(trackGateway.observeAllTracks()) {
+                playlist, tracks -> tracks.filter { it.id in playlist.tracks }
         }
     }
 }

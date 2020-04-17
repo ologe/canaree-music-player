@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "7ee8f522ce16f442afb13707470ddb69",
+    "identityHash": "74d50d24e2629f71e8a8a6892c177ddc",
     "entities": [
       {
         "tableName": "playing_queue_2",
@@ -1261,12 +1261,53 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "generated_playlist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playlistId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `tracks` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "playlistId",
+            "columnName": "playlistId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tracks",
+            "columnName": "tracks",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "playlistId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_generated_playlist_playlistId",
+            "unique": false,
+            "columnNames": [
+              "playlistId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_generated_playlist_playlistId` ON `${TABLE_NAME}` (`playlistId`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ee8f522ce16f442afb13707470ddb69')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '74d50d24e2629f71e8a8a6892c177ddc')"
     ]
   }
 }
