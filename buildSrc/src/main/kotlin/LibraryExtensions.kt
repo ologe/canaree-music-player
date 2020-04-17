@@ -23,10 +23,12 @@ fun BaseExtension.applyDefaults() {
         }
     }
 
-//    testOptions {
-//        unitTests.isIncludeAndroidResources = true
-//        unitTests.isReturnDefaultValues = true
-//    }
+    testOptions {
+        unitTests {
+            it.isIncludeAndroidResources = true
+//            isReturnDefaultValues = true
+        }
+    }
 }
 
 fun BaseExtension.enableJava8() {
