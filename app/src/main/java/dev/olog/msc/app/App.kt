@@ -4,7 +4,7 @@ import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dev.olog.domain.interactor.SleepTimerUseCase
-import dev.olog.domain.schedulers.Schedulers
+import dev.olog.domain.interactor.SpotifyFetcherUseCase
 import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.msc.BuildConfig
@@ -32,7 +32,7 @@ class App : DaggerApplication() {
     lateinit var themeManager: ThemeManager
 
     @Inject
-    lateinit var schedulers: Schedulers
+    lateinit var spotifyFetcherUseCase: SpotifyFetcherUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -47,6 +47,9 @@ class App : DaggerApplication() {
     }
 
     private fun initializeComponents() {
+        // TODO move to initializers
+        spotifyFetcherUseCase.fetch()
+
         BlurKit.init(this)
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this)

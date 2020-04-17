@@ -1,7 +1,7 @@
 package dev.olog.data.spotify.gateway
 
 import dev.olog.lib.network.retrofit.IoResult
-import dev.olog.data.spotify.entity.RemoteSpotifyToken
+import dev.olog.data.spotify.dto.RemoteSpotifyToken
 import dev.olog.data.spotify.service.SpotifyLoginService
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.locks.ReentrantLock

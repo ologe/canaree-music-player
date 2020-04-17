@@ -210,7 +210,16 @@ internal object AppDatabaseMigrations {
             """)
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_recent_searches_pk` ON recent_searches_2 (`pk`)")
 
+            // spotify image
             database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_images` (`uri` TEXT NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`uri`))")
+
+            // spotify tracks
+            database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_tracks` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `duration_ms` INTEGER NOT NULL, `explicit` INTEGER NOT NULL, `name` TEXT NOT NULL, `popularity` INTEGER, `previewUrl` TEXT, `trackNumber` INTEGER NOT NULL, `discNumber` INTEGER NOT NULL, `uri` TEXT NOT NULL, `image` TEXT NOT NULL, `album` TEXT NOT NULL, `albumId` TEXT NOT NULL, `albumUri` TEXT NOT NULL, `albumType` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, PRIMARY KEY(`localId`))")
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_localId` ON `spotify_tracks` (`localId`)")
+
+            // spotify tracks audio features
+            database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_tracks_audio_features` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `uri` TEXT NOT NULL, `acousticness` REAL NOT NULL, `analysis_url` TEXT NOT NULL, `danceability` REAL NOT NULL, `duration_ms` INTEGER NOT NULL, `energy` REAL NOT NULL, `instrumentalness` REAL NOT NULL, `key` INTEGER NOT NULL, `liveness` REAL NOT NULL, `loudness` REAL NOT NULL, `mode` INTEGER NOT NULL, `speechiness` REAL NOT NULL, `tempo` REAL NOT NULL, `track_href` TEXT NOT NULL, `valence` REAL NOT NULL, PRIMARY KEY(`localId`))")
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_audio_features_localId` ON `spotify_tracks_audio_features` (`localId`)")
         }
     }
 

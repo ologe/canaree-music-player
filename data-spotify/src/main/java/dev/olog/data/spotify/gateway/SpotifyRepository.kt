@@ -1,6 +1,15 @@
 package dev.olog.data.spotify.gateway
 
-import android.provider.MediaStore
+import androidx.lifecycle.asFlow
+import androidx.work.*
+import dev.olog.data.spotify.db.SpotifyImageEntity
+import dev.olog.data.spotify.db.SpotifyImagesDao
+import dev.olog.data.spotify.dto.RemoteSpotifyAlbum
+import dev.olog.data.spotify.dto.RemoteSpotifyArtist
+import dev.olog.data.spotify.mapper.toDomain
+import dev.olog.data.spotify.service.SpotifyService
+import dev.olog.data.spotify.workers.SpotifyTrackAudioFeatureFetcherWorker
+import dev.olog.data.spotify.workers.SpotifyTrackFetcherWorker
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.spotify.SpotifyAlbum
 import dev.olog.domain.entity.spotify.SpotifyAlbumType
@@ -14,22 +23,19 @@ import dev.olog.lib.network.retrofit.IoResult
 import dev.olog.lib.network.retrofit.fix
 import dev.olog.lib.network.retrofit.flatMap
 import dev.olog.lib.network.retrofit.map
-import dev.olog.data.spotify.db.SpotifyImageEntity
-import dev.olog.data.spotify.db.SpotifyImagesDao
-import dev.olog.data.spotify.entity.RemoteSpotifyAlbum
-import dev.olog.data.spotify.entity.RemoteSpotifyArtist
-import dev.olog.data.spotify.entity.RemoteSpotifyTrack
-import dev.olog.data.spotify.service.SpotifyService
-import dev.olog.shared.throwNotHandled
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.NoSuchElementException
 
-internal class SpotifyGatewayImpl @Inject constructor(
+internal class SpotifyRepository @Inject constructor(
     private val artistGateway: ArtistGateway,
     private val albumGateway: AlbumGateway,
     private val service: SpotifyService,
-    private val imageDao: SpotifyImagesDao
+    private val imageDao: SpotifyImagesDao,
+    private val workManager: WorkManager
 ) : SpotifyGateway {
 
     override suspend fun getArtistAlbums(
@@ -76,7 +82,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
             .map { tracks ->
                 tracks.map { it.toDomain() }
             }.fix(orDefault = emptyList())
-            // not inserting images because spotify api doesn't return an image here
+        // not inserting images because spotify api doesn't return an image here
     }
 
     override suspend fun getTrack(trackId: String): SpotifyTrack? {
@@ -94,7 +100,8 @@ internal class SpotifyGatewayImpl @Inject constructor(
             return service.searchArtist("artist:${artist.name}")
                 .map { it.artists.items }
                 .map { artists ->
-                    val bestIndex = FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
+                    val bestIndex =
+                        FuzzySearch.extractOne(artist.name, artists.map { it.name }).index
                     artists[bestIndex]
                 }
         } catch (ex: NoSuchElementException) {
@@ -107,7 +114,8 @@ internal class SpotifyGatewayImpl @Inject constructor(
             return service.searchAlbum("album:${album.title} artist:${album.artist}")
                 .map { it.albums.items }
                 .map { albums ->
-                    val bestIndex = FuzzySearch.extractOne(album.title, albums.map { it.name }).index
+                    val bestIndex =
+                        FuzzySearch.extractOne(album.title, albums.map { it.name }).index
                     albums[bestIndex]
                 }
         } catch (ex: NoSuchElementException) {
@@ -115,41 +123,58 @@ internal class SpotifyGatewayImpl @Inject constructor(
         }
     }
 
-    private fun RemoteSpotifyTrack.toDomain(): SpotifyTrack {
-        return SpotifyTrack(
-            id = this.id,
-            name = this.name,
-            artist = this.artists.firstOrNull()?.name ?: MediaStore.UNKNOWN_STRING,
-            album = this.album?.name ?: MediaStore.UNKNOWN_STRING,
-            uri = this.uri,
-            image = this.album?.images?.maxBy { it.height }?.url ?: "",
-            discNumber = this.disc_number,
-            trackNumber = this.track_number,
-            duration = this.duration_ms.toLong(),
-            isExplicit = this.explicit,
-            previewUrl = this.preview_url
+
+    override fun fetchTracks() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val work = OneTimeWorkRequestBuilder<SpotifyTrackFetcherWorker>()
+            .setConstraints(constraints)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS)
+            .addTag(SpotifyTrackFetcherWorker.TAG)
+            .build()
+
+        workManager.enqueueUniqueWork(
+            SpotifyTrackFetcherWorker.TAG,
+            ExistingWorkPolicy.KEEP,
+            work
         )
     }
 
-    private fun RemoteSpotifyAlbum.toDomain(): SpotifyAlbum {
-        return SpotifyAlbum(
-            id = this.id,
-            title = this.name,
-            albumType = this.album_type.mapAlbumType(),
-            image = this.images.maxBy { it.height }!!.url,
-            songs = this.total_tracks,
-            uri = this.uri
-        )
-    }
+    override fun observeFetchStatus(): Flow<Int> {
+        val fetchTrackFlow = workManager
+            .getWorkInfosByTagLiveData(SpotifyTrackFetcherWorker.TAG)
+            .asFlow()
+            .map {
+                if (it != null && it.isNotEmpty()) {
+                    it[0].progress.getInt(SpotifyTrackFetcherWorker.PROGRESS, 0)
+                } else {
+                    -1
+                }
+            }
 
-    private fun String.mapAlbumType(): SpotifyAlbumType {
-        return when (this) {
-            "album" -> SpotifyAlbumType.ALBUM
-            "single" -> SpotifyAlbumType.SINGLE
-            "appears_on" -> SpotifyAlbumType.APPEARS_ON
-            "compilation" -> SpotifyAlbumType.COMPILATION
-            else -> throwNotHandled(this)
+        val fetchTrackAudioFeatureFlow = workManager
+            .getWorkInfosByTagLiveData(SpotifyTrackAudioFeatureFetcherWorker.TAG)
+            .asFlow()
+            .map {
+                if (it != null && it.isNotEmpty()) {
+                    it[0].progress.getInt(SpotifyTrackAudioFeatureFetcherWorker.PROGRESS, 0)
+                } else {
+                    -1
+                }
+            }
+
+        return fetchTrackFlow.combine(fetchTrackAudioFeatureFlow) { tracks, audio ->
+            println("tracks $tracks, audio $audio") // TODO remove print
+            when {
+                tracks == -1 && audio == -1 -> -1 // both finished
+                tracks == -1 -> 50 + audio / 2
+                audio == -1 -> tracks / 2
+                else -> -1
+
+            }
         }
     }
-
 }

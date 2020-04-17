@@ -4,10 +4,14 @@ import dev.olog.domain.MediaId
 import dev.olog.domain.entity.spotify.SpotifyAlbum
 import dev.olog.domain.entity.spotify.SpotifyAlbumType
 import dev.olog.domain.entity.spotify.SpotifyTrack
+import kotlinx.coroutines.flow.Flow
 
 interface SpotifyGateway {
 
-    suspend fun getArtistAlbums(artistMediaId: MediaId.Category, type: SpotifyAlbumType): List<SpotifyAlbum>
+    suspend fun getArtistAlbums(
+        artistMediaId: MediaId.Category,
+        type: SpotifyAlbumType
+    ): List<SpotifyAlbum>
 
     suspend fun getArtistTopTracks(artistMediaId: MediaId.Category): List<SpotifyTrack>
 
@@ -16,5 +20,9 @@ interface SpotifyGateway {
     suspend fun getTrack(trackId: String): SpotifyTrack?
 
     fun getImage(spotifyUri: String): String?
+
+    fun fetchTracks()
+
+    fun observeFetchStatus(): Flow<Int>
 
 }

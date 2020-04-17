@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "c1ebf08f6b25634449e63e4ec23f9be3",
+    "identityHash": "7ee8f522ce16f442afb13707470ddb69",
     "entities": [
       {
         "tableName": "playing_queue_2",
@@ -1017,12 +1017,256 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "spotify_tracks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `duration_ms` INTEGER NOT NULL, `explicit` INTEGER NOT NULL, `name` TEXT NOT NULL, `popularity` INTEGER, `previewUrl` TEXT, `trackNumber` INTEGER NOT NULL, `discNumber` INTEGER NOT NULL, `uri` TEXT NOT NULL, `image` TEXT NOT NULL, `album` TEXT NOT NULL, `albumId` TEXT NOT NULL, `albumUri` TEXT NOT NULL, `albumType` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, PRIMARY KEY(`localId`))",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spotifyId",
+            "columnName": "spotifyId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration_ms",
+            "columnName": "duration_ms",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "explicit",
+            "columnName": "explicit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "popularity",
+            "columnName": "popularity",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previewUrl",
+            "columnName": "previewUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "trackNumber",
+            "columnName": "trackNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "discNumber",
+            "columnName": "discNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "album",
+            "columnName": "album",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "albumId",
+            "columnName": "albumId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "albumUri",
+            "columnName": "albumUri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "albumType",
+            "columnName": "albumType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "localId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_spotify_tracks_localId",
+            "unique": false,
+            "columnNames": [
+              "localId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_spotify_tracks_localId` ON `${TABLE_NAME}` (`localId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "spotify_tracks_audio_feature",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `uri` TEXT NOT NULL, `acousticness` REAL NOT NULL, `analysis_url` TEXT NOT NULL, `danceability` REAL NOT NULL, `duration_ms` INTEGER NOT NULL, `energy` REAL NOT NULL, `instrumentalness` REAL NOT NULL, `key` INTEGER NOT NULL, `liveness` REAL NOT NULL, `loudness` REAL NOT NULL, `mode` INTEGER NOT NULL, `speechiness` REAL NOT NULL, `tempo` REAL NOT NULL, `track_href` TEXT NOT NULL, `valence` REAL NOT NULL, PRIMARY KEY(`localId`))",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spotifyId",
+            "columnName": "spotifyId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "acousticness",
+            "columnName": "acousticness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "analysis_url",
+            "columnName": "analysis_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "danceability",
+            "columnName": "danceability",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration_ms",
+            "columnName": "duration_ms",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "energy",
+            "columnName": "energy",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "instrumentalness",
+            "columnName": "instrumentalness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liveness",
+            "columnName": "liveness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "loudness",
+            "columnName": "loudness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "speechiness",
+            "columnName": "speechiness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempo",
+            "columnName": "tempo",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "track_href",
+            "columnName": "track_href",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valence",
+            "columnName": "valence",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "localId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_spotify_tracks_audio_feature_localId",
+            "unique": false,
+            "columnNames": [
+              "localId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_spotify_tracks_audio_feature_localId` ON `${TABLE_NAME}` (`localId`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c1ebf08f6b25634449e63e4ec23f9be3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ee8f522ce16f442afb13707470ddb69')"
     ]
   }
 }

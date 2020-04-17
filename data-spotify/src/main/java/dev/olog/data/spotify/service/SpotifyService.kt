@@ -1,8 +1,9 @@
 package dev.olog.data.spotify.service
 
+import dev.olog.data.spotify.dto.RemoteSpotifyTrack
+import dev.olog.data.spotify.dto.RemoteSpotifyTrackAudioFeature
+import dev.olog.data.spotify.dto.complex.*
 import dev.olog.lib.network.retrofit.IoResult
-import dev.olog.data.spotify.entity.RemoteSpotifyTrack
-import dev.olog.data.spotify.entity.complex.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,6 +22,11 @@ internal interface SpotifyService {
     suspend fun searchAlbum(
         @Query("q") query: String
     ): IoResult<RemoteSpotifySearchAlbums>
+
+    @GET("search?offset=0&limit=1&type=track&market=US")
+    suspend fun searchTrack(
+        @Query("q") query: String
+    ): IoResult<RemoteSpotifySearchTracks>
 
     @GET("artists/{id}/albums?&country=US&limit=50")
     suspend fun getArtistAlbums(
@@ -42,6 +48,11 @@ internal interface SpotifyService {
     suspend fun getTrack(
         @Path("id") trackId: String
     ): IoResult<RemoteSpotifyTrack>
+
+    @GET("audio-features/{id}")
+    suspend fun getTrackAudioFeature(
+        @Path("id") trackId: String
+    ): IoResult<RemoteSpotifyTrackAudioFeature>
 
 }
 

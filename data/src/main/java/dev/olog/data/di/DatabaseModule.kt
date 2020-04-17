@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.data.db.*
 import dev.olog.data.spotify.db.SpotifyImagesDao
+import dev.olog.data.spotify.db.SpotifyTracksDao
 
 @Module
 class DatabaseModule {
@@ -96,6 +97,11 @@ class DatabaseModule {
     @Provides
     internal fun provideSpotifyImagesDao(db: AppDatabase): SpotifyImagesDao {
         return db.spotifyImagesDao()
+    }
+
+    @Provides
+    internal fun provideSpotifyTracksDao(db: AppDatabase): SpotifyTracksDao {
+        return db.spotifyTracksDao()
     }
 
 }

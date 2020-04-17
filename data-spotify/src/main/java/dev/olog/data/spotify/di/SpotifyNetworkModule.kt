@@ -7,7 +7,7 @@ import dagger.Provides
 import dev.olog.domain.gateway.spotify.SpotifyGateway
 import dev.olog.lib.network.SharedNetworkModule
 import dev.olog.lib.network.withLazyCallFactory
-import dev.olog.data.spotify.gateway.SpotifyGatewayImpl
+import dev.olog.data.spotify.gateway.SpotifyRepository
 import dev.olog.data.spotify.service.SpotifyLoginService
 import dev.olog.data.spotify.service.SpotifyService
 import okhttp3.OkHttpClient
@@ -19,12 +19,12 @@ import javax.inject.Singleton
 private const val SPOTIFY_API = "https://api.spotify.com/v1/"
 private const val SPOTIFY_ACCOUNTS = "https://accounts.spotify.com/"
 
-@Module(includes = [SharedNetworkModule::class])
+@Module(includes = [SharedNetworkModule::class, SpotifyWorkersModule::class])
 abstract class SpotifyNetworkModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideSpotifyRepository(repository: SpotifyGatewayImpl): SpotifyGateway
+    internal abstract fun provideSpotifyRepository(repository: SpotifyRepository): SpotifyGateway
 
     companion object {
 

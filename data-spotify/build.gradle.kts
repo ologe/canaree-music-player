@@ -27,10 +27,14 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.Dagger.assisted)
+    kapt(Libraries.Dagger.assistedKapt)
 
     implementation(Libraries.X.Room.core)
     implementation(Libraries.X.Room.coroutines)
     kapt(Libraries.X.Room.kapt)
+
+    implementation(Libraries.X.Lifecycle.livedata)
 
     implementation(Libraries.X.WorkManager.core)
 

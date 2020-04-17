@@ -2,17 +2,17 @@ package dev.olog.data.di
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.domain.gateway.*
-import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
-import dev.olog.domain.gateway.podcast.PodcastGateway
-import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
-import dev.olog.domain.gateway.track.*
 import dev.olog.data.repository.*
 import dev.olog.data.repository.lastfm.ImageRetrieverRepository
 import dev.olog.data.repository.podcast.PodcastAuthorRepository
 import dev.olog.data.repository.podcast.PodcastPlaylistRepository
 import dev.olog.data.repository.podcast.PodcastRepository
 import dev.olog.data.repository.track.*
+import dev.olog.domain.gateway.*
+import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
+import dev.olog.domain.gateway.podcast.PodcastGateway
+import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
+import dev.olog.domain.gateway.track.*
 import javax.inject.Singleton
 
 @Module(includes = [QueriesModule::class])
