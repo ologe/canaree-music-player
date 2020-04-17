@@ -183,6 +183,7 @@ internal object AppDatabaseMigrations {
 
     val Migration_18_19 = object : Migration(18, 19) {
         override fun migrate(database: SupportSQLiteDatabase) {
+
             database.execSQL("DROP TABLE IF EXISTS last_played_podcast_albums")
             database.execSQL("DROP TABLE IF EXISTS playing_queue")
 
@@ -191,12 +192,12 @@ internal object AppDatabaseMigrations {
                 CREATE TABLE IF NOT EXISTS playing_queue_2 (
                 `progressive` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
                 `category` TEXT NOT NULL, 
-                `categoryValue` INTEGER NOT NULL, 
+                `categoryValue` TEXT NOT NULL, 
                 `songId` INTEGER NOT NULL, 
                 `idInPlaylist` INTEGER NOT NULL
                 )
             """)
-            database.execSQL("CREATE INDEX IF NOT EXISTS `index_playing_queue_progressive` ON playing_queue_2 (`progressive`)")
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_playing_queue_2_progressive` ON playing_queue_2 (`progressive`)")
 
             // recreate recent_searches with `itemId` as TEXT
             database.execSQL("DROP TABLE recent_searches")
@@ -218,8 +219,8 @@ internal object AppDatabaseMigrations {
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_localId` ON `spotify_tracks` (`localId`)")
 
             // spotify tracks audio features
-            database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_tracks_audio_features` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `uri` TEXT NOT NULL, `acousticness` REAL NOT NULL, `analysis_url` TEXT NOT NULL, `danceability` REAL NOT NULL, `duration_ms` INTEGER NOT NULL, `energy` REAL NOT NULL, `instrumentalness` REAL NOT NULL, `key` INTEGER NOT NULL, `liveness` REAL NOT NULL, `loudness` REAL NOT NULL, `mode` INTEGER NOT NULL, `speechiness` REAL NOT NULL, `tempo` REAL NOT NULL, `track_href` TEXT NOT NULL, `valence` REAL NOT NULL, PRIMARY KEY(`localId`))")
-            database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_audio_features_localId` ON `spotify_tracks_audio_features` (`localId`)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `spotify_tracks_audio_feature` (`localId` INTEGER NOT NULL, `spotifyId` TEXT NOT NULL, `uri` TEXT NOT NULL, `acousticness` REAL NOT NULL, `analysis_url` TEXT NOT NULL, `danceability` REAL NOT NULL, `duration_ms` INTEGER NOT NULL, `energy` REAL NOT NULL, `instrumentalness` REAL NOT NULL, `key` INTEGER NOT NULL, `liveness` REAL NOT NULL, `loudness` REAL NOT NULL, `mode` INTEGER NOT NULL, `speechiness` REAL NOT NULL, `tempo` REAL NOT NULL, `track_href` TEXT NOT NULL, `valence` REAL NOT NULL, PRIMARY KEY(`localId`))")
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_spotify_tracks_audio_feature_localId` ON `spotify_tracks_audio_feature` (`localId`)")
         }
     }
 
