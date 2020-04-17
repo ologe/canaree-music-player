@@ -1,13 +1,13 @@
-package dev.olog.lib.repository
+package dev.olog.data.repository
 
 import com.nhaarman.mockitokotlin2.*
+import dev.olog.data.db.FavoriteDao
+import dev.olog.data.model.db.FavoriteEntity
+import dev.olog.data.model.db.FavoritePodcastEntity
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.entity.favorite.FavoriteTrackType
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.test.shared.Mocks
-import dev.olog.lib.db.FavoriteDao
-import dev.olog.lib.model.db.FavoriteEntity
-import dev.olog.lib.model.db.FavoritePodcastEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import kotlinx.coroutines.flow.first

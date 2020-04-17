@@ -1,7 +1,7 @@
-package dev.olog.lib.mapper
+package dev.olog.data.mapper
 
 import com.google.gson.Gson
-import dev.olog.lib.model.lastfm.*
+import dev.olog.data.model.lastfm.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

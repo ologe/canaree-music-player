@@ -1,11 +1,11 @@
-package dev.olog.lib.db
+package dev.olog.data.db
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import dev.olog.data.DatabaseBuilder
+import dev.olog.data.model.db.GenreMostPlayedEntity
+import dev.olog.data.model.db.MostTimesPlayedSongEntity
 import dev.olog.domain.gateway.track.TrackGateway
-import dev.olog.lib.DatabaseBuilder
-import dev.olog.lib.model.db.GenreMostPlayedEntity
-import dev.olog.lib.model.db.MostTimesPlayedSongEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.Mocks
 import dev.olog.test.shared.runBlockingTest

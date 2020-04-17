@@ -1,7 +1,7 @@
-package dev.olog.lib.db
+package dev.olog.data.db
 
-import dev.olog.lib.DatabaseBuilder
-import dev.olog.lib.model.db.PodcastPositionEntity
+import dev.olog.data.DatabaseBuilder
+import dev.olog.data.model.db.PodcastPositionEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import org.junit.After

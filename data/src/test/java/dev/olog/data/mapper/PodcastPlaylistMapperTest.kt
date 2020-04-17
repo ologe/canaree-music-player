@@ -1,8 +1,8 @@
-package dev.olog.lib.mapper
+package dev.olog.data.mapper
 
+import dev.olog.data.model.db.PlaylistEntity
+import dev.olog.data.model.db.PodcastPlaylistEntity
 import dev.olog.domain.entity.track.Playlist
-import dev.olog.lib.model.db.PlaylistEntity
-import dev.olog.lib.model.db.PodcastPlaylistEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -1,12 +1,12 @@
-package dev.olog.lib.prefs
+package dev.olog.data.prefs
 
 import android.content.SharedPreferences
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import dev.olog.data.prefs.BlacklistPreferencesImpl.Companion.BLACKLIST
 import dev.olog.domain.prefs.BlacklistPreferences
-import dev.olog.lib.prefs.BlacklistPreferencesImpl.Companion.BLACKLIST
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

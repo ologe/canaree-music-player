@@ -1,4 +1,4 @@
-package dev.olog.lib
+package dev.olog.data
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify

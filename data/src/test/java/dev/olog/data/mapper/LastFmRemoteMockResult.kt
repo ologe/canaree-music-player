@@ -1,4 +1,4 @@
-package dev.olog.lib.mapper
+package dev.olog.data.mapper
 
 object LastFmRemoteMockResult {
 

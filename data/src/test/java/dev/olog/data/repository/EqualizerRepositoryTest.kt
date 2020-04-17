@@ -1,10 +1,10 @@
-package dev.olog.lib.repository
+package dev.olog.data.repository
 
 import com.nhaarman.mockitokotlin2.*
+import dev.olog.data.db.EqualizerPresetsDao
+import dev.olog.data.model.db.EqualizerPresetEntity
 import dev.olog.domain.entity.EqualizerPreset
 import dev.olog.domain.prefs.EqualizerPreferencesGateway
-import dev.olog.lib.db.EqualizerPresetsDao
-import dev.olog.lib.model.db.EqualizerPresetEntity
 import dev.olog.test.shared.MainCoroutineRule
 import dev.olog.test.shared.runBlockingTest
 import dev.olog.test.shared.schedulers

@@ -1,6 +1,6 @@
-package dev.olog.lib.db
+package dev.olog.data.db
 
-import dev.olog.lib.model.db.EqualizerBandEntity
+import dev.olog.data.model.db.EqualizerBandEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

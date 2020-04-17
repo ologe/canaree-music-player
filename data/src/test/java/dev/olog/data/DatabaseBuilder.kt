@@ -1,9 +1,9 @@
-package dev.olog.lib
+package dev.olog.data
 
 import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import dev.olog.lib.db.AppDatabase
+import dev.olog.data.db.AppDatabase
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 

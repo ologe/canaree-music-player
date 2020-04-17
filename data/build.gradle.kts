@@ -68,5 +68,7 @@ dependencies {
     testImplementation(Libraries.Test.android)
     testImplementation(Libraries.Test.robolectric)
     testImplementation(Libraries.Coroutines.test)
+    testImplementation(Libraries.X.Room.test)
+    testImplementation(project(":test-shared"))
 
 }

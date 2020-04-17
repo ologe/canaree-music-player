@@ -1,12 +1,12 @@
-package dev.olog.lib.repository.lastfm
+package dev.olog.data.repository.lastfm
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import dev.olog.data.db.LastFmDao
+import dev.olog.data.mapper.millisToFormattedDate
+import dev.olog.data.model.db.LastFmTrackEntity
 import dev.olog.domain.entity.LastFmTrack
-import dev.olog.lib.db.LastFmDao
-import dev.olog.lib.model.db.LastFmTrackEntity
-import dev.olog.lib.mapper.millisToFormattedDate
 import org.junit.Assert.*
 import org.junit.Test
 
