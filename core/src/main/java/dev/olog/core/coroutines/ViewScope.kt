@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.R
 import dev.olog.core.extensions.awaitOnAttach
 import dev.olog.core.extensions.findActivity
 import kotlinx.coroutines.*
@@ -14,14 +15,12 @@ import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-private val SCOPE_KEY = "canaree.SCOPE_KEY".hashCode()
-
 // TODO test
 val View.viewScope: ViewScope
     get() {
         require(Looper.getMainLooper() == Looper.myLooper())
 
-        var scope = getTag(SCOPE_KEY) as? ViewScope
+        var scope = getTag(R.id.tag_view_scope) as? ViewScope
         if (scope != null) {
             return scope
         }
@@ -31,7 +30,7 @@ val View.viewScope: ViewScope
             AttachableView(this)
         }
 
-        setTag(SCOPE_KEY, scope)
+        setTag(R.id.tag_view_scope, scope)
         return scope
     }
 
@@ -65,8 +64,20 @@ private class AttachableView(
 
     private val observer = object : DefaultLifecycleObserver {
         override fun onDestroy(owner: LifecycleOwner) {
-            viewWeak.get()?.viewScope?.cancel()
+            viewWeak.get()?.let {
+                it.viewScope.cancel()
+                it.removeOnAttachStateChangeListener(detachListener)
+            }
         }
+    }
+
+    private val detachListener = object : View.OnAttachStateChangeListener {
+
+        override fun onViewDetachedFromWindow(v: View) {
+            v.viewScope.coroutineContext.cancelChildren()
+        }
+
+        override fun onViewAttachedToWindow(v: View?) {}
     }
 
     init {
@@ -77,6 +88,7 @@ private class AttachableView(
             view.findActivity().lifecycle
         }
         lifecycle.addObserver(observer)
+        view.addOnAttachStateChangeListener(detachListener)
     }
 
 }
