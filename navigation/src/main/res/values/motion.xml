@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="shared_element_duration">300</integer>
+    <integer name="transition_default_duration">300</integer>
+    <integer name="transition_enter_duration">300</integer>
+    <integer name="transition_exit_duration">250</integer>
 
 </resources>
