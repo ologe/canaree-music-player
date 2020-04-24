@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.feature.presentation.base.extensions.findViewByIdNotRecursive
 import dev.olog.presentation.R
 import dev.olog.presentation.offlinelyrics.OfflineLyricsFragment
@@ -13,7 +14,15 @@ import dev.olog.navigation.screens.FragmentScreen
 
 class SuperCerealScrollHelper(
     private val activity: FragmentActivity
-) : ScrollHelper(activity, true, false) {
+) : ScrollHelper(
+    activity = activity,
+    fullScrollTop = true,
+    fullScrollBottom = false,
+    toolbarHeight = activity.dimen(R.dimen.toolbar),
+    tabLayoutHeight = activity.dimen(R.dimen.tab),
+    bottomSheetHeight = activity.dimen(R.dimen.sliding_panel_peek),
+    bottomNavigationHeight = activity.dimen(R.dimen.bottom_navigation_height)
+) {
 
     private val subFragments = listOf(
         FragmentScreen.FOLDERS_NORMAL.tag,
