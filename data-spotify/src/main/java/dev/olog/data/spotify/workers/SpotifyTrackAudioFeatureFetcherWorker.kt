@@ -1,9 +1,7 @@
 package dev.olog.data.spotify.workers
 
 import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import androidx.work.workDataOf
+import androidx.work.*
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import dev.olog.data.spotify.db.SpotifyTracksDao
@@ -23,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger
 internal class SpotifyTrackAudioFeatureFetcherWorker @AssistedInject constructor(
     @Assisted arg0: Context,
     @Assisted arg1: WorkerParameters,
+    private val workManager: WorkManager,
     private val spotifyService: SpotifyService,
     private val spotifyTracksDao: SpotifyTracksDao
 ) : CoroutineWorker(arg0, arg1) {
@@ -66,6 +65,16 @@ internal class SpotifyTrackAudioFeatureFetcherWorker @AssistedInject constructor
         }.awaitAll()
 
         spotifyTracksDao.insertMultipleTrackAudioFeature(itemsToAdd)
+
+        val work = OneTimeWorkRequestBuilder<PlaylistBuilderWorker>()
+            .addTag(PlaylistBuilderWorker.TAG)
+            .build()
+
+        workManager.enqueueUniqueWork(
+            PlaylistBuilderWorker.TAG,
+            ExistingWorkPolicy.KEEP,
+            work
+        )
 
         Result.success()
     }
