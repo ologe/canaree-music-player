@@ -107,7 +107,7 @@ object Libraries {
         internal const val lottie = "3.4.0"
         internal const val custom_tabs = "3.0.1"
         internal const val material_dialogs = "3.3.0"
-        internal const val scroll_helper = "2.0.0-beta02"
+        internal const val scroll_helper = "2.0.0-beta04"
         internal const val blur_kit = "1.0.0"
         internal const val color_desaturation = "1.0.2"
         internal const val jaudiotagger = "2.2.5"
