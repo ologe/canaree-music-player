@@ -8,6 +8,8 @@
 
     <attr name="colorBackgroundTransparent" format="reference" />
 
+    <attr name="colorBottomViews" format="reference"/>
+
     <attr name="motionInterpolatorPersistent" format="reference" />
     <attr name="motionInterpolatorIncoming" format="reference" />
     <attr name="motionInterpolatorOutgoing" format="reference" />

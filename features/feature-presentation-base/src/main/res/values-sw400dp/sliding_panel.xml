@@ -2,7 +2,5 @@
 <resources>
 
     <dimen name="sliding_panel_peek">60dp</dimen>
-    <dimen name="sliding_panel_peek_plus_navigation">110dp</dimen>
-
 
 </resources>

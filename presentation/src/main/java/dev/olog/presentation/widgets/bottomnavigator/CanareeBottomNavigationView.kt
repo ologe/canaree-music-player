@@ -25,13 +25,17 @@ internal class CanareeBottomNavigationView(
     lateinit var navigator: Navigator
 
     init {
-        (findActivity() as HasAndroidInjector)
-            .androidInjector()
-            .inject(this)
+        if (!isInEditMode) {
+            (findActivity() as HasAndroidInjector).androidInjector()
+                .inject(this)
+        }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (isInEditMode) {
+            return
+        }
         val lastLibraryPage = preferences.getLastBottomViewPage()
         selectedItemId = lastLibraryPage.toMenuId()
 

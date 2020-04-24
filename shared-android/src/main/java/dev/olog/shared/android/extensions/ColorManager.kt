@@ -27,6 +27,10 @@ inline fun Context.colorSurface(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.colorSurface)
 }
 
+inline fun Context.colorBottomViews(): Int {
+    return themeAttributeToColor(R.attr.colorBottomViews)
+}
+
 inline fun Context.colorBackground(): Int {
     return themeAttributeToColor(android.R.attr.colorBackground)
 }

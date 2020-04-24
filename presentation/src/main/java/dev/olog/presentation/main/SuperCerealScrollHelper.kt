@@ -81,7 +81,7 @@ class SuperCerealScrollHelper(
     }
 
     override fun findBottomNavigation(): View? {
-        return activity.findViewById(R.id.bottomWrapper)
+        return activity.findViewById(R.id.bottomNavigation)
     }
 
     override fun findBottomSheet(): View? {

@@ -27,6 +27,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary_selector</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_selector</item>
 
+        <item name="colorBottomViews">@color/colorBottomViews</item>
 
         <item name="motionInterpolatorPersistent">@android:interpolator/fast_out_slow_in</item>
         <item name="motionInterpolatorIncoming">@android:interpolator/decelerate_cubic</item>
@@ -86,6 +87,7 @@
         <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
         <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
         <item name="labelVisibilityMode">unlabeled</item>
+        <item name="android:background">?colorBottomViews</item>
     </style>
 
     <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">

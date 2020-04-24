@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.core.isMarshmallow
 import dev.olog.feature.player.adapter.PlayerFragmentAdapter
+import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.shared.lazyFast
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.android.synthetic.main.fragment_player_default.*
@@ -101,6 +103,7 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
 
     override fun onResume() {
         super.onResume()
+        requireView().alpha = if (getSlidingPanel().isExpanded()) 1f else 0f
         getSlidingPanel()?.addBottomSheetCallback(slidingPanelListener)
     }
 
@@ -133,6 +136,7 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             if (!isMarshmallow() && slideOffset in .9f..1f) {
+                // TODO check if still needed
                 val alpha = (1 - slideOffset) * 10
                 statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
             }

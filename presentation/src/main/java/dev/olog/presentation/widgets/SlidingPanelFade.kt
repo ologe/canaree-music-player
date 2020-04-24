@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
@@ -27,13 +28,17 @@ class SlidingPanelFade(
     var parallax = context.dip(20)
 
     init {
-        setBackgroundColor(context.scrimBackground())
+        if (!isInEditMode) {
+            setBackgroundColor(context.scrimBackground())
+        }
         alpha = 0f
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addBottomSheetCallback(slidingPanelCallback)
+        if (!isInEditMode) {
+            slidingPanel.addBottomSheetCallback(slidingPanelCallback)
+        }
     }
 
     override fun onDetachedFromWindow() {
@@ -43,6 +48,11 @@ class SlidingPanelFade(
 
     private val slidingPanelCallback = object : BottomSheetBehavior.BottomSheetCallback() {
 
+        private val visibleStates = listOf(
+            BottomSheetBehavior.STATE_DRAGGING,
+            BottomSheetBehavior.STATE_SETTLING
+        )
+
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             alpha = clamp(slideOffset * 1.5f, 0f, 1f)
 
@@ -50,6 +60,8 @@ class SlidingPanelFade(
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
+            isVisible = newState in visibleStates
+
             val setClickable = newState != BottomSheetBehavior.STATE_COLLAPSED
             if (setClickable){
                 setOnClickListener { slidingPanel.collapse() }

@@ -2,8 +2,8 @@
 <resources>
 
     <style name="CanareeButton">
-        <item name="cardBackgroundColor">#333</item>
-        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">?colorBottomViews</item>
+        <item name="cardElevation">1dp</item>
     </style>
 
 <!--    TODO localization-->

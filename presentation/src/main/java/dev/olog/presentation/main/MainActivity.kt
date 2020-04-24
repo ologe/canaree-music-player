@@ -91,7 +91,7 @@ class MainActivity : MusicGlueActivity(),
             // workaround, on some device on immersive mode bottom navigation disappears
             rootView.fitsSystemWindows = true
             slidingPanel.fitsSystemWindows = true
-            bottomWrapper.fitsSystemWindows = true
+            bottomNavigation.fitsSystemWindows = true
         }
 
         if (themeManager.playerAppearance.isMini){
@@ -124,9 +124,6 @@ class MainActivity : MusicGlueActivity(),
         getSlidingPanel().peekHeight = when (themeManager.bottomSheetType) {
             BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek)
             BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek) + dip(16)
-        }
-        if (themeManager.bottomSheetType == BottomSheetType.FLOATING) {
-            separator.isVisible = false
         }
 
         scrollHelper = SuperCerealScrollHelper(this)

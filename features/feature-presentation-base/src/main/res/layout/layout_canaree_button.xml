@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center_vertical"
         tools:text="@string/common_play"
-        android:textColor="?android:textColorPrimaryInverse"
+        android:textColor="?android:textColorPrimary"
         android:textSize="@dimen/item_shuffle_text_size" />
 
     <ImageButton
@@ -26,6 +26,6 @@
         android:clickable="false"
         android:focusable="false"
         tools:src="@drawable/vd_play"
-        android:tint="?android:textColorPrimaryInverse" />
+        android:tint="?android:textColorPrimary" />
 
 </merge>

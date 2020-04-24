@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorBottomViews">#fafafa</color>
+
     <color name="colorBackground">@android:color/white</color>
     <color name="colorBackgroundTransparent">#cfff</color>
     <color name="colorPrimary">@color/defaultColorAccent</color>
