@@ -26,7 +26,7 @@ object ImagesFolderUtils {
 
         // using a builder for readability
         return buildString {
-            append(itemId)
+            append(itemId.replace(File.separator, ""))
             append("_")
             append(progressive)
             append(albumsIdAsString)
