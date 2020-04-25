@@ -10,8 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.feature.library.R
+import dev.olog.feature.presentation.base.TotalScrollListener
 import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.feature.presentation.base.extensions.dipf
+import dev.olog.feature.presentation.base.extensions.dimenf
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.PresentationId
@@ -43,17 +44,18 @@ internal class TracksFragment : BaseFragment() {
     }
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val maxElevation by lazyFast { requireContext().dipf(1) }
-    private val scrollListener = TotalScrollListener { totalScroll ->
-        val totalHeight = toolbar.height
-        if (totalScroll > totalHeight) {
-            statusBar.elevation = maxElevation
-            toolbar.elevation = maxElevation
-        } else {
-            statusBar.elevation = 0f
-            toolbar.elevation = 0f
+    private val maxElevation by lazyFast { requireContext().dimenf(R.dimen.toolbar_elevation) }
+    private val scrollListener =
+        TotalScrollListener { totalScroll ->
+            val totalHeight = toolbar.height
+            if (totalScroll > totalHeight) {
+                statusBar.elevation = maxElevation
+                toolbar.elevation = maxElevation
+            } else {
+                statusBar.elevation = 0f
+                toolbar.elevation = 0f
+            }
         }
-    }
 
     // TODO podcast
     private val isPodcast = false

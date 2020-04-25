@@ -4,7 +4,7 @@
     <dimen name="status_bar">24dp</dimen>
     <dimen name="toolbar">56dp</dimen>
     <dimen name="tab">50dp</dimen>
-    <dimen name="toolbar_elevation">2dp</dimen>
+    <dimen name="toolbar_elevation">1dp</dimen>
 
     <dimen name="common_icon_size">48dp</dimen>
 

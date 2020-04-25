@@ -30,3 +30,6 @@ suspend fun RecyclerView.awaitAnimationEnd() {
         awaitFrame()
     }
 }
+
+val RecyclerView.isAtTop: Boolean
+    get() = !canScrollVertically(-1)

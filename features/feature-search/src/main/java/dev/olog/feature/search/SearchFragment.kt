@@ -18,7 +18,9 @@ import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
 import dev.olog.feature.presentation.base.SetupNestedList
+import dev.olog.feature.presentation.base.TotalScrollListener
 import dev.olog.feature.presentation.base.extensions.afterTextChange
+import dev.olog.feature.presentation.base.extensions.dimenf
 import dev.olog.feature.presentation.base.utils.hideIme
 import dev.olog.feature.presentation.base.utils.showIme
 import dev.olog.navigation.Navigator
@@ -75,6 +77,20 @@ class SearchFragment : BaseFragment(),
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
 
+    private val maxElevation by lazyFast { requireContext().dimenf(R.dimen.toolbar_elevation) }
+    private val scrollListener = TotalScrollListener { totalScroll ->
+        val totalHeight = toolbar.height + tabLayout.height
+        if (totalScroll > totalHeight) {
+            statusBar.elevation = maxElevation
+            toolbar.elevation = maxElevation
+            tabLayout.elevation = maxElevation
+        } else {
+            statusBar.elevation = 0f
+            toolbar.elevation = 0f
+            tabLayout.elevation = 0f
+        }
+    }
+
     @Inject
     internal lateinit var navigator: Navigator
     private lateinit var layoutManager: LinearLayoutManager
@@ -100,7 +116,8 @@ class SearchFragment : BaseFragment(),
 
         viewModel.data
             .onEach {
-                adapter.submitList(it)
+                adapter.suspendSubmitList(it)
+                list.scrollToPosition(0)
                 emptyStateText.isVisible = it.isEmpty()
                 restoreUpperWidgetsTranslation()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -177,15 +194,18 @@ class SearchFragment : BaseFragment(),
             podcasts.isSelected = !podcasts.isSelected
             viewModel.updateShowPodcast(podcasts.isSelected)
         }
+        list.addOnScrollListener(scrollListener)
     }
 
     override fun onPause() {
         super.onPause()
+        // TODO still needed?
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
         fab.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         more.setOnClickListener(null)
         podcasts.setOnClickListener(null)
+        list.removeOnScrollListener(scrollListener)
     }
 
     override fun onDestroyView() {

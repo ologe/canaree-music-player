@@ -7,12 +7,28 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        tools:listitem="@layout/item_search_recent"
+        tools:visibility="visible"
+        android:paddingTop="@dimen/default_list_margin_vertical"
+        android:paddingBottom="@dimen/default_list_margin_vertical"
+        android:paddingStart="@dimen/default_list_margin_horizontal"
+        android:paddingEnd="@dimen/default_list_margin_horizontal"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         android:background="?colorSurface"
-        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
@@ -64,7 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?colorSurface"
-        android:elevation="@dimen/toolbar_elevation"
         android:paddingBottom="8dp">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -106,27 +121,9 @@
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"
-        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        tools:listitem="@layout/item_search_recent"
-        tools:visibility="visible"
-        android:paddingTop="@dimen/default_list_margin_vertical"
-        android:paddingBottom="@dimen/default_list_margin_vertical"
-        android:paddingStart="@dimen/default_list_margin_horizontal"
-        android:paddingEnd="@dimen/default_list_margin_horizontal"/>
 
     <TextView
         android:id="@+id/emptyStateText"

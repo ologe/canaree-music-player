@@ -1,6 +1,7 @@
-package dev.olog.feature.library.tracks
+package dev.olog.feature.presentation.base
 
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.feature.presentation.base.extensions.isAtTop
 
 class TotalScrollListener(
     private val onScrolled: (Int) -> Unit
@@ -10,6 +11,9 @@ class TotalScrollListener(
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         totalScroll += dy
+        if (recyclerView.isAtTop) {
+            totalScroll = 0
+        }
         onScrolled(totalScroll)
     }
 }

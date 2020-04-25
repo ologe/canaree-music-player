@@ -19,6 +19,7 @@ inline fun Context.dip(value: Int): Int = (value * resources.displayMetrics.dens
 inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
 inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
+inline fun Context.dimenf(@DimenRes resource: Int): Float = resources.getDimensionPixelSize(resource).toFloat()
 
 inline fun Context.dpToPx(dp: Float): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
