@@ -7,35 +7,35 @@ import java.util.*
  * album.search
  */
 data class LastFmAlbumSearch(
-    var results: LastFmAlbumResults
+    var results: LastFmAlbumResults?
 )
 
 data class LastFmAlbumResults(
-    var albummatches: LastFmAlbummatches
+    var albummatches: LastFmAlbummatches?
 )
 
 data class LastFmAlbummatches(
-    val album: List<LastFmAlbummatchesAlbum>
+    val album: List<LastFmAlbummatchesAlbum>?
 )
 
 data class LastFmAlbummatchesAlbum(
-    val name: String,
-    val artist: String,
-    val mbid: String,
-    val image: List<LastFmImage> = ArrayList()
+    val name: String?,
+    val artist: String?,
+    val mbid: String?,
+    val image: List<LastFmImage>?
 )
 
 /**
  * album.getInfo
  */
 data class LastFmAlbumInfo(
-    val album: LastFmAlbumRemote
+    val album: LastFmAlbumRemote?
 )
 
 data class LastFmAlbumRemote(
-    @SerializedName(value = "name", alternate = ["title"]) val name: String,
-    val artist: String,
-    val mbid: String,
-    val image: List<LastFmImage> = ArrayList(),
-    val wiki: LastFmWiki? = null
+    @SerializedName(value = "name", alternate = ["title"]) val name: String?,
+    val artist: String?,
+    val mbid: String?,
+    val image: List<LastFmImage>?,
+    val wiki: LastFmWiki?
 )

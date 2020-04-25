@@ -5,7 +5,6 @@ import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
 import dev.olog.data.mapper.LastFmNulls
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.model.deezer.DeezerArtistResponse
 import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.domain.entity.LastFmArtist
 import dev.olog.domain.entity.LastFmTrack
@@ -17,8 +16,7 @@ import dev.olog.domain.gateway.track.AlbumGateway
 import dev.olog.domain.gateway.track.ArtistGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.lib.network.QueryNormalizer
-import dev.olog.lib.network.networkCall
-import dev.olog.lib.network.safeNetworkCall
+import dev.olog.lib.network.retrofit.*
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -42,9 +40,12 @@ internal class ImageRetrieverRepository @Inject constructor(
     companion object {
         @JvmStatic
         private val TAG = "D:${ImageRetrieverRepository::class.java.simpleName}"
+        // TODO test this strings usage
+        private const val UNKNOWN_STRING = MediaStore.UNKNOWN_STRING
+        private const val UNKNOWN = "unknown"
     }
 
-    // track
+    // region track
     override suspend fun getCachedTrack(trackId: Long): LastFmTrack? {
         Timber.v("$TAG get cached track id=$trackId")
         assertBackgroundThread()
@@ -65,7 +66,8 @@ internal class ImageRetrieverRepository @Inject constructor(
 
         val trackTitle = QueryNormalizer.normalize(song.title)
 
-        val trackArtist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist
+        var trackArtist = if (song.artist == UNKNOWN_STRING) "" else song.artist
+        trackArtist = QueryNormalizer.normalize(trackArtist)
 
         val calls = listOf(
             async { fetchTrackLastFm(song, trackTitle, trackArtist) },
@@ -77,13 +79,13 @@ internal class ImageRetrieverRepository @Inject constructor(
         return@coroutineScope result
     }
 
-    private fun makeTrack(lastFmTrack: LastFmTrack, image: String?): LastFmTrack {
+    private fun makeTrack(lastFmTrack: LastFmTrack, deezerImage: String?): LastFmTrack {
         return LastFmTrack(
             lastFmTrack.id,
             lastFmTrack.title,
             lastFmTrack.artist,
             lastFmTrack.album,
-            image ?: lastFmTrack.image,
+            deezerImage ?: lastFmTrack.image,
             lastFmTrack.mbid,
             lastFmTrack.artistMbid,
             lastFmTrack.albumMbid
@@ -95,32 +97,22 @@ internal class ImageRetrieverRepository @Inject constructor(
         trackTitle: String,
         trackArtist: String
     ): LastFmTrack {
-        try {
-            val trackId = song.id
+        val trackId = song.id
 
-            var result: LastFmTrack? = null
-            if (song.artist != MediaStore.UNKNOWN_STRING) { // search only if has artist
-                result = networkCall { lastFmService.getTrackInfoAsync(trackTitle, trackArtist) }
-                    ?.toDomain(trackId)
-            }
-            if (result == null) {
-                val searchTrack = networkCall { lastFmService.searchTrackAsync(trackTitle, trackArtist) }
-                    ?.toDomain(trackId)
-
-                if (searchTrack != null && searchTrack.title.isNotBlank() && searchTrack.artist.isNotBlank()) {
-                    result = networkCall { lastFmService.getTrackInfoAsync(searchTrack.title, searchTrack.artist) }
-                        ?.toDomain(trackId)
-                }
-                if (result == null) {
-                    result = LastFmNulls.createNullTrack(trackId).toDomain()
-                }
-            }
-            return result
-        } catch (ex: Exception){
-            // TODO investigate nullity
-            Timber.w(ex)
-            return LastFmNulls.createNullTrack(song.id).toDomain()
+        var result: IoResult<LastFmTrack>? = null
+        if (song.artist != UNKNOWN) { // search only if has artist
+            result = lastFmService.getTrackInfo(trackTitle, trackArtist)
+                .map { it.toDomain(trackId) }
+                .takeIf { it is IoResult.Success }
         }
+        if (result == null) {
+            result = lastFmService.searchTrack(trackTitle, trackArtist)
+                .map { it.toDomain(trackId) }
+                .filter { it.title.isNotBlank() && it.artist.isNotBlank() }
+                ?.flatMap { lastFmService.getTrackInfo(it.title, it.artist) }
+                ?.map { it.toDomain(trackId) }
+        }
+        return result.orDefault(LastFmNulls.createNullTrack(trackId).toDomain())
     }
 
     private suspend fun fetchTrackDeezer(
@@ -132,13 +124,12 @@ internal class ImageRetrieverRepository @Inject constructor(
         } else {
             "$trackTitle - $trackArtist"
         }
-        try {
-            return safeNetworkCall { deezerService.getTrack(query) }?.data?.get(0)?.album
-                ?.getBestImage() ?: ""
-        } catch (ex: Exception){
-            Timber.w(ex)
-            return null
-        }
+
+        return deezerService.getTrack(query)
+            .map { it.data?.firstOrNull()?.album?.getBestImage() ?: "" }
+            .filter { it.isNotBlank() }
+            .orDefault("")
+            .takeIf { it.isNotBlank() }
     }
 
     override suspend fun deleteTrack(trackId: Long) {
@@ -146,7 +137,9 @@ internal class ImageRetrieverRepository @Inject constructor(
         localTrack.delete(trackId)
     }
 
-    // album
+    // endregion
+
+    // region album
     override suspend fun getCachedAlbum(albumId: Long): LastFmAlbum? {
         Timber.v("$TAG get cached album id=$albumId")
         assertBackgroundThread()
@@ -175,8 +168,12 @@ internal class ImageRetrieverRepository @Inject constructor(
         }
         Timber.v("$TAG fetch id=$albumId")
 
+        val title = QueryNormalizer.normalize(album.title)
+        var artist = if (album.artist == MediaStore.UNKNOWN_STRING) "" else album.artist
+        artist = QueryNormalizer.normalize(artist)
+
         val calls = listOf(
-            async { fetchAlbumLastFm(album) },
+            async { fetchAlbumLastFm(album.id, title, artist) },
             async { fetchAlbumDeezer(album) }
         ).awaitAll()
 
@@ -197,33 +194,27 @@ internal class ImageRetrieverRepository @Inject constructor(
         )
     }
 
-    private suspend fun fetchAlbumLastFm(album: Album) : LastFmAlbum {
-        try {
-            val albumId = album.id
+    private suspend fun fetchAlbumLastFm(
+        albumId: Long,
+        title: String,
+        artist: String
+    ) : LastFmAlbum {
 
-            var result: LastFmAlbum? = null
-            if (album.title != MediaStore.UNKNOWN_STRING) {
-                result = networkCall { lastFmService.getAlbumInfoAsync(album.title, album.artist) }
-                    ?.toDomain(albumId)
-            }
-
-            if (result == null) {
-                val searchAlbum = networkCall { lastFmService.searchAlbumAsync(album.title) }
-                    ?.toDomain(albumId, album.artist)
-
-                if (searchAlbum != null && searchAlbum.title.isNotBlank() && searchAlbum.artist.isNotBlank()) {
-                    result = networkCall { lastFmService.getAlbumInfoAsync(searchAlbum.title, searchAlbum.artist) }
-                        ?.toDomain(albumId)
-                }
-                if (result == null) {
-                    result = LastFmNulls.createNullAlbum(albumId).toDomain()
-                }
-            }
-            return result
-        } catch (ex: Exception){
-            Timber.w(ex)
-            return LastFmNulls.createNullAlbum(album.id).toDomain()
+        var result: IoResult<LastFmAlbum>? = null
+        if (title != UNKNOWN) {
+            result = lastFmService.getAlbumInfo(title, artist)
+                .map { it.toDomain(albumId) }
+                .takeIf { it is IoResult.Success }
         }
+
+        if (result == null) {
+            result = lastFmService.searchAlbum(title)
+                .map { it.toDomain(albumId, artist) }
+                .filter { it.title.isNotBlank() && it.artist.isNotBlank() }
+                ?.flatMap { lastFmService.getAlbumInfo(it.title, it.artist) }
+                ?.map { it.toDomain(albumId) }
+        }
+        return result.orDefault(LastFmNulls.createNullAlbum(albumId).toDomain())
     }
 
     private suspend fun fetchAlbumDeezer(album: Album): String? {
@@ -232,13 +223,12 @@ internal class ImageRetrieverRepository @Inject constructor(
         } else {
             "${album.artist} - ${album.title}"
         }
-        try {
-            return safeNetworkCall { deezerService.getAlbum(query) }?.data?.get(0)
-                ?.getBestImage() ?: ""
-        } catch (ex: Exception){
-            Timber.w(ex)
-            return null
-        }
+
+        return deezerService.getAlbum(query)
+            .map { it.data?.firstOrNull()?.getBestImage() ?: "" }
+            .filter { it.isNotBlank() }
+            .orDefault("")
+            .takeIf { it.isNotBlank() }
     }
 
     override suspend fun deleteAlbum(albumId: Long) {
@@ -246,7 +236,9 @@ internal class ImageRetrieverRepository @Inject constructor(
         localAlbum.delete(albumId)
     }
 
-    // artist
+    // endregion
+
+    // region artist
     override suspend fun getCachedArtist(artistId: Long): LastFmArtist? {
         Timber.v("$TAG get cached artist id=$artistId")
         assertBackgroundThread()
@@ -264,20 +256,23 @@ internal class ImageRetrieverRepository @Inject constructor(
         Timber.v("$TAG fetch id=$artistId")
 
         val artist = artistGateway.getByParam(artistId) ?: return@coroutineScope null
+        val name = QueryNormalizer.normalize(artist.name)
 
         val calls = listOf(
             async {
-                safeNetworkCall { lastFmService.getArtistInfoAsync(artist.name) }?.toDomain(artistId)
+                lastFmService.getArtistInfo(name)
+                    .map { it.toDomain(artistId) ?: LastFmNulls.createNullArtist(artistId).toDomain() }
+                    .filterSuccess()
+                    ?.data
             },
             async {
-                safeNetworkCall { deezerService.getArtist(artist.name) }
+                deezerService.getArtist(name)
+                    .map { it.data?.firstOrNull()?.getBestImage() ?: "" }
+                    .fix("")
+                    .takeIf { it.isNotBlank() }
             }
         ).awaitAll()
-        var result = makeArtist(artist, calls[0] as LastFmArtist?, calls[1] as DeezerArtistResponse?)
-
-        if (result == null) {
-            result = LastFmNulls.createNullArtist(artistId).toDomain()
-        }
+        val result = makeArtist(artist, calls[0] as LastFmArtist?, calls[1] as String)
         localArtist.cache(result)
         return@coroutineScope result
     }
@@ -285,18 +280,17 @@ internal class ImageRetrieverRepository @Inject constructor(
     private fun makeArtist(
         artist: Artist,
         lastFmArtist: LastFmArtist?,
-        deezerResponse: DeezerArtistResponse?): LastFmArtist? {
-        if (lastFmArtist == null && deezerResponse == null){
-            return null
+        deezerImage: String?
+    ): LastFmArtist {
+        if (lastFmArtist == null || deezerImage == null) {
+            return LastFmNulls.createNullArtist(artist.id).toDomain()
         }
-
-        val imageUrl = deezerResponse?.data?.get(0)?.getBestImage() ?: ""
 
         return LastFmArtist(
             artist.id,
-            imageUrl,
-            lastFmArtist?.mbid ?: "",
-            lastFmArtist?.wiki ?: ""
+            deezerImage,
+            lastFmArtist.mbid,
+            lastFmArtist.wiki
         )
     }
 
@@ -304,4 +298,7 @@ internal class ImageRetrieverRepository @Inject constructor(
         assertBackgroundThread()
         localArtist.delete(artistId)
     }
+
+    // endregion
+
 }

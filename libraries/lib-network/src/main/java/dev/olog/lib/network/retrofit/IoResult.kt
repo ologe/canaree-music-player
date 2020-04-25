@@ -51,6 +51,14 @@ suspend inline fun <T : Any> IoResult<T>.filter(
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
+inline fun <T: Any> IoResult<T>.filterSuccess(): IoResult.Success<T>? {
+    if (this is IoResult.Success<T>) {
+        return this
+    }
+    return null
+}
+
 fun <T: Any> IoResult<T>?.orDefault(default: T): T {
     if (this == null) {
         return default
