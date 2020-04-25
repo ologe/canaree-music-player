@@ -6,19 +6,17 @@ import android.media.MediaMetadataRetriever
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore.Audio.Media
 import dev.olog.domain.entity.track.Song
-import kotlinx.coroutines.yield
 import org.jaudiotagger.audio.mp3.MP3File
 import timber.log.Timber
 import java.io.*
 import java.util.*
 
-@Suppress("BlockingMethodInNonBlockingContext")
-object OriginalImageFetcher {
+internal object OriginalImageFetcher {
 
     private val NAMES = arrayOf("folder", "cover", "album")
     private val EXTENSIONS = arrayOf("jpg", "jpeg", "png")
 
-    suspend fun loadImage(context: Context, song: Song): InputStream? {
+    fun loadImage(context: Context, song: Song): InputStream? {
         var retriever: MediaMetadataRetriever? = null
         var fileDescriptor: ParcelFileDescriptor? = null
         return try {
@@ -31,9 +29,9 @@ object OriginalImageFetcher {
                     setDataSource(song.path)
                 }
             }
-            yield()
+
             val picture = retriever.embeddedPicture
-            yield()
+
             if (picture != null) {
                 ByteArrayInputStream(picture)
             } else {
@@ -45,7 +43,7 @@ object OriginalImageFetcher {
         }
     }
 
-    private suspend fun fallback(path: String): InputStream? {
+    private fun fallback(path: String): InputStream? {
         try {
             val mp3File = MP3File(path)
             if (mp3File.hasID3v2Tag()) {
@@ -59,7 +57,6 @@ object OriginalImageFetcher {
             Timber.w(ex)
             ex.printStackTrace()
         }
-        yield()
 
         val file = File(path).parentFile?.listFiles()
             ?.asSequence()

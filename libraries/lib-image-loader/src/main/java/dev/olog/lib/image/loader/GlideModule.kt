@@ -14,10 +14,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 import dagger.android.HasAndroidInjector
 import dev.olog.domain.MediaId
-import dev.olog.lib.image.loader.loader.GlideImageRetrieverLoader
-import dev.olog.lib.image.loader.loader.GlideMergedImageLoader
-import dev.olog.lib.image.loader.loader.GlideOriginalImageLoader
-import dev.olog.lib.image.loader.loader.GlideSpotifyImageLoader
+import dev.olog.lib.image.loader.loader.GlideMediaIdLoaderDelegate
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -26,13 +23,7 @@ import javax.inject.Inject
 class GlideModule : AppGlideModule() {
 
     @Inject
-    internal lateinit var lastFmFactory: GlideImageRetrieverLoader.Factory
-    @Inject
-    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-    @Inject
-    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-    @Inject
-    internal lateinit var spotifyFactory: GlideSpotifyImageLoader.Factory
+    internal lateinit var mediaIdDelegate: GlideMediaIdLoaderDelegate.Factory
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setLogLevel(Log.ERROR)
@@ -58,10 +49,7 @@ class GlideModule : AppGlideModule() {
         val injector = context.applicationContext as HasAndroidInjector
         injector.androidInjector().inject(this)
 
-        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
-        registry.prepend(MediaId.Category::class.java, InputStream::class.java, mergedFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, spotifyFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, mediaIdDelegate)
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

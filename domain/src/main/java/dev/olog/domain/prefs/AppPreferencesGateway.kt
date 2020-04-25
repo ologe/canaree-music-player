@@ -21,6 +21,8 @@ interface AppPreferencesGateway {
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 
+    fun canAutoDownloadImages(): String
+
     fun setDefault()
 }
 

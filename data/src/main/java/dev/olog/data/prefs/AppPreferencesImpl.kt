@@ -162,6 +162,13 @@ internal class AppPreferencesImpl @Inject constructor(
         return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())!!)
     }
 
+    override fun canAutoDownloadImages(): String {
+        return preferences.getString(
+            context.getString(R.string.prefs_auto_download_images_key),
+            context.getString(R.string.prefs_auto_download_images_entry_value_wifi)
+        )!!
+    }
+
     override fun setDefaultMusicFolder(file: File) {
         preferences.edit {
             putString(DEFAULT_MUSIC_FOLDER, file.absolutePath)

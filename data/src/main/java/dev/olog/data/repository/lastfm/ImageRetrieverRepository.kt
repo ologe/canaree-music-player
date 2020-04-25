@@ -1,6 +1,11 @@
 package dev.olog.data.repository.lastfm
 
 import android.provider.MediaStore
+import dev.olog.data.api.DeezerService
+import dev.olog.data.api.LastFmService
+import dev.olog.data.mapper.LastFmNulls
+import dev.olog.data.mapper.toDomain
+import dev.olog.data.model.deezer.DeezerArtistResponse
 import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.domain.entity.LastFmArtist
 import dev.olog.domain.entity.LastFmTrack
@@ -11,11 +16,6 @@ import dev.olog.domain.gateway.ImageRetrieverGateway
 import dev.olog.domain.gateway.track.AlbumGateway
 import dev.olog.domain.gateway.track.ArtistGateway
 import dev.olog.domain.gateway.track.TrackGateway
-import dev.olog.data.api.DeezerService
-import dev.olog.data.api.LastFmService
-import dev.olog.data.mapper.LastFmNulls
-import dev.olog.data.mapper.toDomain
-import dev.olog.data.model.deezer.DeezerArtistResponse
 import dev.olog.lib.network.QueryNormalizer
 import dev.olog.lib.network.networkCall
 import dev.olog.lib.network.safeNetworkCall
@@ -45,11 +45,10 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     // track
-    override suspend fun mustFetchTrack(trackId: Long): Boolean {
+    override suspend fun getCachedTrack(trackId: Long): LastFmTrack? {
+        Timber.v("$TAG get cached track id=$trackId")
         assertBackgroundThread()
-        val mustFetch = localTrack.mustFetch(trackId)
-        Timber.v("$TAG must fetch track id=$trackId -> $mustFetch")
-        return mustFetch
+        return localTrack.getCached(trackId)
     }
 
     override suspend fun getTrack(trackId: Long): LastFmTrack? = coroutineScope {
@@ -65,9 +64,6 @@ internal class ImageRetrieverRepository @Inject constructor(
         val song = trackGateway.getByParam(trackId) ?: return@coroutineScope null
 
         val trackTitle = QueryNormalizer.normalize(song.title)
-            // removes content between parenthesis
-            .replace("(\\(|\\[)[\\w\\s]+(\\)|\\])".toRegex(), "")
-            .trim()
 
         val trackArtist = if (song.artist == MediaStore.UNKNOWN_STRING) "" else song.artist
 
@@ -151,11 +147,16 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     // album
-    override suspend fun mustFetchAlbum(albumId: Long): Boolean {
+    override suspend fun getCachedAlbum(albumId: Long): LastFmAlbum? {
+        Timber.v("$TAG get cached album id=$albumId")
         assertBackgroundThread()
-        val mustFetch = localAlbum.mustFetch(albumId)
-        Timber.v("$TAG must fetch album id=$albumId -> $mustFetch")
-        return mustFetch
+        val album = albumGateway.getByParam(albumId) ?: return null
+        if (album.hasSameNameAsFolder) {
+            Timber.v("$TAG id=$albumId has same name as folder, skip")
+            return null
+        }
+
+        return localAlbum.getCached(albumId)
     }
 
     override suspend fun getAlbum(albumId: Long): LastFmAlbum? = coroutineScope {
@@ -246,11 +247,10 @@ internal class ImageRetrieverRepository @Inject constructor(
     }
 
     // artist
-    override suspend fun mustFetchArtist(artistId: Long): Boolean {
+    override suspend fun getCachedArtist(artistId: Long): LastFmArtist? {
+        Timber.v("$TAG get cached artist id=$artistId")
         assertBackgroundThread()
-        val mustFetch = localArtist.mustFetch(artistId)
-        Timber.v("$TAG must fetch artist id=$artistId -> $mustFetch")
-        return mustFetch
+        return localArtist.getCached(artistId)
     }
 
     override suspend fun getArtist(artistId: Long): LastFmArtist? = coroutineScope {

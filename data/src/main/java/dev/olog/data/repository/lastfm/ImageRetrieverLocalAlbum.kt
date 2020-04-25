@@ -1,9 +1,9 @@
 package dev.olog.data.repository.lastfm
 
-import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.data.db.LastFmDao
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.mapper.toModel
+import dev.olog.domain.entity.LastFmAlbum
 import dev.olog.shared.android.utils.assertBackgroundThread
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,11 +15,6 @@ internal class ImageRetrieverLocalAlbum @Inject constructor(
     companion object {
         @JvmStatic
         private val TAG = "D:${ImageRetrieverLocalAlbum::class.java.simpleName}"
-    }
-
-    fun mustFetch(albumId: Long): Boolean {
-        assertBackgroundThread()
-        return lastFmDao.getAlbum(albumId) == null
     }
 
     fun getCached(id: Long): LastFmAlbum? {
