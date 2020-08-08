@@ -1,13 +1,13 @@
 package dev.olog.feature.presentation.base.activity
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import dev.olog.feature.presentation.base.model.PresentationId
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import javax.inject.Inject
 
-class SharedViewModel @Inject constructor(
+class SharedViewModel @ViewModelInject constructor(
 
 ) : ViewModel() {
 

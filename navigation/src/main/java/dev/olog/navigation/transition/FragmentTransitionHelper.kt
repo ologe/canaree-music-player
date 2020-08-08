@@ -1,7 +1,6 @@
 package dev.olog.navigation.transition
 
 import android.content.Context
-import androidx.core.transition.doOnEnd
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialContainerTransform
@@ -14,7 +13,7 @@ import dev.olog.navigation.themeAttributeToColor
 // Fragment context can't be initialized yet, so don't use `Fragment#requireContext()`
 
 fun Fragment.setupExitAnimation(context: Context) {
-    val transition = MaterialFadeThrough.create(context).apply {
+    val transition = MaterialFadeThrough().apply {
 //        duration = DURATION
     }
     exitTransition = transition
@@ -22,7 +21,7 @@ fun Fragment.setupExitAnimation(context: Context) {
 }
 
 fun Fragment.setupEnterAnimation(context: Context) {
-    val transition = MaterialFadeThrough.create(context).apply {
+    val transition = MaterialFadeThrough().apply {
 //        duration = DURATION
     }
     enterTransition = transition
@@ -39,12 +38,12 @@ fun Fragment.setupExitSharedAnimation() {
 }
 
 fun Fragment.setupEnterSharedAnimation(context: Context) {
-    sharedElementEnterTransition = MaterialContainerTransform(context).apply {
+    sharedElementEnterTransition = MaterialContainerTransform().apply {
         drawingViewId = R.id.fragmentContainer
         containerColor = context.themeAttributeToColor(android.R.attr.colorBackground)
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()
     }
-    sharedElementReturnTransition = MaterialContainerTransform(context).apply {
+    sharedElementReturnTransition = MaterialContainerTransform().apply {
         drawingViewId = R.id.fragmentContainer
         containerColor = context.themeAttributeToColor(android.R.attr.colorBackground)
         duration = context.resources.getInteger(R.integer.shared_element_duration).toLong()

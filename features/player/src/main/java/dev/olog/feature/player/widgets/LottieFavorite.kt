@@ -11,6 +11,7 @@ import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.core.extensions.findActivity
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.shared.android.dark.mode.isDarkMode
@@ -24,7 +25,7 @@ internal class LottieFavorite(
 
 ) : LottieAnimationView(context, attrs) {
 
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel by lazyFast { (findActivity() as HasSlidingPanel).getSlidingPanel() }
     private var isSlidingPanelExpanded = false
 
     private var state: FavoriteState? = null

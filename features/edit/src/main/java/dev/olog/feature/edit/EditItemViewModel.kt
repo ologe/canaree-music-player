@@ -2,7 +2,9 @@ package dev.olog.feature.edit
 
 import android.content.Context
 import androidx.core.text.isDigitsOnly
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.edit.model.UpdateAlbumInfo
 import dev.olog.feature.edit.model.UpdateArtistInfo
@@ -10,10 +12,9 @@ import dev.olog.feature.edit.model.UpdateResult
 import dev.olog.feature.edit.model.UpdateSongInfo
 import dev.olog.feature.presentation.base.extensions.toast
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class EditItemViewModel @Inject constructor(
-    private val context: Context,
+class EditItemViewModel @ViewModelInject constructor(
+    @ApplicationContext private val context: Context,
     private val presenter: EditItemPresenter,
     private val schedulers: Schedulers
 

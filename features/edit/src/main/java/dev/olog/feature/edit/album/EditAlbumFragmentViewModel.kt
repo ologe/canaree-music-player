@@ -1,5 +1,6 @@
 package dev.olog.feature.edit.album
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.domain.entity.track.Album
@@ -13,9 +14,8 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import javax.inject.Inject
 
-class EditAlbumFragmentViewModel @Inject constructor(
+class EditAlbumFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditAlbumFragmentPresenter,
     private val audioTagger: AudioTagger,
     private val schedulers: Schedulers

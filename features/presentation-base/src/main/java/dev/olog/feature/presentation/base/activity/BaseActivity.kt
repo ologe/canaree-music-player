@@ -4,14 +4,14 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.feature.presentation.base.R
 import dev.olog.lib.DarkDesaturatedResources
 import dev.olog.feature.presentation.base.extensions.setLightStatusBar
 import dev.olog.shared.android.theme.themeManager
 
-abstract class BaseActivity : DaggerAppCompatActivity(),
+abstract class BaseActivity : AppCompatActivity(),
     ThemedActivity {
 
     private var customResources: Resources? = null

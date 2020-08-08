@@ -6,10 +6,10 @@
     <application>
 
 <!--        TODO try to remove, use an alternative solution-->
-        <provider
-            android:name="dev.olog.data.test.InMemoryContentProvider"
-            android:authorities="canaree_media"
-            android:exported="false" />
+<!--        <provider-->
+<!--            android:name="dev.olog.data.test.InMemoryContentProvider"-->
+<!--            android:authorities="canaree_media"-->
+<!--            android:exported="false" />-->
 
     </application>
 

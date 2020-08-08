@@ -6,6 +6,7 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.*
 import dev.olog.domain.gateway.ImageRetrieverGateway
@@ -98,7 +99,7 @@ internal class GlideImageRetrieverLoader(
     }
 
     class Factory @Inject constructor(
-        private val context: Context,
+        @ApplicationContext private val context: Context,
         private val imageRetrieverGateway: ImageRetrieverGateway,
         private val prefs: SharedPreferences,
         private val schedulers: Schedulers

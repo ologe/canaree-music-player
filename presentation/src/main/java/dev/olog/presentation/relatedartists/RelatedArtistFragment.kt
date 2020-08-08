@@ -3,8 +3,8 @@ package dev.olog.presentation.relatedartists
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RelatedArtistFragment : BaseFragment() {
 
     companion object {
@@ -37,18 +38,13 @@ class RelatedArtistFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
     internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
         RelatedArtistFragmentAdapter(navigator)
     }
 
-    private val viewModel by viewModels<RelatedArtistFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<RelatedArtistFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

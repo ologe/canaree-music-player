@@ -1,8 +1,10 @@
 package dev.olog.feature.edit.track
 
 import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
@@ -18,10 +20,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
-class EditTrackFragmentViewModel @Inject constructor(
-    private val context: Context,
+class EditTrackFragmentViewModel @ViewModelInject constructor(
+    @ApplicationContext private val context: Context,
     private val presenter: EditTrackFragmentPresenter,
     private val audioTagger: AudioTagger,
     private val schedulers: Schedulers

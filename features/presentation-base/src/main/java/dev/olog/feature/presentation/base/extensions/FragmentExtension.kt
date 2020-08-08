@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 // TODO remove this??
 inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
@@ -17,6 +19,28 @@ inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> Fragment.getArgument(key: String): T {
     return requireArguments().get(key) as T
+}
+
+// can't be named arguments because it clashes with [Fragment.arguments]
+inline fun<reified T: Any?> Fragment.argument(key: String): ReadOnlyProperty<Any?, T> {
+    return object : ReadOnlyProperty<Any?, T> {
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+            return requireArguments().get(key) as T
+        }
+    }
+}
+
+inline fun<reified T: Any?, R: Any?> Fragment.argument(
+    key: String,
+    crossinline initializer: (T) -> R
+): ReadOnlyProperty<Any?, R> {
+    return object : ReadOnlyProperty<Any?, R> {
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): R {
+            return initializer(requireArguments().get(key) as T)
+        }
+    }
 }
 
 fun Fragment.launchWhenCreated(block: suspend CoroutineScope.() -> Unit): Job {

@@ -1,7 +1,6 @@
 package dev.olog.feature.settings
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -19,7 +18,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.prefs.TutorialPreferenceGateway
 import dev.olog.feature.settings.blacklist.BlacklistFragment
@@ -36,6 +35,7 @@ import dev.olog.navigation.screens.LibraryPage
 import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 internal class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener,
     ColorCallback{
@@ -60,11 +60,6 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var autoCreateImages: Preference
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)

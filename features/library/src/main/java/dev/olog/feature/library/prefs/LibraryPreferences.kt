@@ -3,6 +3,7 @@ package dev.olog.feature.library.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.library.R
 import dev.olog.feature.library.SpanCountController
 import dev.olog.navigation.screens.LibraryPage
@@ -19,7 +20,7 @@ private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_P
 
 
 internal class LibraryPreferences @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) {
 

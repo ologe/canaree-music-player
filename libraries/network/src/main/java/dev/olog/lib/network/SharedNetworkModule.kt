@@ -5,6 +5,9 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.lib.network.retrofit.adapter.IoResultCallAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
@@ -16,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 object SharedNetworkModule {
 
     val gson by lazy { Gson() }
@@ -34,7 +38,7 @@ object SharedNetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttp(context: Context): OkHttpClient {
+    internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(logInterceptor())
             .addInterceptor(headerInterceptor(context))

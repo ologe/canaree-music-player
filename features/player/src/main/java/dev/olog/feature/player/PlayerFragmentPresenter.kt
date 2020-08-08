@@ -1,6 +1,7 @@
 package dev.olog.feature.player
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.player.prefs.PlayerPreferences
 import dev.olog.feature.presentation.base.widget.adaptive.*
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class PlayerFragmentPresenter @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: PlayerPreferences,
     private val schedulers: Schedulers
 ) {

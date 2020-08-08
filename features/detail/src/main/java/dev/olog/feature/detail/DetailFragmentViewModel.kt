@@ -1,7 +1,11 @@
 package dev.olog.feature.detail
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.olog.domain.MediaId
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.entity.sort.SortType
@@ -12,20 +16,16 @@ import dev.olog.domain.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.domain.interactor.sort.SetSortOrderUseCase
 import dev.olog.domain.interactor.sort.ToggleDetailSortArrangingUseCase
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.feature.presentation.base.model.*
 import dev.olog.feature.presentation.base.model.PresentationIdCategory.*
-import dev.olog.feature.presentation.base.model.DisplayableAlbum
-import dev.olog.feature.presentation.base.model.DisplayableItem
-import dev.olog.feature.presentation.base.model.DisplayableTrack
-import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.navigation.Params
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
-internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: PresentationId.Category,
+internal class DetailFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val bundle: SavedStateHandle,
     dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -35,7 +35,6 @@ internal class DetailFragmentViewModel @Inject constructor(
     private val imageRetrieverGateway: ImageRetrieverGateway,
     private val schedulers: Schedulers,
     private val podcastGateway: PodcastGateway
-
 ) : ViewModel() {
 
     companion object {
@@ -43,6 +42,12 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
+
+    val mediaId: PresentationId.Category
+        get() {
+            val mediaId = MediaId.fromString(bundle.get<String>(Params.MEDIA_ID)!!)
+            return (mediaId as MediaId.Category).toPresentation()
+        }
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
@@ -152,14 +157,14 @@ internal class DetailFragmentViewModel @Inject constructor(
 
     fun processMove() = viewModelScope.launch {
         if (mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST){
-            presenter.moveInPlaylist(moveList)
+            presenter.moveInPlaylist(mediaId, moveList)
         }
         moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(schedulers.cpu) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(item)
+        presenter.removeFromPlaylist(mediaId, item)
     }
 
     fun observeSorting(): Flow<SortEntity> {

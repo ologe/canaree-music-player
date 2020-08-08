@@ -5,6 +5,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.Request
+import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,5 +51,9 @@ abstract class AbsCall<In : Any, Out : Any>(
 
     override fun request(): Request {
         return delegate.request()
+    }
+
+    override fun timeout(): Timeout {
+        return delegate.timeout()
     }
 }

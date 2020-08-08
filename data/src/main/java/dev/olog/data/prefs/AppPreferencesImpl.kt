@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.UserCredentials
 import dev.olog.domain.prefs.AppPreferencesGateway
 import dev.olog.data.R
@@ -14,7 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 internal class AppPreferencesImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 
 ) : AppPreferencesGateway {

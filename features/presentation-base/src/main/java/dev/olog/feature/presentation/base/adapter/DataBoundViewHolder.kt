@@ -10,6 +10,7 @@ import dev.olog.feature.presentation.base.R
 import kotlinx.android.extensions.LayoutContainer
 
 // TODO test lifecycle
+// TODO use LayoutContainer in correctly
 class DataBoundViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view),

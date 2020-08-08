@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.R
-import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.navigation.Navigator
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class FolderTreeFragment : BaseFragment(),
     BreadCrumbLayout.SelectionCallback,
     CanHandleOnBackPressed {
@@ -35,16 +35,11 @@ internal class FolderTreeFragment : BaseFragment(),
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
     internal lateinit var navigator: Navigator
-    private val viewModel by activityViewModels<FolderTreeFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by activityViewModels<FolderTreeFragmentViewModel>()
 
     private val adapter by lazyFast {
-        FolderTreeFragmentAdapter(viewModel, activity as MediaProvider, navigator)
+        FolderTreeFragmentAdapter(viewModel, mediaProvider, navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

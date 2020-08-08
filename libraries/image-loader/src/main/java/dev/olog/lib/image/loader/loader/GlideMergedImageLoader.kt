@@ -6,6 +6,7 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory.*
 import dev.olog.domain.gateway.track.FolderGateway
@@ -60,7 +61,7 @@ class GlideMergedImageLoader(
     }
 
     class Factory @Inject constructor(
-        private val context: Context,
+        @ApplicationContext private val context: Context,
         private val folderGateway: FolderGateway,
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway,

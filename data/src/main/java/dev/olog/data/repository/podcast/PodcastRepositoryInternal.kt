@@ -2,6 +2,7 @@ package dev.olog.data.repository.podcast
 
 import android.content.ContentUris
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.data.di.qualifier.Podcast
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 internal class PodcastRepositoryInternal @Inject constructor(
-    context: Context,
+    @ApplicationContext context: Context,
     private val schedulers: Schedulers,
     @Podcast private val queries: TrackQueries
 ) : BaseRepository<Song, Long>(context, schedulers) {

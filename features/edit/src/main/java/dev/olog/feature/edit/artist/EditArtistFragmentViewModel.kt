@@ -1,5 +1,6 @@
 package dev.olog.feature.edit.artist
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.domain.entity.track.Artist
@@ -11,9 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class EditArtistFragmentViewModel @Inject constructor(
+class EditArtistFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditArtistFragmentPresenter,
     private val schedulers: Schedulers
 

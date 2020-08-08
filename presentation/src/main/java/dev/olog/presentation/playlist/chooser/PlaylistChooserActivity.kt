@@ -2,30 +2,26 @@ package dev.olog.presentation.playlist.chooser
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseActivity
 import dev.olog.feature.presentation.base.extensions.toast
+import dev.olog.presentation.R
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlaylistChooserActivity : BaseActivity() {
-
-    @Inject
-    internal lateinit var factory: ViewModelProvider.Factory
 
     @Inject
     lateinit var schedulers: Schedulers
 
-    private val viewModel by viewModels<PlaylistChooserActivityViewModel> {
-        factory
-    }
+    private val viewModel by viewModels<PlaylistChooserActivityViewModel>()
 
     private val adapter by lazyFast {
         PlaylistChooserActivityAdapter(this, schedulers)

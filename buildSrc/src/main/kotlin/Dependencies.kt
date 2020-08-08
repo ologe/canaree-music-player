@@ -47,6 +47,7 @@ object BuildPlugins {
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val gms = "com.google.gms:google-services:${Versions.gms}"
         const val fabric = "io.fabric.tools:gradle:${Versions.fabric}"
+        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Libraries.Versions.hilt}"
     }
 
     const val androidApplication = "com.android.application"
@@ -58,6 +59,7 @@ object BuildPlugins {
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
     const val fabric = "io.fabric"
     const val gms = "com.google.gms.google-services"
+    const val hilt = "dagger.hilt.android.plugin"
 
 }
 
@@ -79,6 +81,8 @@ object Libraries {
         //    core
         internal const val coroutines = "1.3.8"
         internal const val dagger = "2.28.3"
+        internal const val hilt = "$dagger-alpha"
+        internal const val hiltX = "1.0.0-alpha01"
 
         //    android x
         internal const val android_x_core = "1.3.1"
@@ -154,9 +158,10 @@ object Libraries {
     object Dagger {
         const val core = "com.google.dagger:dagger:$dagger"
         const val kapt = "com.google.dagger:dagger-compiler:$dagger"
-        const val android = "com.google.dagger:dagger-android:$dagger"
-        const val androidSupport = "com.google.dagger:dagger-android-support:$dagger"
-        const val androidKapt = "com.google.dagger:dagger-android-processor:$dagger"
+        const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+        const val hiltKapt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val hiltX = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltX}"
+        const val hiltXKapt = "androidx.hilt:hilt-compiler:${Versions.hiltX}"
     }
 
     object Coroutines {

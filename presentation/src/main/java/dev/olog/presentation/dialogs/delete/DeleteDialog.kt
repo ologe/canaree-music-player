@@ -4,6 +4,7 @@ import android.app.RecoverableSecurityException
 import android.content.Context
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
 import dev.olog.presentation.R
@@ -19,6 +20,7 @@ import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DeleteDialog: BaseDialog() {
 
     companion object {

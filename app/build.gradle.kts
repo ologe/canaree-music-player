@@ -4,6 +4,7 @@ plugins {
     id(BuildPlugins.kotlinKapt)
     id(BuildPlugins.kotlinAndroidExtensions)
     id(BuildPlugins.fabric)
+    id(BuildPlugins.hilt)
 }
 
 android {
@@ -53,6 +54,10 @@ android {
         project.dependencies.add("${flavor}Implementation", project(config.entryModule))
     }
 
+    packagingOptions {
+        exclude("META-INF/equalizer_debug.kotlin_module")
+    }
+
 }
 
 dependencies {
@@ -66,6 +71,7 @@ dependencies {
 
     // feature
     implementation(project(":navigation"))
+    implementation(project(":features:presentation-base"))
 
     // libs
     implementation(project(":libraries:network"))
@@ -89,9 +95,10 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.android)
-    implementation(Libraries.Dagger.androidSupport)
-    kapt(Libraries.Dagger.androidKapt)
+    implementation(Libraries.Dagger.hilt)
+    kapt(Libraries.Dagger.hiltKapt)
+    implementation(Libraries.Dagger.hiltX)
+    kapt(Libraries.Dagger.hiltXKapt)
 
     implementation(Libraries.X.core)
     implementation(Libraries.X.appcompat)

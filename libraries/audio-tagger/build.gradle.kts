@@ -2,6 +2,7 @@ plugins {
     id(BuildPlugins.androidLibrary)
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.hilt)
 }
 
 android {
@@ -16,6 +17,8 @@ dependencies {
 
     implementation(Libraries.Dagger.core)
     kapt(Libraries.Dagger.kapt)
+    implementation(Libraries.Dagger.hilt)
+    kapt(Libraries.Dagger.hiltKapt)
 
     implementation(Libraries.X.annotations)
 

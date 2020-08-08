@@ -10,11 +10,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
-import dagger.android.support.DaggerAppCompatDialogFragment
 import dev.olog.presentation.R
 
-open class ScrollHmsPickerDialog : DaggerAppCompatDialogFragment() {
+open class ScrollHmsPickerDialog : AppCompatDialogFragment() {
     interface HmsPickHandler {
         fun onHmsPick(reference: Int, hours: Int, minutes: Int, seconds: Int)
     }

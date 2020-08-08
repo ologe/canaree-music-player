@@ -1,5 +1,6 @@
 package dev.olog.feature.library.tab
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.gateway.podcast.PodcastGateway
@@ -12,9 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-internal class TabFragmentViewModel @Inject constructor(
+internal class TabFragmentViewModel @ViewModelInject constructor(
     private val schedulers: Schedulers,
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,

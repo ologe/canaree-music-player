@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.contentresolversql.querySql
 import dev.olog.domain.entity.PureUri
 import dev.olog.domain.entity.track.Song
@@ -18,7 +19,7 @@ import java.io.File
 import javax.inject.Inject
 
 internal class TrackRepository @Inject constructor(
-    context: Context,
+    @ApplicationContext context: Context,
     private val songRepository: SongRepositoryInternal,
     private val podcastRepository: PodcastRepositoryInternal
 

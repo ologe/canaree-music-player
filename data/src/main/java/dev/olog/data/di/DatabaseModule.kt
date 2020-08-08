@@ -2,10 +2,13 @@ package dev.olog.data.di
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.data.db.*
 import dev.olog.data.spotify.db.SpotifyImagesDao
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class DatabaseModule {
 
     @Provides

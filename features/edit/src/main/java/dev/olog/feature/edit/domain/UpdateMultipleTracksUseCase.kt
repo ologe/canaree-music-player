@@ -3,6 +3,7 @@ package dev.olog.feature.edit.domain
 import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.interactor.songlist.GetSongListByParamUseCase
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
@@ -13,7 +14,7 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateMultipleTracksUseCase @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val updateTrackUseCase: UpdateTrackUseCase
 

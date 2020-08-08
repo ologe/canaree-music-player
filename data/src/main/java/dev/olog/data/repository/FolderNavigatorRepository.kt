@@ -2,6 +2,7 @@ package dev.olog.data.repository
 
 import android.content.Context
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.FileType
 import dev.olog.domain.gateway.FolderNavigatorGateway
 import dev.olog.domain.gateway.track.FolderGateway
@@ -16,7 +17,7 @@ import java.util.*
 import javax.inject.Inject
 
 internal class FolderNavigatorRepository @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val blacklistGateway: BlacklistPreferences,
     private val folderGateway: FolderGateway,
     private val schedulers: Schedulers

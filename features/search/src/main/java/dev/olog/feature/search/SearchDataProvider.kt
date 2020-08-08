@@ -1,6 +1,7 @@
 package dev.olog.feature.search
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.gateway.RecentSearchesGateway
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class SearchDataProvider @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val searchHeaders: SearchFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,

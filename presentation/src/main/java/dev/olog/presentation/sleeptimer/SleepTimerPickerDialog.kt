@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.presentation.R
@@ -20,6 +21,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
     ScrollHmsPickerDialog.HmsPickHandler {
 

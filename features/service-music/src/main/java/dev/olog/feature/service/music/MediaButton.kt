@@ -2,7 +2,7 @@ package dev.olog.feature.service.music
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.feature.service.music.EventDispatcher.Event
 import dev.olog.shared.coroutines.autoDisposeJob
@@ -11,7 +11,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-@FeatureScope
+@ServiceScoped
 internal class MediaButton @Inject internal constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val eventDispatcher: EventDispatcher

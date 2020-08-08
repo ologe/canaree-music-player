@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.extensions.findActivity
 import dev.olog.domain.entity.sort.SortArranging
 import dev.olog.domain.entity.sort.SortEntity
@@ -17,7 +18,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class MainPopupDialog @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val popupNavigator: MainPopupNavigator,
     private val gateway: SortPreferences,
     private val navigator: Navigator

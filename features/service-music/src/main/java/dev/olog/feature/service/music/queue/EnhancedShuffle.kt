@@ -1,6 +1,6 @@
 package dev.olog.feature.service.music.queue
 
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.feature.service.music.interfaces.IPlayerLifecycle
 import dev.olog.feature.service.music.model.MediaEntity
 import dev.olog.feature.service.music.model.MetadataEntity
@@ -8,7 +8,7 @@ import dev.olog.shared.removeFirst
 import javax.inject.Inject
 import kotlin.math.min
 
-@FeatureScope
+@ServiceScoped
 internal class EnhancedShuffle @Inject constructor(
     playerLifecycle: IPlayerLifecycle
 

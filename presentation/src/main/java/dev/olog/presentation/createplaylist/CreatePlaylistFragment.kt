@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(),
     FloatingWindow {
 
@@ -41,12 +42,7 @@ class CreatePlaylistFragment : BaseFragment(),
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<CreatePlaylistFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
 
     private val adapter by lazyFast {
         CreatePlaylistFragmentAdapter(viewModel)

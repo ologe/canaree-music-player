@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class EditArtistFragment : BaseEditItemFragment() {
 
     companion object {
@@ -38,16 +38,9 @@ class EditArtistFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<EditArtistFragmentViewModel>()
 
-    private val viewModel by viewModels<EditArtistFragmentViewModel> {
-        viewModelFactory
-    }
-
-    private val editItemViewModel by activityViewModels<EditItemViewModel> {
-        viewModelFactory
-    }
+    private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
     private val mediaId by lazyFast {
         getArgument<PresentationId.Category>(ARGUMENTS_MEDIA_ID)

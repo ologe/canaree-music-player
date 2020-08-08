@@ -1,6 +1,7 @@
 package dev.olog.feature.detail
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.shared.coroutines.mapListItem
 import dev.olog.domain.entity.spotify.SpotifyAlbumType
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
@@ -31,7 +32,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class DetailDataProvider @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val headers: DetailFragmentHeaders,
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
@@ -141,7 +142,7 @@ class DetailDataProvider @Inject constructor(
 
         return combine(
             observeHeader(mediaId),
-            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums() else listOf() },
+            observeSiblings(mediaId).map { if (it.isNotEmpty()) headers.albums(mediaId) else listOf() },
             observeMostPlayed(mediaId).map { if (it.isNotEmpty()) headers.mostPlayed else listOf() },
             observeRecentlyAdded(mediaId).map {
                 if (it.isNotEmpty()) headers.recent(

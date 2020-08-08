@@ -5,12 +5,11 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.lib.media.MediaProvider
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -33,6 +32,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment(),
     SetupNestedList,
     IDragListener by DragListenerImpl() {
@@ -47,15 +47,10 @@ class SearchFragment : BaseFragment(),
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<SearchFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<SearchFragmentViewModel>()
 
     private val adapter by lazyFast {
-        SearchFragmentAdapter(this, requireActivity() as MediaProvider, navigator, viewModel)
+        SearchFragmentAdapter(this, mediaProvider, navigator, viewModel)
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(navigator, viewModel)

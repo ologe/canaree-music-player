@@ -3,6 +3,7 @@ package dev.olog.data.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.R
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -33,7 +34,7 @@ private const val LAST_ID_IN_PLAYLIST = "$TAG.last_id_in_playlist_2"
 private const val MUSIC_VOLUME = "$TAG.music_volume"
 
 internal class MusicPreferencesImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences,
     private val schedulers: Schedulers
 

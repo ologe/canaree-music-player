@@ -1,5 +1,6 @@
 package dev.olog.feature.queue
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.domain.entity.PlayingQueueSong
@@ -12,9 +13,8 @@ import dev.olog.shared.swap
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-internal class PlayingQueueFragmentViewModel @Inject constructor(
+internal class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     playingQueueGateway: PlayingQueueGateway,
     private val schedulers: Schedulers

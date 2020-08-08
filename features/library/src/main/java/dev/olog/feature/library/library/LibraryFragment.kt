@@ -7,6 +7,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class LibraryFragment : BaseFragment() {
 
     companion object {

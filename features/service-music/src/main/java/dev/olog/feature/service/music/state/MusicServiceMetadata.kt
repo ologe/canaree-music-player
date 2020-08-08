@@ -7,7 +7,8 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -29,10 +30,10 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
-@FeatureScope
+@ServiceScoped
 internal class MusicServiceMetadata @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
     musicPrefs: MusicPreferencesGateway,

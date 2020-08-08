@@ -4,8 +4,9 @@ import dagger.Binds
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.domain.gateway.spotify.SpotifyGateway
-import dev.olog.lib.network.SharedNetworkModule
 import dev.olog.lib.network.withLazyCallFactory
 import dev.olog.data.spotify.gateway.SpotifyGatewayImpl
 import dev.olog.data.spotify.service.SpotifyLoginService
@@ -19,7 +20,8 @@ import javax.inject.Singleton
 private const val SPOTIFY_API = "https://api.spotify.com/v1/"
 private const val SPOTIFY_ACCOUNTS = "https://accounts.spotify.com/"
 
-@Module(includes = [SharedNetworkModule::class])
+@Module
+@InstallIn(ApplicationComponent::class)
 abstract class SpotifyNetworkModule {
 
     @Binds

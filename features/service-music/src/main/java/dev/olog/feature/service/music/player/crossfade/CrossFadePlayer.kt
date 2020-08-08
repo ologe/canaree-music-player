@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.audio.AudioListener
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.service.music.EventDispatcher
@@ -32,7 +33,7 @@ import kotlin.math.abs
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
  */
 internal class CrossFadePlayer @Inject internal constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     @ServiceLifecycle private val lifecycle: Lifecycle,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,

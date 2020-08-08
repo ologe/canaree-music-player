@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.entity.favorite.FavoriteItemState
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-@FeatureScope
+@ServiceScoped
 internal class CurrentSong @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     insertMostPlayedUseCase: InsertMostPlayedUseCase,

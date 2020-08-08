@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import dagger.hilt.EntryPoints
 import dev.olog.msc.R
 import dev.olog.domain.entity.LastMetadata
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -18,7 +19,6 @@ import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
-import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
 
@@ -27,7 +27,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
+    private fun musicPrefs(context: Context): MusicPreferencesGateway {
+        return EntryPoints.get(context, WidgetColored.WidgetEntryPoint::class.java).musicPrefs()
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -54,7 +56,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicServiceAction.SKIP_NEXT.name))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-        val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
+        val metadata = musicPrefs(context).getLastMetadata().safeMap(context)
         onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
     }
 

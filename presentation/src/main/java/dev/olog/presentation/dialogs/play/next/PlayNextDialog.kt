@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
@@ -17,6 +18,7 @@ import dev.olog.shared.lazyFast
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlayNextDialog : BaseDialog() {
 
     companion object {

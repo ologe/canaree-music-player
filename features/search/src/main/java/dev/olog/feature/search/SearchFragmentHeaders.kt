@@ -1,26 +1,25 @@
 package dev.olog.feature.search
 
 import android.content.Context
-import dev.olog.core.dagger.FeatureScope
-import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
-import dev.olog.feature.presentation.base.dagger.ScreenScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
+import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import javax.inject.Inject
 
-@FeatureScope
 class SearchFragmentHeaders @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
-    val recents: List<DisplayableItem> = listOf(
-        DisplayableHeader(
-            type = R.layout.item_search_recent_header,
-            mediaId = headerId("recent searches header id"),
-            title = context.getString(R.string.search_recent_searches)
+    val recents: List<DisplayableItem>
+        get() = listOf(
+            DisplayableHeader(
+                type = R.layout.item_search_recent_header,
+                mediaId = headerId("recent searches header id"),
+                title = context.getString(R.string.search_recent_searches)
+            )
         )
-    )
 
     fun trackHeaders(size: Int, showPodcast: Boolean): DisplayableItem =
         DisplayableHeader(

@@ -2,13 +2,14 @@ package dev.olog.feature.player.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.player.R
 import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class PlayerPreferences @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) {
 

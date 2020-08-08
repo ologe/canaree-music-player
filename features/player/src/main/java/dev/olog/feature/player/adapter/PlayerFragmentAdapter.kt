@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import dev.olog.core.extensions.findActivity
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.player.IPlayerAppearanceAdaptiveBehavior
 import dev.olog.feature.player.PlayerFragmentPresenter
@@ -198,6 +199,7 @@ internal class PlayerFragmentAdapter(
             }.launchIn(holder.lifecycleScope)
 
         view.volume?.setOnClickListener {
+            // TODO refactor
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
@@ -350,13 +352,13 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }

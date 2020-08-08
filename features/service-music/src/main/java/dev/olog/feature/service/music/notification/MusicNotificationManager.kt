@@ -7,7 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.schedulers.Schedulers
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
-@FeatureScope
+@ServiceScoped
 internal class MusicNotificationManager @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val service: Service,

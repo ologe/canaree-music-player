@@ -3,6 +3,9 @@ package dev.olog.presentation.createplaylist
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.track.Song
@@ -18,15 +21,17 @@ import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class CreatePlaylistFragmentViewModel @Inject constructor(
-    private val playlistType: PlaylistType,
+class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val bundle: SavedStateHandle,
     private val trackGateway: TrackGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
     private val schedulers: Schedulers
 
 ) : ViewModel() {
+
+    private val playlistType: PlaylistType
+        get() = PlaylistType.valueOf(bundle.get(CreatePlaylistFragment.ARGUMENT_PLAYLIST_TYPE)!!)
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountPublisher = ConflatedBroadcastChannel<Int>()

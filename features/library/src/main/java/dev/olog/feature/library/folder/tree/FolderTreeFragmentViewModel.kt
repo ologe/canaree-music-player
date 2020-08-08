@@ -7,8 +7,10 @@ import android.database.CursorIndexOutOfBoundsException
 import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.FileType
 import dev.olog.domain.gateway.FolderNavigatorGateway
 import dev.olog.domain.prefs.AppPreferencesGateway
@@ -23,10 +25,9 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
-internal class FolderTreeFragmentViewModel @Inject constructor(
-    private val context: Context,
+internal class FolderTreeFragmentViewModel @ViewModelInject constructor(
+    @ApplicationContext private val context: Context,
     private val appPreferencesUseCase: AppPreferencesGateway,
     private val gateway: FolderNavigatorGateway,
     schedulers: Schedulers

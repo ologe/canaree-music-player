@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.feature.detail.adapter.*
 import dev.olog.feature.detail.model.DetailValues
@@ -23,8 +23,8 @@ import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.DisplayableHeader
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.feature.presentation.base.transition.FastAutoTransition
-import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -37,6 +37,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
@@ -45,21 +46,17 @@ class DetailFragment : BaseFragment(),
     @Inject
     internal lateinit var navigator: Navigator
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<DetailFragmentViewModel>()
 
-    private val viewModel by viewModels<DetailFragmentViewModel> {
-        viewModelFactory
+    private val mediaId by argument<String, PresentationId.Category>(Params.MEDIA_ID) {
+        MediaId.fromString(it).toPresentation() as PresentationId.Category
     }
-
-    @Inject
-    lateinit var mediaId: PresentationId.Category
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(navigator, requireActivity() as MediaProvider)
+        DetailMostPlayedAdapter(navigator, mediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(navigator, requireActivity() as MediaProvider)
+        DetailRecentlyAddedAdapter(navigator, mediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(navigator)
@@ -76,7 +73,7 @@ class DetailFragment : BaseFragment(),
             mediaId = mediaId,
             setupNestedList = this,
             navigator = navigator,
-            mediaProvider = requireActivity() as MediaProvider,
+            mediaProvider = mediaProvider,
             viewModel = viewModel,
             dragListener = this,
             afterImageLoad = { startPostponedEnterTransition() }

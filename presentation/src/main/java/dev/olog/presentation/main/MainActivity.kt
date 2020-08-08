@@ -7,10 +7,10 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.extensions.getTopFragment
 import dev.olog.domain.MediaId
 import dev.olog.feature.app.shortcuts.Shortcuts
@@ -44,22 +44,15 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
     HasScrollingInterface,
     OnPermissionChanged {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<MainActivityViewModel> {
-        factory
-    }
-    private val sharedViewModel by viewModels<SharedViewModel> {
-        factory
-    }
+    private val viewModel by viewModels<MainActivityViewModel>()
+    private val sharedViewModel by viewModels<SharedViewModel>()
 
     @Inject
     internal lateinit var navigator: Navigator

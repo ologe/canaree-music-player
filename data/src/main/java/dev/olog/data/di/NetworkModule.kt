@@ -3,10 +3,10 @@ package dev.olog.data.di
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.data.api.DeezerService
 import dev.olog.data.api.LastFmService
-import dev.olog.data.spotify.di.SpotifyNetworkModule
-import dev.olog.lib.network.SharedNetworkModule
 import dev.olog.lib.network.withLazyCallFactory
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
@@ -17,12 +17,8 @@ import javax.inject.Singleton
 private const val LAST_FM = "http://ws.audioscrobbler.com/2.0/"
 private const val DEEZER = "https://api.deezer.com/"
 
-@Module(
-    includes = [
-        SpotifyNetworkModule::class,
-        SharedNetworkModule::class
-    ]
-)
+@Module
+@InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
     @Provides

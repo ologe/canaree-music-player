@@ -1,6 +1,7 @@
 package dev.olog.feature.edit
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.track.Song
 import dev.olog.domain.gateway.track.TrackGateway
@@ -17,7 +18,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class EditItemDialogFactory @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val trackGateway: TrackGateway,
     private val getSongListByParamUseCase: GetSongListByParamUseCase,
     private val schedulers: Schedulers,

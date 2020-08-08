@@ -1,6 +1,7 @@
 package dev.olog.feature.detail
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationId.Companion.headerId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
@@ -12,8 +13,7 @@ import dev.olog.feature.presentation.base.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
-    private val context: Context,
-    private val mediaId: PresentationId.Category
+    @ApplicationContext private val context: Context
 ) {
 
     companion object {
@@ -75,15 +75,15 @@ class DetailFragmentHeaders @Inject constructor(
         )
     )
 
-    fun albums(): List<DisplayableItem> = listOf(
-        albumHeader(),
+    fun albums(mediaId: PresentationId.Category): List<DisplayableItem> = listOf(
+        albumHeader(mediaId),
         DisplayableNestedListPlaceholder(
             type = R.layout.item_detail_list_albums,
             mediaId = headerId("albums horiz list")
         )
     )
 
-    private fun albumHeader(): DisplayableItem {
+    private fun albumHeader(mediaId: PresentationId.Category): DisplayableItem {
         val index = mediaId.category.ordinal
         val title = context.resources.getStringArray(R.array.detail_album_header)[index]
         return DisplayableHeader(

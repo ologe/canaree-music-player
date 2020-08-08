@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.activity.HasSlidingPanel
 import dev.olog.feature.presentation.base.extensions.dipf
 import dev.olog.shared.android.extensions.colorBackground
@@ -38,7 +39,7 @@ class BottomSheet(
         super.onAttachedToWindow()
         val themeManager = context.themeManager
         if (themeManager.playerAppearance.isMini && themeManager.bottomSheetType == BottomSheetType.DEFAULT) {
-            (context as HasSlidingPanel).getSlidingPanel().addBottomSheetCallback(listener)
+            (findActivity() as HasSlidingPanel).getSlidingPanel().addBottomSheetCallback(listener)
         }
     }
 
@@ -46,7 +47,7 @@ class BottomSheet(
         super.onDetachedFromWindow()
         val themeManager = context.themeManager
         if (themeManager.playerAppearance.isMini && themeManager.bottomSheetType == BottomSheetType.DEFAULT) {
-            (context as HasSlidingPanel).getSlidingPanel().removeBottomSheetCallback(listener)
+            (findActivity() as HasSlidingPanel).getSlidingPanel().removeBottomSheetCallback(listener)
         }
     }
 

@@ -15,6 +15,7 @@ buildscript {
         classpath(BuildPlugins.Classpath.kotlinGradlePlugin)
         classpath(BuildPlugins.Classpath.gms)
         classpath(BuildPlugins.Classpath.fabric)
+        classpath(BuildPlugins.Classpath.hilt)
     }
 
 }

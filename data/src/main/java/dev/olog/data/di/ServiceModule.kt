@@ -2,11 +2,14 @@ package dev.olog.data.di
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.domain.gateway.AlarmService
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.data.service.AlarmServiceImpl
+import dev.olog.domain.gateway.AlarmService
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class ServiceModule {
 
     @Binds

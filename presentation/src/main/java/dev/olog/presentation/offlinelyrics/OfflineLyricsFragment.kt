@@ -9,6 +9,7 @@ import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.lib.image.loader.OnImageLoadingError
 import dev.olog.lib.image.loader.getCachedBitmap
@@ -37,6 +38,7 @@ import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OfflineLyricsFragment : BaseFragment(),
     FloatingWindow,
     CanChangeStatusBarColor {
@@ -53,8 +55,6 @@ class OfflineLyricsFragment : BaseFragment(),
 
     @Inject
     lateinit var presenter: OfflineLyricsFragmentPresenter
-
-    private val mediaProvider by lazy { activity as MediaProvider }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

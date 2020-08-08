@@ -10,8 +10,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.DaggerAppCompatDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import de.umass.lastfm.Authenticator
 import dev.olog.shared.coroutines.autoDisposeJob
 import dev.olog.domain.entity.UserCredentials
@@ -26,7 +27,8 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-internal class LastFmCredentialsFragment : DaggerAppCompatDialogFragment() {
+@AndroidEntryPoint
+internal class LastFmCredentialsFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"

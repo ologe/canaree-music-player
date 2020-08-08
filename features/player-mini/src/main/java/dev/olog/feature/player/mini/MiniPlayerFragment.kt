@@ -7,7 +7,7 @@ import androidx.core.math.MathUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.lib.media.MediaProvider
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.lib.media.model.PlayerMetadata
 import dev.olog.lib.media.model.PlayerState
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -17,7 +17,6 @@ import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.BottomSheetType
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_mini_player.artist
 import kotlinx.android.synthetic.main.fragment_mini_player.progressBar
 import kotlinx.android.synthetic.main.fragment_mini_player.textWrapper
@@ -28,6 +27,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @Keep
+@AndroidEntryPoint
 internal class MiniPlayerFragment : BaseFragment() {
 
     companion object {
@@ -39,8 +39,6 @@ internal class MiniPlayerFragment : BaseFragment() {
     @Inject
     lateinit var presenter: MiniPlayerFragmentPresenter
 
-    private val media by lazyFast { requireActivity() as MediaProvider }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
@@ -50,7 +48,7 @@ internal class MiniPlayerFragment : BaseFragment() {
         title.text = lastMetadata.title
         artist.text = lastMetadata.subtitle
 
-        media.observeMetadata()
+        mediaProvider.observeMetadata()
             .onEach {
                 buttons.onTrackChanged(it.isPodcast)
 
@@ -61,7 +59,7 @@ internal class MiniPlayerFragment : BaseFragment() {
                 updateProgressBarMax(it.duration)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
             .filter { it.isPlaying || it.isPaused }
             .distinctUntilChanged()
             .onEach { progressBar.onStateChanged(it) }
@@ -73,7 +71,7 @@ internal class MiniPlayerFragment : BaseFragment() {
             .onEach { artist.text = it }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
@@ -85,7 +83,7 @@ internal class MiniPlayerFragment : BaseFragment() {
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        media.observePlaybackState()
+        mediaProvider.observePlaybackState()
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
             .onEach { animateSkipTo(it) }

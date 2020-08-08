@@ -10,12 +10,13 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.feature.service.music.interfaces.ISourceFactory
 import dev.olog.feature.service.music.model.MediaEntity
 import javax.inject.Inject
 
 internal class DefaultSourceFactory @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 
 ) : ISourceFactory<MediaEntity> {
 

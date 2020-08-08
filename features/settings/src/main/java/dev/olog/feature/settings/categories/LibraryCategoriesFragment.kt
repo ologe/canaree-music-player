@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
@@ -14,6 +15,7 @@ import dev.olog.feature.settings.R
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImpl() {
 
     companion object {

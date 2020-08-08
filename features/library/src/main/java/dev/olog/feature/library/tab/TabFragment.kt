@@ -10,17 +10,16 @@ import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.domain.entity.sort.SortType
 import dev.olog.feature.library.R
 import dev.olog.feature.library.model.TabCategory
-import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.DottedDividerDecorator
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.PresentationIdCategory
@@ -48,6 +47,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class TabFragment : BaseFragment(),
     SetupNestedList {
 
@@ -67,9 +67,6 @@ internal class TabFragment : BaseFragment(),
     @Inject
     internal lateinit var navigator: Navigator
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(navigator)
     }
@@ -83,16 +80,14 @@ internal class TabFragment : BaseFragment(),
         TabFragmentNestedAdapter(navigator)
     }
 
-    private val viewModel by activityViewModels<TabFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by activityViewModels<TabFragmentViewModel>()
 
     internal val category: TabCategory by lazyFast {
         getArgument<PresentationIdCategory>(ARGUMENTS_SOURCE).toTabCategory()
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(navigator, requireActivity() as MediaProvider, viewModel, this)
+        TabFragmentAdapter(navigator, mediaProvider, viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

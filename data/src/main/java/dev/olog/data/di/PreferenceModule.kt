@@ -6,12 +6,16 @@ import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.domain.prefs.*
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.prefs.*
 import dev.olog.data.prefs.sort.AppSortingImpl
+import dev.olog.domain.prefs.*
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class PreferenceModule {
 
     @Binds
@@ -42,7 +46,7 @@ abstract class PreferenceModule {
 
         @Provides
         @Singleton
-        internal fun provideSharedPreferences(context: Context): SharedPreferences {
+        internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
             return PreferenceManager.getDefaultSharedPreferences(context)
         }
     }

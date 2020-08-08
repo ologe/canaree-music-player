@@ -12,27 +12,31 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import dagger.android.HasAndroidInjector
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.domain.MediaId
 import dev.olog.lib.image.loader.loader.GlideImageRetrieverLoader
 import dev.olog.lib.image.loader.loader.GlideMergedImageLoader
 import dev.olog.lib.image.loader.loader.GlideOriginalImageLoader
 import dev.olog.lib.image.loader.loader.GlideSpotifyImageLoader
 import java.io.InputStream
-import javax.inject.Inject
 
 @GlideModule
 @Keep
-class GlideModule : AppGlideModule() {
+internal class GlideModule : AppGlideModule() {
 
-    @Inject
-    internal lateinit var lastFmFactory: GlideImageRetrieverLoader.Factory
-    @Inject
-    internal lateinit var originalFactory: GlideOriginalImageLoader.Factory
-    @Inject
-    internal lateinit var mergedFactory: GlideMergedImageLoader.Factory
-    @Inject
-    internal lateinit var spotifyFactory: GlideSpotifyImageLoader.Factory
+    @EntryPoint
+    @InstallIn(ApplicationComponent::class)
+    interface GlideEntryPoint {
+
+        fun lastFmFactory(): GlideImageRetrieverLoader.Factory
+        fun originalFactory(): GlideOriginalImageLoader.Factory
+        fun mergedFactory(): GlideMergedImageLoader.Factory
+        fun spotifyFactory(): GlideSpotifyImageLoader.Factory
+
+    }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         builder.setLogLevel(Log.ERROR)
@@ -53,14 +57,12 @@ class GlideModule : AppGlideModule() {
     }
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        // TODO incapsulate
-        val injector = context.applicationContext as HasAndroidInjector
-        injector.androidInjector().inject(this)
+        val component = EntryPoints.get(context, GlideEntryPoint::class.java)
 
-        registry.prepend(MediaId::class.java, InputStream::class.java, lastFmFactory)
-        registry.prepend(MediaId.Category::class.java, InputStream::class.java, mergedFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, originalFactory)
-        registry.prepend(MediaId::class.java, InputStream::class.java, spotifyFactory)
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.lastFmFactory())
+        registry.prepend(MediaId.Category::class.java, InputStream::class.java, component.mergedFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.originalFactory())
+        registry.prepend(MediaId::class.java, InputStream::class.java, component.spotifyFactory())
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

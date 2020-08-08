@@ -5,12 +5,12 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.DaggerAppCompatDialogFragment
 import dev.olog.feature.presentation.base.R
 
-abstract class ListDialog : DaggerAppCompatDialogFragment() {
+abstract class ListDialog : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(requireContext())

@@ -1,6 +1,7 @@
 package dev.olog.feature.library.tab
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.shared.coroutines.mapListItem
 import dev.olog.domain.gateway.podcast.PodcastAuthorGateway
 import dev.olog.domain.gateway.podcast.PodcastPlaylistGateway
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(
-    context: Context,
+    @ApplicationContext context: Context,
     private val headers: TabFragmentHeaders,
     // songs
     private val folderGateway: FolderGateway,

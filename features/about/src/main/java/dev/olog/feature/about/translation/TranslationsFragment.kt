@@ -3,6 +3,7 @@ package dev.olog.feature.about.translation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.about.NavigatorAbout
 import dev.olog.feature.about.R
 import dev.olog.feature.presentation.base.DottedDividerDecorator
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_translations.*
 import javax.inject.Inject
 
 // TODO rename to localization
+@AndroidEntryPoint
 internal class TranslationsFragment : BaseFragment() {
 
     @Inject

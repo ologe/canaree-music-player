@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
 import dev.olog.feature.presentation.base.adapter.drag.IDragListener
@@ -16,7 +16,6 @@ import dev.olog.feature.presentation.base.extensions.awaitAnimationEnd
 import dev.olog.feature.presentation.base.extensions.dip
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.queue.adapter.PlayingQueueFragmentAdapter
-import dev.olog.lib.media.MediaProvider
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
@@ -25,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -36,17 +36,13 @@ internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListe
         }
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<PlayingQueueFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<PlayingQueueFragmentViewModel>()
 
     @Inject
     internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
-        PlayingQueueFragmentAdapter(requireActivity() as MediaProvider, navigator, this, viewModel)
+        PlayingQueueFragmentAdapter(mediaProvider, navigator, this, viewModel)
     }
 
     @SuppressLint("ConcreteDispatcherIssue")

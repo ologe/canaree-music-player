@@ -3,7 +3,7 @@ package dev.olog.presentation.widgets.bottomnavigator
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.prefs.CommonPreferences
 import dev.olog.navigation.Navigator
@@ -14,6 +14,7 @@ import dev.olog.navigation.screens.LibraryPage
 import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class CanareeBottomNavigationView(
     context: Context,
     attrs: AttributeSet
@@ -24,12 +25,6 @@ internal class CanareeBottomNavigationView(
 
     @Inject
     lateinit var navigator: Navigator
-
-    init {
-        (findActivity() as HasAndroidInjector)
-            .androidInjector()
-            .inject(this)
-    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

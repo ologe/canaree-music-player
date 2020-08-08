@@ -12,19 +12,18 @@ import dev.olog.feature.presentation.base.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
-    private val mediaId: PresentationId.Category,
     private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
     private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) {
 
-    suspend fun removeFromPlaylist(item: DisplayableTrack) {
+    suspend fun removeFromPlaylist(mediaId: PresentationId.Category, item: DisplayableTrack) {
         require(mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST)
 
         val playlistId = mediaId.categoryId.toLong()
 
-        val playlistType = playlistType()
+        val playlistType = playlistType(mediaId)
         if (playlistId == AutoPlaylist.FAVORITE.id) {
             // favorites use songId instead of idInPlaylist
             removeFromPlaylistUseCase(
@@ -41,16 +40,16 @@ class DetailFragmentPresenter @Inject constructor(
         }
     }
 
-    suspend fun moveInPlaylist(moveList: List<Pair<Int, Int>>) {
+    suspend fun moveInPlaylist(mediaId: PresentationId.Category, moveList: List<Pair<Int, Int>>) {
         require(mediaId.category == PLAYLISTS || mediaId.category == PODCASTS_PLAYLIST)
 
         val playlistId = mediaId.categoryId.toLong()
         moveItemInPlaylistUseCase(
-            MoveItemInPlaylistUseCase.Input(playlistId, moveList, playlistType())
+            MoveItemInPlaylistUseCase.Input(playlistId, moveList, playlistType(mediaId))
         )
     }
 
-    private fun playlistType(): PlaylistType {
+    private fun playlistType(mediaId: PresentationId.Category): PlaylistType {
         return if (mediaId.category == PODCASTS_PLAYLIST) {
             PlaylistType.PODCAST
         } else {

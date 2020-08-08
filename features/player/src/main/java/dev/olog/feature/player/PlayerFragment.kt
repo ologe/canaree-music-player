@@ -6,14 +6,13 @@ import android.view.View
 import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.prefs.MusicPreferencesGateway
-import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.adapter.drag.DragListenerImpl
@@ -35,14 +34,10 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @Keep
+@AndroidEntryPoint
 internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by viewModels<PlayerFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<PlayerFragmentViewModel>()
 
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
@@ -53,12 +48,10 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val mediaProvider by lazyFast { requireActivity() as MediaProvider }
-
     private val adapter by lazyFast {
         val playerAppearance = themeManager.playerAppearance
         PlayerFragmentAdapter(
-            activity as MediaProvider,
+            mediaProvider,
             navigator, viewModel, presenter, musicPrefs,
             this, IPlayerAppearanceAdaptiveBehavior.get(playerAppearance)
         )

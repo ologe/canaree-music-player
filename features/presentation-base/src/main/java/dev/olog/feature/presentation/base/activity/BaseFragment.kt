@@ -6,20 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dagger.android.support.DaggerFragment
 import dev.olog.feature.presentation.base.model.PresentationId
+import dev.olog.lib.media.MediaProvider
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-abstract class BaseFragment : DaggerFragment() {
-
-    @Inject
-    internal lateinit var factory: ViewModelProvider.Factory
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +30,7 @@ abstract class BaseFragment : DaggerFragment() {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val activityViewModel by activityViewModels<SharedViewModel> { factory }
+        val activityViewModel by activityViewModels<SharedViewModel>()
         activityViewModel.observeCurrentPlaying
             .onEach { onCurrentPlayingChanged(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -49,5 +45,8 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     protected open fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {}
+
+    protected val mediaProvider: MediaProvider
+        get() = requireActivity() as MediaProvider
 
 }

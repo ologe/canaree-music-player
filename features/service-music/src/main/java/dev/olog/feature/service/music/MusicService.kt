@@ -10,7 +10,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media.session.MediaButtonReceiver
 import dagger.Lazy
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.interactor.SleepTimerUseCase
@@ -32,6 +32,7 @@ import dev.olog.shared.android.extensions.asServicePendingIntent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MusicService : BaseMusicService() {
 
     companion object {
@@ -62,7 +63,6 @@ class MusicService : BaseMusicService() {
     internal lateinit var schedulers: Schedulers
 
     override fun onCreate() {
-        AndroidInjection.inject(this)
         super.onCreate()
         setupMediaSession()
     }

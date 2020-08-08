@@ -1,9 +1,9 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.track.Artist
 import dev.olog.domain.entity.track.Genre
@@ -28,8 +28,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class GenreRepository @Inject constructor(
-    context: Context,
-    contentResolver: ContentResolver,
+    @ApplicationContext context: Context,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val trackGateway: TrackGateway,

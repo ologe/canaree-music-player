@@ -4,11 +4,13 @@ import android.provider.MediaStore
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.dialog.ListDialog
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.feature.settings.R
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class BlacklistFragment : ListDialog() {
 
     companion object {

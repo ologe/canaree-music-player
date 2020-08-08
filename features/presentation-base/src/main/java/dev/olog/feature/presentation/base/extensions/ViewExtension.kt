@@ -8,6 +8,8 @@ import android.view.ViewParent
 import androidx.annotation.Px
 import androidx.core.view.*
 import dev.olog.core.coroutines.viewScope
+import dev.olog.core.extensions.findActivity
+import dev.olog.lib.media.MediaProvider
 import dev.olog.shared.coroutines.autoDisposeJob
 
 
@@ -115,3 +117,6 @@ fun View.onClick(block: suspend (View) -> Unit) {
         }
     }
 }
+
+inline val View.mediaProvider: MediaProvider
+    get() = findActivity() as MediaProvider

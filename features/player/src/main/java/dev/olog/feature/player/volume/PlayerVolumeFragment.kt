@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
 import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.player.R
 import dev.olog.feature.presentation.base.FloatingWindow
@@ -13,7 +13,7 @@ import dev.olog.feature.presentation.base.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 
-internal class PlayerVolumeFragment : DaggerFragment(),
+internal class PlayerVolumeFragment : Fragment(),
     FloatingWindow,
     SeekBar.OnSeekBarChangeListener {
 

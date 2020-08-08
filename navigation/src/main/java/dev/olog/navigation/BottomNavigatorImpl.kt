@@ -76,9 +76,9 @@ internal class BottomNavigatorImpl @Inject constructor(
         val libraryTrack = FragmentScreen.LIBRARY_TRACKS.tag
         val libraryPodcast = FragmentScreen.LIBRARY_PODCAST.tag
         if (current.tag == libraryTrack && newTag == libraryPodcast) {
-            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
+            new.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         } else if (current.tag == libraryPodcast && newTag == libraryTrack) {
-            new.enterTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
+            new.enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         } else {
             new.setupEnterAnimation(context)
         }
@@ -92,9 +92,9 @@ internal class BottomNavigatorImpl @Inject constructor(
         val libraryTrack = FragmentScreen.LIBRARY_TRACKS.tag
         val libraryPodcast = FragmentScreen.LIBRARY_PODCAST.tag
         if (current.tag == libraryTrack && newTag == libraryPodcast) {
-            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, true)
+            current.exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         } else if (current.tag == libraryPodcast && newTag == libraryTrack) {
-            current.exitTransition = MaterialSharedAxis.create(context, MaterialSharedAxis.X, false)
+            current.exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         } else {
             current.setupExitAnimation(context)
         }

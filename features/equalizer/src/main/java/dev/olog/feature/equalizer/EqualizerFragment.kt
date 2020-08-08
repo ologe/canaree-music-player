@@ -8,8 +8,8 @@ import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.extensions.onClick
 import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
@@ -19,16 +19,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class EqualizerFragment : BaseBottomSheetFragment() {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
-    private val presenter by viewModels<EqualizerFragmentViewModel> {
-        factory
-    }
+    private val presenter by viewModels<EqualizerFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import dev.olog.feature.presentation.base.R
+import dev.olog.feature.presentation.base.extensions.mediaProvider
 import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toDomain
@@ -52,7 +53,6 @@ class QuickActionView(
     }
 
     override fun onClick(v: View?) {
-        val mediaProvider = context as MediaProvider
         when (context.themeManager.quickAction) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId.toDomain(), null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId.toDomain(), null)

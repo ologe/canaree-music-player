@@ -1,13 +1,12 @@
 package dev.olog.msc.app
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.feature.app.shortcuts.AppShortcuts
 import dev.olog.domain.interactor.SleepTimerUseCase
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.dagger.DaggerAppComponent
 import dev.olog.msc.debug.CrashlyticsLogTree
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
 import dev.olog.shared.android.theme.ThemeManager
@@ -16,7 +15,8 @@ import io.alterac.blurkit.BlurKit
 import timber.log.Timber
 import javax.inject.Inject
 
-class App : DaggerApplication() {
+@HiltAndroidApp
+class App : Application() {
 
     private lateinit var appShortcuts: AppShortcuts
 
@@ -64,10 +64,6 @@ class App : DaggerApplication() {
 
     private fun resetSleepTimer() {
         sleepTimerUseCase.reset()
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory().create(this)
     }
 
     override fun getSystemService(name: String): Any? {

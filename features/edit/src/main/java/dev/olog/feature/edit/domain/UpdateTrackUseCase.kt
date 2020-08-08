@@ -6,13 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.lib.audio.tagger.AudioTagger
 import dev.olog.lib.audio.tagger.model.Tags
 import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val audioTagger: AudioTagger
 ) {
 

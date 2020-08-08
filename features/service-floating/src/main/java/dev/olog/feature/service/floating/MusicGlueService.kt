@@ -7,7 +7,8 @@ import android.support.v4.media.session.MediaControllerCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.core.dagger.ServiceLifecycle
 import dev.olog.lib.media.MediaExposer
@@ -23,9 +24,9 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
-@FeatureScope
+@ServiceScoped
 class MusicGlueService @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     @ServiceLifecycle lifecycle: Lifecycle,
     private val schedulers: Schedulers
 

@@ -3,11 +3,10 @@ package dev.olog.presentation.recentlyadded
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.domain.MediaId
-import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.presentation.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
@@ -24,6 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     companion object {
@@ -42,18 +42,13 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
     internal lateinit var navigator: Navigator
 
     private val adapter by lazyFast {
-        RecentlyAddedFragmentAdapter(navigator, requireActivity() as MediaProvider)
+        RecentlyAddedFragmentAdapter(navigator, mediaProvider)
     }
 
-    private val viewModel by viewModels<RecentlyAddedFragmentViewModel> {
-        viewModelFactory
-    }
+    private val viewModel by viewModels<RecentlyAddedFragmentViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

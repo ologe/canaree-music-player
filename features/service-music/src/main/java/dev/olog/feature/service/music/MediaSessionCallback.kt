@@ -8,7 +8,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import dev.olog.core.dagger.FeatureScope
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.domain.MediaId
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -30,7 +30,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-@FeatureScope
+@ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
     @ServiceLifecycle private val lifecycle: Lifecycle,
     private val queue: IQueue,

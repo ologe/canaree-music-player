@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import dev.olog.lib.media.MediaProvider
+import dev.olog.feature.presentation.base.extensions.mediaProvider
 import dev.olog.shared.lazyFast
 import dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
 import kotlinx.android.synthetic.main.fragment_mini_player_buttons_podcast.view.*
@@ -18,7 +18,6 @@ internal class MiniPlayerButtons(
     attrs: AttributeSet
 ) : FrameLayout(context, attrs) {
 
-    private val mediaProvider by lazyFast { context as MediaProvider }
     private val transition by lazyFast {
         AutoTransition().apply {
             duration = 150

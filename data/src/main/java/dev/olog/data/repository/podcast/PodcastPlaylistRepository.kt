@@ -1,6 +1,7 @@
 package dev.olog.data.repository.podcast
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.AutoPlaylist
 import dev.olog.domain.entity.favorite.FavoriteTrackType
 import dev.olog.domain.entity.track.Artist
@@ -26,7 +27,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class PodcastPlaylistRepository @Inject constructor(
-    private val context: Context,
+    @ApplicationContext context: Context,
     private val trackGateway: TrackGateway,
     private val favoriteGateway: FavoriteGateway,
     private val podcastAuthorGateway: PodcastAuthorGateway,

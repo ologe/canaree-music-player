@@ -1,7 +1,9 @@
 package dev.olog.feature.player
 
 import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.favorite.FavoriteState
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.prefs.MusicPreferencesGateway
@@ -14,10 +16,9 @@ import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
 
-internal class PlayerFragmentViewModel @Inject constructor(
-    private val context: Context,
+internal class PlayerFragmentViewModel @ViewModelInject constructor(
+    @ApplicationContext private val context: Context,
     observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
     private val musicPrefsUseCase: MusicPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway,

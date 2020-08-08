@@ -2,7 +2,9 @@ package dev.olog.presentation.playlist.chooser
 
 import android.content.Context
 import android.content.res.Resources
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.entity.track.Playlist
 import dev.olog.domain.gateway.track.PlaylistGateway
 import dev.olog.domain.schedulers.Schedulers
@@ -13,10 +15,9 @@ import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.shared.coroutines.mapListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
 
-class PlaylistChooserActivityViewModel @Inject constructor(
-    private val context: Context,
+class PlaylistChooserActivityViewModel @ViewModelInject constructor(
+    @ApplicationContext private val context: Context,
     playlistGateway: PlaylistGateway,
     schedulers: Schedulers
 ) : ViewModel() {

@@ -2,6 +2,8 @@ package dev.olog.lib.equalizer
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.lib.equalizer.bassboost.BassBoostImpl
 import dev.olog.lib.equalizer.bassboost.BassBoostProxy
 import dev.olog.lib.equalizer.bassboost.IBassBoost
@@ -17,6 +19,7 @@ import dev.olog.lib.equalizer.virtualizer.VirtualizerProxy
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class EqualizerModule {
 
     // proxies

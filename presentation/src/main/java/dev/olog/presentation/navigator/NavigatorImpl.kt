@@ -145,7 +145,7 @@ internal class NavigatorImpl @Inject internal constructor(
 
         val current = findFirstVisibleFragment(activity.supportFragmentManager)
         current?.setupExitSharedAnimation()
-        current?.reenterTransition = MaterialFadeThrough.create(activity)
+        current?.reenterTransition = MaterialFadeThrough()
 
         activity.supportFragmentManager.commit {
             val fragment = CreatePlaylistFragment.newInstance(type)

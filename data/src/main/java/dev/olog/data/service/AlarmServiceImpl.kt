@@ -5,12 +5,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.C.ACTION_STOP_SLEEP_END
 import dev.olog.domain.gateway.AlarmService
 import javax.inject.Inject
 
 internal class AlarmServiceImpl @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : AlarmService {
 
 

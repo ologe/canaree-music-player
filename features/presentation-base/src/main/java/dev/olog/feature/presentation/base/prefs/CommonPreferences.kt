@@ -3,6 +3,7 @@ package dev.olog.feature.presentation.base.prefs
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
@@ -39,7 +40,7 @@ private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
 private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
 
 class CommonPreferences @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) {
 

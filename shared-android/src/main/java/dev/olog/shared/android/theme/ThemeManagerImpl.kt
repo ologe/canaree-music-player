@@ -2,12 +2,13 @@ package dev.olog.shared.android.theme
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.shared.android.dark.mode.DarkModeUtils
 import dev.olog.shared.android.R
 import javax.inject.Inject
 
 internal class ThemeManagerImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val prefs: SharedPreferences
 ) : ThemeManager {
 
