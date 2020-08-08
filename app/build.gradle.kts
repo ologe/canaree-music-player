@@ -114,7 +114,6 @@ dependencies {
     implementation(Libraries.Utils.aesCrypto)
 
     debugImplementation(Libraries.Debug.leakCanary)
-    debugImplementation(Libraries.Debug.stetho)
     implementation(Libraries.Debug.timber)
 
     implementation(Libraries.Firebase.analytics)

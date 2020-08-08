@@ -104,7 +104,6 @@ If you find any problems, please feel free to file an [issue](https://github.com
 * [**Material dialogs**](https://github.com/afollestad/material-dialogs)
 * [**fuzzywuzzy**](https://github.com/xdrop/fuzzywuzzy)
 * [**Leak canary**](https://github.com/square/leakcanary)
-* [**Stetho**](http://facebook.github.io/stetho/)
 
 ## Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=dev.olog.msc)

@@ -1,6 +1,5 @@
 package dev.olog.msc.app
 
-import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dev.olog.lib.analytics.TrackerFacade
@@ -49,9 +48,6 @@ class App : DaggerApplication() {
         appShortcuts = AppShortcuts.instance(this, schedulers)
 
         BlurKit.init(this)
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this)
-        }
     }
 
     private fun initializeConstants() {

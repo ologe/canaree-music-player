@@ -199,13 +199,6 @@ internal class LicensesFragmentPresenter(private val context: Context) {
         mit()
     )
 
-    private val STETHO = LicenseModel(
-        R.layout.item_license,
-        headerId("stetho"),
-        "Stetho", "https://github.com/facebook/stetho",
-        mit()
-    )
-
     private val CROLLER = LicenseModel(
         R.layout.item_license,
         headerId("croller"),
@@ -255,8 +248,7 @@ internal class LicensesFragmentPresenter(private val context: Context) {
         HOVER,
 
         // debug
-        LEAK_CANARY,
-        STETHO
+        LEAK_CANARY
     )
 
     private fun apache(): String {

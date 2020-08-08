@@ -5,7 +5,6 @@ import Libraries.Versions.android_x_browser
 import Libraries.Versions.android_x_coordinator
 import Libraries.Versions.android_x_core
 import Libraries.Versions.android_x_fragments
-import Libraries.Versions.android_x_legacy
 import Libraries.Versions.android_x_material
 import Libraries.Versions.android_x_media
 import Libraries.Versions.android_x_palette
@@ -33,19 +32,18 @@ import Libraries.Versions.scroll_helper
 import Libraries.Versions.sql_content_resolver
 import Libraries.Versions.tap_target_view
 
-const val kotlinVersion = "1.3.70"
+const val kotlinVersion = "1.3.71"
 
 object BuildPlugins {
 
     object Versions {
-        const val buildToolsVersion = "4.0.0-beta04"
+        const val buildToolsVersion = "4.0.1"
         const val gms = "4.3.3"
         const val fabric = "1.31.2"
     }
 
     object Classpath {
-        const val androidGradlePlugin =
-            "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
+        const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val gms = "com.google.gms:google-services:${Versions.gms}"
         const val fabric = "io.fabric.tools:gradle:${Versions.fabric}"
@@ -79,23 +77,22 @@ object Libraries {
     object Versions {
 
         //    core
-        internal const val coroutines = "1.3.5"
-        internal const val dagger = "2.27"
+        internal const val coroutines = "1.3.8"
+        internal const val dagger = "2.28.3"
 
         //    android x
-        internal const val android_x_core = "1.2.0"
-        internal const val android_x_legacy = "1.0.0"
-        internal const val android_x_appcompat = "1.1.0"
-        internal const val android_x_media = "1.1.0"
+        internal const val android_x_core = "1.3.1"
+        internal const val android_x_appcompat = "1.2.0"
+        internal const val android_x_media = "1.1.0" // TODO try media2?
         internal const val android_x_recycler = "1.1.0"
         internal const val android_x_browser = "1.2.0"
-        internal const val android_x_material = "1.2.0-alpha05"
-        internal const val android_x_preference = "1.1.0"
+        internal const val android_x_material = "1.2.0"
+        internal const val android_x_preference = "1.1.1"
         internal const val android_x_palette = "1.0.0"
         internal const val android_x_annotations = "1.1.0"
         internal const val android_x_coordinator = "1.1.0"
-        internal const val android_x_fragments = "1.2.4"
-        internal const val constraint_layout = "2.0.0-beta4"
+        internal const val android_x_fragments = "1.2.5"
+        internal const val constraint_layout = "2.0.0-rc1"
         internal const val lifecycle = "2.2.0"
         internal const val android_x_webview = "1.2.0"
 
@@ -115,8 +112,8 @@ object Libraries {
         internal const val sql_content_resolver = "1.2.3"
 
         //    network
-        internal const val ok_http = "4.4.1"
-        internal const val retrofit = "2.7.2"
+        internal const val ok_http = "4.8.1"
+        internal const val retrofit = "2.9.0"
         internal const val gson = "2.8.6"
 
         //    utils
@@ -125,10 +122,9 @@ object Libraries {
         internal const val fuzzywuzzy = "1.2.0"
 
         //    debug
-        internal const val leak_canary = "2.2"
-        internal const val stetho = "1.5.1"
+        internal const val leak_canary = "2.4"
         internal const val timber = "4.7.1"
-        internal const val chucker = "3.1.2"
+        internal const val chucker = "3.2.0"
 
         //    firebase
         internal const val firebase_core = "17.2.3"
@@ -138,7 +134,7 @@ object Libraries {
 
         // test
         internal const val junit = "4.12"
-        internal const val mockito = "3.2.4"
+        internal const val mockito = "3.4.6"
         internal const val mockitoKotlin = "2.2.0"
         internal const val robolectric = "4.3.1"
         internal const val android_x_test_core = "1.2.0"
@@ -171,8 +167,6 @@ object Libraries {
 
     object X {
         const val core = "androidx.core:core-ktx:$android_x_core"
-        const val legacy =
-            "androidx.legacy:legacy-support-v4:$android_x_legacy" // TODO try to remove
         const val appcompat = "androidx.appcompat:appcompat:$android_x_appcompat"
         const val media = "androidx.media:media:$android_x_media"
         const val recyclerView = "androidx.recyclerview:recyclerview:$android_x_recycler"
@@ -181,10 +175,8 @@ object Libraries {
         const val preference = "androidx.preference:preference:$android_x_preference"
         const val palette = "androidx.palette:palette:$android_x_palette"
         const val annotations = "androidx.annotation:annotation:$android_x_annotations"
-        const val constraintLayout =
-            "androidx.constraintlayout:constraintlayout:${constraint_layout}"
-        const val coordinatorLayout =
-            "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${constraint_layout}"
+        const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator"
         const val fragments = "androidx.fragment:fragment-ktx:$android_x_fragments"
         const val webview = "androidx.webkit:webkit:$android_x_webview"
 
@@ -244,7 +236,6 @@ object Libraries {
 
     object Debug {
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:$leak_canary"
-        const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
         const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
         const val chucker = "com.github.ChuckerTeam.Chucker:library:${Versions.chucker}"
         const val chuckerNoOp = "com.github.ChuckerTeam.Chucker:library-no-op:${Versions.chucker}"
