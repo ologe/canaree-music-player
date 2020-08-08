@@ -341,7 +341,7 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.context) as HasSlidingPanel
+        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
