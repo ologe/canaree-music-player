@@ -28,6 +28,10 @@ class QuickActionView(
     }
 
     private fun setImage() {
+        if (isInEditMode) {
+            setImageResource(R.drawable.vd_play)
+            return
+        }
         val quickAction = context.themeManager.quickAction
         isVisible = quickAction != QuickAction.NONE
 
@@ -40,6 +44,9 @@ class QuickActionView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (isInEditMode) {
+            return
+        }
         setOnClickListener(this)
     }
 
