@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
+    android:background="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/default_list_margin_horizontal"
+    android:paddingEnd="@dimen/tab_margin_end">
 
     <dev.olog.feature.presentation.base.widget.IsPlayingView
         android:id="@+id/isPlaying"
