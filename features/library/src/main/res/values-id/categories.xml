@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="category_no_tab_visible">Dan sekarang?</string>
-    <string-array name="tab_empty_state">
-        <item>Tidak ada Folder</item>
-        <item>Tidak ada daftar putar</item>
-        <item>@string/common_no_tracks</item>
-        <item>Tidak ada album</item>
-        <item>Tidak ada artis</item>
-        <item>Tidak ada aliran</item>
-    </string-array>
-    <string-array name="tab_empty_podcast">
-        <item>Tidak ada daftar putar</item>
-        <item>Tidak ada podcast</item>
-        <item>Tidak ada artis</item>
-    </string-array>
+
+    <string name="empty_state_folders">Tidak ada Folder</string>
+    <string name="empty_state_playlists">Tidak ada daftar putar</string>
+    <string name="empty_state_albums">Tidak ada album</string>
+    <string name="empty_state_artists">Tidak ada artis</string>
+    <string name="empty_state_genres">Tidak ada aliran</string>
+    <string name="empty_state_podcasts">Tidak ada podcast</string>
 
 </resources>

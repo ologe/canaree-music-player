@@ -12,23 +12,12 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_no_tab_visible">Giờ sao?</string>
-
-    <string-array name="tab_empty_state">
-        <item>Không có thư mục</item>
-        <item>Không có danh sách phát</item>
-        <item>@string/common_no_tracks</item>
-        <item>Không có album</item>
-        <item>Không có nhạc sĩ</item>
-        <item>Không có thể loại</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>Không có danh sách phát</item>
-        <item>Không có podcast</item>
-        <item>Không có người làm</item>
-    </string-array>
-
+    <string name="empty_state_folders">Không có thư mục</string>
+    <string name="empty_state_playlists">Không có danh sách phát</string>
+    <string name="empty_state_albums">Không có album</string>
+    <string name="empty_state_artists">Không có nhạc sĩ</string>
+    <string name="empty_state_genres">Không có thể loại</string>
+    <string name="empty_state_podcasts">Không có podcast</string>
 
 
 

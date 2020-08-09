@@ -3,21 +3,12 @@
 
 
     <string name="category_header">Biblioteca</string>
-    <string name="category_no_tab_visible">E agora?</string>
 
-    <string-array name="tab_empty_state">
-        <item>Sem pasta</item>
-        <item>Sem listas de reprodução</item>
-        <item>@string/common_no_tracks</item>
-        <item>Sem álbum</item>
-        <item>Sem artista</item>
-        <item>Sem gênero</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>Sem listas de reprodução</item>
-        <item>Sem podcast</item>
-        <item>Sem artista</item>
-    </string-array>
+    <string name="empty_state_folders">Sem pasta</string>
+    <string name="empty_state_playlists">Sem listas de reprodução</string>
+    <string name="empty_state_albums">Sem álbum</string>
+    <string name="empty_state_artists">Sem artista</string>
+    <string name="empty_state_genres">Sem gênero</string>
+    <string name="empty_state_podcasts">Sem podcast</string>
 
 </resources>

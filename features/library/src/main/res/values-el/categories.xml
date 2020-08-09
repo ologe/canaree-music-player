@@ -12,24 +12,11 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_no_tab_visible">Και τώρα;</string>
-
-    <string-array name="tab_empty_state">
-        <item>Δεν υπάρχουν φάκελοι</item>
-        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
-        <item>@string/common_no_tracks</item>
-        <item>Δεν υπάρχει άλμπουμ</item>
-        <item>Δεν υπάρχει καλλιτέχνης </item>
-        <item>Δεν υπάρχει είδος</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>Δεν υπάρχει λίστα αναπαραγωγής</item>
-        <item>Δεν υπάρχει Podcast</item>
-        <item>Δεν υπάρχει καλλιτέχνης</item>
-    </string-array>
-
-
-
+    <string name="empty_state_folders">Δεν υπάρχουν φάκελοι</string>
+    <string name="empty_state_playlists">Δεν υπάρχει λίστα αναπαραγωγής</string>
+    <string name="empty_state_albums">Δεν υπάρχει άλμπουμ</string>
+    <string name="empty_state_artists">Δεν υπάρχει καλλιτέχνης</string>
+    <string name="empty_state_genres">Δεν υπάρχει είδος</string>
+    <string name="empty_state_podcasts">Δεν υπάρχει Podcast</string>
 
 </resources>

@@ -12,24 +12,11 @@
         <item>@string/category_genres</item>
     </string-array>
 
-    <string name="category_no_tab_visible">और अब?</string>
-
-    <string-array name="tab_empty_state">
-        <item>कोई फोल्डर नहीं</item>
-        <item>कोई प्लेलिस्ट नहीं</item>
-        <item>@string/common_no_tracks</item>
-        <item>कोई एल्बम नहीं</item>
-        <item>कोई संगीतकार नहीं</item>
-        <item>कोई शैली नहीं</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>कोई प्लेलिस्ट नहींt</item>
-        <item>कोई पॉडकास्ट नहीं</item>
-        <item>कोई संगीतकार नहीं</item>
-    </string-array>
-
-
-
+    <string name="empty_state_folders">कोई फोल्डर नहीं</string>
+    <string name="empty_state_playlists">कोई प्लेलिस्ट नहीं</string>
+    <string name="empty_state_albums">कोई एल्बम नहीं</string>
+    <string name="empty_state_artists">कोई संगीतकार नहीं</string>
+    <string name="empty_state_genres">कोई शैली नहीं</string>
+    <string name="empty_state_podcasts">कोई पॉडकास्ट नहीं</string>
 
 </resources>

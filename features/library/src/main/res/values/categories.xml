@@ -21,24 +21,13 @@
     <string name="category_podcasts" translatable="false">@string/common_podcasts</string>
     <string name="category_podcast_authors" translatable="false">@string/common_podcast_authors</string>
 
-    <string name="category_no_tab_visible">And now?</string>
-
-    <string-array name="tab_empty_state">
-        <item>No folders</item>
-        <item>No playlist</item>
-        <item>@string/common_no_tracks</item>
-        <item>No albums</item>
-        <item>No artists</item>
-        <item>No genres</item>
-    </string-array>
-
-    <string-array name="tab_empty_podcast">
-        <item>No playlist</item>
-        <item>No podcasts</item>
-        <item>No artists</item>
-    </string-array>
-
-
+    <string name="empty_state_folders">No folders</string>
+    <string name="empty_state_playlists">No playlist</string>
+    <string name="empty_state_tracks" translatable="false">@string/common_no_tracks</string>
+    <string name="empty_state_albums">No albums</string>
+    <string name="empty_state_artists">No artists</string>
+    <string name="empty_state_genres">No genres</string>
+    <string name="empty_state_podcasts">No podcasts</string>
 
 
 </resources>
