@@ -31,7 +31,7 @@ internal class AlbumFragmentAdapter(
     ) = with(holder) {
         itemView.transitionName = "tab ${item.mediaId}"
 
-        holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
+        cover.loadAlbumImage(item.mediaId.toDomain())
         quickAction.setId(item.mediaId)
         firstText.text = item.title
         secondText.text = item.subtitle

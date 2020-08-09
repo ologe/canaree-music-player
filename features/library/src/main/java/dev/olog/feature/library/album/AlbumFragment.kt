@@ -6,8 +6,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olog.feature.library.LibrarySpanSizeLookup
 import dev.olog.feature.library.R
-import dev.olog.feature.library.tab.layout.manager.AlbumSpanSizeLookup
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
@@ -34,8 +34,8 @@ internal class AlbumFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spanLookup = AlbumSpanSizeLookup(viewModel.getSpanCount())
-        val layoutManager = OverScrollGridLayoutManager(list, spanLookup.getSpanCount())
+        val spanLookup = LibrarySpanSizeLookup(viewModel.getSpanCount())
+        val layoutManager = OverScrollGridLayoutManager(list, LibrarySpanSizeLookup.SPAN_COUNT)
         layoutManager.spanSizeLookup = spanLookup
 
         list.adapter = adapter

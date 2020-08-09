@@ -14,17 +14,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.drop
 
 internal class AlbumFragmentViewModel @ViewModelInject constructor(
-    private val appPreferencesUseCase: SortPreferences,
+    private val sortPrefs: SortPreferences,
     private val preferences: LibraryPreferences,
-    private val albumGateway: AlbumGateway
+    private val gateway: AlbumGateway
 ) : ViewModel() {
 
     val data: Flow<List<AlbumFragmentItem>>
-        get() = albumGateway.observeAll()
+        get() = gateway.observeAll()
             .mapListItem { it.toPresentation() }
 
     val sortOrder: SortEntity
-        get() = appPreferencesUseCase.getAllAlbumsSort()
+        get() = sortPrefs.getAllAlbumsSort()
 
     // TODO remove TabCategory
     fun getSpanCount() = preferences.getSpanCount(TabCategory.ALBUMS)
