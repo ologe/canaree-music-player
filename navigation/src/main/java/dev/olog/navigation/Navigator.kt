@@ -13,118 +13,59 @@ interface Navigator: BottomNavigator, ServiceNavigator {
 
     }
 
-    fun toFirstAccess(activity: FragmentActivity)
+    fun toFirstAccess()
 
-    fun toPlayer(
-        activity: FragmentActivity,
-        @IdRes containerId: Int
-    )
+    fun toPlayer(@IdRes containerId: Int)
 
-    fun toMiniPlayer(
-        activity: FragmentActivity,
-        @IdRes containerId: Int
-    )
+    fun toMiniPlayer(@IdRes containerId: Int)
 
-    fun toDetailFragment(
-        activity: FragmentActivity,
-        mediaId: MediaId.Category,
-        view: View?
-    )
+    fun toDetailFragment(mediaId: MediaId.Category, view: View?)
 
     // TODO shared element??
-    fun toSettings(activity: FragmentActivity)
+    fun toSettings()
 
     // TODO shared element??
-    fun toAbout(activity: FragmentActivity)
+    fun toAbout()
 
     // TODO shared element??
-    fun toEqualizer(activity: FragmentActivity)
+    fun toEqualizer()
 
-    fun toEdit(
-        activity: FragmentActivity,
-        mediaId: MediaId
-    )
+    fun toEdit(mediaId: MediaId)
 
-    fun toRelatedArtists(
-        mediaId: MediaId.Category,
-        view: View
-    )
+    fun toRelatedArtists(mediaId: MediaId.Category, view: View)
 
-    fun toRecentlyAdded(
-        mediaId: MediaId.Category,
-        view: View
-    )
+    fun toRecentlyAdded(mediaId: MediaId.Category, view: View)
 
-    fun toChooseTracksForPlaylistFragment(
-        type: PlaylistType,
-        view: View
-    )
+    fun toChooseTracksForPlaylistFragment(type: PlaylistType, view: View)
 
     fun toEditInfoFragment(mediaId: MediaId)
 
     fun toOfflineLyrics()
 
-    fun toDialog(
-        mediaId: MediaId,
-        anchor: View,
-        container: View?
-    )
+    fun toDialog(mediaId: MediaId, anchor: View, container: View?)
 
 //    fun toMainPopup(
 //        anchor: View,
 //        category: MainPopupCategory
 //    )
 
-    fun toSetRingtoneDialog(
-        mediaId: MediaId.Track,
-        title: String,
-        artist: String
-    )
+    fun toSetRingtoneDialog(mediaId: MediaId.Track, title: String, artist: String)
 
-    fun toCreatePlaylistDialog(
-        mediaId: MediaId,
-        listSize: Int,
-        itemTitle: String
-    )
+    fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
     fun toCreatePlaylistDialogFromPlayingQueue()
 
-    fun toAddToFavoriteDialog(
-        mediaId: MediaId,
-        listSize: Int,
-        itemTitle: String
-    )
+    fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toPlayLater(
-        mediaId: MediaId,
-        listSize: Int,
-        itemTitle: String
-    )
+    fun toPlayLater(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toPlayNext(
-        mediaId: MediaId,
-        listSize: Int,
-        itemTitle: String
-    )
+    fun toPlayNext(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toRenameDialog(
-        mediaId: MediaId.Category,
-        itemTitle: String
-    )
+    fun toRenameDialog(mediaId: MediaId.Category, itemTitle: String)
 
-    fun toClearPlaylistDialog(
-        mediaId: MediaId.Category,
-        itemTitle: String
-    )
+    fun toClearPlaylistDialog(mediaId: MediaId.Category, itemTitle: String)
 
-    fun toDeleteDialog(
-        mediaId: MediaId,
-        listSize: Int,
-        itemTitle: String
-    )
+    fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toRemoveDuplicatesDialog(
-        mediaId: MediaId.Category,
-        itemTitle: String
-    )
+    fun toRemoveDuplicatesDialog(mediaId: MediaId.Category, itemTitle: String)
 }

@@ -135,7 +135,7 @@ internal class AlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist() {
-        navigator.toDetailFragment(activity, album.artistPresentationId.toDomain(), container)
+        navigator.toDetailFragment(album.artistPresentationId.toDomain(), container)
     }
 
 

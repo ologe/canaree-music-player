@@ -9,6 +9,7 @@ import dev.olog.domain.schedulers.Schedulers
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.debug.CrashlyticsLogTree
 import dev.olog.msc.tracker.ActivityAndFragmentsTracker
+import dev.olog.navigation.utils.ActivityProvider
 import dev.olog.shared.android.theme.ThemeManager
 import dev.olog.shared.android.theme.ThemeUtils.THEME_SERVICE
 import io.alterac.blurkit.BlurKit
@@ -19,6 +20,9 @@ import javax.inject.Inject
 class App : Application() {
 
     private lateinit var appShortcuts: AppShortcuts
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
     @Inject
     lateinit var sleepTimerUseCase: SleepTimerUseCase

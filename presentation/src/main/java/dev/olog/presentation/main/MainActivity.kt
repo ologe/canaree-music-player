@@ -70,8 +70,8 @@ class MainActivity : MusicGlueActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navigator.toPlayer(this, R.id.playerFragment)
-        navigator.toMiniPlayer(this, R.id.miniPlayerFragment)
+        navigator.toPlayer(R.id.playerFragment)
+        navigator.toMiniPlayer(R.id.miniPlayerFragment)
 
         observeMetadata()
             .map { it.mediaId.toPresentation() }
@@ -96,7 +96,7 @@ class MainActivity : MusicGlueActivity(),
 
         when {
             viewModel.isFirstAccess() -> {
-                navigator.toFirstAccess(this)
+                navigator.toFirstAccess()
                 return
             }
             savedInstanceState == null -> navigateToLastPage()
@@ -160,7 +160,7 @@ class MainActivity : MusicGlueActivity(),
                     // TODO check
                     val string = intent.getStringExtra(Shortcuts.DETAIL_EXTRA_ID)!!
                     val mediaId = MediaId.fromString(string)
-                    navigator.toDetailFragment(this@MainActivity, mediaId as MediaId.Category, null)
+                    navigator.toDetailFragment(mediaId as MediaId.Category, null)
                 }
             }
             Intent.ACTION_VIEW -> {
@@ -176,7 +176,7 @@ class MainActivity : MusicGlueActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Navigator.REQUEST_CODE_HOVER_PERMISSION) {
-            navigator.toFloating(this)
+            navigator.toFloating()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

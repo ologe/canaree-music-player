@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import dev.olog.core.extensions.findActivity
 import dev.olog.domain.MediaId
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.adapter.*
@@ -108,7 +107,7 @@ internal class TabFragmentAdapter(
             val sort = viewModel.getAllTracksSortOrder()
             mediaProvider.playFromMediaId(item.mediaId.toDomain(), null, sort)
         } else if (item is DisplayableAlbum){
-            navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
+            navigator.toDetailFragment(item.mediaId.toDomain(), view)
         }
     }
 

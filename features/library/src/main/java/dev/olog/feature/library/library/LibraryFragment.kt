@@ -104,7 +104,7 @@ internal class LibraryFragment : BaseFragment() {
 //            navigator.toMainPopup(it, createPopupCategory())
         }
         floatingWindow.setOnClickListener {
-            navigator.toFloating(requireActivity())
+            navigator.toFloating()
         }
 
         tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }

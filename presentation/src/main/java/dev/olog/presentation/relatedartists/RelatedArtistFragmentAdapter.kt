@@ -1,6 +1,5 @@
 package dev.olog.presentation.relatedartists
 
-import dev.olog.core.extensions.findActivity
 import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
@@ -15,7 +14,7 @@ internal class RelatedArtistFragmentAdapter(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(this) { item, _, view ->
-            navigator.toDetailFragment(view.findActivity(), item.mediaId.toDomain(), view)
+            navigator.toDetailFragment(item.mediaId.toDomain(), view)
         }
         viewHolder.setOnLongClickListener(this) { item, _, _ ->
             navigator.toDialog(item.mediaId.toDomain(), viewHolder.itemView, viewHolder.itemView)

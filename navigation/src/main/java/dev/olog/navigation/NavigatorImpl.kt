@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaId
 import dev.olog.domain.entity.PlaylistType
@@ -15,11 +14,14 @@ import dev.olog.navigation.transition.setupEnterAnimation
 import dev.olog.navigation.transition.setupEnterSharedAnimation
 import dev.olog.navigation.transition.setupExitAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
+import dev.olog.navigation.utils.ActivityProvider
+import dev.olog.navigation.utils.findFirstVisibleFragment
 import javax.inject.Inject
 import javax.inject.Provider
 
 // TODO (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
 internal class NavigatorImpl @Inject constructor(
+    private val activityProvider: ActivityProvider,
     private val fragments: Map<FragmentScreen, @JvmSuppressWildcards Provider<Fragment>>,
     bottomNavigator: BottomNavigatorImpl,
     serviceNavigator: ServiceNavigatorImpl
@@ -28,29 +30,29 @@ internal class NavigatorImpl @Inject constructor(
     BottomNavigator by bottomNavigator,
     ServiceNavigator by serviceNavigator {
 
-    override fun toFirstAccess(activity: FragmentActivity) {
+    override fun toFirstAccess() {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.ONBOARDING]?.get()
         val tag = FragmentScreen.ONBOARDING.tag
         replaceFragment(activity, fragment, tag, android.R.id.content, forced = true)
     }
 
-    override fun toPlayer(activity: FragmentActivity, containerId: Int) {
+    override fun toPlayer(containerId: Int) {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.PLAYER]?.get()
         val tag = FragmentScreen.PLAYER.tag
         replaceFragment(activity, fragment, tag, containerId, forced = true)
     }
 
-    override fun toMiniPlayer(activity: FragmentActivity, containerId: Int) {
+    override fun toMiniPlayer(containerId: Int) {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.PLAYER_MINI]?.get()
         val tag = FragmentScreen.PLAYER_MINI.tag
         replaceFragment(activity, fragment, tag, containerId, forced = true)
     }
 
-    override fun toDetailFragment(
-        activity: FragmentActivity,
-        mediaId: MediaId.Category,
-        view: View?
-    ) {
+    override fun toDetailFragment(mediaId: MediaId.Category, view: View?) {
+        val activity = activityProvider() ?: return
         // TODO collapse here
         val fragment = fragments[FragmentScreen.DETAIL]?.get()
         val tag = createBackStackTag(FragmentScreen.DETAIL.tag)
@@ -60,7 +62,7 @@ internal class NavigatorImpl @Inject constructor(
             Params.CONTAINER_TRANSITION_NAME to (view?.transitionName ?: "")
         )
 
-        val visibleFragment = findFirstVisibleFragment(activity.supportFragmentManager)
+        val visibleFragment = activity.supportFragmentManager.findFirstVisibleFragment()
         if (view == null) {
             visibleFragment?.setupExitAnimation(activity)
         } else {
@@ -80,10 +82,11 @@ internal class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toSettings(activity: FragmentActivity) {
+    override fun toSettings() {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.SETTINGS]?.get()
         val tag = FragmentScreen.SETTINGS.tag
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current = activity.supportFragmentManager.findFirstVisibleFragment()
         current!!.setupExitAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {
@@ -93,10 +96,11 @@ internal class NavigatorImpl @Inject constructor(
 
     }
 
-    override fun toAbout(activity: FragmentActivity) {
+    override fun toAbout() {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.ABOUT]?.get()
         val tag = FragmentScreen.ABOUT.tag
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current = activity.supportFragmentManager.findFirstVisibleFragment()
         current!!.setupExitAnimation(activity)
 
         replaceFragment(activity, fragment, tag) {
@@ -105,29 +109,32 @@ internal class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toEqualizer(activity: FragmentActivity) {
+    override fun toEqualizer() {
+        val activity = activityProvider() ?: return
         val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
             .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
         if (useCustomEqualizer) {
-            toBuiltInEqualizer(activity)
+            toBuiltInEqualizer()
         } else {
-            searchForEqualizer(activity)
+            searchForEqualizer()
         }
 
     }
 
-    override fun toEdit(activity: FragmentActivity, mediaId: MediaId) {
+    override fun toEdit(mediaId: MediaId) {
         TODO("see old navigator")
     }
 
-    private fun toBuiltInEqualizer(activity: FragmentActivity) {
+    private fun toBuiltInEqualizer() {
+        val activity = activityProvider() ?: return
         val fragment = fragments[FragmentScreen.EQUALIZER]?.get()
         val tag = FragmentScreen.EQUALIZER.tag
         replaceFragment(activity, fragment, tag)
     }
 
-    private fun searchForEqualizer(activity: FragmentActivity) {
+    private fun searchForEqualizer() {
+        val activity = activityProvider() ?: return
         val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
         if (intent.resolveActivity(activity.packageManager) != null) {
             activity.startActivity(intent)

@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.core.extensions.findActivity
 import dev.olog.domain.entity.sort.SortArranging
 import dev.olog.domain.entity.sort.SortEntity
 import dev.olog.domain.entity.sort.SortType
@@ -63,9 +62,9 @@ internal class MainPopupDialog @Inject constructor(
 
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.about -> navigator.toAbout(anchor.findActivity())
-                R.id.equalizer -> navigator.toEqualizer(anchor.findActivity())
-                R.id.settings -> navigator.toSettings(anchor.findActivity())
+                R.id.about -> navigator.toAbout()
+                R.id.equalizer -> navigator.toEqualizer()
+                R.id.settings -> navigator.toSettings()
                 R.id.sleepTimer -> popupNavigator.toSleepTimer()
                 SAVE_AS_PLAYLIST_ID -> navigator.toCreatePlaylistDialogFromPlayingQueue()
 //                R.id.gridSize1 -> updateSpanCount(anchor, category.toTabCategory(), 1) TODO

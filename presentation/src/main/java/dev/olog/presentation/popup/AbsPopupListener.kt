@@ -135,11 +135,11 @@ internal abstract class AbsPopupListener(
     }
 
     protected fun viewAlbum(navigator: Navigator, mediaId: PresentationId.Category) {
-        navigator.toDetailFragment(activity, mediaId.toDomain(), container)
+        navigator.toDetailFragment(mediaId.toDomain(), container)
     }
 
     protected fun viewArtist(navigator: Navigator, mediaId: PresentationId.Category) {
-        navigator.toDetailFragment(activity, mediaId.toDomain(), container)
+        navigator.toDetailFragment(mediaId.toDomain(), container)
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: PresentationId, song: Song) {

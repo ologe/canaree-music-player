@@ -7,17 +7,19 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.annotation.CheckResult
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import dev.olog.core.isMarshmallow
 import dev.olog.navigation.Navigator.Companion.REQUEST_CODE_HOVER_PERMISSION
 import dev.olog.navigation.screens.NavigationIntent
+import dev.olog.navigation.utils.ActivityProvider
 import javax.inject.Inject
 
 internal class ServiceNavigatorImpl @Inject constructor(
+    private val activityProvider: ActivityProvider,
     private val intents: Map<NavigationIntent, @JvmSuppressWildcards Intent>
 ) : BaseNavigator(), ServiceNavigator {
 
-    override fun toFloating(activity: FragmentActivity) {
+    override fun toFloating() {
+        val activity = activityProvider() ?: return
         val intent = intents[NavigationIntent.SERVICE_FLOATING]
         mandatory(activity, intent != null) ?: return
 

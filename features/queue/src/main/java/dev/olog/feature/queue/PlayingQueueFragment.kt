@@ -83,7 +83,7 @@ internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListe
             // TODO restore navigation
 //            navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE)
         }
-        floatingWindow.setOnClickListener { navigator.toFloating(requireActivity()) }
+        floatingWindow.setOnClickListener { navigator.toFloating() }
     }
 
     override fun onPause() {

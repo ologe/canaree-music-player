@@ -1,13 +1,20 @@
 package dev.olog.navigation
 
-import androidx.fragment.app.FragmentActivity
 import dev.olog.navigation.screens.FragmentScreen
 
 interface BottomNavigator {
 
-    fun bottomNavigate(
-        activity: FragmentActivity,
-        screen: FragmentScreen
-    )
+    companion object {
+        val TAGS = listOf(
+            FragmentScreen.HOME.tag,
+            FragmentScreen.LIBRARY.tag,
+            FragmentScreen.SEARCH.tag,
+            FragmentScreen.PLAYLISTS.tag,
+            FragmentScreen.QUEUE.tag
+        )
+    }
+
+    fun bottomNavigate(screen: FragmentScreen)
+    fun toLibraryChooser()
 
 }

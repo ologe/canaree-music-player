@@ -8,11 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.Lazy
 import dev.olog.domain.MediaId
-import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
-import dev.olog.navigation.findFirstVisibleFragment
 import dev.olog.navigation.transition.setupEnterSharedAnimation
 import dev.olog.navigation.transition.setupExitSharedAnimation
+import dev.olog.navigation.utils.findFirstVisibleFragment
 import dev.olog.presentation.R
 import dev.olog.presentation.createplaylist.CreatePlaylistFragment
 import dev.olog.presentation.dialogs.delete.DeleteDialog
@@ -30,9 +29,7 @@ import dev.olog.presentation.popup.PopupMenuFactory
 import dev.olog.presentation.popup.main.MainPopupDialog
 import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
-import dev.olog.shared.exhaustive
 import dev.olog.shared.mandatory
-import dev.olog.shared.throwNotHandled
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -54,7 +51,7 @@ internal class NavigatorImpl @Inject internal constructor(
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RelatedArtistFragment.TAG)
 
-        findFirstVisibleFragment(activity.supportFragmentManager)
+        activity.supportFragmentManager.findFirstVisibleFragment()
             ?.setupExitSharedAnimation()
 
         activity.supportFragmentManager.commit {
@@ -76,7 +73,7 @@ internal class NavigatorImpl @Inject internal constructor(
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(RecentlyAddedFragment.TAG)
 
-        findFirstVisibleFragment(activity.supportFragmentManager)
+        activity.supportFragmentManager.findFirstVisibleFragment()
             ?.setupExitSharedAnimation()
 
         activity.supportFragmentManager.commit {
@@ -143,7 +140,7 @@ internal class NavigatorImpl @Inject internal constructor(
         val activity = activityRef.get() ?: return
         val newTag = createBackStackTag(CreatePlaylistFragment.TAG)
 
-        val current = findFirstVisibleFragment(activity.supportFragmentManager)
+        val current = activity.supportFragmentManager.findFirstVisibleFragment()
         current?.setupExitSharedAnimation()
         current?.reenterTransition = MaterialFadeThrough()
 

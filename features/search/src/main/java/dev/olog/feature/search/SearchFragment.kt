@@ -161,7 +161,7 @@ class SearchFragment : BaseFragment(),
         fab.setOnClickListener { editText.showIme() }
 
         floatingWindow.setOnClickListener {
-            navigator.toFloating(requireActivity())
+            navigator.toFloating()
         }
         more.setOnClickListener {
             // TODO restore navigation

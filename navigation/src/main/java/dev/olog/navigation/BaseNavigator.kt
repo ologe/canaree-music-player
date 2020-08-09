@@ -16,11 +16,38 @@ internal abstract class BaseNavigator {
 
     private var lastRequest: Long = -1
 
+    protected fun addFragment(
+        activity: FragmentActivity,
+        fragment: Fragment?,
+        tag: String,
+        @IdRes containerId: Int = R.id.fragmentContainer,
+        forced: Boolean = false,
+        block: FragmentTransaction.(Fragment) -> Any? = {}
+    ) {
+        doTransaction(activity, fragment, tag, forced) {
+            add(containerId, fragment!!, tag)
+            block(it)
+        }
+    }
+
     protected fun replaceFragment(
         activity: FragmentActivity,
         fragment: Fragment?,
         tag: String,
         @IdRes containerId: Int = R.id.fragmentContainer,
+        forced: Boolean = false,
+        block: FragmentTransaction.(Fragment) -> Any? = {}
+    ) {
+        doTransaction(activity, fragment, tag, forced) {
+            replace(containerId, fragment!!, tag)
+            block(it)
+        }
+    }
+
+    private fun doTransaction(
+        activity: FragmentActivity,
+        fragment: Fragment?,
+        tag: String,
         forced: Boolean = false,
         block: FragmentTransaction.(Fragment) -> Any? = {}
     ) {
@@ -33,8 +60,7 @@ internal abstract class BaseNavigator {
 
         activity.supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(containerId, fragment!!, tag)
-            block(fragment)
+            block(fragment!!)
         }
     }
 
