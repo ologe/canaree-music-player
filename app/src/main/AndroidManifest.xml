@@ -32,7 +32,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        android:requestLegacyExternalStorage="true">
 
         <!--main activity-->
         <activity
