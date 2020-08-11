@@ -47,11 +47,7 @@ internal class FolderTreeFragmentViewModel @ViewModelInject constructor(
             canSave && !isDefault
         }
 
-    val children: Flow<List<DisplayableFile>> = currentDirectoryPublisher.asFlow()
-        .flatMapLatest { file ->
-            gateway.observeFolderChildren(file)
-                .map { addHeaders(it) }
-        }.flowOn(schedulers.cpu)
+    val children: Flow<List<DisplayableFile>> = TODO()
 
     init {
         currentDirectoryPublisher.asFlow().combine(appPreferencesUseCase.observeDefaultMusicFolder())
@@ -60,34 +56,12 @@ internal class FolderTreeFragmentViewModel @ViewModelInject constructor(
             .launchIn(viewModelScope)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        currentDirectoryPublisher.close()
-        isCurrentFolderDefaultFolderPublisher.close()
-    }
-
-    private fun addHeaders(files: List<FileType>): List<DisplayableFile> {
-        val folders = files.asSequence()
-            .filterIsInstance(FileType.Folder::class.java)
-            .map { it.toDisplayableItem() }
-            .toList()
-            .startWithIfNotEmpty(foldersHeader)
-
-        val tracks = files.asSequence()
-            .filterIsInstance(FileType.Track::class.java)
-            .map { it.toDisplayableItem() }
-            .toList()
-            .startWithIfNotEmpty(tracksHeader)
-
-        return folders + tracks
-    }
-
     val currentDirectoryFileName: Flow<File> = currentDirectoryPublisher.asFlow()
 
     fun popFolder(): Boolean {
         val current = currentDirectoryPublisher.value
         if (current == Environment.getRootDirectory()) {
-            // alredy in root dir
+            // already in root dir
             return false
         }
 
@@ -107,14 +81,16 @@ internal class FolderTreeFragmentViewModel @ViewModelInject constructor(
     }
 
     fun nextFolder(file: File) {
-        require(file.isDirectory)
-        currentDirectoryPublisher.offer(file)
+        TODO()
+//        require(file.isDirectory)
+//        currentDirectoryPublisher.offer(file)
     }
 
     fun updateDefaultFolder() {
-        val currentFolder = currentDirectoryPublisher.value
-        require(currentFolder.isDirectory)
-        appPreferencesUseCase.setDefaultMusicFolder(currentFolder)
+        TODO()
+//        val currentFolder = currentDirectoryPublisher.value
+//        require(currentFolder.isDirectory)
+//        appPreferencesUseCase.setDefaultMusicFolder(currentFolder)
     }
 
     @Suppress("DEPRECATION")
@@ -136,44 +112,5 @@ internal class FolderTreeFragmentViewModel @ViewModelInject constructor(
         return null
     }
 
-    private val foldersHeader = DisplayableFile(
-        R.layout.item_folder_tree_header,
-        PresentationId.headerId("folder header"),
-        context.getString(R.string.common_folders),
-        null
-    )
 
-    private val tracksHeader = DisplayableFile(
-        R.layout.item_folder_tree_header,
-        PresentationId.headerId("track header"),
-        context.getString(R.string.common_tracks),
-        null
-    )
-
-    private fun FileType.Track.toDisplayableItem(): DisplayableFile {
-        val mediaId = PresentationId.Category(
-            PresentationIdCategory.FOLDERS,
-            path
-        )
-
-        return DisplayableFile(
-            type = R.layout.item_folder_tree_track,
-            mediaId = mediaId,
-            title = this.title,
-            path = this.path
-        )
-    }
-
-    private fun FileType.Folder.toDisplayableItem(): DisplayableFile {
-        val mediaId = PresentationId.Category(
-            PresentationIdCategory.FOLDERS,
-            path
-        )
-        return DisplayableFile(
-            type = R.layout.item_folder_tree_directory,
-            mediaId = mediaId,
-            title = this.name,
-            path = this.path
-        )
-    }
 }

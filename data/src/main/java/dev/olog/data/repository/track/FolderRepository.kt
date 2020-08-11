@@ -22,7 +22,6 @@ import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
-import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import java.io.File
 import javax.inject.Inject
@@ -48,7 +47,6 @@ internal class FolderRepository @Inject constructor(
 
     @Suppress("DEPRECATION")
     private fun extractFolders(cursor: Cursor): List<Folder> {
-        assertBackgroundThread()
         val pathList = contentResolver.queryAll(cursor) {
             val data = it.getString(MediaStore.Audio.Media.DATA)
             data.substring(0, data.lastIndexOf(File.separator)) // path
@@ -67,13 +65,11 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun queryAll(): List<Folder> {
-        assertBackgroundThread()
         val cursor = queries.getAll(false)
         return extractFolders(cursor)
     }
 
     override fun getByParam(param: String): Folder? {
-        assertBackgroundThread()
         return channel.valueOrNull?.find { it.id == param }
     }
 
@@ -85,7 +81,6 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getTrackListByParam(param: String): List<Song> {
-        assertBackgroundThread()
         val folder = getByParam(param) ?: return emptyList()
         val cursor = queries.getSongList(folder.path)
         return contentResolver.queryAll(cursor) { it.toSong() }
@@ -98,7 +93,6 @@ internal class FolderRepository @Inject constructor(
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
-        assertBackgroundThread()
         val cursor = queries.getAll(true)
         return extractFolders(cursor)
     }
@@ -111,7 +105,6 @@ internal class FolderRepository @Inject constructor(
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId.Track) {
-        assertBackgroundThread()
         val folder = getByParam(mediaId.categoryId)!!
         mostPlayedDao.insert(
             FolderMostPlayedEntity(
@@ -154,7 +147,6 @@ internal class FolderRepository @Inject constructor(
     }
 
     private fun extractArtists(cursor: Cursor): List<Artist> {
-        assertBackgroundThread()
         return contentResolver.queryAll(cursor) { it.toArtist() }
             .groupBy { it.id }
             .map { (_, list) ->
