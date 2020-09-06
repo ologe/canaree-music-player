@@ -10,12 +10,12 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(Libraries.kotlin)
+    implementation(libs.kotlin)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 }

@@ -28,21 +28,21 @@ dependencies {
     implementation(project(":intents"))
     implementation(project(":libraries:equalizer"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
 
-    implementation(Libraries.X.media)
-    implementation(Libraries.X.Lifecycle.service)
-    implementation(Libraries.X.Lifecycle.java8)
-    implementation(Libraries.X.Lifecycle.runtime)
-    implementation(Libraries.UX.glide)
+    implementation(libs.X.media)
+    implementation(libs.X.Lifecycle.service)
+    implementation(libs.X.Lifecycle.java8)
+    implementation(libs.X.Lifecycle.runtime)
+    implementation(libs.UX.glide)
 
-    implementation(Libraries.Utils.lastFmBinding)
+    implementation(libs.Utils.lastFmBinding)
 
     // TODO replace
     implementation("com.google.android.exoplayer:exoplayer-core:2.11.3")
@@ -51,12 +51,12 @@ dependencies {
 //    implementation project(":exoplayer-extension-opus")
 //    implementation project(":exoplayer-extension-ffmpeg")
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 }

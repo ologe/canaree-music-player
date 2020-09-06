@@ -7,16 +7,16 @@ plugins {
 dependencies {
     implementation(project(":shared"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Coroutines.test)
 }
 
 java {

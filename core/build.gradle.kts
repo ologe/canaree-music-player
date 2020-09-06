@@ -10,19 +10,19 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
+    implementation(libs.dagger.core)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.material)
-    implementation(Libraries.X.preference)
-    implementation(Libraries.X.fragments)
-    implementation(Libraries.X.Lifecycle.java8)
+    implementation(libs.X.core)
+    implementation(libs.X.material)
+    implementation(libs.X.preference)
+    implementation(libs.X.fragments)
+    implementation(libs.X.Lifecycle.java8)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Coroutines.test)
 }

@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    applyDefaults()
+    applyDefaults(compose = true)
 
     defaultConfig {
         applicationId = "dev.olog.msc"
@@ -91,46 +91,39 @@ dependencies {
     implementation(project(":intents"))
     implementation(project(":shared"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    dagger()
+    compose()
+    coroutines()
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
-    implementation(Libraries.Dagger.hiltX)
-    kapt(Libraries.Dagger.hiltXKapt)
+    implementation(libs.X.core)
+    implementation(libs.X.appcompat)
+    implementation(libs.X.browser)
+    implementation(libs.X.preference)
+    implementation(libs.X.media)
+    implementation(libs.X.material)
+    implementation(libs.X.Lifecycle.service)
+    implementation(libs.X.Lifecycle.java8)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.appcompat)
-    implementation(Libraries.X.browser)
-    implementation(Libraries.X.preference)
-    implementation(Libraries.X.media)
-    implementation(Libraries.X.material)
-    implementation(Libraries.X.Lifecycle.service)
-    implementation(Libraries.X.Lifecycle.java8)
+    implementation(libs.UX.blurKit)
+    implementation(libs.UX.customTabs)
+    implementation(libs.UX.glide)
+    implementation(libs.UX.dialogs)
 
-    implementation(Libraries.UX.blurKit)
-    implementation(Libraries.UX.customTabs)
-    implementation(Libraries.UX.glide)
-    implementation(Libraries.UX.dialogs)
+    implementation(libs.X.Room.core)
+    implementation(libs.Network.okHttp)
+    implementation(libs.Network.retrofit)
 
-    implementation(Libraries.X.Room.core)
-    implementation(Libraries.Network.okHttp)
-    implementation(Libraries.Network.retrofit)
+    implementation(libs.Utils.aesCrypto)
 
-    implementation(Libraries.Utils.aesCrypto)
+    debugImplementation(libs.Debug.leakCanary)
+    implementation(libs.Debug.timber)
 
-    debugImplementation(Libraries.Debug.leakCanary)
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Firebase.analytics)
+    implementation(libs.Firebase.crashlytics)
 
-    implementation(Libraries.Firebase.analytics)
-    implementation(Libraries.Firebase.crashlytics)
-
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
 }

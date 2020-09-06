@@ -11,8 +11,8 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Dagger.core)
+    implementation(libs.kotlin)
+    implementation(libs.dagger.core)
 
     api(project(":features:presentation-base"))
     api(project(":features:app-shortcuts"))

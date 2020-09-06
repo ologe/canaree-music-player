@@ -4,12 +4,12 @@ plugins {
 }
 
 dependencies {
-    compileOnly(Libraries.kotlin)
+    compileOnly(libs.kotlin)
 
-    compileOnly(Libraries.Lint.core)
-    compileOnly(Libraries.Lint.checks)
+    compileOnly(libs.Lint.core)
+    compileOnly(libs.Lint.checks)
 
-    testImplementation(Libraries.Test.junit)
+    testImplementation(libs.Test.junit)
 }
 
 java {

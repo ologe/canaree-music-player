@@ -42,34 +42,34 @@ dependencies {
     implementation(project(":libraries:network"))
     implementation(project(":data-spotify"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.preference)
+    implementation(libs.X.core)
+    implementation(libs.X.preference)
 
-    implementation(Libraries.X.Room.core)
-    implementation(Libraries.X.Room.coroutines)
-    kapt(Libraries.X.Room.kapt)
+    implementation(libs.X.Room.core)
+    implementation(libs.X.Room.coroutines)
+    kapt(libs.X.Room.kapt)
 
-    implementation(Libraries.Network.retrofit)
-    implementation(Libraries.Network.gson)
+    implementation(libs.Network.retrofit)
+    implementation(libs.Network.gson)
 
-    implementation(Libraries.Utils.sqlContentResolver)
-    implementation(Libraries.Utils.fuzzy)
+    implementation(libs.Utils.sqlContentResolver)
+    implementation(libs.Utils.fuzzy)
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 
 }

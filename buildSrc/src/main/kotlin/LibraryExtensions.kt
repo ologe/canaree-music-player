@@ -1,7 +1,9 @@
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 
-fun BaseExtension.applyDefaults() {
+fun BaseExtension.applyDefaults(
+    compose: Boolean = false
+) {
     compileSdkVersion(sdk.compile)
 
     defaultConfig {
@@ -23,6 +25,12 @@ fun BaseExtension.applyDefaults() {
         }
     }
 
+    if (compose) {
+        buildFeatures.compose = true
+        composeOptions.kotlinCompilerExtensionVersion = versions.compose
+        composeOptions.kotlinCompilerVersion = versions.kotlin
+    }
+
 //    testOptions {
 //        unitTests.isIncludeAndroidResources = true
 //        unitTests.isReturnDefaultValues = true
@@ -31,7 +39,7 @@ fun BaseExtension.applyDefaults() {
 
 fun BaseExtension.enableJava8() {
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = versions.java
+        targetCompatibility = versions.java
     }
 }

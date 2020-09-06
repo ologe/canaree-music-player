@@ -11,7 +11,7 @@ androidExtensions {
 }
 
 android {
-    applyDefaults()
+    applyDefaults(compose = true)
 }
 
 dependencies {
@@ -30,32 +30,25 @@ dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    dagger()
+    coroutines()
+    compose()
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
-    implementation(Libraries.Dagger.hiltX)
-    kapt(Libraries.Dagger.hiltXKapt)
+    implementation(libs.X.core)
+    implementation(libs.X.appcompat)
+    implementation(libs.X.fragments)
+    implementation(libs.X.recyclerView)
+    implementation(libs.X.constraintLayout)
+    implementation(libs.X.preference)
+    implementation(libs.X.material)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.appcompat)
-    implementation(Libraries.X.fragments)
-    implementation(Libraries.X.recyclerView)
-    implementation(Libraries.X.constraintLayout)
-    implementation(Libraries.X.preference)
-    implementation(Libraries.X.material)
+    implementation(libs.Utils.scrollHelper)
 
-    implementation(Libraries.Utils.scrollHelper)
+    implementation(libs.Debug.timber)
 
-    implementation(Libraries.Debug.timber)
-
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
 }

@@ -20,29 +20,29 @@ dependencies {
     implementation(project(":prefs-keys"))
     implementation(project(":intents"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.preference)
+    implementation(libs.X.core)
+    implementation(libs.X.preference)
 
-    implementation(Libraries.UX.glide)
-    kapt(Libraries.UX.glideKapt)
+    implementation(libs.UX.glide)
+    kapt(libs.UX.glideKapt)
 
-    implementation(Libraries.Utils.colorDesaturation)
-    implementation(Libraries.Utils.jaudiotagger)
+    implementation(libs.Utils.colorDesaturation)
+    implementation(libs.Utils.jaudiotagger)
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 }

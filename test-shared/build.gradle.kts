@@ -11,10 +11,10 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Test.junit)
-    implementation(Libraries.Coroutines.test)
+    implementation(libs.Test.junit)
+    implementation(libs.Coroutines.test)
 
 }

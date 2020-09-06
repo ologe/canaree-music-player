@@ -10,5 +10,5 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(Libraries.kotlin)
+    implementation(libs.kotlin)
 }

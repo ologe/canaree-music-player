@@ -12,24 +12,24 @@ android {
 dependencies {
     lintChecks(project(":lint"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
 
-    implementation(Libraries.X.annotations)
+    implementation(libs.X.annotations)
 
-    implementation(Libraries.Utils.jaudiotagger)
+    implementation(libs.Utils.jaudiotagger)
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 }

@@ -32,34 +32,34 @@ dependencies {
     implementation(project(":shared-android"))
     implementation(project(":shared"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
-    implementation(Libraries.Dagger.hilt)
-    kapt(Libraries.Dagger.hiltKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.appcompat)
-    implementation(Libraries.X.fragments)
-    implementation(Libraries.X.recyclerView)
-    implementation(Libraries.X.constraintLayout)
-    implementation(Libraries.X.preference)
-    implementation(Libraries.X.material)
+    implementation(libs.X.core)
+    implementation(libs.X.appcompat)
+    implementation(libs.X.fragments)
+    implementation(libs.X.recyclerView)
+    implementation(libs.X.constraintLayout)
+    implementation(libs.X.preference)
+    implementation(libs.X.material)
 
-    implementation(Libraries.UX.dialogs)
+    implementation(libs.UX.dialogs)
 
-    implementation(Libraries.Utils.colorDesaturation)
-    implementation(Libraries.Utils.scrollHelper)
-    implementation(Libraries.Utils.lastFmBinding) // TODO remove this
+    implementation(libs.Utils.colorDesaturation)
+    implementation(libs.Utils.scrollHelper)
+    implementation(libs.Utils.lastFmBinding) // TODO remove this
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 }

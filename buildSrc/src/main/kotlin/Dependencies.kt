@@ -1,6 +1,13 @@
 @file:Suppress("ClassName")
 
+import org.gradle.api.JavaVersion
+import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+
 object versions {
+    val java = JavaVersion.VERSION_1_8
+
     const val kotlin = "1.4.0"
     const val buildTools = "4.2.0-alpha09"
     const val gms = "4.3.3"
@@ -10,7 +17,7 @@ object versions {
     internal const val coroutines = "1.3.8"
     internal const val dagger = "2.28.3"
     internal const val hilt = "$dagger-alpha"
-    internal const val hiltX = "1.0.0-alpha01"
+    internal const val hiltX = "1.0.0-alpha02"
 
     //    android x
     internal const val android_x_core = "1.3.1"
@@ -27,6 +34,9 @@ object versions {
     internal const val constraint_layout = "2.0.0-rc1"
     internal const val lifecycle = "2.2.0"
     internal const val android_x_webview = "1.2.0"
+
+    // compose
+    const val compose = "1.0.0-alpha02"
 
     //    ui
     internal const val glide = "4.11.0"
@@ -68,7 +78,7 @@ object versions {
     internal const val junit = "4.12"
     internal const val mockito = "3.4.6"
     internal const val mockitoKotlin = "2.2.0"
-    internal const val robolectric = "4.3.1"
+    internal const val robolectric = "4.4"
     internal const val android_x_test_core = "1.2.0"
 
     // 23.0.0 + {buildToolsVersion}
@@ -114,17 +124,23 @@ object sdk {
 
 }
 
-object Libraries {
+object libs {
 
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
 
-    object Dagger {
+    object dagger {
         const val core = "com.google.dagger:dagger:${versions.dagger}"
         const val kapt = "com.google.dagger:dagger-compiler:${versions.dagger}"
         const val hilt = "com.google.dagger:hilt-android:${versions.hilt}"
         const val hiltKapt = "com.google.dagger:hilt-android-compiler:${versions.hilt}"
         const val hiltX = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hiltX}"
         const val hiltXKapt = "androidx.hilt:hilt-compiler:${versions.hiltX}"
+    }
+
+    object compose {
+        const val ui = "androidx.compose.ui:ui:${versions.compose}"
+        const val material = "androidx.compose.material:material:${versions.compose}"
+        const val tooling = "androidx.ui:ui-tooling:${versions.compose}"
     }
 
     object Coroutines {
@@ -224,4 +240,37 @@ object Libraries {
         val checks = "com.android.tools.lint:lint-checks:${versions.lint}"
     }
 
+}
+
+fun DependencyHandlerScope.dagger() {
+    library(libs.dagger.core)
+    processor(libs.dagger.kapt)
+    library(libs.dagger.hilt)
+    processor(libs.dagger.hiltKapt)
+    library(libs.dagger.hiltX)
+    processor(libs.dagger.hiltXKapt)
+}
+
+fun DependencyHandlerScope.coroutines() {
+    library(libs.Coroutines.core)
+    library(libs.Coroutines.android)
+    testLibrary(libs.Coroutines.test)
+}
+
+fun DependencyHandlerScope.compose() {
+    library(libs.compose.ui)
+    library(libs.compose.material)
+    library(libs.compose.tooling)
+}
+
+private fun DependencyHandlerScope.library(dependency: Any): Dependency? {
+    return add("implementation", dependency)
+}
+
+private fun DependencyHandlerScope.testLibrary(dependency: Any): Dependency? {
+    return add("testImplementation", dependency)
+}
+
+private fun DependencyHandlerScope.processor(dependency: Any): Dependency? {
+    return add("kapt", dependency)
 }

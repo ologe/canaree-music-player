@@ -30,9 +30,12 @@ allprojects {
         tasks.withType(KotlinCompile::class).all {
             kotlinOptions.freeCompilerArgs += listOf(
                 "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xallow-jvm-ir-dependencies",
+                "-Xskip-prerelease-check"
             )
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+            kotlinOptions.useIR = true
+            kotlinOptions.jvmTarget = versions.java.toString()
         }
     }
 

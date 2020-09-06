@@ -18,27 +18,27 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":intents"))
 
-    implementation(Libraries.kotlin)
-    implementation(Libraries.Coroutines.core)
-    implementation(Libraries.Coroutines.android)
+    implementation(libs.kotlin)
+    implementation(libs.Coroutines.core)
+    implementation(libs.Coroutines.android)
 
-    implementation(Libraries.Dagger.core)
-    kapt(Libraries.Dagger.kapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
 
-    implementation(Libraries.X.core)
-    implementation(Libraries.X.recyclerView)
-    implementation(Libraries.X.appcompat)
-    implementation(Libraries.X.material)
+    implementation(libs.X.core)
+    implementation(libs.X.recyclerView)
+    implementation(libs.X.appcompat)
+    implementation(libs.X.material)
 
-    implementation(Libraries.Utils.jaudiotagger) // TODO why??
+    implementation(libs.Utils.jaudiotagger) // TODO why??
 
-    implementation(Libraries.Debug.timber)
+    implementation(libs.Debug.timber)
 
-    testImplementation(Libraries.Test.junit)
-    testImplementation(Libraries.Test.mockito)
-    testImplementation(Libraries.Test.mockitoKotlin)
-    testImplementation(Libraries.Test.android)
-    testImplementation(Libraries.Test.robolectric)
-    testImplementation(Libraries.Coroutines.test)
+    testImplementation(libs.Test.junit)
+    testImplementation(libs.Test.mockito)
+    testImplementation(libs.Test.mockitoKotlin)
+    testImplementation(libs.Test.android)
+    testImplementation(libs.Test.robolectric)
+    testImplementation(libs.Coroutines.test)
 
 }
