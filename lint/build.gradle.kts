@@ -1,6 +1,6 @@
 plugins {
-    id(BuildPlugins.javaLibrary)
-    id(BuildPlugins.kotlin)
+    id(buildPlugins.javaLibrary)
+    id(buildPlugins.kotlin)
 }
 
 dependencies {

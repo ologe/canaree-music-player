@@ -1,54 +1,86 @@
-import Libraries.Versions.aes_crypto
-import Libraries.Versions.android_x_annotations
-import Libraries.Versions.android_x_appcompat
-import Libraries.Versions.android_x_browser
-import Libraries.Versions.android_x_coordinator
-import Libraries.Versions.android_x_core
-import Libraries.Versions.android_x_fragments
-import Libraries.Versions.android_x_material
-import Libraries.Versions.android_x_media
-import Libraries.Versions.android_x_palette
-import Libraries.Versions.android_x_preference
-import Libraries.Versions.android_x_recycler
-import Libraries.Versions.android_x_test_core
-import Libraries.Versions.android_x_webview
-import Libraries.Versions.blur_kit
-import Libraries.Versions.color_desaturation
-import Libraries.Versions.constraint_layout
-import Libraries.Versions.coroutines
-import Libraries.Versions.custom_tabs
-import Libraries.Versions.dagger
-import Libraries.Versions.firebase_analytics
-import Libraries.Versions.firebase_core
-import Libraries.Versions.firebase_crashlytics
-import Libraries.Versions.fuzzywuzzy
-import Libraries.Versions.last_fm_binding
-import Libraries.Versions.leak_canary
-import Libraries.Versions.lifecycle
-import Libraries.Versions.lint
-import Libraries.Versions.material_dialogs
-import Libraries.Versions.room
-import Libraries.Versions.scroll_helper
-import Libraries.Versions.sql_content_resolver
-import Libraries.Versions.tap_target_view
+@file:Suppress("ClassName")
 
-const val kotlinVersion = "1.4.0"
+object versions {
+    const val kotlin = "1.4.0"
+    const val buildTools = "4.2.0-alpha09"
+    const val gms = "4.3.3"
+    const val crashlytics = "2.2.1"
 
-object BuildPlugins {
+    //    core
+    internal const val coroutines = "1.3.8"
+    internal const val dagger = "2.28.3"
+    internal const val hilt = "$dagger-alpha"
+    internal const val hiltX = "1.0.0-alpha01"
 
-    object Versions {
-        const val buildToolsVersion = "4.2.0-alpha09"
-        const val gms = "4.3.3"
-        const val fabric = "2.2.1"
-    }
+    //    android x
+    internal const val android_x_core = "1.3.1"
+    internal const val android_x_appcompat = "1.2.0"
+    internal const val android_x_media = "1.1.0" // TODO try media2?
+    internal const val android_x_recycler = "1.1.0"
+    internal const val android_x_browser = "1.2.0"
+    internal const val android_x_material = "1.2.0"
+    internal const val android_x_preference = "1.1.1"
+    internal const val android_x_palette = "1.0.0"
+    internal const val android_x_annotations = "1.1.0"
+    internal const val android_x_coordinator = "1.1.0"
+    internal const val android_x_fragments = "1.2.5"
+    internal const val constraint_layout = "2.0.0-rc1"
+    internal const val lifecycle = "2.2.0"
+    internal const val android_x_webview = "1.2.0"
 
-    object Classpath {
-        const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
-        const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        const val gms = "com.google.gms:google-services:${Versions.gms}"
-        const val fabric = "com.google.firebase:firebase-crashlytics-gradle:${Versions.fabric}"
-        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Libraries.Versions.hilt}"
-    }
+    //    ui
+    internal const val glide = "4.11.0"
+    internal const val lottie = "3.4.0"
+    internal const val custom_tabs = "3.0.1"
+    internal const val material_dialogs = "3.3.0"
+    internal const val scroll_helper = "1.2.0"
+    internal const val blur_kit = "1.0.0"
+    internal const val color_desaturation = "1.0.2"
+    internal const val jaudiotagger = "2.2.5"
+    internal const val tap_target_view = "2.0.0"
+
+    //    data
+    internal const val room = "2.2.5"
+    internal const val sql_content_resolver = "1.2.3"
+
+    //    network
+    internal const val ok_http = "4.8.1"
+    internal const val retrofit = "2.9.0"
+    internal const val gson = "2.8.6"
+
+    //    utils
+    internal const val last_fm_binding = "0.1.2" // TODO remove
+    internal const val aes_crypto = "1.1.0"
+    internal const val fuzzywuzzy = "1.2.0"
+
+    //    debug
+    internal const val leak_canary = "2.4"
+    internal const val timber = "4.7.1"
+    internal const val chucker = "3.2.0"
+
+    //    firebase
+    internal const val firebase_core = "17.2.3"
+    internal const val firebase_analytics = "17.5.0"
+    internal const val firebase_crashlytics = "17.2.1"
+//    firebase_perf = "19.0.5"
+
+    // test
+    internal const val junit = "4.12"
+    internal const val mockito = "3.4.6"
+    internal const val mockitoKotlin = "2.2.0"
+    internal const val robolectric = "4.3.1"
+    internal const val android_x_test_core = "1.2.0"
+
+    // 23.0.0 + {buildToolsVersion}
+    internal val lint: String
+        get() {
+            val toolsVersion = versions.buildTools
+            val major = toolsVersion.take(1).toInt()
+            return "${23 + major}${toolsVersion.drop(1)}"
+        }
+}
+
+object buildPlugins {
 
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"
@@ -57,13 +89,21 @@ object BuildPlugins {
     const val kotlinAndroid = "kotlin-android"
     const val kotlinKapt = "kotlin-kapt"
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
-    const val fabric = "com.google.firebase.crashlytics"
+    const val crashlytics = "com.google.firebase.crashlytics"
     const val gms = "com.google.gms.google-services"
     const val hilt = "dagger.hilt.android.plugin"
 
+    object classpath {
+        const val android = "com.android.tools.build:gradle:${versions.buildTools}"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        const val gms = "com.google.gms:google-services:${versions.gms}"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics-gradle:${versions.crashlytics}"
+        const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt}"
+    }
+
 }
 
-object AndroidSdk {
+object sdk {
 
     const val min = 21
     const val target = 29
@@ -76,189 +116,112 @@ object AndroidSdk {
 
 object Libraries {
 
-    object Versions {
-
-        //    core
-        internal const val coroutines = "1.3.8"
-        internal const val dagger = "2.28.3"
-        internal const val hilt = "$dagger-alpha"
-        internal const val hiltX = "1.0.0-alpha01"
-
-        //    android x
-        internal const val android_x_core = "1.3.1"
-        internal const val android_x_appcompat = "1.2.0"
-        internal const val android_x_media = "1.1.0" // TODO try media2?
-        internal const val android_x_recycler = "1.1.0"
-        internal const val android_x_browser = "1.2.0"
-        internal const val android_x_material = "1.2.0"
-        internal const val android_x_preference = "1.1.1"
-        internal const val android_x_palette = "1.0.0"
-        internal const val android_x_annotations = "1.1.0"
-        internal const val android_x_coordinator = "1.1.0"
-        internal const val android_x_fragments = "1.2.5"
-        internal const val constraint_layout = "2.0.0-rc1"
-        internal const val lifecycle = "2.2.0"
-        internal const val android_x_webview = "1.2.0"
-
-        //    ui
-        internal const val glide = "4.11.0"
-        internal const val lottie = "3.4.0"
-        internal const val custom_tabs = "3.0.1"
-        internal const val material_dialogs = "3.3.0"
-        internal const val scroll_helper = "1.2.0"
-        internal const val blur_kit = "1.0.0"
-        internal const val color_desaturation = "1.0.2"
-        internal const val jaudiotagger = "2.2.5"
-        internal const val tap_target_view = "2.0.0"
-
-        //    data
-        internal const val room = "2.2.5"
-        internal const val sql_content_resolver = "1.2.3"
-
-        //    network
-        internal const val ok_http = "4.8.1"
-        internal const val retrofit = "2.9.0"
-        internal const val gson = "2.8.6"
-
-        //    utils
-        internal const val last_fm_binding = "0.1.2" // TODO remove
-        internal const val aes_crypto = "1.1.0"
-        internal const val fuzzywuzzy = "1.2.0"
-
-        //    debug
-        internal const val leak_canary = "2.4"
-        internal const val timber = "4.7.1"
-        internal const val chucker = "3.2.0"
-
-        //    firebase
-        internal const val firebase_core = "17.2.3"
-        internal const val firebase_analytics = "17.5.0"
-        internal const val firebase_crashlytics = "17.2.1"
-//    firebase_perf = "19.0.5"
-
-        // test
-        internal const val junit = "4.12"
-        internal const val mockito = "3.4.6"
-        internal const val mockitoKotlin = "2.2.0"
-        internal const val robolectric = "4.3.1"
-        internal const val android_x_test_core = "1.2.0"
-
-        // 23.0.0 + {buildToolsVersion}
-        internal val lint: String
-            get() {
-                val toolsVersion = BuildPlugins.Versions.buildToolsVersion
-                val major = toolsVersion.take(1).toInt()
-                return "${23 + major}${toolsVersion.drop(1)}"
-            }
-
-    }
-
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
 
     object Dagger {
-        const val core = "com.google.dagger:dagger:$dagger"
-        const val kapt = "com.google.dagger:dagger-compiler:$dagger"
-        const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
-        const val hiltKapt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-        const val hiltX = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltX}"
-        const val hiltXKapt = "androidx.hilt:hilt-compiler:${Versions.hiltX}"
+        const val core = "com.google.dagger:dagger:${versions.dagger}"
+        const val kapt = "com.google.dagger:dagger-compiler:${versions.dagger}"
+        const val hilt = "com.google.dagger:hilt-android:${versions.hilt}"
+        const val hiltKapt = "com.google.dagger:hilt-android-compiler:${versions.hilt}"
+        const val hiltX = "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hiltX}"
+        const val hiltXKapt = "androidx.hilt:hilt-compiler:${versions.hiltX}"
     }
 
     object Coroutines {
-        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
-        const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-        const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
+        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
+        const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+        const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}"
     }
 
     object X {
-        const val core = "androidx.core:core-ktx:$android_x_core"
-        const val appcompat = "androidx.appcompat:appcompat:$android_x_appcompat"
-        const val media = "androidx.media:media:$android_x_media"
-        const val recyclerView = "androidx.recyclerview:recyclerview:$android_x_recycler"
-        const val browser = "androidx.browser:browser:$android_x_browser"
-        const val material = "com.google.android.material:material:$android_x_material"
-        const val preference = "androidx.preference:preference:$android_x_preference"
-        const val palette = "androidx.palette:palette:$android_x_palette"
-        const val annotations = "androidx.annotation:annotation:$android_x_annotations"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${constraint_layout}"
-        const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator"
-        const val fragments = "androidx.fragment:fragment-ktx:$android_x_fragments"
-        const val webview = "androidx.webkit:webkit:$android_x_webview"
+        const val core = "androidx.core:core-ktx:${versions.android_x_core}"
+        const val appcompat = "androidx.appcompat:appcompat:${versions.android_x_appcompat}"
+        const val media = "androidx.media:media:${versions.android_x_media}"
+        const val recyclerView = "androidx.recyclerview:recyclerview:${versions.android_x_recycler}"
+        const val browser = "androidx.browser:browser:${versions.android_x_browser}"
+        const val material = "com.google.android.material:material:${versions.android_x_material}"
+        const val preference = "androidx.preference:preference:${versions.android_x_preference}"
+        const val palette = "androidx.palette:palette:${versions.android_x_palette}"
+        const val annotations = "androidx.annotation:annotation:${versions.android_x_annotations}"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${versions.constraint_layout}"
+        const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:${versions.android_x_coordinator}"
+        const val fragments = "androidx.fragment:fragment-ktx:${versions.android_x_fragments}"
+        const val webview = "androidx.webkit:webkit:${versions.android_x_webview}"
 
         object Lifecycle {
-            const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
-            const val java8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
-            const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
-            const val service = "androidx.lifecycle:lifecycle-service:$lifecycle"
-            const val process = "androidx.lifecycle:lifecycle-process:$lifecycle"
+            const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}"
+            const val java8 = "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
+            const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
+            const val service = "androidx.lifecycle:lifecycle-service:${versions.lifecycle}"
+            const val process = "androidx.lifecycle:lifecycle-process:${versions.lifecycle}"
         }
 
         object Room {
-            const val core = "androidx.room:room-runtime:$room"
-            const val coroutines = "androidx.room:room-ktx:$room"
-            const val kapt = "androidx.room:room-compiler:$room"
-            const val test = "androidx.room:room-testing:$room"
+            const val core = "androidx.room:room-runtime:${versions.room}"
+            const val coroutines = "androidx.room:room-ktx:${versions.room}"
+            const val kapt = "androidx.room:room-compiler:${versions.room}"
+            const val test = "androidx.room:room-testing:${versions.room}"
         }
 
     }
 
     // testing
     object Test {
-        const val junit = "junit:junit:${Versions.junit}"
-        const val mockito = "org.mockito:mockito-inline:${Versions.mockito}"
+        const val junit = "junit:junit:${versions.junit}"
+        const val mockito = "org.mockito:mockito-inline:${versions.mockito}"
         const val mockitoKotlin =
-            "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
-        const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
-        const val android = "androidx.test:core:$android_x_test_core"
+            "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockitoKotlin}"
+        const val robolectric = "org.robolectric:robolectric:${versions.robolectric}"
+        const val android = "androidx.test:core:${versions.android_x_test_core}"
     }
 
     object Firebase {
-        const val core = "com.google.firebase:firebase-core:$firebase_core"
-        const val analytics = "com.google.firebase:firebase-analytics:$firebase_analytics"
-        const val crashlytics = "com.google.firebase:firebase-crashlytics:$firebase_crashlytics"
-        //            perf       = "com.google.firebase:firebase-perf:${Versions.firebase_perf}"
+        const val core = "com.google.firebase:firebase-core:${versions.firebase_core}"
+        const val analytics = "com.google.firebase:firebase-analytics:${versions.firebase_analytics}"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics:${versions.firebase_crashlytics}"
+        //            perf       = "com.google.firebase:firebase-perf:${versions.firebase_perf}"
     }
 
     object Network {
-        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.ok_http}"
-        const val okHttpInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.ok_http}"
-        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-        const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+        const val okHttp = "com.squareup.okhttp3:okhttp:${versions.ok_http}"
+        const val okHttpInterceptor = "com.squareup.okhttp3:logging-interceptor:${versions.ok_http}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+        const val retrofitGson = "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
         // TODO migrate to moshi??
-        const val gson = "com.google.code.gson:gson:${Versions.gson}"
+        const val gson = "com.google.code.gson:gson:${versions.gson}"
     }
 
     object Utils {
         const val sqlContentResolver =
-            "com.github.ologe:android-content-resolver-SQL:$sql_content_resolver"
-        const val lastFmBinding = "de.u-mass:lastfm-java:$last_fm_binding"
-        const val aesCrypto = "com.github.tozny:java-aes-crypto:$aes_crypto"
-        const val fuzzy = "me.xdrop:fuzzywuzzy:$fuzzywuzzy"
-        const val scrollHelper = "com.github.ologe:scroll-helper:$scroll_helper"
-        const val colorDesaturation = "com.github.ologe:color-desaturation:$color_desaturation"
-        const val jaudiotagger = "net.jthink:jaudiotagger:${Versions.jaudiotagger}"
+            "com.github.ologe:android-content-resolver-SQL:${versions.sql_content_resolver}"
+        const val lastFmBinding = "de.u-mass:lastfm-java:${versions.last_fm_binding}"
+        const val aesCrypto = "com.github.tozny:java-aes-crypto:${versions.aes_crypto}"
+        const val fuzzy = "me.xdrop:fuzzywuzzy:${versions.fuzzywuzzy}"
+        const val scrollHelper = "com.github.ologe:scroll-helper:${versions.scroll_helper}"
+        const val colorDesaturation = "com.github.ologe:color-desaturation:${versions.color_desaturation}"
+        const val jaudiotagger = "net.jthink:jaudiotagger:${versions.jaudiotagger}"
     }
 
     object Debug {
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:$leak_canary"
-        const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-        const val chucker = "com.github.ChuckerTeam.Chucker:library:${Versions.chucker}"
-        const val chuckerNoOp = "com.github.ChuckerTeam.Chucker:library-no-op:${Versions.chucker}"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${versions.leak_canary}"
+        const val timber = "com.jakewharton.timber:timber:${versions.timber}"
+        const val chucker = "com.github.ChuckerTeam.Chucker:library:${versions.chucker}"
+        const val chuckerNoOp = "com.github.ChuckerTeam.Chucker:library-no-op:${versions.chucker}"
     }
 
     object UX {
-        const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-        const val glideKapt = "com.github.bumptech.glide:compiler:${Versions.glide}"
-        const val blurKit = "io.alterac.blurkit:blurkit:$blur_kit"
-        const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
-        const val customTabs = "saschpe.android:customtabs:$custom_tabs"
-        const val dialogs = "com.afollestad.material-dialogs:color:$material_dialogs"
-        const val tapTargetView = "com.github.ologe:taptargetview:$tap_target_view"
+        const val glide = "com.github.bumptech.glide:glide:${versions.glide}"
+        const val glideKapt = "com.github.bumptech.glide:compiler:${versions.glide}"
+        const val blurKit = "io.alterac.blurkit:blurkit:${versions.blur_kit}"
+        const val lottie = "com.airbnb.android:lottie:${versions.lottie}"
+        const val customTabs = "saschpe.android:customtabs:${versions.custom_tabs}"
+        const val dialogs = "com.afollestad.material-dialogs:color:${versions.material_dialogs}"
+        const val tapTargetView = "com.github.ologe:taptargetview:${versions.tap_target_view}"
     }
 
     object Lint {
-        val core = "com.android.tools.lint:lint-api:$lint"
-        val checks = "com.android.tools.lint:lint-checks:$lint"
+        val core = "com.android.tools.lint:lint-api:${versions.lint}"
+        val checks = "com.android.tools.lint:lint-checks:${versions.lint}"
     }
 
 }

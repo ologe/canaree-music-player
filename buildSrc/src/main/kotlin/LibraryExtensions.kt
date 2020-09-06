@@ -2,7 +2,7 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 
 fun BaseExtension.applyDefaults() {
-    compileSdkVersion(AndroidSdk.compile)
+    compileSdkVersion(sdk.compile)
 
     defaultConfig {
         applyDefaults()

@@ -1,11 +1,11 @@
 plugins {
-    id(BuildPlugins.androidApplication)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinKapt)
-    id(BuildPlugins.kotlinAndroidExtensions)
-    id(BuildPlugins.hilt)
-    id(BuildPlugins.gms)
-    id(BuildPlugins.fabric)
+    id(buildPlugins.androidApplication)
+    id(buildPlugins.kotlinAndroid)
+    id(buildPlugins.kotlinKapt)
+    id(buildPlugins.kotlinAndroidExtensions)
+    id(buildPlugins.hilt)
+    id(buildPlugins.gms)
+    id(buildPlugins.crashlytics)
 }
 
 android {

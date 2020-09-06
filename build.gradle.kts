@@ -5,17 +5,14 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            setUrl("https://maven.fabric.io/public")
-        }
     }
 
     dependencies {
-        classpath(BuildPlugins.Classpath.androidGradlePlugin)
-        classpath(BuildPlugins.Classpath.kotlinGradlePlugin)
-        classpath(BuildPlugins.Classpath.gms)
-        classpath(BuildPlugins.Classpath.fabric)
-        classpath(BuildPlugins.Classpath.hilt)
+        classpath(buildPlugins.classpath.android)
+        classpath(buildPlugins.classpath.kotlin)
+        classpath(buildPlugins.classpath.gms)
+        classpath(buildPlugins.classpath.crashlytics)
+        classpath(buildPlugins.classpath.hilt)
     }
 
 }

@@ -1,11 +1,11 @@
 import com.android.build.gradle.internal.dsl.DefaultConfig
 
 fun DefaultConfig.applyDefaults() {
-    minSdkVersion(AndroidSdk.min)
-    targetSdkVersion(AndroidSdk.target)
+    minSdkVersion(sdk.min)
+    targetSdkVersion(sdk.target)
 
-    versionCode = AndroidSdk.versionCode
-    versionName = AndroidSdk.versionName
+    versionCode = sdk.versionCode
+    versionName = sdk.versionName
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

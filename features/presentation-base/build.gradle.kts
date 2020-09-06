@@ -1,9 +1,9 @@
 plugins {
-    id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinAndroid)
-    id(BuildPlugins.kotlinAndroidExtensions)
-    id(BuildPlugins.kotlinKapt)
-    id(BuildPlugins.hilt)
+    id(buildPlugins.androidLibrary)
+    id(buildPlugins.kotlinAndroid)
+    id(buildPlugins.kotlinAndroidExtensions)
+    id(buildPlugins.kotlinKapt)
+    id(buildPlugins.hilt)
 }
 
 android {
