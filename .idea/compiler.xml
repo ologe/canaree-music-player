@@ -7,6 +7,7 @@
       <module name="canaree-music-player.core" target="11" />
       <module name="canaree-music-player.data" target="11" />
       <module name="canaree-music-player.data-spotify" target="11" />
+      <module name="canaree-music-player.domain" target="11" />
       <module name="canaree-music-player.exoplayer-extension-ffmpeg" target="11" />
       <module name="canaree-music-player.exoplayer-extension-flac" target="11" />
       <module name="canaree-music-player.exoplayer-extension-opus" target="11" />
