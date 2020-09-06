@@ -102,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/category_no_tab_visible"
+        android:text="No items"
         android:visibility="gone"
         style="@style/EmptyState"
         app:layout_constraintBottom_toBottomOf="parent"

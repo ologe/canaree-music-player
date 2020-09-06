@@ -1,7 +1,7 @@
 package dev.olog.lib.analytics.tracker
 
 import android.os.Bundle
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dev.olog.lib.analytics.TrackerFacade
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.shared.coroutines.fireAndForget
@@ -9,17 +9,19 @@ import kotlinx.coroutines.GlobalScope
 import timber.log.Timber
 import javax.inject.Inject
 
-// TODO make a lib??
 internal class FirebaseTracker @Inject constructor(
     private val schedulers: Schedulers
 ) : TrackerFacade {
+
+    // TODO inject?
+    private val crashlytics = FirebaseCrashlytics.getInstance()
 
     override fun trackScreen(
         name: String,
         bundle: Bundle?
     ) = GlobalScope.fireAndForget(schedulers.io) {
         try {
-            Crashlytics.log("screen=$name, arguments=${bundle?.toMap()}}")
+            crashlytics.log("screen=$name, arguments=${bundle?.toMap()}}")
         } catch (ex: Exception) {
             Timber.w(ex, "screen=$name")
         }
@@ -30,7 +32,7 @@ internal class FirebaseTracker @Inject constructor(
         vararg args: Any?
     ) = GlobalScope.fireAndForget(schedulers.io) {
         try {
-            Crashlytics.log("service event=$name, arguments=$args")
+            crashlytics.log("service event=$name, arguments=$args")
         } catch (ex: Exception) {
             Timber.w(ex, "service event $name")
         }

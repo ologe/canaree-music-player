@@ -122,7 +122,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
             artist = this.artists.firstOrNull()?.name ?: MediaStore.UNKNOWN_STRING,
             album = this.album?.name ?: MediaStore.UNKNOWN_STRING,
             uri = this.uri,
-            image = this.album?.images?.maxBy { it.height }?.url ?: "",
+            image = this.album?.images?.maxByOrNull { it.height }?.url ?: "",
             discNumber = this.disc_number,
             trackNumber = this.track_number,
             duration = this.duration_ms.toLong(),
@@ -136,7 +136,7 @@ internal class SpotifyGatewayImpl @Inject constructor(
             id = this.id,
             title = this.name,
             albumType = this.album_type.mapAlbumType(),
-            image = this.images.maxBy { it.height }!!.url,
+            image = this.images.maxByOrNull { it.height }!!.url,
             songs = this.total_tracks,
             uri = this.uri
         )

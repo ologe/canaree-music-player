@@ -132,7 +132,7 @@ object Libraries {
 
         //    firebase
         internal const val firebase_core = "17.2.3"
-        internal const val firebase_analytics = "17.50"
+        internal const val firebase_analytics = "17.5.0"
         internal const val firebase_crashlytics = "17.2.1"
 //    firebase_perf = "19.0.5"
 

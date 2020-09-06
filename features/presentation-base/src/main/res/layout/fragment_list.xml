@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dev.olog.presentation.widgets.MaxHeightLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    app:maxHeightDp="@integer/blacklist_max_height">
+    android:layout_gravity="center">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -16,4 +15,4 @@
         android:paddingEnd="8dp"
         android:requiresFadingEdge="vertical" />
 
-</dev.olog.presentation.widgets.MaxHeightLinearLayout>
+</LinearLayout>

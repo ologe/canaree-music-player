@@ -44,20 +44,20 @@ internal class TrackFragment : BaseFragment() {
 
     private val viewModel by viewModels<TrackFragmentViewModel>()
 
-    private val adapter by lazyFast {
-        TrackFragmentAdapter(mediaProvider, navigator, viewModel)
-    }
+//    private val adapter by lazyFast {
+//        TrackFragmentAdapter(mediaProvider, navigator, viewModel)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list.adapter = adapter
+//        list.adapter = adapter
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.setHasFixedSize(true)
 
         viewModel.data
             .onEach {
-                adapter.submitList(it)
+//                adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
 //                sidebar.onDataChanged(it) TODO
             }
@@ -70,7 +70,7 @@ internal class TrackFragment : BaseFragment() {
         }
 
         viewModel.allPodcastPositions
-            .onEach { adapter.updatePodcastPositions(it) }
+            .onEach { /*adapter.updatePodcastPositions(it)*/ }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
@@ -90,7 +90,7 @@ internal class TrackFragment : BaseFragment() {
     }
 
     override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
-        adapter.onCurrentPlayingChanged(adapter, mediaId)
+//        adapter.onCurrentPlayingChanged(adapter, mediaId)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_track

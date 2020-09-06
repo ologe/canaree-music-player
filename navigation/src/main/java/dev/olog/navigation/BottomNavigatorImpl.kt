@@ -58,4 +58,7 @@ internal class BottomNavigatorImpl @Inject constructor(
         }
     }
 
+    override fun toLibraryChooser() {
+
+    }
 }

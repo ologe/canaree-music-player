@@ -94,11 +94,11 @@ internal class TabFragment : BaseFragment(),
         emptyStateText.isVisible = isEmpty
         if (isEmpty) {
             if (isPodcastFragment()) {
-                val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
-                emptyStateText.text = emptyText[category.ordinal - 6]
+//                val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
+//                emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
-                val emptyText = resources.getStringArray(R.array.tab_empty_state)
-                emptyStateText.text = emptyText[category.ordinal]
+//                val emptyText = resources.getStringArray(R.array.tab_empty_state)
+//                emptyStateText.text = emptyText[category.ordinal]
             }
         }
     }

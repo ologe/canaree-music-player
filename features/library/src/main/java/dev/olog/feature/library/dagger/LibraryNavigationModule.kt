@@ -16,14 +16,14 @@ class LibraryNavigationModule {
 
     @Provides
     @IntoMap
-    @FragmentScreenKey(FragmentScreen.LIBRARY_TRACKS)
+    @FragmentScreenKey(FragmentScreen.HOME)
     internal fun provideLibraryTracksFragment(): Fragment {
         return LibraryFragment.newInstance(false)
     }
 
     @Provides
     @IntoMap
-    @FragmentScreenKey(FragmentScreen.LIBRARY_PODCAST)
+    @FragmentScreenKey(FragmentScreen.LIBRARY)
     internal fun provideLibraryPodcastFragment(): Fragment {
         return LibraryFragment.newInstance(true)
     }

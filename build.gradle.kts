@@ -31,7 +31,7 @@ allprojects {
 
     gradle.projectsEvaluated { // TODO remove after coroutines became stable
         tasks.withType(KotlinCompile::class).all {
-            kotlinOptions.freeCompilerArgs = listOf(
+            kotlinOptions.freeCompilerArgs += listOf(
                 "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
                 "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
             )

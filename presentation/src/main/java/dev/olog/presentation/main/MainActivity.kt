@@ -125,16 +125,16 @@ class MainActivity : MusicGlueActivity(),
             separator.isVisible = false
         }
 
-        val scrollHelper = SuperCerealScrollHelper(
-            this, ScrollType.Full(
-                slidingPanel = slidingPanel,
-                bottomNavigation = bottomWrapper,
-                toolbarHeight = dimen(R.dimen.toolbar),
-                tabLayoutHeight = dimen(R.dimen.tab),
-                realSlidingPanelPeek = peekHeight
-            )
-        )
-        lifecycle.addObserver(scrollHelper)
+//        val scrollHelper = SuperCerealScrollHelper(
+//            this, ScrollType.Full(
+//                slidingPanel = slidingPanel,
+//                bottomNavigation = bottomWrapper,
+//                toolbarHeight = dimen(R.dimen.toolbar),
+//                tabLayoutHeight = dimen(R.dimen.tab),
+//                realSlidingPanelPeek = peekHeight
+//            )
+//        )
+//        lifecycle.addObserver(scrollHelper)
     }
 
     private fun navigateToLastPage(){

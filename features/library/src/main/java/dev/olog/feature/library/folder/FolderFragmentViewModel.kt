@@ -21,10 +21,7 @@ import dev.olog.feature.presentation.base.model.presentationId
 import dev.olog.shared.coroutines.mapListItem
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.io.File
 
@@ -39,10 +36,11 @@ internal class FolderFragmentViewModel @ViewModelInject constructor(
     private val currentFolderFlow = MutableStateFlow(prefs.getDefaultMusicFolder())
 
     val isHierarchyFlow: Flow<Boolean>
-        get() = libraryPrefs.observeFolderHierarchy()
+//        get() = libraryPrefs.observeFolderHierarchy()
+        get() = emptyFlow()
 
-    val isHierarchyEnabled: Boolean
-        get() = libraryPrefs.getFolderHierarchy()
+    val isHierarchyEnabled: Boolean = false
+//        get() = libraryPrefs.getFolderHierarchy()
 
     val data: Flow<List<FolderFragmentItem>>
         get() = isHierarchyFlow
@@ -88,7 +86,7 @@ internal class FolderFragmentViewModel @ViewModelInject constructor(
         if (enabled) {
             currentFolderFlow.value = prefs.getDefaultMusicFolder()
         }
-        libraryPrefs.setFolderHierarchy(enabled)
+//        libraryPrefs.setFolderHierarchy(enabled)
     }
 
     fun updateFolder(file: File) {

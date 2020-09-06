@@ -35,10 +35,7 @@ internal class CanareeBottomNavigationView(
             val navigationPage = menu.itemId.toBottomNavigationPage()
             val libraryPage = preferences.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.bottomNavigate(
-                findActivity(),
-                navigationPage.toScreen(libraryPage)
-            )
+            navigator.bottomNavigate(navigationPage.toScreen(libraryPage))
             true
         }
     }
@@ -52,8 +49,8 @@ internal class CanareeBottomNavigationView(
         return when (this){
             BottomNavigationPage.LIBRARY -> {
                 when(libraryPage){
-                    LibraryPage.TRACKS -> FragmentScreen.LIBRARY_TRACKS
-                    LibraryPage.PODCASTS -> FragmentScreen.LIBRARY_PODCAST
+                    LibraryPage.TRACKS -> FragmentScreen.HOME
+                    LibraryPage.PODCASTS -> FragmentScreen.LIBRARY
                 }
             }
             BottomNavigationPage.SEARCH -> FragmentScreen.SEARCH
@@ -69,7 +66,7 @@ internal class CanareeBottomNavigationView(
     fun navigateToLastPage() {
         val navigationPage = preferences.getLastBottomViewPage()
         val libraryPage = preferences.getLastLibraryPage()
-        navigator.bottomNavigate(findActivity(), navigationPage.toScreen(libraryPage))
+        navigator.bottomNavigate(navigationPage.toScreen(libraryPage))
     }
 
     private fun saveLastPage(page: BottomNavigationPage) {

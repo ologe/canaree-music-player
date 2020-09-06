@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.library.LibrarySpanSizeLookup
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.extensions.dimen
@@ -23,30 +22,30 @@ class FolderFragment : BaseFragment() {
 
     private val viewModel by viewModels<FolderFragmentViewModel>()
 
-    private val adapter by lazyFast {
-        FolderFragmentAdapter(viewModel)
-    }
+//    private val adapter by lazyFast {
+//        FolderFragmentAdapter(viewModel)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = OverScrollGridLayoutManager(list, LibrarySpanSizeLookup.SPAN_COUNT)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                // TODO this is layout position, not adapter position
-                val item = adapter.getItem(position)
-                if (item is FolderFragmentItem.Header || item is FolderFragmentItem.Header) {
-                    return LibrarySpanSizeLookup.SPAN_COUNT
-                }
-                if (viewModel.isHierarchyEnabled) {
-                    return LibrarySpanSizeLookup.SPAN_COUNT
-                }
-                return LibrarySpanSizeLookup.SPAN_COUNT / viewModel.getSpanCount()
-            }
-        }
-
-        list.adapter = adapter
-        list.layoutManager = layoutManager
+//        val layoutManager = OverScrollGridLayoutManager(list, LibrarySpanSizeLookup.SPAN_COUNT)
+//        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//                 TODO this is layout position, not adapter position
+//                val item = adapter.getItem(position)
+//                if (item is FolderFragmentItem.Header || item is FolderFragmentItem.Header) {
+//                    return LibrarySpanSizeLookup.SPAN_COUNT
+//                }
+//                if (viewModel.isHierarchyEnabled) {
+//                    return LibrarySpanSizeLookup.SPAN_COUNT
+//                }
+//                return LibrarySpanSizeLookup.SPAN_COUNT / viewModel.getSpanCount()
+//            }
+//        }
+//
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
 
         viewModel.isHierarchyFlow
             .onEach {  isHierarchy ->
@@ -59,7 +58,7 @@ class FolderFragment : BaseFragment() {
 
         viewModel.data
             .onEach {
-                adapter.submitList(it)
+//                adapter.submitList(it)
                 // TODO empty state
                 // TODO sidebar
             }

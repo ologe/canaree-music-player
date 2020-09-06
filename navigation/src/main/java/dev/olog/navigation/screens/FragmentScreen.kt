@@ -2,9 +2,11 @@ package dev.olog.navigation.screens
 
 private const val PREFIX = "dev.olog"
 
+// TODO assert unique tag
 enum class FragmentScreen(val tag: String) {
-    LIBRARY_TRACKS("$PREFIX.library.track"),
-    LIBRARY_PODCAST("$PREFIX.library.podcast"),
+    HOME("$PREFIX.home"),
+    LIBRARY("$PREFIX.library"),
+    PLAYLISTS("$PREFIX.playlists"),
     SEARCH("$PREFIX.search"),
     QUEUE("$PREFIX.queue"),
     DETAIL("$PREFIX.detail"),

@@ -1,9 +1,9 @@
 package dev.olog.feature.about.about
 
 import android.content.Context
+import dev.olog.feature.about.BuildConfig
 import dev.olog.feature.about.model.AboutItem
 import dev.olog.feature.about.model.AboutItemType
-import dev.olog.feature.about.BuildConfig
 import dev.olog.feature.about.R
 
 internal class AboutFragmentPresenter(
@@ -17,11 +17,12 @@ internal class AboutFragmentPresenter(
             title = context.getString(R.string.about_author),
             subtitle = "Eugeniu Olog"
         ),
-        AboutItem(
+        AboutItem( // TODO remove this?
             type = R.layout.item_about,
             itemType = AboutItemType.VERSION,
             title = context.getString(R.string.about_version),
-            subtitle = BuildConfig.VERSION_NAME
+//            subtitle = BuildConfig.VERSION_NAME // TODO version number no more present in
+            subtitle = "4.0.0"
         ),
 
         AboutItem(

@@ -1,7 +1,7 @@
 package dev.olog.msc.debug
 
 import android.util.Log
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class CrashlyticsLogTree : Timber.Tree() {
@@ -15,8 +15,9 @@ class CrashlyticsLogTree : Timber.Tree() {
         when (priority) {
             Log.WARN,
             Log.ERROR -> {
-                t?.let { Crashlytics.logException(it) }
-                Crashlytics.log(message)
+                // TODO check
+                t?.let { FirebaseCrashlytics.getInstance().log(it.stackTraceToString()) }
+                FirebaseCrashlytics.getInstance().log(message)
             }
         }
     }

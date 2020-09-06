@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.feature.library.LibrarySpanSizeLookup
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.navigation.Navigator
@@ -27,26 +26,26 @@ internal class AlbumFragment : BaseFragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter by lazyFast {
-        AlbumFragmentAdapter(navigator)
-    }
+//    private val adapter by lazyFast {
+//        AlbumFragmentAdapter(navigator)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spanLookup = LibrarySpanSizeLookup(viewModel.getSpanCount())
-        val layoutManager = OverScrollGridLayoutManager(list, LibrarySpanSizeLookup.SPAN_COUNT)
-        layoutManager.spanSizeLookup = spanLookup
+//        val spanLookup = LibrarySpanSizeLookup(viewModel.getSpanCount())
+//        val layoutManager = OverScrollGridLayoutManager(list, LibrarySpanSizeLookup.SPAN_COUNT)
+//        layoutManager.spanSizeLookup = spanLookup
 
-        list.adapter = adapter
-        list.layoutManager = layoutManager
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
         list.setHasFixedSize(true)
 
         sidebar.scrollableLayoutId = R.layout.item_tab_album
 
         viewModel.data
             .onEach {
-                adapter.submitList(it)
+//                adapter.submitList(it)
                 emptyStateText.isVisible = it.isEmpty()
 //                sidebar.onDataChanged(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
