@@ -3,8 +3,9 @@ plugins {
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinKapt)
     id(BuildPlugins.kotlinAndroidExtensions)
-    id(BuildPlugins.fabric)
     id(BuildPlugins.hilt)
+    id(BuildPlugins.gms)
+    id(BuildPlugins.fabric)
 }
 
 android {
@@ -133,6 +134,3 @@ dependencies {
     testImplementation(Libraries.Test.robolectric)
     testImplementation(Libraries.Coroutines.test)
 }
-
-// leave at bottom
-apply(plugin = BuildPlugins.gms)

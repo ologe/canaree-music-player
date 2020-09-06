@@ -6,6 +6,10 @@ plugins {
     id(BuildPlugins.hilt)
 }
 
+androidExtensions {
+    isExperimental = true
+}
+
 android {
     applyDefaults()
 }

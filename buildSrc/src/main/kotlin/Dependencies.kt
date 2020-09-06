@@ -32,21 +32,21 @@ import Libraries.Versions.scroll_helper
 import Libraries.Versions.sql_content_resolver
 import Libraries.Versions.tap_target_view
 
-const val kotlinVersion = "1.3.71"
+const val kotlinVersion = "1.4.0"
 
 object BuildPlugins {
 
     object Versions {
-        const val buildToolsVersion = "4.0.1"
+        const val buildToolsVersion = "4.2.0-alpha09"
         const val gms = "4.3.3"
-        const val fabric = "1.31.2"
+        const val fabric = "2.2.1"
     }
 
     object Classpath {
         const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val gms = "com.google.gms:google-services:${Versions.gms}"
-        const val fabric = "io.fabric.tools:gradle:${Versions.fabric}"
+        const val fabric = "com.google.firebase:firebase-crashlytics-gradle:${Versions.fabric}"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Libraries.Versions.hilt}"
     }
 
@@ -57,7 +57,7 @@ object BuildPlugins {
     const val kotlinAndroid = "kotlin-android"
     const val kotlinKapt = "kotlin-kapt"
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
-    const val fabric = "io.fabric"
+    const val fabric = "com.google.firebase.crashlytics"
     const val gms = "com.google.gms.google-services"
     const val hilt = "dagger.hilt.android.plugin"
 
@@ -132,8 +132,8 @@ object Libraries {
 
         //    firebase
         internal const val firebase_core = "17.2.3"
-        internal const val firebase_analytics = "17.2.3"
-        internal const val firebase_crashlytics = "2.10.1"
+        internal const val firebase_analytics = "17.50"
+        internal const val firebase_crashlytics = "17.2.1"
 //    firebase_perf = "19.0.5"
 
         // test
@@ -215,7 +215,7 @@ object Libraries {
     object Firebase {
         const val core = "com.google.firebase:firebase-core:$firebase_core"
         const val analytics = "com.google.firebase:firebase-analytics:$firebase_analytics"
-        const val crashlytics = "com.crashlytics.sdk.android:crashlytics:$firebase_crashlytics"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics:$firebase_crashlytics"
         //            perf       = "com.google.firebase:firebase-perf:${Versions.firebase_perf}"
     }
 
