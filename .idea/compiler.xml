@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="canaree-music-player.app" target="11" />
+      <module name="canaree-music-player.buildSrc" target="11" />
+      <module name="canaree-music-player.core" target="11" />
+      <module name="canaree-music-player.data" target="11" />
+      <module name="canaree-music-player.data-spotify" target="11" />
+      <module name="canaree-music-player.exoplayer-extension-ffmpeg" target="11" />
+      <module name="canaree-music-player.exoplayer-extension-flac" target="11" />
+      <module name="canaree-music-player.exoplayer-extension-opus" target="11" />
+      <module name="canaree-music-player.exoplayer-library-core" target="11" />
+      <module name="canaree-music-player.exoplayer-testutils" target="11" />
+      <module name="canaree-music-player.features.about" target="11" />
+      <module name="canaree-music-player.features.app-shortcuts" target="11" />
+      <module name="canaree-music-player.features.detail" target="11" />
+      <module name="canaree-music-player.features.edit" target="11" />
+      <module name="canaree-music-player.features.equalizer" target="11" />
+      <module name="canaree-music-player.features.library" target="11" />
+      <module name="canaree-music-player.features.onboarding" target="11" />
+      <module name="canaree-music-player.features.player" target="11" />
+      <module name="canaree-music-player.features.player-mini" target="11" />
+      <module name="canaree-music-player.features.presentation-base" target="11" />
+      <module name="canaree-music-player.features.queue" target="11" />
+      <module name="canaree-music-player.features.search" target="11" />
+      <module name="canaree-music-player.features.service-floating" target="11" />
+      <module name="canaree-music-player.features.service-music" target="11" />
+      <module name="canaree-music-player.features.settings" target="11" />
+      <module name="canaree-music-player.flavors.full" target="11" />
+      <module name="canaree-music-player.flavors.lite" target="11" />
+      <module name="canaree-music-player.intents" target="11" />
+      <module name="canaree-music-player.libraries.analytics" target="11" />
+      <module name="canaree-music-player.libraries.audio-tagger" target="11" />
+      <module name="canaree-music-player.libraries.equalizer" target="11" />
+      <module name="canaree-music-player.libraries.image-loader" target="11" />
+      <module name="canaree-music-player.libraries.media" target="11" />
+      <module name="canaree-music-player.libraries.network" target="11" />
+      <module name="canaree-music-player.libraries.offline-lyrics" target="11" />
+      <module name="canaree-music-player.navigation" target="11" />
+      <module name="canaree-music-player.prefs-keys" target="11" />
+      <module name="canaree-music-player.presentation" target="11" />
+      <module name="canaree-music-player.shared-android" target="11" />
+      <module name="canaree-music-player.test-shared" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
