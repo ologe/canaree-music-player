@@ -6,9 +6,7 @@ plugins {
     id(buildPlugins.hilt)
 }
 
-android {
-    applyDefaults()
-}
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
 
 androidExtensions {
     isExperimental = true

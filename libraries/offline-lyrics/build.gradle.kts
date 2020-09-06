@@ -5,9 +5,7 @@ plugins {
     id(buildPlugins.kotlinAndroidExtensions)
 }
 
-android {
-    applyDefaults()
-}
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
 
 dependencies {
     lintChecks(project(":lint"))

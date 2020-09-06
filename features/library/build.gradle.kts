@@ -10,9 +10,7 @@ androidExtensions {
     isExperimental = true
 }
 
-android {
-    applyDefaults(compose = true)
-}
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
 
 dependencies {
     lintChecks(project(":lint"))

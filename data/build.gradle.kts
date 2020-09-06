@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(buildPlugins.androidLibrary)
     id(buildPlugins.kotlinAndroid)
@@ -5,23 +7,25 @@ plugins {
     id(buildPlugins.hilt)
 }
 
-android {
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
 
-    applyDefaults()
+android {
 
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
-//                arguments = mapOf( TODO restore
-//                    "room.schemaLocation" to "$projectDir/schemas",
-//                    "room.incremental" to "true",
-//                    "room.expandProjection" to "true"
-//                )
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true"
+                )
             }
         }
 
-        configField("LAST_FM_KEY" to localProperties.lastFmKey)
-        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
+        val localProperties = gradleLocalProperties(rootDir)
+        buildConfigField("String", "AES_PASSWORD", localProperties.getProperty("aes_password"))
+        buildConfigField("String", "LAST_FM_KEY", localProperties.getProperty("last_fm_key"))
+        buildConfigField("String", "LAST_FM_SECRET", localProperties.getProperty("last_fm_secret"))
 
     }
 

@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(buildPlugins.androidLibrary)
     id(buildPlugins.kotlinAndroid)
@@ -5,12 +7,14 @@ plugins {
     id(buildPlugins.hilt)
 }
 
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
+
 android {
-    applyDefaults()
 
     defaultConfig {
-        configField("LAST_FM_KEY" to localProperties.lastFmKey)
-        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
+        val localProperties = gradleLocalProperties(rootDir)
+        buildConfigField("String", "LAST_FM_KEY", localProperties.getProperty("last_fm_key"))
+        buildConfigField("String", "LAST_FM_SECRET", localProperties.getProperty("last_fm_secret"))
     }
 }
 

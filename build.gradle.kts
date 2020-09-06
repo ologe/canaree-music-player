@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 buildscript {
 
     repositories {
@@ -24,19 +22,6 @@ allprojects {
         jcenter()
         maven { setUrl("https://jitpack.io") }
         maven { setUrl("https://dl.bintray.com/ijabz/maven") } // jaudiotagger
-    }
-
-    gradle.projectsEvaluated { // TODO remove after coroutines became stable
-        tasks.withType(KotlinCompile::class).all {
-            kotlinOptions.freeCompilerArgs += listOf(
-                "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xallow-jvm-ir-dependencies",
-                "-Xskip-prerelease-check"
-            )
-            kotlinOptions.useIR = true
-            kotlinOptions.jvmTarget = versions.java.toString()
-        }
     }
 
 }

@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(buildPlugins.androidApplication)
     id(buildPlugins.kotlinAndroid)
@@ -8,15 +10,18 @@ plugins {
     id(buildPlugins.crashlytics)
 }
 
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
+apply(from = rootProject.file("buildscripts/configure-compose.gradle"))
+
 android {
-    applyDefaults(compose = true)
 
     defaultConfig {
         applicationId = "dev.olog.msc"
 
-        configField("AES_PASSWORD" to localProperties.aesPassword)
-        configField("LAST_FM_KEY" to localProperties.lastFmKey)
-        configField("LAST_FM_SECRET" to localProperties.lastFmSecret)
+        val localProperties = gradleLocalProperties(rootDir)
+        buildConfigField("String", "AES_PASSWORD", localProperties.getProperty("aes_password"))
+        buildConfigField("String", "LAST_FM_KEY", localProperties.getProperty("last_fm_key"))
+        buildConfigField("String", "LAST_FM_SECRET", localProperties.getProperty("last_fm_secret"))
     }
 
     bundle {
@@ -26,14 +31,14 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-        debug {
+        getByName("debug") {
             isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             multiDexEnabled = true
@@ -45,9 +50,6 @@ android {
         featureFlavors.forEach { (flavor, _) ->
             register(flavor) {
                 dimension = "scope"
-                if (flavor != "full"){
-                    versionNameSuffix = ".$flavor"
-                }
             }
         }
     }

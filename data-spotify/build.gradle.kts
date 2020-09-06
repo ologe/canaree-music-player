@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id(buildPlugins.androidLibrary)
     id(buildPlugins.kotlinAndroid)
@@ -5,12 +7,13 @@ plugins {
     id(buildPlugins.hilt)
 }
 
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
+
 android {
-    applyDefaults()
 
     defaultConfig {
-        val properties = localProperties
-        configField("SPOTIFY_ENCODED_CLIENT" to properties.spotifyEncodedClient)
+        val localProperties = gradleLocalProperties(rootDir)
+        buildConfigField("String", "SPOTIFY_ENCODED_CLIENT", localProperties.getProperty("spotify_encoded_client"))
     }
 
 }

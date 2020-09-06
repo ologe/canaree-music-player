@@ -2,7 +2,6 @@
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.artifacts.Dependency
-import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object versions {
@@ -84,7 +83,7 @@ object versions {
     // 23.0.0 + {buildToolsVersion}
     internal val lint: String
         get() {
-            val toolsVersion = versions.buildTools
+            val toolsVersion = buildTools
             val major = toolsVersion.take(1).toInt()
             return "${23 + major}${toolsVersion.drop(1)}"
         }
@@ -116,7 +115,7 @@ object buildPlugins {
 object sdk {
 
     const val min = 21
-    const val target = 29
+    const val target = 30
     const val compile = target
 
     const val versionCode = 999_29_4_0_00

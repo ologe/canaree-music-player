@@ -4,9 +4,7 @@ plugins {
     id(buildPlugins.kotlinKapt)
 }
 
-android {
-    applyDefaults()
-}
+apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
 
 dependencies {
     implementation(project(":domain"))
