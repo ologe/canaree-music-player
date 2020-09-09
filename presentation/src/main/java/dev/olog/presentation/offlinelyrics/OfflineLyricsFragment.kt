@@ -1,5 +1,6 @@
 package dev.olog.presentation.offlinelyrics
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -48,6 +49,17 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private val mediaProvider by lazy { activity as MediaProvider }
 
     private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
+
+    private val callback = object : CustomTabsHelper.CustomTabFallback {
+        override fun openUri(context: Context?, uri: Uri?) {
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            if (requireActivity().packageManager.isIntentSafe(intent)) {
+                requireActivity().startActivity(intent)
+            } else {
+                requireActivity().toast(R.string.common_browser_not_found)
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (presenter.showAddLyricsIfNeverShown()) {
@@ -184,14 +196,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri) { _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (act.packageManager.isIntentSafe(intent)) {
-                startActivity(intent)
-            } else {
-                act.toast(R.string.common_browser_not_found)
-            }
-        }
+        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, callback)
     }
 
 

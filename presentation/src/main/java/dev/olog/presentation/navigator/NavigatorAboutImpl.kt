@@ -1,5 +1,6 @@
 package dev.olog.presentation.navigator
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -23,6 +24,17 @@ class NavigatorAboutImpl @Inject internal constructor(
 ) : NavigatorAbout {
 
     private val activityRef = WeakReference(activity)
+
+    private val callback = object : CustomTabsHelper.CustomTabFallback {
+        override fun openUri(context: Context?, uri: Uri?) {
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
+        }
+    }
 
     override fun toHavocPage() {
         val activity = activityRef.get() ?: return
@@ -56,16 +68,8 @@ class NavigatorAboutImpl @Inject internal constructor(
             .build()
         CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
 
-        val uri =
-            Uri.parse("https://github.com/ologe/canaree-music-player/blob/master/CHANGELOG.md")
-        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri) { _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
+        val uri = Uri.parse("https://github.com/ologe/canaree-music-player/blob/master/CHANGELOG.md")
+        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
     override fun toGithub() {
@@ -78,14 +82,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         CustomTabsHelper.addKeepAliveExtra(activity, customTabIntent.intent)
 
         val uri = Uri.parse("https://github.com/ologe/canaree-music-player")
-        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri) { _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
+        CustomTabsHelper.openCustomTab(activity, customTabIntent, uri, callback)
     }
 
     override fun toSpecialThanksFragment() {

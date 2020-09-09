@@ -54,7 +54,7 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     init {
         player.addListener(this)
-        player.playbackParameters = PlaybackParameters(1f, 1f, true)
+        player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
         launch {
@@ -100,7 +100,7 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     override fun setPlaybackSpeed(speed: Float) {
         // skip silence
-        player.playbackParameters = PlaybackParameters(speed, 1f, false)
+        player.setPlaybackParameters(PlaybackParameters(speed, 1f, false))
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
