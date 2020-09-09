@@ -76,7 +76,7 @@ class LibraryFragment : BaseFragment() {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 5
 
         pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
 
