@@ -59,17 +59,17 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdkVersion = 21
-    targetSdkVersion = 29
-    compileSdkVersion = 29
-    buildToolsVersion = '29.0.2'
+    targetSdkVersion = 30
+    compileSdkVersion = 30
+    buildToolsVersion = '30.0.2'
 
     /*  version code
         999 - for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_29_3_3_00
-    versionName = '3.3.0'
+    versionCode = 999_29_3_3_01
+    versionName = '3.3.1'
 
 }
 
