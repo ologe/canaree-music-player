@@ -2,6 +2,14 @@ apply plugin: 'com.android.library'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-kapt'
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
 android {
 
     defaultConfig {
@@ -19,17 +27,8 @@ android {
             }
         }
 
-    }
-
-    buildTypes {
-        release {
-            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
-            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
-        }
-        debug {
-            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
-            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
-        }
+        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
+        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     sourceSets {

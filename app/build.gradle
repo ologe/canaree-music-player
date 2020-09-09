@@ -3,12 +3,24 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
 
 android {
 
     defaultConfig {
         applicationId "dev.olog.msc"
+
+        buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
+        buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
     bundle {
@@ -29,18 +41,11 @@ android {
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
-            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
         }
         debug {
             minifyEnabled false
             applicationIdSuffix ".debug"
             multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            buildConfigField 'String', "LAST_FM_KEY", last_fm_key
-            buildConfigField 'String', "LAST_FM_SECRET", last_fm_secret
         }
     }
 
@@ -109,6 +114,3 @@ dependencies {
     implementation lib_analytics.crashlytics
     implementation lib_analytics.perf
 }
-
-// leave at bottom
-apply plugin: 'com.google.gms.google-services'
