@@ -53,9 +53,6 @@ captures/
 .idea/caches/build_file_checksums.ser
 .idea/modules.xml
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
 # Version control
 vcs.xml
 
