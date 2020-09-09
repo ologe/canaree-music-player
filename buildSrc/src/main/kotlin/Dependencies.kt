@@ -8,7 +8,7 @@ object versions {
     val java = JavaVersion.VERSION_1_8
 
     const val kotlin = "1.4.0"
-    const val buildTools = "4.2.0-alpha09"
+    const val buildTools = "4.2.0-alpha10"
     const val gms = "4.3.3"
     const val crashlytics = "2.2.1"
 
