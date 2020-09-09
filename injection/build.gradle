@@ -17,7 +17,7 @@ android {
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
-    kotlinOptions.allWarningsAsErrors = true
+    //kotlinOptions.allWarningsAsErrors = true
 
 }
 

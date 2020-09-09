@@ -8,7 +8,7 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
-    kotlinOptions.allWarningsAsErrors = true
+    //kotlinOptions.allWarningsAsErrors = true
 }
 
 apply from: '../kapt.gradle'

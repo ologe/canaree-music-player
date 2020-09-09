@@ -19,7 +19,7 @@ android {
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
 
-    kotlinOptions.allWarningsAsErrors = true
+    //kotlinOptions.allWarningsAsErrors = true
 
 }
 
