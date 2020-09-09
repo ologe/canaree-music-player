@@ -104,6 +104,8 @@ internal class PodcastArtistRepository @Inject constructor(
     }
 
     override fun observeRecentlyAdded(): Flow<List<Artist>> {
+        return flowOf(emptyList())
+        // TODO crash on android 11, see BaseQueries
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
