@@ -16,6 +16,10 @@ android {
         buildConfigField("String", "SPOTIFY_ENCODED_CLIENT", localProperties.getProperty("spotify_encoded_client"))
     }
 
+    kotlinOptions {
+        useIR = false
+    }
+
 }
 
 dependencies {

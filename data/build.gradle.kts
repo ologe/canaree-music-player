@@ -34,6 +34,10 @@ android {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
 
+    kotlinOptions {
+        useIR = false
+    }
+
 }
 
 dependencies {
