@@ -12,13 +12,6 @@ import dev.olog.shared.android.dark.mode.isDarkMode
 import dev.olog.feature.presentation.base.palette.ColorUtil
 import dev.olog.shared.android.extensions.colorBackground
 import dev.olog.shared.android.theme.PlayerAppearance
-import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.artist
-import kotlinx.android.synthetic.main.player_layout_default.view.seekBar
-import kotlinx.android.synthetic.main.player_layout_default.view.title
-import kotlinx.android.synthetic.main.player_layout_spotify.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -56,10 +49,10 @@ internal class PlayerAppearanceBehaviorSpotify : IPlayerAppearanceAdaptiveBehavi
                     GradientDrawable.Orientation.TOP_BOTTOM,
                     intArrayOf(first, second, third)
                 )
-                view.playerRoot.background = gradient
+//                view.playerRoot.background = gradient
 
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+//                view.shuffle.updateSelectedColor(accent)
+//                view.repeat.updateSelectedColor(accent)
             }.launchIn(viewHolder.lifecycleScope)
     }
 
@@ -87,13 +80,13 @@ internal open class PlayerAppearanceBehaviorDefault : IPlayerAppearanceAdaptiveB
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
+//                view.artist.apply { animateTextColor(accent) }
+//                view.shuffle.updateSelectedColor(accent)
+//                view.repeat.updateSelectedColor(accent)
+//                view.seekBar.apply {
+//                    thumbTintList = ColorStateList.valueOf(accent)
+//                    progressTintList = ColorStateList.valueOf(accent)
+//                }
             }.launchIn(viewHolder.lifecycleScope)
     }
 }
@@ -105,25 +98,25 @@ internal class PlayerAppearanceBehaviorFlat : IPlayerAppearanceAdaptiveBehavior 
 
         presenter.observeProcessorColors()
             .onEach { colors ->
-                view.title.apply {
-                    animateTextColor(colors.primaryText)
-                    animateBackgroundColor(colors.background)
-                }
-                view.artist.apply {
-                    animateTextColor(colors.secondaryText)
-                    animateBackgroundColor(colors.background)
-                }
+//                view.title.apply {
+//                    animateTextColor(colors.primaryText)
+//                    animateBackgroundColor(colors.background)
+//                }
+//                view.artist.apply {
+//                    animateTextColor(colors.secondaryText)
+//                    animateBackgroundColor(colors.background)
+//                }
             }.launchIn(viewHolder.lifecycleScope)
 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.seekBar.apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+//                view.seekBar.apply {
+//                    thumbTintList = ColorStateList.valueOf(accent)
+//                    progressTintList = ColorStateList.valueOf(accent)
+//                }
+//                view.shuffle.updateSelectedColor(accent)
+//                view.repeat.updateSelectedColor(accent)
             }.launchIn(viewHolder.lifecycleScope)
     }
 }
@@ -136,14 +129,14 @@ internal class PlayerAppearanceBehaviorFullscreen : IPlayerAppearanceAdaptiveBeh
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.seekBar.apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.artist.animateTextColor(accent)
-                view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
+//                view.seekBar.apply {
+//                    thumbTintList = ColorStateList.valueOf(accent)
+//                    progressTintList = ColorStateList.valueOf(accent)
+//                }
+//                view.artist.animateTextColor(accent)
+//                view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
+//                view.shuffle.updateSelectedColor(accent)
+//                view.repeat.updateSelectedColor(accent)
             }.launchIn(viewHolder.lifecycleScope)
     }
 }
@@ -156,15 +149,15 @@ internal class PlayerAppearanceBehaviorMini : IPlayerAppearanceAdaptiveBehavior 
         presenter.observePaletteColors()
             .map { it.accent }
             .onEach { accent ->
-                view.artist.apply { animateTextColor(accent) }
-                view.shuffle.updateSelectedColor(accent)
-                view.repeat.updateSelectedColor(accent)
-                view.seekBar.apply {
-                    thumbTintList = ColorStateList.valueOf(accent)
-                    progressTintList = ColorStateList.valueOf(accent)
-                }
-                view.more.imageTintList = ColorStateList.valueOf(accent)
-                view.lyrics.imageTintList = ColorStateList.valueOf(accent)
+//                view.artist.apply { animateTextColor(accent) }
+//                view.shuffle.updateSelectedColor(accent)
+//                view.repeat.updateSelectedColor(accent)
+//                view.seekBar.apply {
+//                    thumbTintList = ColorStateList.valueOf(accent)
+//                    progressTintList = ColorStateList.valueOf(accent)
+//                }
+//                view.more.imageTintList = ColorStateList.valueOf(accent)
+//                view.lyrics.imageTintList = ColorStateList.valueOf(accent)
             }.launchIn(viewHolder.lifecycleScope)
     }
 }

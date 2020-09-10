@@ -18,7 +18,6 @@ import dev.olog.lib.audio.tagger.model.Tags
 import dev.olog.feature.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.extractText
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -52,58 +51,58 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        artist.afterTextChange()
-            .map { it.isNotBlank() }
-            .onEach { okButton.isEnabled = it }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        artist.afterTextChange()
+//            .map { it.isNotBlank() }
+//            .onEach { okButton.isEnabled = it }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         loadImage(mediaId)
 
         viewModel.observeData()
             .onEach {
-                artist.setText(it.title)
-                albumArtist.setText(it.albumArtist)
-                val plural = if (it.isPodcast) {
-                    R.plurals.edit_item_xx_episodes_will_be_updated
-                } else {
-                    R.plurals.edit_item_xx_tracks_will_be_updated
-                }
-                val text = resources.getQuantityString(plural, it.songs, it.songs)
-                albumsUpdated.text = text
-                podcast.isChecked = it.isPodcast
+//                artist.setText(it.title)
+//                albumArtist.setText(it.albumArtist)
+//                val plural = if (it.isPodcast) {
+//                    R.plurals.edit_item_xx_episodes_will_be_updated
+//                } else {
+//                    R.plurals.edit_item_xx_tracks_will_be_updated
+//                }
+//                val text = resources.getQuantityString(plural, it.songs, it.songs)
+//                albumsUpdated.text = text
+//                podcast.isChecked = it.isPodcast
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.onClick { trySave() }
-        cancelButton.setOnClickListener { dismiss() }
+//        okButton.onClick { trySave() }
+//        cancelButton.setOnClickListener { dismiss() }
     }
 
     override fun onPause() {
         super.onPause()
-        okButton.setOnClickListener(null)
-        cancelButton.setOnClickListener(null)
+//        okButton.setOnClickListener(null)
+//        cancelButton.setOnClickListener(null)
     }
 
     private suspend fun trySave() {
-        val result = editItemViewModel.updateArtist(
-            UpdateArtistInfo(
-                mediaId = mediaId,
-                tags = Tags(
-                    artist = artist.extractText().trim(),
-                    albumArtist = albumArtist.extractText().trim()
-                ),
-                isPodcast = podcast.isChecked
-            )
-        )
-
-        when (result) {
-            UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_artist_invalid_title)
-            else -> {
-            }
-        }
+//        val result = editItemViewModel.updateArtist(
+//            UpdateArtistInfo(
+//                mediaId = mediaId,
+//                tags = Tags(
+//                    artist = artist.extractText().trim(),
+//                    albumArtist = albumArtist.extractText().trim()
+//                ),
+//                isPodcast = podcast.isChecked
+//            )
+//        )
+//
+//        when (result) {
+//            UpdateResult.OK -> dismiss()
+//            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_artist_invalid_title)
+//            else -> {
+//            }
+//        }
     }
 
     override fun onLoaderCancelled() {

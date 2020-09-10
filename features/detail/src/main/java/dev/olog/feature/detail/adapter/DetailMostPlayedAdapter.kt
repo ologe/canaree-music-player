@@ -8,7 +8,6 @@ import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.*
 
 internal class DetailMostPlayedAdapter(
     private val navigator: Navigator,
@@ -36,11 +35,11 @@ internal class DetailMostPlayedAdapter(
         holder.itemView.apply {
             transitionName = "detail most played ${item.mediaId}"
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            index.text = (item.idInPlaylist + 1).toString()
-            explicit.onItemChanged(item.title)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            index.text = (item.idInPlaylist + 1).toString()
+//            explicit.onItemChanged(item.title)
         }
     }
 
@@ -52,11 +51,11 @@ internal class DetailMostPlayedAdapter(
         val index = payloads.filterIsInstance<Int>().firstOrNull()
         if (index != null) {
             val positionInList = (index + 1).toString()
-            holder.itemView.index.text = positionInList
+//            holder.itemView.index.text = positionInList
         }
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.animateVisibility(payload)
+//            holder.itemView.isPlaying.animateVisibility(payload)
         }
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)

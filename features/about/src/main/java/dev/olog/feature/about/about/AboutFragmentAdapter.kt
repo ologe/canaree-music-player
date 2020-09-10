@@ -11,7 +11,6 @@ import dev.olog.feature.presentation.base.CustomListAdapter
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_about.view.*
 
 internal class AboutFragmentAdapter(
     private val navigator: NavigatorAbout
@@ -50,8 +49,8 @@ internal class AboutFragmentAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         holder.itemView.apply {
-            title.text = item.title
-            subtitle.text = item.subtitle
+//            title.text = item.title
+//            subtitle.text = item.subtitle
         }
     }
 

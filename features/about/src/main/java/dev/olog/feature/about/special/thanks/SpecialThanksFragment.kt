@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import dev.olog.feature.about.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_special_thanks.*
 
 internal class SpecialThanksFragment : Fragment() {
 
@@ -30,23 +29,23 @@ internal class SpecialThanksFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val layoutManager = OverScrollLinearLayoutManager(list)
-        val adapter = SpecialThanksFragmentAdapter()
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setHasFixedSize(true)
+//        val layoutManager = OverScrollLinearLayoutManager(list)
+//        val adapter = SpecialThanksFragmentAdapter()
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
+//        list.setHasFixedSize(true)
 
-        adapter.submitList(presenter.data)
+//        adapter.submitList(presenter.data)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
 }

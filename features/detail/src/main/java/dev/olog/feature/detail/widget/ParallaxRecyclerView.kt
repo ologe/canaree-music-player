@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.feature.presentation.base.widget.image.view.ParallaxImageView
-import kotlinx.android.synthetic.main.item_detail_image.view.*
 
 class ParallaxRecyclerView(
     context: Context,
@@ -30,19 +29,19 @@ class ParallaxRecyclerView(
     private val parallaxScrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (!isInEditMode) {
-                val firstVisible = findFirstVisibleItemPosition()
-                if (firstVisible > 0) return
-
-                val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
-                if (viewHolder != null) {
-                    val img = viewHolder.itemView.cover
-                    val textWrapper = viewHolder.itemView.textWrapper
-                    if (img != null && img is ParallaxImageView) {
-                        img.translateY(viewHolder.itemView, textWrapper)
-                    }
-                }
-            }
+//            if (!isInEditMode) {
+//                val firstVisible = findFirstVisibleItemPosition()
+//                if (firstVisible > 0) return
+//
+//                val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
+//                if (viewHolder != null) {
+//                    val img = viewHolder.itemView.cover
+//                    val textWrapper = viewHolder.itemView.textWrapper
+//                    if (img != null && img is ParallaxImageView) {
+//                        img.translateY(viewHolder.itemView, textWrapper)
+//                    }
+//                }
+//            }
         }
     }
 

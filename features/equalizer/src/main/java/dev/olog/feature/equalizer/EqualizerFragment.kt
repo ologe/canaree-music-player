@@ -13,8 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.presentation.base.dialog.TextViewDialog
 import dev.olog.feature.presentation.base.extensions.onClick
 import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
-import kotlinx.android.synthetic.main.fragment_equalizer.*
-import kotlinx.android.synthetic.main.fragment_equalizer_band.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,41 +25,41 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        powerSwitch.isChecked = presenter.isEqualizerEnabled()
-
-        bassKnob.apply {
-            max = 1000
-            setProgress(presenter.getBassStrength())
-        }
-        virtualizerKnob.apply {
-            max = 1000
-            setProgress(presenter.getVirtualizerStrength())
-        }
+//        powerSwitch.isChecked = presenter.isEqualizerEnabled()
+//
+//        bassKnob.apply {
+//            max = 1000
+//            setProgress(presenter.getBassStrength())
+//        }
+//        virtualizerKnob.apply {
+//            max = 1000
+//            setProgress(presenter.getVirtualizerStrength())
+//        }
 
         buildBands()
 
         presenter.currentPreset
             .onEach { preset ->
-                delete.isVisible = preset.isCustom
+//                delete.isVisible = preset.isCustom
 
-                presetSpinner.text = preset.name
+//                presetSpinner.text = preset.name
 
-                preset.bands.forEachIndexed { index, band ->
-                    val layout = bands.getChildAt(index)
-                    layout.bar.animateProgress(
-                        band.gain,
-                        -presenter.getBandLimit(),
-                        presenter.getBandLimit()
-                    )
-                    layout.frequency.text = band.displayableFrequency
-                }
+//                preset.bands.forEachIndexed { index, band ->
+//                    val layout = bands.getChildAt(index)
+//                    layout.bar.animateProgress(
+//                        band.gain,
+//                        -presenter.getBandLimit(),
+//                        presenter.getBandLimit()
+//                    )
+//                    layout.frequency.text = band.displayableFrequency
+//                }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun buildBands() {
         for (band in 0 until presenter.getBandCount()) {
             val layout = layoutInflater.inflate(R.layout.fragment_equalizer_band, null, false)
-            bands.addView(layout)
+//            bands.addView(layout)
         }
     }
 
@@ -72,71 +70,71 @@ internal class EqualizerFragment : BaseBottomSheetFragment() {
 
     override fun onResume() {
         super.onResume()
-        bassKnob.onProgressChanged = { presenter.setBassStrength(it) }
-        virtualizerKnob.onProgressChanged = { presenter.setVirtualizerStrength(it) }
+//        bassKnob.onProgressChanged = { presenter.setBassStrength(it) }
+//        virtualizerKnob.onProgressChanged = { presenter.setVirtualizerStrength(it) }
 
         setupBandListeners()
 
-        powerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
-            powerSwitch.text = getString(text)
-            presenter.setEqualizerEnabled(isChecked)
-        }
-        presetSpinner.onClick { changePreset() }
-        delete.setOnClickListener { presenter.deleteCurrentPreset() }
-        save.setOnClickListener {
-            // create new preset
-            // TODO localization
-            TextViewDialog(
-                requireActivity(),
-                "Save preset",
-                null
-            )
-                .addTextView(customizeWrapper = { hint = "Preset name" })
-                .show(positiveAction = TextViewDialog.Action("OK") {
-                    val title = it[0].text.toString()
-                    !title.isBlank() && presenter.addPreset(title)
-                }, neutralAction = TextViewDialog.Action("Cancel") { true })
-        }
+//        powerSwitch.setOnCheckedChangeListener { _, isChecked ->
+//            val text = if (isChecked) R.string.common_switch_on else R.string.common_switch_off
+//            powerSwitch.text = getString(text)
+//            presenter.setEqualizerEnabled(isChecked)
+//        }
+//        presetSpinner.onClick { changePreset() }
+//        delete.setOnClickListener { presenter.deleteCurrentPreset() }
+//        save.setOnClickListener {
+//            // create new preset
+//            // TODO localization
+//            TextViewDialog(
+//                requireActivity(),
+//                "Save preset",
+//                null
+//            )
+//                .addTextView(customizeWrapper = { hint = "Preset name" })
+//                .show(positiveAction = TextViewDialog.Action("OK") {
+//                    val title = it[0].text.toString()
+//                    !title.isBlank() && presenter.addPreset(title)
+//                }, neutralAction = TextViewDialog.Action("Cancel") { true })
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        bassKnob.onProgressChanged = null
-        virtualizerKnob.onProgressChanged = null
+//        bassKnob.onProgressChanged = null
+//        virtualizerKnob.onProgressChanged = null
 
-        bands.forEach { view ->
-            view.bar.onProgressChanged = null
-        }
+//        bands.forEach { view ->
+//            view.bar.onProgressChanged = null
+//        }
 
-        powerSwitch.setOnCheckedChangeListener(null)
-        presetSpinner.setOnClickListener(null)
-        delete.setOnClickListener(null)
-        save.setOnClickListener(null)
+//        powerSwitch.setOnCheckedChangeListener(null)
+//        presetSpinner.setOnClickListener(null)
+//        delete.setOnClickListener(null)
+//        save.setOnClickListener(null)
     }
 
     private suspend fun changePreset() {
         val presets = withContext(Dispatchers.IO) {
             presenter.getPresets()
         }
-        val popup = PopupMenu(requireContext(), presetSpinner)
-        popup.inflate(R.menu.empty)
-        for (preset in presets) {
-            popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)
-        }
-        popup.setOnMenuItemClickListener { menu ->
-            val preset = presets.first { it.id.toInt() == menu.itemId }
-            presetSpinner.text = preset.name
-            presenter.setCurrentPreset(preset)
-            true
-        }
-        popup.show()
+//        val popup = PopupMenu(requireContext(), presetSpinner)
+//        popup.inflate(R.menu.empty)
+//        for (preset in presets) {
+//            popup.menu.add(Menu.NONE, preset.id.toInt(), Menu.NONE, preset.name)
+//        }
+//        popup.setOnMenuItemClickListener { menu ->
+//            val preset = presets.first { it.id.toInt() == menu.itemId }
+//            presetSpinner.text = preset.name
+//            presenter.setCurrentPreset(preset)
+//            true
+//        }
+//        popup.show()
     }
 
     private fun setupBandListeners() {
-        bands.forEachIndexed { index, view ->
-            view.bar.onProgressChanged = { presenter.setBandLevel(index, it) }
-        }
+//        bands.forEachIndexed { index, view ->
+//            view.bar.onProgressChanged = { presenter.setBandLevel(index, it) }
+//        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_equalizer

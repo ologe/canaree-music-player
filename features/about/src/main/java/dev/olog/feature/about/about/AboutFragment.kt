@@ -7,7 +7,6 @@ import dev.olog.feature.about.R
 import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
 internal class AboutFragment : BaseFragment() {
@@ -28,20 +27,20 @@ internal class AboutFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
+//        list.layoutManager = OverScrollLinearLayoutManager(list)
+//        list.adapter = adapter
 
         adapter.submitList(presenter.data)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_about

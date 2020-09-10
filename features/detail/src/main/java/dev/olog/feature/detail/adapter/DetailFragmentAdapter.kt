@@ -29,17 +29,6 @@ import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_detail_biography.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.*
-import kotlinx.android.synthetic.main.item_detail_header.view.title
-import kotlinx.android.synthetic.main.item_detail_header_albums.view.*
-import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import kotlinx.android.synthetic.main.item_detail_podcast.view.*
-import kotlinx.android.synthetic.main.item_detail_song.view.explicit
-import kotlinx.android.synthetic.main.item_detail_song.view.firstText
-import kotlinx.android.synthetic.main.item_detail_song.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.index
-import kotlinx.android.synthetic.main.item_detail_song_most_played.view.isPlaying
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -166,15 +155,17 @@ internal class DetailFragmentAdapter(
                     .launchIn(holder.lifecycleScope)
             }
             R.layout.item_detail_header_all_song -> {
-                val sortText = holder.itemView.sort
-                val sortImage = holder.itemView.sortImage
+//                val sortText = holder.itemView.sort
+//                val sortImage = holder.itemView.sortImage
 
                 // don't allow sorting on podcast
-                sortText.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
-                sortImage.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
+//                sortText.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
+//                sortImage.isVisible = !mediaId.isAnyPodcast && !AutoPlaylist.isAutoPlaylist(mediaId.categoryId)
 
                 viewModel.observeSorting()
-                    .onEach { view.sortImage.update(it) }
+                    .onEach {
+//                        view.sortImage.update(it)
+                    }
                     .launchIn(holder.lifecycleScope)
 
                 if (viewModel.showSortByTutorialIfNeverShown()) {
@@ -184,7 +175,9 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_biography -> {
                 viewModel.biography
                     .map { it?.parseAsHtml() }
-                    .onEach { view.biography.text = it }
+                    .onEach {
+//                        view.biography.text = it
+                    }
                     .launchIn(holder.lifecycleScope)
             }
         }
@@ -208,13 +201,13 @@ internal class DetailFragmentAdapter(
         val payload = payloads.filterIsInstance<List<String>>().firstOrNull()
         if (payload != null) {
             holder.itemView.apply {
-                title.text = payload[0]
-                subtitle.text = payload[1]
+//                title.text = payload[0]
+//                subtitle.text = payload[1]
             }
         }
         val currentPayload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (currentPayload != null) {
-            holder.itemView.isPlaying.animateVisibility(currentPayload)
+//            holder.itemView.isPlaying.animateVisibility(currentPayload)
             if (item is DisplayableTrack) {
                 bindPodcastProgressBarTint(holder.itemView, item)
             }
@@ -242,20 +235,20 @@ internal class DetailFragmentAdapter(
 
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
 
             holder.imageView?.loadSongImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit?.onItemChanged(item.title, item.isExplicit)
+//            firstText.text = item.title
+//            secondText?.text = item.subtitle
+//            explicit?.onItemChanged(item.title, item.isExplicit)
 
             if (mediaId.isAnyPodcast) {
                 bindPodcast(this, item)
                 bindPodcastProgressBarTint(this, item)
             }
             // show as disabled when current has an invalid previewUrl
-            firstText.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
-            index?.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
+//            firstText.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
+//            index?.isEnabled = item.mediaId.id != SpotifyTrack.INVALID_PREVIEW_URL
 
         }
         when (holder.itemViewType){
@@ -265,7 +258,7 @@ internal class DetailFragmentAdapter(
                 val trackNumber = if (item.idInPlaylist < 1){
                     "-"
                 } else item.idInPlaylist.toString()
-                holder.itemView.index.text = trackNumber
+//                holder.itemView.index.text = trackNumber
             }
         }
     }
@@ -273,10 +266,10 @@ internal class DetailFragmentAdapter(
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         when (holder.itemViewType){
             R.layout.item_detail_image -> {
-                holder.imageView!!.post { afterImageLoad() }
-                holder.imageView!!.loadBigAlbumImage(mediaId.toDomain())
-                holder.itemView.title.text = item.title
-                holder.itemView.subtitle.text = item.subtitle
+//                holder.imageView!!.post { afterImageLoad() }
+//                holder.imageView!!.loadBigAlbumImage(mediaId.toDomain())
+//                holder.itemView.title.text = item.title
+//                holder.itemView.subtitle.text = item.subtitle
             }
             R.layout.item_detail_song_footer,
             R.layout.item_detail_header,
@@ -284,15 +277,15 @@ internal class DetailFragmentAdapter(
             R.layout.item_detail_header_recently_added,
             R.layout.item_detail_image -> {
                 holder.itemView.apply {
-                    title.text = item.title
-                    subtitle?.text = item.subtitle
-                    seeMore?.isVisible = item.visible
+//                    title.text = item.title
+//                    subtitle?.text = item.subtitle
+//                    seeMore?.isVisible = item.visible
                 }
             }
             R.layout.item_detail_header_all_song -> {
                 holder.itemView.apply {
-                    title.text = item.title
-                    sort.text = item.subtitle
+//                    title.text = item.title
+//                    sort.text = item.subtitle
                 }
             }
         }
@@ -302,11 +295,11 @@ internal class DetailFragmentAdapter(
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
         val progress = podcastPositions[item.mediaId.id.toLong()] ?: 0
-        view.progressBar.max = duration
-        view.progressBar.progress = progress
+//        view.progressBar.max = duration
+//        view.progressBar.progress = progress
 
         val percentage = (progress.toFloat() / duration.toFloat() * 100f).toInt()
-        view.percentage?.text = "$percentage%"
+//        view.percentage?.text = "$percentage%"
     }
 
     private fun bindPodcastProgressBarTint(view: View, item: DisplayableTrack) {
@@ -315,7 +308,7 @@ internal class DetailFragmentAdapter(
         } else {
             view.context.textColorPrimary()
         }
-        view.progressBar.progressTintList = ColorStateList.valueOf(color)
+//        view.progressBar.progressTintList = ColorStateList.valueOf(color)
     }
 
     fun updatePodcastPositions(positions: Map<Long, Int>) {

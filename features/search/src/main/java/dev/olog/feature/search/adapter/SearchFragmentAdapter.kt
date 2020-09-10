@@ -16,10 +16,6 @@ import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.search.R
 import dev.olog.navigation.Navigator
 import dev.olog.feature.search.SearchFragmentViewModel
-import kotlinx.android.synthetic.main.item_search_album.view.firstText
-import kotlinx.android.synthetic.main.item_search_album.view.secondText
-import kotlinx.android.synthetic.main.item_search_header.view.*
-import kotlinx.android.synthetic.main.item_search_recent.view.*
 
 internal class SearchFragmentAdapter(
     private val setupNestedList: SetupNestedList,
@@ -106,7 +102,7 @@ internal class SearchFragmentAdapter(
     ) {
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.animateVisibility(payload)
+//            holder.itemView.isPlaying.animateVisibility(payload)
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -115,31 +111,31 @@ internal class SearchFragmentAdapter(
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack){
         holder.itemView.apply {
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            isPlaying?.toggleVisibility(item.mediaId == playingMediaId)
-            firstText.text = item.title
-            if (item.album.isBlank()){
-                secondText.text = item.artist
-            } else {
-                secondText.text = item.subtitle
-            }
+//            isPlaying?.toggleVisibility(item.mediaId == playingMediaId)
+//            firstText.text = item.title
+//            if (item.album.isBlank()){
+//                secondText.text = item.artist
+//            } else {
+//                secondText.text = item.subtitle
+//            }
 
-            explicit.onItemChanged(item.title)
+//            explicit.onItemChanged(item.title)
         }
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
         }
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_search_header){
             holder.itemView.apply {
-                title.text = item.title
-                subtitle.text = item.subtitle
+//                title.text = item.title
+//                subtitle.text = item.subtitle
             }
         }
     }

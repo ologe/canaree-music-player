@@ -10,7 +10,6 @@ import dev.olog.feature.presentation.base.activity.BaseActivity
 import dev.olog.feature.presentation.base.extensions.toast
 import dev.olog.presentation.R
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.activity_playlist_chooser.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -41,18 +40,18 @@ class PlaylistChooserActivity : BaseActivity() {
                 }
             }.launchIn(lifecycleScope)
 
-        list.adapter = adapter
-        list.layoutManager = GridLayoutManager(this, 2)
+//        list.adapter = adapter
+//        list.layoutManager = GridLayoutManager(this, 2)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { finish() }
+//        back.setOnClickListener { finish() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
 }

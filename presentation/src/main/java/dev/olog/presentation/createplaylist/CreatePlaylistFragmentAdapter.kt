@@ -10,7 +10,6 @@ import dev.olog.feature.presentation.base.adapter.setOnClickListener
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_create_playlist.view.*
 
 class CreatePlaylistFragmentAdapter(
     private val viewModel: CreatePlaylistFragmentViewModel
@@ -28,10 +27,10 @@ class CreatePlaylistFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
 
         holder.itemView.apply {
-            selected.isChecked = viewModel.isChecked(item.mediaId)
+//            selected.isChecked = viewModel.isChecked(item.mediaId)
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
         }
     }
 }

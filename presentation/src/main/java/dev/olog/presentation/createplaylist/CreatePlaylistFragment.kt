@@ -19,7 +19,6 @@ import dev.olog.feature.presentation.base.widget.fastscroller.WaveSideBarView
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.TextUtils
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -52,9 +51,9 @@ class CreatePlaylistFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.setHasFixedSize(true)
+//        list.layoutManager = OverScrollLinearLayoutManager(list)
+//        list.adapter = adapter
+//        list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
             .onEach { size ->
@@ -66,62 +65,62 @@ class CreatePlaylistFragment : BaseFragment(),
                         size
                     )
                 }
-                header.text = text
-                fab.toggleVisibility(size > 0)
+//                header.text = text
+//                fab.toggleVisibility(size > 0)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.data
             .onEach {
                 restoreUpperWidgetsTranslation()
                 adapter.suspendSubmitList(it)
-                list.awaitAnimationEnd()
-                emptyStateText.isVisible = it.isEmpty()
-                sidebar.onDataChanged(it)
+//                list.awaitAnimationEnd()
+//                emptyStateText.isVisible = it.isEmpty()
+//                sidebar.onDataChanged(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        sidebar.scrollableLayoutId = R.layout.item_create_playlist
-
-        editText.afterTextChange()
-            .filter { it.isBlank() || it.trim().length >= 2 }
-            .debounce(250)
-            .onEach { viewModel.updateFilter(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        sidebar.scrollableLayoutId = R.layout.item_create_playlist
+//ì
+//        editText.afterTextChange()
+//            .filter { it.isBlank() || it.trim().length >= 2 }
+//            .debounce(250)
+//            .onEach { viewModel.updateFilter(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { showCreateDialog() }
-        back.setOnClickListener {
-            editText.hideIme()
-            requireActivity().onBackPressed()
-        }
-        filterList.setOnClickListener {
-            filterList.toggleSelected()
-            viewModel.toggleShowOnlyFiltered()
-
-            toast?.cancel()
-
-            if (filterList.isSelected) {
-                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_only_selected)
-            } else {
-                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_all)
-            }
-        }
+//        sidebar.setListener(letterTouchListener)
+//        fab.setOnClickListener { showCreateDialog() }
+//        back.setOnClickListener {
+//            editText.hideIme()
+//            requireActivity().onBackPressed()
+//        }
+//        filterList.setOnClickListener {
+//            filterList.toggleSelected()
+//            viewModel.toggleShowOnlyFiltered()
+//
+//            toast?.cancel()
+//
+//            if (filterList.isSelected) {
+//                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_only_selected)
+//            } else {
+//                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_all)
+//            }
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        sidebar.setListener(null)
-        fab.setOnClickListener(null)
-        back.setOnClickListener(null)
-        filterList.setOnClickListener(null)
+//        sidebar.setListener(null)
+//        fab.setOnClickListener(null)
+//        back.setOnClickListener(null)
+//        filterList.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         toast?.cancel()
-        list.adapter = null
+//        list.adapter = null
     }
 
     private fun showCreateDialog() {
@@ -149,24 +148,24 @@ class CreatePlaylistFragment : BaseFragment(),
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        list.stopScroll()
+//        list.stopScroll()
 
-        val position = when (letter) {
-            TextUtils.MIDDLE_DOT -> -1
-            "#" -> 0
-            "?" -> adapter.lastIndex()
-            else -> adapter.indexOf { item ->
-                if (item.title.isBlank()) {
-                    false
-                } else {
-                    "${item.title[0]}".toUpperCase() == letter
-                }
-            }
-        }
-        if (position != -1) {
-            val layoutManager = list.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(position, 0)
-        }
+//        val position = when (letter) {
+//            TextUtils.MIDDLE_DOT -> -1
+//            "#" -> 0
+//            "?" -> adapter.lastIndex()
+//            else -> adapter.indexOf { item ->
+//                if (item.title.isBlank()) {
+//                    false
+//                } else {
+//                    "${item.title[0]}".toUpperCase() == letter
+//                }
+//            }
+//        }
+//        if (position != -1) {
+//            val layoutManager = list.layoutManager as LinearLayoutManager
+//            layoutManager.scrollToPositionWithOffset(position, 0)
+//        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_create_playlist

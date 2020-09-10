@@ -19,7 +19,6 @@ import dev.olog.feature.queue.adapter.PlayingQueueFragmentAdapter
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -48,20 +47,20 @@ internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListe
     @SuppressLint("ConcreteDispatcherIssue")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setHasFixedSize(true)
-        fastScroller.attachRecyclerView(list)
-        fastScroller.showBubble(false)
+//        val layoutManager = OverScrollLinearLayoutManager(list)
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
+//        list.setHasFixedSize(true)
+//        fastScroller.attachRecyclerView(list)
+//        fastScroller.showBubble(false)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT)
+//        setupDragListener(list, ItemTouchHelper.RIGHT)
 
         viewModel.observeData()
             .onEach {
                 adapter.suspendSubmitList(it)
-                list.awaitAnimationEnd()
-                emptyStateText.isVisible = it.isEmpty()
+//                list.awaitAnimationEnd()
+//                emptyStateText.isVisible = it.isEmpty()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         adapter.observeData
@@ -73,28 +72,28 @@ internal class PlayingQueueFragment : BaseFragment(), IDragListener by DragListe
             .filter { it != RecyclerView.NO_POSITION } // filter only valid position
             .flowOn(Dispatchers.Default)
             .onEach { position ->
-                layoutManager.scrollToPositionWithOffset(position, requireContext().dip(20))
+//                layoutManager.scrollToPositionWithOffset(position, requireContext().dip(20))
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        more.setOnClickListener {
+//        more.setOnClickListener {
             // TODO restore navigation
 //            navigator.toMainPopup(it, MainPopupCategory.PLAYING_QUEUE)
-        }
-        floatingWindow.setOnClickListener { navigator.toFloating() }
+//        }
+//        floatingWindow.setOnClickListener { navigator.toFloating() }
     }
 
     override fun onPause() {
         super.onPause()
-        more.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
+//        more.setOnClickListener(null)
+//        floatingWindow.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
         disposeDragListener()
     }
 

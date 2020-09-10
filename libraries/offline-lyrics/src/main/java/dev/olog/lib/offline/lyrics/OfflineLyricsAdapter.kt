@@ -11,7 +11,6 @@ import dev.olog.shared.android.extensions.textColorPrimaryInverse
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.clamp
 import dev.olog.shared.coroutines.autoDisposeJob
-import kotlinx.android.synthetic.main.item_offline_lyrics.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.delay
@@ -49,8 +48,8 @@ class OfflineLyricsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         holder.itemView.apply {
-            line.text = getItem(position).value
-            bindSelected(this, position)
+//            line.text = getItem(position).value
+//            bindSelected(this, position)
         }
     }
 
@@ -66,8 +65,8 @@ class OfflineLyricsAdapter(
         }
 
         view.apply {
-            line.alpha = if (isCurrent) 1f else .5f
-            line.setTextColor(color)
+//            line.alpha = if (isCurrent) 1f else .5f
+//            line.setTextColor(color)
         }
     }
 

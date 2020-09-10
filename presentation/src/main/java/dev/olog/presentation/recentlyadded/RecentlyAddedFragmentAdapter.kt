@@ -9,7 +9,6 @@ import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_recently_added.view.*
 
 // TODO
 internal class RecentlyAddedFragmentAdapter(
@@ -36,11 +35,11 @@ internal class RecentlyAddedFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableTrack, position: Int) {
 
         holder.itemView.apply {
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            explicit.onItemChanged(item.title)
         }
     }
 
@@ -51,7 +50,7 @@ internal class RecentlyAddedFragmentAdapter(
     ) {
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.animateVisibility(payload)
+//            holder.itemView.isPlaying.animateVisibility(payload)
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }

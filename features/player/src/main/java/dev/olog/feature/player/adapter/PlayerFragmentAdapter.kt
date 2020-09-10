@@ -37,11 +37,6 @@ import dev.olog.feature.presentation.base.widget.StatusBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.android.theme.themeManager
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_mini_queue.view.*
-import kotlinx.android.synthetic.main.layout_view_switcher.view.*
-import kotlinx.android.synthetic.main.player_controls_default.view.*
-import kotlinx.android.synthetic.main.player_layout_default.view.*
-import kotlinx.android.synthetic.main.player_toolbar_default.view.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.util.*
@@ -102,7 +97,7 @@ internal class PlayerFragmentAdapter(
                         Timber.e(ex)
                     }
                 }
-                viewHolder.itemView.volume?.musicPrefs = musicPrefs
+//                viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
         }
 
@@ -116,15 +111,15 @@ internal class PlayerFragmentAdapter(
         if (viewType in playerViewTypes) {
 
             val view = holder.itemView
-            view.imageSwitcher?.let { switcher ->
-                switcher.observeProcessorColors()
-                    .onEach { presenter.updateProcessorColors(it) }
-                    .launchIn(holder.lifecycleScope)
-
-                switcher.observePaletteColors()
-                    .onEach { presenter.updatePaletteColors(it) }
-                    .launchIn(holder.lifecycleScope)
-            }
+//            view.imageSwitcher?.let { switcher ->
+//                switcher.observeProcessorColors()
+//                    .onEach { presenter.updateProcessorColors(it) }
+//                    .launchIn(holder.lifecycleScope)
+//
+//                switcher.observePaletteColors()
+//                    .onEach { presenter.updatePaletteColors(it) }
+//                    .launchIn(holder.lifecycleScope)
+//            }
             view.findViewById<PlayerImageView>(R.id.miniCover)?.let { imageView ->
                 imageView.observeProcessorColors()
                     .onEach { presenter.updateProcessorColors(it) }
@@ -143,53 +138,53 @@ internal class PlayerFragmentAdapter(
 
     private fun setupListeners(holder: DataBoundViewHolder) {
         val view = holder.itemView
-        view.repeat.setOnClickListener { mediaProvider.toggleRepeatMode() }
-        view.shuffle.setOnClickListener { mediaProvider.toggleShuffleMode() }
-        view.favorite.setOnClickListener {
-            view.favorite.toggleFavorite()
-            mediaProvider.togglePlayerFavorite()
-        }
-        view.lyrics.setOnClickListener { navigator.toOfflineLyrics() }
-        view.next.setOnClickListener { mediaProvider.skipToNext() }
-        view.playPause.setOnClickListener { mediaProvider.playPause() }
-        view.previous.setOnClickListener { mediaProvider.skipToPrevious() }
+//        view.repeat.setOnClickListener { mediaProvider.toggleRepeatMode() }
+//        view.shuffle.setOnClickListener { mediaProvider.toggleShuffleMode() }
+//        view.favorite.setOnClickListener {
+//            view.favorite.toggleFavorite()
+//            mediaProvider.togglePlayerFavorite()
+//        }
+//        view.lyrics.setOnClickListener { navigator.toOfflineLyrics() }
+//        view.next.setOnClickListener { mediaProvider.skipToNext() }
+//        view.playPause.setOnClickListener { mediaProvider.playPause() }
+//        view.previous.setOnClickListener { mediaProvider.skipToPrevious() }
+//
+//        view.replay.setOnClickListener {
+//            mediaProvider.replayTenSeconds()
+//        }
 
-        view.replay.setOnClickListener {
-            mediaProvider.replayTenSeconds()
-        }
-
-        view.replay30.setOnClickListener {
-            mediaProvider.replayThirtySeconds()
-        }
-
-        view.forward.setOnClickListener {
-            mediaProvider.forwardTenSeconds()
-        }
-
-        view.forward30.setOnClickListener {
-            mediaProvider.forwardThirtySeconds()
-        }
-
-        view.playbackSpeed.setOnClickListener { openPlaybackSpeedPopup(it) }
-
-        view.seekBar.setListener(
-            onProgressChanged = {
-                view.bookmark.text = TextUtils.formatMillis(it)
-            }, onStartTouch = {
-
-            }, onStopTouch = {
-                mediaProvider.seekTo(it.toLong())
-            }
-        )
+//        view.replay30.setOnClickListener {
+//            mediaProvider.replayThirtySeconds()
+//        }
+//
+//        view.forward.setOnClickListener {
+//            mediaProvider.forwardTenSeconds()
+//        }
+//
+//        view.forward30.setOnClickListener {
+//            mediaProvider.forwardThirtySeconds()
+//        }
+//
+//        view.playbackSpeed.setOnClickListener { openPlaybackSpeedPopup(it) }
+//
+//        view.seekBar.setListener(
+//            onProgressChanged = {
+//                view.bookmark.text = TextUtils.formatMillis(it)
+//            }, onStartTouch = {
+//
+//            }, onStopTouch = {
+//                mediaProvider.seekTo(it.toLong())
+//            }
+//        )
     }
 
     private fun bindPlayerControls(holder: DataBoundViewHolder, view: View) {
         val playerAppearance = view.context.themeManager.playerAppearance
 
         if (!playerAppearance.isSpotify && !playerAppearance.isBigImage){
-            view.next.setDefaultColor()
-            view.previous.setDefaultColor()
-            view.playPause.setDefaultColor()
+//            view.next.setDefaultColor()
+//            view.previous.setDefaultColor()
+//            view.playPause.setDefaultColor()
         }
 
         mediaProvider.observeMetadata()
@@ -198,68 +193,68 @@ internal class PlayerFragmentAdapter(
                 updateImage(view, it)
             }.launchIn(holder.lifecycleScope)
 
-        view.volume?.setOnClickListener {
-            // TODO refactor
-            val outLocation = intArrayOf(0, 0)
-            it.getLocationInWindow(outLocation)
-            val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            (view.context as FragmentActivity).supportFragmentManager.commit {
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, PlayerVolumeFragment.newInstance(
-                    R.layout.player_volume,
-                    yLocation
-                ), PlayerVolumeFragment.TAG)
-                addToBackStack(PlayerVolumeFragment.TAG)
-            }
-        }
+//        view.volume?.setOnClickListener {
+//            // TODO refactor
+//            val outLocation = intArrayOf(0, 0)
+//            it.getLocationInWindow(outLocation)
+//            val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
+//            (view.context as FragmentActivity).supportFragmentManager.commit {
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                add(android.R.id.content, PlayerVolumeFragment.newInstance(
+//                    R.layout.player_volume,
+//                    yLocation
+//                ), PlayerVolumeFragment.TAG)
+//                addToBackStack(PlayerVolumeFragment.TAG)
+//            }
+//        }
 
         mediaProvider.observePlaybackState()
             .onEach {
                 onPlaybackStateChanged(view, it)
-                view.seekBar.onStateChanged(it)
+//                view.seekBar.onStateChanged(it)
             }.launchIn(holder.lifecycleScope)
 
-        mediaProvider.observeRepeat()
-            .onEach { view.repeat.cycle(it) }
-            .launchIn(holder.lifecycleScope)
+//        mediaProvider.observeRepeat()
+//            .onEach { view.repeat.cycle(it) }
+//            .launchIn(holder.lifecycleScope)
 
-        mediaProvider.observeShuffle()
-            .onEach { view.shuffle.cycle(it) }
-            .launchIn(holder.lifecycleScope)
+//        mediaProvider.observeShuffle()
+//            .onEach { view.shuffle.cycle(it) }
+//            .launchIn(holder.lifecycleScope)
 
-        view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener {
-            override fun onSwipedLeft() {
-                mediaProvider.skipToNext()
-            }
+//        view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener {
+//            override fun onSwipedLeft() {
+//                mediaProvider.skipToNext()
+//            }
+//
+//            override fun onSwipedRight() {
+//                mediaProvider.skipToPrevious()
+//            }
+//
+//            override fun onClick() {
+//                mediaProvider.playPause()
+//            }
+//
+//            override fun onLeftEdgeClick() {
+//                mediaProvider.skipToPrevious()
+//            }
+//
+//            override fun onRightEdgeClick() {
+//                mediaProvider.skipToNext()
+//            }
+//        })
 
-            override fun onSwipedRight() {
-                mediaProvider.skipToPrevious()
-            }
-
-            override fun onClick() {
-                mediaProvider.playPause()
-            }
-
-            override fun onLeftEdgeClick() {
-                mediaProvider.skipToPrevious()
-            }
-
-            override fun onRightEdgeClick() {
-                mediaProvider.skipToNext()
-            }
-        })
-
-        viewModel.onFavoriteStateChanged
-            .onEach { view.favorite.onNextState(it) }
-            .launchIn(holder.lifecycleScope)
-
-        viewModel.skipToNextVisibility
-            .onEach { view.next.updateVisibility(it) }
-            .launchIn(holder.lifecycleScope)
-
-        viewModel.skipToPreviousVisibility
-            .onEach { view.previous.updateVisibility(it) }
-            .launchIn(holder.lifecycleScope)
+//        viewModel.onFavoriteStateChanged
+//            .onEach { view.favorite.onNextState(it) }
+//            .launchIn(holder.lifecycleScope)
+//
+//        viewModel.skipToNextVisibility
+//            .onEach { view.next.updateVisibility(it) }
+//            .launchIn(holder.lifecycleScope)
+//
+//        viewModel.skipToPreviousVisibility
+//            .onEach { view.previous.updateVisibility(it) }
+//            .launchIn(holder.lifecycleScope)
 
         presenter.observePlayerControlsVisibility()
             .filter { !playerAppearance.isFullscreen
@@ -297,11 +292,11 @@ internal class PlayerFragmentAdapter(
         val duration = metadata.duration
 
         val readableDuration = metadata.readableDuration
-        view.duration.text = readableDuration
-        view.seekBar.max = duration.toInt()
+//        view.duration.text = readableDuration
+//        view.seekBar.max = duration.toInt()
 
         val playerControlsRoot = view.findViewById<ViewGroup>(R.id.playerControls)
-        playerControlsRoot.podcast_controls.isVisible = metadata.isPodcast
+//        playerControlsRoot.podcast_controls.isVisible = metadata.isPodcast
 
         val title = if (view.context.themeManager.playerAppearance.isFlat){
             // WORKAROUND, all caps attribute is not working for some reason
@@ -309,14 +304,14 @@ internal class PlayerFragmentAdapter(
         } else {
             metadata.title
         }
-        view.textWrapper.update(title, metadata.artist)
-        view.lyrics.isEnabled = metadata.id.toIntOrNull() != null
-        view.favorite.isEnabled = view.lyrics.isEnabled
+//        view.textWrapper.update(title, metadata.artist)
+//        view.lyrics.isEnabled = metadata.id.toIntOrNull() != null
+//        view.favorite.isEnabled = view.lyrics.isEnabled
     }
 
 
     private fun updateImage(view: View, metadata: PlayerMetadata) {
-        view.imageSwitcher?.loadImage(metadata)
+//        view.imageSwitcher?.loadImage(metadata)
         view.findViewById<PlayerImageView>(R.id.miniCover)?.loadImage(metadata.mediaId)
     }
 
@@ -335,8 +330,8 @@ internal class PlayerFragmentAdapter(
         val isPlaying = playbackState.isPlaying
 
         if (isPlaying || playbackState.isPaused) {
-            view.nowPlaying?.isActivated = isPlaying
-            view.imageSwitcher?.setChildrenActivated(isPlaying)
+//            view.nowPlaying?.isActivated = isPlaying
+//            view.imageSwitcher?.setChildrenActivated(isPlaying)
         }
     }
 
@@ -345,31 +340,31 @@ internal class PlayerFragmentAdapter(
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
-            view.next.playAnimation()
+//            view.next.playAnimation()
         } else {
-            view.previous.playAnimation()
+//            view.previous.playAnimation()
         }
     }
 
     private fun playAnimation(view: View) {
         val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPlay(isPanelExpanded)
+//        view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
         val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-        view.playPause.animationPause(isPanelExpanded)
+//        view.playPause.animationPause(isPanelExpanded)
     }
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableItem, position: Int) {
         if (item is DisplayableTrack){
             holder.itemView.apply {
                 holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-                firstText.text = item.title
-                secondText.text = item.artist
-                explicit.onItemChanged(item.title)
+//                firstText.text = item.title
+//                secondText.text = item.artist
+//                explicit.onItemChanged(item.title)
             }
         }
     }

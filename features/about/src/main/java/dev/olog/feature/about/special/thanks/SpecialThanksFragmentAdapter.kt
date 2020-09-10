@@ -5,7 +5,6 @@ import dev.olog.feature.about.model.SpecialThanksModel
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.ObservableAdapter
 import dev.olog.lib.image.loader.GlideApp
-import kotlinx.android.synthetic.main.item_special_thanks.view.*
 
 internal class SpecialThanksFragmentAdapter(
 ) : ObservableAdapter<SpecialThanksModel>(DiffUtilSpecialThansModel) {
@@ -15,11 +14,11 @@ internal class SpecialThanksFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: SpecialThanksModel, position: Int) {
         holder.itemView.apply {
-            GlideApp.with(context)
-                .load(ContextCompat.getDrawable(context, item.image))
-                .into(image)
-
-            title.text = item.title
+//            GlideApp.with(context)
+//                .load(ContextCompat.getDrawable(context, item.image))
+//                .into(image)
+//
+//            title.text = item.title
         }
     }
 

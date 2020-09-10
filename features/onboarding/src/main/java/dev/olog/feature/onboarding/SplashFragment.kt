@@ -13,7 +13,6 @@ import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.shared.android.Permissions
 import dev.olog.core.extensions.alertDialog
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_splash.*
 
 internal class SplashFragment : Fragment() {
 
@@ -37,24 +36,24 @@ internal class SplashFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager.adapter = adapter
-        inkIndicator.setViewPager(viewPager)
+//        viewPager.adapter = adapter
+//        inkIndicator.setViewPager(viewPager)
     }
 
     override fun onResume() {
         super.onResume()
-        next.setOnClickListener {
-            if (viewPager.currentItem == 0) {
-                viewPager.setCurrentItem(1, true)
-            } else {
-                requestStoragePermission()
-            }
-        }
+//        next.setOnClickListener {
+//            if (viewPager.currentItem == 0) {
+//                viewPager.setCurrentItem(1, true)
+//            } else {
+//                requestStoragePermission()
+//            }
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        next.setOnClickListener(null)
+//        next.setOnClickListener(null)
     }
 
     private fun requestStoragePermission() {

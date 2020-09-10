@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputLayout
 import dev.olog.feature.presentation.base.R
 import dev.olog.feature.presentation.base.utils.showIme
 import dev.olog.shared.coroutines.autoDisposeJob
-import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.delay
 
 class TextViewDialog(
@@ -44,9 +43,9 @@ class TextViewDialog(
         customizeTextView: TextInputEditText.() -> Unit = {}
     ): TextViewDialog {
         val layout = activity.layoutInflater.inflate(layoutEditText, container, false)
-        layout.wrapper.customizeWrapper()
-        layout.editText.customizeTextView()
-        textViews.add(layout.editText)
+//        layout.wrapper.customizeWrapper()
+//        layout.editText.customizeTextView()
+//        textViews.add(layout.editText)
         container.addView(layout)
         return this
     }

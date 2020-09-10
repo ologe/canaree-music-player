@@ -5,7 +5,6 @@ import dev.olog.feature.about.NavigatorAbout
 import dev.olog.feature.about.R
 import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.feature.presentation.base.adapter.SimpleAdapter
-import kotlinx.android.synthetic.main.item_translations_contributor.view.*
 
 internal class TranslationFragmentAdapter(
     private val navigator: NavigatorAbout
@@ -21,7 +20,7 @@ internal class TranslationFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: String, position: Int) {
         if (holder.itemViewType == R.layout.item_translations_contributor) {
-            holder.itemView.text.text = item
+//            holder.itemView.text.text = item
         }
     }
 

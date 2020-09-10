@@ -7,10 +7,6 @@ import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.DisplayableTrack
 import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.firstText
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.secondText
-import kotlinx.android.synthetic.main.item_detail_song_recent.view.explicit
-import kotlinx.android.synthetic.main.item_detail_song_recent.view.isPlaying
 
 internal class DetailRecentlyAddedAdapter(
     private val navigator: Navigator,
@@ -39,7 +35,7 @@ internal class DetailRecentlyAddedAdapter(
     ) {
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.toggleVisibility(payload)
+//            holder.itemView.isPlaying.toggleVisibility(payload)
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -49,10 +45,10 @@ internal class DetailRecentlyAddedAdapter(
         holder.itemView.apply {
             transitionName = "detail recent ${item.mediaId}"
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            explicit.onItemChanged(item.title)
         }
     }
 

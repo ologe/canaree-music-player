@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_settings_wrapper.*
 
 internal class SettingsFragmentWrapper : Fragment() {
 
@@ -19,12 +18,12 @@ internal class SettingsFragmentWrapper : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
 }

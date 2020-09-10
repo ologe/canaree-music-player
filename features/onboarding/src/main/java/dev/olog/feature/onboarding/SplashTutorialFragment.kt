@@ -18,7 +18,6 @@ import dev.olog.feature.onboarding.widgets.StoppingViewPager
 import dev.olog.feature.presentation.base.widget.swipeable.SwipeableView
 import dev.olog.lib.image.loader.CoverUtils
 import dev.olog.lib.image.loader.GlideApp
-import kotlinx.android.synthetic.main.fragment_splash_tutorial.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -36,9 +35,9 @@ internal class SplashTutorialFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager = requireParentFragment().requireView().findViewById(R.id.viewPager)
 
-        swipeableView.isTouching()
-            .onEach { viewPager.isSwipeEnabled = !it }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        swipeableView.isTouching()
+//            .onEach { viewPager.isSwipeEnabled = !it }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         loadPhoneImage(view)
         loadImage(progressive)
@@ -46,12 +45,12 @@ internal class SplashTutorialFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        swipeableView.setOnSwipeListener(this)
+//        swipeableView.setOnSwipeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        swipeableView.setOnSwipeListener(null)
+//        swipeableView.setOnSwipeListener(null)
     }
 
     override fun onSwipedLeft() {
@@ -65,8 +64,8 @@ internal class SplashTutorialFragment : Fragment(),
     }
 
     override fun onClick() {
-        val newState = !cover.isActivated
-        setActivated(newState)
+//        val newState = !cover.isActivated
+//        setActivated(newState)
     }
 
     override fun onLeftEdgeClick() {
@@ -80,8 +79,8 @@ internal class SplashTutorialFragment : Fragment(),
     }
 
     private fun setActivated(activated: Boolean){
-        coverWrapper.isActivated = activated
-        nowPlaying.isActivated = activated
+//        coverWrapper.isActivated = activated
+//        nowPlaying.isActivated = activated
     }
 
     private fun loadNextImage(){
@@ -108,12 +107,12 @@ internal class SplashTutorialFragment : Fragment(),
     }
 
     private fun loadImage(position: Int){
-        GlideApp.with(requireContext()).clear(cover)
-
-        GlideApp.with(requireContext())
-                .load(Uri.EMPTY)
-                .centerCrop()
-                .placeholder(CoverUtils.getGradient(requireContext(), position, MediaIdCategory.SONGS))
-                .into(cover)
+//        GlideApp.with(requireContext()).clear(cover)
+//
+//        GlideApp.with(requireContext())
+//                .load(Uri.EMPTY)
+//                .centerCrop()
+//                .placeholder(CoverUtils.getGradient(requireContext(), position, MediaIdCategory.SONGS))
+//                .into(cover)
     }
 }

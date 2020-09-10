@@ -18,7 +18,6 @@ import dev.olog.feature.edit.model.UpdateResult
 import dev.olog.lib.audio.tagger.model.Tags
 import dev.olog.shared.android.extensions.extractText
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -51,61 +50,61 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        album.afterTextChange()
-            .map { it.isNotBlank() }
-            .onEach { okButton.isEnabled = it }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        album.afterTextChange()
+//            .map { it.isNotBlank() }
+//            .onEach { okButton.isEnabled = it }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         loadImage(mediaId)
 
         viewModel.observeData()
             .onEach {
-                album.setText(it.title)
-                artist.setText(it.artist)
-                albumArtist.setText(it.albumArtist)
-                year.setText(it.year)
-                genre.setText(it.genre)
-                val text = resources.getQuantityString(
-                    R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
-                )
-                albumsUpdated.text = text
+//                album.setText(it.title)
+//                artist.setText(it.artist)
+//                albumArtist.setText(it.albumArtist)
+//                year.setText(it.year)
+//                genre.setText(it.genre)
+//                val text = resources.getQuantityString(
+//                    R.plurals.edit_item_xx_tracks_will_be_updated, it.songs, it.songs
+//                )
+//                albumsUpdated.text = text
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        okButton.onClick { trySave() }
-        cancelButton.setOnClickListener { dismiss() }
+//        okButton.onClick { trySave() }
+//        cancelButton.setOnClickListener { dismiss() }
     }
 
     override fun onPause() {
         super.onPause()
-        okButton.setOnClickListener(null)
-        cancelButton.setOnClickListener(null)
+//        okButton.setOnClickListener(null)
+//        cancelButton.setOnClickListener(null)
     }
 
     private suspend fun trySave() {
-        val result = editItemViewModel.updateAlbum(
-            UpdateAlbumInfo(
-                mediaId = mediaId,
-                tags = Tags(
-                    album = album.extractText().trim(),
-                    artist = artist.extractText().trim(),
-                    albumArtist = albumArtist.extractText().trim(),
-                    genre = genre.extractText().trim(),
-                    year = year.extractText().trim()
-                )
-            )
-        )
-
-        when (result) {
-            UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_song_invalid_title)
-            UpdateResult.ILLEGAL_YEAR -> requireContext().toast(R.string.edit_song_invalid_year)
-            UpdateResult.ILLEGAL_DISC_NUMBER,
-            UpdateResult.ILLEGAL_TRACK_NUMBER -> {
-            }
-        }
+//        val result = editItemViewModel.updateAlbum(
+//            UpdateAlbumInfo(
+//                mediaId = mediaId,
+//                tags = Tags(
+//                    album = album.extractText().trim(),
+//                    artist = artist.extractText().trim(),
+//                    albumArtist = albumArtist.extractText().trim(),
+//                    genre = genre.extractText().trim(),
+//                    year = year.extractText().trim()
+//                )
+//            )
+//        )
+//
+//        when (result) {
+//            UpdateResult.OK -> dismiss()
+//            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_song_invalid_title)
+//            UpdateResult.ILLEGAL_YEAR -> requireContext().toast(R.string.edit_song_invalid_year)
+//            UpdateResult.ILLEGAL_DISC_NUMBER,
+//            UpdateResult.ILLEGAL_TRACK_NUMBER -> {
+//            }
+//        }
     }
 
     override fun onLoaderCancelled() {

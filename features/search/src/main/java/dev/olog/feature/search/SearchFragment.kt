@@ -25,7 +25,6 @@ import dev.olog.feature.search.adapter.SearchFragmentAdapter
 import dev.olog.feature.search.adapter.SearchFragmentNestedAdapter
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -76,27 +75,27 @@ class SearchFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManager = OverScrollLinearLayoutManager(list)
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setRecycledViewPool(recycledViewPool)
-        list.setHasFixedSize(true)
-        list.addItemDecoration(
-            DottedDividerDecorator(
-                requireContext(),
-                listOf(R.layout.item_search_header, R.layout.item_search_recent_header)
-            )
-        )
+//        layoutManager = OverScrollLinearLayoutManager(list)
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
+//        list.setRecycledViewPool(recycledViewPool)
+//        list.setHasFixedSize(true)
+//        list.addItemDecoration(
+//            DottedDividerDecorator(
+//                requireContext(),
+//                listOf(R.layout.item_search_header, R.layout.item_search_recent_header)
+//            )
+//        )
+//
+//        setupDragListener(list, ItemTouchHelper.LEFT)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
-
-        podcasts.isVisible = viewModel.canShowPodcasts()
-        podcasts.isSelected = false
+//        podcasts.isVisible = viewModel.canShowPodcasts()
+//        podcasts.isSelected = false
 
         viewModel.data
             .onEach {
                 adapter.submitList(it)
-                emptyStateText.isVisible = it.isEmpty()
+//                emptyStateText.isVisible = it.isEmpty()
                 restoreUpperWidgetsTranslation()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -120,11 +119,11 @@ class SearchFragment : BaseFragment(),
             .onEach { genreAdapter.submitList(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        editText.afterTextChange()
-            .debounce(200)
-            .filter { it.isBlank() || it.trim().length >= 2 }
-            .onEach { viewModel.updateQuery(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        editText.afterTextChange()
+//            .debounce(200)
+//            .filter { it.isBlank() || it.trim().length >= 2 }
+//            .onEach { viewModel.updateQuery(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 
@@ -158,34 +157,34 @@ class SearchFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        fab.setOnClickListener { editText.showIme() }
+//        fab.setOnClickListener { editText.showIme() }
 
-        floatingWindow.setOnClickListener {
-            navigator.toFloating()
-        }
-        more.setOnClickListener {
-            // TODO restore navigation
+//        floatingWindow.setOnClickListener {
+//            navigator.toFloating()
+//        }
+//        more.setOnClickListener {
+//             TODO restore navigation
 //            navigator.toMainPopup(it, MainPopupCategory.SEARCH)
-        }
+//        }
 
-        podcasts.setOnClickListener {
-            podcasts.isSelected = !podcasts.isSelected
-            viewModel.updateShowPodcast(podcasts.isSelected)
-        }
+//        podcasts.setOnClickListener {
+//            podcasts.isSelected = !podcasts.isSelected
+//            viewModel.updateShowPodcast(podcasts.isSelected)
+//        }
     }
 
     override fun onPause() {
         super.onPause()
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
-        fab.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-        more.setOnClickListener(null)
-        podcasts.setOnClickListener(null)
+//        fab.setOnClickListener(null)
+//        floatingWindow.setOnClickListener(null)
+//        more.setOnClickListener(null)
+//        podcasts.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
         disposeDragListener()
     }
 
@@ -195,7 +194,7 @@ class SearchFragment : BaseFragment(),
 
     override fun onStop() {
         super.onStop()
-        editText.hideIme()
+//        editText.hideIme()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

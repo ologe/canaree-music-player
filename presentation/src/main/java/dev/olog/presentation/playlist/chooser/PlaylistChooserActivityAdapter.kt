@@ -13,7 +13,6 @@ import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_playlist_chooser.view.*
 
 class PlaylistChooserActivityAdapter(
     private val activity: FragmentActivity,
@@ -46,8 +45,8 @@ class PlaylistChooserActivityAdapter(
 
         holder.itemView.apply {
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
         }
     }
 }

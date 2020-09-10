@@ -17,12 +17,6 @@ import dev.olog.feature.presentation.base.extensions.isExpanded
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.shared.android.extensions.themeManager
 import dev.olog.shared.android.theme.BottomSheetType
-import kotlinx.android.synthetic.main.fragment_mini_player.artist
-import kotlinx.android.synthetic.main.fragment_mini_player.progressBar
-import kotlinx.android.synthetic.main.fragment_mini_player.textWrapper
-import kotlinx.android.synthetic.main.fragment_mini_player.title
-import kotlinx.android.synthetic.main.fragment_mini_player_floating.*
-import kotlinx.android.synthetic.main.fragment_mini_player_floating.buttons
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -45,31 +39,31 @@ internal class MiniPlayerFragment : BaseFragment() {
             view.isVisible = it.getBoolean(BUNDLE_IS_VISIBLE)
         }
         val lastMetadata = presenter.getMetadata()
-        title.text = lastMetadata.title
-        artist.text = lastMetadata.subtitle
+//        title.text = lastMetadata.title
+//        artist.text = lastMetadata.subtitle
 
         mediaProvider.observeMetadata()
             .onEach {
-                buttons.onTrackChanged(it.isPodcast)
+//                buttons.onTrackChanged(it.isPodcast)
 
-                cover?.loadSongImage(it.mediaId)
+//                cover?.loadSongImage(it.mediaId)
                 presenter.startShowingLeftTime(it.isPodcast, it.duration)
 
                 updateTitles(it)
                 updateProgressBarMax(it.duration)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        mediaProvider.observePlaybackState()
-            .filter { it.isPlaying || it.isPaused }
-            .distinctUntilChanged()
-            .onEach { progressBar.onStateChanged(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        mediaProvider.observePlaybackState()
+//            .filter { it.isPlaying || it.isPaused }
+//            .distinctUntilChanged()
+//            .onEach { progressBar.onStateChanged(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        presenter.observePodcastProgress(progressBar.observeProgress())
-            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
-            .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
-            .onEach { artist.text = it }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        presenter.observePodcastProgress(progressBar.observeProgress())
+//            .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+//            .filter { timeLeft -> artist.text != timeLeft } // check (new time left != old time left
+//            .onEach { artist.text = it }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         mediaProvider.observePlaybackState()
             .filter { it.isPlayOrPause }
@@ -89,18 +83,18 @@ internal class MiniPlayerFragment : BaseFragment() {
             .onEach { animateSkipTo(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        presenter.skipToNextVisibility
-            .onEach { buttons.toggleNextButton(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        presenter.skipToNextVisibility
+//            .onEach { buttons.toggleNextButton(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        presenter.skipToPreviousVisibility
-            .onEach { buttons.togglePreviousButton(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        presenter.skipToPreviousVisibility
+//            .onEach { buttons.togglePreviousButton(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun updateTitles(metadata: PlayerMetadata) {
-        val artist = if (metadata.isPodcast) artist.text.toString() else metadata.artist
-        textWrapper.update(metadata.title, artist)
+//        val artist = if (metadata.isPodcast) artist.text.toString() else metadata.artist
+//        textWrapper.update(metadata.title, artist)
     }
 
     override fun onResume() {
@@ -122,25 +116,25 @@ internal class MiniPlayerFragment : BaseFragment() {
     }
 
     private fun playAnimation() {
-        buttons.startPlayAnimation(getSlidingPanel().isCollapsed())
+//        buttons.startPlayAnimation(getSlidingPanel().isCollapsed())
     }
 
     private fun pauseAnimation() {
-        buttons.startPauseAnimation(getSlidingPanel().isCollapsed())
+//        buttons.startPauseAnimation(getSlidingPanel().isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {
         if (getSlidingPanel().isExpanded()) return
 
-        if (toNext) {
-            buttons.startSkipNextAnimation()
-        } else {
-            buttons.startSkipPreviousAnimation()
-        }
+//        if (toNext) {
+//            buttons.startSkipNextAnimation()
+//        } else {
+//            buttons.startSkipPreviousAnimation()
+//        }
     }
 
     private fun updateProgressBarMax(max: Long) {
-        progressBar.max = max.toInt()
+//        progressBar.max = max.toInt()
     }
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -150,7 +144,7 @@ internal class MiniPlayerFragment : BaseFragment() {
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            title.isSelected = newState == BottomSheetBehavior.STATE_COLLAPSED
+//            title.isSelected = newState == BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 

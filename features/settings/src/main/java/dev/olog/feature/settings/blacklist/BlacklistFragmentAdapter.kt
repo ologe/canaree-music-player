@@ -6,7 +6,6 @@ import dev.olog.feature.presentation.base.adapter.SimpleAdapter
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.feature.settings.model.BlacklistModel
-import kotlinx.android.synthetic.main.dialog_blacklist_item.view.*
 
 internal class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
 
@@ -24,9 +23,9 @@ internal class BlacklistFragmentAdapter : SimpleAdapter<BlacklistModel>() {
     override fun bind(holder: DataBoundViewHolder, item: BlacklistModel, position: Int) {
         holder.itemView.apply {
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            scrim.isVisible = item.isBlacklisted
-            firstText.text = item.title
-            secondText.text = item.displayablePath
+//            scrim.isVisible = item.isBlacklisted
+//            firstText.text = item.title
+//            secondText.text = item.displayablePath
         }
     }
 

@@ -24,7 +24,6 @@ import dev.olog.core.isMarshmallow
 import dev.olog.feature.player.adapter.PlayerFragmentAdapter
 import dev.olog.shared.lazyFast
 import dev.olog.shared.coroutines.mapListItem
-import kotlinx.android.synthetic.main.fragment_player_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -62,14 +61,14 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
         super.onViewCreated(view, savedInstanceState)
 
         layoutManager = LinearLayoutManager(requireContext())
-        list.adapter = adapter
-        list.layoutManager = layoutManager
-        list.setHasFixedSize(true)
+//        list.adapter = adapter
+//        list.layoutManager = layoutManager
+//        list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+//        setupDragListener(list, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        statusBar?.alpha = statusBarAlpha
+//        statusBar?.alpha = statusBarAlpha
 
         val playerAppearance = themeManager.playerAppearance
 
@@ -104,7 +103,7 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
         disposeDragListener()
     }
 
@@ -127,7 +126,7 @@ internal class PlayerFragment : BaseFragment(), IDragListener by DragListenerImp
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             if (!isMarshmallow() && slideOffset in .9f..1f) {
                 val alpha = (1 - slideOffset) * 10
-                statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
+//                statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
             }
             val alpha = clamp(slideOffset * 5f, 0f, 1f)
             requireView().alpha = alpha

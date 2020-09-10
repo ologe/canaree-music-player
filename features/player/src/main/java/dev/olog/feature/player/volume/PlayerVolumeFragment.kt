@@ -10,7 +10,6 @@ import dev.olog.domain.prefs.MusicPreferencesGateway
 import dev.olog.feature.player.R
 import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.extensions.withArguments
-import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
 
 internal class PlayerVolumeFragment : Fragment(),
@@ -46,25 +45,25 @@ internal class PlayerVolumeFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        volumeSlider.max = 100
-        volumeSlider.progress = musicPrefs.getVolume()
+//        volumeSlider.max = 100
+//        volumeSlider.progress = musicPrefs.getVolume()
 
         val yPosition = arguments?.getFloat(ARGUMENT_Y_POSITION, -1f) ?: -1f
         if (yPosition > -1){
-            card.translationY = yPosition
+//            card.translationY = yPosition
         }
     }
 
     override fun onResume() {
         super.onResume()
         requireView().setOnClickListener { requireActivity().onBackPressed() }
-        volumeSlider.setOnSeekBarChangeListener(this)
+//        volumeSlider.setOnSeekBarChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
         requireView().setOnClickListener(null)
-        volumeSlider.setOnSeekBarChangeListener(null)
+//        volumeSlider.setOnSeekBarChangeListener(null)
     }
 
     override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {

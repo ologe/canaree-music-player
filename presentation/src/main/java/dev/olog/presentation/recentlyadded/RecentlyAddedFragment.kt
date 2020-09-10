@@ -18,7 +18,6 @@ import dev.olog.feature.presentation.base.extensions.getArgument
 import dev.olog.feature.presentation.base.extensions.withArguments
 import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -53,11 +52,11 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.transitionName = getArgument(ARGUMENTS_TRANSITION)
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.setHasFixedSize(true)
+//        list.adapter = adapter
+//        list.layoutManager = OverScrollLinearLayoutManager(list)
+//        list.setHasFixedSize(true)
 
-        setupDragListener(list, ItemTouchHelper.LEFT)
+//        setupDragListener(list, ItemTouchHelper.LEFT)
 
         viewModel.data
             .onEach { adapter.submitList(it) }
@@ -67,23 +66,23 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
             .onEach { itemTitle ->
                 val headersArray = resources.getStringArray(R.array.recently_added_header)
                 val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-                this.header.text = header
+//                this.header.text = header
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
         disposeDragListener()
     }
 

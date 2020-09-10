@@ -15,7 +15,6 @@ import dev.olog.navigation.Navigator
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_playing_queue.view.*
 
 internal class PlayingQueueFragmentAdapter(
     private val mediaProvider: MediaProvider,
@@ -44,15 +43,15 @@ internal class PlayingQueueFragmentAdapter(
     override fun bind(holder: DataBoundViewHolder, item: DisplayableQueueSong, position: Int) {
         holder.itemView.apply {
             transitionName = "playing queue ${item.mediaId}"
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            index.text = item.relativePosition
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit.onItemChanged(item.title)
+//            index.text = item.relativePosition
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            explicit.onItemChanged(item.title)
 
             val textColor = calculateTextColor(context, item.relativePosition)
-            index.setTextColor(textColor)
+//            index.setTextColor(textColor)
         }
     }
 
@@ -74,11 +73,11 @@ internal class PlayingQueueFragmentAdapter(
                 holder.itemView.context,
                 item.relativePosition
             )
-            holder.itemView.index.updateText(text, textColor)
+//            holder.itemView.index.updateText(text, textColor)
         }
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.animateVisibility(payload)
+//            holder.itemView.isPlaying.animateVisibility(payload)
         }
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)

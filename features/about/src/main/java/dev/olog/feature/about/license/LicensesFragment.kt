@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.feature.about.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_about.*
-import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
 internal class LicensesFragment : Fragment() {
 
@@ -29,20 +27,20 @@ internal class LicensesFragment : Fragment() {
         val presenter = LicensesFragmentPresenter(requireActivity().applicationContext)
         val adapter = LicensesFragmentAdapter()
 
-        view.list.adapter = adapter
-        view.list.layoutManager = OverScrollLinearLayoutManager(list)
+//        view.list.adapter = adapter
+//        view.list.layoutManager = OverScrollLinearLayoutManager(list)
 
         adapter.submitList(presenter.data)
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { requireActivity().onBackPressed() }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+//        back.setOnClickListener(null)
     }
 
 }

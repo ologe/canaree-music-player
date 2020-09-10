@@ -25,8 +25,6 @@ import dev.olog.feature.presentation.base.extensions.removeLightStatusBar
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.throwNotHandled
 import io.alterac.blurkit.BlurKit
-import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
-import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -62,48 +60,48 @@ class OfflineLyricsFragment : BaseFragment(),
 //            TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) TODO tutorial
         }
 
-        list.onTap = {
-            mediaProvider.playPause()
-        }
+//        list.onTap = {
+//            mediaProvider.playPause()
+//        }
 
         mediaProvider.observeMetadata()
             .onEach {
                 presenter.updateCurrentTrackId(it.id.toLong())
                 presenter.updateCurrentMetadata(it.title, it.artist)
-                textWrapper.update(it.title, it.artist)
-                seekBar.max = it.duration.toInt()
+//                textWrapper.update(it.title, it.artist)
+//                seekBar.max = it.duration.toInt()
                 loadImage(it.mediaId)
 
                 if (presenter.firstEnter) {
                     presenter.firstEnter = false
-                    list.scrollToCurrent()
+//                    list.scrollToCurrent()
                 } else {
-                    list.smoothScrollToPosition(0)
+//                    list.smoothScrollToPosition(0)
                 }
             }.launchIn(lifecycleScope)
 
         presenter.observeLyrics()
             .onEach {
-                list.adapter.suspendSubmitList(it.lines)
-                list.awaitAnimationEnd()
-                emptyState.isVisible = it.lines.isEmpty()
+//                list.adapter.suspendSubmitList(it.lines)
+//                list.awaitAnimationEnd()
+//                emptyState.isVisible = it.lines.isEmpty()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        seekBar.observeProgress()
-            .onEach { list.adapter.updateTime(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        seekBar.observeProgress()
+//            .onEach { list.adapter.updateTime(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        mediaProvider.observePlaybackState()
-            .filter { it.isPlayOrPause }
-            .onEach { seekBar.onStateChanged(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+//        mediaProvider.observePlaybackState()
+//            .filter { it.isPlayOrPause }
+//            .onEach { seekBar.onStateChanged(it) }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        view.image.observePaletteColors()
-            .map { it.accent }
-            .onEach { accent ->
-                artist.animateTextColor(accent)
-                edit.animateBackgroundColor(accent)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+//        view.image.observePaletteColors()
+//            .map { it.accent }
+//            .onEach { accent ->
+//                artist.animateTextColor(accent)
+//                edit.animateBackgroundColor(accent)
+//            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onStart() {
@@ -113,51 +111,51 @@ class OfflineLyricsFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        edit.onClick {
-            EditLyricsDialog.show(requireActivity(), presenter.getLyrics()) { newLyrics ->
-                presenter.updateLyrics(newLyrics)
-            }
-        }
-        back.setOnClickListener { requireActivity().onBackPressed() }
-        search.setOnClickListener { searchLyrics() }
+//        edit.onClick {
+//            EditLyricsDialog.show(requireActivity(), presenter.getLyrics()) { newLyrics ->
+//                presenter.updateLyrics(newLyrics)
+//            }
+//        }
+//        back.setOnClickListener { requireActivity().onBackPressed() }
+//        search.setOnClickListener { searchLyrics() }
 
-        fakeNext.setOnClickListener {
-            list.adapter.debounceUpdate()
-            mediaProvider.skipToNext()
-        }
-        fakePrev.setOnClickListener {
-            list.adapter.debounceUpdate()
-            mediaProvider.skipToPrevious()
-        }
+//        fakeNext.setOnClickListener {
+//            list.adapter.debounceUpdate()
+//            mediaProvider.skipToNext()
+//        }
+//        fakePrev.setOnClickListener {
+//            list.adapter.debounceUpdate()
+//            mediaProvider.skipToPrevious()
+//        }
 
-        sync.onClick { _ ->
-            try {
-                OfflineLyricsSyncAdjustementDialog.show(
-                    requireContext(),
-                    presenter.getSyncAdjustment()
-                ) {
-                    presenter.updateSyncAdjustment(it)
-                }
-            } catch (ex: Exception){
-                Timber.e(ex)
-            }
-        }
+//        sync.onClick { _ ->
+//            try {
+//                OfflineLyricsSyncAdjustementDialog.show(
+//                    requireContext(),
+//                    presenter.getSyncAdjustment()
+//                ) {
+//                    presenter.updateSyncAdjustment(it)
+//                }
+//            } catch (ex: Exception){
+//                Timber.e(ex)
+//            }
+//        }
 
-        seekBar.setListener(onStopTouch = {
-            mediaProvider.seekTo(seekBar.progress.toLong())
-        })
+//        seekBar.setListener(onStopTouch = {
+//            mediaProvider.seekTo(seekBar.progress.toLong())
+//        })
     }
 
     override fun onPause() {
         super.onPause()
-        edit.setOnClickListener(null)
-        back.setOnClickListener(null)
-        search.setOnClickListener(null)
-
-        fakeNext.setOnTouchListener(null)
-        fakePrev.setOnTouchListener(null)
-        seekBar.setOnSeekBarChangeListener(null)
-        sync.setOnClickListener(null)
+//        edit.setOnClickListener(null)
+//        back.setOnClickListener(null)
+//        search.setOnClickListener(null)
+//
+//        fakeNext.setOnTouchListener(null)
+//        fakePrev.setOnTouchListener(null)
+//        seekBar.setOnSeekBarChangeListener(null)
+//        sync.setOnClickListener(null)
     }
 
     override fun onStop() {
@@ -184,7 +182,7 @@ class OfflineLyricsFragment : BaseFragment(),
             val original = requireContext().getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
             val blurred = BlurKit.getInstance().blur(original, 20)
             withContext(Dispatchers.Main){
-                image.setImageBitmap(blurred)
+//                image.setImageBitmap(blurred)
             }
         } catch (ex: Exception){
             Timber.e(ex)

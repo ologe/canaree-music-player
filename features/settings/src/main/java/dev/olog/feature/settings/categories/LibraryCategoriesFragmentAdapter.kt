@@ -8,7 +8,6 @@ import dev.olog.feature.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.feature.presentation.base.model.LibraryCategoryBehavior
 import dev.olog.feature.settings.R
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.item_library_categories.view.*
 
 internal class LibraryCategoriesFragmentAdapter(
     private val dragListener: IDragListener
@@ -19,8 +18,8 @@ internal class LibraryCategoriesFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: LibraryCategoryBehavior, position: Int) {
         holder.itemView.apply {
-            checkBox.text = item.asString(context)
-            checkBox.isChecked = item.visible
+//            checkBox.text = item.asString(context)
+//            checkBox.isChecked = item.visible
         }
     }
 
@@ -30,7 +29,7 @@ internal class LibraryCategoriesFragmentAdapter(
         viewHolder.itemView.setOnClickListener {
             val item = getItem(viewHolder.adapterPosition)
             item.visible = !item.visible
-            viewHolder.itemView.checkBox.isChecked = item.visible
+//            viewHolder.itemView.checkBox.isChecked = item.visible
         }
     }
 

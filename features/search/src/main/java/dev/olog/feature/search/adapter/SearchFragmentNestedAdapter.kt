@@ -6,7 +6,6 @@ import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.navigation.Navigator
 import dev.olog.feature.search.SearchFragmentViewModel
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_search_album.view.*
 
 internal class SearchFragmentNestedAdapter(
     private val navigator: Navigator,
@@ -29,9 +28,9 @@ internal class SearchFragmentNestedAdapter(
         holder.itemView.apply {
             transitionName = "search nested ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            quickAction.setId(item.mediaId)
-            firstText.text = item.title
-            secondText?.text = item.subtitle
+//            quickAction.setId(item.mediaId)
+//            firstText.text = item.title
+//            secondText?.text = item.subtitle
         }
     }
 

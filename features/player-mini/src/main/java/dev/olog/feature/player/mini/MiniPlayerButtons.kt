@@ -10,8 +10,6 @@ import androidx.transition.TransitionManager
 import dev.olog.feature.presentation.base.extensions.mediaProvider
 import dev.olog.shared.lazyFast
 import dev.olog.feature.presentation.base.widget.playpause.AnimatedPlayPauseImageView
-import kotlinx.android.synthetic.main.fragment_mini_player_buttons_podcast.view.*
-import kotlinx.android.synthetic.main.fragment_mini_player_buttons_song.view.*
 
 internal class MiniPlayerButtons(
     context: Context,
@@ -24,67 +22,67 @@ internal class MiniPlayerButtons(
         }
     }
 
-    private val playPauseSong by lazyFast {
-        rootSong.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
-    }
-    private val playPausePodcast by lazyFast {
-        rootPodcast.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
-    }
+//    private val playPauseSong by lazyFast {
+//        rootSong.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
+//    }
+//    private val playPausePodcast by lazyFast {
+//        rootPodcast.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
+//    }
 
     init {
         View.inflate(context, R.layout.fragment_mini_player_buttons_song, this)
         View.inflate(context, R.layout.fragment_mini_player_buttons_podcast, this)
 
-        if (isInEditMode) {
-            rootPodcast.isVisible = false
-        } else {
-            rootSong.isVisible = false
-            rootPodcast.isVisible = false
-        }
-        playPauseSong.setOnClickListener {
-            mediaProvider.playPause()
-        }
-        playPausePodcast.setOnClickListener {
-            mediaProvider.playPause()
-        }
-        next.setOnClickListener {
-            mediaProvider.skipToNext()
-        }
-        previous.setOnClickListener {
-            mediaProvider.skipToPrevious()
-        }
-        forward30.setOnClickListener {
-            mediaProvider.forwardThirtySeconds()
-        }
-        replay.setOnClickListener {
-            mediaProvider.replayTenSeconds()
-        }
+//        if (isInEditMode) {
+//            rootPodcast.isVisible = false
+//        } else {
+//            rootSong.isVisible = false
+//            rootPodcast.isVisible = false
+//        }
+//        playPauseSong.setOnClickListener {
+//            mediaProvider.playPause()
+//        }
+//        playPausePodcast.setOnClickListener {
+//            mediaProvider.playPause()
+//        }
+//        next.setOnClickListener {
+//            mediaProvider.skipToNext()
+//        }
+//        previous.setOnClickListener {
+//            mediaProvider.skipToPrevious()
+//        }
+//        forward30.setOnClickListener {
+//            mediaProvider.forwardThirtySeconds()
+//        }
+//        replay.setOnClickListener {
+//            mediaProvider.replayTenSeconds()
+//        }
     }
 
     fun toggleNextButton(show: Boolean) {
-        next.updateVisibility(show)
+//        next.updateVisibility(show)
     }
 
     fun togglePreviousButton(show: Boolean) {
-        previous.updateVisibility(show)
+//        previous.updateVisibility(show)
     }
 
     fun startPlayAnimation(animate: Boolean) {
-        playPauseSong.animationPlay(animate)
-        playPausePodcast.animationPlay(animate)
+//        playPauseSong.animationPlay(animate)
+//        playPausePodcast.animationPlay(animate)
     }
 
     fun startPauseAnimation(animate: Boolean) {
-        playPauseSong.animationPause(animate)
-        playPausePodcast.animationPause(animate)
+//        playPauseSong.animationPause(animate)
+//        playPausePodcast.animationPause(animate)
     }
 
     fun startSkipNextAnimation() {
-        next.playAnimation()
+//        next.playAnimation()
     }
 
     fun startSkipPreviousAnimation() {
-        previous.playAnimation()
+//        previous.playAnimation()
     }
 
     fun onTrackChanged(isPodcast: Boolean) {
@@ -97,13 +95,13 @@ internal class MiniPlayerButtons(
     }
 
     private fun showForPodcast() {
-        rootSong.isVisible = false
-        rootPodcast.isVisible = true
+//        rootSong.isVisible = false
+//        rootPodcast.isVisible = true
     }
 
     private fun showForSong() {
-        rootSong.isVisible = true
-        rootPodcast.isVisible = false
+//        rootSong.isVisible = true
+//        rootPodcast.isVisible = false
     }
 
 }

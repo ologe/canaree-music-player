@@ -5,7 +5,6 @@ import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_detail_related_artist.view.*
 
 internal class DetailRelatedArtistsAdapter(
     private val navigator: Navigator
@@ -25,9 +24,9 @@ internal class DetailRelatedArtistsAdapter(
         holder.itemView.apply {
             transitionName = "detail related ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            quickAction.setId(item.mediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            quickAction.setId(item.mediaId)
         }
     }
 }
