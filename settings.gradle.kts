@@ -43,6 +43,7 @@ include(":data-spotify")
 // shared
 include(":shared")
 include(":shared-android")
+include(":shared-components")
 include(":prefs-keys")
 include(":lint")
 include(":test-shared")

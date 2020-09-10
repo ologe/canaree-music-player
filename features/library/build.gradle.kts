@@ -11,6 +11,7 @@ androidExtensions {
 }
 
 apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
+apply(from = rootProject.file("buildscripts/configure-compose.gradle"))
 
 dependencies {
     lintChecks(project(":lint"))
@@ -25,6 +26,7 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":features:presentation-base"))
 
+    implementation(project(":shared-components"))
     implementation(project(":shared-android"))
     implementation(project(":shared"))
 

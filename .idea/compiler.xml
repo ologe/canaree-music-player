@@ -41,6 +41,7 @@
       <module name="canaree-music-player.prefs-keys" target="11" />
       <module name="canaree-music-player.presentation" target="11" />
       <module name="canaree-music-player.shared-android" target="11" />
+      <module name="canaree-music-player.shared-components" target="11" />
       <module name="canaree-music-player.test-shared" target="11" />
     </bytecodeTargetLevel>
   </component>
