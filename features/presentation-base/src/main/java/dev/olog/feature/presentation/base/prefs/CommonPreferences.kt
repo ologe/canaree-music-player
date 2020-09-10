@@ -37,8 +37,6 @@ private const val CATEGORY_PODCAST_ARTIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_AR
 
 private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_3"
 
-private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
-
 class CommonPreferences @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
@@ -180,17 +178,6 @@ class CommonPreferences @Inject constructor(
 
     fun setLastBottomViewPage(page: BottomNavigationPage) {
         preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
-    }
-
-    fun getLastLibraryPage(): LibraryPage {
-        val page = preferences.getString(LIBRARY_LAST_PAGE, LibraryPage.TRACKS.toString())!!
-        return LibraryPage.valueOf(page)
-    }
-
-    fun setLibraryPage(page: LibraryPage) {
-        preferences.edit {
-            putString(LIBRARY_LAST_PAGE, page.toString())
-        }
     }
 
 }

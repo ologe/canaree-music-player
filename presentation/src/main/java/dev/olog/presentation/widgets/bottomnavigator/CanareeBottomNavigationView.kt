@@ -33,9 +33,8 @@ internal class CanareeBottomNavigationView(
 
         setOnNavigationItemSelectedListener { menu ->
             val navigationPage = menu.itemId.toBottomNavigationPage()
-            val libraryPage = preferences.getLastLibraryPage()
             saveLastPage(navigationPage)
-            navigator.bottomNavigate(navigationPage.toScreen(libraryPage))
+            navigator.bottomNavigate(navigationPage.toScreen())
             true
         }
     }
@@ -45,15 +44,12 @@ internal class CanareeBottomNavigationView(
         setOnNavigationItemSelectedListener(null)
     }
 
-    private fun BottomNavigationPage.toScreen(libraryPage: LibraryPage): FragmentScreen {
+    private fun BottomNavigationPage.toScreen(): FragmentScreen {
         return when (this){
-            BottomNavigationPage.LIBRARY -> {
-                when(libraryPage){
-                    LibraryPage.TRACKS -> FragmentScreen.HOME
-                    LibraryPage.PODCASTS -> FragmentScreen.LIBRARY
-                }
-            }
+            BottomNavigationPage.HOME -> FragmentScreen.HOME
+            BottomNavigationPage.LIBRARY -> FragmentScreen.LIBRARY
             BottomNavigationPage.SEARCH -> FragmentScreen.SEARCH
+            BottomNavigationPage.PLAYLIST -> FragmentScreen.PLAYLIST
             BottomNavigationPage.QUEUE -> FragmentScreen.QUEUE
             else -> throwNotHandled(this)
         }
@@ -65,8 +61,7 @@ internal class CanareeBottomNavigationView(
 
     fun navigateToLastPage() {
         val navigationPage = preferences.getLastBottomViewPage()
-        val libraryPage = preferences.getLastLibraryPage()
-        navigator.bottomNavigate(navigationPage.toScreen(libraryPage))
+        navigator.bottomNavigate(navigationPage.toScreen())
     }
 
     private fun saveLastPage(page: BottomNavigationPage) {
@@ -74,15 +69,19 @@ internal class CanareeBottomNavigationView(
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this) {
+        R.id.navigation_home -> BottomNavigationPage.HOME
         R.id.navigation_library -> BottomNavigationPage.LIBRARY
         R.id.navigation_search -> BottomNavigationPage.SEARCH
+        R.id.navigation_playlists -> BottomNavigationPage.PLAYLIST
         R.id.navigation_queue -> BottomNavigationPage.QUEUE
         else -> throw IllegalArgumentException("invalid menu id")
     }
 
     private fun BottomNavigationPage.toMenuId(): Int = when (this) {
+        BottomNavigationPage.HOME -> R.id.navigation_home
         BottomNavigationPage.LIBRARY -> R.id.navigation_library
         BottomNavigationPage.SEARCH -> R.id.navigation_search
+        BottomNavigationPage.PLAYLIST -> R.id.navigation_playlists
         BottomNavigationPage.QUEUE -> R.id.navigation_queue
     }
 

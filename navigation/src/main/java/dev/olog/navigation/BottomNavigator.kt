@@ -9,7 +9,7 @@ interface BottomNavigator {
             FragmentScreen.HOME.tag,
             FragmentScreen.LIBRARY.tag,
             FragmentScreen.SEARCH.tag,
-            FragmentScreen.PLAYLISTS.tag,
+            FragmentScreen.PLAYLIST.tag,
             FragmentScreen.QUEUE.tag
         )
     }

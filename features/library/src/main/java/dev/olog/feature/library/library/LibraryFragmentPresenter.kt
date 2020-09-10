@@ -44,10 +44,6 @@ internal class LibraryFragmentPresenter @Inject constructor(
             .filter { it.visible }
     }
 
-    fun setLibraryPage(page: LibraryPage) {
-        commonPreferences.setLibraryPage(page)
-    }
-
     fun canShowPodcasts() = commonPreferences.canShowPodcasts()
 
 }

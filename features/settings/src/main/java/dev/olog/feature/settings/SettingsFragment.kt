@@ -161,7 +161,6 @@ internal class SettingsFragment : PreferenceFragmentCompat(),
                 requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
-                preferences.setLibraryPage(LibraryPage.TRACKS)
                 requireActivity().recreate()
             }
         }

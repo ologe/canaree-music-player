@@ -1,6 +1,10 @@
 package dev.olog.navigation.screens
 
 enum class LibraryPage {
+    FOLDERS,
     TRACKS,
-    PODCASTS
+    ALBUMS,
+    ARTISTS,
+    GENRES,
+    // TODO podcasts
 }

@@ -6,9 +6,10 @@ private const val PREFIX = "dev.olog"
 enum class FragmentScreen(val tag: String) {
     HOME("$PREFIX.home"),
     LIBRARY("$PREFIX.library"),
-    PLAYLISTS("$PREFIX.playlists"),
+    PLAYLIST("$PREFIX.playlist"),
     SEARCH("$PREFIX.search"),
     QUEUE("$PREFIX.queue"),
+
     DETAIL("$PREFIX.detail"),
     PLAYER("$PREFIX.player"),
     PLAYER_MINI("$PREFIX.player.mini"),
