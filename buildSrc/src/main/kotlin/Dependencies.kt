@@ -19,7 +19,7 @@ object versions {
     internal const val hiltX = "1.0.0-alpha02"
 
     //    android x
-    internal const val android_x_core = "1.3.1"
+    internal const val android_x_core = "1.5.0-alpha02"
     internal const val android_x_appcompat = "1.2.0"
     internal const val android_x_media = "1.1.0" // TODO try media2?
     internal const val android_x_recycler = "1.1.0"
@@ -139,6 +139,7 @@ object libs {
     object compose {
         const val ui = "androidx.compose.ui:ui:${versions.compose}"
         const val material = "androidx.compose.material:material:${versions.compose}"
+        const val materialIcons = "androidx.compose.material:material-icons-extended:${versions.compose}"
         const val tooling = "androidx.ui:ui-tooling:${versions.compose}"
     }
 
@@ -242,34 +243,35 @@ object libs {
 }
 
 fun DependencyHandlerScope.dagger() {
-    library(libs.dagger.core)
-    processor(libs.dagger.kapt)
-    library(libs.dagger.hilt)
-    processor(libs.dagger.hiltKapt)
-    library(libs.dagger.hiltX)
-    processor(libs.dagger.hiltXKapt)
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.kapt)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hiltKapt)
+    implementation(libs.dagger.hiltX)
+    kapt(libs.dagger.hiltXKapt)
 }
 
 fun DependencyHandlerScope.coroutines() {
-    library(libs.Coroutines.core)
-    library(libs.Coroutines.android)
-    testLibrary(libs.Coroutines.test)
+    implementation(libs.Coroutines.core)
+    implementation(libs.Coroutines.android)
+    testImplementation(libs.Coroutines.test)
 }
 
 fun DependencyHandlerScope.compose() {
-    library(libs.compose.ui)
-    library(libs.compose.material)
-    library(libs.compose.tooling)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.compose.materialIcons)
+    implementation(libs.compose.tooling)
 }
 
-private fun DependencyHandlerScope.library(dependency: Any): Dependency? {
+private fun DependencyHandlerScope.implementation(dependency: Any): Dependency? {
     return add("implementation", dependency)
 }
 
-private fun DependencyHandlerScope.testLibrary(dependency: Any): Dependency? {
+private fun DependencyHandlerScope.testImplementation(dependency: Any): Dependency? {
     return add("testImplementation", dependency)
 }
 
-private fun DependencyHandlerScope.processor(dependency: Any): Dependency? {
+private fun DependencyHandlerScope.kapt(dependency: Any): Dependency? {
     return add("kapt", dependency)
 }
