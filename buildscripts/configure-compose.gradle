@@ -1,14 +1,6 @@
 import versions
 
 android {
-    kotlinOptions {
-        freeCompilerArgs += [
-                "-Xallow-jvm-ir-dependencies",
-                "-Xskip-prerelease-check"
-        ]
-        jvmTarget = versions.java.toString()
-    }
-
     buildFeatures {
         compose true
     }
@@ -16,10 +8,6 @@ android {
     composeOptions {
         kotlinCompilerVersion versions.kotlin
         kotlinCompilerExtensionVersion versions.compose
-    }
-
-    kotlinOptions {
-        useIR = true
     }
 
 }

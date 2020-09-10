@@ -28,8 +28,11 @@ android {
         freeCompilerArgs += [
                 "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
                 "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xallow-jvm-ir-dependencies",
+                "-Xskip-prerelease-check"
         ]
         jvmTarget = versions.java.toString()
+        useIR = true
     }
 
     lintOptions {
