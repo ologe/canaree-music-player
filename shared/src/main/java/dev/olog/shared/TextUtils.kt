@@ -8,6 +8,14 @@ object TextUtils {
     const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
+    fun buildSubtitle(artist: String, album: String): String {
+        return buildString {
+            append(artist)
+            append(MIDDLE_DOT_SPACED)
+            append(album)
+        }
+    }
+
     @JvmStatic
     fun formatMillis(millis: Int): String {
         return formatMillis(millis.toLong())
