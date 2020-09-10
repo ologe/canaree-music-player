@@ -8,7 +8,6 @@ import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_album.*
 import java.io.File
 
 //internal class FolderFragmentAdapter(

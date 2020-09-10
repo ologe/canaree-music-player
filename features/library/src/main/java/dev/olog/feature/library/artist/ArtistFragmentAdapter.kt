@@ -6,7 +6,6 @@ import dev.olog.feature.presentation.base.adapter.*
 import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.toDomain
 import dev.olog.navigation.Navigator
-import kotlinx.android.synthetic.main.item_tab_artist.*
 
 //internal class ArtistFragmentAdapter(
 //    private val navigator: Navigator

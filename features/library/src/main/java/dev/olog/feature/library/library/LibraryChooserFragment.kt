@@ -23,8 +23,6 @@ class LibraryChooserFragment : BaseBottomSheetFragment() {
     internal lateinit var prefs: CommonPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val page = prefs.getLastLibraryPage()
-
 //        list.adapter = LibraryChooserAdapter(page, this::onClick).apply {
 //            submitList(LibraryPage.values().toList())
 //        }
@@ -32,8 +30,8 @@ class LibraryChooserFragment : BaseBottomSheetFragment() {
     }
 
     private fun onClick(page: LibraryPage) {
-        prefs.setLibraryPage(page)
-        dismiss()
+//        prefs.setLibraryPage(page)
+//        dismiss()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_album

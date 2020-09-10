@@ -41,7 +41,6 @@ import dev.olog.feature.library.tab.layout.manager.LayoutManagerFactory
 import dev.olog.feature.presentation.base.widget.fastscroller.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -91,7 +90,7 @@ internal class TabFragment : BaseFragment(),
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {
-        emptyStateText.isVisible = isEmpty
+//        emptyStateText.isVisible = isEmpty
         if (isEmpty) {
             if (isPodcastFragment()) {
 //                val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
@@ -114,18 +113,18 @@ internal class TabFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         val requestedSpanSize = viewModel.getSpanCount(category)
-        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
-        list.layoutManager = gridLayoutManager
-        list.adapter = adapter
-        list.setHasFixedSize(true)
-        list.addItemDecoration(
-            DottedDividerDecorator(
-                requireContext(), listOf(R.layout.item_tab_header, R.layout.item_tab_shuffle)
-            )
-        )
+//        val gridLayoutManager = LayoutManagerFactory.get(list, category, adapter, requestedSpanSize)
+//        list.layoutManager = gridLayoutManager
+//        list.adapter = adapter
+//        list.setHasFixedSize(true)
+//        list.addItemDecoration(
+//            DottedDividerDecorator(
+//                requireContext(), listOf(R.layout.item_tab_header, R.layout.item_tab_shuffle)
+//            )
+//        )
 
         if (category == TabCategory.SONGS || category == TabCategory.PODCASTS) {
-            list.updatePadding(right = requireContext().dimen(R.dimen.default_list_margin_horizontal))
+//            list.updatePadding(right = requireContext().dimen(R.dimen.default_list_margin_horizontal))
         }
 
         val scrollableLayoutId = when (category) {
@@ -134,26 +133,26 @@ internal class TabFragment : BaseFragment(),
             TabCategory.ARTISTS -> R.layout.item_tab_artist
             else -> R.layout.item_tab_album
         }
-        sidebar.scrollableLayoutId = scrollableLayoutId
+//        sidebar.scrollableLayoutId = scrollableLayoutId
 
-        fab.isVisible = category == PLAYLISTS || category == PODCASTS_PLAYLIST
+//        fab.isVisible = category == PLAYLISTS || category == PODCASTS_PLAYLIST
 
         viewModel.observeData(category)
             .onEach { list ->
                 handleEmptyStateVisibility(list.isEmpty())
                 adapter.submitList(list)
-                sidebar.onDataChanged(list)
+//                sidebar.onDataChanged(list)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.observeSpanCount(category)
             .onEach { span ->
-                list.awaitAnimationEnd()
-                list.doOnLayout {
-                    // TODO check
-                    TransitionManager.beginDelayedTransition(list)
-                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = span
-                    adapter.notifyDataSetChanged()
-                }
+//                list.awaitAnimationEnd()
+//                list.doOnLayout {
+//                     TODO check
+//                    TransitionManager.beginDelayedTransition(list)
+//                    (gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup).requestedSpanSize = span
+//                    adapter.notifyDataSetChanged()
+//                }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         observePodcastPositions()
@@ -209,7 +208,7 @@ internal class TabFragment : BaseFragment(),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
     }
 
     override fun setupNestedList(layoutId: Int, recyclerView: RecyclerView) {
@@ -241,24 +240,24 @@ internal class TabFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { fab ->
-            val type =
-                if (category == PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
-
-            val sharedFab = (requireParentFragment().requireView() as ViewGroup)
-                .findViewById<View>(R.id.sharedFab)
-
-            matchFabs(sharedFab, fab)
-
-            navigator.toChooseTracksForPlaylistFragment(type, sharedFab)
-        }
+//        sidebar.setListener(letterTouchListener)
+//        fab.setOnClickListener { fab ->
+//            val type =
+//                if (category == PLAYLISTS) PlaylistType.TRACK else PlaylistType.PODCAST
+//
+//            val sharedFab = (requireParentFragment().requireView() as ViewGroup)
+//                .findViewById<View>(R.id.sharedFab)
+//
+//            matchFabs(sharedFab, fab)
+//
+//            navigator.toChooseTracksForPlaylistFragment(type, sharedFab)
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        sidebar.setListener(null)
-        fab.setOnClickListener(null)
+//        sidebar.setListener(null)
+//        fab.setOnClickListener(null)
     }
 
     /**
@@ -279,44 +278,44 @@ internal class TabFragment : BaseFragment(),
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
-        list.stopScroll()
+//        list.stopScroll()
 
-        val scrollableItem = sidebar.scrollableLayoutId
+//        val scrollableItem = sidebar.scrollableLayoutId
 
-        val position = when (letter) {
-            TextUtils.MIDDLE_DOT -> -1
-            "#" -> adapter.indexOf {
-                if (it.type != scrollableItem) {
-                    false
-                } else {
-                    val sorting = getCurrentSorting(it)
-                    if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString().isDigitsOnly()
-                }
-            }
-            "?" -> adapter.indexOf {
-                if (it.type != scrollableItem) {
-                    false
-                } else {
-                    val sorting = getCurrentSorting(it)
-                    if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() > "Z"
-                }
-            }
-            else -> adapter.indexOf {
-                if (it.type != scrollableItem) {
-                    false
-                } else {
-                    val sorting = getCurrentSorting(it)
-                    if (sorting.isBlank()) false
-                    else sorting[0].toUpperCase().toString() == letter
-                }
-            }
-        }
-        if (position != -1) {
-            val layoutManager = list.layoutManager as GridLayoutManager
-            layoutManager.scrollToPositionWithOffset(position, 0)
-        }
+//        val position = when (letter) {
+//            TextUtils.MIDDLE_DOT -> -1
+//            "#" -> adapter.indexOf {
+//                if (it.type != scrollableItem) {
+//                    false
+//                } else {
+//                    val sorting = getCurrentSorting(it)
+//                    if (sorting.isBlank()) false
+//                    else sorting[0].toUpperCase().toString().isDigitsOnly()
+//                }
+//            }
+//            "?" -> adapter.indexOf {
+//                if (it.type != scrollableItem) {
+//                    false
+//                } else {
+//                    val sorting = getCurrentSorting(it)
+//                    if (sorting.isBlank()) false
+//                    else sorting[0].toUpperCase().toString() > "Z"
+//                }
+//            }
+//            else -> adapter.indexOf {
+//                if (it.type != scrollableItem) {
+//                    false
+//                } else {
+//                    val sorting = getCurrentSorting(it)
+//                    if (sorting.isBlank()) false
+//                    else sorting[0].toUpperCase().toString() == letter
+//                }
+//            }
+//        }
+//        if (position != -1) {
+//            val layoutManager = list.layoutManager as GridLayoutManager
+//            layoutManager.scrollToPositionWithOffset(position, 0)
+//        }
     }
 
     private fun getCurrentSorting(item: DisplayableItem): String {

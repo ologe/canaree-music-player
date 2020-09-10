@@ -11,7 +11,6 @@ import dev.olog.lib.media.MediaProvider
 import dev.olog.feature.presentation.base.loadSongImage
 import dev.olog.feature.library.model.DisplayableFile
 import dev.olog.navigation.Navigator
-import kotlinx.android.synthetic.main.item_folder_tree_track.view.*
 
 internal class FolderTreeFragmentAdapter(
     private val viewModel: FolderTreeFragmentViewModel,
@@ -49,8 +48,8 @@ internal class FolderTreeFragmentAdapter(
 
     override fun bind(holder: DataBoundViewHolder, item: DisplayableFile, position: Int) {
         holder.itemView.apply {
-            firstText.text = item.title
-            cover.loadSongImage(item.mediaId.toDomain())
+//            firstText.text = item.title
+//            cover.loadSongImage(item.mediaId.toDomain())
         }
     }
 }

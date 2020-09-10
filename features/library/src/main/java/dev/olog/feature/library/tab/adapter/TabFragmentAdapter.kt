@@ -18,13 +18,6 @@ import dev.olog.feature.library.tab.TabFragmentViewModel
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_album.view.*
-import kotlinx.android.synthetic.main.item_tab_album.view.firstText
-import kotlinx.android.synthetic.main.item_tab_album.view.secondText
-import kotlinx.android.synthetic.main.item_tab_header.view.*
-import kotlinx.android.synthetic.main.item_tab_podcast.view.*
-import kotlinx.android.synthetic.main.item_tab_song.view.*
-import kotlinx.android.synthetic.main.item_tab_song.view.isPlaying
 
 internal class TabFragmentAdapter(
     private val navigator: Navigator,
@@ -86,7 +79,7 @@ internal class TabFragmentAdapter(
         val item = getItem(position)
         val payload = payloads.filterIsInstance<Boolean>().firstOrNull()
         if (payload != null) {
-            holder.itemView.isPlaying.animateVisibility(payload)
+//            holder.itemView.isPlaying.animateVisibility(payload)
             if (item is DisplayableTrack && holder.isPodcast()) {
                 bindPodcastProgressBarTint(holder.itemView, item)
             }
@@ -125,10 +118,10 @@ internal class TabFragmentAdapter(
     private fun bindTrack(holder: DataBoundViewHolder, item: DisplayableTrack) {
         holder.itemView.apply {
             holder.imageView!!.loadSongImage(item.mediaId.toDomain())
-            firstText.text = item.title
-            secondText.text = item.subtitle
-            explicit?.onItemChanged(item.title)
-            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
+//            explicit?.onItemChanged(item.title)
+//            isPlaying.toggleVisibility(item.mediaId == playingMediaId)
 
             if (holder.isPodcast()) {
                 bindPodcast(this, item)
@@ -145,11 +138,11 @@ internal class TabFragmentAdapter(
     private fun bindPodcast(view: View, item: DisplayableTrack) {
         val duration = item.duration.toInt()
         val progress = podcastPositions[item.mediaId.id.toLong()] ?: 0
-        view.progressBar.max = duration
-        view.progressBar.progress = progress
+//        view.progressBar.max = duration
+//        view.progressBar.progress = progress
 
         val percentage = (progress.toFloat() / duration.toFloat() * 100f).toInt()
-        view.percentage.text = "$percentage%"
+//        view.percentage.text = "$percentage%"
     }
 
     private fun bindPodcastProgressBarTint(view: View, item: DisplayableTrack) {
@@ -158,22 +151,22 @@ internal class TabFragmentAdapter(
         } else {
             view.context.textColorPrimary()
         }
-        view.progressBar.progressTintList = ColorStateList.valueOf(color)
+//        view.progressBar.progressTintList = ColorStateList.valueOf(color)
     }
 
     private fun bindAlbum(holder: DataBoundViewHolder, item: DisplayableAlbum){
         holder.itemView.apply {
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            quickAction?.setId(item.mediaId)
-            firstText.text = item.title
-            secondText?.text = item.subtitle
-            explicit?.isVisible = false
+//            quickAction?.setId(item.mediaId)
+//            firstText.text = item.title
+//            secondText?.text = item.subtitle
+//            explicit?.isVisible = false
         }
     }
 
     private fun bindHeader(holder: DataBoundViewHolder, item: DisplayableHeader){
         if (holder.itemViewType == R.layout.item_tab_header){
-            holder.itemView.title.text = item.title
+//            holder.itemView.title.text = item.title
         }
     }
 

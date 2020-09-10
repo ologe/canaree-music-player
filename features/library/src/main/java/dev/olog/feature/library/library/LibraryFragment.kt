@@ -22,7 +22,6 @@ import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.android.extensions.textColorSecondary
 import dev.olog.shared.lazyFast
 import dev.olog.shared.mandatory
-import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -57,10 +56,10 @@ internal class LibraryFragment : BaseFragment() {
         )
     }
 
-    fun isCurrentFragmentFolderTree(): Boolean {
-        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == PresentationIdCategory.FOLDERS &&
-                pagerAdapter.showFolderAsHierarchy()
-    }
+//    fun isCurrentFragmentFolderTree(): Boolean {
+//        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == PresentationIdCategory.FOLDERS &&
+//                pagerAdapter.showFolderAsHierarchy()
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,20 +71,20 @@ internal class LibraryFragment : BaseFragment() {
 
         removeFolderFragment()
 
-        viewPager.adapter = pagerAdapter
-        tabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+//        viewPager.adapter = pagerAdapter
+//        tabLayout.setupWithViewPager(viewPager)
+//        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
 
-        pagerEmptyState.isVisible = pagerAdapter.isEmpty()
+//        pagerEmptyState.isVisible = pagerAdapter.isEmpty()
 
-        val selectedView: TextView = if (!isPodcast) tracks else podcasts
-        val unselectedView: TextView = if (!isPodcast) podcasts else tracks
-        selectedView.setTextColor(requireContext().textColorPrimary())
-        unselectedView.setTextColor(requireContext().textColorSecondary())
+//        val selectedView: TextView = if (!isPodcast) tracks else podcasts
+//        val unselectedView: TextView = if (!isPodcast) podcasts else tracks
+//        selectedView.setTextColor(requireContext().textColorPrimary())
+//        unselectedView.setTextColor(requireContext().textColorSecondary())
 
-        if (!presenter.canShowPodcasts()){
-            podcasts.isVisible = false
-        }
+//        if (!presenter.canShowPodcasts()){
+//            podcasts.isVisible = false
+//        }
 
         if (presenter.showFloatingWindowTutorialIfNeverShown()) {
             viewLifecycleOwner.lifecycleScope.launchWhenResumed {
@@ -98,31 +97,28 @@ internal class LibraryFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewPager.addOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener {
-            // TODO restore navigation
+//        viewPager.addOnPageChangeListener(onPageChangeListener)
+//        more.setOnClickListener {
+//             TODO restore navigation
 //            navigator.toMainPopup(it, createPopupCategory())
-        }
-        floatingWindow.setOnClickListener {
-            navigator.toFloating()
-        }
-
-        tracks.setOnClickListener { changeLibraryPage(LibraryPage.TRACKS) }
-        podcasts.setOnClickListener { changeLibraryPage(LibraryPage.PODCASTS) }
+//        }
+//        floatingWindow.setOnClickListener {
+//            navigator.toFloating()
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        viewPager.removeOnPageChangeListener(onPageChangeListener)
-        more.setOnClickListener(null)
-        floatingWindow.setOnClickListener(null)
-        tracks.setOnClickListener(null)
-        podcasts.setOnClickListener(null)
+//        viewPager.removeOnPageChangeListener(onPageChangeListener)
+//        more.setOnClickListener(null)
+//        floatingWindow.setOnClickListener(null)
+//        tracks.setOnClickListener(null)
+//        podcasts.setOnClickListener(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewPager.adapter = null
+//        viewPager.adapter = null
     }
 
     /**
@@ -140,11 +136,6 @@ internal class LibraryFragment : BaseFragment() {
         childFragmentManager.commitNow(true) {
             remove(fragment!!)
         }
-    }
-
-    private fun changeLibraryPage(page: LibraryPage) {
-        presenter.setLibraryPage(page)
-        (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
 

@@ -5,7 +5,6 @@ import dev.olog.feature.presentation.base.loadAlbumImage
 import dev.olog.feature.presentation.base.model.DisplayableAlbum
 import dev.olog.navigation.Navigator
 import dev.olog.feature.presentation.base.model.toDomain
-import kotlinx.android.synthetic.main.item_tab_album_last_played.view.*
 
 internal class TabFragmentNestedAdapter(
     private val navigator: Navigator
@@ -26,9 +25,9 @@ internal class TabFragmentNestedAdapter(
         holder.itemView.apply {
             transitionName = "tab nested ${item.mediaId}"
             holder.imageView!!.loadAlbumImage(item.mediaId.toDomain())
-            quickAction.setId(item.mediaId)
-            firstText.text = item.title
-            secondText.text = item.subtitle
+//            quickAction.setId(item.mediaId)
+//            firstText.text = item.title
+//            secondText.text = item.subtitle
         }
     }
 

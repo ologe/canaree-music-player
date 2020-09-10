@@ -16,7 +16,6 @@ import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -46,66 +45,68 @@ internal class FolderTreeFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.breadCrumbState?.let {
-            bread_crumbs.restoreFromStateWrapper(it)
+//            bread_crumbs.restoreFromStateWrapper(it)
         }
 
-        fab.shrink()
+//        fab.shrink()
 
-        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.setHasFixedSize(true)
+//        list.adapter = adapter
+//        list.layoutManager = OverScrollLinearLayoutManager(list)
+//        list.setHasFixedSize(true)
 
-        fastScroller.attachRecyclerView(list)
-        fastScroller.showBubble(false)
+//        fastScroller.attachRecyclerView(list)
+//        fastScroller.showBubble(false)
 
         viewModel.currentDirectoryFileName
-            .onEach { bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false) }
+            .onEach {
+//                bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+            }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.children
             .onEach {
                 restoreUpperWidgetsTranslation()
-                crumbsWrapper.animate().translationY(0f)
+//                crumbsWrapper.animate().translationY(0f)
                 adapter.submitList(it)
-                emptyState.isVisible = it.isEmpty()
+//                emptyState.isVisible = it.isEmpty()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.canSaveDefaultFolder
             .onEach {
-                if (it && !fab.isVisible) {
-                    fab.show()
-                } else if (!it && fab.isVisible) {
-                    fab.hide()
-                }
+//                if (it && !fab.isVisible) {
+//                    fab.show()
+//                } else if (!it && fab.isVisible) {
+//                    fab.hide()
+//                }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {
         super.onResume()
-        bread_crumbs.setCallback(this)
-        list.addOnScrollListener(scrollListener)
-        fab.setOnClickListener { onFabClick() }
+//        bread_crumbs.setCallback(this)
+//        list.addOnScrollListener(scrollListener)
+//        fab.setOnClickListener { onFabClick() }
     }
 
     override fun onPause() {
         super.onPause()
-        bread_crumbs.setCallback(null)
-        list.removeOnScrollListener(scrollListener)
-        fab.setOnClickListener(null)
-        viewModel.breadCrumbState = bread_crumbs.stateWrapper
+//        bread_crumbs.setCallback(null)
+//        list.removeOnScrollListener(scrollListener)
+//        fab.setOnClickListener(null)
+//        viewModel.breadCrumbState = bread_crumbs.stateWrapper
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.adapter = null
+//        list.adapter = null
     }
 
     private fun onFabClick(){
-        if (!fab.isExtended){
-            fab.extend()
-            return
-        }
+//        if (!fab.isExtended){
+//            fab.extend()
+//            return
+//        }
         viewModel.updateDefaultFolder()
     }
 
@@ -122,13 +123,13 @@ internal class FolderTreeFragment : BaseFragment(),
         private val toolbarHeight by lazyFast { requireContext().dimen(R.dimen.toolbar) }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val currentTranlationY = crumbsWrapper.translationY
-            val clampedTranslation = clamp(
-                currentTranlationY - dy,
-                -toolbarHeight.toFloat(),
-                0f
-            )
-            crumbsWrapper.translationY = clampedTranslation
+//            val currentTranlationY = crumbsWrapper.translationY
+//            val clampedTranslation = clamp(
+//                currentTranlationY - dy,
+//                -toolbarHeight.toFloat(),
+//                0f
+//            )
+//            crumbsWrapper.translationY = clampedTranslation
         }
     }
 

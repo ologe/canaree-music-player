@@ -16,14 +16,6 @@ import dev.olog.navigation.Navigator
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.textColorPrimary
 import dev.olog.shared.exhaustive
-import kotlinx.android.synthetic.main.item_tab_podcast.percentage
-import kotlinx.android.synthetic.main.item_tab_podcast.progressBar
-import kotlinx.android.synthetic.main.item_tab_song.firstText
-import kotlinx.android.synthetic.main.item_tab_song.isPlaying
-import kotlinx.android.synthetic.main.item_tab_song.secondText
-import kotlinx.android.synthetic.main.item_tab_song.cover
-import kotlinx.android.synthetic.main.item_tab_song.explicit
-import kotlinx.android.synthetic.main.item_tab_song.view.*
 
 //internal class TrackFragmentAdapter(
 //    private val mediaProvider: MediaProvider,

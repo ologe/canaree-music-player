@@ -11,9 +11,6 @@ import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.navigation.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_album.emptyStateText
-import kotlinx.android.synthetic.main.fragment_album.list
-import kotlinx.android.synthetic.main.fragment_album.sidebar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -39,14 +36,14 @@ internal class AlbumFragment : BaseFragment() {
 
 //        list.adapter = adapter
 //        list.layoutManager = layoutManager
-        list.setHasFixedSize(true)
+//        list.setHasFixedSize(true)
 
-        sidebar.scrollableLayoutId = R.layout.item_tab_album
+//        sidebar.scrollableLayoutId = R.layout.item_tab_album
 
         viewModel.data
             .onEach {
 //                adapter.submitList(it)
-                emptyStateText.isVisible = it.isEmpty()
+//                emptyStateText.isVisible = it.isEmpty()
 //                sidebar.onDataChanged(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }

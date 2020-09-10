@@ -13,7 +13,6 @@ import dev.olog.feature.presentation.base.activity.BaseFragment
 import dev.olog.feature.presentation.base.extensions.dimen
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
 import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_folder.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -49,10 +48,10 @@ class FolderFragment : BaseFragment() {
 
         viewModel.isHierarchyFlow
             .onEach {  isHierarchy ->
-                hierarchy.isSelected = isHierarchy
-                sidebar.isVisible = !isHierarchy // TODO animate visibility?
-                val margin = if (isHierarchy) R.dimen.default_list_margin_horizontal else R.dimen.tab_margin_end
-                list.updatePadding(right = requireContext().dimen(margin))
+//                hierarchy.isSelected = isHierarchy
+//                sidebar.isVisible = !isHierarchy // TODO animate visibility?
+//                val margin = if (isHierarchy) R.dimen.default_list_margin_horizontal else R.dimen.tab_margin_end
+//                list.updatePadding(right = requireContext().dimen(margin))
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -67,14 +66,14 @@ class FolderFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        hierarchy.setOnClickListener {
-            viewModel.setIsHierarchy(!hierarchy.isSelected)
-        }
+//        hierarchy.setOnClickListener {
+//            viewModel.setIsHierarchy(!hierarchy.isSelected)
+//        }
     }
 
     override fun onPause() {
         super.onPause()
-        hierarchy.setOnClickListener(null)
+//        hierarchy.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_folder
