@@ -2,6 +2,7 @@ package dev.olog.shared.components
 
 import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -44,7 +45,7 @@ fun CanareeToolbar(
 ) {
     Surface(
         color = MaterialTheme.colors.surface,
-        elevation = ToolbarElevation
+        elevation = if (isSystemInDarkTheme()) 0.dp else ToolbarElevation
     ) {
         Row(Modifier
             .fillMaxWidth()
