@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.extensions.getTopFragment
@@ -32,11 +33,11 @@ import dev.olog.feature.presentation.base.activity.Permission
 import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.navigation.Navigator
 import dev.olog.presentation.rateapp.RateAppDialog
+import dev.olog.presentation.widgets.SlidingPanelFade
+import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -65,6 +66,18 @@ class MainActivity : MusicGlueActivity(),
     @Suppress("unused")
     @Inject
     lateinit var rateAppDialog: RateAppDialog
+
+    // TODO temp, improve
+    private val rootView: View
+        get() = findViewById(R.id.rootView)
+    private val slidingPanel: View
+        get() = findViewById(R.id.slidingPanel)
+    private val slidingPanelFade: SlidingPanelFade
+        get() = findViewById(R.id.slidingPanelFade)
+    private val bottomWrapper: View
+        get() = findViewById(R.id.bottomWrapper)
+    private val bottomNavigation: CanareeBottomNavigationView
+        get() = findViewById(R.id.bottomNavigation)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +135,7 @@ class MainActivity : MusicGlueActivity(),
             BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek) + dip(16)
         }
         if (themeManager.bottomSheetType == BottomSheetType.FLOATING) {
-            separator.isVisible = false
+//            separator.isVisible = false
         }
 
 //        val scrollHelper = SuperCerealScrollHelper(
