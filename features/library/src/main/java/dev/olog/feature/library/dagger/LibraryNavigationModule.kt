@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoMap
+import dev.olog.feature.library.home.HomeFragment
 import dev.olog.feature.library.library.LibraryChooserFragment
 import dev.olog.feature.library.library.LibraryFragment
 import dev.olog.feature.library.span.LibrarySpanFragment
@@ -19,14 +20,14 @@ class LibraryNavigationModule {
     @Provides
     @IntoMap
     @FragmentScreenKey(FragmentScreen.HOME)
-    internal fun provideLibraryTracksFragment(): Fragment {
-        return LibraryFragment()
+    internal fun provideHomeFragment(): Fragment {
+        return HomeFragment()
     }
 
     @Provides
     @IntoMap
     @FragmentScreenKey(FragmentScreen.LIBRARY)
-    internal fun provideLibraryPodcastFragment(): Fragment {
+    internal fun provideLibraryFragment(): Fragment {
         return LibraryFragment()
     }
 

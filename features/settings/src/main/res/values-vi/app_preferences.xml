@@ -122,14 +122,6 @@
     <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
     <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
 
-    <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_title">Hiển thị album và nghệ sĩ mới</string>
-    <string name="prefs_show_new_albums_artists_summary">Hiển thị tất cả các album và nghệ sĩ mới được thêm gần đây</string>
-
-    <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_title">Hiển thị những bài đã phát gần đây</string>
-    <string name="prefs_show_recent_albums_artists_summary">Hiển thị tất cả các album và nghệ sĩ đã phát gần đây</string>
-
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">Tự động tải hình ảnh</string>
     <string name="prefs_auto_download_images_summary_mobile">Luôn luôn</string>

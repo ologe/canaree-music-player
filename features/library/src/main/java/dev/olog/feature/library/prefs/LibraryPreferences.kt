@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaIdCategory
-import dev.olog.feature.library.R
 import dev.olog.feature.library.SpanCountController
 import dev.olog.feature.library.model.TabCategory
 import dev.olog.shared.android.extensions.observeKey
@@ -13,23 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class LibraryPreferences @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
 ) {
-
-    fun observeLibraryNewVisibility(): Flow<Boolean> {
-        return preferences.observeKey(
-            context.getString(R.string.prefs_show_new_albums_artists_key),
-            true
-        )
-    }
-
-    fun observeLibraryRecentPlayedVisibility(): Flow<Boolean> {
-        return preferences.observeKey(
-            (context.getString(R.string.prefs_show_recent_albums_artists_key)),
-            true
-        )
-    }
 
     fun getSpanCount(category: MediaIdCategory): Int {
         return preferences.getInt("${category}_library_span", getDefaultSpan(category))

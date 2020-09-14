@@ -118,18 +118,6 @@
             app:title="@string/prefs_immersive_title" />
 
         <SwitchPreferenceCompat
-            app:defaultValue="true"
-            app:key="@string/prefs_show_recent_albums_artists_key"
-            app:summary="@string/prefs_show_recent_albums_artists_summary"
-            app:title="@string/prefs_show_recent_albums_artists_title" />
-
-        <SwitchPreferenceCompat
-            app:defaultValue="true"
-            app:key="@string/prefs_show_new_albums_artists_key"
-            app:summary="@string/prefs_show_new_albums_artists_summary"
-            app:title="@string/prefs_show_new_albums_artists_title" />
-
-        <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="@string/prefs_player_controls_visibility_key"
             app:summaryOff="@string/prefs_player_controls_visibility_summary_off"

@@ -13,10 +13,7 @@ import dev.olog.feature.presentation.base.model.DisplayableItem
 import dev.olog.shared.doIf
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class TabDataProvider @Inject constructor(
@@ -25,13 +22,9 @@ internal class TabDataProvider @Inject constructor(
     // songs
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
-    private val trackGateway: TrackGateway,
-    private val albumGateway: AlbumGateway,
-    private val artistGateway: ArtistGateway,
     private val genreGateway: GenreGateway,
     // podcast
     private val podcastPlaylistGateway: PodcastPlaylistGateway,
-    private val podcastAuthorGateway: PodcastAuthorGateway,
     private val preferences: LibraryPreferences,
     private val schedulers: Schedulers
 ) {
@@ -42,40 +35,20 @@ internal class TabDataProvider @Inject constructor(
         // songs
         TabCategory.FOLDERS -> getFolders()
         TabCategory.PLAYLISTS -> getPlaylist()
-        TabCategory.SONGS -> trackGateway.observeAllTracks().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
-        }
-        TabCategory.ALBUMS -> getAlbums()
-        TabCategory.ARTISTS -> getArtists()
+        TabCategory.SONGS -> emptyFlow()
+        TabCategory.ALBUMS -> emptyFlow()
+        TabCategory.ARTISTS -> emptyFlow()
         TabCategory.GENRES -> getGenres()
-        TabCategory.RECENTLY_ADDED_ALBUMS -> albumGateway.observeRecentlyAdded().mapListItem { it.toTabLastPlayedDisplayableItem() }
-        TabCategory.RECENTLY_ADDED_ARTISTS -> artistGateway.observeRecentlyAdded().mapListItem {
-            it.toTabLastPlayedDisplayableItem(
-                resources
-            )
-        }
-        TabCategory.LAST_PLAYED_ALBUMS -> albumGateway.observeLastPlayed().mapListItem { it.toTabLastPlayedDisplayableItem() }
-        TabCategory.LAST_PLAYED_ARTISTS -> artistGateway.observeLastPlayed().mapListItem {
-            it.toTabLastPlayedDisplayableItem(
-                resources
-            )
-        }
+        TabCategory.RECENTLY_ADDED_ALBUMS -> emptyFlow()
+        TabCategory.RECENTLY_ADDED_ARTISTS -> emptyFlow()
+        TabCategory.LAST_PLAYED_ALBUMS -> emptyFlow()
+        TabCategory.LAST_PLAYED_ARTISTS -> emptyFlow()
         // podcasts
         TabCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist()
-        TabCategory.PODCASTS -> trackGateway.observeAllPodcasts().map {
-            it.map { it.toTabDisplayableItem() }
-        }
-        TabCategory.PODCASTS_AUTHORS -> getPodcastArtists()
-        TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> podcastAuthorGateway.observeRecentlyAdded().mapListItem {
-            it.toTabLastPlayedDisplayableItem(
-                resources
-            )
-        }
-        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> podcastAuthorGateway.observeLastPlayed().mapListItem {
-            it.toTabLastPlayedDisplayableItem(
-                resources
-            )
-        }
+        TabCategory.PODCASTS -> emptyFlow()
+        TabCategory.PODCASTS_AUTHORS -> emptyFlow()
+        TabCategory.RECENTLY_ADDED_PODCAST_ARTISTS -> emptyFlow()
+        TabCategory.LAST_PLAYED_PODCAST_ARTISTS -> emptyFlow()
     }.flowOn(schedulers.cpu)
 
     private fun getFolders(): Flow<List<DisplayableItem>> {
@@ -109,60 +82,6 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getAlbums(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = albumGateway.observeRecentlyAdded()
-            .combine(preferences.observeLibraryNewVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-        val recentlyPlayedFlow = albumGateway.observeLastPlayed()
-            .combine(preferences.observeLibraryRecentPlayedVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-
-        return combine(
-            albumGateway.observeAll()
-                .map { albums ->
-                    val requestedSpanSize = preferences.getSpanCount(TabCategory.ALBUMS)
-                    albums.map { it.toTabDisplayableItem(requestedSpanSize) }
-                },
-            recentlyAddedFlow,
-            recentlyPlayedFlow
-        ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
-                .plus(all)
-        }
-    }
-
-    private fun getArtists(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = artistGateway.observeRecentlyAdded()
-            .combine(preferences.observeLibraryNewVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-        val recentlyPlayedFlow = artistGateway.observeLastPlayed()
-            .combine(preferences.observeLibraryRecentPlayedVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-
-        return combine(
-            artistGateway.observeAll()
-                .map { artists ->
-                    val requestedSpanSize = preferences.getSpanCount(TabCategory.ARTISTS)
-                    artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
-                },
-            recentlyAddedFlow,
-            recentlyPlayedFlow
-        ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
-                .plus(all)
-        }
-    }
-
     // podcasts
     private fun getPodcastPlaylist(): Flow<List<DisplayableItem>> {
         val autoPlaylist = podcastPlaylistGateway.getAllAutoPlaylists()
@@ -178,31 +97,4 @@ internal class TabDataProvider @Inject constructor(
         }
     }
 
-    private fun getPodcastArtists(): Flow<List<DisplayableItem>> {
-        val recentlyAddedFlow = podcastAuthorGateway.observeRecentlyAdded()
-            .combine(preferences.observeLibraryNewVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-        val recentlyPlayedFlow = podcastAuthorGateway.observeLastPlayed()
-            .combine(preferences.observeLibraryRecentPlayedVisibility()) { data, canShow ->
-                if (canShow) data else emptyList()
-            }
-
-        return combine(
-            podcastAuthorGateway.observeAll()
-                .map { artists ->
-                    val requestedSpanSize =
-                        preferences.getSpanCount(TabCategory.PODCASTS_AUTHORS)
-                    artists.map { it.toTabDisplayableItem(resources, requestedSpanSize) }
-                },
-            recentlyAddedFlow,
-            recentlyPlayedFlow
-        ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedPodcastAuthorsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedPodcastAuthorsHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allPodcastAuthorsHeader) }
-                .plus(all)
-        }
-    }
 }

@@ -45,18 +45,8 @@ internal class FolderQueries(
     }
 
     fun getRecentlyAdded(folderPath: String): Cursor {
-        val (blacklist, params) = notBlacklisted()
-
-        val query = """
-            SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
-                $TITLE, $ARTIST, $ALBUM, ${Columns.ALBUM_ARTIST},
-                $DURATION, $DATA, $YEAR,
-                $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST, $DISPLAY_NAME
-            FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ? AND ${isRecentlyAdded()}
-            ORDER BY lower($TITLE) COLLATE UNICODE ASC
-        """
-        return contentResolver.querySql(query, params + arrayOf(folderPath))
+        // TODO filter from code
+        return getAll(false)
     }
 
     fun getRelatedArtists(path: String): Cursor {

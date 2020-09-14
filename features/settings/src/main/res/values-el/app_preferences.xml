@@ -121,14 +121,6 @@
     <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
     <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
 
-    <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_title">Εμφάνιση νέων άλμπουμ και καλλιτεχνών</string>
-    <string name="prefs_show_new_albums_artists_summary">Εμφάνιση νέων άλμπουμ και καλλιτεχνών που προστέθηκαν πρόσφατα</string>
-
-    <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_title">Εμφάνιση πρόσφατων αναπαραγωγών</string>
-    <string name="prefs_show_recent_albums_artists_summary">Εμφάνιση όλων των άλμπουμ και των καλλιτεχνών που έχουν αναπαραχθεί πρόσφατα</string>
-
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">Αυτόματη λήψη φωτογραφιών</string>
     <string name="prefs_auto_download_images_summary_mobile">Πάντα</string>

@@ -121,14 +121,6 @@
     <string name="prefs_adaptive_colors_summary_on" translatable="false">@string/common_enabled</string>
     <string name="prefs_adaptive_colors_summary_off" translatable="false">@string/common_disabled</string>
 
-    <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>
-    <string name="prefs_show_new_albums_artists_summary">Show all new albums and artists added recently</string>
-
-    <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_title">Show recently played</string>
-    <string name="prefs_show_recent_albums_artists_summary">Show all albums and artists played recently</string>
-
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">Auto download images</string>
     <string name="prefs_auto_download_images_summary_mobile">Always</string>

@@ -51,21 +51,8 @@ internal class ArtistQueries(
     }
 
     fun getRecentlyAdded(): Cursor {
-        val (blacklist, params) = notBlacklisted()
-
-        val query = """
-             SELECT
-                $ARTIST_ID,
-                $ARTIST,
-                ${Columns.ALBUM_ARTIST},
-                $DATA,
-                $IS_PODCAST
-            FROM ${EXTERNAL_CONTENT_URI}
-            WHERE ${defaultSelection(blacklist)} AND ${isRecentlyAdded()}
-            ORDER BY ${sortOrder()}
-        """
-
-        return contentResolver.querySql(query, params)
+        // TODO filter from code
+        return getAll()
     }
 
     private fun defaultSelection(notBlacklisted: String): String {

@@ -79,9 +79,6 @@ private fun ListItemAlbumQuickActionPreview(
     }
 }
 
-/**
- * @param subtitle if blank, the text view will not be displayed
- */
 @Composable
 fun ListItemAlbum(
     mediaId: MediaId.Category,

@@ -46,12 +46,7 @@
     <string name="prefs_player_controls_visibility_title">以经典方式控制播放器</string>
     <!--adaptive colors-->
     <string name="prefs_adaptive_colors_title">自适应颜色</string>
-    <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_title">显示新添加的专辑和艺术家</string>
-    <string name="prefs_show_new_albums_artists_summary">显示全部最近添加的专辑和艺术家</string>
-    <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_title">显示最近播放</string>
-    <string name="prefs_show_recent_albums_artists_summary">显示所有最近播放过的专辑和艺术家</string>
+
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">自动下载图像</string>
     <string name="prefs_auto_download_images_summary_mobile">总是</string>

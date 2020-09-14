@@ -46,12 +46,7 @@
     <string name="prefs_player_controls_visibility_title">Kontrol pemutar klasik</string>
     <!--adaptive colors-->
     <string name="prefs_adaptive_colors_title">Warna adaptif</string>
-    <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_title">Tampilkan album dan artis baru</string>
-    <string name="prefs_show_new_albums_artists_summary">Tampilkan album dan artis baru yg baru ditambahkan</string>
-    <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_title">Tampilkan yg baru diputar</string>
-    <string name="prefs_show_recent_albums_artists_summary">Tampilkan semua album dan artis yg baru diputar</string>
+
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">Download gambar otomatis</string>
     <string name="prefs_auto_download_images_summary_mobile">Selalu</string>

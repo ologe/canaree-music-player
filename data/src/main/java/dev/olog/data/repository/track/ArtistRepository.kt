@@ -82,14 +82,9 @@ internal class ArtistRepository @Inject constructor(
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
         return observeAll().combine(lastPlayedDao.getAll()) { all, lastPlayed ->
-            if (all.size < HasLastPlayed.MIN_ITEMS) {
-                listOf() // too few album to show recents
-            } else {
-                lastPlayed.asSequence()
-                    .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
-                    .take(HasLastPlayed.MAX_ITEM_TO_SHOW)
-                    .toList()
-            }
+            lastPlayed.asSequence()
+                .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
+                .toList()
         }.distinctUntilChanged()
             .flowOn(schedulers.cpu)
     }

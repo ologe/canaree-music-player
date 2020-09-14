@@ -13,8 +13,6 @@
     <string name="prefs_gapless_key" translatable="false">key_gapless</string>
     <string name="prefs_player_controls_visibility_key" translatable="false">key_player_controls_visibility</string>
     <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
-    <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
-    <string name="prefs_show_recent_albums_artists_key" translatable="false">key_show_recent</string>
     <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
     <string name="prefs_auto_create_images_key" translatable="false">key_auto_create_image</string>
     <string name="prefs_delete_cached_images_key" translatable="false">key_delete_cached_images</string>

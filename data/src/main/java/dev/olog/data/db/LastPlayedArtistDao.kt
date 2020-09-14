@@ -14,7 +14,7 @@ internal interface LastPlayedArtistDao {
         """
         SELECT * FROM last_played_artists
         ORDER BY dateAdded DESC
-        LIMIT 20
+        LIMIT 15
     """
     )
     fun getAll(): Flow<List<LastPlayedArtistEntity>>
