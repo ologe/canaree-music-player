@@ -23,11 +23,8 @@ inline fun <reified T> Fragment.getArgument(key: String): T {
 
 // can't be named arguments because it clashes with [Fragment.arguments]
 inline fun<reified T: Any?> Fragment.argument(key: String): ReadOnlyProperty<Any?, T> {
-    return object : ReadOnlyProperty<Any?, T> {
-
-        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-            return requireArguments().get(key) as T
-        }
+    return ReadOnlyProperty { _, _ ->
+        requireArguments().get(key) as T
     }
 }
 
@@ -35,11 +32,8 @@ inline fun<reified T: Any?, R: Any?> Fragment.argument(
     key: String,
     crossinline initializer: (T) -> R
 ): ReadOnlyProperty<Any?, R> {
-    return object : ReadOnlyProperty<Any?, R> {
-
-        override fun getValue(thisRef: Any?, property: KProperty<*>): R {
-            return initializer(requireArguments().get(key) as T)
-        }
+    return ReadOnlyProperty { _, _ ->
+        initializer(requireArguments().get(key) as T)
     }
 }
 
