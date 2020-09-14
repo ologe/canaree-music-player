@@ -51,3 +51,23 @@ fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): Boolean {
 
 operator fun<T> List<T>.component6() = get(5)
 operator fun<T> List<T>.component7() = get(6)
+
+fun<T> List<T>.groupByRows(row: Int): List<List<T>> {
+    require(row >= 1)
+
+    val result = mutableListOf<List<T>>()
+    val current = mutableListOf<T>()
+
+    var next = row
+
+    for (index in this.indices) {
+        if (index == next) {
+            next += row
+            result.add(current.toList())
+            current.clear()
+        }
+        current.add(this[index])
+    }
+    result.add(current.toList())
+    return result
+}
