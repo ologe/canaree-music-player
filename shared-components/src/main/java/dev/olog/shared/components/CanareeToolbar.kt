@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.tooling.preview.PreviewParameter
-import dev.olog.shared.components.sample.PerviewProviders
+import dev.olog.shared.components.sample.DarkModePreviewProviders
 import dev.olog.shared.components.theme.CanareeTheme
 
 internal val ToolbarElevation = 2.dp
@@ -24,7 +24,7 @@ internal val ToolbarElevation = 2.dp
 @Composable
 @Preview
 private fun CanareeToolbarPreview(
-    @PreviewParameter(PerviewProviders::class) isDarkTheme: Boolean
+    @PreviewParameter(DarkModePreviewProviders::class) isDarkTheme: Boolean
 ) {
     CanareeTheme(darkTheme = isDarkTheme) {
         CanareeToolbar {
@@ -50,7 +50,7 @@ fun CanareeToolbar(
         Row(Modifier
             .fillMaxWidth()
             .preferredHeight(64.dp)
-            .padding(start = 16.dp, end = 16.dp),
+            .padding(start = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalGravity = Alignment.CenterVertically
         ) {

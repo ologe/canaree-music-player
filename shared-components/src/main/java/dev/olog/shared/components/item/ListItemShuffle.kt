@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.shared.components.R
-import dev.olog.shared.components.sample.PerviewProviders
+import dev.olog.shared.components.sample.DarkModePreviewProviders
 import dev.olog.shared.components.theme.CanareeTheme
 
 @Composable
 @Preview
 private fun CanareeToolbarPreview(
-    @PreviewParameter(PerviewProviders::class) isDarkTheme: Boolean
+    @PreviewParameter(DarkModePreviewProviders::class) isDarkTheme: Boolean
 ) {
     CanareeTheme(darkTheme = isDarkTheme) {
         Surface {

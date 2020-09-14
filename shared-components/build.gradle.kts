@@ -9,6 +9,7 @@ apply(from = rootProject.file("buildscripts/configure-compose.gradle"))
 dependencies {
     implementation(project(":domain")) // TODO should not depend on domain
     implementation(project(":prefs-keys")) // TODO should depend on prefs-keys??
+    implementation(project(":shared"))
     implementation(project(":shared-android"))
     implementation(project(":libraries:image-loader"))
 

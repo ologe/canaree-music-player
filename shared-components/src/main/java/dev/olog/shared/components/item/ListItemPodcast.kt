@@ -1,11 +1,10 @@
 package dev.olog.shared.components.item
 
+import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.EmphasisAmbient
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideEmphasis
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.RowScope.weight
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,40 +14,29 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
+import dev.olog.shared.components.ProgressBar
 import dev.olog.shared.components.SingleLineText
 import dev.olog.shared.components.ambient.ImageShape
 import dev.olog.shared.components.image.GlideView
 import dev.olog.shared.components.sample.ImageShapePreviewProvider
 import dev.olog.shared.components.theme.CanareeTheme
 
-//@Preview(heightDp = 68)
-//@Preview(heightDp = 68, TODO uiMode = DARK MODE YES) in 4.2 canary 10 seems not to work
-//@Composable
-//private fun ListItemTrackDarkThemePreview() {
-//    CanareeTheme() {
-//        Surface {
-//            val mediaId = MediaId.Track(MediaIdCategory.SONGS, "", "1")
-//            ListItemTrack(mediaId, "3 Doors Down", "Kryptonite")
-//        }
-//    }
-//}
-
-@Preview(heightDp = 68)
+@Preview(heightDp = 100)
 @Composable
-private fun ListItemTrackImageShapePreview(
+private fun ListItemPodcastImageShapePreview(
     @PreviewParameter(ImageShapePreviewProvider::class) shapeOverride: ImageShape,
 ) {
     CanareeTheme(shapeOverride = shapeOverride) {
         Surface {
             val mediaId = MediaId.Track(MediaIdCategory.SONGS, "", "1")
-            ListItemTrack(mediaId, "3 Doors Down", "Kryptonite")
+            ListItemPodcast(mediaId, "3 Doors Down", "Kryptonite")
         }
     }
 }
 
 @Composable
-fun ListItemTrack(
-    mediaId: MediaId,
+fun ListItemPodcast(
+    mediaId: MediaId.Track,
     title: String,
     subtitle: String,
     startPadding: Dp = 16.dp,
@@ -75,7 +63,8 @@ fun ListItemTrack(
     ) {
         GlideView(
             mediaId = mediaId,
-            modifier = Modifier.preferredSize(52.dp)
+            modifier = Modifier.preferredWidth(52.dp)
+                .aspectRatio(0.85f)
         )
         Column(
             modifier = Modifier.weight(1f)
@@ -85,6 +74,21 @@ fun ListItemTrack(
             SingleLineText(title)
             ProvideEmphasis(emphasis = EmphasisAmbient.current.medium) {
                 SingleLineText(subtitle, style = MaterialTheme.typography.body2)
+            }
+            Spacer(modifier = Modifier.preferredHeight(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalGravity = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ProgressBar(
+                    progress = 0.4f,
+                    modifier = Modifier.weight(1f)
+                        .padding(end = 16.dp)
+                )
+                ProvideEmphasis(emphasis = EmphasisAmbient.current.medium) {
+                    Text("40%", style = MaterialTheme.typography.body2)
+                }
             }
         }
         endIcon?.invoke(this)

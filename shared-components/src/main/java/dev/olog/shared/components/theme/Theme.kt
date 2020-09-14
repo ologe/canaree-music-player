@@ -1,23 +1,21 @@
 package dev.olog.shared.components.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olog.shared.components.ambient.ImageShape
-import dev.olog.shared.components.ambient.ProvideDisplayInsets
+import dev.olog.shared.components.ambient.*
 import dev.olog.shared.components.ambient.ProvideImageShapeAmbient
 import dev.olog.shared.components.extension.desaturate
 
 @Composable
 fun CanareeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    initialShape: ImageShape? = null,
+    shapeOverride: ImageShape? = null,
+    quickActionOverride: QuickAction? = null,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
@@ -31,12 +29,11 @@ fun CanareeTheme(
         typography = Theme.Type.value,
         shapes = Theme.Shape.value,
         content = {
-            ProvideDisplayInsets {
-                ProvideImageShapeAmbient(
-                    initialShape = initialShape,
-                    content = content
-                )
-            }
+            ProvideAmbients(
+                shapeOverride = shapeOverride,
+                quickActionOverride = quickActionOverride,
+                content = content
+            )
         }
     )
 
@@ -49,20 +46,47 @@ object Theme {
         val gray = Color(0xff_e8e8e8)
         val indigo = Color(0xff_3D5AFE)
 
+        val almostBlack = Color(0xFF_121212)
+        val almostWhite = Color(0xFF_dddddd)
+        val surfaceBlack = Color(0xFF_222326)
+
         val lightColors = lightColors(
+            // primary
             primary = Color.White,
             primaryVariant = gray,
-            onPrimary = Color(0xFF2b2b2b),
-
+            onPrimary = almostBlack,
+            // secondary
             secondary = indigo,
             secondaryVariant = indigo,
             onSecondary = Color.White,
+            // surface
+            surface = Color.White,
+            onSurface = almostBlack,
+            // background
+            background = Color.White,
+            onBackground = almostBlack,
+            // error
+            error = Color(0xFFB00020),
+            onError = Color.White
         )
 
         val darkColors = darkColors(
-            background = Color(0xFF_121212),
-            surface = Color(0xFF_222326),
-            secondary = indigo.desaturate()
+            // primary
+            primary = surfaceBlack,
+            primaryVariant = surfaceBlack,
+            onPrimary = almostWhite,
+            // secondary
+            secondary = indigo.desaturate(),
+            onSecondary = almostWhite,
+            // surface
+            surface = surfaceBlack,
+            onSurface = almostWhite,
+            // background
+            background = almostBlack,
+            onBackground = almostWhite,
+            // error
+            error = Color(0xFFCF6679),
+            onError = Color.Black
         )
 
     }
@@ -130,11 +154,7 @@ object Theme {
     object Shape {
 
         // TODO
-        val value = Shapes(
-            small = CutCornerShape(0.dp),
-            medium = CutCornerShape(0.dp),
-            large = CutCornerShape(0.dp)
-        )
+        val value = Shapes()
 
     }
 
