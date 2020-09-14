@@ -9,6 +9,8 @@ enum class FragmentScreen(val tag: String) {
     PLAYLIST("$PREFIX.playlist"),
     SEARCH("$PREFIX.search"),
     QUEUE("$PREFIX.queue"),
+    LIBRARY_CHOOSER("$PREFIX.library.chooser"),
+    LIBRARY_SPAN("$PREFIX.library.span"),
 
     DETAIL("$PREFIX.detail"),
     PLAYER("$PREFIX.player"),

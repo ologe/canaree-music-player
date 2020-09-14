@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentActivity
 import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
 
 interface Navigator: BottomNavigator, ServiceNavigator {
@@ -20,6 +21,8 @@ interface Navigator: BottomNavigator, ServiceNavigator {
     fun toMiniPlayer(@IdRes containerId: Int)
 
     fun toDetailFragment(mediaId: MediaId.Category, view: View?)
+
+    fun toLibrarySpan(category: MediaIdCategory)
 
     // TODO shared element??
     fun toSettings()

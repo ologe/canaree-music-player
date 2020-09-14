@@ -59,6 +59,9 @@ internal class BottomNavigatorImpl @Inject constructor(
     }
 
     override fun toLibraryChooser() {
-
+        val activity = activityProvider() ?: return
+        val fragment = fragments[FragmentScreen.LIBRARY_CHOOSER]?.get()
+        val tag = FragmentScreen.LIBRARY_CHOOSER.tag
+        replaceFragment(activity, fragment, tag, android.R.id.content)
     }
 }

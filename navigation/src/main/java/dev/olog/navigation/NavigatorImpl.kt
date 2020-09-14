@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import dev.olog.domain.MediaId
+import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
 import dev.olog.navigation.screens.FragmentScreen
 import dev.olog.navigation.transition.setupEnterAnimation
@@ -82,6 +83,14 @@ internal class NavigatorImpl @Inject constructor(
 
             }
         }
+    }
+
+    override fun toLibrarySpan(category: MediaIdCategory) {
+        val activity = activityProvider() ?: return
+        val fragment = fragments[FragmentScreen.LIBRARY_SPAN]?.get()
+        fragment?.arguments = bundleOf(Params.CATEGORY to category)
+        val tag = FragmentScreen.LIBRARY_SPAN.tag
+        replaceFragment(activity, fragment, tag, android.R.id.content)
     }
 
     override fun toSettings() {
