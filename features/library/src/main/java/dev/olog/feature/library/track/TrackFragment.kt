@@ -1,97 +1,90 @@
 package dev.olog.feature.library.track
 
-import android.os.Bundle
-import android.view.View
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.viewinterop.viewModel
+import androidx.ui.tooling.preview.Preview
+import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.feature.library.R
-import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.feature.presentation.base.extensions.argument
-import dev.olog.feature.presentation.base.extensions.withArguments
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.navigation.Navigator
-import dev.olog.navigation.Params
-import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.lazyFast
-import kotlinx.android.synthetic.main.fragment_track.emptyStateText
-import kotlinx.android.synthetic.main.fragment_track.list
-import kotlinx.android.synthetic.main.fragment_track.more
-import kotlinx.android.synthetic.main.fragment_track.sidebar
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
+import dev.olog.feature.library.sample.TrackModelProvider
+import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.shared.components.CanareeToolbar
+import dev.olog.shared.components.StatusBar
+import dev.olog.shared.components.item.ListItemShuffle
+import dev.olog.shared.components.item.ListItemTrack
+import dev.olog.shared.components.theme.CanareeTheme
+import dev.olog.shared.exhaustive
 
-@AndroidEntryPoint
-internal class TrackFragment : BaseFragment() {
+// TODO item click
+// TODO wave sidebarr bar
+// TODO more
+// TODO current playing
+// TODO swipe to delete/add to queue?
+// TODO finish podcast
+object TrackFragment {
+    @Composable
+    operator fun invoke() = TrackFragment()
+}
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance(podcast: Boolean): TrackFragment {
-            return TrackFragment().withArguments(
-                Params.PODCAST to podcast
-            )
-        }
-
+@Composable
+@Preview
+private fun TrackFragmentUiPreview(@PreviewParameter(TrackModelProvider::class) items: List<TracksFragmentModel>) {
+    CanareeTheme {
+        TrackFragmentContent(items)
     }
+}
 
-    private val isPodcast by argument<Boolean>(Params.PODCAST)
+@Composable
+private fun TrackFragment() {
+    val items by viewModel<TrackFragmentViewModel>()
+        .data.collectAsState(initial = emptyList())
+    TrackFragmentContent(items)
+}
 
-    @Inject
-    lateinit var navigator: Navigator
-
-    private val viewModel by viewModels<TrackFragmentViewModel>()
-
-//    private val adapter by lazyFast {
-//        TrackFragmentAdapter(mediaProvider, navigator, viewModel)
-//    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        list.adapter = adapter
-        list.layoutManager = OverScrollLinearLayoutManager(list)
-        list.setHasFixedSize(true)
-
-        viewModel.data
-            .onEach {
-//                adapter.submitList(it)
-                emptyStateText.isVisible = it.isEmpty()
-//                sidebar.onDataChanged(it) TODO
+@Composable
+private fun TrackFragmentContent(items: List<TracksFragmentModel>) {
+    Surface(color = MaterialTheme.colors.background) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            StatusBar()
+            CanareeToolbar(stringResource(id = R.string.common_tracks)) {
+                IconButton(onClick = {}) {
+                    Icon(asset = Icons.Rounded.MoreVert)
+                }
             }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        sidebar.scrollableLayoutId = if (isPodcast) {
-            R.layout.item_tab_podcast
-        } else {
-            R.layout.item_tab_song
+            TracksList(items)
         }
-
-        viewModel.allPodcastPositions
-            .onEach { /*adapter.updatePodcastPositions(it)*/ }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+}
 
-    override fun onResume() {
-        super.onResume()
-        more.setOnClickListener {
-            // TODO restore navigation
-//            navigator.toMainPopup(it, createPopupCategory())
-        }
-        // TODO sidebar listener
-        // TODO sort listener
+@Composable
+private fun TracksList(items: List<TracksFragmentModel>) {
+    LazyColumnFor(items = items) {
+        when (it) {
+            is TracksFragmentModel.Shuffle -> ListItemShuffle {
+                // TODO click
+            }
+            is TracksFragmentModel.Track -> ListItemTrack(
+                mediaId = it.mediaId.toDomain(),
+                title = it.title,
+                subtitle = it.subtitle
+            )
+            is TracksFragmentModel.Podcast -> ListItemTrack(
+                mediaId = it.mediaId.toDomain(),
+                title = it.title,
+                subtitle = it.subtitle
+            )
+        }.exhaustive
     }
-
-    override fun onPause() {
-        super.onPause()
-        more.setOnClickListener(null)
-    }
-
-    override fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {
-//        adapter.onCurrentPlayingChanged(adapter, mediaId)
-    }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_track
 }

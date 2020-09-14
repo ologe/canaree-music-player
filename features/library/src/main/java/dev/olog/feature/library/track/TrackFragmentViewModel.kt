@@ -10,16 +10,15 @@ import dev.olog.domain.gateway.podcast.PodcastGateway
 import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.domain.schedulers.Schedulers
-import dev.olog.feature.library.track.TrackFragmentItem.Shuffle
-import dev.olog.feature.presentation.base.model.presentationId
+import dev.olog.feature.presentation.base.model.toPresentation
+import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
-import dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED
+import dev.olog.shared.TextUtils
 import dev.olog.shared.coroutines.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import java.util.concurrent.TimeUnit
 
 internal class TrackFragmentViewModel @ViewModelInject constructor(
     @Assisted private val bundle: SavedStateHandle,
@@ -42,33 +41,24 @@ internal class TrackFragmentViewModel @ViewModelInject constructor(
     val sortOrder: SortEntity
         get() = appPreferencesUseCase.getAllTracksSort()
 
-    val data: Flow<List<TrackFragmentItem>>
+    val data: Flow<List<TracksFragmentModel>>
         get() {
-            return if (isPodcast) {
-                trackGateway.observeAllPodcasts()
-                    .mapListItem { it.toPodcast() }
-            } else {
-                trackGateway.observeAllTracks()
-                    .mapListItem { it.toTrack() }
-                    .map { it.startWithIfNotEmpty(Shuffle) }
-            }
+//            return if (isPodcast) {
+//                trackGateway.observeAllPodcasts()
+//                    .mapListItem { it.toPodcast() }
+//            } else {
+                return trackGateway.observeAllTracks()
+                    .mapListItem { it.toPresentation() }
+                    .map { it.startWithIfNotEmpty(TracksFragmentModel.Shuffle) }
+//            }
         }
 
 
-    private fun Song.toTrack(): TrackFragmentItem.Track {
-        return TrackFragmentItem.Track(
-            mediaId = presentationId,
-            title = title,
-            subtitle = "${artist}$MIDDLE_DOT_SPACED${album}"
-        )
-    }
-
-    private fun Song.toPodcast(): TrackFragmentItem.Podcast {
-        return TrackFragmentItem.Podcast(
-            mediaId = presentationId,
-            title = title,
-            subtitle = "${artist}$MIDDLE_DOT_SPACED${album}",
-            duration = TimeUnit.MILLISECONDS.toMinutes(duration)
+    private fun Song.toPresentation(): TracksFragmentModel {
+        return TracksFragmentModel.Track(
+            mediaId = this.mediaId.toPresentation(),
+            title = this.title,
+            subtitle = TextUtils.buildSubtitle(this.artist, this.album)
         )
     }
 
