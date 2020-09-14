@@ -30,6 +30,7 @@ import dev.olog.shared.components.theme.CanareeTheme
 
 // TODO item click
 // TODO wave side bar
+// TODO empty state
 object AlbumFragment {
     @Composable
     operator fun invoke() = AlbumFragment()
@@ -92,38 +93,3 @@ private fun AlbumsList(
         }
     }
 }
-
-//@AndroidEntryPoint
-//internal class AlbumFragment : BaseFragment() {
-//
-//    private val viewModel by viewModels<AlbumFragmentViewModel>()
-//
-//    @Inject
-//    lateinit var navigator: Navigator
-//
-////    private val adapter by lazyFast {
-////        AlbumFragmentAdapter(navigator)
-////    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.data
-//            .onEach {
-////                adapter.submitList(it)
-////                emptyStateText.isVisible = it.isEmpty()
-////                sidebar.onDataChanged(it)
-//            }.launchIn(viewLifecycleOwner.lifecycleScope)
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        // TODO listeners
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//    }
-//
-//    override fun provideLayoutId(): Int = R.layout.fragment_album
-//}

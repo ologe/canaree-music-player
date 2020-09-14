@@ -35,6 +35,7 @@ data class DisplayableAlbum(
 
     companion object {
         @JvmStatic
+        // TODO move
         fun readableSongCount(resources: Resources, size: Int): String {
             if (size <= 0) {
                 return ""
