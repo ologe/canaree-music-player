@@ -1,75 +1,111 @@
 package dev.olog.feature.library.artist
 
-import android.os.Bundle
-import android.view.View
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.ViewStream
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.viewinterop.viewModel
+import androidx.fragment.app.Fragment
+import androidx.ui.tooling.preview.Preview
+import androidx.ui.tooling.preview.PreviewParameter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.R
-import dev.olog.feature.library.tab.layout.manager.ArtistSpanSizeLookup
-import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.feature.presentation.base.extensions.withArguments
-import dev.olog.navigation.Navigator
-import dev.olog.navigation.Params
-import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
-import dev.olog.shared.lazyFast
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
+import dev.olog.feature.library.sample.ArtistModelProvider
+import dev.olog.feature.library.sample.SpanCountProvider
+import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.shared.components.CanareeToolbar
+import dev.olog.shared.components.GridList
+import dev.olog.shared.components.StatusBar
+import dev.olog.shared.components.item.ListItemArtist
+import dev.olog.shared.components.item.ListItemTrack
+import dev.olog.shared.components.theme.CanareeTheme
+
+// TODO item click
+// TODO wave side bar
+// TODO empty state
 
 @AndroidEntryPoint
-internal class ArtistFragment : BaseFragment() {
+class ArtistFragment : Fragment()
 
-    companion object {
+object ArtistFragment2 {
+    @Composable
+    operator fun invoke() = ArtistFragment2()
+}
 
-        @JvmStatic
-        fun newInstance(podcast: Boolean): ArtistFragment {
-            return ArtistFragment().withArguments(
-                Params.PODCAST to podcast
+@Composable
+private fun ArtistFragment2() {
+    val viewModel = viewModel<ArtistFragmentViewModel>()
+    val items by viewModel.data.collectAsState(initial = emptyList())
+    val span by viewModel.observeSpanCount().collectAsState(null)
+    if (span == null) {
+        return
+    }
+    ArtistFragmentContent(items, span!!, viewModel::updateSpan) // TODO on more click
+}
+
+@Composable
+@Preview
+private fun TrackFragmentUiPreview(
+    @PreviewParameter(SpanCountProvider::class) spanCount: Int
+) {
+    CanareeTheme {
+        ArtistFragmentContent(ArtistModelProvider.data, spanCount)
+    }
+}
+
+@Composable
+private fun ArtistFragmentContent(
+    items: List<ArtistFragmentModel>,
+    spanCount: Int,
+    updateSpan: () -> Unit = {},
+    onMoreClick: () -> Unit = {}
+) {
+    Surface(color = MaterialTheme.colors.background) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            StatusBar()
+            CanareeToolbar(stringResource(id = R.string.common_artists)) {
+                IconButton(onClick = updateSpan) {
+                    Icon(asset = Icons.Rounded.ViewStream)
+                }
+                IconButton(onClick = onMoreClick) {
+                    Icon(asset = Icons.Rounded.MoreVert)
+                }
+            }
+            ArtistsList(items, spanCount)
+        }
+    }
+}
+
+@Composable
+private fun ArtistsList(
+    items: List<ArtistFragmentModel>,
+    spanCount: Int
+) {
+    GridList(list = items, spanCount = spanCount) {
+        if (spanCount == 1) {
+            ListItemTrack(
+                mediaId = it.mediaId.toDomain(),
+                title = it.title,
+                subtitle = it.subtitle,
+                shape = CircleShape
+            )
+        } else {
+            ListItemArtist(
+                mediaId = it.mediaId.toDomain(),
+                title = it.title,
+                subtitle = it.subtitle
             )
         }
-
     }
-
-    @Inject
-    lateinit var navigator: Navigator
-
-//    private val adapter by lazyFast {
-//        ArtistFragmentAdapter(navigator)
-//    }
-
-    private val viewModel by viewModels<ArtistFragmentViewModel>()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        val spanLookup = LibrarySpanSizeLookup(viewModel.getSpanCount())
-//        val layoutManager = OverScrollGridLayoutManager(list, SPAN_COUNT)
-//        layoutManager.spanSizeLookup = spanLookup
-
-//        list.adapter = adapter
-//        list.layoutManager = layoutManager
-//        list.setHasFixedSize(true)
-
-//        sidebar.scrollableLayoutId = R.layout.item_tab_album
-
-        viewModel.data
-            .onEach {
-//                adapter.submitList(it)
-//                emptyStateText.isVisible = it.isEmpty()
-//                sidebar.onDataChanged(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // TODO listeners
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_artist
 }

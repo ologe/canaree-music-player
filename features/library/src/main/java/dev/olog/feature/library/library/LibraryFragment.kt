@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.album.AlbumFragment
+import dev.olog.feature.library.artist.ArtistFragment2
 import dev.olog.feature.library.track.TrackFragment
 import dev.olog.feature.presentation.base.activity.BaseComposeFragment
 import dev.olog.navigation.screens.LibraryPage
@@ -95,14 +96,13 @@ private fun LibraryFragmentContent() {
                 }
                 LibraryPage.TRACKS -> TrackFragment()
                 LibraryPage.ALBUMS -> AlbumFragment()
-                LibraryPage.ARTISTS -> Surface {
-
-                }
+                LibraryPage.ARTISTS -> ArtistFragment2()
                 LibraryPage.GENRES -> Surface {
 
                 }
                 null -> {
                     Stack(Modifier.fillMaxSize()) {
+                        // TODO bad background
                         CircularProgressIndicator(Modifier.gravity(Alignment.Center))
                     }
                 }

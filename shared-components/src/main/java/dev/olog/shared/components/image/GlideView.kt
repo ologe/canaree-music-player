@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageAsset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ContextAmbient
@@ -23,6 +24,7 @@ import dev.olog.shared.components.ambient.shape
 fun GlideView(
     mediaId: MediaId,
     modifier: Modifier = Modifier,
+    shape: Shape = CustomTheming.imageShape,
     contentScale: ContentScale = ContentScale.Crop
 ) {
     val image = fetchSongImage(mediaId = mediaId)
@@ -39,7 +41,7 @@ fun GlideView(
         // TODO crossfade
         Image(
             asset = image ?: placeholder,
-            modifier = Modifier.clip(CustomTheming.imageShape),
+            modifier = Modifier.clip(shape),
             contentScale = contentScale
         )
     }

@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageAsset
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.VectorAsset
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +48,7 @@ private fun ListItemAlbumCategoryPreview(
     CanareeTheme {
         Surface {
             val mediaId = MediaId.Category(category, "test")
-            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cnet")
+            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cent")
         }
     }
 }
@@ -60,7 +61,7 @@ private fun ListItemAlbumShapePreview(
     CanareeTheme(shapeOverride = shape) {
         Surface {
             val mediaId = MediaId.Category(MediaIdCategory.ALBUMS, "test")
-            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cnet")
+            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cent")
         }
     }
 }
@@ -73,16 +74,20 @@ private fun ListItemAlbumQuickActionPreview(
     CanareeTheme(quickActionOverride = action) {
         Surface {
             val mediaId = MediaId.Category(MediaIdCategory.ALBUMS, "test")
-            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cnet")
+            ListItemAlbum(mediaId, "Get Rich or Die Tryin", "50 Cent")
         }
     }
 }
 
+/**
+ * @param subtitle if blank, the text view will not be displayed
+ */
 @Composable
 fun ListItemAlbum(
     mediaId: MediaId.Category,
     title: String,
-    subtitle: String
+    subtitle: String,
+    shape: Shape = CustomTheming.imageShape
 ) {
 
     Column(
@@ -92,7 +97,8 @@ fun ListItemAlbum(
         Stack {
             GlideView(
                 mediaId = mediaId,
-                modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+                modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+                shape = shape
             )
             QuickAction(Modifier.gravity(Alignment.BottomEnd))
         }

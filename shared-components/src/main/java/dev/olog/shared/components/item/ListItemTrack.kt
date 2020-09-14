@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
@@ -16,6 +17,7 @@ import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.shared.components.SingleLineText
+import dev.olog.shared.components.ambient.CustomTheming
 import dev.olog.shared.components.ambient.ImageShape
 import dev.olog.shared.components.image.GlideView
 import dev.olog.shared.components.sample.ImageShapePreviewProvider
@@ -53,6 +55,7 @@ fun ListItemTrack(
     subtitle: String,
     startPadding: Dp = 16.dp,
     endPadding: Dp = 16.dp,
+    shape: Shape = CustomTheming.imageShape,
     onClick: ((MediaId) -> Unit) = {},
     onLongClick: ((MediaId) -> Unit) = {},
     endIcon: @Composable (RowScope.() -> Unit)? = null
@@ -75,7 +78,8 @@ fun ListItemTrack(
     ) {
         GlideView(
             mediaId = mediaId,
-            modifier = Modifier.preferredSize(52.dp)
+            modifier = Modifier.preferredSize(52.dp),
+            shape = shape
         )
         Column(
             modifier = Modifier.weight(1f)
