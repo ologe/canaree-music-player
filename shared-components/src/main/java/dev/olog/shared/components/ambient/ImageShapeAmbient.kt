@@ -1,53 +1,35 @@
 package dev.olog.shared.components.ambient
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.preference.PreferenceManager
 import dev.olog.shared.components.R
 
 val ImageShapeAmbient = staticAmbientOf<ImageShape>()
 
 @Composable
-fun ProvideImageShapeAmbient(
-    initialShape: ImageShape? = null,
+internal fun ProvideImageShapeAmbient(
+    override: ImageShape? = null,
     content: @Composable () -> Unit
 ) {
     val context = ContextAmbient.current
-
-    // TODO use androidx version
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-
-    val key = context.getString(R.string.prefs_icon_shape_key)
-    val default = context.getString(R.string.prefs_icon_shape_rounded)
-
-    var shape by remember {
-        val initialValue = initialShape ?: prefs.getString(key, default)!!.toIconShape(context)
-        mutableStateOf(initialValue)
-    }
-
-    onCommit(context) {
-
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            shape = prefs.getString(key, default)!!.toIconShape(context)
+    SharedPreferenceAmbient(
+        key = stringResource(R.string.prefs_icon_shape_key),
+        default = stringResource(R.string.prefs_icon_shape_rounded),
+        override = override,
+        mapper = { it.toIconShape(context) },
+        content = {
+            Providers(ImageShapeAmbient provides it) {
+                content()
+            }
         }
-        prefs.registerOnSharedPreferenceChangeListener(listener)
-
-        onDispose {
-            prefs.unregisterOnSharedPreferenceChangeListener(listener)
-        }
-
-    }
-
-    Providers(ImageShapeAmbient provides shape) {
-        content()
-    }
+    )
 
 }
 
