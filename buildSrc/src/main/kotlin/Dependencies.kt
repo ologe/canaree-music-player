@@ -14,7 +14,7 @@ object versions {
 
     //    core
     internal const val coroutines = "1.3.8"
-    internal const val dagger = "2.28.3"
+    internal const val dagger = "2.29.1"
     internal const val hilt = "$dagger-alpha"
     internal const val hiltX = "1.0.0-alpha02"
 
