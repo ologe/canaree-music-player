@@ -1,103 +1,64 @@
 package dev.olog.feature.library.library
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
-import androidx.fragment.app.commitNow
-import androidx.lifecycle.lifecycleScope
+import android.view.ViewGroup
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.layout.Stack
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Category
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.lib.analytics.TrackerFacade
-import dev.olog.feature.library.R
-import dev.olog.feature.presentation.base.activity.BaseFragment
-import dev.olog.feature.presentation.base.activity.HasBottomNavigation
-import dev.olog.feature.presentation.base.extensions.getArgument
-import dev.olog.feature.presentation.base.extensions.withArguments
-import dev.olog.feature.presentation.base.model.PresentationIdCategory
-import dev.olog.navigation.Navigator
-import dev.olog.navigation.screens.BottomNavigationPage
+import dev.olog.feature.library.album.AlbumFragment
+import dev.olog.feature.library.track.TrackFragment
+import dev.olog.feature.presentation.base.activity.BaseComposeFragment
 import dev.olog.navigation.screens.LibraryPage
-import dev.olog.shared.android.extensions.textColorPrimary
-import dev.olog.shared.android.extensions.textColorSecondary
-import dev.olog.shared.lazyFast
-import dev.olog.shared.mandatory
-import kotlinx.coroutines.delay
-import javax.inject.Inject
+import dev.olog.shared.components.theme.CanareeTheme
 
 @AndroidEntryPoint
-internal class LibraryFragment : BaseFragment() {
+internal class LibraryFragment : BaseComposeFragment() {
 
-    companion object {
-        const val IS_PODCAST = "is_podcast"
-
-        @JvmStatic
-        fun newInstance(isPodcast: Boolean): LibraryFragment {
-            return LibraryFragment().withArguments(
-                IS_PODCAST to isPodcast
-            )
-        }
-    }
-
-    @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
-    @Inject
-    internal lateinit var navigator: Navigator
-    @Inject
-    lateinit var trackerFacade: TrackerFacade
-
-    private val isPodcast by lazyFast {
-        getArgument<Boolean>(IS_PODCAST)
-    }
-
-    private val pagerAdapter by lazyFast {
-        LibraryFragmentAdapter(
-            requireActivity().applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
-        )
-    }
-
-//    fun isCurrentFragmentFolderTree(): Boolean {
-//        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem) == PresentationIdCategory.FOLDERS &&
-//                pagerAdapter.showFolderAsHierarchy()
-//    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        postponeEnterTransition()
-        view.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-
-        removeFolderFragment()
-
-//        viewPager.adapter = pagerAdapter
-//        tabLayout.setupWithViewPager(viewPager)
-//        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
-
-//        pagerEmptyState.isVisible = pagerAdapter.isEmpty()
-
-//        val selectedView: TextView = if (!isPodcast) tracks else podcasts
-//        val unselectedView: TextView = if (!isPodcast) podcasts else tracks
-//        selectedView.setTextColor(requireContext().textColorPrimary())
-//        unselectedView.setTextColor(requireContext().textColorSecondary())
-
-//        if (!presenter.canShowPodcasts()){
-//            podcasts.isVisible = false
-//        }
-
-        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                delay(500) // TODO try
-                // TODO should be in :navigation
-//                TutorialTapTarget.floatingWindow(floatingWindow)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                CanareeTheme {
+                    LibraryFragmentContent()
+                }
             }
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+//            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+//                delay(500) // TODO try
+                // TODO should be in :navigation
+//                TutorialTapTarget.floatingWindow(floatingWindow)
+//            }
+//        }
+    }
+
     override fun onResume() {
         super.onResume()
-//        viewPager.addOnPageChangeListener(onPageChangeListener)
 //        more.setOnClickListener {
 //             TODO restore navigation
 //            navigator.toMainPopup(it, createPopupCategory())
@@ -109,57 +70,50 @@ internal class LibraryFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-//        viewPager.removeOnPageChangeListener(onPageChangeListener)
 //        more.setOnClickListener(null)
 //        floatingWindow.setOnClickListener(null)
 //        tracks.setOnClickListener(null)
 //        podcasts.setOnClickListener(null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-//        viewPager.adapter = null
-    }
-
-    /**
-     * Since viewpager has problems with changing items, folder fragment has to be
-     * removed in order to allow the change between folder fragment types
-     */
-    private fun removeFolderFragment() {
-        val index = pagerAdapter.findFolderFragment()
-        mandatory(index >= 0) ?: return
-        val tag = pagerAdapter.tagFor(index)
-        mandatory(tag != null) ?: return
-        val fragment = childFragmentManager.findFragmentByTag(tag)
-        mandatory(fragment != null) ?: return
-
-        childFragmentManager.commitNow(true) {
-            remove(fragment!!)
-        }
-    }
-
-
-//    private fun createPopupCategory(): MainPopupCategory {
+//    private fun createPopupCategory():libra MainPopupCategory {
 //        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem).toMainPopupCategory()
 //    }
 
-    private val onPageChangeListener =
-        object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
+//    override fun provideLayoutId(): Int = R.layout.fragment_library
+}
 
-            override fun onPageSelected(position: Int) {
-                presenter.setViewPagerLastPage(position, isPodcast)
-                val category = pagerAdapter.getCategoryAtPosition(position)
-                trackerFacade.trackScreen(category.toString(), null)
+@Composable
+private fun LibraryFragmentContent() {
+    val viewModel = viewModel<LibraryChooserFragmentViewModel>()
+    val page by viewModel.libraryPageFlow.collectAsState(null)
+    Stack {
+        Crossfade(current = page) {
+            when (it) {
+                LibraryPage.FOLDERS -> Surface {
 
+                }
+                LibraryPage.TRACKS -> TrackFragment()
+                LibraryPage.ALBUMS -> AlbumFragment()
+                LibraryPage.ARTISTS -> Surface {
+
+                }
+                LibraryPage.GENRES -> Surface {
+
+                }
+                null -> {
+                    Stack(Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(Modifier.gravity(Alignment.Center))
+                    }
+                }
             }
         }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_library
+        FloatingActionButton(
+            modifier = Modifier.gravity(Alignment.BottomEnd)
+                .padding(16.dp),
+            onClick = viewModel::toChooseLibrary
+        ) {
+            Icon(asset = Icons.Rounded.Category)
+        }
+    }
 }

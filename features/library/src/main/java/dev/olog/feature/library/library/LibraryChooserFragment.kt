@@ -1,70 +1,82 @@
 package dev.olog.feature.library.library
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.viewinterop.viewModel
+import androidx.ui.tooling.preview.Preview
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.R
-import dev.olog.feature.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.feature.presentation.base.adapter.SimpleAdapter
-import dev.olog.feature.presentation.base.fragment.BaseBottomSheetFragment
 import dev.olog.feature.presentation.base.prefs.CommonPreferences
 import dev.olog.navigation.screens.LibraryPage
-import dev.olog.shared.android.extensions.colorAccent
-import dev.olog.shared.android.extensions.textColorPrimary
+import dev.olog.shared.components.SingleChoiceList
+import dev.olog.shared.components.theme.CanareeTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LibraryChooserFragment : BaseBottomSheetFragment() {
+class LibraryChooserFragment : BottomSheetDialogFragment() {
 
     @Inject
     internal lateinit var prefs: CommonPreferences
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        list.adapter = LibraryChooserAdapter(page, this::onClick).apply {
-//            submitList(LibraryPage.values().toList())
-//        }
-//        list.layoutManager = LinearLayoutManager(requireContext())
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                CanareeTheme {
+                    val viewModel = viewModel<LibraryChooserFragmentViewModel>()
+                    Surface(Modifier.fillMaxWidth()) {
+                        LibraryChooserFragmentContent(viewModel.libraryPage) {
+                            viewModel.libraryPage = it
+                            dismiss()
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    private fun onClick(page: LibraryPage) {
-//        prefs.setLibraryPage(page)
-//        dismiss()
-    }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_album
 }
-//
-//private class LibraryChooserAdapter(
-//    private val current: LibraryPage,
-//    private val onClick: (LibraryPage) -> Unit
-//) : SimpleAdapter<LibraryPage>() {
-//
-//    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-//        viewHolder.itemView.setOnClickListener {
-//            onClick(getItem(viewHolder.adapterPosition))
-//        }
-//    }
-//
-//    override fun bind(holder: DataBoundViewHolder, item: LibraryPage, position: Int) = with (holder) {
-//        val context = itemView.context
-//        val isSelected = current == item
-//        title.text = item.textify(context)
-//        title.setTextColor(if (isSelected) context.colorAccent() else context.textColorPrimary())
-//        itemView.isSelected = isSelected
-//    }
-//
-//    private fun LibraryPage.textify(context: Context): String = when (this) {
-//        LibraryPage.FOLDERS -> context.getString(R.string.common_folders)
-//        LibraryPage.TRACKS -> context.getString(R.string.common_tracks)
-//        LibraryPage.ALBUMS -> context.getString(R.string.common_albums)
-//        LibraryPage.ARTISTS -> context.getString(R.string.common_artists)
-//        LibraryPage.GENRES -> context.getString(R.string.common_genres)
-//        LibraryPage.PODCASTS -> context.getString(R.string.common_podcasts)
-//        LibraryPage.PODCSATS_ARTISTS -> context.getString(R.string.common_podcast_artist)
-//    }
-//
-//    override fun getItemViewType(position: Int): Int = R.layout.item_library_chooser
-//}
+
+@Composable
+@Preview
+private fun LibraryChooserFragmentContentPreview() {
+    CanareeTheme {
+        LibraryChooserFragmentContent(LibraryPage.ALBUMS)
+    }
+}
+
+@Composable
+private fun LibraryChooserFragmentContent(
+    current: LibraryPage,
+    dismiss: (LibraryPage) -> Unit = {}
+) {
+    SingleChoiceList(
+        items = LibraryPage.values().toList(),
+        selected = current,
+        text = { it.textify() },
+        onClick = dismiss
+    )
+}
+
+@Composable
+private fun LibraryPage.textify(): String = when (this) {
+    LibraryPage.FOLDERS -> stringResource(R.string.common_folders)
+    LibraryPage.TRACKS -> stringResource(R.string.common_tracks)
+    LibraryPage.ALBUMS -> stringResource(R.string.common_albums)
+    LibraryPage.ARTISTS -> stringResource(R.string.common_artists)
+    LibraryPage.GENRES -> stringResource(R.string.common_genres)
+//    LibraryPage.PODCASTS -> stringResource(R.string.common_podcasts) TODO
+//    LibraryPage.PODCSATS_ARTISTS -> stringResource(R.string.common_podcast_artist)
+}
