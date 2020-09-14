@@ -10,26 +10,15 @@ internal class LibraryCategoriesFragmentPresenter @Inject constructor(
 ) {
 
     fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior> {
-        if (category == MediaIdCategory.PODCASTS) {
-            return preferences.getDefaultPodcastLibraryCategories()
-        }
-        return preferences.getDefaultLibraryCategories()
+        TODO("remove this")
     }
 
     fun getDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior> {
-        if (category == MediaIdCategory.PODCASTS) {
-            return preferences.getPodcastLibraryCategories()
-        }
-        return preferences.getLibraryCategories()
+        TODO("remove this")
     }
 
     fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>) {
-        if (category == MediaIdCategory.PODCASTS) {
-            preferences.setPodcastLibraryCategories(list)
-        } else {
-            preferences.setLibraryCategories(list)
-        }
-
+        TODO("remove this")
     }
 
 }
