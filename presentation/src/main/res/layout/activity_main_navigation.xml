@@ -15,6 +15,7 @@
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/sliding_panel_peek_plus_navigation"
         android:clipChildren="false"
+        app:gestureInsetBottomIgnored="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <androidx.fragment.app.FragmentContainerView

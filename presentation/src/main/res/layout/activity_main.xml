@@ -9,7 +9,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/sliding_panel_peek_plus_navigation"/>
 
     <include layout="@layout/activity_main_navigation"/>
 
