@@ -29,7 +29,7 @@ object versions {
     internal const val android_x_palette = "1.0.0"
     internal const val android_x_annotations = "1.1.0"
     internal const val android_x_coordinator = "1.1.0"
-    internal const val android_x_fragments = "1.2.5"
+    internal const val android_x_fragments = "1.3.0-alpha08"
     internal const val constraint_layout = "2.0.0-rc1"
     internal const val lifecycle = "2.2.0"
     internal const val android_x_webview = "1.2.0"
