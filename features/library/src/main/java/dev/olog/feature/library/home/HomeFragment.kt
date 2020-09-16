@@ -35,6 +35,7 @@ import dev.olog.shared.components.item.ListItemAlbum
 import dev.olog.shared.components.theme.CanareeTheme
 import dev.olog.shared.exhaustive
 
+// TODO floating window + tutorial
 @AndroidEntryPoint
 class HomeFragment : BaseComposeFragment() {
 
