@@ -6,6 +6,7 @@ import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.track.*
 import dev.olog.shared.throwNotHandled
 import kotlinx.android.parcel.Parcelize
+import javax.annotation.concurrent.Immutable
 
 enum class PresentationIdCategory {
     FOLDERS,
@@ -25,6 +26,7 @@ enum class PresentationIdCategory {
     HEADER
 }
 
+@Immutable
 sealed class PresentationId(
     open val category: PresentationIdCategory,
     open val categoryId: String
@@ -48,6 +50,7 @@ sealed class PresentationId(
     }
 
     @Parcelize
+    @Immutable
     data class Category(
         override val category: PresentationIdCategory,
         override val categoryId: String
@@ -68,6 +71,7 @@ sealed class PresentationId(
     }
 
     @Parcelize
+    @Immutable
     data class Track(
         override val category: PresentationIdCategory,
         override val categoryId: String,

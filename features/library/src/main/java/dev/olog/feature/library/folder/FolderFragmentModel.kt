@@ -1,33 +1,40 @@
 package dev.olog.feature.library.folder
 
 import dev.olog.feature.presentation.base.model.PresentationId
+import javax.annotation.concurrent.Immutable
 
-sealed class FolderFragmentItem {
+@Immutable
+sealed class FolderFragmentModel {
 
-    data class BreadCrumb(
-        val file: java.io.File
-    ) : FolderFragmentItem()
-
+    @Immutable
     data class Header(
         val title: String
-    ) : FolderFragmentItem()
+    ) : FolderFragmentModel()
 
+    @Immutable
     data class Album(
         val mediaId: PresentationId.Category,
         val title: String,
         val subtitle: String
-    ) : FolderFragmentItem()
+    ) : FolderFragmentModel()
 
+    @Immutable
     data class File(
         val mediaId: PresentationId.Category, // don't have the id, just the path
         val title: String,
         val path: String
-    ) : FolderFragmentItem()
+    ) : FolderFragmentModel()
 
+    @Immutable
     data class Folder(
         val mediaId: PresentationId.Category,
         val title: String,
         val path: String
-    ) : FolderFragmentItem()
+    ) : FolderFragmentModel() {
+
+        val file: java.io.File
+            get() = java.io.File(path)
+
+    }
 
 }
