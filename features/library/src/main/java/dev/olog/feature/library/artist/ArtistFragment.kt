@@ -36,16 +36,13 @@ import dev.olog.shared.components.theme.CanareeTheme
 // TODO wave side bar
 // TODO empty state
 
-@AndroidEntryPoint
-class ArtistFragment : Fragment()
-
-object ArtistFragment2 {
+object ArtistFragment {
     @Composable
-    operator fun invoke() = ArtistFragment2()
+    operator fun invoke() = ArtistFragment()
 }
 
 @Composable
-private fun ArtistFragment2() {
+private fun ArtistFragment() {
     val viewModel = viewModel<ArtistFragmentViewModel>()
     val items by viewModel.data.collectAsState(initial = emptyList())
     val span by viewModel.observeSpanCount().collectAsState(null)
