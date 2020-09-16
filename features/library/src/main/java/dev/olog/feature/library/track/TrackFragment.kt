@@ -20,6 +20,7 @@ import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.feature.library.R
 import dev.olog.feature.library.sample.TrackModelProvider
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.shared.components.Background
 import dev.olog.shared.components.CanareeToolbar
 import dev.olog.shared.components.StatusBar
 import dev.olog.shared.components.item.ListItemShuffle
@@ -56,7 +57,7 @@ private fun TrackFragment() {
 
 @Composable
 private fun TrackFragmentContent(items: List<TracksFragmentModel>) {
-    Surface(color = MaterialTheme.colors.background) {
+    Background {
         Column(modifier = Modifier.fillMaxSize()) {
             StatusBar()
             CanareeToolbar(stringResource(id = R.string.common_tracks)) {

@@ -24,6 +24,7 @@ import dev.olog.feature.library.R
 import dev.olog.feature.library.sample.ArtistModelProvider
 import dev.olog.feature.library.sample.SpanCountProvider
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.shared.components.Background
 import dev.olog.shared.components.CanareeToolbar
 import dev.olog.shared.components.GridList
 import dev.olog.shared.components.StatusBar
@@ -71,7 +72,7 @@ private fun ArtistFragmentContent(
     updateSpan: () -> Unit = {},
     onMoreClick: () -> Unit = {}
 ) {
-    Surface(color = MaterialTheme.colors.background) {
+    Background {
         Column(modifier = Modifier.fillMaxSize()) {
             StatusBar()
             CanareeToolbar(stringResource(id = R.string.common_artists)) {

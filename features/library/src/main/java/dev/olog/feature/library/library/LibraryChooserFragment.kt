@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.R
 import dev.olog.feature.presentation.base.prefs.CommonPreferences
 import dev.olog.navigation.screens.LibraryPage
+import dev.olog.shared.components.Background
 import dev.olog.shared.components.SingleChoiceList
 import dev.olog.shared.components.theme.CanareeTheme
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class LibraryChooserFragment : BottomSheetDialogFragment() {
             setContent {
                 CanareeTheme {
                     val viewModel = viewModel<LibraryChooserFragmentViewModel>()
-                    Surface(Modifier.fillMaxWidth()) {
+                    Background(Modifier.fillMaxWidth()) {
                         LibraryChooserFragmentContent(viewModel.libraryPage) {
                             viewModel.libraryPage = it
                             dismiss()

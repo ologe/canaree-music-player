@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.sample.HomeModelProvider
 import dev.olog.feature.presentation.base.activity.BaseComposeFragment
 import dev.olog.feature.presentation.base.model.toDomain
+import dev.olog.shared.components.Background
 import dev.olog.shared.components.CanareeToolbar
 import dev.olog.shared.components.Header
 import dev.olog.shared.components.StatusBar
@@ -78,7 +79,7 @@ private fun HomeContentPreview() {
 
 @Composable
 private fun EmptyContent() {
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+    Background {
         Column {
             StatusBar()
             CanareeToolbar("Home") // TODO use string resource and localiza
@@ -91,7 +92,7 @@ private fun EmptyContent() {
 
 @Composable
 private fun HomeContent(items: List<HomeFragmentModel>) {
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+    Background {
         Column {
             StatusBar()
             CanareeToolbar("Home") // TODO use string resource and localiza
