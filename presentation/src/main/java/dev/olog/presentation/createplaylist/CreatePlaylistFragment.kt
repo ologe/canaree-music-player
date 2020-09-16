@@ -71,7 +71,6 @@ class CreatePlaylistFragment : BaseFragment(),
 
         viewModel.data
             .onEach {
-                restoreUpperWidgetsTranslation()
                 adapter.suspendSubmitList(it)
 //                list.awaitAnimationEnd()
 //                emptyStateText.isVisible = it.isEmpty()

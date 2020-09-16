@@ -284,7 +284,6 @@ class DetailFragment : BaseFragment(),
     }
 
     private fun restoreTranslations() {
-        restoreUpperWidgetsTranslation()
 //        back.animate().alpha(1f)
 //        filter.animate().alpha(1f)
 //        more.animate().alpha(1f)

@@ -96,7 +96,6 @@ class SearchFragment : BaseFragment(),
             .onEach {
                 adapter.submitList(it)
 //                emptyStateText.isVisible = it.isEmpty()
-                restoreUpperWidgetsTranslation()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.albumsData

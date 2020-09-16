@@ -65,7 +65,6 @@ internal class FolderTreeFragment : BaseFragment(),
 
         viewModel.children
             .onEach {
-                restoreUpperWidgetsTranslation()
 //                crumbsWrapper.animate().translationY(0f)
                 adapter.submitList(it)
 //                emptyState.isVisible = it.isEmpty()

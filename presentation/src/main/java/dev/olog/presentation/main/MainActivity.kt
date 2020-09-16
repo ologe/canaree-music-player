@@ -6,10 +6,8 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.extensions.getTopFragment
@@ -17,25 +15,19 @@ import dev.olog.domain.MediaId
 import dev.olog.feature.app.shortcuts.Shortcuts
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.feature.presentation.base.FloatingWindow
-import dev.olog.feature.presentation.base.activity.HasScrollingInterface
-import dev.olog.feature.presentation.base.activity.HasSlidingPanel
-import dev.olog.feature.presentation.base.activity.SharedViewModel
+import dev.olog.feature.presentation.base.activity.*
 import dev.olog.feature.presentation.base.extensions.*
 import dev.olog.feature.presentation.base.model.PresentationId
 import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
-import dev.olog.presentation.R
-import dev.olog.feature.presentation.base.activity.HasBottomNavigation
-import dev.olog.feature.presentation.base.activity.OnPermissionChanged
-import dev.olog.feature.presentation.base.activity.Permission
-import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.navigation.Navigator
+import dev.olog.navigation.screens.BottomNavigationPage
+import dev.olog.presentation.R
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.widgets.SlidingPanelFade
 import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
-import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.theme.BottomSheetType
 import dev.olog.shared.android.theme.themeManager
 import kotlinx.coroutines.flow.filterIsInstance
@@ -49,7 +41,6 @@ import javax.inject.Inject
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
     HasBottomNavigation,
-    HasScrollingInterface,
     OnPermissionChanged {
 
     private val viewModel by viewModels<MainActivityViewModel>()
@@ -216,9 +207,6 @@ class MainActivity : MusicGlueActivity(),
                     return
                 }
             }
-            if (tryPopFolderBack()) {
-                return
-            }
 
             super.onBackPressed()
         } catch (ex: IllegalStateException) {
@@ -226,22 +214,6 @@ class MainActivity : MusicGlueActivity(),
             Timber.e(ex)
         }
 
-    }
-
-    private fun tryPopFolderBack(): Boolean {
-//        TODO
-        return false
-//        val categoriesFragment = supportFragmentManager
-//            .findFragmentByTag(LibraryFragment.TAG_TRACK) as? LibraryFragment
-//            ?: return false
-//
-//        if (categoriesFragment.isVisible && categoriesFragment.isCurrentFragmentFolderTree()){
-//            val folderTree = categoriesFragment.childFragmentManager.fragments
-//                .filter { it.isVisible }
-//                .find { it is FolderTreeFragment } as? CanHandleOnBackPressed
-//            return folderTree?.handleOnBackPressed() == true
-//        }
-//        return false
     }
 
     override fun getSlidingPanel(): BottomSheetBehavior<*> {
@@ -255,9 +227,5 @@ class MainActivity : MusicGlueActivity(),
     override fun navigate(page: BottomNavigationPage) {
         bottomNavigation.navigate(page)
     }
-
-    override fun restoreUpperWidgetsTranslation(){
-        findViewById<View>(R.id.toolbar)?.animate()?.translationY(0f)
-        findViewById<View>(R.id.tabLayout)?.animate()?.translationY(0f)
-    }
+    
 }

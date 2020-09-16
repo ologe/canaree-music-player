@@ -26,10 +26,6 @@ abstract class BaseComposeFragment : Fragment() {
         return (requireActivity() as HasSlidingPanel).getSlidingPanel()
     }
 
-    fun restoreUpperWidgetsTranslation(){
-        (requireActivity() as HasScrollingInterface).restoreUpperWidgetsTranslation()
-    }
-
     protected open fun onCurrentPlayingChanged(mediaId: PresentationId.Track) {}
 
     protected val mediaProvider: MediaProvider

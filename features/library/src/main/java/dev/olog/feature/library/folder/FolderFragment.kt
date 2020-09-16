@@ -25,6 +25,7 @@ import dev.olog.shared.components.theme.CanareeTheme
 import dev.olog.shared.exhaustive
 import java.io.File
 
+// TODO pop folder back on back pressed
 object FolderFragment {
     @Composable
     operator fun invoke() = FolderFragment()
