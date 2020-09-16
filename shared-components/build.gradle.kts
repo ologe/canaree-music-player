@@ -1,6 +1,11 @@
 plugins {
     id(buildPlugins.androidLibrary)
     id(buildPlugins.kotlinAndroid)
+    id(buildPlugins.kotlinAndroidExtensions)
+}
+
+androidExtensions {
+    isExperimental = true
 }
 
 apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))

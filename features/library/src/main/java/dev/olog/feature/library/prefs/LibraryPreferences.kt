@@ -1,9 +1,7 @@
 package dev.olog.feature.library.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.domain.MediaIdCategory
 import dev.olog.feature.library.SpanCountController
 import dev.olog.feature.library.model.TabCategory
@@ -14,6 +12,24 @@ import javax.inject.Inject
 internal class LibraryPreferences @Inject constructor(
     private val preferences: SharedPreferences
 ) {
+
+    companion object {
+        private const val TAG = "prefs" // TODO merged tags
+        private const val FOLDER_HIERARCHY = "$TAG.FOLDER_HIERARCHY"
+    }
+
+    var isFolderHierarchy: Boolean
+        get() = preferences.getBoolean(FOLDER_HIERARCHY, false)
+        set(value) {
+            preferences.edit {
+                preferences.edit {
+                    putBoolean(FOLDER_HIERARCHY, value)
+                }
+            }
+        }
+
+    val isFolderHierarchyFlow: Flow<Boolean>
+        get() = preferences.observeKey(FOLDER_HIERARCHY, false)
 
     fun getSpanCount(category: MediaIdCategory): Int {
         return preferences.getInt("${category}_library_span", getDefaultSpan(category))
