@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.feature.library.album.AlbumFragment
-import dev.olog.feature.library.artist.ArtistFragment2
+import dev.olog.feature.library.artist.ArtistFragment
+import dev.olog.feature.library.folder.FolderFragment
 import dev.olog.feature.library.track.TrackFragment
 import dev.olog.feature.presentation.base.activity.BaseComposeFragment
 import dev.olog.navigation.screens.LibraryPage
@@ -47,41 +48,6 @@ internal class LibraryFragment : BaseComposeFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
-//            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-//                delay(500) // TODO try
-                // TODO should be in :navigation
-//                TutorialTapTarget.floatingWindow(floatingWindow)
-//            }
-//        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        more.setOnClickListener {
-//             TODO restore navigation
-//            navigator.toMainPopup(it, createPopupCategory())
-//        }
-//        floatingWindow.setOnClickListener {
-//            navigator.toFloating()
-//        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-//        more.setOnClickListener(null)
-//        floatingWindow.setOnClickListener(null)
-//        tracks.setOnClickListener(null)
-//        podcasts.setOnClickListener(null)
-    }
-
-//    private fun createPopupCategory():libra MainPopupCategory {
-//        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem).toMainPopupCategory()
-//    }
-
-//    override fun provideLayoutId(): Int = R.layout.fragment_library
 }
 
 @Composable
@@ -91,12 +57,10 @@ private fun LibraryFragmentContent() {
     Stack {
         Crossfade(current = page) {
             when (it) {
-                LibraryPage.FOLDERS -> Surface {
-
-                }
+                LibraryPage.FOLDERS -> FolderFragment()
                 LibraryPage.TRACKS -> TrackFragment()
                 LibraryPage.ALBUMS -> AlbumFragment()
-                LibraryPage.ARTISTS -> ArtistFragment2()
+                LibraryPage.ARTISTS -> ArtistFragment()
                 LibraryPage.GENRES -> Surface {
 
                 }
