@@ -37,7 +37,7 @@ internal class BottomNavigatorImpl @Inject constructor(
     ) {
         topFragment.setupExitAnimation(activity)
 
-        replaceFragment(activity, fragments[screen]?.get(), screen.tag) { fragment ->
+        replaceFragment(activity, fragments[screen]?.get(), screen.tag, forced = true) { fragment ->
             fragment.setupEnterAnimation(activity)
         }
     }
@@ -53,7 +53,7 @@ internal class BottomNavigatorImpl @Inject constructor(
         }
         topFragment?.setupExitAnimation(activity)
 
-        replaceFragment(activity, fragments[screen]?.get(), screen.tag) { fragment ->
+        replaceFragment(activity, fragments[screen]?.get(), screen.tag, forced = true) { fragment ->
             fragment.setupEnterAnimation(activity)
         }
     }
