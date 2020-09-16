@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
@@ -16,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.viewModel
 import androidx.ui.tooling.preview.Preview
-import androidx.ui.tooling.preview.PreviewParameter
 import dev.olog.feature.library.R
 import dev.olog.feature.library.sample.TrackModelProvider
 import dev.olog.feature.presentation.base.model.toDomain
@@ -42,9 +39,9 @@ object TrackFragment {
 
 @Composable
 @Preview
-private fun TrackFragmentUiPreview(@PreviewParameter(TrackModelProvider::class) items: List<TracksFragmentModel>) {
+private fun TrackFragmentUiPreview() {
     CanareeTheme {
-        TrackFragmentContent(items)
+        TrackFragmentContent(TrackModelProvider.data)
     }
 }
 

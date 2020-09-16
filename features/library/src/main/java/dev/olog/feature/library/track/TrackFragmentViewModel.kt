@@ -11,7 +11,6 @@ import dev.olog.domain.gateway.track.TrackGateway
 import dev.olog.domain.prefs.SortPreferences
 import dev.olog.domain.schedulers.Schedulers
 import dev.olog.feature.presentation.base.model.toPresentation
-import dev.olog.navigation.Navigator
 import dev.olog.navigation.Params
 import dev.olog.shared.TextUtils
 import dev.olog.shared.coroutines.mapListItem
