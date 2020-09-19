@@ -43,6 +43,47 @@
       <module name="canaree-music-player.shared-android" target="11" />
       <module name="canaree-music-player.shared-components" target="11" />
       <module name="canaree-music-player.test-shared" target="11" />
+      <module name="canaree.app" target="11" />
+      <module name="canaree.buildSrc" target="11" />
+      <module name="canaree.core" target="11" />
+      <module name="canaree.data" target="11" />
+      <module name="canaree.data-spotify" target="11" />
+      <module name="canaree.exoplayer-extension-ffmpeg" target="11" />
+      <module name="canaree.exoplayer-extension-flac" target="11" />
+      <module name="canaree.exoplayer-extension-opus" target="11" />
+      <module name="canaree.exoplayer-library-core" target="11" />
+      <module name="canaree.exoplayer-testutils" target="11" />
+      <module name="canaree.features.about" target="11" />
+      <module name="canaree.features.app-shortcuts" target="11" />
+      <module name="canaree.features.detail" target="11" />
+      <module name="canaree.features.edit" target="11" />
+      <module name="canaree.features.equalizer" target="11" />
+      <module name="canaree.features.library" target="11" />
+      <module name="canaree.features.onboarding" target="11" />
+      <module name="canaree.features.player" target="11" />
+      <module name="canaree.features.player-mini" target="11" />
+      <module name="canaree.features.presentation-base" target="11" />
+      <module name="canaree.features.queue" target="11" />
+      <module name="canaree.features.search" target="11" />
+      <module name="canaree.features.service-floating" target="11" />
+      <module name="canaree.features.service-music" target="11" />
+      <module name="canaree.features.settings" target="11" />
+      <module name="canaree.flavors.full" target="11" />
+      <module name="canaree.flavors.lite" target="11" />
+      <module name="canaree.intents" target="11" />
+      <module name="canaree.libraries.analytics" target="11" />
+      <module name="canaree.libraries.audio-tagger" target="11" />
+      <module name="canaree.libraries.equalizer" target="11" />
+      <module name="canaree.libraries.image-loader" target="11" />
+      <module name="canaree.libraries.media" target="11" />
+      <module name="canaree.libraries.network" target="11" />
+      <module name="canaree.libraries.offline-lyrics" target="11" />
+      <module name="canaree.navigation" target="11" />
+      <module name="canaree.prefs-keys" target="11" />
+      <module name="canaree.presentation" target="11" />
+      <module name="canaree.shared-android" target="11" />
+      <module name="canaree.shared-components" target="11" />
+      <module name="canaree.test-shared" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
