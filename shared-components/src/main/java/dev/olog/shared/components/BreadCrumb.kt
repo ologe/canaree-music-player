@@ -49,7 +49,7 @@ fun BreadCrumb(
             .fillMaxWidth()
             .preferredHeight(56.dp)
             .padding(start = 32.dp),
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         val splits = state.currentFile.path.split(File.separator)
         for ((index, item) in splits.withIndex()) {

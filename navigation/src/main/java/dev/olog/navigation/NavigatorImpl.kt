@@ -38,22 +38,6 @@ internal class NavigatorImpl @Inject constructor(
         replaceFragment(activity, fragment, tag, android.R.id.content, forced = true)
     }
 
-    override fun toPlayer(containerId: Int) {
-        return
-        val activity = activityProvider() ?: return
-        val fragment = fragments[FragmentScreen.PLAYER]?.get()
-        val tag = FragmentScreen.PLAYER.tag
-        replaceFragment(activity, fragment, tag, containerId, forced = true)
-    }
-
-    override fun toMiniPlayer(containerId: Int) {
-        return
-        val activity = activityProvider() ?: return
-        val fragment = fragments[FragmentScreen.PLAYER_MINI]?.get()
-        val tag = FragmentScreen.PLAYER_MINI.tag
-        replaceFragment(activity, fragment, tag, containerId, forced = true)
-    }
-
     override fun toDetailFragment(mediaId: MediaId.Category, view: View?) {
         val activity = activityProvider() ?: return
         // TODO collapse here

@@ -1,8 +1,6 @@
 package dev.olog.navigation
 
 import android.view.View
-import androidx.annotation.IdRes
-import androidx.fragment.app.FragmentActivity
 import dev.olog.domain.MediaId
 import dev.olog.domain.MediaIdCategory
 import dev.olog.domain.entity.PlaylistType
@@ -15,10 +13,6 @@ interface Navigator: BottomNavigator, ServiceNavigator {
     }
 
     fun toFirstAccess()
-
-    fun toPlayer(@IdRes containerId: Int)
-
-    fun toMiniPlayer(@IdRes containerId: Int)
 
     fun toDetailFragment(mediaId: MediaId.Category, view: View?)
 

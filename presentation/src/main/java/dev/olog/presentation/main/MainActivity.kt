@@ -5,20 +5,44 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.viewModels
+import androidx.compose.foundation.Icon
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Audiotrack
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.PlaylistPlay
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.VectorAsset
+import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import androidx.ui.tooling.preview.Preview
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.extensions.getTopFragment
+import dev.olog.core.extensions.setMatchParent
 import dev.olog.domain.MediaId
 import dev.olog.feature.app.shortcuts.Shortcuts
 import dev.olog.feature.presentation.base.CanHandleOnBackPressed
 import dev.olog.feature.presentation.base.FloatingWindow
 import dev.olog.feature.presentation.base.activity.*
 import dev.olog.feature.presentation.base.extensions.*
-import dev.olog.feature.presentation.base.model.PresentationId
-import dev.olog.feature.presentation.base.model.toPresentation
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
@@ -26,25 +50,24 @@ import dev.olog.navigation.Navigator
 import dev.olog.navigation.screens.BottomNavigationPage
 import dev.olog.presentation.R
 import dev.olog.presentation.rateapp.RateAppDialog
-import dev.olog.presentation.widgets.SlidingPanelFade
-import dev.olog.presentation.widgets.bottomnavigator.CanareeBottomNavigationView
-import dev.olog.shared.android.theme.BottomSheetType
-import dev.olog.shared.android.theme.themeManager
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import dev.olog.shared.components.sliding.panel.SlidingPanel
+import dev.olog.shared.components.sliding.panel.SlidingPanelState
+import dev.olog.shared.components.sliding.panel.rememberSlidingPanelState
+import dev.olog.shared.components.theme.CanareeTheme
 import timber.log.Timber
 import javax.inject.Inject
 
+private val SlidingPanelHeight = 60.dp
+private val BottomNavigationHeight = 50.dp
+
+// TODO restore landscape??
+// TODO test immersive on different devices
 @AndroidEntryPoint
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
-    HasBottomNavigation,
     OnPermissionChanged {
 
-    private val viewModel by viewModels<MainActivityViewModel>()
-    private val sharedViewModel by viewModels<SharedViewModel>()
+    private val viewModel by viewModels<MainActivityViewModel2>()
 
     @Inject
     internal lateinit var navigator: Navigator
@@ -58,53 +81,26 @@ class MainActivity : MusicGlueActivity(),
     @Inject
     lateinit var rateAppDialog: RateAppDialog
 
-    // TODO temp, improve
-    private val rootView: View
-        get() = findViewById(R.id.rootView)
-    private val slidingPanel: View
-        get() = findViewById(R.id.slidingPanel)
-    private val slidingPanelFade: SlidingPanelFade
-        get() = findViewById(R.id.slidingPanelFade)
-    private val bottomWrapper: View
-        get() = findViewById(R.id.bottomWrapper)
-    private val bottomNavigation: CanareeBottomNavigationView
-        get() = findViewById(R.id.bottomNavigation)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        navigator.toPlayer(R.id.playerFragment)
-        navigator.toMiniPlayer(R.id.miniPlayerFragment)
-
-        observeMetadata()
-            .map { it.mediaId.toPresentation() }
-            .filterIsInstance<PresentationId.Track>()
-            .onEach { sharedViewModel.setCurrentPlaying(it) }
-            .launchIn(lifecycleScope)
-
-        if (themeManager.isImmersive){
-            // workaround, on some device on immersive mode bottom navigation disappears
-            rootView.fitsSystemWindows = true
-            slidingPanel.fitsSystemWindows = true
-            bottomWrapper.fitsSystemWindows = true
-        }
-
-        if (themeManager.playerAppearance.isMini){
-            // TODO made a resource value
-            slidingPanelFade.parallax = 0
-            slidingPanel.setHeight(dip(300))
-        }
-
-        setupSlidingPanel()
-
-        when {
-            viewModel.isFirstAccess() -> {
-                navigator.toFirstAccess()
-                return
+        setContent {
+            CanareeTheme {
+                MainActivityContent(
+                    SlidingPanelHeight,
+                    BottomNavigationHeight,
+                    viewModel.lastBottomNavigationPage,
+                    viewModel::onPageChanged
+                )
             }
-            savedInstanceState == null -> navigateToLastPage()
         }
+
+//        when { TODO handle first access in `setContent`
+//            viewModel.isFirstAccess() -> {
+//                navigator.toFirstAccess()
+//                return
+//            }
+//            savedInstanceState == null -> navigateToLastPage()
+//        }
 
         intent?.let { handleIntent(it) }
     }
@@ -115,34 +111,8 @@ class MainActivity : MusicGlueActivity(),
             connect()
         }
     }
-
-    private fun setupSlidingPanel(){
-        getSlidingPanel().peekHeight = when (themeManager.bottomSheetType) {
-            BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek_plus_navigation)
-            BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek_plus_navigation) + dip(16)
-        }
-        val peekHeight = when (themeManager.bottomSheetType) {
-            BottomSheetType.DEFAULT -> dimen(R.dimen.sliding_panel_peek)
-            BottomSheetType.FLOATING -> dimen(R.dimen.sliding_panel_peek) + dip(16)
-        }
-        if (themeManager.bottomSheetType == BottomSheetType.FLOATING) {
-//            separator.isVisible = false
-        }
-
-//        val scrollHelper = SuperCerealScrollHelper(
-//            this, ScrollType.Full(
-//                slidingPanel = slidingPanel,
-//                bottomNavigation = bottomWrapper,
-//                toolbarHeight = dimen(R.dimen.toolbar),
-//                tabLayoutHeight = dimen(R.dimen.tab),
-//                realSlidingPanelPeek = peekHeight
-//            )
-//        )
-//        lifecycle.addObserver(scrollHelper)
-    }
-
     private fun navigateToLastPage(){
-        bottomNavigation.navigateToLastPage()
+        viewModel.onPageChanged()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -152,7 +122,7 @@ class MainActivity : MusicGlueActivity(),
 
     private fun handleIntent(intent: Intent) {
         when (intent.action) {
-            Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
+            Shortcuts.SEARCH -> {}// TODO bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
@@ -198,8 +168,8 @@ class MainActivity : MusicGlueActivity(),
                     super.onBackPressed()
                     return
                 }
-                getSlidingPanelView().findViewById<RecyclerView>(R.id.list).canScrollVertically(-1) -> {
-                    getSlidingPanelView().findViewById<RecyclerView>(R.id.list).smoothScrollToPosition(0)
+                getSlidingPanelView()?.findViewById<RecyclerView>(R.id.list)?.canScrollVertically(-1) == true -> {
+                    getSlidingPanelView()?.findViewById<RecyclerView>(R.id.list)?.smoothScrollToPosition(0)
                     return
                 }
                 getSlidingPanel().isExpanded() -> {
@@ -216,16 +186,105 @@ class MainActivity : MusicGlueActivity(),
 
     }
 
-    override fun getSlidingPanel(): BottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(slidingPanel)
+    override fun getSlidingPanel(): BottomSheetBehavior<*>? {
+        return null
     }
 
-    override fun getSlidingPanelView(): View {
-        return slidingPanel
+    override fun getSlidingPanelView(): View? {
+        return null
     }
 
-    override fun navigate(page: BottomNavigationPage) {
-        bottomNavigation.navigate(page)
+}
+
+@Preview
+@Composable
+private fun MainActivityContentPreview() {
+    CanareeTheme {
+        MainActivityContent(
+            slidingPanelHeight = SlidingPanelHeight,
+            bottomNavigationHeight = BottomNavigationHeight,
+            initialPage = BottomNavigationPage.LIBRARY
+        )
     }
-    
+}
+
+@Composable
+private fun MainActivityContent(
+    slidingPanelHeight: Dp,
+    bottomNavigationHeight: Dp,
+    initialPage: BottomNavigationPage,
+    onPageChanged: (BottomNavigationPage) -> Unit = {}
+) {
+    val context = ContextAmbient.current
+    val fragmentContainer = remember {
+        FragmentContainerView(context).apply {
+            id = R.id.fragmentContainer
+            setMatchParent()
+            setMargin(bottom = context.dip(
+                slidingPanelHeight.value.toInt() + bottomNavigationHeight.value.toInt()
+            ))
+        }
+    }
+
+    Stack(Modifier.fillMaxSize()) {
+        val slidingPanelState = rememberSlidingPanelState()
+
+        AndroidView({ fragmentContainer }) {
+            // do nothing
+        }
+
+        MainActivityBottomViews(
+            slidingPanelState = slidingPanelState,
+            slidingPanelHeight = slidingPanelHeight,
+            bottomNavigationHeight = bottomNavigationHeight,
+            initialPage = initialPage,
+            onPageChanged = onPageChanged
+        )
+    }
+}
+
+@Composable
+private fun StackScope.MainActivityBottomViews(
+    slidingPanelState: SlidingPanelState,
+    slidingPanelHeight: Dp,
+    bottomNavigationHeight: Dp,
+    initialPage: BottomNavigationPage,
+    onPageChanged: (BottomNavigationPage) -> Unit
+) {
+    SlidingPanel(
+        slidingPanelState = slidingPanelState,
+        modifier = Modifier.align(Alignment.BottomCenter),
+        peek = slidingPanelHeight + bottomNavigationHeight
+    ) {
+        // TODO mini player, inject with dagger using interface?
+        // TODO player
+        // TODO merge player with miniplayer??
+    }
+
+    var lastPage by savedInstanceState { initialPage }
+    BottomNavigation(
+        modifier = Modifier.align(Alignment.BottomCenter)
+            .height(bottomNavigationHeight)
+            .offset(y = bottomNavigationHeight * slidingPanelState.fraction),
+    ) {
+        for (page in BottomNavigationPage.values()) {
+            BottomNavigationItem(
+                icon = { Icon(page.toIcon()) },
+                selected = page == lastPage,
+                onClick = {
+                    lastPage = page
+                    onPageChanged(lastPage)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun BottomNavigationPage.toIcon(): VectorAsset = when (this) {
+    BottomNavigationPage.HOME -> Icons.Rounded.Home
+    BottomNavigationPage.LIBRARY -> Icons.Rounded.Audiotrack
+    BottomNavigationPage.SEARCH -> vectorResource(id = R.drawable.vd_search_alt)
+    BottomNavigationPage.PLAYLIST -> Icons.Rounded.PlaylistPlay
+    BottomNavigationPage.QUEUE -> vectorResource(id = R.drawable.vd_queue_alt)
 }

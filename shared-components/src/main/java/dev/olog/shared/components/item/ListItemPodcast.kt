@@ -59,7 +59,7 @@ fun ListItemPodcast(
                 bottom = 8.dp
             ),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         GlideView(
             mediaId = mediaId,
@@ -78,7 +78,7 @@ fun ListItemPodcast(
             Spacer(modifier = Modifier.preferredHeight(4.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalGravity = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 ProgressBar(

@@ -5,7 +5,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 interface HasSlidingPanel {
 
-    fun getSlidingPanel(): BottomSheetBehavior<*>
-    fun getSlidingPanelView(): View
+    fun getSlidingPanel(): BottomSheetBehavior<*>?
+    fun getSlidingPanelView(): View?
 
 }

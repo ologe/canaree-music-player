@@ -13,8 +13,6 @@ enum class FragmentScreen(val tag: String) {
     LIBRARY_SPAN("$PREFIX.library.span"),
 
     DETAIL("$PREFIX.detail"),
-    PLAYER("$PREFIX.player"),
-    PLAYER_MINI("$PREFIX.player.mini"),
     SETTINGS("$PREFIX.settings"),
     ABOUT("$PREFIX.about"),
     ONBOARDING("$PREFIX.onboarding"),

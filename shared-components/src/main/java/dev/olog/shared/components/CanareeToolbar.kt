@@ -52,7 +52,7 @@ fun CanareeToolbar(
             .preferredHeight(64.dp)
             .padding(start = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalGravity = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = title,

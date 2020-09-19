@@ -39,7 +39,7 @@ class BottomSheet(
         super.onAttachedToWindow()
         val themeManager = context.themeManager
         if (themeManager.playerAppearance.isMini && themeManager.bottomSheetType == BottomSheetType.DEFAULT) {
-            (findActivity() as HasSlidingPanel).getSlidingPanel().addBottomSheetCallback(listener)
+            (findActivity() as HasSlidingPanel).getSlidingPanel()?.addBottomSheetCallback(listener)
         }
     }
 
@@ -47,7 +47,7 @@ class BottomSheet(
         super.onDetachedFromWindow()
         val themeManager = context.themeManager
         if (themeManager.playerAppearance.isMini && themeManager.bottomSheetType == BottomSheetType.DEFAULT) {
-            (findActivity() as HasSlidingPanel).getSlidingPanel().removeBottomSheetCallback(listener)
+            (findActivity() as HasSlidingPanel).getSlidingPanel()?.removeBottomSheetCallback(listener)
         }
     }
 

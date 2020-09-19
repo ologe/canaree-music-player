@@ -17,6 +17,7 @@ private const val TAG = "prefs" // TODO merged tags
 private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW"
 private const val LIBRARY_LAST_PAGE = "$TAG.LIBRARY_PAGE"
 
+// TODO merge with libraryprefs?
 class CommonPreferences @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: SharedPreferences
@@ -27,13 +28,21 @@ class CommonPreferences @Inject constructor(
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
     }
 
+    var lastBottomNavigationPage: BottomNavigationPage
+        get() = BottomNavigationPage.valueOf(preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!)
+        set(page) {
+            preferences.edit {
+                putString(BOTTOM_VIEW_LAST_PAGE, page.toString())
+            }
+        }
+
     fun getLastBottomViewPage(): BottomNavigationPage {
         val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.LIBRARY.toString())!!
         return BottomNavigationPage.valueOf(page)
     }
 
     fun setLastBottomViewPage(page: BottomNavigationPage) {
-        preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
+
     }
 
     val libraryPageFlow: Flow<LibraryPage>

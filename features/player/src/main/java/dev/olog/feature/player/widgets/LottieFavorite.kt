@@ -58,15 +58,15 @@ internal class LottieFavorite(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode){
-            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
-            slidingPanel.addBottomSheetCallback(listener)
+            isSlidingPanelExpanded = slidingPanel?.state == BottomSheetBehavior.STATE_EXPANDED
+            slidingPanel?.addBottomSheetCallback(listener)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         isSlidingPanelExpanded = false
-        slidingPanel.removeBottomSheetCallback(listener)
+        slidingPanel?.removeBottomSheetCallback(listener)
     }
 
     private fun toggleFavorite(isFavorite: Boolean) {
@@ -110,7 +110,7 @@ internal class LottieFavorite(
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+            isSlidingPanelExpanded = slidingPanel?.state == BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

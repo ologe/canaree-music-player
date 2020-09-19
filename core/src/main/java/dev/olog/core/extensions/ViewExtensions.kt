@@ -3,6 +3,8 @@ package dev.olog.core.extensions
 import android.content.Context
 import android.content.ContextWrapper
 import android.view.View
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.core.view.doOnAttach
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -31,4 +33,11 @@ fun View.findActivity(): FragmentActivity {
         context = context.baseContext
     }
     throw IllegalStateException("View $this does not have a FragmentActivity set")
+}
+
+fun View.setMatchParent() {
+    val params = layoutParams ?: LayoutParams(MATCH_PARENT, MATCH_PARENT)
+    params.width = MATCH_PARENT
+    params.height = MATCH_PARENT
+    layoutParams = params
 }

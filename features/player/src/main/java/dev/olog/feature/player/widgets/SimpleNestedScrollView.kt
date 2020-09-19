@@ -22,12 +22,12 @@ internal class SimpleNestedScrollView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addBottomSheetCallback(bottomSheetCallback)
+        slidingPanel?.addBottomSheetCallback(bottomSheetCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removeBottomSheetCallback(bottomSheetCallback)
+        slidingPanel?.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -36,7 +36,7 @@ internal class SimpleNestedScrollView(
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            isExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
+            isExpanded = slidingPanel?.state == BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

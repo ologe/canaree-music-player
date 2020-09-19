@@ -49,7 +49,7 @@ fun ListItemShuffle(
                 bottom = 8.dp
             ),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             asset = Icons.Rounded.Shuffle,

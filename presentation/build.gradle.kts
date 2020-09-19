@@ -7,6 +7,7 @@ plugins {
 }
 
 apply(from = rootProject.file("buildscripts/configure-android-defaults.gradle"))
+apply(from = rootProject.file("buildscripts/configure-compose.gradle"))
 
 dependencies {
     lintChecks(project(":lint"))
@@ -19,28 +20,25 @@ dependencies {
 
     // TODO temp
 //    implementation(project(":feature-edit"))
+    implementation(project(":shared"))
+    implementation(project(":shared-android"))
+    implementation(project(":shared-components"))
 
     implementation(project(":libraries:analytics"))
     implementation(project(":domain"))
     implementation(project(":libraries:image-loader"))
-    implementation(project(":shared-android"))
     implementation(project(":prefs-keys"))
     implementation(project(":libraries:media"))
     implementation(project(":libraries:offline-lyrics"))
     implementation(project(":intents"))
     implementation(project(":shared"))
+
     implementation(project(":libraries:equalizer"))
     implementation(project(":libraries:audio-tagger"))
 
-    implementation(libs.kotlin)
-    implementation(libs.Coroutines.core)
-
-    implementation(libs.dagger.core)
-    kapt(libs.dagger.kapt)
-    implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hiltKapt)
-    implementation(libs.dagger.hiltX)
-    kapt(libs.dagger.hiltXKapt)
+    dagger()
+    coroutines()
+    compose()
 
     implementation(libs.X.appcompat)
     implementation(libs.X.material)
@@ -75,5 +73,4 @@ dependencies {
     testImplementation(libs.Test.mockitoKotlin)
     testImplementation(libs.Test.android)
     testImplementation(libs.Test.robolectric)
-    testImplementation(libs.Coroutines.test)
 }

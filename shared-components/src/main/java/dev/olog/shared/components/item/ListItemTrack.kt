@@ -74,7 +74,7 @@ fun ListItemTrack(
                 bottom = 8.dp
             ),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         GlideView(
             mediaId = mediaId,

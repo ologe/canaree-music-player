@@ -86,8 +86,7 @@ private fun Panel(
                     orientation = Orientation.Vertical,
                     enabled = true,
                     reverseDirection = false,
-                    resistanceFactorAtMin = 0f,
-                    resistanceFactorAtMax = SwipeableConstants.StandardResistanceFactor
+                    resistance = SwipeableConstants.defaultResistanceConfig(anchors.keys, factorAtMin = 0f)
                 ),
             children = content
         )

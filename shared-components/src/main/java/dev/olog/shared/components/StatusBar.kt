@@ -3,6 +3,7 @@ package dev.olog.shared.components
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ fun StatusBar() {
         elevation = if (isSystemInDarkTheme()) 0.dp else ToolbarElevation,
         color = MaterialTheme.colors.primaryVariant,
     ) {
-        Box(modifier = Modifier.fillMaxWidth().statusBarsHeight())
+//        Box(modifier = Modifier.fillMaxWidth().statusBarsHeight()) TODO statusBarsHeight not working anymore
+        Box(modifier = Modifier.fillMaxWidth().height(24.dp)) // TODO remove hardcoded height
     }
 }
