@@ -8,7 +8,7 @@ object versions {
     val java = JavaVersion.VERSION_1_8
 
     const val kotlin = "1.4.0"
-    const val buildTools = "4.2.0-alpha10"
+    const val buildTools = "4.2.0-alpha11"
     const val gms = "4.3.3"
     const val crashlytics = "2.2.1"
 
@@ -35,7 +35,7 @@ object versions {
     internal const val android_x_webview = "1.2.0"
 
     // compose
-    const val compose = "1.0.0-alpha02"
+    const val compose = "1.0.0-alpha03"
 
     //    ui
     internal const val glide = "4.11.0"
