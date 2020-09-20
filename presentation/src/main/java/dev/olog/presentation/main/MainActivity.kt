@@ -261,7 +261,9 @@ private fun StackScope.MainActivityBottomViews(
         // TODO merge player with miniplayer??
     }
 
-    var lastPage by savedInstanceState { initialPage }
+    var lastPage by savedInstanceState {
+        initialPage.also { onPageChanged(it) }
+    }
     BottomNavigation(
         modifier = Modifier.align(Alignment.BottomCenter)
             .height(bottomNavigationHeight)
