@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentContainer
+import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -220,7 +220,7 @@ private fun MainActivityContent(
         FragmentContainerView(context).apply {
             id = R.id.fragmentContainer
             setMatchParent()
-            setMargin(bottom = context.dip(
+            updatePadding(bottom = context.dip(
                 slidingPanelHeight.value.toInt() + bottomNavigationHeight.value.toInt()
             ))
         }
