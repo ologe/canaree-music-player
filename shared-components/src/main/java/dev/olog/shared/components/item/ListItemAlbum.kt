@@ -97,7 +97,7 @@ fun ListItemAlbum(
                 modifier = Modifier.fillMaxWidth().aspectRatio(1f),
                 shape = shape
             )
-            QuickAction(Modifier.gravity(Alignment.BottomEnd))
+            QuickAction(Modifier.align(Alignment.BottomEnd))
         }
         Spacer(modifier = Modifier.height(4.dp))
         SingleLineText(

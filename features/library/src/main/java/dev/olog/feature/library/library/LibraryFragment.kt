@@ -67,13 +67,13 @@ private fun LibraryFragmentContent() {
                 null -> {
                     Stack(Modifier.fillMaxSize()) {
                         // TODO bad background
-                        CircularProgressIndicator(Modifier.gravity(Alignment.Center))
+                        CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                 }
             }
         }
         FloatingActionButton(
-            modifier = Modifier.gravity(Alignment.BottomEnd)
+            modifier = Modifier.align(Alignment.BottomEnd)
                 .padding(16.dp),
             onClick = viewModel::toChooseLibrary
         ) {
