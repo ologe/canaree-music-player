@@ -42,18 +42,6 @@ inline val Context.configuration: android.content.res.Configuration
 inline val Context.isTablet: Boolean
     get() = configuration.smallestScreenWidthDp >= 600
 
-@SuppressLint("NewApi")
-@Suppress("DEPRECATION")
-fun Context.vibrate(time: Long){
-    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    if(isOreo()){
-        val effect = VibrationEffect.createOneShot(time, VibrationEffect.DEFAULT_AMPLITUDE)
-        vibrator.vibrate(effect)
-    } else {
-        vibrator.vibrate(time)
-    }
-}
-
 inline fun Context.scrimBackground(): Int {
     return themeAttributeToColor(com.google.android.material.R.attr.scrimBackground)
 }
