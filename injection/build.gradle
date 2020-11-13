@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -27,8 +25,8 @@ dependencies {
     implementation project(':equalizer')
 
     implementation lib_core.coroutines
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
     implementation lib_x.lifecycle_viewmodel
     implementation lib_x.appcompat
@@ -37,7 +35,7 @@ dependencies {
     implementation lib_network.retrofit
     implementation lib_data.room
 
-    implementation lib_firebase.bom
+    implementation platform(lib_firebase.bom)
     implementation lib_firebase.analytics
 
     implementation lib_utils.aes_crypto

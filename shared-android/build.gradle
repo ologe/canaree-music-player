@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
@@ -9,7 +7,7 @@ dependencies {
 
     implementation lib_core.coroutines
     implementation lib_x.material
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.palette
     implementation lib_x.constraint_layout
     implementation lib_x.preference

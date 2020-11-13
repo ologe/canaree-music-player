@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
@@ -18,10 +18,10 @@ dependencies {
 
     implementation lib_core.coroutines
     implementation lib_core.coroutines_android
-    implementation lib_core.dagger
-    kapt lib_core.dagger_processor
+    implementation lib_core.hilt
+    kapt lib_core.hilt_processor
 
-    implementation lib_x.core_ktx
+    implementation lib_x.core
     implementation lib_x.media
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions
