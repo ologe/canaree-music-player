@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
@@ -54,7 +54,7 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     init {
         player.addListener(this)
-        player.setPlaybackParameters(PlaybackParameters(1f, 1f, true))
+        player.setPlaybackParameters(PlaybackParameters(1f, 1f))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
         launch {
@@ -99,8 +99,7 @@ internal class CrossFadePlayer @Inject internal constructor(
     }
 
     override fun setPlaybackSpeed(speed: Float) {
-        // skip silence
-        player.setPlaybackParameters(PlaybackParameters(speed, 1f, false))
+        player.setPlaybackParameters(PlaybackParameters(speed, 1f))
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {

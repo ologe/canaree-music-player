@@ -6,9 +6,9 @@ import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
 import dev.olog.intents.Classes
 import dev.olog.intents.WidgetConstants
 import dev.olog.service.music.model.PositionInQueue
@@ -17,7 +17,7 @@ import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.shared.throwNotHandled
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class MusicServicePlaybackState @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaSession: MediaSessionCompat,

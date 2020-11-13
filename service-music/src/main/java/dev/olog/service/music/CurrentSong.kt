@@ -3,18 +3,19 @@ package dev.olog.service.music
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastMetadata
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.entity.favorite.FavoriteStateEntity
 import dev.olog.core.entity.favorite.FavoriteType
-import dev.olog.core.interactor.*
+import dev.olog.core.interactor.InsertHistorySongUseCase
+import dev.olog.core.interactor.InsertMostPlayedUseCase
 import dev.olog.core.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.core.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedAlbumUseCase
 import dev.olog.core.interactor.lastplayed.InsertLastPlayedArtistUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.PerService
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
@@ -23,7 +24,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import javax.inject.Inject
 
-@PerService
+@ServiceScoped
 internal class CurrentSong @Inject constructor(
     insertMostPlayedUseCase: InsertMostPlayedUseCase,
     insertHistorySongUseCase: InsertHistorySongUseCase,

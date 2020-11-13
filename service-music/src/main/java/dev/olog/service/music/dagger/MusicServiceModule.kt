@@ -1,16 +1,16 @@
-package dev.olog.service.music.di
+package dev.olog.service.music.dagger
 
 import android.app.Service
 import android.content.ComponentName
-import android.content.Context
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.Lifecycle
 import androidx.media.session.MediaButtonReceiver
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.injection.dagger.PerService
-import dev.olog.injection.dagger.ServiceContext
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ServiceComponent
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.interfaces.*
@@ -21,49 +21,36 @@ import dev.olog.service.music.player.crossfade.CrossFadePlayerSwitcher
 import dev.olog.service.music.queue.QueueManager
 
 @Module
+@InstallIn(ServiceComponent::class)
 abstract class MusicServiceModule {
 
     @Binds
-    @ServiceContext
-    internal abstract fun provideContext(instance: MusicService): Context
-
-    @Binds
-    internal abstract fun provideService(instance: MusicService): Service
-
-    @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun provideServiceLifecycle(instance: MusicService): IServiceLifecycleController
 
     @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun provideQueue(queue: QueueManager): IQueue
 
     @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun providePlayer(player: PlayerImpl): IPlayer
 
     @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun providePlayerLifecycle(player: IPlayer): IPlayerLifecycle
 
     @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun providePlayerVolume(volume: PlayerVolume): IMaxAllowedPlayerVolume
 
     @Binds
-    @PerService
+    @ServiceScoped
     internal abstract fun providePlayerImpl(impl: CrossFadePlayerSwitcher): IPlayerDelegate<PlayerMediaEntity>
 
-    @Module
     companion object {
         @Provides
-        @JvmStatic
-        @ServiceLifecycle
-        internal fun provideLifecycle(instance: MusicService): Lifecycle = instance.lifecycle
-
-        @Provides
-        @JvmStatic
-        @PerService
+        @ServiceScoped
         internal fun provideMediaSession(instance: MusicService): MediaSessionCompat {
             return MediaSessionCompat(
                 instance,
@@ -72,6 +59,19 @@ abstract class MusicServiceModule {
                 null
             )
         }
+
+        @Provides
+        fun provideMusicService(service: Service): MusicService {
+            require(service is MusicService)
+            return service
+        }
+
+        @Provides
+        @ServiceLifecycle
+        fun provideLifecycle(service: MusicService): Lifecycle {
+            return service.lifecycle
+        }
+
     }
 
 }
