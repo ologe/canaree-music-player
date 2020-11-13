@@ -19,6 +19,7 @@ import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
 import dev.olog.intents.AppConstants
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
+import dev.olog.shared.android.extensions.systemService
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -33,7 +34,7 @@ abstract class BaseWidget : AbsWidgetApp() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
-            val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
+            val appWidgetManager = context.systemService<AppWidgetManager>()
             for (clazz in Classes.widgets) {
                 val ids = context.getAppWidgetsIdsFor(clazz)
                 onUpdate(context, appWidgetManager, ids)

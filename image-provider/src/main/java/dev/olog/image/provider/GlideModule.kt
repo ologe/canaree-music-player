@@ -3,7 +3,6 @@ package dev.olog.image.provider
 import android.app.ActivityManager
 import android.content.Context
 import android.util.Log
-import androidx.annotation.Keep
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -25,6 +24,7 @@ import dev.olog.image.provider.loader.GlideImageRetrieverLoader
 import dev.olog.image.provider.loader.GlideMergedImageLoader
 import dev.olog.image.provider.loader.GlideOriginalImageLoader
 import dev.olog.image.provider.model.AudioFileCover
+import dev.olog.shared.android.extensions.systemService
 import java.io.InputStream
 
 @GlideModule
@@ -49,7 +49,7 @@ internal class GlideModule : AppGlideModule() {
     }
 
     private fun defaultRequestOptions(context: Context): RequestOptions {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = context.systemService<ActivityManager>()
 
         return RequestOptions()
             // Prefer higher quality images unless we're on a low RAM device

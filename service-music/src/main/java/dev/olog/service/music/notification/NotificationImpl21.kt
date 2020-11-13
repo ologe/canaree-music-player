@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.support.v4.media.session.MediaSessionCompat
@@ -15,13 +14,13 @@ import androidx.core.app.NotificationCompat
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.getCachedBitmap
+import dev.olog.intents.AppConstants
+import dev.olog.intents.Classes
 import dev.olog.service.music.R
 import dev.olog.service.music.interfaces.INotification
 import dev.olog.service.music.model.MusicNotificationState
-import dev.olog.intents.AppConstants
-import dev.olog.intents.Classes
 import dev.olog.shared.android.extensions.asActivityPendingIntent
-import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -31,9 +30,7 @@ internal open class NotificationImpl21 @Inject constructor(
     private val mediaSession: MediaSessionCompat
 ) : INotification {
 
-    protected val notificationManager by lazy {
-        service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    protected val notificationManager = service.systemService<NotificationManager>()
 
     protected var builder = NotificationCompat.Builder(service, INotification.CHANNEL_ID)
 

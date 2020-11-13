@@ -2,7 +2,7 @@ package dev.olog.shared.android.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
+import dev.olog.shared.android.extensions.systemService
 
 @Suppress("DEPRECATION")
 object NetworkUtils {
@@ -15,13 +15,13 @@ object NetworkUtils {
 
     @JvmStatic
     fun isConnected(context: Context): Boolean {
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager = context.systemService<ConnectivityManager>()
         return manager.activeNetworkInfo?.isConnectedOrConnecting == true
     }
 
     @JvmStatic
     fun isOnWiFi(context: Context): Boolean {
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager = context.systemService<ConnectivityManager>()
         return isConnected(context) && manager.activeNetworkInfo?.type in allowedConnectionTypes
     }
 
