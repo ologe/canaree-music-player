@@ -12,7 +12,6 @@ import dev.olog.image.provider.executor.GlideScope
 import dev.olog.shared.android.utils.NetworkUtils
 import kotlinx.coroutines.*
 import java.io.InputStream
-import java.lang.RuntimeException
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -22,7 +21,9 @@ import java.util.concurrent.atomic.AtomicLong
 abstract class BaseDataFetcher(
     private val context: Context
 
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+) : DataFetcher<InputStream> {
+
+    private val scope: CoroutineScope = GlideScope()
 
     companion object {
         private const val TIMEOUT = 5000
@@ -44,18 +45,14 @@ abstract class BaseDataFetcher(
     }
 
     override fun cancel() {
-        unsubscribe()
-    }
-
-    private fun unsubscribe() {
-        cancel(null)
+        scope.cancel(null)
         if (hasIncremented && !hasDecremented) {
             requestCounter.decrementAndGet()
         }
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
+        scope.launch {
             try {
                 if (!mustFetch() && tryLocal(priority, callback)) {
                     return@launch

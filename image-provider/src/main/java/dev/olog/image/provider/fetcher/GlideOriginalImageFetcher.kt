@@ -14,8 +14,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import java.io.InputStream
-import java.lang.RuntimeException
-import java.util.concurrent.CancellationException
 
 class GlideOriginalImageFetcher(
     private val context: Context,
@@ -23,13 +21,15 @@ class GlideOriginalImageFetcher(
     private val songGateway: SongGateway,
     private val podcastGateway: PodcastGateway
 
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+) : DataFetcher<InputStream> {
+
+    private val scope: CoroutineScope = GlideScope()
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
     override fun getDataSource(): DataSource = DataSource.LOCAL
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
+        scope.launch {
             val id = getId()
             if (id == -1L) {
                 callback.onLoadFailed(Exception("item not found for id$id"))
@@ -78,7 +78,7 @@ class GlideOriginalImageFetcher(
     }
 
     override fun cancel() {
-        cancel(CancellationException())
+        scope.cancel()
     }
 
 }

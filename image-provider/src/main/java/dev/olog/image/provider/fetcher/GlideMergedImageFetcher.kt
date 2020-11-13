@@ -17,7 +17,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
-import java.lang.RuntimeException
 
 class GlideMergedImageFetcher(
     private val context: Context,
@@ -25,10 +24,12 @@ class GlideMergedImageFetcher(
     private val folderGateway: FolderGateway,
     private val playlistGateway: PlaylistGateway,
     private val genreGateway: GenreGateway
-) : DataFetcher<InputStream>, CoroutineScope by GlideScope() {
+) : DataFetcher<InputStream> {
+
+    private val scope: CoroutineScope = GlideScope()
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-        launch {
+        scope.launch {
             try {
                 val inputStream = when {
                     mediaId.isFolder -> makeFolderImage(mediaId.categoryValue)
@@ -101,7 +102,7 @@ class GlideMergedImageFetcher(
     }
 
     override fun cancel() {
-        cancel(null)
+        scope.cancel()
     }
 
 }
