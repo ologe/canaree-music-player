@@ -1,28 +1,27 @@
 ext {
 //    core
-    coroutines = '1.3.9'
-    dagger = '2.28.3'
+    coroutines = '1.4.1'
+    dagger = '2.29.1'
 
 //    android x
-    android_x_core = '1.3.1'
+    android_x_core = '1.3.2'
     android_x_legacy = '1.0.0'
     android_x_appcompat = '1.2.0'
-    android_x_media = '1.1.0'
+    android_x_media = '1.2.0'
     android_x_recycler = '1.1.0'
     android_x_browser = '1.2.0'
-    android_x_material = '1.2.0'
+    android_x_material = '1.2.1'
     android_x_preference = '1.1.1'
     android_x_palette = '1.0.0'
     android_x_annotations = '1.1.0'
     android_x_coordinator = '1.1.0'
     android_x_fragments = '1.2.5'
-    constraint_layout = '2.0.0'
+    constraint_layout = '2.0.4'
     lifecycle = '2.2.0'
-    billing = '1.2.2'
 
 //    ui
     glide = '4.11.0'
-    lottie = '3.4.2'
+    lottie = '3.5.0'
     custom_tabs = '3.0.1'
     material_dialogs = '3.3.0'
     scroll_helper = '1.1.4'
@@ -35,7 +34,7 @@ ext {
     sql_content_resolver = '1.2.1'
 
 //    network
-    ok_http = '4.8.1'
+    ok_http = '4.9.0'
     retrofit = '2.9.0'
     gson = '2.8.6'
 
@@ -45,19 +44,16 @@ ext {
     fuzzywuzzy = '1.2.0'
 
 //    debug
-    leak_canary = '2.4'
-    stetho = '1.5.1'
+    leak_canary = '2.5'
 
 //    firebase
-    firebase_core = '17.2.0'
-    firebase_crashlytics = '17.2.1'
-    firebase_perf = '19.0.8'
+    firebase = '26.1.0'
 
-    lib_analytics = [
-            core       : "com.google.firebase:firebase-core:$firebase_core",
-            analytics  : "com.google.firebase:firebase-analytics:17.5.0",
-            crashlytics: "com.google.firebase:firebase-crashlytics:$firebase_crashlytics",
-            perf       : "com.google.firebase:firebase-perf:$firebase_perf"
+    lib_firebase = [
+        bom        : "com.google.firebase:firebase-bom:$firebase",
+        analytics  : "com.google.firebase:firebase-analytics-ktx",
+        crashlytics: "com.google.firebase:firebase-crashlytics-ktx:",
+        perf       : "com.google.firebase:firebase-perf-ktx"
     ]
 
     lib_core = [
@@ -93,8 +89,6 @@ ext {
             lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:$lifecycle",
             lifecycle_livedata  : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
             lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
-
-            billing             : "com.android.billingclient:billing:$billing",
     ]
 
     lib_ui = [
@@ -104,7 +98,7 @@ ext {
             scroll_helper           : "com.github.ologe:scroll-helper:$scroll_helper",
             blur_kit                : "io.alterac.blurkit:blurkit:$blur_kit",
             lottie                  : "com.airbnb.android:lottie:$lottie",
-            custom_tabs             : "saschpe.android:customtabs:$custom_tabs",
+            custom_tabs             : "saschpe.android:customtabs:$custom_tabs", // TODO deprecate
             dialogs_core            : "com.afollestad.material-dialogs:core:$material_dialogs",
             dialogs_color           : "com.afollestad.material-dialogs:color:$material_dialogs",
             color_desaturation      : "com.github.ologe:color-desaturation:$color_desaturation",
@@ -130,12 +124,11 @@ ext {
             ok_http_interceptor: "com.squareup.okhttp3:logging-interceptor:$ok_http",
             retrofit           : "com.squareup.retrofit2:retrofit:$retrofit",
             retrofit_gson      : "com.squareup.retrofit2:converter-gson:$retrofit",
-            gson               : "com.google.code.gson:gson:$gson",
+            gson               : "com.google.code.gson:gson:$gson", // TODO replace with kotlinx
     ]
 
     lib_debug = [
-            leak_canary_debug: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
-            stetho           : "com.facebook.stetho:stetho:$stetho",
+            leak_canary: "com.squareup.leakcanary:leakcanary-android:$leak_canary",
     ]
 
     lib_test = [

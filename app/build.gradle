@@ -104,12 +104,10 @@ dependencies {
     implementation lib_ui.custom_tabs
 
     // debug
-    debugImplementation lib_debug.leak_canary_debug
-
-    debugImplementation lib_debug.stetho
+    debugImplementation lib_debug.leak_canary
 
     // firebase
-    implementation lib_analytics.core
-    implementation lib_analytics.crashlytics
-    implementation lib_analytics.perf
+    implementation lib_firebase.bom
+    implementation lib_firebase.crashlytics
+    implementation lib_firebase.perf
 }

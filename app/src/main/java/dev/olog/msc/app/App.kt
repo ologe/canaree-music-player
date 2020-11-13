@@ -44,9 +44,6 @@ class App : ThemedApp(), HasAndroidInjector {
         appShortcuts = AppShortcuts.instance(this)
 
         BlurKit.init(this)
-        if (BuildConfig.DEBUG) {
-//            Stetho.initializeWithDefaults(this)
-        }
     }
 
     private fun initializeConstants() {

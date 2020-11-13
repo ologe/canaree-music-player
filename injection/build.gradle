@@ -38,7 +38,8 @@ dependencies {
     implementation lib_network.retrofit
     implementation lib_data.room
 
-    implementation lib_analytics.analytics
+    implementation lib_firebase.bom
+    implementation lib_firebase.analytics
 
     implementation lib_utils.aes_crypto
 }

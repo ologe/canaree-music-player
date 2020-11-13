@@ -16,6 +16,7 @@ dependencies {
     implementation lib_x.lifecycle_java8
     implementation lib_x.core_ktx
 
-    implementation lib_analytics.analytics
+    implementation lib_firebase.bom
+    implementation lib_firebase.analytics
 
 }
