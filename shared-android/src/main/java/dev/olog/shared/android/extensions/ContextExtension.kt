@@ -2,11 +2,8 @@
 
 package dev.olog.shared.android.extensions
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.DimenRes
@@ -15,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.R
-import dev.olog.shared.android.utils.isOreo
 
 inline fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
     return AnimatedVectorDrawableCompat.create(this, id)!!
@@ -27,13 +23,6 @@ inline fun Context.dip(value: Float): Int = (value * resources.displayMetrics.de
 inline fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
 inline fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
-
-inline fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
-inline fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
-
-inline fun Context.dpToPx(dp: Float): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
-}
 
 inline fun Context.toast(message: Int): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)

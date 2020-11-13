@@ -15,7 +15,7 @@ import dev.olog.core.entity.OfflineLyrics
 import dev.olog.core.gateway.OfflineLyricsGateway
 import dev.olog.offlinelyrics.domain.InsertOfflineLyricsUseCase
 import dev.olog.offlinelyrics.domain.ObserveOfflineLyricsUseCase
-import dev.olog.shared.android.extensions.dpToPx
+import dev.olog.shared.android.extensions.dip
 import dev.olog.shared.indexOfClosest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -233,7 +233,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
+                AbsoluteSizeSpan(context.dip(DEFAULT_SPAN_SIZE_DP)),
                 0,
                 lyrics.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -249,7 +249,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(DEFAULT_SPAN_SIZE_DP)),
+            AbsoluteSizeSpan(context.dip(DEFAULT_SPAN_SIZE_DP)),
             from,
             to,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -264,7 +264,7 @@ abstract class BaseOfflineLyricsPresenter constructor(
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         builder.setSpan(
-            AbsoluteSizeSpan(context.dpToPx(CURRENT_SPAN_SIZE_DP)),
+            AbsoluteSizeSpan(context.dip(CURRENT_SPAN_SIZE_DP)),
             from,
             to,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
