@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.shared.android.R
 import dev.olog.shared.android.utils.isOreo
@@ -127,3 +128,5 @@ fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
     }
     return -1
 }
+
+inline fun <reified T : Any> Context.systemService(): T = getSystemService<T>()!!

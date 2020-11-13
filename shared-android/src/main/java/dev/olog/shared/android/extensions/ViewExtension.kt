@@ -2,6 +2,8 @@
 
 package dev.olog.shared.android.extensions
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
@@ -12,6 +14,7 @@ import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
+import androidx.fragment.app.FragmentActivity
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -132,4 +135,15 @@ fun<T> ViewGroup.map(action: (View) -> T): List<T> {
         result.add(action(it))
     }
     return result
+}
+
+fun View.findActivity(): FragmentActivity {
+    var context: Context = context
+    while (context is ContextWrapper) {
+        if (context is FragmentActivity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    error("View $this does not have a FragmentActivity set")
 }
