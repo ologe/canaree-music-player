@@ -25,7 +25,7 @@ internal class FirebaseTracker @Inject constructor(
                 .mapIndexed { index, any -> "arg$index" to any }
                 .toTypedArray()
 
-            firebase.logEvent(name.take(40), bundleOf(*map))
+            firebase.logEvent(name.take(40), bundleOf(*map)) // TODO need to use crashlytics, not analytics
         } catch (ignored: Throwable) {
         }
     }
