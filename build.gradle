@@ -59,4 +59,4 @@ ext {
 
 }
 
-apply from: 'dependencies.gradle'
+apply from: rootProject.file("buildscripts/dependencies.gradle")
