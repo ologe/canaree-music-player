@@ -64,7 +64,7 @@ internal class GenreQueries(
                 ${Members.DURATION}, ${Members.DATA}, ${Members.YEAR},
                 ${Members.TRACK}, ${Members.DATE_ADDED}, ${Members.DATE_MODIFIED}, ${Members.IS_PODCAST}
             FROM ${Members.getContentUri("external", genreId)}
-            WHERE ${defaultSelection(blacklist)} AND ${isRecentlyAdded()}
+            WHERE ${defaultSelection(blacklist)} ${isRecentlyAdded()}
             ORDER BY ${songListSortOrder(MediaIdCategory.GENRES, Members.DEFAULT_SORT_ORDER)}
         """
         return contentResolver.querySql(query, params)

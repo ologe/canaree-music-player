@@ -67,7 +67,7 @@ internal class AlbumsQueries(
                 $DATA,
                 $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(blacklist)} AND ${isRecentlyAdded()}
+            WHERE ${defaultSelection(blacklist)} ${isRecentlyAdded()}
 
             ORDER BY $DATE_ADDED DESC
         """

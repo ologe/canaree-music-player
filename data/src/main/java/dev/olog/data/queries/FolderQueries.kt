@@ -54,7 +54,7 @@ internal class FolderQueries(
                 $DURATION, $DATA, $YEAR,
                 $TRACK, $DATE_ADDED, $DATE_MODIFIED, $IS_PODCAST
             FROM $EXTERNAL_CONTENT_URI
-            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ? AND ${isRecentlyAdded()}
+            WHERE ${defaultSelection(false, blacklist)} AND $folderProjection = ? ${isRecentlyAdded()}
             ORDER BY lower($TITLE) COLLATE UNICODE ASC
         """
         return contentResolver.querySql(query, params + arrayOf(folderPath))

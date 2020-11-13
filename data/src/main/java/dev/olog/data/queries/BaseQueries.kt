@@ -34,7 +34,7 @@ abstract class BaseQueries(
     protected fun isRecentlyAdded(): String {
         // TODO time seems not to be supported on android 11, throws illegal token strftime
         // TODO also tried with julianday, same crash
-//        return "strftime('%s','now') - $DATE_ADDED <= $RECENTLY_ADDED_TIME"
+//        return "AND strftime('%s','now') - $DATE_ADDED <= $RECENTLY_ADDED_TIME"
         return ""
     }
 
