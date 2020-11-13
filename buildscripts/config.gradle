@@ -1,0 +1,13 @@
+// Sdk and tools
+project.ext.minSdkVersion = 21
+project.ext.targetSdkVersion = 30
+project.ext.compileSdkVersion = 30
+project.ext.buildToolsVersion = '30.0.2'
+
+/*  version code
+    999 - for old compatibility
+    27 - android version
+    X.xxx - X major version, xxx minor version
+ */
+project.ext.versionCode = 999_29_3_3_01
+project.ext.versionName = '3.3.1'
