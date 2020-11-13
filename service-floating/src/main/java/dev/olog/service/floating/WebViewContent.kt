@@ -1,5 +1,6 @@
 package dev.olog.service.floating
 
+import android.app.Service
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +15,8 @@ import dev.olog.service.floating.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
-    lifecycle: Lifecycle,
-    context: Context,
+    service: Service,
     @LayoutRes layoutRes: Int
-
 ) : Content(), DefaultLifecycleObserver {
 
     var item by Delegates.observable("", { _, _, new ->
@@ -26,7 +25,7 @@ abstract class WebViewContent(
         webView.loadUrl(getUrl(new))
     })
 
-    val content: View = LayoutInflater.from(context).inflate(layoutRes, null)
+    val content: View = LayoutInflater.from(service).inflate(layoutRes, null)
 
     private val webView = content.findViewById<WebView>(R.id.webView)
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)

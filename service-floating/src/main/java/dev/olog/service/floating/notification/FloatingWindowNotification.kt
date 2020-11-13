@@ -1,17 +1,20 @@
 package dev.olog.service.floating.notification
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
+import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.isOreo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -23,9 +26,7 @@ import javax.inject.Inject
 private const val CHANNEL_ID = "0xfff"
 
 class FloatingWindowNotification @Inject constructor(
-    private val service: Service,
-    @ServiceLifecycle lifecycle: Lifecycle,
-    private val notificationManager: NotificationManager,
+    private val service: LifecycleService,
     private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver {
@@ -33,6 +34,8 @@ class FloatingWindowNotification @Inject constructor(
     companion object {
         const val NOTIFICATION_ID = 0xABC
     }
+
+    private val notificationManager = service.systemService<NotificationManager>()
 
     private val builder = NotificationCompat.Builder(
         service,
@@ -43,8 +46,7 @@ class FloatingWindowNotification @Inject constructor(
     private var notificationTitle = ""
 
     init {
-        lifecycle.addObserver(this)
-
+        service.lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

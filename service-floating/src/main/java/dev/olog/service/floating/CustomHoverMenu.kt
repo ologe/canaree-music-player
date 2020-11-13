@@ -1,13 +1,10 @@
 package dev.olog.service.floating
 
-import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceContext
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +19,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
-    @ServiceContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    private val service: LifecycleService,
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     offlineLyricsContentPresenter: OfflineLyricsContentPresenter
@@ -34,10 +30,9 @@ class CustomHoverMenu @Inject constructor(
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
     private val offlineLyricsColors = intArrayOf(0xFFa3ffaa.toInt(), 0xFF1bffbc.toInt())
 
-    private val lyricsContent =
-        LyricsContent(lifecycle, context, musicServiceBinder)
-    private val videoContent = VideoContent(lifecycle, context)
-    private val offlineLyricsContent = OfflineLyricsContent(context, musicServiceBinder, offlineLyricsContentPresenter)
+    private val lyricsContent = LyricsContent(service, musicServiceBinder)
+    private val videoContent = VideoContent(service)
+    private val offlineLyricsContent = OfflineLyricsContent(service, musicServiceBinder, offlineLyricsContentPresenter)
 
     private var disposable: Job? = null
 
@@ -50,7 +45,7 @@ class CustomHoverMenu @Inject constructor(
     })
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
     }
 
     fun startObserving(){
@@ -92,7 +87,7 @@ class CustomHoverMenu @Inject constructor(
     )
 
     private fun createTabView(backgroundColors: IntArray, @DrawableRes icon: Int): TabView {
-        return TabView(context, backgroundColors, icon)
+        return TabView(service, backgroundColors, icon)
     }
 
     override fun getId(): String = "menu id"
