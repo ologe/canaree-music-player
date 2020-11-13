@@ -52,7 +52,7 @@ ext {
     lib_firebase = [
         bom        : "com.google.firebase:firebase-bom:$firebase",
         analytics  : "com.google.firebase:firebase-analytics-ktx",
-        crashlytics: "com.google.firebase:firebase-crashlytics-ktx:",
+        crashlytics: "com.google.firebase:firebase-crashlytics-ktx",
         perf       : "com.google.firebase:firebase-perf-ktx"
     ]
 
