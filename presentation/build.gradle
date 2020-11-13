@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
@@ -11,24 +11,21 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
 android {
 
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
 
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
     }
-
-//    kotlinOptions.allWarningsAsErrors = true
 
 }
 
 androidExtensions {
     experimental = true
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':app-shortcuts')

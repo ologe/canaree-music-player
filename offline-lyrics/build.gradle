@@ -1,16 +1,8 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-android {
-
-    defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    //kotlinOptions.allWarningsAsErrors = true
-
-}
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':core')

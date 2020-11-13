@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 def localProperties = new Properties()
@@ -10,18 +10,14 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
+
 android {
     defaultConfig {
-        consumerProguardFiles 'consumer-rules.pro'
-
         buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
-    //kotlinOptions.allWarningsAsErrors = true
-
 }
-
-apply from: '../kapt.gradle'
 
 dependencies {
     implementation project(':core')

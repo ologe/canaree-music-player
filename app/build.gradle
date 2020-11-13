@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
-apply from: '../base_module.gradle'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
@@ -13,6 +13,8 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
+
+apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 android {
 
@@ -59,9 +61,6 @@ android {
 
 //    kotlinOptions.allWarningsAsErrors = true
 }
-
-apply from: '../kapt.gradle'
-
 
 dependencies {
     implementation project(':app-shortcuts')

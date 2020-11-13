@@ -36,20 +36,6 @@ allprojects {
         maven { url 'https://jitpack.io' }
 //        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
-    gradle.projectsEvaluated { // TODO remove after coroutines became stable
-        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
-            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
-            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
-            kotlinOptions.jvmTarget = "1.8"
-        }
-    }
-    afterEvaluate {
-        extensions.findByName('kapt')?.arguments {
-            arg("dagger.fastInit", "enabled")
-            arg("dagger.formatGeneratedSource", "disabled")
-//            arg("dagger.fullBindingGraphValidation", "ERROR")
-        }
-    }
 }
 
 task clean(type: Delete) {
