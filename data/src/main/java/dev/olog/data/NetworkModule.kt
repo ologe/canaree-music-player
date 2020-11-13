@@ -1,11 +1,14 @@
-package dev.olog.data.api.lastfm
+package dev.olog.data
 
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.BuildConfig
 import dev.olog.data.api.deezer.DeezerService
+import dev.olog.data.api.lastfm.LastFmService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,10 +18,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-object NetworkModule {
+@InstallIn(ApplicationComponent::class)
+internal object NetworkModule {
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
@@ -55,7 +58,6 @@ object NetworkModule {
     }
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideLastFmRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -66,14 +68,12 @@ object NetworkModule {
     }
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideLastFmRest(retrofit: Retrofit): LastFmService {
         return retrofit.create(LastFmService::class.java)
     }
 
     @Provides
-    @JvmStatic
     @Singleton
     internal fun provideDeezerRest(retrofit: Retrofit): DeezerService {
         val newBuilder = retrofit.newBuilder()

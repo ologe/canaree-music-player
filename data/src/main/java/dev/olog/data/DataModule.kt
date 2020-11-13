@@ -2,6 +2,8 @@ package dev.olog.data
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.core.gateway.*
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -18,7 +20,8 @@ import dev.olog.data.repository.track.*
 import javax.inject.Singleton
 
 @Module
-abstract class DataModule {
+@InstallIn(ApplicationComponent::class)
+internal abstract class DataModule {
 
 
     // tracks

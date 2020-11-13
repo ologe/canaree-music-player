@@ -6,16 +6,18 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.data.db.dao.AppDatabase
 import javax.inject.Singleton
 
-@Module(includes = [DatabaseModule::class])
-object RepositoryHelperModule {
+@Module
+@InstallIn(ApplicationComponent::class)
+internal object RepositoryHelperModule {
 
     @Provides
     @Singleton
-    @JvmStatic
     internal fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
             .addMigrations(Migration_15_16, Migration_16_17, Migration_17_18)

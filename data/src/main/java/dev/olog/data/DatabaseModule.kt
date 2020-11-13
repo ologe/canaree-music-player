@@ -2,10 +2,13 @@ package dev.olog.data
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import dev.olog.data.db.dao.*
 
 @Module
-class DatabaseModule {
+@InstallIn(ApplicationComponent::class)
+object DatabaseModule {
 
     @Provides
     internal fun provideFavoritedDao(db: AppDatabase): FavoriteDao {
