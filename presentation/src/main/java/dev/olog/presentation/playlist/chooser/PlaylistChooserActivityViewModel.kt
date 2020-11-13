@@ -2,11 +2,12 @@ package dev.olog.presentation.playlist.chooser
 
 import android.content.Context
 import android.content.res.Resources
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.track.PlaylistGateway
 import dev.olog.presentation.R
@@ -18,9 +19,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class PlaylistChooserActivityViewModel @Inject constructor(
+class PlaylistChooserActivityViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     private val playlistGateway: PlaylistGateway
 ) : ViewModel() {

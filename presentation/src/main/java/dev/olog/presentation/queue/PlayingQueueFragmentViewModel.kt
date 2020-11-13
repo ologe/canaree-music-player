@@ -1,5 +1,6 @@
 package dev.olog.presentation.queue
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,10 +17,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-class PlayingQueueFragmentViewModel @Inject constructor(
+class PlayingQueueFragmentViewModel @ViewModelInject constructor(
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     playingQueueGateway: PlayingQueueGateway
 

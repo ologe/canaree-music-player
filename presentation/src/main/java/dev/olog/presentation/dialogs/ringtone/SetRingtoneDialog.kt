@@ -2,6 +2,7 @@ package dev.olog.presentation.dialogs.ringtone
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
@@ -13,6 +14,7 @@ import dev.olog.shared.android.extensions.withArguments
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SetRingtoneDialog : BaseDialog() {
 
     companion object {

@@ -1,12 +1,12 @@
 package dev.olog.presentation.detail
 
-
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.*
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -33,6 +33,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment(),
     CanChangeStatusBarColor,
     SetupNestedList,
@@ -54,14 +55,8 @@ class DetailFragment : BaseFragment(),
 
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by lazyFast {
-        viewModelProvider<DetailFragmentViewModel>(
-            viewModelFactory
-        )
-    }
+    private val viewModel by viewModels<DetailFragmentViewModel>()
 
     private val mediaId by lazyFast {
         val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
@@ -206,7 +201,7 @@ class DetailFragment : BaseFragment(),
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
         back.setOnClickListener { act.onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
+        more.setOnClickListener { navigator.toDialog(viewModel.parentMediaId, more) }
         filter.setOnClickListener {
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }

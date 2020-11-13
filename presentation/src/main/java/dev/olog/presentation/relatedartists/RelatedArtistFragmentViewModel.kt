@@ -1,32 +1,35 @@
 package dev.olog.presentation.relatedartists
 
 import android.content.res.Resources
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.relatedartists.RelatedArtistFragment.Companion.ARGUMENTS_MEDIA_ID
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class RelatedArtistFragmentViewModel @Inject constructor(
+class RelatedArtistFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     resources: Resources,
-    mediaId: MediaId,
     useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
+
+    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, initializer = MediaId::fromString)
 
     val itemOrdinal = mediaId.category.ordinal
 

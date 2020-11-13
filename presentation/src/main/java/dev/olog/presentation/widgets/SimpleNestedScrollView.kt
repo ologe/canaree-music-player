@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.lazyFast
 
 class SimpleNestedScrollView(
@@ -16,17 +17,17 @@ class SimpleNestedScrollView(
 ) : FrameLayout(context, attrs) {
 
     private var isExpanded = false
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel by lazyFast { (findActivity() as HasSlidingPanel).getSlidingPanel() }
     private val list: RecyclerView by lazy { getChildAt(0) as RecyclerView }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        slidingPanel.addPanelSlideListener(bottomSheetCallback)
+        slidingPanel.addBottomSheetCallback(bottomSheetCallback)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        slidingPanel.removePanelSlideListener(bottomSheetCallback)
+        slidingPanel.removeBottomSheetCallback(bottomSheetCallback)
     }
 
     private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {

@@ -3,10 +3,9 @@ package dev.olog.presentation.createplaylist
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import dev.olog.core.MediaId
 import dev.olog.core.entity.PlaylistType
 import dev.olog.core.entity.track.Song
@@ -14,8 +13,10 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.core.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.core.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.presentation.createplaylist.CreatePlaylistFragment.Companion.ARGUMENT_PLAYLIST_TYPE
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
@@ -25,16 +26,16 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class CreatePlaylistFragmentViewModel @Inject constructor(
-    private val playlistType: PlaylistType,
+class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     private val getAllSongsUseCase: SongGateway,
     private val getAllPodcastsUseCase: PodcastGateway,
     private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
 
+    private val playlistType = state.argument<PlaylistType>(ARGUMENT_PLAYLIST_TYPE)
     private val data = MutableLiveData<List<DisplayableItem>>()
 
     private val selectedIds = LongSparseArray<Long>()

@@ -2,10 +2,11 @@ package dev.olog.presentation.edit
 
 import android.content.Context
 import androidx.core.text.isDigitsOnly
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
@@ -16,9 +17,8 @@ import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.FileNotFoundException
-import javax.inject.Inject
 
-class EditItemViewModel @Inject constructor(
+class EditItemViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     private val presenter: EditItemPresenter
 

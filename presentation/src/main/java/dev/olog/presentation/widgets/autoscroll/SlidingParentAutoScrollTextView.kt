@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.findParentByType
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.AutoScrollTextView
@@ -15,7 +16,7 @@ class SlidingParentAutoScrollTextView(
     attrs: AttributeSet
 ) : AutoScrollTextView(context, attrs) {
 
-    private val slidingPanel by lazyFast { (context as HasSlidingPanel).getSlidingPanel() }
+    private val slidingPanel by lazyFast { (findActivity() as HasSlidingPanel).getSlidingPanel() }
 
     private val parentList: RecyclerView? by lazyFast { findParentByType<RecyclerView>() }
 
@@ -23,7 +24,7 @@ class SlidingParentAutoScrollTextView(
         super.onAttachedToWindow()
         if (!isInEditMode){
             isSelected = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
-            slidingPanel.addPanelSlideListener(listener)
+            slidingPanel.addBottomSheetCallback(listener)
             parentList?.addOnScrollListener(recyclerViewListener)
         }
     }
@@ -31,7 +32,7 @@ class SlidingParentAutoScrollTextView(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         if (!isInEditMode){
-            slidingPanel.removePanelSlideListener(listener)
+            slidingPanel.removeBottomSheetCallback(listener)
             parentList?.removeOnScrollListener(recyclerViewListener)
         }
     }

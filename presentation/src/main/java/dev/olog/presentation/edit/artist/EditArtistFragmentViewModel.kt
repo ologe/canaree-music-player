@@ -1,5 +1,6 @@
 package dev.olog.presentation.edit.artist
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +12,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.tag.TagOptionSingleton
-import javax.inject.Inject
 
-class EditArtistFragmentViewModel @Inject constructor(
+class EditArtistFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditArtistFragmentPresenter
 
 ) : ViewModel() {

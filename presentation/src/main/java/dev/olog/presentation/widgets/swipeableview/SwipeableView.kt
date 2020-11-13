@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.shared.android.extensions.dipf
+import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.lazyFast
 import kotlinx.coroutines.flow.Flow
 
@@ -52,14 +53,14 @@ class SwipeableView(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode) {
-            (context as HasSlidingPanel).getSlidingPanel().addPanelSlideListener(slidingPanelListener)
+            (findActivity() as HasSlidingPanel).getSlidingPanel().addBottomSheetCallback(slidingPanelListener)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         helper.swipeListener = null
-        (context as HasSlidingPanel).getSlidingPanel().removePanelSlideListener(slidingPanelListener)
+        (findActivity() as HasSlidingPanel).getSlidingPanel().removeBottomSheetCallback(slidingPanelListener)
     }
 
     fun isTouching(): Flow<Boolean> = helper.isTouching()

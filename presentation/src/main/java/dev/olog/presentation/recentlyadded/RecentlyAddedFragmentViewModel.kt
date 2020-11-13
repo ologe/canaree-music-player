@@ -1,9 +1,8 @@
 package dev.olog.presentation.recentlyadded
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.core.interactor.GetItemTitleUseCase
@@ -11,20 +10,23 @@ import dev.olog.core.interactor.ObserveRecentlyAddedUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.presentation.recentlyadded.RecentlyAddedFragment.Companion.ARGUMENTS_MEDIA_ID
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class RecentlyAddedFragmentViewModel @Inject constructor(
-    mediaId: MediaId,
+internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     useCase: ObserveRecentlyAddedUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
+
+    private val mediaId = state.argument(ARGUMENTS_MEDIA_ID, initializer = MediaId::fromString)
 
     val itemOrdinal = mediaId.category.ordinal
 

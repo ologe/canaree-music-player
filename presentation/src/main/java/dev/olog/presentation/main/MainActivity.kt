@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.appshortcuts.Shortcuts
 import dev.olog.core.MediaId
 import dev.olog.intents.AppConstants
@@ -18,52 +19,31 @@ import dev.olog.presentation.R
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.interfaces.*
 import dev.olog.presentation.library.LibraryFragment
-import dev.olog.presentation.main.di.clearComponent
-import dev.olog.presentation.main.di.inject
 import dev.olog.presentation.model.BottomNavigationPage
-import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.navigator.Navigator
-import dev.olog.presentation.pro.HasBilling
-import dev.olog.presentation.pro.IBilling
 import dev.olog.presentation.rateapp.RateAppDialog
 import dev.olog.presentation.utils.collapse
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isExpanded
-import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import dev.olog.scrollhelper.ScrollType
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.theme.isImmersiveMode
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_navigation.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : MusicGlueActivity(),
     HasSlidingPanel,
-    HasBilling,
     HasBottomNavigation,
     OnPermissionChanged {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
-    private val viewModel by lazyFast {
-        viewModelProvider<MainActivityViewModel>(
-            factory
-        )
-    }
+    private val viewModel by viewModels<MainActivityViewModel>()
     @Inject
     lateinit var navigator: Navigator
-    // handles lifecycle itself
-    @Inject
-    override lateinit var billing: IBilling
-
-    @Inject
-    internal lateinit var presentationPrefs: PresentationPreferencesGateway
 
     @Suppress("unused")
     @Inject
@@ -73,7 +53,6 @@ class MainActivity : MusicGlueActivity(),
     lateinit var rateAppDialog: RateAppDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -101,11 +80,6 @@ class MainActivity : MusicGlueActivity(),
         }
 
         intent?.let { handleIntent(it) }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        clearComponent()
     }
 
     override fun onPermissionGranted(permission: Permission) = when (permission){
@@ -219,8 +193,8 @@ class MainActivity : MusicGlueActivity(),
         return false
     }
 
-    override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(slidingPanel) as MultiListenerBottomSheetBehavior<*>
+    override fun getSlidingPanel(): BottomSheetBehavior<*> {
+        return BottomSheetBehavior.from(slidingPanel)
     }
 
     override fun navigate(page: BottomNavigationPage) {

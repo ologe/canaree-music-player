@@ -4,20 +4,15 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
-import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.pro.IBilling
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
 class AboutFragmentPresenter(
     context: Context,
-    private val billing: IBilling
 ) : CoroutineScope by MainScope() {
 
     companion object {
@@ -40,8 +35,6 @@ class AboutFragmentPresenter(
         @JvmStatic
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
         @JvmStatic
-        val BUY_PRO = MediaId.headerId("pro")
-        @JvmStatic
         val CHANGELOG = MediaId.headerId("changelog")
         @JvmStatic
         val GITHUB = MediaId.headerId("github")
@@ -61,13 +54,6 @@ class AboutFragmentPresenter(
             title = context.getString(R.string.about_author),
             subtitle = "Eugeniu Olog"
         ),
-        DisplayableHeader(
-            type = R.layout.item_about,
-            mediaId = MediaId.headerId("version id"),
-            title = context.getString(R.string.about_version),
-            subtitle = BuildConfig.VERSION_NAME
-        ),
-
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = COMMUNITY,
@@ -167,9 +153,4 @@ class AboutFragmentPresenter(
 
     fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
 
-    fun buyPro() {
-        if (!billing.getBillingsState().isPremiumStrict()) {
-            billing.purchasePremium()
-        }
-    }
 }

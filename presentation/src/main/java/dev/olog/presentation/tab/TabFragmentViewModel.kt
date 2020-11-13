@@ -1,5 +1,6 @@
 package dev.olog.presentation.tab
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.MediaId
@@ -10,9 +11,8 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.extensions.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class TabFragmentViewModel @Inject constructor(
+internal class TabFragmentViewModel @ViewModelInject constructor(
     private val dataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences,
     private val presentationPrefs: PresentationPreferencesGateway

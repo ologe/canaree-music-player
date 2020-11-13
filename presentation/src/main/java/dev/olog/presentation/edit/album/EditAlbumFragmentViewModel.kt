@@ -1,5 +1,6 @@
 package dev.olog.presentation.edit.album
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,9 +16,8 @@ import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
-import javax.inject.Inject
 
-class EditAlbumFragmentViewModel @Inject constructor(
+class EditAlbumFragmentViewModel @ViewModelInject constructor(
     private val presenter: EditAlbumFragmentPresenter
 
 ) : ViewModel() {

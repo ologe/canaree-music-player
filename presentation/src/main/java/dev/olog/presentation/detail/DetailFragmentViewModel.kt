@@ -1,9 +1,8 @@
 package dev.olog.presentation.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.sort.SortEntity
@@ -13,16 +12,17 @@ import dev.olog.core.interactor.sort.GetDetailSortUseCase
 import dev.olog.core.interactor.sort.ObserveDetailSortUseCase
 import dev.olog.core.interactor.sort.SetSortOrderUseCase
 import dev.olog.core.interactor.sort.ToggleDetailSortArrangingUseCase
+import dev.olog.presentation.detail.DetailFragment.Companion.ARGUMENTS_MEDIA_ID
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import javax.inject.Inject
 
-internal class DetailFragmentViewModel @Inject constructor(
-    val mediaId: MediaId,
+internal class DetailFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     private val dataProvider: DetailDataProvider,
     private val presenter: DetailFragmentPresenter,
     private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -38,6 +38,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
+
+    val parentMediaId = state.argument(ARGUMENTS_MEDIA_ID, initializer = MediaId::fromString)
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
@@ -61,40 +63,40 @@ internal class DetailFragmentViewModel @Inject constructor(
     init {
         // header
         viewModelScope.launch {
-            dataProvider.observeHeader(mediaId)
+            dataProvider.observeHeader(parentMediaId)
                 .flowOn(Dispatchers.Default)
                 .collect { itemLiveData.value = it[0] }
         }
         // most played
         viewModelScope.launch {
-            dataProvider.observeMostPlayed(mediaId)
+            dataProvider.observeMostPlayed(parentMediaId)
                 .mapListItem { it as DisplayableTrack }
                 .flowOn(Dispatchers.Default)
                 .collect { mostPlayedLiveData.value = it }
         }
         // related artists
         viewModelScope.launch {
-            dataProvider.observeRelatedArtists(mediaId)
+            dataProvider.observeRelatedArtists(parentMediaId)
                 .map { it.take(RELATED_ARTISTS_TO_SEE) }
                 .flowOn(Dispatchers.Default)
                 .collect { relatedArtistsLiveData.value = it }
         }
         // siblings
         viewModelScope.launch {
-            dataProvider.observeSiblings(mediaId)
+            dataProvider.observeSiblings(parentMediaId)
                 .flowOn(Dispatchers.Default)
                 .collect { siblingsLiveData.value = it }
         }
         // recent
         viewModelScope.launch {
-            dataProvider.observeRecentlyAdded(mediaId)
+            dataProvider.observeRecentlyAdded(parentMediaId)
                 .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
                 .flowOn(Dispatchers.Default)
                 .collect { recentlyAddedLiveData.value = it }
         }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(mediaId, filterChannel.asFlow())
+            dataProvider.observe(parentMediaId, filterChannel.asFlow())
                 .flowOn(Dispatchers.Default)
                 .collect { songLiveData.value = it }
         }
@@ -103,8 +105,8 @@ internal class DetailFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val biography = when {
-                    mediaId.isArtist -> imageRetrieverGateway.getArtist(mediaId.categoryId)?.wiki
-                    mediaId.isAlbum -> imageRetrieverGateway.getAlbum(mediaId.categoryId)?.wiki
+                    parentMediaId.isArtist -> imageRetrieverGateway.getArtist(parentMediaId.categoryId)?.wiki
+                    parentMediaId.isAlbum -> imageRetrieverGateway.getAlbum(parentMediaId.categoryId)?.wiki
                     else -> null
                 }
                 withContext(Dispatchers.Main) {
@@ -136,20 +138,20 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun observeSortOrder(action: (SortType) -> Unit) {
-        val sortEntity = getSortOrderUseCase(mediaId)
+        val sortEntity = getSortOrderUseCase(parentMediaId)
         action(sortEntity.type)
     }
 
     fun updateSortOrder(sortType: SortType) = viewModelScope.launch(Dispatchers.IO) {
-        setSortOrderUseCase(SetSortOrderUseCase.Request(mediaId, sortType))
+        setSortOrderUseCase(SetSortOrderUseCase.Request(parentMediaId, sortType))
     }
 
     fun toggleSortArranging() {
-        if (mediaId.category == MediaIdCategory.PLAYLISTS &&
-            getSortOrderUseCase(mediaId).type == SortType.CUSTOM){
+        if (parentMediaId.category == MediaIdCategory.PLAYLISTS &&
+            getSortOrderUseCase(parentMediaId).type == SortType.CUSTOM){
             return
         }
-        toggleSortArrangingUseCase(mediaId.category)
+        toggleSortArrangingUseCase(parentMediaId.category)
     }
 
     fun addMove(from: Int, to: Int){
@@ -157,19 +159,19 @@ internal class DetailFragmentViewModel @Inject constructor(
     }
 
     fun processMove() = viewModelScope.launch {
-        if (mediaId.isPlaylist || mediaId.isPodcastPlaylist){
-            presenter.moveInPlaylist(moveList)
+        if (parentMediaId.isPlaylist || parentMediaId.isPodcastPlaylist){
+            presenter.moveInPlaylist(parentMediaId, moveList)
         }
         moveList.clear()
     }
 
     fun removeFromPlaylist(item: DisplayableItem) = viewModelScope.launch(Dispatchers.Default) {
         require(item is DisplayableTrack)
-        presenter.removeFromPlaylist(item)
+        presenter.removeFromPlaylist(parentMediaId, item)
     }
 
     fun observeSorting(): Flow<SortEntity> {
-        return observeSortOrderUseCase(mediaId)
+        return observeSortOrderUseCase(parentMediaId)
     }
 
     fun showSortByTutorialIfNeverShown(): Boolean {

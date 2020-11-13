@@ -1,12 +1,13 @@
 package dev.olog.presentation.edit.song
 
 import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.utils.NetworkUtils
@@ -15,9 +16,8 @@ import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
-import javax.inject.Inject
 
-class EditTrackFragmentViewModel @Inject constructor(
+class EditTrackFragmentViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     private val presenter: EditTrackFragmentPresenter
 

@@ -1,13 +1,13 @@
 package dev.olog.presentation.main
 
 import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.shared.android.Permissions
-import javax.inject.Inject
 
-internal class MainActivityViewModel @Inject constructor(
+internal class MainActivityViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context,
     private val presentationPrefs: PresentationPreferencesGateway
 ) : ViewModel() {

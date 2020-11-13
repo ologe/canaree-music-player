@@ -2,13 +2,12 @@ package dev.olog.presentation.player
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.math.MathUtils.clamp
-import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
@@ -33,14 +32,11 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.math.abs
 
-@Keep
+@AndroidEntryPoint
 class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by lazyFast {
-        viewModelProvider<PlayerFragmentViewModel>(viewModelFactory)
-    }
+    private val viewModel by viewModels<PlayerFragmentViewModel>()
+
     @Inject
     internal lateinit var presenter: PlayerFragmentPresenter
     @Inject
@@ -94,12 +90,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel()?.addBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel()?.removeBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onDestroyView() {

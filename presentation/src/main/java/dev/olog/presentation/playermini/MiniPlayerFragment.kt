@@ -2,10 +2,9 @@ package dev.olog.presentation.playermini
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.core.MediaId
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.media.model.PlayerState
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-@Keep
+@AndroidEntryPoint
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
@@ -95,7 +94,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
+        getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
         next.setOnClickListener { media.skipToNext() }
@@ -105,7 +104,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
+        getSlidingPanel()!!.removeBottomSheetCallback(slidingPanelListener)
         view?.setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)

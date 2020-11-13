@@ -1,5 +1,6 @@
 package dev.olog.presentation.equalizer
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,9 +17,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-internal class EqualizerFragmentViewModel @Inject constructor(
+internal class EqualizerFragmentViewModel @ViewModelInject constructor(
     private val equalizer: IEqualizer,
     private val bassBoost: IBassBoost,
     private val virtualizer: IVirtualizer,

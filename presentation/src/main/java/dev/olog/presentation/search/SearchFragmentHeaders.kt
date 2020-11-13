@@ -2,15 +2,13 @@ package dev.olog.presentation.search
 
 import android.content.Context
 import dev.olog.core.MediaId
-import dev.olog.core.dagger.ApplicationContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
-import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableNestedListPlaceholder
 import javax.inject.Inject
 
-@PerFragment
 class SearchFragmentHeaders @Inject constructor(
     @ApplicationContext private val context: Context
 ) {

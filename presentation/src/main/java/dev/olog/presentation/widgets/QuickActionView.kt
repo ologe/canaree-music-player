@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
@@ -68,7 +69,7 @@ class QuickActionView (
     }
 
     override fun onClick(v: View?) {
-        val mediaProvider = context as MediaProvider
+        val mediaProvider = findActivity() as MediaProvider
         when (hasQuickAction.getQuickAction()) {
             QuickAction.PLAY -> mediaProvider.playFromMediaId(currentMediaId, null, null)
             QuickAction.SHUFFLE -> mediaProvider.shuffle(currentMediaId, null)

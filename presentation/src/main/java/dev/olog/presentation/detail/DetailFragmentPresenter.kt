@@ -10,16 +10,18 @@ import dev.olog.presentation.model.DisplayableTrack
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
-    private val mediaId: MediaId,
     private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
     private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) {
 
-    suspend fun removeFromPlaylist(item: DisplayableTrack) {
-        mediaId.assertPlaylist()
-        val playlistId = mediaId.categoryId
+    suspend fun removeFromPlaylist(
+        parentMediaId: MediaId,
+        item: DisplayableTrack
+    ) {
+        parentMediaId.assertPlaylist()
+        val playlistId = parentMediaId.categoryId
         val playlistType = if (item.mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == AutoPlaylist.FAVORITE.id){
             // favorites use songId instead of idInPlaylist
@@ -35,12 +37,15 @@ class DetailFragmentPresenter @Inject constructor(
         }
     }
 
-    suspend fun moveInPlaylist(moveList: List<Pair<Int, Int>>){
-        mediaId.assertPlaylist()
-        val playlistId = mediaId.resolveId
+    suspend fun moveInPlaylist(
+        parentMediaId: MediaId,
+        moveList: List<Pair<Int, Int>>
+    ){
+        parentMediaId.assertPlaylist()
+        val playlistId = parentMediaId.resolveId
         moveItemInPlaylistUseCase.execute(
             MoveItemInPlaylistUseCase.Input(playlistId, moveList,
-                if (mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
+                if (parentMediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
         ))
     }
 

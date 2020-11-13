@@ -1,10 +1,8 @@
 package dev.olog.presentation.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
@@ -16,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.image.provider.GlideApp
@@ -27,15 +25,12 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
-import dev.olog.presentation.pro.HasBilling
-import dev.olog.presentation.utils.forEach
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-@Keep
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat(),
     ColorCallback,
     SharedPreferences.OnSharedPreferenceChangeListener,
@@ -62,33 +57,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
-    private val paidSettings: List<Preference> by lazyFast {
-        listOf(
-            // library
-            findPreference<Preference>(getString(R.string.prefs_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_show_podcasts_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_podcast_library_categories_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_blacklist_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_folder_tree_view_key))!!,
-            //audio
-            findPreference<Preference>(getString(R.string.prefs_used_equalizer_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_midnight_mode_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_cross_fade_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_gapless_key))!!,
-            // ui
-            findPreference<Preference>(getString(R.string.prefs_appearance_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_adaptive_colors_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_immersive_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_quick_action_key))!!,
-            findPreference<Preference>(getString(R.string.prefs_icon_shape_key))!!
-        )
-    }
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))!!
@@ -100,12 +68,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key))!!
         accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))!!
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))!!
-
-        val state = (act as HasBilling).billing.getBillingsState()
-        val premiumEnabled = state.isPremiumEnabled()
-        preferenceScreen.forEach {
-            it.isEnabled = premiumEnabled || !paidSettings.contains(it)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
