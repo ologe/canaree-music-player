@@ -69,8 +69,7 @@ ext {
     ]
 
     lib_x = [
-        core                : "androidx.core:core:$android_x_core",
-        core_ktx            : "androidx.core:core-ktx:$android_x_core",
+        core                : "androidx.core:core-ktx:$android_x_core",
         legacyV4            : "androidx.legacy:legacy-support-v4:$android_x_legacy",
         appcompat           : "androidx.appcompat:appcompat:$android_x_appcompat",
         media               : "androidx.media:media:$android_x_media",
@@ -82,7 +81,7 @@ ext {
         annotations         : "androidx.annotation:annotation:$android_x_annotations",
         constraint_layout   : "androidx.constraintlayout:constraintlayout:$constraint_layout",
         coordinator         : "androidx.coordinatorlayout:coordinatorlayout:$android_x_coordinator",
-        fragments           : "androidx.fragment:fragment:$android_x_fragments",
+        fragments           : "androidx.fragment:fragment-ktx:$android_x_fragments",
         // lifecycle
         lifecycle_runtime   : "androidx.lifecycle:lifecycle-runtime:$lifecycle",
         lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle",
