@@ -8,7 +8,6 @@ dependencies {
     implementation project(':core')
     implementation project(':shared')
 
-    implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_core.dagger
     kapt lib_core.dagger_processor

@@ -26,7 +26,6 @@ dependencies {
     implementation project(':shared')
     implementation project(':equalizer')
 
-    implementation lib_core.kotlin
     implementation lib_core.coroutines
     implementation lib_core.dagger
     kapt lib_core.dagger_processor
