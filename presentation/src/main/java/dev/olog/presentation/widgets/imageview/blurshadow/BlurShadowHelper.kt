@@ -46,7 +46,7 @@ class BlurShadowHelper(
 
     private suspend fun loopUntilSizeIsValid() {
         while (!(view.width > 0 || view.height > 0)) {
-            delay(16) // wait a frame
+            awaitFrame()
         }
         makeBlurShadow()
     }
