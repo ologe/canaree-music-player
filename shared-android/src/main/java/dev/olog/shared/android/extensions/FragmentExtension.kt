@@ -18,9 +18,6 @@ inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
     return this
 }
 
-inline val Fragment.act: FragmentActivity
-    get() = activity!!
-
 @Suppress("UNCHECKED_CAST")
 inline fun <T> Fragment.getArgument(key: String): T {
     return arguments!!.get(key) as T

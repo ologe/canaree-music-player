@@ -120,14 +120,18 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         super.onResume()
         edit.setOnClickListener {
             launch {
-                EditLyricsDialog.show(act, presenter.getLyrics()) { newLyrics ->
+                EditLyricsDialog.show(requireContext(), presenter.getLyrics()) { newLyrics ->
                     presenter.updateLyrics(newLyrics)
                 }
             }
         }
-        back.setOnClickListener { act.onBackPressed() }
-        search.setOnClickListener { searchLyrics() }
-        act.window.removeLightStatusBar()
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        search.setOnClickListener {
+            searchLyrics()
+        }
+        requireActivity().window.removeLightStatusBar()
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
@@ -161,7 +165,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
         edit.setOnClickListener(null)
         back.setOnClickListener(null)
         search.setOnClickListener(null)
-        act.window.setLightStatusBar()
+        requireActivity().window.setLightStatusBar()
 
         fakeNext.setOnTouchListener(null)
         fakePrev.setOnTouchListener(null)

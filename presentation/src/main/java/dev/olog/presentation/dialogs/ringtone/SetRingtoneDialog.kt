@@ -8,7 +8,6 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -47,13 +46,13 @@ class SetRingtoneDialog : BaseDialog() {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
-                presenter.execute(act, mediaId)
-                message = successMessage(act)
+                presenter.execute(requireActivity(), mediaId)
+                message = successMessage(requireContext())
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(act)
+                message = failMessage(requireContext())
             }
-            act.toast(message)
+            requireActivity().toast(message)
             dismiss()
 
         }

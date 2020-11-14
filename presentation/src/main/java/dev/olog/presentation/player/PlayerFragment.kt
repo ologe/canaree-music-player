@@ -18,7 +18,9 @@ import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.assertBackground
+import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import dev.olog.shared.android.utils.isMarshmallow
@@ -46,7 +48,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     private lateinit var layoutManager: LinearLayoutManager
 
-    private val mediaProvider by lazyFast { act as MediaProvider }
+    private val mediaProvider by lazyFast { requireActivity() as MediaProvider }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

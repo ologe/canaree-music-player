@@ -9,7 +9,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollGridLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -57,7 +56,9 @@ class RelatedArtistFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onPause() {

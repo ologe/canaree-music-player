@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
@@ -58,7 +57,9 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
 
     override fun onResume() {
         super.onResume()
-        view?.setOnClickListener { act.onBackPressed() }
+        requireView().setOnClickListener {
+            requireActivity().onBackPressed()
+        }
         volumeSlider.setOnSeekBarChangeListener(this)
     }
 

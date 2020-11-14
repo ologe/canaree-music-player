@@ -35,7 +35,6 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -89,7 +88,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     }
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, act as MediaProvider, viewModel, this)
+        TabFragmentAdapter(lifecycle, navigator, requireActivity() as MediaProvider, viewModel, this)
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

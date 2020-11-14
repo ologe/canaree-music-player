@@ -27,7 +27,6 @@ import dev.olog.presentation.prefs.blacklist.BlacklistFragment
 import dev.olog.presentation.prefs.categories.LibraryCategoriesFragment
 import dev.olog.presentation.prefs.lastfm.LastFmCredentialsFragment
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
@@ -95,7 +94,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         blacklist.setOnPreferenceClickListener {
-            act.supportFragmentManager.commit {
+            requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -108,18 +107,18 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         lastFmCredentials.setOnPreferenceClickListener {
-            act.supportFragmentManager.commit {
+            requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
             }
             true
         }
         accentColorChooser.setOnPreferenceClickListener {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val key = getString(R.string.prefs_color_accent_key)
-            val defaultColor = ContextCompat.getColor(act, R.color.defaultColorAccent)
+            val defaultColor = ContextCompat.getColor(requireContext(), R.color.defaultColorAccent)
 
-            MaterialDialog(act)
+            MaterialDialog(requireContext())
                 .colorChooser(
                     colors = ColorPalette.getAccentColors(requireContext().isDarkMode()),
                     subColors = ColorPalette.getAccentColorsSub(requireContext().isDarkMode()),
@@ -153,11 +152,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         }
         when (key) {
             getString(R.string.prefs_folder_tree_view_key) -> {
-                act.recreate()
+                requireActivity().recreate()
             }
             getString(R.string.prefs_show_podcasts_key) -> {
                 presentationPrefs.setLibraryPage(LibraryPage.TRACKS)
-                act.recreate()
+                requireActivity().recreate()
             }
         }
     }
@@ -202,6 +201,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
         prefs.edit {
             putInt(key, realColor)
         }
-        act.recreate()
+        requireActivity().recreate()
     }
 }

@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_create_playlist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
@@ -100,7 +99,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
         fab.setOnClickListener { showCreateDialog() }
         back.setOnClickListener {
             editText.hideIme()
-            act.onBackPressed()
+            requireActivity().onBackPressed()
         }
         filterList.setOnClickListener {
             filterList.toggleSelected()
@@ -109,9 +108,9 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
             toast?.cancel()
 
             if (filterList.isSelected) {
-                toast = act.toast(R.string.playlist_tracks_chooser_show_only_selected)
+                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_only_selected)
             } else {
-                toast = act.toast(R.string.playlist_tracks_chooser_show_all)
+                toast = requireActivity().toast(R.string.playlist_tracks_chooser_show_all)
             }
         }
     }
@@ -131,7 +130,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun showCreateDialog() {
-        TextViewDialog(act, getString(R.string.popup_new_playlist), null)
+        TextViewDialog(requireContext(), getString(R.string.popup_new_playlist), null)
             .addTextView(customizeWrapper = {
                 hint = getString(R.string.new_playlist_hint)
             })
@@ -145,7 +144,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
                     }
                 }, dismissAction = {
                     dismiss()
-                    act.onBackPressed()
+                    requireActivity().onBackPressed()
                 }
             )
     }

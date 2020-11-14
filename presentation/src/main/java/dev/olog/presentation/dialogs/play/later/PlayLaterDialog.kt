@@ -8,7 +8,6 @@ import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -64,14 +63,14 @@ class PlayLaterDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                val mediaController = MediaControllerCompat.getMediaController(act)
+                val mediaController = MediaControllerCompat.getMediaController(requireActivity())
                 presenter.execute(mediaController, mediaId)
-                message = successMessage(act)
+                message = successMessage(requireContext())
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(act)
+                message = failMessage(requireContext())
             }
-            act.toast(message)
+            requireActivity().toast(message)
             dismiss()
         }
     }

@@ -13,7 +13,6 @@ import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
@@ -41,7 +40,7 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
     lateinit var navigator: Navigator
     private val adapter by lazyFast {
         RecentlyAddedFragmentAdapter(
-            lifecycle, navigator, act as MediaProvider, this
+            lifecycle, navigator, requireActivity() as MediaProvider, this
         )
     }
 

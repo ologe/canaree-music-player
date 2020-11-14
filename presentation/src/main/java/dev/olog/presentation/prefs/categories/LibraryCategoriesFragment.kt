@@ -9,7 +9,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.ListDialog
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.lazyFast
 import javax.inject.Inject
@@ -56,7 +55,7 @@ class LibraryCategoriesFragment : ListDialog(), IDragListener by DragListenerImp
 
     override fun positiveAction() {
         presenter.setDataSet(category, adapter.getData())
-        act.recreate()
+        requireActivity().recreate()
         dismiss()
     }
 

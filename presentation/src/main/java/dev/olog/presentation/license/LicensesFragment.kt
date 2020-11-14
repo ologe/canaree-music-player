@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olog.presentation.R
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.act
 import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.android.synthetic.main.fragment_licenses.view.*
 
@@ -27,7 +26,7 @@ class LicensesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val presenter = LicensesFragmentPresenter(act.applicationContext)
+        val presenter = LicensesFragmentPresenter(requireContext())
         val adapter = LicensesFragmentAdapter(lifecycle)
 
         view.list.adapter = adapter
@@ -38,7 +37,9 @@ class LicensesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onPause() {

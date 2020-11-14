@@ -9,7 +9,6 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
-import dev.olog.shared.android.extensions.act
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -64,15 +63,15 @@ class DeleteDialog: BaseDialog() {
         var message: String
         try {
             presenter.execute(mediaId)
-            message = successMessage(act)
+            message = successMessage(requireContext())
         } catch (ex: Throwable) {
             if (isQ() && ex is RecoverableSecurityException){
                 throw ex
             }
             ex.printStackTrace()
-            message = failMessage(act)
+            message = failMessage(requireContext())
         }
-        act.toast(message)
+        requireActivity().toast(message)
         dismiss()
     }
 

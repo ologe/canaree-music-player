@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
@@ -64,10 +63,10 @@ class DetailFragment : BaseFragment(),
     }
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailMostPlayedAdapter(lifecycle, navigator, requireActivity() as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider)
+        DetailRecentlyAddedAdapter(lifecycle, navigator, requireActivity() as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
         DetailRelatedArtistsAdapter(lifecycle, navigator)
@@ -82,7 +81,7 @@ class DetailFragment : BaseFragment(),
             mediaId,
             this,
             navigator,
-            act as MediaProvider,
+            requireActivity() as MediaProvider,
             viewModel,
             this
         )
@@ -133,7 +132,7 @@ class DetailFragment : BaseFragment(),
         viewModel.observeSongs()
             .subscribe(viewLifecycleOwner) { list ->
                 if (list.isEmpty()) {
-                    act.onBackPressed()
+                    requireActivity().onBackPressed()
                 } else {
                     adapter.updateDataSet(list)
                     restoreUpperWidgetsTranslation()
@@ -200,8 +199,12 @@ class DetailFragment : BaseFragment(),
         super.onResume()
         list.addOnScrollListener(recyclerOnScrollListener)
         list.addOnScrollListener(scrollListener)
-        back.setOnClickListener { act.onBackPressed() }
-        more.setOnClickListener { navigator.toDialog(viewModel.parentMediaId, more) }
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        more.setOnClickListener {
+            navigator.toDialog(viewModel.parentMediaId, more)
+        }
         filter.setOnClickListener {
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }
@@ -242,7 +245,7 @@ class DetailFragment : BaseFragment(),
         if (requireContext().isTablet){
             return
         }
-        act.window.removeLightStatusBar()
+        requireActivity().window.removeLightStatusBar()
     }
 
     private fun setLightStatusBar() {
@@ -258,7 +261,7 @@ class DetailFragment : BaseFragment(),
             return
         }
 
-        act.window.setLightStatusBar()
+        requireActivity().window.setLightStatusBar()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail

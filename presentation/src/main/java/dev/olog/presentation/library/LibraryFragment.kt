@@ -18,7 +18,6 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_library.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,9 +52,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private val pagerAdapter by lazyFast {
-        LibraryFragmentAdapter(
-            act.applicationContext, childFragmentManager, presenter.getCategories(isPodcast)
-        )
+        LibraryFragmentAdapter(requireContext(), childFragmentManager, presenter.getCategories(isPodcast))
     }
 
     fun isCurrentFragmentFolderTree(): Boolean {
