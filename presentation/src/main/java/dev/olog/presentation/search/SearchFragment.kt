@@ -50,47 +50,47 @@ class SearchFragment : BaseFragment(),
 
     private val adapter by lazyFast {
         SearchFragmentAdapter(
-            lifecycle,
-            this,
-            requireActivity() as MediaProvider,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            setupNestedList = this,
+            mediaProvider = requireActivity() as MediaProvider,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val albumAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val artistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val genreAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val playlistAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
 
     private val folderAdapter by lazyFast {
         SearchFragmentNestedAdapter(
-            lifecycle,
-            navigator,
-            viewModel
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            viewModel = viewModel
         )
     }
     private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }

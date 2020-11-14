@@ -38,7 +38,7 @@ class FolderTreeFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             viewModel,
             activity as MediaProvider,
             navigator

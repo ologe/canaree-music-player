@@ -57,21 +57,21 @@ class DetailFragment : BaseFragment(),
     private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     private val mostPlayedAdapter by lazyFast {
-        DetailMostPlayedAdapter(lifecycle, navigator, requireActivity() as MediaProvider)
+        DetailMostPlayedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity() as MediaProvider)
     }
     private val recentlyAddedAdapter by lazyFast {
-        DetailRecentlyAddedAdapter(lifecycle, navigator, requireActivity() as MediaProvider)
+        DetailRecentlyAddedAdapter(viewLifecycleOwner.lifecycle, navigator, requireActivity() as MediaProvider)
     }
     private val relatedArtistAdapter by lazyFast {
-        DetailRelatedArtistsAdapter(lifecycle, navigator)
+        DetailRelatedArtistsAdapter(viewLifecycleOwner.lifecycle, navigator)
     }
     private val albumsAdapter by lazyFast {
-        DetailSiblingsAdapter(lifecycle, navigator)
+        DetailSiblingsAdapter(viewLifecycleOwner.lifecycle, navigator)
     }
 
     private val adapter by lazyFast {
         DetailFragmentAdapter(
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             mediaId,
             this,
             navigator,

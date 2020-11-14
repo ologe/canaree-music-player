@@ -40,10 +40,7 @@ class CreatePlaylistFragment : BaseFragment(), DrawsOnTop {
     private val viewModel by viewModels<CreatePlaylistFragmentViewModel>()
 
     private val adapter by lazyFast {
-        CreatePlaylistFragmentAdapter(
-            lifecycle,
-            viewModel
-        )
+        CreatePlaylistFragmentAdapter(viewLifecycleOwner.lifecycle, viewModel)
     }
 
     private var toast: Toast? = null

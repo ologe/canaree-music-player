@@ -27,7 +27,7 @@ class AboutFragment : BaseFragment() {
     private val viewModel by viewModels<AboutFragmentPresenter>()
 
     private val adapter by lazyFast {
-        AboutFragmentAdapter(lifecycle, navigator)
+        AboutFragmentAdapter(viewLifecycleOwner.lifecycle, navigator)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

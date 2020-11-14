@@ -31,7 +31,9 @@ class RelatedArtistFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter by lazyFast { RelatedArtistFragmentAdapter(lifecycle, navigator) }
+    private val adapter by lazyFast {
+        RelatedArtistFragmentAdapter(viewLifecycleOwner.lifecycle, navigator)
+    }
 
     private val viewModel by viewModels<RelatedArtistFragmentViewModel>()
 

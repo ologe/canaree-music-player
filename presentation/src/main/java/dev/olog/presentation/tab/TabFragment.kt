@@ -57,26 +57,26 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
     private val lastAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator
         )
     }
     private val lastArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator
         )
     }
     private val newAlbumsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator
         )
     }
     private val newArtistsAdapter by lazyFast {
         TabFragmentNestedAdapter(
-            lifecycle,
-            navigator
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator
         )
     }
 
@@ -86,7 +86,13 @@ class TabFragment : BaseFragment(), SetupNestedList {
     internal val category by argument<TabCategory>(ARGUMENTS_SOURCE)
 
     private val adapter by lazyFast {
-        TabFragmentAdapter(lifecycle, navigator, requireActivity() as MediaProvider, viewModel, this)
+        TabFragmentAdapter(
+            lifecycle = viewLifecycleOwner.lifecycle,
+            navigator = navigator,
+            mediaProvider = requireActivity() as MediaProvider,
+            viewModel = viewModel,
+            setupNestedList = this
+        )
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean) {

@@ -52,9 +52,13 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val hasPlayerAppearance = requireContext().hasPlayerAppearance()
 
         val adapter = PlayerFragmentAdapter(
-            lifecycle, activity as MediaProvider,
-            navigator, viewModel, presenter,
-            this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
+            lifecycle = viewLifecycleOwner.lifecycle,
+            mediaProvider = activity as MediaProvider,
+            navigator = navigator,
+            viewModel = viewModel,
+            presenter = presenter,
+            dragListener = this,
+            playerAppearanceAdaptiveBehavior = IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 
         layoutManager = OverScrollLinearLayoutManager(list)
