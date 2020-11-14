@@ -7,6 +7,8 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.gateway.FavoriteGateway
@@ -19,14 +21,17 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ServiceScoped
 internal class MediaSessionCallback @Inject constructor(
+    private val lifecycleOwner: LifecycleOwner,
     private val queue: IQueue,
     private val player: IPlayer,
     private val repeatMode: MusicServiceRepeatMode,
@@ -34,8 +39,7 @@ internal class MediaSessionCallback @Inject constructor(
     private val mediaButton: MediaButton,
     private val playerState: MusicServicePlaybackState,
     private val favoriteGateway: FavoriteGateway
-
-) : MediaSessionCompat.Callback(), CoroutineScope by CustomScope() {
+) : MediaSessionCompat.Callback() {
 
     companion object {
         @JvmStatic
@@ -62,7 +66,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
         retrieveDataJob?.cancel()
-        retrieveDataJob = launch {
+        retrieveDataJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             assertBackgroundThread()
             val entity = retrieve()
             if (entity != null) {
@@ -129,7 +133,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onPause() {
         Log.v(TAG, "onPause")
-        launch(Dispatchers.Main) {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             updatePodcastPosition()
             player.pause(true)
         }
@@ -146,7 +150,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToPrevious() {
-        launch(Dispatchers.Main) {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             Log.v(TAG, "onSkipToPrevious")
 
             updatePodcastPosition()
@@ -167,7 +171,7 @@ internal class MediaSessionCallback @Inject constructor(
     /**
      * Try to skip to next song, if can't, restart current and pause
      */
-    private fun onSkipToNext(trackEnded: Boolean) = launch(Dispatchers.Main) {
+    private fun onSkipToNext(trackEnded: Boolean) = lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
         Log.v(TAG, "onSkipToNext internal track ended=$trackEnded")
         updatePodcastPosition()
         val metadata = queue.handleSkipToNext(trackEnded)
@@ -187,7 +191,7 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        launch(Dispatchers.Main) {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             Log.v(TAG, "onSkipToQueueItem id=$id")
 
             updatePodcastPosition()
@@ -202,7 +206,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         Log.v(TAG, "onSeekTo pos=$pos")
-        launch(Dispatchers.Main) {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             updatePodcastPosition()
             player.seekTo(pos)
         }
@@ -214,7 +218,7 @@ internal class MediaSessionCallback @Inject constructor(
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
         Log.v(TAG, "onSetRating rating=$rating, extras=$extras")
-        launch { favoriteGateway.toggleFavorite() }
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) { favoriteGateway.toggleFavorite() }
     }
 
     override fun onCustomAction(action: String, extras: Bundle?) {
@@ -278,7 +282,7 @@ internal class MediaSessionCallback @Inject constructor(
             MusicServiceCustomAction.REPLAY_30 -> player.replayThirtySeconds()
             MusicServiceCustomAction.TOGGLE_FAVORITE -> onSetRating(null)
             MusicServiceCustomAction.ADD_TO_PLAY_LATER -> {
-                launch {
+                lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!
@@ -289,7 +293,7 @@ internal class MediaSessionCallback @Inject constructor(
                 }
             }
             MusicServiceCustomAction.ADD_TO_PLAY_NEXT -> {
-                launch {
+                lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                     requireNotNull(extras)
                     val mediaIds =
                         extras.getLongArray(MusicServiceCustomAction.ARGUMENT_MEDIA_ID_LIST)!!

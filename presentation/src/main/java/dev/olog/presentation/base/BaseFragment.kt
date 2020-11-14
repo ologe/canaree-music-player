@@ -9,11 +9,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
-abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,11 +25,6 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     fun getSlidingPanel(): BottomSheetBehavior<*>? {
         return (requireActivity() as HasSlidingPanel).getSlidingPanel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cancel()
     }
 
     fun restoreUpperWidgetsTranslation(){

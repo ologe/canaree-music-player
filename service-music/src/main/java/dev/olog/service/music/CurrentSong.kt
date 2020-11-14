@@ -1,8 +1,8 @@
 package dev.olog.service.music
 
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.MediaId
 import dev.olog.core.entity.LastMetadata
@@ -19,25 +19,29 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
-import dev.olog.shared.CustomScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ServiceScoped
 internal class CurrentSong @Inject constructor(
-    insertMostPlayedUseCase: InsertMostPlayedUseCase,
-    insertHistorySongUseCase: InsertHistorySongUseCase,
+    private val lifecycleOwner: LifecycleOwner,
+    private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
+    private val insertHistorySongUseCase: InsertHistorySongUseCase,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
     private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
-    insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-    insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
+    private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
+    private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
     playerLifecycle: IPlayerLifecycle
 
-) : DefaultLifecycleObserver,
-    CoroutineScope by CustomScope(),
-    IPlayerLifecycle.Listener {
+) : IPlayerLifecycle.Listener {
 
     companion object {
         @JvmStatic
@@ -51,36 +55,34 @@ internal class CurrentSong @Inject constructor(
     init {
         playerLifecycle.addListener(this)
 
-        launch(Dispatchers.IO) {
-            for (entity in channel) {
-                Log.v(TAG, "on new item ${entity.title}")
-                if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
-                    Log.v(TAG, "insert last played artist ${entity.title}")
-                    insertLastPlayedArtistUseCase(entity.mediaId)
-                } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
-                    Log.v(TAG, "insert last played album ${entity.title}")
-                    insertLastPlayedAlbumUseCase(entity.mediaId)
-                }
-
-                Log.v(TAG, "insert most played ${entity.title}")
-                MediaId.playableItem(entity.mediaId, entity.id)
-                insertMostPlayedUseCase(entity.mediaId)
-
-                Log.v(TAG, "insert to history ${entity.title}")
-                insertHistorySongUseCase(
-                    InsertHistorySongUseCase.Input(
-                        entity.id,
-                        entity.isPodcast
-                    )
-                )
-            }
-        }
+        channel.consumeAsFlow()
+            .onEach(this::insertSong)
+            .flowOn(Dispatchers.Default)
+            .launchIn(lifecycleOwner.lifecycleScope)
 
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        isFavoriteJob?.cancel()
-        cancel()
+    private suspend fun insertSong(entity: MediaEntity) {
+        Log.v(TAG, "on new item ${entity.title}")
+        if (entity.mediaId.isArtist || entity.mediaId.isPodcastArtist) {
+            Log.v(TAG, "insert last played artist ${entity.title}")
+            insertLastPlayedArtistUseCase(entity.mediaId)
+        } else if (entity.mediaId.isAlbum || entity.mediaId.isPodcastAlbum) {
+            Log.v(TAG, "insert last played album ${entity.title}")
+            insertLastPlayedAlbumUseCase(entity.mediaId)
+        }
+
+        Log.v(TAG, "insert most played ${entity.title}")
+        MediaId.playableItem(entity.mediaId, entity.id)
+        insertMostPlayedUseCase(entity.mediaId)
+
+        Log.v(TAG, "insert to history ${entity.title}")
+        insertHistorySongUseCase(
+            InsertHistorySongUseCase.Input(
+                entity.id,
+                entity.isPodcast
+            )
+        )
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
@@ -98,7 +100,7 @@ internal class CurrentSong @Inject constructor(
         Log.v(TAG, "updateFavorite ${mediaEntity.title}")
 
         isFavoriteJob?.cancel()
-        isFavoriteJob = launch {
+        isFavoriteJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
             val isFavorite =
                 isFavoriteSongUseCase(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
@@ -110,7 +112,7 @@ internal class CurrentSong @Inject constructor(
 
     private fun saveLastMetadata(entity: MediaEntity) {
         Log.v(TAG, "saveLastMetadata ${entity.title}")
-        launch {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             musicPreferencesUseCase.setLastMetadata(
                 LastMetadata(
                     entity.title, entity.artist, entity.id

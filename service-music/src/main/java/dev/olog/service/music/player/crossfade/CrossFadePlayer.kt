@@ -2,13 +2,12 @@ package dev.olog.service.music.player.crossfade
 
 import android.content.Context
 import androidx.core.math.MathUtils
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.EventDispatcher
 import dev.olog.service.music.EventDispatcher.Event
 import dev.olog.service.music.OnAudioSessionIdChangeListener
@@ -18,8 +17,9 @@ import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -29,16 +29,15 @@ import kotlin.math.abs
  */
 internal class CrossFadePlayer @Inject internal constructor(
     @ApplicationContext context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle,
+    private val lifecycleOwner: LifecycleOwner,
     mediaSourceFactory: ClippedSourceFactory,
     musicPreferencesUseCase: MusicPreferencesGateway,
     private val eventDispatcher: EventDispatcher,
     private val volume: IMaxAllowedPlayerVolume,
     private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycle, mediaSourceFactory, volume),
-    ExoPlayerListenerWrapper,
-    CoroutineScope by MainScope() {
+) : AbsPlayer<CrossFadePlayer.Model>(context, lifecycleOwner.lifecycle, mediaSourceFactory, volume),
+    ExoPlayerListenerWrapper {
 
     companion object {
         private const val MIN_CROSSFADE_FOR_GAPLESS = 1500
@@ -57,37 +56,31 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.setPlaybackParameters(PlaybackParameters(1f, 1f))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
-        launch {
-            flowInterval(1, TimeUnit.SECONDS)
-                .filter { crossFadeTime > 0 } // crossFade enabled
-                .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
-                .filter { getDuration() > getBookmark() }
-                .map { getDuration() - getBookmark() <= crossFadeTime }
-                .distinctUntilChanged()
-                .filter { it }
-                .collect {
-                    fadeOut(getDuration() - getBookmark())
-                }
-        }
+        flowInterval(1, TimeUnit.SECONDS)
+            .filter { crossFadeTime > 0 } // crossFade enabled
+            .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
+            .filter { getDuration() > getBookmark() }
+            .map { getDuration() - getBookmark() <= crossFadeTime }
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach { fadeOut(getDuration() - getBookmark()) }
+            .launchIn(lifecycleOwner.lifecycleScope)
 
-        launch {
-            musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
-            { crossfade, gapless ->
-                if (gapless){
-                    // force song preloading
-                    clamp(crossfade, MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
-                } else {
-                    crossfade
-                }
-
-            }.collect {
-                crossFadeTime = it
+        musicPreferencesUseCase.observeCrossFade().combine(musicPreferencesUseCase.observeGapless())
+        { crossfade, gapless ->
+            if (gapless){
+                // force song preloading
+                clamp(crossfade, MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
+            } else {
+                crossfade
             }
-        }
-        launch {
-            musicPreferencesUseCase.observeGapless()
-                .collect { gapless = it }
-        }
+
+        }.onEach { crossFadeTime = it }
+            .launchIn(lifecycleOwner.lifecycleScope)
+
+        musicPreferencesUseCase.observeGapless()
+            .onEach { gapless = it }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -95,7 +88,6 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.removeListener(this)
         player.removeAudioListener(onAudioSessionIdChangeListener)
         cancelFade()
-        cancel()
     }
 
     override fun setPlaybackSpeed(speed: Float) {
@@ -171,7 +163,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.volume = min
 
         fadeDisposable?.cancel()
-        fadeDisposable = launch {
+        fadeDisposable = lifecycleOwner.lifecycleScope.launch {
             flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume < max }
                 .collect {
@@ -203,7 +195,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeDisposable = launch {
+        fadeDisposable = lifecycleOwner.lifecycleScope.launch {
             flowInterval(interval, TimeUnit.MILLISECONDS)
                 .takeWhile { player.volume > min }
                 .collect {

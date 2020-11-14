@@ -3,7 +3,7 @@ package dev.olog.service.music.dagger
 import android.app.Service
 import android.content.ComponentName
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.media.session.MediaButtonReceiver
 import dagger.Binds
 import dagger.Module
@@ -11,7 +11,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.scopes.ServiceScoped
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.MusicService
 import dev.olog.service.music.interfaces.*
 import dev.olog.service.music.model.PlayerMediaEntity
@@ -67,10 +66,7 @@ abstract class MusicServiceModule {
         }
 
         @Provides
-        @ServiceLifecycle
-        fun provideLifecycle(service: MusicService): Lifecycle {
-            return service.lifecycle
-        }
+        fun provideLifecycleOwner(service: MusicService): LifecycleOwner = service
 
     }
 

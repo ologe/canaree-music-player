@@ -16,7 +16,6 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditArtistFragment : BaseEditItemFragment() {

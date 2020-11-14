@@ -1,17 +1,17 @@
 package dev.olog.service.music.player
 
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.service.music.interfaces.IDuckVolume
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -24,10 +24,10 @@ private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 @ServiceScoped
 internal class PlayerVolume @Inject constructor(
-    @ServiceLifecycle lifecycle: Lifecycle,
+    lifecycleOwner: LifecycleOwner,
     musicPreferencesUseCase: MusicPreferencesGateway
 
-) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver, CoroutineScope by MainScope() {
+) : IMaxAllowedPlayerVolume, DefaultLifecycleObserver {
 
     override var listener: IMaxAllowedPlayerVolume.Listener? = null
 
@@ -35,33 +35,30 @@ internal class PlayerVolume @Inject constructor(
     private var isDucking = false
 
     init {
-        lifecycle.addObserver(this)
+        lifecycleOwner.lifecycle.addObserver(this)
 
         // observe to preferences
-        launch {
-            musicPreferencesUseCase.isMidnightMode()
-                .collect { lowerAtNight ->
-                    volume = if (!lowerAtNight) {
-                        provideVolumeManager(false)
-                    } else {
-                        provideVolumeManager(isNight())
-                    }
+        musicPreferencesUseCase.isMidnightMode()
+            .onEach { lowerAtNight ->
+                volume = if (!lowerAtNight) {
+                    provideVolumeManager(false)
+                } else {
+                    provideVolumeManager(isNight())
+                }
 
-                    listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-                }
-        }
-        launch {
-            // observe at interval of 15 mins to detect if is day or night when
-            // settigs is on
-            musicPreferencesUseCase.isMidnightMode()
-                .filter { it }
-                .map { delay(TimeUnit.MINUTES.toMillis(15)); it; }
-                .map { isNight() }
-                .collect { isNight ->
-                    volume = provideVolumeManager(isNight)
-                    listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
-                }
-        }
+                listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
+            }.launchIn(lifecycleOwner.lifecycleScope)
+
+        // observe at interval of 15 mins to detect if is day or night when
+        // settigs is on
+        musicPreferencesUseCase.isMidnightMode()
+            .filter { it }
+            .map { delay(TimeUnit.MINUTES.toMillis(15)); it; }
+            .map { isNight() }
+            .onEach { isNight ->
+                volume = provideVolumeManager(isNight)
+                listener?.onMaxAllowedVolumeChanged(getMaxAllowedVolume())
+            }.launchIn(lifecycleOwner.lifecycleScope)
     }
 
     private fun isNight(): Boolean {
@@ -82,7 +79,6 @@ internal class PlayerVolume @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
         listener = null
     }
 

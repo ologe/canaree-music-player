@@ -1,43 +1,35 @@
 package dev.olog.service.floating
 
-import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
 import dagger.hilt.android.scopes.ServiceScoped
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.olog.injection.dagger.ServiceLifecycle
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
+import dev.olog.media.model.PlayerMetadata
+import dev.olog.media.model.PlayerPlaybackState
 import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
 import dev.olog.shared.lazyFast
-import dev.olog.media.model.PlayerMetadata
-import dev.olog.media.model.PlayerPlaybackState
 import javax.inject.Inject
 
 @ServiceScoped
 class MusicGlueService @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @ServiceLifecycle lifecycle: Lifecycle
-
+    private val service: LifecycleService,
 ) : DefaultLifecycleObserver, OnConnectionChanged {
 
     private val mediaExposer by lazyFast {
-        MediaExposer(
-            context,
-            this
-        )
+        MediaExposer(service, this)
     }
     private var mediaController: MediaControllerCompat? = null
 
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(this)
         mediaExposer.connect()
     }
 
@@ -51,7 +43,7 @@ class MusicGlueService @Inject constructor(
         callback: MediaControllerCompat.Callback
     ) {
         try {
-            mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken)
+            mediaController = MediaControllerCompat(service, mediaBrowser.sessionToken)
             mediaController!!.registerCallback(callback)
             mediaExposer.initialize(mediaController!!)
         } catch (e: RemoteException) {

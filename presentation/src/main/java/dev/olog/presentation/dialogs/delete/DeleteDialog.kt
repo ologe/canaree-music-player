@@ -10,11 +10,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
 import dev.olog.shared.android.utils.isQ
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

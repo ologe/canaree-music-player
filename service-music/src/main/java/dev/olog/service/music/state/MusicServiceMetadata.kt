@@ -6,10 +6,10 @@ import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import dagger.hilt.android.scopes.ServiceScoped
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.image.provider.GlideUtils
 import dev.olog.image.provider.getCachedBitmap
@@ -21,11 +21,10 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.utils.putBoolean
-import dev.olog.shared.CustomScope
 import dev.olog.shared.android.extensions.getAppWidgetsIdsFor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 import javax.inject.Inject
@@ -33,13 +32,12 @@ import javax.inject.Inject
 @ServiceScoped
 internal class MusicServiceMetadata @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val lifecycleOwner: LifecycleOwner,
     private val mediaSession: MediaSessionCompat,
     playerLifecycle: IPlayerLifecycle,
-    private val musicPrefs: MusicPreferencesGateway
+    musicPrefs: MusicPreferencesGateway
 
-) : IPlayerLifecycle.Listener,
-    DefaultLifecycleObserver,
-    CoroutineScope by CustomScope() {
+) : IPlayerLifecycle.Listener {
 
     companion object {
         @JvmStatic
@@ -53,10 +51,9 @@ internal class MusicServiceMetadata @Inject constructor(
     init {
         playerLifecycle.addListener(this)
 
-        launch {
-            musicPrefs.observeShowLockscreenArtwork()
-                .collect { showLockScreenArtwork = it }
-        }
+        musicPrefs.observeShowLockscreenArtwork()
+            .onEach { showLockScreenArtwork = it }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
 
     override fun onPrepare(metadata: MetadataEntity) {
@@ -68,14 +65,10 @@ internal class MusicServiceMetadata @Inject constructor(
         notifyWidgets(metadata.entity)
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        cancel()
-    }
-
     private fun update(metadata: MetadataEntity) {
         Log.v(TAG, "update metadata ${metadata.entity.title}, skip type=${metadata.skipType}")
 
-        launch {
+        lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
 
             val entity = metadata.entity
 

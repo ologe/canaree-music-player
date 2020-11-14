@@ -2,16 +2,17 @@ package dev.olog.presentation.about
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.navigator.NavigatorAbout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.act
-import dev.olog.shared.android.extensions.ctx
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_about.*
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,9 +26,8 @@ class AboutFragment : BaseFragment() {
     @Inject
     lateinit var navigator: NavigatorAbout
 
-    private val presenter by lazyFast {
-        AboutFragmentPresenter(ctx.applicationContext)
-    }
+    private val viewModel by viewModels<AboutFragmentPresenter>()
+
     private val adapter by lazyFast {
         AboutFragmentAdapter(lifecycle, navigator)
     }
@@ -36,8 +36,9 @@ class AboutFragment : BaseFragment() {
         list.layoutManager = OverScrollLinearLayoutManager(list)
         list.adapter = adapter
 
-        presenter.observeData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.data
+            .onEach(adapter::updateDataSet)
+            .launchIn(this)
     }
 
     override fun onResume() {
@@ -48,11 +49,6 @@ class AboutFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         back.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onCleared()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_about

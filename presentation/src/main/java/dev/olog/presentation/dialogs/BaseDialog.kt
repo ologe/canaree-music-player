@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.act
+import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.utils.isQ
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
-abstract class BaseDialog : BaseDialogFragment(), CoroutineScope by MainScope() {
+abstract class BaseDialog : BaseDialogFragment() {
 
     companion object {
         const val ACCESS_CODE = 101

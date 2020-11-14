@@ -1,23 +1,21 @@
 package dev.olog.presentation.about
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class AboutFragmentPresenter(
-    context: Context,
-) : CoroutineScope by MainScope() {
+class AboutFragmentPresenter @ViewModelInject constructor(
+    @ApplicationContext context: Context,
+) : ViewModel() {
 
     companion object {
-        @JvmStatic
-        val HAVOC_ID = MediaId.headerId("havoc id")
         @JvmStatic
         val AUTHOR_ID = MediaId.headerId("author id")
         @JvmStatic
@@ -41,13 +39,7 @@ class AboutFragmentPresenter(
     }
 
 
-    private val data = listOf(
-        DisplayableHeader(
-            type = R.layout.item_about_promotion,
-            mediaId = HAVOC_ID,
-            title = context.getString(R.string.about_havoc),
-            subtitle = context.getString(R.string.about_translations_description)
-        ),
+    private val _data = listOf(
         DisplayableHeader(
             type = R.layout.item_about,
             mediaId = AUTHOR_ID,
@@ -109,48 +101,7 @@ class AboutFragmentPresenter(
             subtitle = context.getString(R.string.about_privacy_policy_description)
         )
     )
-//
-//    private val trial = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description_trial)
-//    )
-//    private val noPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.about_buy_pro_description)
-//    )
-//    private val alreadyPro = DisplayableHeader(
-//        type = R.layout.item_about,
-//        mediaId = BUY_PRO,
-//        title = context.getString(R.string.about_buy_pro),
-//        subtitle = context.getString(R.string.premium_already_premium)
-//    )
 
-    private val dataLiveData = MutableLiveData<List<DisplayableItem>>()
-
-    init {
-//        launch {
-//            billing.observeBillingsState().combine(flowOf(data)) { state, data ->
-//                when {
-//                    state.isBought -> listOf(havoc, alreadyPro) + (data)
-//                    state.isTrial -> listOf(havoc, trial) + (data)
-//                    else -> listOf(havoc, noPro) + (data)
-//                }
-//            }.flowOn(Dispatchers.Default)
-//                .collect {
-//                    dataLiveData.value = it
-//                }
-//        }
-        dataLiveData.value = data
-    }
-
-    fun onCleared() {
-        cancel()
-    }
-
-    fun observeData(): LiveData<List<DisplayableItem>> = dataLiveData
+    val data: Flow<List<DisplayableItem>> = MutableStateFlow(_data)
 
 }

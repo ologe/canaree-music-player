@@ -19,12 +19,13 @@ import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
 import dev.olog.shared.android.extensions.ctx
+import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LastFmCredentialsFragment : BaseDialogFragment(), CoroutineScope by MainScope() {
+class LastFmCredentialsFragment : BaseDialogFragment() {
 
     companion object {
         const val TAG = "LastFmCredentialsFragment"
