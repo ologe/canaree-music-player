@@ -1,4 +1,4 @@
-package dev.olog.injection.schedulers
+package dev.olog.msc.app
 
 import dagger.Binds
 import dagger.Module

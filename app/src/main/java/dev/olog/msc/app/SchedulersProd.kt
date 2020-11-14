@@ -1,4 +1,4 @@
-package dev.olog.injection.schedulers
+package dev.olog.msc.app
 
 import dev.olog.core.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
