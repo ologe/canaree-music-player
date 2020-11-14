@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.math.MathUtils.clamp
-import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.HasSlidingPanel
@@ -27,7 +26,7 @@ class SlidingPanelFade(
     private val slidingPanel by lazyFast { (findActivity() as HasSlidingPanel).getSlidingPanel() }
     private val isTablet = context.isTablet
 
-    var parallax = context.dip(20)
+    var parallax = dip(20)
 
     init {
         setBackgroundColor(context.scrimBackground())

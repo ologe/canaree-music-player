@@ -39,7 +39,7 @@ class SwipeableView(
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.SwipeableView)
 
-        skipAreaDimension = a.getDimension(R.styleable.SwipeableView_skip_area_dimension, context.dipf(64)).toInt()
+        skipAreaDimension = a.getDimension(R.styleable.SwipeableView_skip_area_dimension, dipf(64)).toInt()
 
         debug = a.getBoolean(R.styleable.SwipeableView_debug, false)
 

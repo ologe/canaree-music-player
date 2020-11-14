@@ -55,12 +55,12 @@ open class ShapeImageView(
 
         cutCornerShapeModel = ShapeAppearanceModel.Builder()
             .setAllCorners(CutCornerTreatment())
-            .setAllCornerSizes(context.dipf(radius))
+            .setAllCornerSizes(dipf(radius))
             .build()
 
         roundedShapeModel = ShapeAppearanceModel.Builder()
             .setAllCorners(RoundedCornerTreatment())
-            .setAllCornerSizes(context.dipf(radius))
+            .setAllCornerSizes(dipf(radius))
             .build()
 
         squareShapeModel = ShapeAppearanceModel()

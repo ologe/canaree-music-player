@@ -22,17 +22,17 @@ class TabView(
     private val baseColors = intArrayOf(0xffff5d5d.toInt(), 0xffff9468.toInt())
 
     init {
-        val size = context.dip(48)
+        val size = dip(48)
         layoutParams = ViewGroup.LayoutParams(size, size)
-        initialize(context)
+        initialize()
     }
 
-    private fun initialize(context: Context){
+    private fun initialize(){
         setHidden(false)
         scaleType = ImageView.ScaleType.CENTER_CROP
         adjustViewBounds = true
 
-        val padding = context.dip(14)
+        val padding = dip(14)
         setPadding(padding, padding, padding, padding)
         setColorFilter(0xFF_262626.toInt())
     }

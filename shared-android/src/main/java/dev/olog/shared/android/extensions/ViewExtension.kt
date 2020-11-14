@@ -10,6 +10,7 @@ import android.view.ViewParent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.annotation.DimenRes
 import androidx.annotation.Px
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -147,3 +148,7 @@ fun View.findActivity(): FragmentActivity {
     }
     error("View $this does not have a FragmentActivity set")
 }
+
+inline fun View.dip(value: Int): Int = context.dip(value)
+inline fun View.dipf(value: Int): Float = context.dipf(value)
+inline fun View.dimen(@DimenRes resource: Int): Int = context.dimen(resource)

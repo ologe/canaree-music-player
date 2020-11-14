@@ -22,15 +22,16 @@ import android.graphics.Point
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.*
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.lazyFast
 import dev.olog.shared.android.extensions.setGone
 import dev.olog.shared.android.extensions.setVisible
+import dev.olog.shared.lazyFast
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -64,7 +65,7 @@ internal class ExitView constructor(
 
         mExitIcon = findViewById(R.id.view_exit)
 
-        mExitRadiusInPx = context.dimen(R.dimen.hover_exit_radius)
+        mExitRadiusInPx = dimen(R.dimen.hover_exit_radius)
 
     }
 

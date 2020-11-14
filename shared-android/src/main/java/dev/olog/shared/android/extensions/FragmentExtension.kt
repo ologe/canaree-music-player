@@ -2,10 +2,9 @@
 
 package dev.olog.shared.android.extensions
 
-import android.content.Context
+import androidx.annotation.DimenRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -29,3 +28,7 @@ inline fun Fragment.launch(
 ): Job {
     return viewLifecycleOwner.lifecycleScope.launch(context, block = block)
 }
+
+inline fun Fragment.dip(value: Int): Int = requireContext().dip(value)
+inline fun Fragment.dipf(value: Int): Float = requireContext().dipf(value)
+inline fun Fragment.dimen(@DimenRes resource: Int): Int = requireContext().dimen(resource)
