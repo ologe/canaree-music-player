@@ -64,7 +64,7 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
 
     override fun onPause() {
         super.onPause()
-        view?.setOnClickListener(null)
+        requireView().setOnClickListener(null)
         volumeSlider.setOnSeekBarChangeListener(null)
     }
 

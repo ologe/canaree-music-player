@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
-import dev.olog.presentation.about.AboutFragment
 import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.folder.tree.FolderTreeFragment
 import dev.olog.presentation.library.LibraryFragment
@@ -33,10 +32,10 @@ class SuperCerealScrollHelper(
             list.updatePadding(top = 0)
         }
         if (fragment is FolderTreeFragment){
-            val crumbsWrapper = fragment.view!!.findViewById<View>(R.id.crumbsWrapper)
+            val crumbsWrapper = fragment.requireView().findViewById<View>(R.id.crumbsWrapper)
             if (crumbsWrapper.marginTop < 1){
 //                 margin not set yet
-                fragment.view!!.doOnPreDraw {
+                fragment.requireView().doOnPreDraw {
                     crumbsWrapper.setMargin(top = toolbar!!.height + tabLayout!!.height)
                     list.updatePadding(top = list.paddingTop + crumbsWrapper!!.height)
                 }

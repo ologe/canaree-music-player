@@ -124,7 +124,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                 statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
             }
             val alpha = clamp(slideOffset * 5f, 0f, 1f)
-            view?.alpha = alpha
+            requireView().alpha = alpha
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {

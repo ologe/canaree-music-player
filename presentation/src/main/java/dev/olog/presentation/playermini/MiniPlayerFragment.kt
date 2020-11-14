@@ -95,8 +95,8 @@ class MiniPlayerFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
-        view?.setOnClickListener { getSlidingPanel()?.expand() }
-        view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
+        requireView().setOnClickListener { getSlidingPanel()?.expand() }
+        requireView().toggleVisibility(!getSlidingPanel().isExpanded(), true)
         next.setOnClickListener { media.skipToNext() }
         playPause.setOnClickListener { media.playPause() }
         previous.setOnClickListener { media.skipToPrevious() }
@@ -105,7 +105,7 @@ class MiniPlayerFragment : BaseFragment(){
     override fun onPause() {
         super.onPause()
         getSlidingPanel()!!.removeBottomSheetCallback(slidingPanelListener)
-        view?.setOnClickListener(null)
+        requireView().setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)
         previous.setOnClickListener(null)
@@ -140,8 +140,8 @@ class MiniPlayerFragment : BaseFragment(){
 
     private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
-            view?.toggleVisibility(slideOffset <= .8f, true)
+            requireView().alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
+            requireView().toggleVisibility(slideOffset <= .8f, true)
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
