@@ -41,7 +41,6 @@ internal class ImageRetrieverRepository @Inject constructor(
 ) : ImageRetrieverGateway {
 
     companion object {
-        @JvmStatic
         private val TAG = "D:${ImageRetrieverRepository::class.java.simpleName}"
     }
 

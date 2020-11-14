@@ -32,7 +32,6 @@ internal object NetworkModule {
             .build()
     }
 
-    @JvmStatic
     private fun logInterceptor(): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
@@ -44,7 +43,6 @@ internal object NetworkModule {
         return loggingInterceptor
     }
 
-    @JvmStatic
     private fun headerInterceptor(context: Context): Interceptor {
         return Interceptor {
             val original = it.request()

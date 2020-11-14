@@ -7,7 +7,7 @@ import dev.olog.core.entity.sort.SortEntity
 import dev.olog.core.entity.sort.SortType
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
-import java.util.concurrent.TimeUnit
+import kotlin.time.days
 
 @Suppress("DEPRECATION")
 abstract class BaseQueries(
@@ -17,8 +17,7 @@ abstract class BaseQueries(
 ) {
 
     companion object {
-        @JvmStatic
-        private val RECENTLY_ADDED_TIME = TimeUnit.SECONDS.convert(14, TimeUnit.DAYS)
+        private val RECENTLY_ADDED_TIME = 14.days.inSeconds
     }
 
     protected val folderProjection: String
