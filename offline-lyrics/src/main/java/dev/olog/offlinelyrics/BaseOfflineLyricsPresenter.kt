@@ -27,6 +27,7 @@ sealed class Lyrics {
     class Synced(val lyrics: List<Pair<Long, Spannable>>) : Lyrics()
 }
 
+// TODO inject some coroutine scope?
 abstract class BaseOfflineLyricsPresenter constructor(
     private val context: Context,
     private val lyricsGateway: OfflineLyricsGateway,
