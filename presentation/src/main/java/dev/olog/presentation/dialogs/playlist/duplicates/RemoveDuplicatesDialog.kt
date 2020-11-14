@@ -42,16 +42,16 @@ class RemoveDuplicatesDialog: BaseDialog() {
             .setNegativeButton(R.string.popup_negative_no, null)
     }
 
-    override fun positionButtonAction(context: Context) {
+    override fun positionButtonAction() {
         launch {
             var message: String
             try {
                 val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
                 presenter.execute(mediaId)
-                message = successMessage(requireContext())
+                message = successMessage()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(requireContext())
+                message = failMessage()
             }
             requireActivity().toast(message)
             dismiss()
@@ -59,16 +59,16 @@ class RemoveDuplicatesDialog: BaseDialog() {
         }
     }
 
-    private fun successMessage(context: Context): String {
-        return context.getString(R.string.remove_duplicates_success, itemTitle)
+    private fun successMessage(): String {
+        return getString(R.string.remove_duplicates_success, itemTitle)
     }
 
-    private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+    private fun failMessage(): String {
+        return getString(R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_duplicates_message, itemTitle)
+        return getString(R.string.remove_duplicates_message, itemTitle)
     }
 
 }

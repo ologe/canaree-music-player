@@ -1,6 +1,5 @@
 package dev.olog.presentation.dialogs.play.later
 
-import android.content.Context
 import android.support.v4.media.session.MediaControllerCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,26 +48,28 @@ class PlayLaterDialog : BaseDialog() {
             .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    private fun successMessage(context: Context): String {
+    private fun successMessage(): String {
         return if (mediaId.isLeaf){
-            context.getString(R.string.song_x_added_to_play_later, title)
-        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_later, listSize, listSize)
+            getString(R.string.song_x_added_to_play_later, title)
+        } else {
+            resources.getQuantityString(R.plurals.xx_songs_added_to_play_later, listSize, listSize)
+        }
     }
 
-    private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+    private fun failMessage(): String {
+        return getString(R.string.popup_error_message)
     }
 
-    override fun positionButtonAction(context: Context) {
+    override fun positionButtonAction() {
         launch {
             var message: String
             try {
                 val mediaController = MediaControllerCompat.getMediaController(requireActivity())
                 presenter.execute(mediaController, mediaId)
-                message = successMessage(requireContext())
+                message = successMessage()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(requireContext())
+                message = failMessage()
             }
             requireActivity().toast(message)
             dismiss()
@@ -79,7 +80,7 @@ class PlayLaterDialog : BaseDialog() {
         if (mediaId.isAll || mediaId.isLeaf){
             return getString(R.string.add_song_x_to_play_later, title)
         }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_play_later, listSize, listSize)
+        return resources.getQuantityString(R.plurals.add_xx_songs_to_play_later, listSize, listSize)
     }
 
 }

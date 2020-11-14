@@ -3,7 +3,6 @@ package dev.olog.presentation.dialogs
 import android.app.Activity
 import android.app.Dialog
 import android.app.RecoverableSecurityException
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -29,14 +28,14 @@ abstract class BaseDialog : BaseDialogFragment() {
         extendDialog(dialog)
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            positionButtonAction(requireContext())
+            positionButtonAction()
         }
 
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-            negativeButtonAction(requireContext())
+            negativeButtonAction()
         }
         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-            neutralButtonAction(requireContext())
+            neutralButtonAction()
         }
 
         return dialog
@@ -45,12 +44,12 @@ abstract class BaseDialog : BaseDialogFragment() {
     protected abstract fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder
     protected open fun extendDialog(dialog: AlertDialog) {}
 
-    protected open fun positionButtonAction(context: Context) {}
-    protected open fun negativeButtonAction(context: Context) {
+    protected open fun positionButtonAction() {}
+    protected open fun negativeButtonAction() {
         dismiss()
     }
 
-    protected open fun neutralButtonAction(context: Context) {}
+    protected open fun neutralButtonAction() {}
 
     protected suspend fun catchRecoverableSecurityException(
         fragment: Fragment,

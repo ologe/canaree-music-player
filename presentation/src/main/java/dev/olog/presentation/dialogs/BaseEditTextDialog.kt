@@ -1,6 +1,5 @@
 package dev.olog.presentation.dialogs
 
-import android.content.Context
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -42,7 +41,7 @@ abstract class BaseEditTextDialog : BaseDialog() {
 
     protected open fun setupEditText(layout: TextInputLayout, editText: TextInputEditText) {}
 
-    override fun positionButtonAction(context: Context) {
+    override fun positionButtonAction() {
         val string = editText.text.toString()
         if (string.isBlank()) {
             showError(provideMessageForBlank())

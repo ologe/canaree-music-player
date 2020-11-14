@@ -1,6 +1,5 @@
 package dev.olog.presentation.dialogs.playlist.clear
 
-import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -45,15 +44,15 @@ class ClearPlaylistDialog : BaseDialog() {
             .setNegativeButton(R.string.popup_negative_cancel, null)
     }
 
-    override fun positionButtonAction(context: Context) {
+    override fun positionButtonAction() {
         launch {
             var message: String
             try {
                 presenter.execute(mediaId)
-                message = successMessage(requireContext())
+                message = successMessage()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                message = failMessage(requireContext())
+                message = failMessage()
             }
             requireActivity().toast(message)
             dismiss()
@@ -61,16 +60,16 @@ class ClearPlaylistDialog : BaseDialog() {
         }
     }
 
-    private fun successMessage(context: Context): String {
-        return context.getString(R.string.playlist_x_cleared, title)
+    private fun successMessage(): String {
+        return getString(R.string.playlist_x_cleared, title)
     }
 
-    private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+    private fun failMessage(): String {
+        return getString(R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
-        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
+        return getString(R.string.remove_songs_from_playlist_y, title)
     }
 
 }

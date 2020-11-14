@@ -1,7 +1,6 @@
 package dev.olog.presentation.dialogs.delete
 
 import android.app.RecoverableSecurityException
-import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
@@ -51,7 +50,7 @@ class DeleteDialog: BaseDialog() {
             .setNegativeButton(R.string.popup_negative_no, null)
     }
 
-    override fun positionButtonAction(context: Context) {
+    override fun positionButtonAction() {
         launch {
             catchRecoverableSecurityException(this@DeleteDialog) {
                 tryExecute()
@@ -63,13 +62,13 @@ class DeleteDialog: BaseDialog() {
         var message: String
         try {
             presenter.execute(mediaId)
-            message = successMessage(requireContext())
+            message = successMessage()
         } catch (ex: Throwable) {
             if (isQ() && ex is RecoverableSecurityException){
                 throw ex
             }
             ex.printStackTrace()
-            message = failMessage(requireContext())
+            message = failMessage()
         }
         requireActivity().toast(message)
         dismiss()
@@ -79,19 +78,19 @@ class DeleteDialog: BaseDialog() {
         tryExecute()
     }
 
-    private fun successMessage(context: Context): String {
+    private fun successMessage(): String {
         return when (mediaId.category) {
-            MediaIdCategory.PLAYLISTS -> context.getString(R.string.playlist_x_deleted, title)
-            MediaIdCategory.SONGS -> context.getString(R.string.song_x_deleted, title)
-            else -> context.resources.getQuantityString(
+            MediaIdCategory.PLAYLISTS -> getString(R.string.playlist_x_deleted, title)
+            MediaIdCategory.SONGS -> getString(R.string.song_x_deleted, title)
+            else -> resources.getQuantityString(
                 R.plurals.xx_songs_deleted_from_y,
                 listSize, listSize, title
             )
         }
     }
 
-    private fun failMessage(context: Context): String {
-        return context.getString(R.string.popup_error_message)
+    private fun failMessage(): String {
+        return getString(R.string.popup_error_message)
     }
 
     private fun createMessage() : String {
@@ -100,7 +99,7 @@ class DeleteDialog: BaseDialog() {
         return when {
             mediaId.isAll || mediaId.isLeaf -> getString(R.string.delete_song_y, itemTitle)
             mediaId.isPlaylist -> getString(R.string.delete_playlist_y, itemTitle)
-            else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
+            else -> resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
         }
     }
 

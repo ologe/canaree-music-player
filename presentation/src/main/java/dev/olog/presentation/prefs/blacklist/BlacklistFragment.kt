@@ -60,7 +60,7 @@ class BlacklistFragment : ListDialog() {
     }
 
     private fun notifyMediaStore(){
-        val contentResolver = context!!.contentResolver
+        val contentResolver = requireContext().contentResolver
         contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
