@@ -4,12 +4,12 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.api.HoverMenu
 import dev.olog.service.floating.api.view.TabView
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
@@ -34,7 +34,7 @@ class CustomHoverMenu @Inject constructor(
     private val videoContent = VideoContent(service)
     private val offlineLyricsContent = OfflineLyricsContent(service, musicServiceBinder, offlineLyricsContentPresenter)
 
-    private var disposable: Job? = null
+    private var job by autoDisposeJob()
 
     private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {
@@ -49,8 +49,7 @@ class CustomHoverMenu @Inject constructor(
     }
 
     fun startObserving(){
-        disposable?.cancel()
-        disposable = GlobalScope.launch(Dispatchers.Main) {
+        job = service.lifecycleScope.launch(Dispatchers.Main) {
             musicPreferencesUseCase.observeLastMetadata()
                 .filter { it.isNotEmpty() }
                 .flowOn(Dispatchers.Default)
@@ -61,7 +60,7 @@ class CustomHoverMenu @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
+        job = null
     }
 
     private val lyricsSection = Section(

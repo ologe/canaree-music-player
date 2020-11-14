@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.layout_material_edit_text.view.*
 import kotlinx.coroutines.*
@@ -92,10 +93,10 @@ class TextViewDialog(
         neutralAction: Action? = null,
         crossinline dismissAction: AlertDialog.() -> Unit = { dismiss() }
     ) {
-        var job: Job? = null
+        @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+        var job by autoDisposeJob()
 
         getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            job?.cancel()
             job = GlobalScope.launch(Dispatchers.Main) {
                 if (positiveAction.action(textViews)) {
                     dismissAction()
@@ -104,7 +105,6 @@ class TextViewDialog(
         }
         negativeAction?.let { negative ->
             getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-                job?.cancel()
                 job = GlobalScope.launch(Dispatchers.Main) {
                     if (negative.action(textViews)) {
                         dismissAction()
@@ -114,7 +114,6 @@ class TextViewDialog(
         }
         neutralAction?.let { neutral ->
             getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                job?.cancel()
                 job = GlobalScope.launch(Dispatchers.Main) {
                     if (neutral.action(textViews)) {
                         dismissAction()

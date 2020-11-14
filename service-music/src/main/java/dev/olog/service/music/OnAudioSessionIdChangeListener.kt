@@ -8,7 +8,9 @@ import com.google.android.exoplayer2.audio.AudioListener
 import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
-import kotlinx.coroutines.*
+import dev.olog.shared.android.coroutine.autoDisposeJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class OnAudioSessionIdChangeListener @Inject constructor(
@@ -25,7 +27,7 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
         internal const val DELAY = 500L
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val hash by lazy { hashCode() }
 
@@ -34,11 +36,10 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        job?.cancel()
+        job = null
     }
 
     override fun onAudioSessionId(audioSessionId: Int) {
-        job?.cancel()
         job = lifecycleOwner.lifecycleScope.launch {
             delay(DELAY)
             onAudioSessionIdInternal(audioSessionId)

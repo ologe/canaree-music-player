@@ -8,13 +8,17 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.math.MathUtils
 import androidx.palette.graphics.Palette
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.extensions.*
 import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 
 class AdaptiveColorImageViewPresenter(
     private val context: Context
@@ -35,8 +39,8 @@ class AdaptiveColorImageViewPresenter(
     private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
     private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
 
-    private var processorJob: Job? = null
-    private var paletteJob: Job? = null
+    private var processorJob by autoDisposeJob()
+    private var paletteJob by autoDisposeJob()
 
     fun observeProcessorColors(): Flow<ProcessorColors> = processorPalettePublisher
         .asFlow()
@@ -48,8 +52,8 @@ class AdaptiveColorImageViewPresenter(
     }
 
     fun onNextImage(bitmap: Bitmap?) {
-        processorJob?.cancel()
-        paletteJob?.cancel()
+        processorJob = null
+        paletteJob = null
 
         if (bitmap == null) {
             processorPalettePublisher.offer(defaultProcessorColors)

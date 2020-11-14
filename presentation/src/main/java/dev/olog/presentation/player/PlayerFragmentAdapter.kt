@@ -45,7 +45,6 @@ internal class PlayerFragmentAdapter(
     private val navigator: Navigator,
     private val viewModel: PlayerFragmentViewModel,
     private val presenter: PlayerFragmentPresenter,
-    private val musicPrefs: MusicPreferencesGateway,
     private val dragListener: IDragListener,
     private val playerAppearanceAdaptiveBehavior: IPlayerAppearanceAdaptiveBehavior
 
@@ -98,7 +97,6 @@ internal class PlayerFragmentAdapter(
                         ex.printStackTrace()
                     }
                 }
-                viewHolder.itemView.volume?.musicPrefs = musicPrefs
             }
         }
 

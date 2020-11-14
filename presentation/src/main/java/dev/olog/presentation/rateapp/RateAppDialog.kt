@@ -5,10 +5,12 @@ import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.utils.PlayStoreUtils
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
@@ -27,7 +29,7 @@ class RateAppDialog @Inject constructor(
 
     private val activityRef = WeakReference(activity)
 
-    private var disposable: Job? = null
+    private var job by autoDisposeJob()
 
     init {
         activityRef.get()?.let {
@@ -37,7 +39,7 @@ class RateAppDialog @Inject constructor(
     }
 
     private fun check(activity: FragmentActivity) {
-        disposable = GlobalScope.launch {
+        job = activityRef.get()?.lifecycleScope?.launch {
             val show = updateCounter(activity)
             delay(2000)
             if (show) {
@@ -62,7 +64,7 @@ class RateAppDialog @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
+        job = null
     }
 
     /**

@@ -15,6 +15,7 @@ import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.PositionInQueue
 import dev.olog.service.music.model.toMediaEntity
 import dev.olog.service.music.state.MusicServiceRepeatMode
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import dev.olog.shared.clamp
@@ -37,7 +38,7 @@ internal class QueueImpl @Inject constructor(
     private val podcastGateway: PodcastGateway
 ) : DefaultLifecycleObserver {
 
-    private var savePlayingQueueJob: Job? = null
+    private var savePlayingQueueJob by autoDisposeJob()
 
     private val playingQueue = Vector<MediaEntity>()
 
@@ -88,7 +89,6 @@ internal class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        savePlayingQueueJob?.cancel()
         savePlayingQueueJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             assertBackgroundThread()
 

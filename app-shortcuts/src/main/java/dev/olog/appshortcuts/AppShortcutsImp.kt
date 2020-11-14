@@ -11,14 +11,14 @@ import dev.olog.image.provider.getCachedBitmap
 import dev.olog.intents.Classes
 import dev.olog.intents.MusicServiceAction
 import dev.olog.intents.MusicServiceCustomAction
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.*
 
 class AppShortcutsImp(
     private val context: Context
-
 ) {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     init {
         ShortcutManagerCompat.removeAllDynamicShortcuts(context)

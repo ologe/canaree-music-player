@@ -3,8 +3,8 @@ package dev.olog.presentation.folder.tree
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -13,11 +13,10 @@ class AutoShrinkExtendedFab(
     attrs: AttributeSet
 ) : ExtendedFloatingActionButton(context, attrs) {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun extend() {
         super.extend()
-        job?.cancel()
         job = viewScope.launch {
             delay(5000)
             shrink()
@@ -26,12 +25,12 @@ class AutoShrinkExtendedFab(
 
     override fun shrink() {
         super.shrink()
-        job?.cancel()
+        job = null
     }
 
     override fun shrink(callback: OnChangedCallback) {
         super.shrink(callback)
-        job?.cancel()
+        job = null
     }
 
     override fun hide(callback: OnChangedCallback) {
@@ -46,11 +45,10 @@ class AutoShrinkExtendedFab(
 
     override fun show() {
         super.show()
-        job?.cancel()
+        job = null
     }
 
     private fun fastShrink(){
-        job?.cancel()
         if (isExtended){
             shrink()
         }

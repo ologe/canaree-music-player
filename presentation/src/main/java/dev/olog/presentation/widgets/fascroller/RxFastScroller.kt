@@ -20,14 +20,13 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
@@ -101,8 +100,8 @@ class RxFastScroller(
 
     private val bubbleTextPublisher = ConflatedBroadcastChannel("")
     private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
-    private var bubbleTextDisposable : Job? = null
-    private var scrollDisposable : Job? = null
+    private var bubbleTextJob by autoDisposeJob()
+    private var scrollJob by autoDisposeJob()
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
@@ -217,7 +216,7 @@ class RxFastScroller(
 
         if (!isInEditMode){
             if (showBubble){
-                bubbleTextDisposable = bubbleTextPublisher.asFlow()
+                bubbleTextJob = bubbleTextPublisher.asFlow()
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
                     .map {
@@ -230,19 +229,13 @@ class RxFastScroller(
                     .launchIn(viewScope)
             }
 
-            scrollDisposable = scrollPublisher.asFlow()
+            scrollJob = scrollPublisher.asFlow()
                 .filter { it != RecyclerView.NO_POSITION }
                 .distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
                 .onEach { mRecyclerView?.layoutManager?.scrollToPosition(it) }
                 .launchIn(viewScope)
         }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        bubbleTextDisposable?.cancel()
-        scrollDisposable?.cancel()
     }
 
     fun detachRecyclerView() {

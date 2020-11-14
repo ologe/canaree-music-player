@@ -8,9 +8,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.showIme
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
 abstract class BaseEditTextDialog : BaseDialog() {
@@ -18,8 +18,8 @@ abstract class BaseEditTextDialog : BaseDialog() {
     private lateinit var editText: TextInputEditText
     private lateinit var editTextLayout: TextInputLayout
 
-    private var errorJob: Job? = null
-    private var showJeyboardJob: Job? = null
+    private var errorJob by autoDisposeJob()
+    private var showJeyboardJob by autoDisposeJob()
 
     @CallSuper
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
@@ -32,7 +32,6 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout = dialog.findViewById(R.id.wrapper)!!
         setupEditText(editTextLayout, editText)
 
-        showJeyboardJob?.cancel()
         showJeyboardJob = launch {
             delay(500)
             editText.showIme()
@@ -71,7 +70,6 @@ abstract class BaseEditTextDialog : BaseDialog() {
         editTextLayout.error = errorString
         editTextLayout.isErrorEnabled = true
 
-        errorJob?.cancel()
         errorJob = launch(Dispatchers.Main) {
             delay(2000)
             editTextLayout.isErrorEnabled = false
@@ -80,8 +78,8 @@ abstract class BaseEditTextDialog : BaseDialog() {
 
     override fun onStop() {
         super.onStop()
-        showJeyboardJob?.cancel()
-        errorJob?.cancel()
+        showJeyboardJob = null
+        errorJob = null
     }
 
 

@@ -7,13 +7,13 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
@@ -26,7 +26,7 @@ class QuickActionView (
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val hasQuickAction by lazyFast { context.applicationContext as HasQuickAction }
 
@@ -59,7 +59,6 @@ class QuickActionView (
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         setOnClickListener(null)
-        job?.cancel()
     }
 
     fun setId(mediaId: MediaId) {

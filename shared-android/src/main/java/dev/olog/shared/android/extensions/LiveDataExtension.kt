@@ -3,6 +3,7 @@
 package dev.olog.shared.android.extensions
 
 import androidx.lifecycle.*
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -43,7 +44,7 @@ class FlowLiveData<T>(
     private val context: CoroutineContext = Dispatchers.Unconfined
 ) : LiveData<T>() {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun onActive() {
         job = GlobalScope.launch(context) {
@@ -58,7 +59,7 @@ class FlowLiveData<T>(
     }
 
     override fun onInactive() {
-        job?.cancel()
+        job = null
     }
 
 }

@@ -9,18 +9,20 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.floating.FloatingWindowService
 import dev.olog.service.floating.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.extensions.asServicePendingIntent
 import dev.olog.shared.android.extensions.colorControlNormal
 import dev.olog.shared.android.extensions.systemService
 import dev.olog.shared.android.utils.isOreo
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 private const val CHANNEL_ID = "0xfff"
@@ -41,7 +43,7 @@ class FloatingWindowNotification @Inject constructor(
         service,
         CHANNEL_ID
     )
-    private var disposable: Job? = null
+    private var job by autoDisposeJob()
 
     private var notificationTitle = ""
 
@@ -50,21 +52,19 @@ class FloatingWindowNotification @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        disposable?.cancel()
+        job = null
     }
 
     fun startObserving() {
-        disposable?.cancel()
-        disposable = GlobalScope.launch {
-            // keeps playing song in sync
-            musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.isNotEmpty() }
-                .collect {
-                    notificationTitle = it.description
-                    val notification = builder.setContentTitle(notificationTitle).build()
-                    notificationManager.notify(NOTIFICATION_ID, notification)
-                }
-        }
+        job = musicPreferencesUseCase.observeLastMetadata()
+            .filter { it.isNotEmpty() }
+            .onEach {
+                notificationTitle = it.description
+                val notification = builder.setContentTitle(notificationTitle).build()
+                notificationManager.notify(NOTIFICATION_ID, notification)
+            }
+            .flowOn(Dispatchers.Default)
+            .launchIn(service.lifecycleScope)
     }
 
     fun buildNotification(): Notification {

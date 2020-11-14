@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.gateway.PlayingQueueGateway
-import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
@@ -44,8 +43,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
     @Inject
     lateinit var navigator: Navigator
 
-    @Inject lateinit var musicPrefs: MusicPreferencesGateway
-
     private lateinit var layoutManager: LinearLayoutManager
 
     private val mediaProvider by lazyFast { requireActivity() as MediaProvider }
@@ -56,7 +53,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
         val adapter = PlayerFragmentAdapter(
             lifecycle, activity as MediaProvider,
-            navigator, viewModel, presenter, musicPrefs,
+            navigator, viewModel, presenter,
             this, IPlayerAppearanceAdaptiveBehavior.get(hasPlayerAppearance.playerAppearance())
         )
 

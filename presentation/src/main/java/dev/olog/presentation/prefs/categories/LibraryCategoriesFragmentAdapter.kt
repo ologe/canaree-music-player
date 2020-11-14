@@ -7,10 +7,10 @@ import dev.olog.presentation.base.adapter.setOnDragListener
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
 import dev.olog.presentation.model.LibraryCategoryBehavior
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_library_categories.view.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,7 @@ class LibraryCategoriesFragmentAdapter (
 ) : SimpleAdapter<LibraryCategoryBehavior>(data.toMutableList()),
     TouchableAdapter {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun getItemViewType(position: Int): Int = R.layout.item_library_categories
 
@@ -47,7 +47,6 @@ class LibraryCategoriesFragmentAdapter (
     }
 
     override fun onMoved(from: Int, to: Int) {
-        job?.cancel()
         job = GlobalScope.launch {
             delay(200)
             dataSet.forEachIndexed { index, item -> item.order = index }

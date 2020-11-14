@@ -5,9 +5,9 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.dip
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,7 @@ class BlurShadowHelper(
         private const val PADDING = 22f
     }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     init {
         BlurShadow.init(view.context.applicationContext)
@@ -41,7 +41,6 @@ class BlurShadowHelper(
     }
 
     private fun tryMakeBlurShadow() {
-        job?.cancel()
         job = view.viewScope.launch {
             loopUntilSizeIsValid()
         }

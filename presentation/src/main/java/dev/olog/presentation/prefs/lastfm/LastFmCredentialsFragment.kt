@@ -18,10 +18,10 @@ import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
 
     private var loader: ProgressDialog? = null
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(requireContext())
@@ -97,7 +97,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
             setCanceledOnTouchOutside(true)
             setOnCancelListener {
                 setOnCancelListener {
-                    job?.cancel()
+                    job = null
                     loader = null
                 }
             }

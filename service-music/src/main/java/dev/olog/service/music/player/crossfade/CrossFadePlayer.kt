@@ -15,11 +15,10 @@ import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -46,7 +45,7 @@ internal class CrossFadePlayer @Inject internal constructor(
 
     private var isCurrentSongPodcast = false
 
-    private var fadeDisposable: Job? = null
+    private var fadeJob by autoDisposeJob()
 
     private var gapless = false
     private var crossFadeTime = 0
@@ -162,15 +161,12 @@ internal class CrossFadePlayer @Inject internal constructor(
         )
         player.volume = min
 
-        fadeDisposable?.cancel()
-        fadeDisposable = lifecycleOwner.lifecycleScope.launch {
-            flowInterval(interval, TimeUnit.MILLISECONDS)
-                .takeWhile { player.volume < max }
-                .collect {
-                    val current = MathUtils.clamp(player.volume + delta, min, max)
-                    player.volume = current
-                }
-        }
+        fadeJob = flowInterval(interval, TimeUnit.MILLISECONDS)
+            .takeWhile { player.volume < max }
+            .onEach {
+                val current = MathUtils.clamp(player.volume + delta, min, max)
+                player.volume = current
+            }.launchIn(lifecycleOwner.lifecycleScope)
     }
 
     private fun fadeOut(time: Long) {
@@ -180,7 +176,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         }
 
 //        debug("fading out, was already fading?=$isFadingOut")
-        fadeDisposable?.cancel()
+        fadeJob = null
         requestNextSong()
 
         val (min, max, interval, delta) = CrossFadeInternals(
@@ -195,19 +191,17 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeDisposable = lifecycleOwner.lifecycleScope.launch {
-            flowInterval(interval, TimeUnit.MILLISECONDS)
-                .takeWhile { player.volume > min }
-                .collect {
-                    val current = MathUtils.clamp(player.volume - delta, min, max)
-                    player.volume = current
-                }
-        }
+        fadeJob = flowInterval(interval, TimeUnit.MILLISECONDS)
+            .takeWhile { player.volume > min }
+            .onEach {
+                val current = MathUtils.clamp(player.volume - delta, min, max)
+                player.volume = current
+            }.launchIn(lifecycleOwner.lifecycleScope)
 
     }
 
     private fun cancelFade() {
-        fadeDisposable?.cancel()
+        fadeJob = null
     }
 
     private fun restoreDefaultVolume() {

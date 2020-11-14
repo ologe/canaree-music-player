@@ -19,8 +19,8 @@ import dev.olog.core.prefs.MusicPreferencesGateway
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flowOn
@@ -47,7 +47,7 @@ internal class CurrentSong @Inject constructor(
         private val TAG = "SM:${CurrentSong::class.java.simpleName}"
     }
 
-    private var isFavoriteJob: Job? = null
+    private var isFavoriteJob by autoDisposeJob()
 
     private val channel = Channel<MediaEntity>(Channel.UNLIMITED)
 
@@ -98,7 +98,6 @@ internal class CurrentSong @Inject constructor(
     private fun updateFavorite(mediaEntity: MediaEntity) {
         Log.v(TAG, "updateFavorite ${mediaEntity.title}")
 
-        isFavoriteJob?.cancel()
         isFavoriteJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
             val isFavorite =

@@ -10,12 +10,16 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.dipf
 import dev.olog.shared.android.theme.HasImageShape
 import dev.olog.shared.android.theme.ImageShape
 import dev.olog.shared.lazyFast
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 open class ShapeImageView(
     context: Context,
@@ -30,7 +34,7 @@ open class ShapeImageView(
 
     private val hasImageShape by lazyFast { context.applicationContext as HasImageShape }
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     private val radius: Int
     private var mask: Bitmap? = null
@@ -73,17 +77,12 @@ open class ShapeImageView(
         setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
         val hasImageShape = context.applicationContext as HasImageShape
-        job = GlobalScope.launch(Dispatchers.Default) {
+        job = viewScope.launch(Dispatchers.Default) {
             for (imageShape in hasImageShape.observeImageShape()) {
                 mask = null
                 updateBackground(getShapeModel(imageShape))
             }
         }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        job?.cancel()
     }
 
     override fun onDraw(canvas: Canvas) {

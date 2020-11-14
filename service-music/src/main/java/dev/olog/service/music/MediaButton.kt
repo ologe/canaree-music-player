@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.service.music.EventDispatcher.Event
-import kotlinx.coroutines.Job
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,14 +25,13 @@ internal class MediaButton @Inject internal constructor(
 
     private var clicks = 0
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     fun onHeatSetHookClick() {
         Log.v(TAG, "onHeatSetHookClick")
         clicks++
 
         if (clicks <= MAX_ALLOWED_CLICKS) {
-            job?.cancel()
             job = lifecycleOwner.lifecycleScope.launch {
                 delay(DELAY)
                 dispatchEvent(clicks)

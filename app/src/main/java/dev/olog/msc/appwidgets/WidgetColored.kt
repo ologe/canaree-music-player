@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.msc.R
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.*
 
@@ -16,10 +17,9 @@ private const val IMAGE_SIZE = 300
 @AndroidEntryPoint
 class WidgetColored : BaseWidget() {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
-        job?.cancel()
         job = GlobalScope.launch(Dispatchers.Main) {
             val bitmap = withContext(Dispatchers.IO){
                 context.getCachedBitmap(MediaId.songId(metadata.id), IMAGE_SIZE)

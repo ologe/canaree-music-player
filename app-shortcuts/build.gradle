@@ -6,6 +6,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':image-provider')
     implementation project(':intents')
+    implementation project(':shared-android')
 
     implementation lib_x.core
     implementation lib_x.appcompat

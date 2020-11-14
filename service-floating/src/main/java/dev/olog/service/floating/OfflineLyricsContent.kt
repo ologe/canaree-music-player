@@ -13,9 +13,11 @@ import dev.olog.shared.android.extensions.*
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.map
-import java.lang.Exception
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OfflineLyricsContent(
     private val context: Context,
@@ -23,8 +25,6 @@ class OfflineLyricsContent(
     private val presenter: OfflineLyricsContentPresenter
 
 ) : Content() {
-
-    private var lyricsJob: Job? = null
 
     val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
 
@@ -137,8 +137,6 @@ class OfflineLyricsContent(
         content.fakePrev.setOnTouchListener(null)
         content.scrollView.setOnTouchListener(null)
         content.seekBar.setOnSeekBarChangeListener(null)
-
-        lyricsJob?.cancel()
     }
 
 }

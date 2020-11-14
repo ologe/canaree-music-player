@@ -21,10 +21,10 @@ import dev.olog.service.music.queue.SKIP_TO_PREVIOUS_THRESHOLD
 import dev.olog.service.music.state.MusicServicePlaybackState
 import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.service.music.state.MusicServiceShuffleMode
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -45,7 +45,7 @@ internal class MediaSessionCallback @Inject constructor(
         private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
     }
 
-    private var retrieveDataJob: Job? = null
+    private var retrieveDataJob by autoDisposeJob()
 
     override fun onPrepare() {
         onPrepareInternal(forced = true)
@@ -64,7 +64,6 @@ internal class MediaSessionCallback @Inject constructor(
     }
 
     private fun retrieveAndPlay(retrieve: suspend () -> PlayerMediaEntity?) {
-        retrieveDataJob?.cancel()
         retrieveDataJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             assertBackgroundThread()
             val entity = retrieve()

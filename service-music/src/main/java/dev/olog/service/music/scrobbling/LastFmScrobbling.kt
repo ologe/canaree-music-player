@@ -14,8 +14,8 @@ import dev.olog.service.music.BuildConfig
 import dev.olog.service.music.interfaces.IPlayerLifecycle
 import dev.olog.service.music.model.MediaEntity
 import dev.olog.service.music.model.MetadataEntity
+import dev.olog.shared.android.coroutine.autoDisposeJob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOn
@@ -44,7 +44,7 @@ internal class LastFmScrobbling @Inject constructor(
     private var session: Session? = null
     private var userCredentials: UserCredentials? = null
 
-    private var scrobbleJob: Job? = null
+    private var scrobbleJob by autoDisposeJob()
 
     init {
         playerLifecycle.addListener(this)
@@ -82,7 +82,6 @@ internal class LastFmScrobbling @Inject constructor(
             return
         }
 
-        scrobbleJob?.cancel()
         scrobbleJob = lifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             delay(SCROBBLE_DELAY)
             val scrobbleData = entity.toScrollData()

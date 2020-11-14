@@ -8,8 +8,13 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.presentation.widgets.parallax.ParallaxImageView
+import dev.olog.shared.android.coroutine.autoDisposeJob
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.widgets.ForegroundImageView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -21,13 +26,12 @@ class RippleTarget(
 
 ) : DrawableImageViewTarget(imageView) {
 
-    private var job: Job? = null
+    private var job by autoDisposeJob()
 
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
         if (view is ForegroundImageView) {
-            job?.cancel()
-            job = GlobalScope.launch(Dispatchers.Default) {
+            job = view.viewScope.launch(Dispatchers.Default) {
                 generateRipple(drawable)
             }
         }
@@ -35,7 +39,7 @@ class RippleTarget(
 
     override fun onDestroy() {
         super.onDestroy()
-        job?.cancel()
+        job = null
     }
 
     private suspend fun generateRipple(drawable: Drawable) {
