@@ -7,6 +7,7 @@ import dev.olog.shared.android.utils.assertMainThread
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.onCompletion
 
 fun EditText.afterTextChange(): Flow<String> {
     assertMainThread()
@@ -34,4 +35,5 @@ fun EditText.afterTextChange(): Flow<String> {
         removeTextChangedListener(watcher)
     }
     return channel.asFlow()
+        .onCompletion { channel.close() }
 }
