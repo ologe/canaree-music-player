@@ -123,7 +123,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun startServiceOrRequestOverlayPermission() {
-        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(requireActivity())
     }
 
     private val onPageChangeListener =

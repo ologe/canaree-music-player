@@ -67,7 +67,7 @@ class BlacklistFragment : ListDialog() {
     }
 
     private fun showErrorMessage(){
-        activity!!.toast(R.string.prefs_blacklist_error)
+        requireActivity().toast(R.string.prefs_blacklist_error)
     }
 
 }

@@ -62,7 +62,9 @@ class RecentlyAddedFragment : BaseFragment(), IDragListener by DragListenerImpl(
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { activity!!.onBackPressed() }
+        back.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onPause() {

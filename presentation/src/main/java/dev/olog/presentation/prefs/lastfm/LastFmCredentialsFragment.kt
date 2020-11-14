@@ -46,7 +46,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
     private var job: Job? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity!!)
+        val inflater = LayoutInflater.from(requireContext())
         val view: View = inflater.inflate(R.layout.fragment_credentials, null, false)
 
         val builder = MaterialAlertDialogBuilder(requireContext())
