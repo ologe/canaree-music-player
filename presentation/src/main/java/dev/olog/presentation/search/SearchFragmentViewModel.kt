@@ -11,7 +11,6 @@ import dev.olog.core.interactor.search.DeleteRecentSearchUseCase
 import dev.olog.core.interactor.search.InsertRecentSearchUseCase
 import dev.olog.presentation.model.DisplayableItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -76,11 +75,6 @@ class SearchFragmentViewModel @ViewModelInject constructor(
     fun observeGenresData(): LiveData<List<DisplayableItem>> = genresData
     fun observePlaylistsData(): LiveData<List<DisplayableItem>> = playlistsData
     fun observeFoldersData(): LiveData<List<DisplayableItem>> = foldersData
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
-
 
     fun updateQuery(newQuery: String) {
         dataProvider.updateQuery(newQuery.trim())

@@ -12,7 +12,6 @@ import dev.olog.equalizer.bassboost.IBassBoost
 import dev.olog.equalizer.equalizer.IEqualizer
 import dev.olog.equalizer.virtualizer.IVirtualizer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -43,10 +42,6 @@ internal class EqualizerFragmentViewModel @ViewModelInject constructor(
     }
     fun getPresets() = equalizer.getPresets()
     fun setBandLevel(band: Int, level: Float) = equalizer.setBandLevel(band, level)
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     fun observePreset(): LiveData<EqualizerPreset> = currentPresetLiveData
 

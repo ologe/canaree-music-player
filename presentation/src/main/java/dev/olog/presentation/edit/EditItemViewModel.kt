@@ -4,15 +4,13 @@ import android.content.Context
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.R
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.toast
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
@@ -93,10 +91,6 @@ class EditItemViewModel @ViewModelInject constructor(
             is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
             else -> context.toast(R.string.popup_error_message)
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
 }

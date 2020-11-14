@@ -17,9 +17,11 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal class DetailFragmentViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle,
@@ -118,10 +120,6 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
                 ex.printStackTrace()
             }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun observeItem(): LiveData<DisplayableItem> = itemLiveData

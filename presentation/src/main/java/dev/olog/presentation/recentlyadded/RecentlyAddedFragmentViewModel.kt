@@ -14,7 +14,6 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment.Companion.ARGUM
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -49,10 +48,6 @@ internal class RecentlyAddedFragmentViewModel @ViewModelInject constructor(
 
     fun observeData(): LiveData<List<DisplayableItem>> = liveData
     fun observeTitle(): LiveData<String> = titleLiveData
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
         return DisplayableTrack(

@@ -13,7 +13,6 @@ import dev.olog.presentation.model.DisplayableQueueSong
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.swap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -53,10 +52,6 @@ class PlayingQueueFragmentViewModel @ViewModelInject constructor(
                     data.value = it
                 }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun observeData(): LiveData<List<DisplayableQueueSong>> = data

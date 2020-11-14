@@ -10,9 +10,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.FileType
 import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
@@ -22,7 +22,6 @@ import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.distinctUntilChanged
 import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -63,10 +62,6 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
             { current, default -> current.path == default.path }
                 .collect { isCurrentFolderDefaultFolder.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     private fun addHeaders(parent: File, files: List<FileType>): List<DisplayableFile> {

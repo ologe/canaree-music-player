@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.favorite.FavoriteEnum
 import dev.olog.core.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -18,7 +18,6 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.hasPlayerAppearance
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -42,10 +41,6 @@ internal class PlayerFragmentViewModel @ViewModelInject constructor(
                 .flowOn(Dispatchers.Default)
                 .collect { favoriteLiveData.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun getCurrentTrackId() = currentTrackIdPublisher.openSubscription().poll()!!

@@ -6,13 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Song
 import dev.olog.presentation.utils.safeGet
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.utils.NetworkUtils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -44,11 +46,6 @@ class EditTrackFragmentViewModel @ViewModelInject constructor(
     fun observeData(): LiveData<DisplayableSong> = displayableSongLiveData
 
     fun getOriginalSong(): Song = songLiveData.value!!
-
-    override fun onCleared() {
-        fetchJob = null
-        viewModelScope.cancel()
-    }
 
     fun fetchSongInfo(mediaId: MediaId): Boolean {
         if (!NetworkUtils.isConnected(context)) {

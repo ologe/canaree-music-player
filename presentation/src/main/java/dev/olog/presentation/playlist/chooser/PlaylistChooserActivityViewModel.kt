@@ -15,7 +15,6 @@ import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -34,10 +33,6 @@ class PlaylistChooserActivityViewModel @ViewModelInject constructor(
                 .flowOn(Dispatchers.IO)
                 .collect { data.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data

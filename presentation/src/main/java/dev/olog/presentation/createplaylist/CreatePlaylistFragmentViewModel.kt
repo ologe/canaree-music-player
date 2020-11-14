@@ -17,11 +17,10 @@ import dev.olog.presentation.createplaylist.CreatePlaylistFragment.Companion.ARG
 import dev.olog.presentation.createplaylist.mapper.toDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.extensions.argument
-import dev.olog.shared.mapListItem
 import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
+import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -67,10 +66,6 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
                 .flowOn(Dispatchers.Default)
                 .collect { data.value = it }
         }
-    }
-
-    override fun onCleared() {
-        viewModelScope.cancel()
     }
 
     fun updateFilter(filter: String) {

@@ -9,7 +9,6 @@ import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Album
 import dev.olog.presentation.utils.safeGet
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jaudiotagger.audio.AudioFileIO
@@ -36,10 +35,6 @@ class EditAlbumFragmentViewModel @ViewModelInject constructor(
     }
 
     fun observeData(): LiveData<DisplayableAlbum> = displayableAlbumLiveData
-
-    override fun onCleared() {
-        viewModelScope.cancel()
-    }
 
     private suspend fun Album.toDisplayableAlbum(mediaId: MediaId): DisplayableAlbum {
         val path = presenter.getPath(mediaId)
