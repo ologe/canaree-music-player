@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
 import androidx.fragment.app.FragmentActivity
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -147,6 +149,24 @@ fun View.findActivity(): FragmentActivity {
         context = context.baseContext
     }
     error("View $this does not have a FragmentActivity set")
+}
+
+suspend fun View.awaitOnAttach() = suspendCancellableCoroutine<Unit> { continuation ->
+    if (isAttachedToWindow) {
+        continuation.resume(Unit)
+    } else {
+        val listener = object : View.OnAttachStateChangeListener {
+
+            override fun onViewAttachedToWindow(v: View) {
+                removeOnAttachStateChangeListener(this)
+                continuation.resume(Unit)
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {}
+        }
+        addOnAttachStateChangeListener(listener)
+        continuation.invokeOnCancellation { removeOnAttachStateChangeListener(listener) }
+    }
 }
 
 inline fun View.dip(value: Int): Int = context.dip(value)

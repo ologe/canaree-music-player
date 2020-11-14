@@ -31,9 +31,9 @@ import java.lang.IllegalStateException
 
 class MediaExposer(
     private val context: Context,
+    private val coroutineScope: CoroutineScope,
     private val onConnectionChanged: OnConnectionChanged
-) : CoroutineScope by MainScope(),
-    IMediaControllerCallback,
+) : IMediaControllerCallback,
     IMediaConnectionCallback {
 
     private val mediaBrowser: MediaBrowserCompat by lazyFast {
@@ -63,7 +63,7 @@ class MediaExposer(
             return
         }
         job?.cancel()
-        job = launch {
+        job = coroutineScope.launch(Dispatchers.Main) {
             for (state in connectionPublisher.openSubscription()) {
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
@@ -135,7 +135,7 @@ class MediaExposer(
         if (queue == null) {
             return
         }
-        launch(Dispatchers.Default) {
+        coroutineScope.launch(Dispatchers.Default) {
             val result = queue.map { it.toDisplayableItem() }
             queuePublisher.offer(result)
         }

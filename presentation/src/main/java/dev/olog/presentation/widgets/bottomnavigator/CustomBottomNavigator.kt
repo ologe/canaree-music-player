@@ -8,10 +8,9 @@ import dev.olog.analytics.TrackerFacade
 import dev.olog.presentation.R
 import dev.olog.presentation.model.BottomNavigationPage
 import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +18,7 @@ import javax.inject.Inject
 internal class CustomBottomNavigator(
     context: Context,
     attrs: AttributeSet
-) : BottomNavigationView(context, attrs), CoroutineScope by MainScope() {
+) : BottomNavigationView(context, attrs) {
 
     @Inject
     internal lateinit var presentationPrefs: PresentationPreferencesGateway
@@ -59,8 +58,9 @@ internal class CustomBottomNavigator(
     }
 
     private fun saveLastPage(page: BottomNavigationPage){
-
-        launch(Dispatchers.Default) { presentationPrefs.setLastBottomViewPage(page) }
+        viewScope.launch(Dispatchers.Default) {
+            presentationPrefs.setLastBottomViewPage(page)
+        }
     }
 
     private fun Int.toBottomNavigationPage(): BottomNavigationPage = when (this){

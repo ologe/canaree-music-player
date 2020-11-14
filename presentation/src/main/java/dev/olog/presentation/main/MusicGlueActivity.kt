@@ -8,6 +8,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
@@ -32,8 +33,9 @@ abstract class MusicGlueActivity : BaseActivity(),
 
     private val mediaExposer by lazyFast {
         MediaExposer(
-            this,
-            this
+            context = this,
+            coroutineScope = lifecycleScope,
+            onConnectionChanged = this
         )
     }
 

@@ -7,14 +7,13 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.core.MediaId
 import dev.olog.media.MediaProvider
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.HasQuickAction
 import dev.olog.shared.android.theme.QuickAction
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
@@ -23,8 +22,7 @@ class QuickActionView (
         attrs: AttributeSet
 
 ) : AppCompatImageView(context, attrs),
-        View.OnClickListener,
-        CoroutineScope by MainScope() {
+    View.OnClickListener{
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 
@@ -51,7 +49,7 @@ class QuickActionView (
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setOnClickListener(this)
-        job = launch {
+        job = viewScope.launch {
             for (type in hasQuickAction.observeQuickAction()) {
                 setImage()
             }

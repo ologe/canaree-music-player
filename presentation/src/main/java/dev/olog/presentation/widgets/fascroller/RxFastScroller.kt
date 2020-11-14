@@ -20,12 +20,14 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import java.lang.Runnable
+import kotlinx.coroutines.launch
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
@@ -33,10 +35,9 @@ private const val SCROLL_BAR_HIDE_DELAY = 1000
 private const val TRACK_SNAP_RANGE = 5
 
 class RxFastScroller(
-        context: Context,
-        attrs: AttributeSet
-
-) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
+    context: Context,
+    attrs: AttributeSet
+) : LinearLayout(context, attrs) {
 
 
     interface SectionIndexer {
@@ -216,29 +217,25 @@ class RxFastScroller(
 
         if (!isInEditMode){
             if (showBubble){
-                launch {
-                    bubbleTextDisposable = launch {
-                        bubbleTextPublisher.asFlow()
-                            .distinctUntilChanged()
-                            .flowOn(Dispatchers.Default)
-                            .map {
-                                when {
-                                    it < "A" -> "#"
-                                    it > "Z" -> "?"
-                                    else -> it
-                                }
-                            }.collect { mBubbleView!!.text = it }
-                    }
-                }
-            }
-
-            scrollDisposable = launch {
-                scrollPublisher.asFlow()
-                    .filter { it != RecyclerView.NO_POSITION }
+                bubbleTextDisposable = bubbleTextPublisher.asFlow()
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
-                    .collect { mRecyclerView?.layoutManager?.scrollToPosition(it) }
+                    .map {
+                        when {
+                            it < "A" -> "#"
+                            it > "Z" -> "?"
+                            else -> it
+                        }
+                    }.onEach { mBubbleView!!.text = it }
+                    .launchIn(viewScope)
             }
+
+            scrollDisposable = scrollPublisher.asFlow()
+                .filter { it != RecyclerView.NO_POSITION }
+                .distinctUntilChanged()
+                .flowOn(Dispatchers.Default)
+                .onEach { mRecyclerView?.layoutManager?.scrollToPosition(it) }
+                .launchIn(viewScope)
         }
     }
 

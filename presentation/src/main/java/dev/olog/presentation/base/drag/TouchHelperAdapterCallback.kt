@@ -6,9 +6,8 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.android.synthetic.main.item_detail_song.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -20,7 +19,7 @@ class TouchHelperAdapterCallback(
 ) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP or ItemTouchHelper.DOWN,
     horizontalDirections
-), CoroutineScope by MainScope() {
+) {
 
     companion object {
         private val TAG = "P:${TouchHelperAdapterCallback::class.java.simpleName}"
@@ -55,16 +54,17 @@ class TouchHelperAdapterCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)) {
+            val scope = viewHolder.itemView.viewScope
             when (direction) {
                 ItemTouchHelper.RIGHT -> {
-                    launch {
+                    scope.launch {
                         adapter.onSwipedRight(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeRight(viewHolder)
                     }
                 }
                 ItemTouchHelper.LEFT -> {
-                    launch {
+                    scope.launch {
                         adapter.onSwipedLeft(viewHolder)
                         delay(SWIPE_DURATION)
                         adapter.afterSwipeLeft(viewHolder)
