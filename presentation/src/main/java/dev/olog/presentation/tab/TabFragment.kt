@@ -47,7 +47,9 @@ class TabFragment : BaseFragment(), SetupNestedList {
 
         @JvmStatic
         fun newInstance(category: MediaIdCategory): TabFragment {
-            return TabFragment().withArguments(ARGUMENTS_SOURCE to category.toString())
+            return TabFragment().withArguments(
+                ARGUMENTS_SOURCE to category.toTabCategory()
+            )
         }
     }
 
@@ -82,10 +84,7 @@ class TabFragment : BaseFragment(), SetupNestedList {
     // TODO check if is needed to keep vm on activity
     private val viewModel by activityViewModels<TabFragmentViewModel>()
 
-    internal val category: TabCategory by lazyFast {
-        val categoryString = getArgument<String>(ARGUMENTS_SOURCE)
-        MediaIdCategory.valueOf(categoryString).toTabCategory()
-    }
+    internal val category by argument<TabCategory>(ARGUMENTS_SOURCE)
 
     private val adapter by lazyFast {
         TabFragmentAdapter(lifecycle, navigator, requireActivity() as MediaProvider, viewModel, this)

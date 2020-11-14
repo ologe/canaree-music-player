@@ -22,9 +22,4 @@ abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    @Suppress("UNCHECKED_CAST")
-    protected fun <T> getArgument(key: String): T {
-        return arguments!!.get(key) as T
-    }
-
 }

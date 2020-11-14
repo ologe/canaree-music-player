@@ -11,15 +11,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.properties.ReadOnlyProperty
 
 inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
     arguments = bundleOf(*params)
     return this
-}
-
-@Suppress("UNCHECKED_CAST")
-inline fun <T> Fragment.getArgument(key: String): T {
-    return arguments!!.get(key) as T
 }
 
 inline fun Fragment.launch(
@@ -32,3 +28,22 @@ inline fun Fragment.launch(
 inline fun Fragment.dip(value: Int): Int = requireContext().dip(value)
 inline fun Fragment.dipf(value: Int): Float = requireContext().dipf(value)
 inline fun Fragment.dimen(@DimenRes resource: Int): Int = requireContext().dimen(resource)
+
+// can't be named arguments because it clashes with [Fragment.arguments]
+inline fun <reified T : Any?> Fragment.argument(
+    key: String,
+    crossinline initializer: (T) -> T = { it }
+): ReadOnlyProperty<Any?, T> {
+    return argument<T, T>(key, initializer)
+}
+
+@JvmName("argument2")
+inline fun <reified T : Any?, R : Any?> Fragment.argument(
+    key: String,
+    crossinline initializer: (T) -> R
+): ReadOnlyProperty<Any?, R> {
+    return ReadOnlyProperty { _, _ ->
+        val argument = requireArguments().get(key) as T
+        initializer(argument)
+    }
+}

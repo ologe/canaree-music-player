@@ -28,7 +28,7 @@ class LibraryFragment : BaseFragment() {
         val TAG_TRACK = LibraryFragment::class.java.name
         @JvmStatic
         val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
-        const val IS_PODCAST = "IS_PODCAST"
+        private const val IS_PODCAST = "IS_PODCAST"
 
         @JvmStatic
         fun newInstance(isPodcast: Boolean): LibraryFragment {
@@ -45,11 +45,7 @@ class LibraryFragment : BaseFragment() {
     @Inject
     lateinit var trackerFacade: TrackerFacade
 
-    private val isPodcast by lazyFast {
-        getArgument<Boolean>(
-            IS_PODCAST
-        )
-    }
+    private val isPodcast by argument<Boolean>(IS_PODCAST)
 
     private val pagerAdapter by lazyFast {
         LibraryFragmentAdapter(requireContext(), childFragmentManager, presenter.getCategories(isPodcast))

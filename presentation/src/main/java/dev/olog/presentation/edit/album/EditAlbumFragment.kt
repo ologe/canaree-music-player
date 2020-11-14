@@ -12,7 +12,6 @@ import dev.olog.presentation.edit.EditItemViewModel
 import dev.olog.presentation.edit.UpdateAlbumInfo
 import dev.olog.presentation.edit.model.UpdateResult
 import dev.olog.shared.android.extensions.*
-import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_edit_album.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -34,9 +33,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     private val viewModel by viewModels<EditAlbumFragmentViewModel>()
     private val editItemViewModel by activityViewModels<EditItemViewModel>()
 
-    private val mediaId: MediaId by lazyFast {
-        MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
-    }
+    private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

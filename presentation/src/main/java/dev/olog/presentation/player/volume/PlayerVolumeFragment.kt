@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.prefs.MusicPreferencesGateway
-import dev.olog.presentation.R
 import dev.olog.presentation.interfaces.DrawsOnTop
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.withArguments
 import kotlinx.android.synthetic.main.player_volume.*
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
         private val ARGUMENT_Y_POSITION = "$TAG.argument.y_position"
 
         @JvmStatic
-        fun newInstance(layoutId: Int, yPosition: Float = -1f): PlayerVolumeFragment {
+        fun newInstance(@LayoutRes layoutId: Int, yPosition: Float = -1f): PlayerVolumeFragment {
             return PlayerVolumeFragment().withArguments(
                 ARGUMENT_LAYOUT_ID to layoutId,
                 ARGUMENT_Y_POSITION to yPosition
@@ -36,12 +37,14 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
     @Inject
     lateinit var musicPrefs: MusicPreferencesGateway
 
+    private val layoutId by argument<Int>(ARGUMENT_LAYOUT_ID)
+    private val yPosition by argument<Float>(ARGUMENT_Y_POSITION)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val layoutId = arguments?.getInt(ARGUMENT_LAYOUT_ID) ?: R.layout.player_volume_no_background
         return inflater.inflate(layoutId, container, false)
     }
 
@@ -49,7 +52,6 @@ class PlayerVolumeFragment : Fragment(), DrawsOnTop, SeekBar.OnSeekBarChangeList
         volumeSlider.max = 100
         volumeSlider.progress = musicPrefs.getVolume()
 
-        val yPosition = arguments?.getFloat(ARGUMENT_Y_POSITION, -1f) ?: -1f
         if (yPosition > -1){
             card.translationY = yPosition
         }

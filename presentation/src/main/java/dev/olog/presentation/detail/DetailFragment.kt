@@ -57,10 +57,7 @@ class DetailFragment : BaseFragment(),
 
     private val viewModel by viewModels<DetailFragmentViewModel>()
 
-    private val mediaId by lazyFast {
-        val mediaId = getArgument<String>(ARGUMENTS_MEDIA_ID)
-        MediaId.fromString(mediaId)
-    }
+    private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
 
     private val mostPlayedAdapter by lazyFast {
         DetailMostPlayedAdapter(lifecycle, navigator, requireActivity() as MediaProvider)

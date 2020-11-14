@@ -7,6 +7,7 @@ import dev.olog.intents.AppConstants
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
@@ -33,6 +34,10 @@ class SetRingtoneDialog : BaseDialog() {
 
     @Inject lateinit var presenter: SetRingtoneDialogPresenter
 
+    private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
+    private val itemTitle by argument<String>(ARGUMENTS_TITLE)
+    private val itemArtist by argument<String>(ARGUMENTS_ARTIST)
+
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.popup_set_as_ringtone)
             .setMessage(createMessage().asHtml())
@@ -44,7 +49,6 @@ class SetRingtoneDialog : BaseDialog() {
         launch {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
                 presenter.execute(requireActivity(), mediaId)
                 message = successMessage()
             } catch (ex: Throwable) {
@@ -72,12 +76,11 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     private fun generateItemDescription(): String{
-        var title = arguments!!.getString(ARGUMENTS_TITLE)!!
-        val artist = arguments!!.getString(ARGUMENTS_ARTIST)
-        if (artist != AppConstants.UNKNOWN){
-            title += " $artist"
+        if (itemArtist != AppConstants.UNKNOWN){
+            return "$itemTitle $itemArtist"
+
         }
-        return title
+        return itemTitle
     }
 
 

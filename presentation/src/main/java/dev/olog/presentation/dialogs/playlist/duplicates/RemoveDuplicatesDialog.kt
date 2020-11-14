@@ -1,16 +1,15 @@
 package dev.olog.presentation.dialogs.playlist.duplicates
 
-import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.core.MediaId
 import dev.olog.presentation.R
 import dev.olog.presentation.dialogs.BaseDialog
 import dev.olog.presentation.utils.asHtml
+import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.extensions.withArguments
-import dev.olog.shared.lazyFast
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +32,8 @@ class RemoveDuplicatesDialog: BaseDialog() {
     @Inject lateinit var presenter: RemoveDuplicatesDialogPresenter
 
 
-    private val itemTitle by lazyFast { arguments!!.getString(ARGUMENTS_ITEM_TITLE) }
+    private val mediaId by argument(ARGUMENTS_MEDIA_ID, MediaId::fromString)
+    private val itemTitle by argument<String>(ARGUMENTS_ITEM_TITLE)
 
     override fun extendBuilder(builder: MaterialAlertDialogBuilder): MaterialAlertDialogBuilder {
         return builder.setTitle(R.string.remove_duplicates_title)
@@ -46,7 +46,6 @@ class RemoveDuplicatesDialog: BaseDialog() {
         launch {
             var message: String
             try {
-                val mediaId = MediaId.fromString(arguments!!.getString(ARGUMENTS_MEDIA_ID)!!)
                 presenter.execute(mediaId)
                 message = successMessage()
             } catch (ex: Throwable) {
