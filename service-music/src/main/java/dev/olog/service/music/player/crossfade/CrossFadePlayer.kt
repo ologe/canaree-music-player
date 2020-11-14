@@ -19,9 +19,10 @@ import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.clamp
 import dev.olog.shared.flowInterval
 import kotlinx.coroutines.flow.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.time.milliseconds
+import kotlin.time.seconds
 
 /**
  * Implements gapless and crossfade and delegates playback calls to [AbsPlayer]
@@ -55,7 +56,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         player.setPlaybackParameters(PlaybackParameters(1f, 1f))
         player.addAudioListener(onAudioSessionIdChangeListener)
 
-        flowInterval(1, TimeUnit.SECONDS)
+        flowInterval(1.seconds)
             .filter { crossFadeTime > 0 } // crossFade enabled
             .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
             .filter { getDuration() > getBookmark() }
@@ -161,7 +162,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         )
         player.volume = min
 
-        fadeJob = flowInterval(interval, TimeUnit.MILLISECONDS)
+        fadeJob = flowInterval(interval.milliseconds)
             .takeWhile { player.volume < max }
             .onEach {
                 val current = MathUtils.clamp(player.volume + delta, min, max)
@@ -191,7 +192,7 @@ internal class CrossFadePlayer @Inject internal constructor(
             return
         }
 
-        fadeJob = flowInterval(interval, TimeUnit.MILLISECONDS)
+        fadeJob = flowInterval(interval.milliseconds)
             .takeWhile { player.volume > min }
             .onEach {
                 val current = MathUtils.clamp(player.volume - delta, min, max)

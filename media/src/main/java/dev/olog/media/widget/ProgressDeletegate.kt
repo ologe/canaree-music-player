@@ -5,10 +5,9 @@ import dev.olog.intents.AppConstants
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.flowInterval
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import java.util.concurrent.TimeUnit
 
 interface IProgressDeletegate {
     fun onStateChanged(state: dev.olog.media.model.PlayerPlaybackState)
@@ -32,11 +31,8 @@ class ProgressDeletegate(
 
     override fun startAutoIncrement(startMillis: Int, speed: Float) {
         stopAutoIncrement(startMillis)
-        incrementJob = flowInterval(
-            AppConstants.PROGRESS_BAR_INTERVAL,
-            TimeUnit.MILLISECONDS
-        )
-            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL * speed + startMillis }
+        incrementJob = flowInterval(AppConstants.PROGRESS_BAR_INTERVAL)
+            .map { (it + 1) * AppConstants.PROGRESS_BAR_INTERVAL.toLongMilliseconds() * speed + startMillis }
             .flowOn(Dispatchers.IO)
             .onEach {
                 setProgress(progressBar, it.toInt())

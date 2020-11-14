@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.seconds
 
 @AndroidEntryPoint
 class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
@@ -56,7 +57,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
             countDownJob = launch {
                 try {
-                    flowInterval(1, TimeUnit.SECONDS)
+                    flowInterval(1.seconds)
                         .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
                         .takeWhile { it >= 0L }
                         .collect {

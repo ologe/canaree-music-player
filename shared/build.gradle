@@ -4,5 +4,13 @@ dependencies {
     implementation lib_core.coroutines
 }
 
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += [
+                "-Xuse-experimental=kotlin.time.ExperimentalTime"
+        ]
+    }
+}
+
 sourceCompatibility = "8"
 targetCompatibility = "8"
