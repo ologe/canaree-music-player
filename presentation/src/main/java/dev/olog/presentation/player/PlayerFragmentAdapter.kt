@@ -3,8 +3,8 @@ package dev.olog.presentation.player
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.core.MediaId
@@ -202,7 +202,7 @@ internal class PlayerFragmentAdapter(
             val outLocation = intArrayOf(0, 0)
             it.getLocationInWindow(outLocation)
             val yLocation = (outLocation[1] - StatusBarView.viewHeight).toFloat()
-            view.findActivity().fragmentTransaction {
+            view.findActivity().supportFragmentManager.commit { // TODO move to a navigator
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayerVolumeFragment.newInstance(
                     R.layout.player_volume,

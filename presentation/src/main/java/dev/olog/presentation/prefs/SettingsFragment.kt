@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -81,16 +82,16 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         libraryCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         podcastCategories.setOnPreferenceClickListener {
             LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
-                .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+                .show(requireActivity().supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         blacklist.setOnPreferenceClickListener {
-            act.fragmentTransaction {
+            act.supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -103,7 +104,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
             true
         }
         lastFmCredentials.setOnPreferenceClickListener {
-            act.fragmentTransaction {
+            act.supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
             }

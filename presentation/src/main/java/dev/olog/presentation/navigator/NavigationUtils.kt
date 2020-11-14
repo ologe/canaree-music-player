@@ -1,15 +1,11 @@
 package dev.olog.presentation.navigator
 
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.*
 import dev.olog.presentation.R
 import dev.olog.presentation.library.LibraryFragment
 import dev.olog.presentation.queue.PlayingQueueFragment
 import dev.olog.presentation.search.SearchFragment
-import dev.olog.shared.android.extensions.fragmentTransaction
 import dev.olog.shared.android.extensions.getTopFragment
 
 const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -69,15 +65,11 @@ fun superCerealTransition(
 
     val topFragment = findFirstVisibleFragment(activity.supportFragmentManager)
 
-    activity.fragmentTransaction {
+    activity.supportFragmentManager.commit {
         setReorderingAllowed(true)
         setTransition(transition)
         topFragment?.let { hide(it) }
-        add(
-            R.id.fragmentContainer,
-            fragment,
-            tag
-        )
+        add(R.id.fragmentContainer, fragment, tag)
         addToBackStack(tag)
     }
 }
