@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
-    implementation project(':core')
+    implementation project(':domain')
     implementation project(':shared-android')
     implementation project(':shared')
     implementation project(':jaudiotagger')
