@@ -26,7 +26,6 @@ internal class MusicServicePlaybackState @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
         val TAG = "SM:${MusicServicePlaybackState::class.java.simpleName}"
     }
 

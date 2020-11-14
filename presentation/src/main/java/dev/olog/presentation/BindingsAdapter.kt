@@ -16,7 +16,6 @@ import dev.olog.presentation.ripple.RippleTarget
 
 object BindingsAdapter {
 
-    @JvmStatic
     fun loadFile(view: ImageView, item: DisplayableFile) {
         val context = view.context
         GlideApp.with(context).clear(view)
@@ -28,7 +27,6 @@ object BindingsAdapter {
                 .into(view)
     }
 
-    @JvmStatic
     fun loadDirImage(view: ImageView, item: DisplayableFile) {
         val mediaId = MediaId.createCategoryValue(MediaIdCategory.FOLDERS, item.path ?: "")
         loadImageImpl(
@@ -38,7 +36,6 @@ object BindingsAdapter {
         )
     }
 
-    @JvmStatic
     private fun loadImageImpl(
         view: ImageView,
         mediaId: MediaId,
@@ -63,7 +60,6 @@ object BindingsAdapter {
         }
     }
 
-    @JvmStatic
     fun loadSongImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
             view,
@@ -72,7 +68,6 @@ object BindingsAdapter {
         )
     }
 
-    @JvmStatic
     fun loadAlbumImage(view: ImageView, mediaId: MediaId) {
         loadImageImpl(
             view,
@@ -82,7 +77,6 @@ object BindingsAdapter {
         )
     }
 
-    @JvmStatic
     fun loadBigAlbumImage(view: ImageView, mediaId: MediaId) {
         val context = view.context
 
@@ -98,7 +92,6 @@ object BindingsAdapter {
             .into(RippleTarget(view))
     }
 
-    @JvmStatic
     fun setBoldIfTrue(view: TextView, setBold: Boolean) {
         val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
         view.setTypeface(null, style)

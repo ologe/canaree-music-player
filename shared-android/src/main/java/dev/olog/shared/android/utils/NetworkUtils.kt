@@ -13,13 +13,11 @@ object NetworkUtils {
         ConnectivityManager.TYPE_ETHERNET
     )
 
-    @JvmStatic
     fun isConnected(context: Context): Boolean {
         val manager = context.systemService<ConnectivityManager>()
         return manager.activeNetworkInfo?.isConnectedOrConnecting == true
     }
 
-    @JvmStatic
     fun isOnWiFi(context: Context): Boolean {
         val manager = context.systemService<ConnectivityManager>()
         return isConnected(context) && manager.activeNetworkInfo?.type in allowedConnectionTypes

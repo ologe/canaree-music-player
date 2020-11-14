@@ -33,7 +33,6 @@ data class DisplayableAlbum(
 ) : DisplayableItem(type, mediaId) {
 
     companion object {
-        @JvmStatic
         fun readableSongCount(resources: Resources, size: Int): String {
             if (size <= 0) {
                 return ""

@@ -8,7 +8,6 @@ enum class PlayerShuffleMode {
     ENABLED;
 
     companion object {
-        @JvmStatic
         fun of(@PlaybackStateCompat.ShuffleMode shuffleMode: Int) = when (shuffleMode) {
             PlaybackStateCompat.SHUFFLE_MODE_NONE -> DISABLED
             PlaybackStateCompat.SHUFFLE_MODE_ALL -> ENABLED

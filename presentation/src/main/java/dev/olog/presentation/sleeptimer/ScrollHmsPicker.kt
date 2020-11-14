@@ -216,7 +216,6 @@ class ScrollHmsPicker (
         }
 
         private companion object {
-            @JvmStatic
             val CREATOR = object : Parcelable.Creator<SavedState> {
                 override fun createFromParcel(source: Parcel?): SavedState =
                     SavedState(source)

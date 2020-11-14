@@ -25,7 +25,6 @@ open class ShapeImageView(
 
     companion object {
         private const val DEFAULT_RADIUS = 5
-        @JvmStatic
         private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
     }
 

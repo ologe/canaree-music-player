@@ -21,7 +21,6 @@ internal class OnAudioSessionIdChangeListener @Inject constructor(
     DefaultLifecycleObserver {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${OnAudioSessionIdChangeListener::class.java.simpleName}"
         internal const val DELAY = 500L
     }

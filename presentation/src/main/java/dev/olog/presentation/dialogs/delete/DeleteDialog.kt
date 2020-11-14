@@ -24,7 +24,6 @@ class DeleteDialog: BaseDialog() {
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): DeleteDialog {
             return DeleteDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),

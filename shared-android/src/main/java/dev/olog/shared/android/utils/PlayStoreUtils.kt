@@ -7,7 +7,6 @@ import dev.olog.shared.android.extensions.toast
 
 object PlayStoreUtils {
 
-    @JvmStatic
     fun open(activity: Activity){
         val uri = Uri.parse("market://details?id=${activity.packageName}")
         val intent = Intent(Intent.ACTION_VIEW, uri)

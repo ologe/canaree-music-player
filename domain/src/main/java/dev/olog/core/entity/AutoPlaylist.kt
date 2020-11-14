@@ -8,7 +8,6 @@ enum class AutoPlaylist {
     HISTORY;
 
     companion object {
-        @JvmStatic
         fun isAutoPlaylist(id: Id): Boolean {
             return values().find { it.id == id } != null
         }

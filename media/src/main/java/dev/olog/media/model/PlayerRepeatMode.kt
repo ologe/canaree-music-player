@@ -9,7 +9,6 @@ enum class PlayerRepeatMode {
     ALL;
 
     companion object {
-        @JvmStatic
         fun of(@PlaybackStateCompat.RepeatMode repeatMode: Int) = when (repeatMode) {
             PlaybackStateCompat.REPEAT_MODE_NONE -> NONE
             PlaybackStateCompat.REPEAT_MODE_ONE -> ONE

@@ -40,7 +40,6 @@ class SettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
-        @JvmStatic
         val TAG = SettingsFragment::class.java.name
     }
 

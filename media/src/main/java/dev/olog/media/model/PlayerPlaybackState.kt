@@ -10,7 +10,6 @@ enum class PlayerState {
     SKIP_TO_PREVIOUS;
 
     companion object {
-        @JvmStatic
         fun of(@PlaybackStateCompat.State state: Int): PlayerState = when (state) {
             PlaybackStateCompat.STATE_PLAYING -> PLAYING
             PlaybackStateCompat.STATE_PAUSED -> PAUSED

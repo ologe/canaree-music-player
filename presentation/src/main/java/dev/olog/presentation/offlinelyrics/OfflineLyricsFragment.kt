@@ -37,7 +37,6 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     companion object {
         const val TAG = "OfflineLyricsFragment"
 
-        @JvmStatic
         fun newInstance(): OfflineLyricsFragment {
             return OfflineLyricsFragment()
         }

@@ -21,7 +21,6 @@ internal class Noisy @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${Noisy::class.java.simpleName}"
     }
 

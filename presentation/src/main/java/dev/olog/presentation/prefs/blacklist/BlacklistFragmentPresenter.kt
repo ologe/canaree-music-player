@@ -51,7 +51,6 @@ data class BlacklistModel(
 
     companion object {
         @Suppress("DEPRECATION")
-        @JvmStatic
         private val defaultStorageDir = Environment.getExternalStorageDirectory().path ?: "/storage/emulated/0/"
     }
 

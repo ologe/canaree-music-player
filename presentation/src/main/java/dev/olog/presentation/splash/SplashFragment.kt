@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 class SplashFragment : Fragment() {
 
     companion object {
-        @JvmStatic
         val TAG = SplashFragment::class.java.name
     }
 

@@ -12,7 +12,6 @@ import dev.olog.shared.android.extensions.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 
-    @JvmStatic
     fun show(ctx: Context, currentValue: String, positiveAction: (Long) -> Unit) {
         val themeWrapper = ContextThemeWrapper(ctx, R.style.AppTheme)
         val builder = MaterialAlertDialogBuilder(themeWrapper)

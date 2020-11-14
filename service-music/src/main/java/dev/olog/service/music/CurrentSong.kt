@@ -44,7 +44,6 @@ internal class CurrentSong @Inject constructor(
 ) : IPlayerLifecycle.Listener {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${CurrentSong::class.java.simpleName}"
     }
 

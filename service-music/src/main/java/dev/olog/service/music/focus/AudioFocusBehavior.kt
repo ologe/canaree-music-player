@@ -24,7 +24,6 @@ internal class AudioFocusBehavior @Inject constructor(
 ) : AudioManager.OnAudioFocusChangeListener {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${AudioFocusBehavior::class.java.simpleName}"
     }
 
@@ -125,7 +124,6 @@ private enum class AudioFocusType {
     LOSS_TRANSIENT_CAN_DUCK;
 
     companion object {
-        @JvmStatic
         fun get(focus: Int): AudioFocusType {
             return when (focus) {
                 AudioManager.AUDIOFOCUS_NONE -> NONE

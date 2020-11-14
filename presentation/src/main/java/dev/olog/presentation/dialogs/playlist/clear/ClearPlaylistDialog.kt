@@ -20,7 +20,6 @@ class ClearPlaylistDialog : BaseDialog() {
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, itemTitle: String): ClearPlaylistDialog {
             return ClearPlaylistDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),

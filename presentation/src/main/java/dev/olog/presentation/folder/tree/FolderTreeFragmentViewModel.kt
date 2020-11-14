@@ -36,7 +36,6 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     companion object {
-        @JvmStatic
         val BACK_HEADER_ID = MediaId.headerId("back header")
     }
 

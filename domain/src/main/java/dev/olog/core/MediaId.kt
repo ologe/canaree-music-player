@@ -29,35 +29,28 @@ class MediaId private constructor(
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
 
-        @JvmStatic
         fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
         }
 
-        @JvmStatic
         val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
 
-        @JvmStatic
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
         }
 
-        @JvmStatic
         fun songId(id: Long): MediaId {
             return MediaId(MediaIdCategory.SONGS, "", id)
         }
 
-        @JvmStatic
         fun playableItem(parentId: MediaId, songId: Long): MediaId {
             return MediaId(parentId.category, parentId.categoryValue, songId)
         }
 
-        @JvmStatic
         fun shuffleId(): MediaId {
             return MediaId(MediaIdCategory.SONGS, "shuffle")
         }
 
-        @JvmStatic
         fun fromString(mediaId: String): MediaId {
             val categoryFinish = mediaId.indexOf(CATEGORY_SEPARATOR)
             val categoryValueFinish = mediaId.indexOf(LEAF_SEPARATOR)

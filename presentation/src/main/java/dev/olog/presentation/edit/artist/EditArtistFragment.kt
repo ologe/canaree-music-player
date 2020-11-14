@@ -23,7 +23,6 @@ class EditArtistFragment : BaseEditItemFragment() {
         const val TAG = "EditArtistFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId): EditArtistFragment {
             return EditArtistFragment().withArguments(
                 ARGUMENTS_MEDIA_ID to mediaId.toString()

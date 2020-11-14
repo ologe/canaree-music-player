@@ -40,7 +40,6 @@ internal class MusicServiceMetadata @Inject constructor(
 ) : IPlayerLifecycle.Listener {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MusicServiceMetadata::class.java.simpleName}"
     }
 

@@ -35,7 +35,6 @@ class CustomViewSwitcher(
 ) : MultiViewSwitcher(context, attrs), RequestListener<Drawable> {
 
     companion object {
-        @JvmStatic
         private val TAG = "P:${CustomViewSwitcher::class.java.simpleName}"
     }
 

@@ -5,7 +5,6 @@ import dev.olog.lib.ColorDesaturationUtils
 
 object ColorPalette {
 
-    @JvmStatic
     fun getAccentColors(isDarkMode: Boolean): IntArray {
         if (isDarkMode) {
             return ACCENT_COLORS_DESATURATED
@@ -13,7 +12,6 @@ object ColorPalette {
         return ACCENT_COLORS
     }
 
-    @JvmStatic
     fun getAccentColorsSub(isDarkMode: Boolean): Array<IntArray> {
         if (isDarkMode) {
             return ACCENT_COLORS_SUB_DESATURATED
@@ -36,19 +34,16 @@ object ColorPalette {
         throw IllegalStateException("found must be found above, is dark mode=$isDarkMode, color=$color")
     }
 
-    @JvmStatic
     private val ACCENT_COLORS_DESATURATED: IntArray by lazy {
         ACCENT_COLORS.map { ColorDesaturationUtils.desaturate(it, .25f, .75f) }.toIntArray()
     }
 
-    @JvmStatic
     private val ACCENT_COLORS_SUB_DESATURATED: Array<IntArray> by lazy {
         ACCENT_COLORS_SUB.map { ints ->
             ints.copyOf().map { ColorDesaturationUtils.desaturate(it, 0.25f, 0.75f) }.toIntArray()
         }.toTypedArray()
     }
 
-    @JvmStatic
     private val ACCENT_COLORS = intArrayOf(
         Color.parseColor("#FF1744"),
         Color.parseColor("#F50057"),
@@ -68,7 +63,6 @@ object ColorPalette {
         Color.parseColor("#FF3D00")
     )
 
-    @JvmStatic
     private val ACCENT_COLORS_SUB = arrayOf(
         intArrayOf(
             Color.parseColor("#FF8A80"),

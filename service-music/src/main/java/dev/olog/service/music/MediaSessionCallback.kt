@@ -42,7 +42,6 @@ internal class MediaSessionCallback @Inject constructor(
 ) : MediaSessionCompat.Callback() {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${MediaSessionCallback::class.java.simpleName}"
     }
 

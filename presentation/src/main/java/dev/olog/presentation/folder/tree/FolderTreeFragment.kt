@@ -26,7 +26,6 @@ class FolderTreeFragment : BaseFragment(),
 
     companion object {
 
-        @JvmStatic
         fun newInstance(): FolderTreeFragment {
             return FolderTreeFragment()
         }

@@ -31,7 +31,6 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
     companion object {
         const val TAG = "LastFmCredentialsFragment"
 
-        @JvmStatic
         fun newInstance(): LastFmCredentialsFragment {
             return LastFmCredentialsFragment()
         }

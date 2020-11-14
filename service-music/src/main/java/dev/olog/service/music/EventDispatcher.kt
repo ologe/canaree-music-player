@@ -12,7 +12,6 @@ internal class EventDispatcher @Inject constructor(
 ) {
 
     companion object {
-        @JvmStatic
         private val TAG = "SM:${EventDispatcher::class.java.simpleName}"
     }
 

@@ -22,7 +22,6 @@ class SetRingtoneDialog : BaseDialog() {
         const val ARGUMENTS_TITLE = "$TAG.arguments.title"
         const val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
 
-        @JvmStatic
         fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),

@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 class SpecialThanksFragment : Fragment() {
 
     companion object {
-        @JvmStatic
         val TAG = SpecialThanksFragment::class.java.name
     }
 
