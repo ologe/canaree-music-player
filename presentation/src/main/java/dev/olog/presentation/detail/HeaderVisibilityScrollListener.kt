@@ -6,12 +6,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.shared.android.extensions.colorSurface
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlin.math.abs
 
 class HeaderVisibilityScrollListener(
     private val fragment: DetailFragment
@@ -19,8 +17,8 @@ class HeaderVisibilityScrollListener(
 ) : RecyclerView.OnScrollListener() {
 
     private val toolbarHeight by lazyFast {
-        val statusBarHeight = fragment.view!!.statusBar.height
-        statusBarHeight + fragment.ctx.dimen(R.dimen.toolbar)
+        val statusBarHeight = fragment.requireView().statusBar.height
+        statusBarHeight + fragment.dimen(R.dimen.toolbar)
     }
 
     private var textWrapper: View? = null
@@ -29,7 +27,7 @@ class HeaderVisibilityScrollListener(
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
 
-        val view = fragment.view!!
+        val view = fragment.requireView()
 
         if (holder.itemViewType == R.layout.item_detail_image) {
             if (textWrapper == null) {

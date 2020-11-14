@@ -12,7 +12,6 @@ import dev.olog.image.provider.CoverUtils
 import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.base.bottomsheet.BaseBottomSheetFragment
-import dev.olog.shared.android.extensions.ctx
 
 abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
@@ -23,13 +22,13 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     private var progressDialog: ProgressDialog? = null
 
     protected fun loadImage(mediaId: MediaId) {
-        val image = view!!.findViewById<ImageView>(R.id.cover)
+        val image = requireView().findViewById<ImageView>(R.id.cover)
 
-        GlideApp.with(ctx).clear(image)
+        GlideApp.with(requireContext()).clear(image)
 
-        GlideApp.with(ctx)
+        GlideApp.with(requireContext())
             .load(mediaId)
-            .placeholder(CoverUtils.getGradient(ctx, mediaId))
+            .placeholder(CoverUtils.getGradient(requireContext(), mediaId))
             .override(500)
             .priority(Priority.IMMEDIATE)
             .into(image)

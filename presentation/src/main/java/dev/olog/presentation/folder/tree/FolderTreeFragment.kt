@@ -12,7 +12,6 @@ import dev.olog.presentation.interfaces.CanHandleOnBackPressed
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.subscribe
 import dev.olog.shared.clamp
@@ -109,7 +108,7 @@ class FolderTreeFragment : BaseFragment(),
 
     private val scrollListener = object : RecyclerView.OnScrollListener(){
 
-        private val toolbarHeight by lazyFast { ctx.dimen(R.dimen.toolbar) }
+        private val toolbarHeight by lazyFast { dimen(R.dimen.toolbar) }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val currentTranlationY = crumbsWrapper.translationY

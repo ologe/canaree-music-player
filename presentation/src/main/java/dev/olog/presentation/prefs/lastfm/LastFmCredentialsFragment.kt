@@ -18,10 +18,11 @@ import dev.olog.core.interactor.lastfm.UpdateLastFmUserCredentials
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseDialogFragment
-import dev.olog.shared.android.extensions.ctx
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view: View = inflater.inflate(R.layout.fragment_credentials, null, false)
 
-        val builder = MaterialAlertDialogBuilder(ctx)
+        val builder = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.prefs_last_fm_credentials_title)
             .setMessage(R.string.prefs_last_fm_credentials_message)
             .setView(view)
@@ -117,12 +118,12 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
 
     private fun onSuccess(user: UserCredentials) {
         updateLastFmUserCredentials(user)
-        ctx.toast("Success")
+        requireContext().toast("Success")
         dismiss()
     }
 
     private fun onFail() {
-        ctx.toast("Failed")
+        requireContext().toast("Failed")
     }
 
 }

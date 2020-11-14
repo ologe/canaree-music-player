@@ -26,10 +26,8 @@ import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
-import java.lang.Exception
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -50,7 +48,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     private val mediaProvider by lazy { activity as MediaProvider }
 
-    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(ctx) { mediaProvider.playPause() } }
+    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(requireContext()) { mediaProvider.playPause() } }
 
     private val callback = object : CustomTabsHelper.CustomTabFallback {
         override fun openUri(context: Context?, uri: Uri?) {
@@ -139,7 +137,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             launch {
                 try {
                     OfflineLyricsSyncAdjustementDialog.show(
-                        ctx,
+                        requireContext(),
                         presenter.getSyncAdjustment()
                     ) {
                         presenter.updateSyncAdjustment(it)
@@ -192,13 +190,13 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     private fun searchLyrics() {
         val customTabIntent = CustomTabsIntent.Builder()
             .enableUrlBarHiding()
-            .setToolbarColor(ctx.colorSurface())
+            .setToolbarColor(requireContext().colorSurface())
             .build()
-        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+        CustomTabsHelper.addKeepAliveExtra(requireContext(), customTabIntent.intent)
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, callback)
+        CustomTabsHelper.openCustomTab(requireContext(), customTabIntent, uri, callback)
     }
 
 

@@ -90,7 +90,7 @@ class EditArtistFragment : BaseEditItemFragment() {
 
         when (result){
             UpdateResult.OK -> dismiss()
-            UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
+            UpdateResult.EMPTY_TITLE -> requireContext().toast(R.string.edit_artist_invalid_title)
             else -> {}
         }
     }

@@ -20,7 +20,6 @@ import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -76,10 +75,7 @@ class PlayingQueueFragment : BaseFragment(), IDragListener by DragListenerImpl()
                 .filter { it != RecyclerView.NO_POSITION } // filter only valid position
                 .flowOn(Dispatchers.Default)
                 .collect { position ->
-                    layoutManager.scrollToPositionWithOffset(
-                        position,
-                        ctx.dip(20)
-                    )
+                    layoutManager.scrollToPositionWithOffset(position, dip(20))
                 }
         }
     }

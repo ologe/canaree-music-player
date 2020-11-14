@@ -18,9 +18,6 @@ inline fun <T : Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
     return this
 }
 
-inline val Fragment.ctx: Context
-    get() = context!!
-
 inline val Fragment.act: FragmentActivity
     get() = activity!!
 
