@@ -1,13 +1,12 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore.Audio
 import android.util.Log
-import dev.olog.contentresolversql.querySql
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.contentresolversql.querySql
 import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.base.Id
 import dev.olog.core.gateway.track.SongGateway
@@ -26,11 +25,10 @@ import javax.inject.Inject
 
 internal class SongRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), SongGateway {
+) : BaseRepository<Song, Id>(context, schedulers), SongGateway {
 
     private val queries = TrackQueries(
         contentResolver, blacklistPrefs,

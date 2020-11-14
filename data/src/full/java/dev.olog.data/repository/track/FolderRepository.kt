@@ -1,11 +1,10 @@
 package dev.olog.data.repository.track
 
-import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Folder
 import dev.olog.core.entity.track.Song
@@ -35,13 +34,12 @@ import javax.inject.Inject
 
 internal class FolderRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val songGateway2: SongGateway,
     private val mostPlayedDao: FolderMostPlayedDao,
     schedulers: Schedulers
-) : BaseRepository<Folder, Path>(context, contentResolver, schedulers), FolderGateway {
+) : BaseRepository<Folder, Path>(context, schedulers), FolderGateway {
 
     private val queries = FolderQueries(contentResolver, blacklistPrefs, sortPrefs)
 

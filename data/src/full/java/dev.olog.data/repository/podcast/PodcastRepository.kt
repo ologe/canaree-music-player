@@ -1,6 +1,5 @@
 package dev.olog.data.repository.podcast
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
@@ -29,12 +28,11 @@ import javax.inject.Inject
 
 internal class PodcastRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val podcastPositionDao: PodcastPositionDao,
     schedulers: Schedulers
-) : BaseRepository<Song, Id>(context, contentResolver, schedulers), PodcastGateway {
+) : BaseRepository<Song, Id>(context, schedulers), PodcastGateway {
 
     private val queries = TrackQueries(
         context.contentResolver, blacklistPrefs,

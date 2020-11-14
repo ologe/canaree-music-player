@@ -7,7 +7,6 @@ apply from: rootProject.file("buildscripts/android-defaults.gradle")
 
 dependencies {
     implementation project(':core')
-    implementation project(':injection')
     implementation project(':image-provider')
     implementation project(':shared-android')
     implementation project(':shared')

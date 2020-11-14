@@ -23,6 +23,7 @@ android {
 
         buildConfigField 'String', "LAST_FM_KEY", localProperties.last_fm_key
         buildConfigField 'String', "LAST_FM_SECRET", localProperties.last_fm_secret
+        buildConfigField 'String', "AES_PASSWORD", localProperties.aes_password
     }
 
     bundle {
@@ -68,7 +69,6 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':image-provider')
-    implementation project(':injection')
     implementation project(':media')
     implementation project(':prefs-keys')
     implementation project(':presentation')
@@ -109,6 +109,8 @@ dependencies {
 
     implementation lib_network.retrofit
     implementation lib_data.room
+
+    implementation lib_utils.aes_crypto
 
     // debug
     debugImplementation lib_debug.leak_canary

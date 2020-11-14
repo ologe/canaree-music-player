@@ -1,6 +1,5 @@
 package dev.olog.data.repository.podcast
 
-import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -27,12 +26,11 @@ import javax.inject.Inject
 
 internal class PodcastAlbumRepository @Inject constructor(
     @ApplicationContext context: Context,
-    contentResolver: ContentResolver,
     sortPrefs: SortPreferences,
     blacklistPrefs: BlacklistPreferences,
     private val lastPlayedDao: LastPlayedPodcastAlbumDao,
     schedulers: Schedulers
-) : BaseRepository<Album, Id>(context, contentResolver, schedulers), PodcastAlbumGateway {
+) : BaseRepository<Album, Id>(context, schedulers), PodcastAlbumGateway {
 
     private val queries = AlbumsQueries(contentResolver, blacklistPrefs, sortPrefs, true)
 

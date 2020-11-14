@@ -1,15 +1,16 @@
 package dev.olog.presentation.relatedartists
 
+import android.content.Context
 import android.content.res.Resources
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.MediaId
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.interactor.GetItemTitleUseCase
 import dev.olog.core.interactor.ObserveRelatedArtistsUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.detail.DetailFragment
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.relatedartists.RelatedArtistFragment.Companion.ARGUMENTS_MEDIA_ID
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class RelatedArtistFragmentViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle,
-    resources: Resources,
+    @ApplicationContext context: Context,
     useCase: ObserveRelatedArtistsUseCase,
     getItemTitleUseCase: GetItemTitleUseCase
 
@@ -39,7 +40,7 @@ class RelatedArtistFragmentViewModel @ViewModelInject constructor(
     init {
         viewModelScope.launch {
             useCase(mediaId)
-                .mapListItem { it.toRelatedArtist(resources) }
+                .mapListItem { it.toRelatedArtist(context.resources) }
                 .flowOn(Dispatchers.IO)
                 .collect { liveData.value = it }
         }

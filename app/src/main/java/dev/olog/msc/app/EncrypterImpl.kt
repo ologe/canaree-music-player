@@ -1,7 +1,8 @@
-package dev.olog.injection
+package dev.olog.msc.app
 
 import com.tozny.crypto.android.AesCbcWithIntegrity
 import dev.olog.core.IEncrypter
+import dev.olog.msc.BuildConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 
