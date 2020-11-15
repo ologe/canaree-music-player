@@ -6,8 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.presentation.interfaces.slidingPanel
-import dev.olog.shared.android.extensions.findParentByType
-import dev.olog.shared.lazyFast
+import dev.olog.shared.android.extensions.findAncestorByType
 import dev.olog.shared.widgets.AutoScrollTextView
 
 class SlidingParentAutoScrollTextView(
@@ -15,7 +14,8 @@ class SlidingParentAutoScrollTextView(
     attrs: AttributeSet
 ) : AutoScrollTextView(context, attrs) {
 
-    private val parentList: RecyclerView? by lazyFast { findParentByType<RecyclerView>() }
+    private val parentList: RecyclerView?
+        get() = findAncestorByType()
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

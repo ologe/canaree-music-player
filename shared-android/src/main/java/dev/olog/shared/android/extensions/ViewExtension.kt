@@ -83,7 +83,7 @@ fun <T : View> View.findViewByIdNotRecursive(id: Int): T? {
     return null
 }
 
-inline fun <reified T : View> View.findParentByType(): T? {
+inline fun <reified T : View> View.findAncestorByType(): T? {
     var currentParent: ViewParent? = parent
     while (currentParent != null) {
         if (currentParent is T) {
