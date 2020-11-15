@@ -56,7 +56,7 @@ class OfflineLyricsContent(
         glueService.metadata
             .onEach {
                 presenter.updateCurrentTrackId(it.id)
-                GlobalScope.launch { loadImage(it.mediaId) }
+                service.lifecycleScope.launch { loadImage(it.mediaId) }
                 content.header.text = it.title
                 content.subHeader.text = it.artist
                 content.seekBar.max = it.duration.toInt()

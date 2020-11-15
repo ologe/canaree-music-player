@@ -36,7 +36,7 @@ class RateAppDialog @Inject constructor(
     }
 
     private fun check(activity: FragmentActivity) {
-        job = activity.lifecycleScope?.launch {
+        job = activity.lifecycleScope.launch {
             val show = updateCounter(activity)
             delay(2000)
             if (show) {

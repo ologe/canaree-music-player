@@ -32,8 +32,8 @@ import dev.olog.presentation.recentlyadded.RecentlyAddedFragment
 import dev.olog.presentation.relatedartists.RelatedArtistFragment
 import dev.olog.presentation.splash.SplashFragment
 import dev.olog.presentation.utils.collapse
+import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -129,7 +129,7 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()) {
-            GlobalScope.launch {
+            anchor.viewScope.launch(Dispatchers.IO) {
                 val popup = popupFactory.get().create(anchor, mediaId)
                 withContext(Dispatchers.Main) {
                     popup.show()

@@ -5,10 +5,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import dev.olog.shared.android.coroutine.autoDisposeJob
-import kotlinx.coroutines.GlobalScope
+import dev.olog.shared.android.coroutine.viewScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
+import kotlin.math.abs
 
 class NoScrollTouchListener(
     context: Context,
@@ -45,7 +45,7 @@ class NoScrollTouchListener(
 
                 if ((diffX > 25 || diffY > 25)) {
                     userHasControl = true
-                    job = GlobalScope.launch {
+                    job = v.viewScope.launch {
                         delay(TOUCH_DELAY)
                         userHasControl = false
                     }
