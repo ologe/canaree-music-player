@@ -37,7 +37,8 @@ android {
         freeCompilerArgs += [ // TODO remove after coroutines became stable
             "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
             "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xuse-experimental=kotlin.time.ExperimentalTime"
+            "-Xuse-experimental=kotlin.time.ExperimentalTime",
+            "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
         ]
 
 //        allWarningsAsErrors = true

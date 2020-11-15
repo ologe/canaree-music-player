@@ -2,6 +2,7 @@ package dev.olog.presentation.tab
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.entity.track.Playlist
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
@@ -12,10 +13,7 @@ import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.presentation.tab.mapper.toAutoPlaylist
 import dev.olog.presentation.tab.mapper.toTabDisplayableItem
 import dev.olog.presentation.tab.mapper.toTabLastPlayedDisplayableItem
-import dev.olog.shared.doIf
 import dev.olog.shared.mapListItem
-import dev.olog.shared.startWith
-import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -48,7 +46,12 @@ internal class TabDataProvider @Inject constructor(
         TabCategory.FOLDERS -> getFolders()
         TabCategory.PLAYLISTS -> getPlaylist()
         TabCategory.SONGS -> songGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
+            buildList {
+                if (it.isNotEmpty()) {
+                    add(headers.shuffleHeader)
+                    addAll(it.map { it.toTabDisplayableItem() })
+                }
+            }
         }
         TabCategory.ALBUMS -> getAlbums()
         TabCategory.ARTISTS -> getArtists()
@@ -67,9 +70,7 @@ internal class TabDataProvider @Inject constructor(
         }
         // podcasts
         TabCategory.PODCASTS_PLAYLIST -> getPodcastPlaylist()
-        TabCategory.PODCASTS -> podcastGateway.observeAll().map {
-            it.map { it.toTabDisplayableItem() }.startWithIfNotEmpty(headers.shuffleHeader)
-        }
+        TabCategory.PODCASTS -> podcastGateway.observeAll().mapListItem { it.toTabDisplayableItem() }
         TabCategory.PODCASTS_ALBUMS -> getPodcastAlbums()
         TabCategory.PODCASTS_ARTISTS -> getPodcastArtists()
         TabCategory.RECENTLY_ADDED_PODCAST_ALBUMS -> podcastAlbumGateway.observeRecentlyAdded().mapListItem { it.toTabLastPlayedDisplayableItem() }
@@ -103,17 +104,20 @@ internal class TabDataProvider @Inject constructor(
     }
 
     private fun getPlaylist(): Flow<List<DisplayableItem>> {
-        val autoPlaylist = playlistGateway.getAllAutoPlaylists()
-            .map { it.toAutoPlaylist() }
-            .startWith(headers.autoPlaylistHeader)
-
-        return playlistGateway.observeAll().map { list ->
+        return playlistGateway.observeAll().map { playlists ->
             val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PLAYLISTS)
 
-            list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
-                .toMutableList()
-                .startWithIfNotEmpty(headers.allPlaylistHeader)
-                .startWith(autoPlaylist)
+            buildList {
+                // auto
+                add(headers.autoPlaylistHeader)
+                addAll(playlistGateway.getAllAutoPlaylists().map(Playlist::toAutoPlaylist))
+
+                // playlists
+                if (playlists.isNotEmpty()) {
+                    add(headers.allPlaylistHeader)
+                    addAll(playlists.map { it.toTabDisplayableItem(resources, requestedSpanSize) })
+                }
+            }
         }
     }
 
@@ -136,11 +140,18 @@ internal class TabDataProvider @Inject constructor(
             recentlyAddedFlow,
             recentlyPlayedFlow
         ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
-                .plus(all)
+            buildList {
+                if (recentlyAdded.isNotEmpty()) {
+                    addAll(headers.recentlyAddedAlbumsHeaders)
+                }
+                if (lastPlayed.isNotEmpty()) {
+                    addAll(headers.lastPlayedAlbumHeaders)
+                }
+                if (this.isNotEmpty() && all.isNotEmpty()) {
+                    addAll(headers.allAlbumsHeader)
+                }
+                addAll(all)
+            }
         }
     }
 
@@ -163,26 +174,35 @@ internal class TabDataProvider @Inject constructor(
             recentlyAddedFlow,
             recentlyPlayedFlow
         ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
-                .plus(all)
+            buildList {
+                if (recentlyAdded.isNotEmpty()) {
+                    addAll(headers.recentlyAddedArtistsHeaders)
+                }
+                if (lastPlayed.isNotEmpty()) {
+                    addAll(headers.lastPlayedArtistHeaders)
+                }
+                if (this.isNotEmpty() && all.isNotEmpty()) {
+                    addAll(headers.allArtistsHeader)
+                }
+                addAll(all)
+            }
         }
     }
 
     // podcasts
     private fun getPodcastPlaylist(): Flow<List<DisplayableItem>> {
-        val autoPlaylist = podcastPlaylistGateway.getAllAutoPlaylists()
-            .map { it.toAutoPlaylist() }
-            .startWith(headers.autoPlaylistHeader)
-
-        return podcastPlaylistGateway.observeAll().map { list ->
+        return podcastPlaylistGateway.observeAll().map { playlists ->
             val requestedSpanSize = presentationPrefs.getSpanCount(TabCategory.PODCASTS_PLAYLIST)
-            list.asSequence().map { it.toTabDisplayableItem(resources, requestedSpanSize) }
-                .toMutableList()
-                .startWithIfNotEmpty(headers.allPlaylistHeader)
-                .startWith(autoPlaylist)
+
+            buildList {
+                add(headers.autoPlaylistHeader)
+                addAll(podcastPlaylistGateway.getAllAutoPlaylists().map(Playlist::toAutoPlaylist))
+
+                if (playlists.isNotEmpty()) {
+                    add(headers.allPlaylistHeader)
+                    addAll(playlists.map { it.toTabDisplayableItem(resources, requestedSpanSize) })
+                }
+            }
         }
     }
 
@@ -206,11 +226,18 @@ internal class TabDataProvider @Inject constructor(
             recentlyAddedFlow,
             recentlyPlayedFlow
         ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedAlbumsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedAlbumHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
-                .plus(all)
+            buildList {
+                if (recentlyAdded.isNotEmpty()) {
+                    addAll(headers.recentlyAddedAlbumsHeaders)
+                }
+                if (lastPlayed.isNotEmpty()) {
+                    addAll(headers.lastPlayedAlbumHeaders)
+                }
+                if (this.isNotEmpty() && all.isNotEmpty()) {
+                    addAll(headers.allAlbumsHeader)
+                }
+                addAll(all)
+            }
         }
     }
 
@@ -234,11 +261,18 @@ internal class TabDataProvider @Inject constructor(
             recentlyAddedFlow,
             recentlyPlayedFlow
         ) { all, recentlyAdded, lastPlayed ->
-            val result = mutableListOf<DisplayableItem>()
-            result.doIf(recentlyAdded.count() > 0) { addAll(headers.recentlyAddedArtistsHeaders) }
-                .doIf(lastPlayed.count() > 0) { addAll(headers.lastPlayedArtistHeaders) }
-                .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
-                .plus(all)
+            buildList {
+                if (recentlyAdded.isNotEmpty()) {
+                    addAll(headers.recentlyAddedArtistsHeaders)
+                }
+                if (lastPlayed.isEmpty()) {
+                    addAll(headers.lastPlayedArtistHeaders)
+                }
+                if (this.isNotEmpty() && all.isNotEmpty()) {
+                    addAll(headers.allArtistsHeader)
+                }
+                addAll(all)
+            }
         }
     }
 }

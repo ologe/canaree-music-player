@@ -15,7 +15,6 @@ import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
-import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -135,7 +134,12 @@ class SearchDataProvider @Inject constructor(
             }
         ) { track, podcast ->
             val result = (track + podcast).sortedBy { it.title }
-            result.startWithIfNotEmpty(searchHeaders.songsHeaders(result.size))
+            buildList {
+                if (result.isNotEmpty()) {
+                    add(searchHeaders.songsHeaders(result.size))
+                    addAll(result)
+                }
+            }
         }
     }
 

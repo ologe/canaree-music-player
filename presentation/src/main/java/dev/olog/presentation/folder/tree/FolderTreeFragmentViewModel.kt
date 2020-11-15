@@ -16,7 +16,6 @@ import dev.olog.core.gateway.FolderNavigatorGateway
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableFile
-import dev.olog.shared.startWithIfNotEmpty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -59,18 +58,26 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
             .filterIsInstance(FileType.Folder::class.java)
             .map { it.toDisplayableItem() }
             .toList()
-            .startWithIfNotEmpty(foldersHeader)
 
         val tracks = files.asSequence()
             .filterIsInstance(FileType.Track::class.java)
             .map { it.toDisplayableItem() }
             .toList()
-            .startWithIfNotEmpty(tracksHeader)
 
-        if (parent == Environment.getRootDirectory()) {
-            return folders + tracks
+        return buildList {
+            if (parent != Environment.getRootDirectory()) {
+                add(backDisplayableItem)
+            }
+
+            if (folders.isNotEmpty()) {
+                add(foldersHeader)
+                addAll(folders)
+            }
+            if (tracks.isNotEmpty()) {
+                add(tracksHeader)
+                addAll(tracks)
+            }
         }
-        return backDisplayableItem + folders + tracks
     }
 
     fun observeChildren(): Flow<List<DisplayableFile>> = currentDirectoryChildrenPublisher
@@ -134,27 +141,25 @@ class FolderTreeFragmentViewModel @ViewModelInject constructor(
         return null
     }
 
-    private val backDisplayableItem: List<DisplayableFile> = listOf(
-        DisplayableFile(
-            R.layout.item_folder_tree_directory,
-            BACK_HEADER_ID,
-            "...",
-            null
-        )
+    private val backDisplayableItem: DisplayableFile = DisplayableFile(
+        type = R.layout.item_folder_tree_directory,
+        mediaId = BACK_HEADER_ID,
+        title = "...",
+        path = null
     )
 
     private val foldersHeader = DisplayableFile(
-        R.layout.item_folder_tree_header,
-        MediaId.headerId("folder header"),
-        context.getString(R.string.common_folders),
-        null
+        type = R.layout.item_folder_tree_header,
+        mediaId = MediaId.headerId("folder header"),
+        title = context.getString(R.string.common_folders),
+        path = null
     )
 
     private val tracksHeader = DisplayableFile(
-        R.layout.item_folder_tree_header,
-        MediaId.headerId("track header"),
-        context.getString(R.string.common_tracks),
-        null
+        type = R.layout.item_folder_tree_header,
+        mediaId = MediaId.headerId("track header"),
+        title = context.getString(R.string.common_tracks),
+        path = null
     )
 
     private fun FileType.Track.toDisplayableItem(): DisplayableFile {
