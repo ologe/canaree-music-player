@@ -4,7 +4,6 @@ import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.PresentationPreferencesGateway
 import dev.olog.core.prefs.TutorialPreferenceGateway
 import dev.olog.presentation.model.LibraryPage
-import dev.olog.shared.clamp
 import javax.inject.Inject
 
 internal class LibraryFragmentPresenter @Inject constructor(
@@ -18,7 +17,7 @@ internal class LibraryFragmentPresenter @Inject constructor(
         } else {
             appPrefsUseCase.getViewPagerLibraryLastPage()
         }
-        return clamp(lastPage, 0, totalPages)
+        return lastPage.coerceIn(0, totalPages)
     }
 
     fun setViewPagerLastPage(page: Int, isPodcast: Boolean) {

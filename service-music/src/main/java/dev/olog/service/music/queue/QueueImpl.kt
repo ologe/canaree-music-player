@@ -18,7 +18,6 @@ import dev.olog.service.music.state.MusicServiceRepeatMode
 import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.utils.assertBackgroundThread
 import dev.olog.shared.android.utils.assertMainThread
-import dev.olog.shared.clamp
 import dev.olog.shared.swap
 import kotlinx.coroutines.*
 import org.jetbrains.annotations.Contract
@@ -218,7 +217,7 @@ internal class QueueImpl @Inject constructor(
     @Contract(pure = true)
     @CheckResult
     private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
-        return clamp(position, 0, list.lastIndex)
+        return position.coerceIn(0, list.lastIndex)
     }
 
     @Contract(pure = true)

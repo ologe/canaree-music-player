@@ -18,7 +18,6 @@ import dev.olog.service.music.interfaces.ExoPlayerListenerWrapper
 import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.interfaces.ISourceFactory
 import dev.olog.shared.android.extensions.toast
-import dev.olog.shared.clamp
 
 /**
  * This class handles playback
@@ -85,7 +84,7 @@ internal abstract class AbsPlayer<T>(
 
     @CallSuper
     override fun seekTo(where: Long) {
-        val safeSeek = clamp(where, 0L, getDuration())
+        val safeSeek = where.coerceIn(0L, getDuration())
         player.seekTo(safeSeek)
     }
 

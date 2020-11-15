@@ -14,7 +14,6 @@ import dev.olog.presentation.widgets.BreadCrumbLayout
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
 import dev.olog.shared.android.extensions.dimen
 import dev.olog.shared.android.extensions.launchIn
-import dev.olog.shared.clamp
 import dev.olog.shared.lazyFast
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.coroutines.flow.onEach
@@ -111,7 +110,7 @@ class FolderTreeFragment : BaseFragment(),
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val currentTranlationY = crumbsWrapper.translationY
-            val clampedTranslation = clamp(currentTranlationY - dy, -toolbarHeight.toFloat(), 0f)
+            val clampedTranslation = (currentTranlationY - dy).coerceIn(-toolbarHeight.toFloat(), 0f)
             crumbsWrapper.translationY = clampedTranslation
         }
     }

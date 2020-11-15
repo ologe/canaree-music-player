@@ -12,7 +12,6 @@ import dev.olog.service.music.model.MetadataEntity
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.model.SkipType
 import dev.olog.service.music.state.MusicServicePlaybackState
-import dev.olog.shared.clamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -159,22 +158,22 @@ internal class PlayerImpl @Inject constructor(
 
     override fun forwardTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
     override fun replayTenSeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(10)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
     override fun forwardThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() + TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
     override fun replayThirtySeconds() {
         val newBookmark = playerDelegate.getBookmark() - TimeUnit.SECONDS.toMillis(30)
-        seekTo(clamp(newBookmark, 0, playerDelegate.getDuration()))
+        seekTo(newBookmark.coerceIn(0, playerDelegate.getDuration()))
     }
 
     override fun isPlaying(): Boolean = playerDelegate.isPlaying()

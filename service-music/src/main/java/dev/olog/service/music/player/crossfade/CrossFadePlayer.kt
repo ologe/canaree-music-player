@@ -16,7 +16,6 @@ import dev.olog.service.music.interfaces.IMaxAllowedPlayerVolume
 import dev.olog.service.music.model.PlayerMediaEntity
 import dev.olog.service.music.player.mediasource.ClippedSourceFactory
 import dev.olog.shared.android.coroutine.autoDisposeJob
-import dev.olog.shared.clamp
 import dev.olog.shared.FlowInterval
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -70,7 +69,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         { crossfade, gapless ->
             if (gapless){
                 // force song preloading
-                clamp(crossfade, MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
+                crossfade.coerceIn(MIN_CROSSFADE_FOR_GAPLESS, Int.MAX_VALUE)
             } else {
                 crossfade
             }
@@ -237,7 +236,7 @@ internal class CrossFadePlayer @Inject internal constructor(
         val min: Float
             get() {
                 if (gapless && crossfade <= MAX_CROSSFADE_FOR_GAPLESS){
-                    return clamp(maxVolumeAllowed * 0.75f, 0f, maxVolumeAllowed)
+                    return (maxVolumeAllowed * 0.75f).coerceIn(0f, maxVolumeAllowed)
                 }
                 return 0f
             }
