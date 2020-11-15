@@ -18,11 +18,11 @@
 - Must depend on almost every `:module` in order to build the apk
 - [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/app/build.gradle)
 
-#### `:core`
+#### `:domain`
 - Contains gateway that allow decoupled communication between `:data` and other modules
 - Contains common entities
 - Contains interactors (business use-cases)
-- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/core/build.gradle)
+- [build.gradle](https://github.com/ologe/canaree-music-player/blob/master/domain/build.gradle)
 
 #### `:presentation`
 - Self explanatory
