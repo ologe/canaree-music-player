@@ -4,7 +4,6 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
@@ -43,7 +42,7 @@ class NavigatorImpl @Inject internal constructor(
     private val mainPopup: Lazy<MainPopupDialog>,
     private val popupFactory: Lazy<PopupMenuFactory>,
     private val editItemDialogFactory: Lazy<EditItemDialogFactory>
-) : DefaultLifecycleObserver, Navigator {
+) : Navigator {
 
     override fun toFirstAccess() {
         activity.supportFragmentManager.commit {

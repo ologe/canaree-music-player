@@ -3,8 +3,6 @@ package dev.olog.presentation.rateapp
 import android.content.Context
 import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,12 +24,11 @@ private const val PREFS_APP_RATE_NEVER_SHOW_AGAIN = "prefs.app.rate.never.show"
 class RateAppDialog @Inject constructor(
     @ApplicationContext private val context: Context,
     private val activity: FragmentActivity
-) : DefaultLifecycleObserver {
+) {
 
     private var job by autoDisposeJob()
 
     init {
-        activity.lifecycle.addObserver(this)
         check(activity)
     }
 
@@ -57,10 +54,6 @@ class RateAppDialog @Inject constructor(
             .setNeutralButton(R.string.rate_app_neutral_button) { _, _ -> }
             .setCancelable(false)
             .show()
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        job = null
     }
 
     /**

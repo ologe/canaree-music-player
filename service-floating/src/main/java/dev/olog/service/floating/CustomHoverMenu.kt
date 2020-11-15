@@ -1,8 +1,6 @@
 package dev.olog.service.floating
 
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -23,8 +21,7 @@ class CustomHoverMenu @Inject constructor(
     musicServiceBinder: MusicGlueService,
     private val musicPreferencesUseCase: MusicPreferencesGateway,
     offlineLyricsContentPresenter: OfflineLyricsContentPresenter
-
-) : HoverMenu(), DefaultLifecycleObserver {
+) : HoverMenu() {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
@@ -44,10 +41,6 @@ class CustomHoverMenu @Inject constructor(
         }
     })
 
-    init {
-        service.lifecycle.addObserver(this)
-    }
-
     fun startObserving(){
         job = service.lifecycleScope.launch(Dispatchers.Main) {
             musicPreferencesUseCase.observeLastMetadata()
@@ -57,10 +50,6 @@ class CustomHoverMenu @Inject constructor(
                     item = it.description
                 }
         }
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        job = null
     }
 
     private val lyricsSection = Section(

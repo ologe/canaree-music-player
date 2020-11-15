@@ -6,8 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import dev.olog.core.prefs.MusicPreferencesGateway
@@ -30,8 +28,7 @@ private const val CHANNEL_ID = "0xfff"
 class FloatingWindowNotification @Inject constructor(
     private val service: LifecycleService,
     private val musicPreferencesUseCase: MusicPreferencesGateway
-
-) : DefaultLifecycleObserver {
+) {
 
     companion object {
         const val NOTIFICATION_ID = 0xABC
@@ -46,14 +43,6 @@ class FloatingWindowNotification @Inject constructor(
     private var job by autoDisposeJob()
 
     private var notificationTitle = ""
-
-    init {
-        service.lifecycle.addObserver(this)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        job = null
-    }
 
     fun startObserving() {
         job = musicPreferencesUseCase.observeLastMetadata()
