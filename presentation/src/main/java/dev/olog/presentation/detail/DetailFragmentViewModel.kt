@@ -18,7 +18,6 @@ import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.shared.android.extensions.argument
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,13 +44,13 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
 
     private var moveList = mutableListOf<Pair<Int, Int>>()
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterPublisher = MutableStateFlow("")
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterPublisher.value = filter
     }
 
-    fun getFilter(): String = filterChannel.value
+    fun getFilter(): String = filterPublisher.value
 
     private val itemLiveData = MutableLiveData<DisplayableItem>()
     private val mostPlayedLiveData = MutableLiveData<List<DisplayableTrack>>()
@@ -98,7 +97,7 @@ internal class DetailFragmentViewModel @ViewModelInject constructor(
         }
         // songs
         viewModelScope.launch {
-            dataProvider.observe(parentMediaId, filterChannel.asFlow())
+            dataProvider.observe(parentMediaId, filterPublisher)
                 .flowOn(Dispatchers.Default)
                 .collect { songLiveData.value = it }
         }

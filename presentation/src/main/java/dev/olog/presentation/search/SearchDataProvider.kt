@@ -1,8 +1,8 @@
 package dev.olog.presentation.search
 
 import android.content.Context
-import dev.olog.core.MediaId
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.olog.core.MediaId
 import dev.olog.core.gateway.RecentSearchesGateway
 import dev.olog.core.gateway.podcast.PodcastAlbumGateway
 import dev.olog.core.gateway.podcast.PodcastArtistGateway
@@ -16,7 +16,6 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
 import dev.olog.shared.startWithIfNotEmpty
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -39,14 +38,14 @@ class SearchDataProvider @Inject constructor(
 
 ) {
 
-    private val queryChannel = ConflatedBroadcastChannel("")
+    private val queryChannel = MutableStateFlow("")
 
     fun updateQuery(query: String) {
-        queryChannel.offer(query)
+        queryChannel.value = query
     }
 
     fun observe(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow().flatMapLatest { query ->
+        return queryChannel.flatMapLatest { query ->
             if (query.isBlank()) {
                 getRecents()
             } else {
@@ -56,31 +55,31 @@ class SearchDataProvider @Inject constructor(
     }
 
     fun observeArtists(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getArtists(it) }
             .assertBackground()
     }
 
     fun observeAlbums(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getAlbums(it) }
             .assertBackground()
     }
 
     fun observeGenres(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getGenres(it) }
             .assertBackground()
     }
 
     fun observePlaylists(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getPlaylists(it) }
             .assertBackground()
     }
 
     fun observeFolders(): Flow<List<DisplayableItem>> {
-        return queryChannel.asFlow()
+        return queryChannel
             .flatMapLatest { getFolders(it) }
             .assertBackground()
     }

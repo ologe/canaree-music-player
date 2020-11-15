@@ -21,9 +21,7 @@ import dev.olog.shared.android.extensions.toList
 import dev.olog.shared.android.extensions.toggle
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
@@ -39,37 +37,36 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
-    private val showOnlyFiltered = ConflatedBroadcastChannel(false)
+    private val showOnlyFiltered = MutableStateFlow(false)
 
-    private val filterChannel = ConflatedBroadcastChannel("")
+    private val filterPublisher = MutableStateFlow("")
 
     init {
-        viewModelScope.launch {
-            showOnlyFiltered.asFlow()
-                .flatMapLatest { onlyFiltered ->
-                    if (onlyFiltered){
-                        getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
-                    } else {
-                        getPlaylistTypeTracks().combine(filterChannel.asFlow()) { tracks, filter ->
-                            if (filter.isNotEmpty()) {
-                                tracks.filter {
-                                    it.title.contains(filter, true) ||
-                                            it.artist.contains(filter, true) ||
-                                            it.album.contains(filter, true)
-                                }
-                            } else {
-                                tracks
+        showOnlyFiltered
+            .flatMapLatest { onlyFiltered ->
+                if (onlyFiltered){
+                    getPlaylistTypeTracks().map { songs -> songs.filter { selectedIds.contains(it.id) } }
+                } else {
+                    getPlaylistTypeTracks().combine(filterPublisher) { tracks, filter ->
+                        if (filter.isNotEmpty()) {
+                            tracks.filter {
+                                it.title.contains(filter, true) ||
+                                        it.artist.contains(filter, true) ||
+                                        it.album.contains(filter, true)
                             }
+                        } else {
+                            tracks
                         }
                     }
-                }.mapListItem { it.toDisplayableItem() }
-                .flowOn(Dispatchers.Default)
-                .collect { data.value = it }
-        }
+                }
+            }.mapListItem { it.toDisplayableItem() }
+            .flowOn(Dispatchers.Default)
+            .onEach { data.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun updateFilter(filter: String) {
-        filterChannel.offer(filter)
+        filterPublisher.value = filter
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> = data
@@ -87,8 +84,7 @@ class CreatePlaylistFragmentViewModel @ViewModelInject constructor(
     }
 
     fun toggleShowOnlyFiltered() {
-        val onlyFiltered = showOnlyFiltered.value
-        showOnlyFiltered.offer(!onlyFiltered)
+        showOnlyFiltered.value = !showOnlyFiltered.value
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

@@ -25,7 +25,6 @@ import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.android.extensions.colorAccent
 import dev.olog.shared.android.extensions.colorControlNormal
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 
 private const val BUBBLE_ANIMATION_DURATION = 100
@@ -98,8 +97,8 @@ class RxFastScroller(
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
 
-    private val bubbleTextPublisher = ConflatedBroadcastChannel("")
-    private val scrollPublisher = ConflatedBroadcastChannel<Int>(RecyclerView.NO_POSITION)
+    private val bubbleTextPublisher = MutableStateFlow("")
+    private val scrollPublisher = MutableStateFlow(RecyclerView.NO_POSITION)
     private var bubbleTextJob by autoDisposeJob()
     private var scrollJob by autoDisposeJob()
 
@@ -216,8 +215,7 @@ class RxFastScroller(
 
         if (!isInEditMode){
             if (showBubble){
-                bubbleTextJob = bubbleTextPublisher.asFlow()
-                    .distinctUntilChanged()
+                bubbleTextJob = bubbleTextPublisher
                     .flowOn(Dispatchers.Default)
                     .map {
                         when {
@@ -225,11 +223,12 @@ class RxFastScroller(
                             it > "Z" -> "?"
                             else -> it
                         }
-                    }.onEach { mBubbleView!!.text = it }
+                    }
+                    .onEach { mBubbleView!!.text = it }
                     .launchIn(viewScope)
             }
 
-            scrollJob = scrollPublisher.asFlow()
+            scrollJob = scrollPublisher
                 .filter { it != RecyclerView.NO_POSITION }
                 .distinctUntilChanged()
                 .flowOn(Dispatchers.Default)
@@ -374,10 +373,10 @@ class RxFastScroller(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            scrollPublisher.offer(targetPos)
+            scrollPublisher.value = targetPos
 
             val letter = mSectionIndexer?.getSectionText(targetPos)
-            letter?.let { bubbleTextPublisher.offer(it) }
+            letter?.let { bubbleTextPublisher.value = it }
         }
     }
 

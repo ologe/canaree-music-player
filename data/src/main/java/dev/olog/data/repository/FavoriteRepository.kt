@@ -10,10 +10,7 @@ import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 internal class FavoriteRepository @Inject constructor(
@@ -23,14 +20,14 @@ internal class FavoriteRepository @Inject constructor(
 
 ) : FavoriteGateway {
 
-    private val favoriteStatePublisher = ConflatedBroadcastChannel<FavoriteStateEntity>()
+    private val favoriteStatePublisher = MutableStateFlow(FavoriteStateEntity.INVALID)
 
     override fun observeToggleFavorite(): Flow<FavoriteEnum> = favoriteStatePublisher
-        .asFlow()
+        .filter { it != FavoriteStateEntity.INVALID }
         .map { it.enum }
 
     override suspend fun updateFavoriteState(state: FavoriteStateEntity) {
-        favoriteStatePublisher.offer(state)
+        favoriteStatePublisher.value = state
     }
 
     override fun getTracks(): List<Song> {
@@ -114,7 +111,7 @@ internal class FavoriteRepository @Inject constructor(
     override suspend fun toggleFavorite() {
         assertBackgroundThread()
 
-        val value = favoriteStatePublisher.valueOrNull ?: return
+        val value = favoriteStatePublisher.value
         val id = value.songId
         val state = value.enum
         val type = value.favoriteType

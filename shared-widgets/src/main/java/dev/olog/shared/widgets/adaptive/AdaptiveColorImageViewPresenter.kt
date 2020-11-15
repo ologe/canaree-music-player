@@ -14,9 +14,8 @@ import dev.olog.shared.android.palette.ColorUtil
 import dev.olog.shared.android.palette.ImageProcessor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 
@@ -32,16 +31,15 @@ class AdaptiveColorImageViewPresenter(
 
     private val defaultPaletteColors = ValidPaletteColors(context.colorAccent())
 
-    private val processorPalettePublisher = ConflatedBroadcastChannel(defaultProcessorColors)
-    private val palettePublisher = ConflatedBroadcastChannel(defaultPaletteColors)
+    private val processorPalettePublisher = MutableStateFlow(defaultProcessorColors)
+    private val palettePublisher = MutableStateFlow(defaultPaletteColors)
 
     private var processorJob by autoDisposeJob()
     private var paletteJob by autoDisposeJob()
 
     fun observeProcessorColors(): Flow<ProcessorColors> = processorPalettePublisher
-        .asFlow()
 
-    fun observePalette(): Flow<PaletteColors> = palettePublisher.asFlow()
+    fun observePalette(): Flow<PaletteColors> = palettePublisher
 
     fun onNextImage(drawable: Drawable?) {
         onNextImage(drawable?.toBitmap())
@@ -52,20 +50,18 @@ class AdaptiveColorImageViewPresenter(
         paletteJob = null
 
         if (bitmap == null) {
-            processorPalettePublisher.offer(defaultProcessorColors)
-            palettePublisher.offer(defaultPaletteColors)
+            processorPalettePublisher.value = defaultProcessorColors
+            palettePublisher.value = defaultPaletteColors
             return
         }
 
         processorJob = GlobalScope.launch(Dispatchers.Default) {
             val image = ImageProcessor(context).processImage(bitmap)
             yield()
-            processorPalettePublisher.offer(
-                ValidProcessorColors(
-                    desaturate(image.background),
-                    desaturate(image.primaryTextColor),
-                    desaturate(image.secondaryTextColor)
-                )
+            processorPalettePublisher.value = ValidProcessorColors(
+                desaturate(image.background),
+                desaturate(image.primaryTextColor),
+                desaturate(image.secondaryTextColor)
             )
         }
 
@@ -75,7 +71,7 @@ class AdaptiveColorImageViewPresenter(
                 .generate()
             yield()
             val accent = desaturate(ColorUtil.getAccentColor(context, palette))
-            palettePublisher.offer(ValidPaletteColors(accent))
+            palettePublisher.value = ValidPaletteColors(accent)
         }
     }
 
