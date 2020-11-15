@@ -2,7 +2,6 @@ package dev.olog.presentation.base.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class SimpleAdapter<T>(
@@ -41,18 +40,6 @@ abstract class SimpleAdapter<T>(
         this.dataSet.clear()
         this.dataSet.addAll(data)
         notifyDataSetChanged()
-    }
-
-    @CallSuper
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        holder.onAppear()
-    }
-
-    @CallSuper
-    override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.onDisappear()
     }
 
     abstract override fun getItemViewType(position: Int): Int

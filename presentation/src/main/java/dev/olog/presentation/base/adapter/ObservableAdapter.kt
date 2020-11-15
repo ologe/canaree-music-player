@@ -2,7 +2,6 @@ package dev.olog.presentation.base.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import dev.olog.presentation.model.BaseModel
@@ -16,18 +15,6 @@ abstract class ObservableAdapter<T : BaseModel>(
     private val flow = MutableStateFlow(currentList)
 
     fun observeData(): Flow<List<T>> = flow
-
-    @CallSuper
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        holder.onAppear()
-    }
-
-    @CallSuper
-    override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.onDisappear()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
