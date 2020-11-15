@@ -11,24 +11,17 @@ import dev.olog.presentation.navigator.superCerealTransition
 import dev.olog.presentation.prefs.SettingsFragmentWrapper
 import dev.olog.presentation.sleeptimer.SleepTimerPickerDialogBuilder
 import dev.olog.shared.android.extensions.toast
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(
-    activity: FragmentActivity,
+    private val activity: FragmentActivity,
 ) {
 
-    private val activityRef = WeakReference(activity)
-
     fun toAboutActivity() {
-        val activity = activityRef.get() ?: return
-
         superCerealTransition(activity, AboutFragment(), AboutFragment.TAG)
     }
 
     fun toEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val useCustomEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
                 .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
@@ -40,15 +33,11 @@ class MainPopupNavigator @Inject constructor(
     }
 
     private fun toBuiltInEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val instance = EqualizerFragment.newInstance()
         instance.show(activity.supportFragmentManager, EqualizerFragment.TAG)
     }
 
     private fun searchForEqualizer() {
-        val activity = activityRef.get() ?: return
-
         val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
         if (intent.resolveActivity(activity.packageManager) != null) {
             activity.startActivity(intent)
@@ -58,14 +47,10 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toSettingsActivity() {
-        val activity = activityRef.get() ?: return
-
         superCerealTransition(activity, SettingsFragmentWrapper(), SettingsFragmentWrapper.TAG)
     }
 
     fun toSleepTimer() {
-        val activity = activityRef.get() ?: return
-
         SleepTimerPickerDialogBuilder(activity, activity.supportFragmentManager).show()
     }
 
