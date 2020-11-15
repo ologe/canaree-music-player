@@ -216,7 +216,6 @@ class RxFastScroller(
         if (!isInEditMode){
             if (showBubble){
                 bubbleTextJob = bubbleTextPublisher
-                    .flowOn(Dispatchers.Default)
                     .map {
                         when {
                             it < "A" -> "#"
