@@ -18,7 +18,6 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.playerAppearanceAmbient
@@ -80,7 +79,6 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
                     listOf(viewModel.playerControls())
                 }
             }
-            .assertBackground()
             .flowOn(Dispatchers.Default)
             .onEach(adapter::submitList)
             .launchIn(this)

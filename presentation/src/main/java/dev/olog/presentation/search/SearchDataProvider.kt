@@ -13,7 +13,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableAlbum
 import dev.olog.presentation.model.DisplayableHeader
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.android.extensions.assertBackground
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -50,37 +49,32 @@ class SearchDataProvider @Inject constructor(
             } else {
                 getFiltered(query)
             }
-        }.assertBackground()
+        }
     }
 
     fun observeArtists(): Flow<List<DisplayableItem>> {
         return queryChannel
             .flatMapLatest { getArtists(it) }
-            .assertBackground()
     }
 
     fun observeAlbums(): Flow<List<DisplayableItem>> {
         return queryChannel
             .flatMapLatest { getAlbums(it) }
-            .assertBackground()
     }
 
     fun observeGenres(): Flow<List<DisplayableItem>> {
         return queryChannel
             .flatMapLatest { getGenres(it) }
-            .assertBackground()
     }
 
     fun observePlaylists(): Flow<List<DisplayableItem>> {
         return queryChannel
             .flatMapLatest { getPlaylists(it) }
-            .assertBackground()
     }
 
     fun observeFolders(): Flow<List<DisplayableItem>> {
         return queryChannel
             .flatMapLatest { getFolders(it) }
-            .assertBackground()
     }
 
     private fun getRecents(): Flow<List<DisplayableItem>> {
