@@ -82,6 +82,7 @@ class MediaExposer(
     }
 
     fun disconnect() {
+        connectionPublisher.value = null
         connectionJob = null
         queueJob = null
         if (mediaBrowser.isConnected){

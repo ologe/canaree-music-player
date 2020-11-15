@@ -94,14 +94,6 @@ inline fun <reified T : View> View.findAncestorByType(): T? {
     return null
 }
 
-fun<T> ViewGroup.map(action: (View) -> T): List<T> {
-    val result = mutableListOf<T>()
-    forEach {
-        result.add(action(it))
-    }
-    return result
-}
-
 fun View.findActivity(): FragmentActivity {
     var context: Context = context
     while (context is ContextWrapper) {
