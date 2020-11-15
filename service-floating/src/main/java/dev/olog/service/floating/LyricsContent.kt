@@ -1,52 +1,45 @@
 package dev.olog.service.floating
 
-import android.app.Service
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import dev.olog.media.model.PlayerState
-import dev.olog.shared.android.extensions.distinctUntilChanged
-import dev.olog.shared.android.extensions.filter
-import dev.olog.shared.android.extensions.map
-import dev.olog.shared.android.extensions.subscribe
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.android.synthetic.main.content_web_view_with_player.view.*
+import kotlinx.coroutines.flow.*
 
 class LyricsContent(
-    service: Service,
+    service: LifecycleService,
     private val glueService: MusicGlueService
 ) : WebViewContent(service, R.layout.content_web_view_with_player) {
 
-    override fun onShown() {
-        super.onShown()
+    init {
+        glueService.playbackState
+            .onEach { content.seekBar.onStateChanged(it) }
+            .launchIn(service.lifecycleScope)
 
-        glueService.observePlaybackState()
-            .subscribe(this) {
-                content.seekBar.onStateChanged(it)
-            }
-
-        glueService.observePlaybackState()
+        glueService.playbackState
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(this) {
+            .onEach {
                 when (it){
                     PlayerState.PLAYING -> content.playPause.animationPlay(true)
                     PlayerState.PAUSED -> content.playPause.animationPause(true)
-                    else -> throw IllegalArgumentException("state not valid $it")
+                    else -> error("state not valid $it")
                 }
-            }
+            }.launchIn(service.lifecycleScope)
 
-        glueService.observeMetadata()
-            .subscribe(this) {
+        glueService.metadata
+            .onEach {
                 content.header.text = it.title
                 content.subHeader.text = it.artist
-            }
-
-        glueService.observeMetadata()
-            .subscribe(this) {
                 content.seekBar.max = it.duration.toInt()
-            }
+            }.launchIn(service.lifecycleScope)
+    }
 
+    override fun onShown() {
+        super.onShown()
         content.playPause.setOnClickListener { glueService.playPause() }
-
         content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
         })

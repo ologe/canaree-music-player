@@ -7,7 +7,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaId
@@ -98,16 +97,20 @@ abstract class MusicGlueActivity : BaseActivity(),
         }
     }
 
-    override fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    override val metadata: Flow<PlayerMetadata>
+        get() = mediaExposer.metadata
 
-    override fun observePlaybackState(): LiveData<PlayerPlaybackState> =
-        mediaExposer.observePlaybackState()
+    override val playbackState: Flow<PlayerPlaybackState>
+        get() = mediaExposer.playbackState
 
-    override fun observeRepeat(): LiveData<PlayerRepeatMode> = mediaExposer.observeRepeat()
+    override val repeat: Flow<PlayerRepeatMode>
+        get() = mediaExposer.repeat
 
-    override fun observeShuffle(): LiveData<PlayerShuffleMode> = mediaExposer.observeShuffle()
+    override val shuffle: Flow<PlayerShuffleMode>
+        get() = mediaExposer.shuffle
 
-    override fun observeQueue(): Flow<List<PlayerItem>> = mediaExposer.observeQueue()
+    override val queue: Flow<List<PlayerItem>>
+        get() = mediaExposer.queue
 
     private fun mediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)

@@ -8,8 +8,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
 import dev.olog.intents.Classes
 import dev.olog.media.connection.IMediaConnectionCallback
@@ -21,14 +19,12 @@ import dev.olog.media.controller.MediaControllerCallback
 import dev.olog.media.model.*
 import dev.olog.shared.android.Permissions
 import dev.olog.shared.android.coroutine.autoDisposeJob
-import dev.olog.shared.android.extensions.distinctUntilChanged
+import dev.olog.shared.exhaustive
 import dev.olog.shared.lazyFast
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import java.lang.IllegalStateException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class MediaExposer(
     private val context: Context,
@@ -46,51 +42,48 @@ class MediaExposer(
         )
     }
 
-    private var job by autoDisposeJob()
+    private var connectionJob by autoDisposeJob()
+    private var queueJob by autoDisposeJob()
 
     val callback: MediaControllerCompat.Callback = MediaControllerCallback(this)
 
-    private val connectionPublisher = ConflatedBroadcastChannel<MusicServiceConnectionState>()
+    private val connectionPublisher = MutableStateFlow<MusicServiceConnectionState?>(null)
 
-    private val metadataPublisher = MutableLiveData<PlayerMetadata>()
-    private val statePublisher = MutableLiveData<PlayerPlaybackState>()
-    private val repeatModePublisher = MutableLiveData<PlayerRepeatMode>()
-    private val shuffleModePublisher = MutableLiveData<PlayerShuffleMode>()
-    private val queuePublisher = ConflatedBroadcastChannel<List<PlayerItem>>(listOf())
+    private val metadataPublisher = MutableStateFlow<PlayerMetadata?>(null)
+    private val statePublisher = MutableStateFlow<PlayerPlaybackState?>(null)
+    private val repeatModePublisher = MutableStateFlow(PlayerRepeatMode.NOT_SET)
+    private val shuffleModePublisher = MutableStateFlow(PlayerShuffleMode.NOT_SET)
+    private val queuePublisher = MutableStateFlow<List<PlayerItem>>(listOf())
 
     fun connect() {
         if (!Permissions.canReadStorage(context)) {
             Log.w("MediaExposer", "Storage permission is not granted")
             return
         }
-        job = coroutineScope.launch(Dispatchers.Main) {
-            for (state in connectionPublisher.openSubscription()) {
+        connectionJob = connectionPublisher
+            .filterNotNull()
+            .onEach { state ->
                 Log.d("MediaExposer", "Connection state=$state")
                 when (state) {
-                    MusicServiceConnectionState.CONNECTED -> {
-                        onConnectionChanged.onConnectedSuccess(mediaBrowser, callback)
-                    }
-                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(
-                        mediaBrowser,
-                        callback
+                    MusicServiceConnectionState.CONNECTED -> onConnectionChanged.onConnectedSuccess(
+                        mediaBrowser = mediaBrowser,
+                        callback = callback
                     )
-                }
-            }
-        }
+                    MusicServiceConnectionState.FAILED -> onConnectionChanged.onConnectedFailed(
+                        mediaBrowser = mediaBrowser,
+                        callback = callback
+                    )
+                }.exhaustive
+            }.launchIn(coroutineScope)
 
         if (!mediaBrowser.isConnected){
-            try {
-                mediaBrowser.connect()
-            } catch (ex: IllegalStateException){
-//                TODO leak ??
-//                connect() called while neither disconnecting nor disconnected (state=CONNECT_STATE_CONNECTING)
-//                connect() called while not disconnected (state=CONNECT_STATE_CONNECTING)
-            }
+            mediaBrowser.connect()
         }
     }
 
     fun disconnect() {
-        job = null
+        connectionJob = null
+        queueJob = null
         if (mediaBrowser.isConnected){
             mediaBrowser.disconnect()
         }
@@ -108,19 +101,17 @@ class MediaExposer(
     }
 
     override fun onConnectionStateChanged(state: MusicServiceConnectionState) {
-        connectionPublisher.offer(state)
+        connectionPublisher.value = state
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-        metadata?.let {
-            metadataPublisher.value = PlayerMetadata(it)
-        }
+        metadata ?: return
+        metadataPublisher.value = PlayerMetadata(metadata)
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-        state?.let {
-            statePublisher.value = PlayerPlaybackState(it)
-        }
+        state ?: return
+        statePublisher.value = PlayerPlaybackState(state)
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
@@ -132,40 +123,37 @@ class MediaExposer(
     }
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-        if (queue == null) {
-            return
-        }
-        coroutineScope.launch(Dispatchers.Default) {
-            val result = queue.map { it.toDisplayableItem() }
-            queuePublisher.offer(result)
+        queue ?: return
+        queueJob = coroutineScope.launch(Dispatchers.Default) {
+            val result = queue.map(MediaSessionCompat.QueueItem::toDisplayableItem)
+            queuePublisher.value = result
         }
     }
 
-    fun observeMetadata(): LiveData<PlayerMetadata> = metadataPublisher
-        .distinctUntilChanged()
+    val metadata: Flow<PlayerMetadata>
+        get() = metadataPublisher.filterNotNull()
 
-    fun observePlaybackState(): LiveData<PlayerPlaybackState> = statePublisher
-        .distinctUntilChanged()
+    val playbackState: Flow<PlayerPlaybackState>
+        get() = statePublisher.filterNotNull()
 
-    fun observeRepeat(): LiveData<PlayerRepeatMode> = repeatModePublisher
-        .distinctUntilChanged()
+    val repeat: Flow<PlayerRepeatMode>
+        get() = repeatModePublisher
 
-    fun observeShuffle(): LiveData<PlayerShuffleMode> = shuffleModePublisher
-        .distinctUntilChanged()
+    val shuffle: Flow<PlayerShuffleMode>
+        get() = shuffleModePublisher
 
-    fun observeQueue(): Flow<List<PlayerItem>> = queuePublisher
-        .asFlow()
-        .distinctUntilChanged()
+    val queue: Flow<List<PlayerItem>>
+        get() = queuePublisher
 
+}
 
-    private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {
-        val description = this.description
+private fun MediaSessionCompat.QueueItem.toDisplayableItem(): PlayerItem {
+    val description = this.description
 
-        return PlayerItem(
-            MediaId.fromString(description.mediaId!!),
-            description.title!!.toString(),
-            description.subtitle!!.toString(),
-            this.queueId
-        )
-    }
+    return PlayerItem(
+        mediaId = MediaId.fromString(description.mediaId!!),
+        title = description.title?.toString() ?: "",
+        artist = description.subtitle?.toString() ?: "",
+        idInPlaylist = this.queueId
+    )
 }

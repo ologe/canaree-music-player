@@ -25,7 +25,9 @@ import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
@@ -65,8 +67,8 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
             TutorialTapTarget.addLyrics(view.search, view.edit, view.sync)
         }
 
-        requireActivity().mediaProvider.observeMetadata()
-            .subscribe(viewLifecycleOwner) {
+        requireActivity().mediaProvider.metadata
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 presenter.updateCurrentMetadata(it.title, it.artist)
                 launch { loadImage(it.mediaId) }
@@ -74,14 +76,14 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 subHeader.text = it.artist
                 seekBar.max = it.duration.toInt()
                 scrollView.scrollTo(0, 0)
-            }
+            }.launchIn(this)
 
 
-        requireActivity().mediaProvider.observePlaybackState()
-            .subscribe(viewLifecycleOwner) {
+        requireActivity().mediaProvider.playbackState
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
-            }
+            }.launchIn(this)
 
         presenter.observeLyrics()
             .subscribe(viewLifecycleOwner) { (lyrics, type) ->
@@ -96,9 +98,10 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
                 }
             }
 
-        requireActivity().mediaProvider.observePlaybackState()
+        requireActivity().mediaProvider.playbackState
             .filter { it.isPlayOrPause }
-            .subscribe(viewLifecycleOwner) { seekBar.onStateChanged(it) }
+            .onEach { seekBar.onStateChanged(it) }
+            .launchIn(this)
 
         view.image.observePaletteColors()
             .map { it.accent }

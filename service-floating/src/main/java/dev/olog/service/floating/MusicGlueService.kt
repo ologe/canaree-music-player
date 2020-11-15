@@ -3,7 +3,10 @@ package dev.olog.service.floating
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
-import androidx.lifecycle.*
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.scopes.ServiceScoped
 import dev.olog.media.MediaExposer
 import dev.olog.media.connection.OnConnectionChanged
@@ -13,6 +16,7 @@ import dev.olog.media.playPause
 import dev.olog.media.skipToNext
 import dev.olog.media.skipToPrevious
 import dev.olog.shared.lazyFast
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ServiceScoped
@@ -56,8 +60,10 @@ class MusicGlueService @Inject constructor(
         mediaController?.unregisterCallback(callback)
     }
 
-    fun observePlaybackState(): LiveData<PlayerPlaybackState> = mediaExposer.observePlaybackState()
-    fun observeMetadata(): LiveData<PlayerMetadata> = mediaExposer.observeMetadata()
+    val metadata: Flow<PlayerMetadata>
+        get() = mediaExposer.metadata
+    val playbackState: Flow<PlayerPlaybackState>
+        get() = mediaExposer.playbackState
 
     fun playPause() {
         mediaController?.playPause()

@@ -1,9 +1,9 @@
 package dev.olog.service.floating
 
-import android.app.Service
+import androidx.lifecycle.LifecycleService
 
 class VideoContent(
-    service: Service,
+    service: LifecycleService,
 ) : WebViewContent(service, R.layout.content_web_view) {
 
     override fun getUrl(item: String): String {

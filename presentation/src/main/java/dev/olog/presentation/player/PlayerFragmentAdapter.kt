@@ -28,7 +28,10 @@ import dev.olog.presentation.widgets.StatusBarView
 import dev.olog.presentation.widgets.imageview.PlayerImageView
 import dev.olog.presentation.widgets.swipeableview.SwipeableView
 import dev.olog.shared.TextUtils
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.asLiveData
+import dev.olog.shared.android.extensions.findActivity
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
@@ -36,7 +39,7 @@ import kotlinx.android.synthetic.main.layout_view_switcher.view.*
 import kotlinx.android.synthetic.main.player_controls_default.view.*
 import kotlinx.android.synthetic.main.player_layout_default.view.*
 import kotlinx.android.synthetic.main.player_toolbar_default.view.*
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 
 internal class PlayerFragmentAdapter(
     lifecycle: Lifecycle,
@@ -187,13 +190,12 @@ internal class PlayerFragmentAdapter(
             view.playPause.setDefaultColor()
         }
 
-        mediaProvider.observeMetadata()
-            .subscribe(holder) {
+        mediaProvider.metadata
+            .onEach {
                 viewModel.updateCurrentTrackId(it.id)
-
                 updateMetadata(view, it)
                 updateImage(view, it)
-            }
+            }.launchIn(holder.coroutineScope)
 
         view.volume?.setOnClickListener {
             val outLocation = intArrayOf(0, 0)
@@ -209,17 +211,20 @@ internal class PlayerFragmentAdapter(
             }
         }
 
-        mediaProvider.observePlaybackState()
-            .subscribe(holder) { onPlaybackStateChanged(view, it) }
+        mediaProvider.playbackState
+            .onEach {
+                onPlaybackStateChanged(view, it)
+                view.seekBar.onStateChanged(it)
+            }
+            .launchIn(holder.coroutineScope)
 
-        mediaProvider.observePlaybackState()
-            .subscribe(holder) { view.seekBar.onStateChanged(it) }
+        mediaProvider.repeat
+            .onEach(view.repeat::cycle)
+            .launchIn(holder.coroutineScope)
 
-        mediaProvider.observeRepeat()
-            .subscribe(holder, view.repeat::cycle)
-
-        mediaProvider.observeShuffle()
-            .subscribe(holder, view.shuffle::cycle)
+        mediaProvider.shuffle
+            .onEach(view.shuffle::cycle)
+            .launchIn(holder.coroutineScope)
 
         view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener {
             override fun onSwipedLeft() {
@@ -268,24 +273,23 @@ internal class PlayerFragmentAdapter(
             }
 
 
-        mediaProvider.observePlaybackState()
+        mediaProvider.playbackState
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .subscribe(holder) {
-                animateSkipTo(view, it)
-            }
+            .onEach { animateSkipTo(view, it) }
+            .launchIn(holder.coroutineScope)
 
-        mediaProvider.observePlaybackState()
+        mediaProvider.playbackState
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(holder) { state ->
+            .onEach { state ->
                 when (state) {
                     PlayerState.PLAYING -> playAnimation(view)
                     PlayerState.PAUSED -> pauseAnimation(view)
-                    else -> throw IllegalArgumentException("invalid state $state")
+                    else -> error("invalid state $state")
                 }
-            }
+            }.launchIn(holder.coroutineScope)
     }
 
     private fun updateMetadata(view: View, metadata: PlayerMetadata) {

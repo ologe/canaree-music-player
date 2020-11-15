@@ -15,9 +15,7 @@ import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
 import dev.olog.shared.android.extensions.*
 import kotlinx.android.synthetic.main.fragment_mini_player.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,20 +36,21 @@ class MiniPlayerFragment : BaseFragment(){
         title.text = lastMetadata.title
         artist.text = lastMetadata.subtitle
 
-        requireActivity().mediaProvider.observeMetadata()
-                .subscribe(viewLifecycleOwner) {
-                    title.text = it.title
-                    presenter.startShowingLeftTime(it.isPodcast, it.duration)
-                    if (!it.isPodcast){
-                        artist.text = it.artist
-                    }
-                    updateProgressBarMax(it.duration)
+        requireActivity().mediaProvider.metadata
+            .onEach {
+                title.text = it.title
+                presenter.startShowingLeftTime(it.isPodcast, it.duration)
+                if (!it.isPodcast){
+                    artist.text = it.artist
                 }
+                updateProgressBarMax(it.duration)
+            }.launchIn(this)
 
-        requireActivity().mediaProvider.observePlaybackState()
-                .filter { it.isPlaying|| it.isPaused }
-                .distinctUntilChanged()
-                .subscribe(viewLifecycleOwner) { progressBar.onStateChanged(it) }
+        requireActivity().mediaProvider.playbackState
+            .filter { it.isPlaying|| it.isPaused }
+            .distinctUntilChanged()
+            .onEach { progressBar.onStateChanged(it) }
+            .launchIn(this)
 
         launch {
             presenter.observePodcastProgress(progressBar.observeProgress())
@@ -60,22 +59,23 @@ class MiniPlayerFragment : BaseFragment(){
                 .collect { artist.text = it }
         }
 
-        requireActivity().mediaProvider.observePlaybackState()
+        requireActivity().mediaProvider.playbackState
             .filter { it.isPlayOrPause }
             .map { it.state }
             .distinctUntilChanged()
-            .subscribe(viewLifecycleOwner) { state ->
+            .onEach { state ->
                 when (state){
                     PlayerState.PLAYING -> playAnimation()
                     PlayerState.PAUSED -> pauseAnimation()
-                    else -> throw IllegalArgumentException("invalid state $state")
+                    else -> error("invalid state $state")
                 }
-            }
+            }.launchIn(this)
 
-        requireActivity().mediaProvider.observePlaybackState()
+        requireActivity().mediaProvider.playbackState
             .filter { it.isSkipTo }
             .map { it.state == PlayerState.SKIP_TO_NEXT }
-            .subscribe(viewLifecycleOwner, this::animateSkipTo)
+            .onEach(this::animateSkipTo)
+            .launchIn(this)
 
         presenter.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {

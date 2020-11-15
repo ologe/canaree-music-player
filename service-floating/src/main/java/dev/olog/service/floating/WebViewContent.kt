@@ -1,23 +1,22 @@
 package dev.olog.service.floating
 
-import android.app.Service
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ProgressBar
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleService
 import dev.olog.service.floating.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
-    service: Service,
+    service: LifecycleService,
     @LayoutRes layoutRes: Int
-) : Content(), DefaultLifecycleObserver {
+) : Content {
 
     var item by Delegates.observable("", { _, _, new ->
         webView.clearHistory()
@@ -33,8 +32,14 @@ abstract class WebViewContent(
     private val next = content.findViewById<View>(R.id.navigateNext)
     private val refresh = content.findViewById<View>(R.id.refresh)
 
+    private val lifecycleListener = object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+            webView.destroy()
+        }
+    }
+
     init {
-        lifecycle.addObserver(this)
+        service.lifecycle.addObserver(lifecycleListener)
         webView.settings.javaScriptEnabled = true // enable yt content
         try {
             webView.webChromeClient = object : WebChromeClient() {
@@ -49,16 +54,12 @@ abstract class WebViewContent(
         }
     }
 
-    override fun onDestroy(owner: LifecycleOwner) {
-        webView.destroy()
-    }
-
     override fun getView(): View = content
 
     override fun isFullscreen(): Boolean = true
 
+    @CallSuper
     override fun onShown() {
-        super.onShown()
         back.setOnClickListener {
             if (webView.canGoBack()) {
                 webView.goBack()
@@ -69,11 +70,13 @@ abstract class WebViewContent(
                 webView.goForward()
             }
         }
-        refresh.setOnClickListener { webView.reload() }
+        refresh.setOnClickListener {
+            webView.reload()
+        }
     }
 
+    @CallSuper
     override fun onHidden() {
-        super.onHidden()
         back.setOnClickListener(null)
         next.setOnClickListener(null)
         refresh.setOnClickListener(null)

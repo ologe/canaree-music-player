@@ -1,111 +1,77 @@
 package dev.olog.service.floating
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import dev.olog.core.MediaId
 import dev.olog.image.provider.OnImageLoadingError
 import dev.olog.image.provider.getCachedBitmap
 import dev.olog.offlinelyrics.*
 import dev.olog.service.floating.api.Content
-import dev.olog.shared.android.extensions.*
+import dev.olog.shared.android.extensions.animateBackgroundColor
+import dev.olog.shared.android.extensions.animateTextColor
+import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.toggleVisibility
 import dev.olog.shared.lazyFast
 import io.alterac.blurkit.BlurKit
 import kotlinx.android.synthetic.main.content_offline_lyrics.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class OfflineLyricsContent(
-    private val context: Context,
+    private val service: LifecycleService,
     private val glueService: MusicGlueService,
     private val presenter: OfflineLyricsContentPresenter
+) : Content {
 
-) : Content() {
+    val content: View = LayoutInflater.from(service).inflate(R.layout.content_offline_lyrics, null)
 
-    val content: View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
-
-    private val scrollViewTouchListener by lazyFast { NoScrollTouchListener(context) { glueService.playPause() } }
-
-    private suspend fun loadImage(mediaId: MediaId) {
-        try {
-            val original = context.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
-            val blurred = BlurKit.getInstance().blur(original, 20)
-            withContext(Dispatchers.Main){
-                content.image.setImageBitmap(blurred)
-            }
-        } catch (ex: Throwable){
-            ex.printStackTrace()
-        }
+    private val scrollViewTouchListener by lazyFast {
+        NoScrollTouchListener(service) { glueService.playPause() }
     }
 
     override fun getView(): View = content
 
     override fun isFullscreen(): Boolean = true
 
-    override fun onShown() {
-        super.onShown()
-
-        presenter.onStart()
-
-        glueService.observePlaybackState()
-            .subscribe(this) { content.seekBar.onStateChanged(it) }
-
-        content.edit.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                EditLyricsDialog.show(context, presenter.getLyrics()) { newLyrics ->
-                    presenter.updateLyrics(newLyrics)
-                }
-            }
-        }
+    init {
+        glueService.playbackState
+            .onEach { content.seekBar.onStateChanged(it) }
+            .launchIn(service.lifecycleScope)
 
         content.image.observePaletteColors()
             .map { it.accent }
-            .asLiveData()
-            .subscribe(this, {
+            .onEach {
                 content.edit.animateBackgroundColor(it)
                 content.subHeader.animateTextColor(it)
-            })
+            }.launchIn(service.lifecycleScope)
 
-        glueService.observeMetadata()
-            .subscribe(this) {
+
+        glueService.metadata
+            .onEach {
                 presenter.updateCurrentTrackId(it.id)
                 GlobalScope.launch { loadImage(it.mediaId) }
                 content.header.text = it.title
                 content.subHeader.text = it.artist
                 content.seekBar.max = it.duration.toInt()
                 content.scrollView.scrollTo(0, 0)
-            }
+            }.launchIn(service.lifecycleScope)
 
-        content.sync.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                try {
-                    OfflineLyricsSyncAdjustementDialog.show(
-                        context,
-                        presenter.getSyncAdjustment()
-                    ) {
-                        presenter.updateSyncAdjustment(it)
-                    }
-                } catch (ex: Throwable){
-                    ex.printStackTrace()
-                }
-            }
-        }
-        content.fakeNext.setOnClickListener { glueService.skipToNext() }
-        content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
-        content.scrollView.setOnTouchListener(scrollViewTouchListener)
-
-        glueService.observePlaybackState()
-            .subscribe(this) {
+        glueService.playbackState
+            .onEach {
                 val speed = if (it.isPaused) 0f else it.playbackSpeed
                 presenter.onStateChanged(it.bookmark, speed)
-            }
+            }.launchIn(service.lifecycleScope)
 
         presenter.observeLyrics()
-            .subscribe(this) { (lyrics, type) ->
+            .subscribe(service) { (lyrics, type) ->
                 content.emptyState.toggleVisibility(lyrics.isEmpty(), true)
                 content.text.text = lyrics
 
@@ -121,6 +87,33 @@ class OfflineLyricsContent(
                     content.scrollView.smoothScrollTo(0, scrollTo)
                 }
             }
+    }
+
+    override fun onShown() {
+        presenter.onStart()
+
+        content.edit.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                EditLyricsDialog.show(service, presenter.getLyrics()) { newLyrics ->
+                    presenter.updateLyrics(newLyrics)
+                }
+            }
+        }
+
+        content.sync.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    OfflineLyricsSyncAdjustementDialog.show(service, presenter.getSyncAdjustment()) {
+                        presenter.updateSyncAdjustment(it)
+                    }
+                } catch (ex: Throwable){
+                    ex.printStackTrace()
+                }
+            }
+        }
+        content.fakeNext.setOnClickListener { glueService.skipToNext() }
+        content.fakePrev.setOnClickListener { glueService.skipToPrevious() }
+        content.scrollView.setOnTouchListener(scrollViewTouchListener)
 
         content.seekBar.setListener(onProgressChanged = {}, onStartTouch = {}, onStopTouch = {
             glueService.seekTo(content.seekBar.progress.toLong())
@@ -129,7 +122,6 @@ class OfflineLyricsContent(
     }
 
     override fun onHidden() {
-        super.onHidden()
         presenter.onStop()
         content.edit.setOnClickListener(null)
         content.sync.setOnClickListener(null)
@@ -137,6 +129,18 @@ class OfflineLyricsContent(
         content.fakePrev.setOnTouchListener(null)
         content.scrollView.setOnTouchListener(null)
         content.seekBar.setOnSeekBarChangeListener(null)
+    }
+
+    private suspend fun loadImage(mediaId: MediaId) {
+        try {
+            val original = service.getCachedBitmap(mediaId, 300, onError = OnImageLoadingError.Placeholder(true))
+            val blurred = BlurKit.getInstance().blur(original, 20)
+            withContext(Dispatchers.Main){
+                content.image.setImageBitmap(blurred)
+            }
+        } catch (ex: Throwable){
+            ex.printStackTrace()
+        }
     }
 
 }

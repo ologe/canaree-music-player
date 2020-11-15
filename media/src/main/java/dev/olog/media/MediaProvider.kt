@@ -1,7 +1,6 @@
 package dev.olog.media
 
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
 import dev.olog.core.MediaId
 import dev.olog.core.entity.sort.SortEntity
 import dev.olog.media.model.*
@@ -12,13 +11,11 @@ val FragmentActivity.mediaProvider: MediaProvider
 
 interface MediaProvider {
 
-    fun observeMetadata(): LiveData<PlayerMetadata>
-    fun observePlaybackState(): LiveData<PlayerPlaybackState>
-    fun observeRepeat(): LiveData<PlayerRepeatMode>
-    fun observeShuffle(): LiveData<PlayerShuffleMode>
-    // is a flow instead of livedata because list operations may be expensive, so they can be
-    // moved to a background thread
-    fun observeQueue(): Flow<List<PlayerItem>>
+    val metadata: Flow<PlayerMetadata>
+    val playbackState: Flow<PlayerPlaybackState>
+    val repeat: Flow<PlayerRepeatMode>
+    val shuffle: Flow<PlayerShuffleMode>
+    val queue: Flow<List<PlayerItem>>
 
     fun playFromMediaId(mediaId: MediaId, filter: String?, sort: SortEntity?)
     fun playMostPlayed(mediaId: MediaId)

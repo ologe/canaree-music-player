@@ -18,9 +18,8 @@ import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
-import dev.olog.shared.android.extensions.asLiveData
 import dev.olog.shared.android.extensions.assertBackground
-import dev.olog.shared.android.extensions.subscribe
+import dev.olog.shared.android.extensions.launchIn
 import dev.olog.shared.android.theme.PlayerAppearance
 import dev.olog.shared.android.theme.playerAppearanceAmbient
 import dev.olog.shared.android.utils.isMarshmallow
@@ -30,6 +29,7 @@ import kotlinx.android.synthetic.main.player_toolbar_default.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -67,7 +67,7 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         statusBar?.alpha = statusBarAlpha
 
-        requireActivity().mediaProvider.observeQueue()
+        requireActivity().mediaProvider.queue
             .mapListItem { it.toDisplayableItem() }
             .map { queue ->
                 if (!playerAppearanceAmbient.isMini()) {
@@ -83,8 +83,8 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
             }
             .assertBackground()
             .flowOn(Dispatchers.Default)
-            .asLiveData()
-            .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+            .onEach(adapter::updateDataSet)
+            .launchIn(this)
     }
 
     override fun onResume() {
