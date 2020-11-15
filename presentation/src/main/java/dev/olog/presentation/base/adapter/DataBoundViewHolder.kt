@@ -7,8 +7,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.presentation.R
+import dev.olog.shared.android.coroutine.viewScope
 import dev.olog.shared.lazyFast
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.coroutines.CoroutineScope
 
 class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
     LifecycleOwner,
@@ -35,6 +37,9 @@ class DataBoundViewHolder(view: View) : RecyclerView.ViewHolder(view),
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
+
+    val coroutineScope: CoroutineScope
+        get() = itemView.viewScope
 
     override fun getLifecycle(): Lifecycle {
         return lifecycleRegistry
