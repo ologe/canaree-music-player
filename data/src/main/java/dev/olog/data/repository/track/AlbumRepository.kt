@@ -18,7 +18,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.AlbumsQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.value
@@ -67,7 +66,7 @@ internal class AlbumRepository @Inject constructor(
     override fun observeByParam(param: Id): Flow<Album?> {
         return publisher.map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
+
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
@@ -79,7 +78,6 @@ internal class AlbumRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
     }
 
     override fun observeLastPlayed(): Flow<List<Album>> {
@@ -93,7 +91,6 @@ internal class AlbumRepository @Inject constructor(
                     .toList()
             }
         }.distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun addLastPlayed(id: Id) {
@@ -107,7 +104,6 @@ internal class AlbumRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractAlbums(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeSiblings(param: Id): Flow<List<Album>> {
@@ -120,13 +116,11 @@ internal class AlbumRepository @Inject constructor(
                     .toList()
             }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeArtistsAlbums(artistId: Id): Flow<List<Album>> {
         return observeAll()
             .map { it.filter { it.artistId == artistId } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 }

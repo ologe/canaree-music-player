@@ -8,7 +8,6 @@ import dev.olog.core.gateway.FavoriteGateway
 import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.dao.FavoriteDao
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -50,7 +49,7 @@ internal class FavoriteRepository @Inject constructor(
                 val songs: Map<Long, List<Song>> = songGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> songs[id]?.get(0) }
                     .sortedBy { it.title }
-            }.assertBackground()
+            }
     }
 
     override fun observePodcasts(): Flow<List<Song>> {
@@ -59,7 +58,7 @@ internal class FavoriteRepository @Inject constructor(
                 val podcast: Map<Long, List<Song>> = podcastGateway.getAll().groupBy { it.id }
                 favorites.mapNotNull { id -> podcast[id]?.get(0) }
                     .sortedBy { it.title }
-            }.assertBackground()
+            }
     }
 
     override suspend fun addSingle(type: FavoriteType, songId: Long) {

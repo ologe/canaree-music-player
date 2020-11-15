@@ -4,9 +4,9 @@ import android.content.Context
 import android.provider.MediaStore.Audio.Playlists.*
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.contentresolversql.querySql
 import dev.olog.core.MediaId
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.core.entity.AutoPlaylist
 import dev.olog.core.entity.track.Artist
 import dev.olog.core.entity.track.Playlist
@@ -26,7 +26,6 @@ import dev.olog.data.db.entities.PlaylistMostPlayedEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
 import dev.olog.data.repository.PlaylistRepositoryHelper
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import kotlinx.coroutines.flow.*
@@ -57,7 +56,6 @@ internal class PlaylistRepository @Inject constructor(
             .onStart { populatePlaylistTables() }
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
     }
 
     override fun getByParam(param: Id): Playlist? {
@@ -78,7 +76,6 @@ internal class PlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
@@ -93,7 +90,6 @@ internal class PlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
         }
         // TODO sort
         return playlistDao.observePlaylistTracks(param, songGateway)
@@ -133,7 +129,6 @@ internal class PlaylistRepository @Inject constructor(
         val folderPath = mediaId.categoryId
         return mostPlayedDao.getAll(folderPath, songGateway)
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
@@ -151,7 +146,6 @@ internal class PlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRelatedArtists(params: Id): Flow<List<Artist>> {

@@ -9,7 +9,6 @@ import dev.olog.core.gateway.podcast.PodcastGateway
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.HistoryEntity
 import dev.olog.data.db.entities.PodcastHistoryEntity
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -92,7 +91,7 @@ internal abstract class HistoryDao {
                 historyList.mapNotNull { entity ->
                     songList[entity.songId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }
-            }.assertBackground()
+            }
     }
 
     fun observePodcasts(podcastGateway: PodcastGateway): Flow<List<Song>> {
@@ -102,7 +101,7 @@ internal abstract class HistoryDao {
                 historyList.mapNotNull { entity ->
                     songList[entity.podcastId]?.get(0)?.copy(idInPlaylist = entity.id)
                 }
-            }.assertBackground()
+            }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

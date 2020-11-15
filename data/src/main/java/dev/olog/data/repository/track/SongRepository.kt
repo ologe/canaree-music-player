@@ -61,7 +61,6 @@ internal class SongRepository @Inject constructor(
         val contentUri = ContentUri(uri, true)
         return observeByParamInternal(contentUri) { getByParam(param) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun deleteSingle(id: Id) {

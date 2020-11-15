@@ -7,7 +7,6 @@ import dev.olog.core.gateway.base.BaseGateway
 import dev.olog.core.schedulers.Schedulers
 import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.ConflatedSharedFlow
 import dev.olog.shared.value
@@ -48,9 +47,7 @@ internal abstract class BaseRepository<T, Param>(
         return publisher.value
     }
 
-    override fun observeAll(): Flow<List<T>> {
-        return publisher.assertBackground()
-    }
+    override fun observeAll(): Flow<List<T>> = publisher
 
     protected fun <R> observeByParamInternal(
         contentUri: ContentUri,

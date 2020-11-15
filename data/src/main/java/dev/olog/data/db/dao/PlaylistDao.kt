@@ -8,7 +8,6 @@ import dev.olog.core.entity.track.Song
 import dev.olog.core.gateway.track.SongGateway
 import dev.olog.data.db.entities.PlaylistEntity
 import dev.olog.data.db.entities.PlaylistTrackEntity
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -84,7 +83,7 @@ internal abstract class PlaylistDao {
                 trackList.mapNotNull { entity ->
                     songList[entity.trackId]?.get(0)?.copy(idInPlaylist = entity.idInPlaylist.toInt())
                 }
-            }.assertBackground()
+            }
     }
 
     @Query("""

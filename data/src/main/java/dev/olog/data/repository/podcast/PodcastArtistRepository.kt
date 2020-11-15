@@ -18,7 +18,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.ArtistQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.shared.value
@@ -68,7 +67,6 @@ internal class PodcastArtistRepository @Inject constructor(
         return publisher
             .map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
@@ -80,7 +78,6 @@ internal class PodcastArtistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
     }
 
     override fun observeLastPlayed(): Flow<List<Artist>> {
@@ -94,7 +91,6 @@ internal class PodcastArtistRepository @Inject constructor(
                     .toList()
             }
         }.distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun addLastPlayed(id: Id) {
@@ -108,13 +104,11 @@ internal class PodcastArtistRepository @Inject constructor(
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRecentlyAdded()) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeSiblings(param: Id): Flow<List<Artist>> {
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 }

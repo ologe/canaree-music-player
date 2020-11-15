@@ -21,7 +21,6 @@ import dev.olog.data.mapper.toSong
 import dev.olog.data.queries.FolderQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
@@ -91,7 +90,6 @@ internal class FolderRepository @Inject constructor(
         return publisher
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Path): List<Song> {
@@ -103,7 +101,6 @@ internal class FolderRepository @Inject constructor(
     override fun observeTrackListByParam(param: Path): Flow<List<Song>> {
         val contentUri = ContentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { getTrackListByParam(param) }
-            .assertBackground()
     }
 
     override fun getAllBlacklistedIncluded(): List<Folder> {
@@ -116,7 +113,6 @@ internal class FolderRepository @Inject constructor(
         val folderPath = mediaId.categoryValue
         return mostPlayedDao.getAll(folderPath, songGateway2)
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun insertMostPlayed(mediaId: MediaId) {
@@ -134,14 +130,12 @@ internal class FolderRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.path != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRelatedArtists(params: Path): Flow<List<Artist>> {
         val contentUri = ContentUri(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, true)
         return observeByParamInternal(contentUri) { extractArtists(queries.getRelatedArtists(params)) }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override fun observeRecentlyAdded(path: Path): Flow<List<Song>> {

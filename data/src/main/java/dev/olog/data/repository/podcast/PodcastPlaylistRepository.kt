@@ -18,7 +18,6 @@ import dev.olog.data.db.dao.PodcastPlaylistDao
 import dev.olog.data.db.entities.PodcastPlaylistEntity
 import dev.olog.data.db.entities.PodcastPlaylistTrackEntity
 import dev.olog.data.mapper.toDomain
-import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.mapListItem
 import dev.olog.shared.swap
@@ -51,7 +50,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return podcastPlaylistDao.observeAllPlaylists()
             .distinctUntilChanged()
             .mapListItem { it.toDomain() }
-            .assertBackground()
     }
 
     override fun getAllAutoPlaylists(): List<Playlist> {
@@ -85,7 +83,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
             .map { it }
             .distinctUntilChanged()
             .map { it?.toDomain() }
-            .assertBackground()
     }
 
     override fun getTrackListByParam(param: Id): List<Song> {
@@ -99,7 +96,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
     override fun observeTrackListByParam(param: Id): Flow<List<Song>> {
         if (AutoPlaylist.isAutoPlaylist(param)){
             return observeAutoPlaylistsTracks(param)
-                .assertBackground()
         }
         return podcastPlaylistDao.observePlaylistTracks(param, podcastGateway)
     }
@@ -126,7 +122,6 @@ internal class PodcastPlaylistRepository @Inject constructor(
         return observeAll()
             .map { it.filter { it.id != param } }
             .distinctUntilChanged()
-            .assertBackground()
     }
 
     override suspend fun createPlaylist(playlistName: String): Long {
