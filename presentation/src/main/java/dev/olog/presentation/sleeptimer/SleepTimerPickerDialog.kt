@@ -13,7 +13,7 @@ import dev.olog.shared.android.coroutine.autoDisposeJob
 import dev.olog.shared.android.extensions.launch
 import dev.olog.shared.android.extensions.toast
 import dev.olog.shared.android.utils.TimeUtils
-import dev.olog.shared.flowInterval
+import dev.olog.shared.FlowInterval
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.takeWhile
@@ -57,7 +57,7 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(),
 
             countDownJob = launch {
                 try {
-                    flowInterval(1.seconds)
+                    FlowInterval(1.seconds)
                         .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
                         .takeWhile { it >= 0L }
                         .collect {

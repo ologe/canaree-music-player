@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 
-fun flowInterval(duration: Duration): Flow<Int> {
+@Suppress("FunctionName")
+fun FlowInterval(duration: Duration): Flow<Int> {
     return flow {
         var tick = 0
         emit(tick)
