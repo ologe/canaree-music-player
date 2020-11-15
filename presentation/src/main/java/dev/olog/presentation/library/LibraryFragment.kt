@@ -84,7 +84,7 @@ class LibraryFragment : BaseFragment() {
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
         if (!viewModel.canShowPodcasts()){
-            podcasts.setGone()
+            podcasts.isVisible = false
         }
 
         if (viewModel.showFloatingWindowTutorialIfNeverShown()) {

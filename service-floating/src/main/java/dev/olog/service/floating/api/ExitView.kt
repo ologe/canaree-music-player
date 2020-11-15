@@ -27,10 +27,9 @@ import android.view.animation.OvershootInterpolator
 import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.view.isVisible
 import dev.olog.service.floating.R
 import dev.olog.shared.android.extensions.dimen
-import dev.olog.shared.android.extensions.setGone
-import dev.olog.shared.android.extensions.setVisible
 import dev.olog.shared.lazyFast
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -86,7 +85,7 @@ internal class ExitView constructor(
         currentAnimation?.cancel()
         currentAnimation = AnimatorSet().apply {
             interpolator = OvershootInterpolator()
-            doOnStart { setVisible() }
+            doOnStart { isVisible = true }
             playTogether(
                 ObjectAnimator.ofFloat(this@ExitView, "alpha", 1f),
                 ObjectAnimator.ofFloat(gradient, "scaleX", 1f),
@@ -108,7 +107,7 @@ internal class ExitView constructor(
                 ObjectAnimator.ofFloat(this@ExitView, "scaleX", 0f),
                 ObjectAnimator.ofFloat(this@ExitView, "scaleY", 0f)
             )
-            doOnEnd { setGone() }
+            doOnEnd { isVisible = false }
         }
         currentAnimation!!.start()
     }

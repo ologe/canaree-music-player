@@ -19,16 +19,8 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-inline fun View.setGone() {
-    this.visibility = View.GONE
-}
-
 inline fun View.setVisible() {
     this.visibility = View.VISIBLE
-}
-
-inline fun View.setInvisible() {
-    this.visibility = View.INVISIBLE
 }
 
 inline fun View.toggleSelected() {
