@@ -9,7 +9,7 @@ import dev.olog.core.entity.UserCredentials
 import dev.olog.core.prefs.AppPreferencesGateway
 import dev.olog.data.R
 import dev.olog.data.utils.assertBackgroundThread
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File

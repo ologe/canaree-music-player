@@ -18,6 +18,7 @@ import dev.olog.data.queries.TrackQueries
 import dev.olog.data.repository.BaseRepository
 import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.*
+import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -124,6 +125,6 @@ internal class SongRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        return publisher.value.find { it.albumId == albumId }
     }
 }

@@ -25,8 +25,8 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getString
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.io.File
@@ -79,16 +79,16 @@ internal class FolderRepository @Inject constructor(
 
     override fun getByParam(param: Path): Folder? {
         assertBackgroundThread()
-        return channel.valueOrNull?.find { it.path == param }
+        return publisher.value.find { it.path == param }
     }
 
     override fun getByHashCode(hashCode: Int): Folder? {
         assertBackgroundThread()
-        return channel.valueOrNull?.find { it.path.hashCode() == hashCode }
+        return publisher.value.find { it.path.hashCode() == hashCode }
     }
 
     override fun observeByParam(param: Path): Flow<Folder?> {
-        return channel.asFlow()
+        return publisher
             .map { list -> list.find { it.path == param } }
             .distinctUntilChanged()
             .assertBackground()

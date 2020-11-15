@@ -21,6 +21,7 @@ import dev.olog.data.repository.ContentUri
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
+import dev.olog.shared.value
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -60,11 +61,11 @@ internal class PodcastAlbumRepository @Inject constructor(
 
     override fun getByParam(param: Id): Album? {
         assertBackgroundThread()
-        return channel.valueOrNull?.find { it.id == param }
+        return publisher.value.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Album?> {
-        return channel.asFlow().map { list -> list.find { it.id == param } }
+        return publisher.map { list -> list.find { it.id == param } }
             .distinctUntilChanged()
             .assertBackground()
     }

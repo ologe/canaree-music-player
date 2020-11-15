@@ -7,6 +7,7 @@ import dev.olog.core.MediaIdCategory
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.olog.presentation.R
 import dev.olog.presentation.tab.TabCategory
+import dev.olog.shared.android.extensions.observeKey
 import dev.olog.shared.android.utils.assertBackgroundThread
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

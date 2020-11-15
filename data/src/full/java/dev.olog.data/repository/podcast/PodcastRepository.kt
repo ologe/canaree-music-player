@@ -21,6 +21,7 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryOne
+import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.File
@@ -109,6 +110,6 @@ internal class PodcastRepository @Inject constructor(
     }
 
     override fun getByAlbumId(albumId: Id): Song? {
-        return channel.valueOrNull?.find { it.albumId == albumId }
+        return publisher.value.find { it.albumId == albumId }
     }
 }

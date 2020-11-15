@@ -9,13 +9,11 @@ import dev.olog.data.DataObserver
 import dev.olog.data.utils.PermissionsUtils
 import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.ConflatedSharedFlow
+import dev.olog.shared.value
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 internal abstract class BaseRepository<T, Param>(
@@ -25,7 +23,7 @@ internal abstract class BaseRepository<T, Param>(
 
     protected val contentResolver: ContentResolver = context.contentResolver
 
-    protected val channel = ConflatedBroadcastChannel<List<T>>()
+    protected val publisher = ConflatedSharedFlow<List<T>>(emptyList())
 
     protected fun firstQuery() {
         GlobalScope.launch(schedulers.io) {
@@ -40,20 +38,18 @@ internal abstract class BaseRepository<T, Param>(
             contentResolver.registerContentObserver(
                 contentUri.uri,
                 contentUri.notifyForDescendants,
-                DataObserver(schedulers.io) { channel.offer(queryAll()) }
+                DataObserver(schedulers.io) { publisher.tryEmit(queryAll()) }
             )
-            channel.offer(queryAll())
+            publisher.tryEmit(queryAll())
         }
     }
 
     override fun getAll(): List<T> {
-//        assertBackgroundThread()
-        return channel.valueOrNull
-            ?: queryAll() // fallback to normal query if channel never emitted
+        return publisher.value
     }
 
     override fun observeAll(): Flow<List<T>> {
-        return channel.asFlow().assertBackground()
+        return publisher.assertBackground()
     }
 
     protected fun <R> observeByParamInternal(
@@ -61,26 +57,18 @@ internal abstract class BaseRepository<T, Param>(
         action: () -> R
     ): Flow<R> {
 
-        val flow: Flow<R> = channelFlow {
+        val flow = MutableStateFlow<R?>(null)
 
-            if (!isClosedForSend) {
-                offer(action())
-            }
-
-            val observer = DataObserver(schedulers.io) {
-                if (!isClosedForSend) {
-                    offer(action())
-                }
-            }
-
-            contentResolver.registerContentObserver(
-                contentUri.uri,
-                contentUri.notifyForDescendants,
-                observer
-            )
-            awaitClose { contentResolver.unregisterContentObserver(observer) }
+        val observer = DataObserver(schedulers.io) {
+            flow.value = action()
         }
-        return flow.assertBackground()
+        contentResolver.registerContentObserver(contentUri.uri, contentUri.notifyForDescendants, observer)
+
+        return flow
+            .onStart { flow.value = action() }
+            .onCompletion { contentResolver.unregisterContentObserver(observer) }
+            .flowOn(schedulers.io)
+            .mapNotNull { it }
     }
 
     protected abstract fun registerMainContentUri(): ContentUri

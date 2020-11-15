@@ -26,8 +26,8 @@ import dev.olog.data.utils.assertBackground
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.queryAll
 import dev.olog.data.utils.queryCountRow
+import dev.olog.shared.value
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -69,11 +69,11 @@ internal class GenreRepository @Inject constructor(
 
     override fun getByParam(param: Id): Genre? {
         assertBackgroundThread()
-        return channel.valueOrNull?.find { it.id == param }
+        return publisher.value.find { it.id == param }
     }
 
     override fun observeByParam(param: Id): Flow<Genre?> {
-        return channel.asFlow().map { it.find { it.id == param } }
+        return publisher.map { it.find { it.id == param } }
             .distinctUntilChanged()
             .assertBackground()
     }

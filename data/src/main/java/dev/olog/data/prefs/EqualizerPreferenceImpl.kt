@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.core.prefs.EqualizerPreferencesGateway
 import dev.olog.data.utils.assertBackgroundThread
-import dev.olog.data.utils.observeKey
+import dev.olog.shared.android.extensions.observeKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
