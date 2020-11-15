@@ -14,6 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
 import dev.olog.presentation.base.drag.DragListenerImpl
 import dev.olog.presentation.base.drag.IDragListener
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.presentation.tutorial.TutorialTapTarget
 import dev.olog.scrollhelper.layoutmanagers.OverScrollLinearLayoutManager
@@ -88,12 +89,12 @@ class PlayerFragment : BaseFragment(), IDragListener by DragListenerImpl() {
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()?.addBottomSheetCallback(slidingPanelListener)
+        slidingPanel.addBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()?.removeBottomSheetCallback(slidingPanelListener)
+        slidingPanel.removeBottomSheetCallback(slidingPanelListener)
     }
 
     override fun onDestroyView() {

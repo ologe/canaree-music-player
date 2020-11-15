@@ -36,7 +36,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : MusicGlueActivity(),
-    HasSlidingPanel,
+    SlidingPanelAmbient,
     HasBottomNavigation,
     OnPermissionChanged {
 
@@ -58,14 +58,14 @@ class MainActivity : MusicGlueActivity(),
         if (immersiveAmbient.isEnabled) {
             // workaround, on some device on immersive mode bottom navigation disappears
             rootView.fitsSystemWindows = true
-            slidingPanel.fitsSystemWindows = true
+            bottomSheet.fitsSystemWindows = true
             bottomWrapper.fitsSystemWindows = true
         }
 
         if (playerAppearanceAmbient.isMini()){
             // TODO made a resource value
             slidingPanelFade.parallax = 0
-            slidingPanel.setHeight(dip(300))
+            bottomSheet.setHeight(dip(300))
         }
 
         setupSlidingPanel()
@@ -92,7 +92,7 @@ class MainActivity : MusicGlueActivity(),
         if (!isTablet) {
             val scrollHelper = SuperCerealScrollHelper(
                 this, ScrollType.Full(
-                    slidingPanel = slidingPanel,
+                    slidingPanel = bottomSheet,
                     bottomNavigation = bottomWrapper,
                     toolbarHeight = dimen(R.dimen.toolbar),
                     tabLayoutHeight = dimen(R.dimen.tab),
@@ -118,7 +118,7 @@ class MainActivity : MusicGlueActivity(),
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
             Shortcuts.SEARCH -> bottomNavigation.navigate(BottomNavigationPage.SEARCH)
-            AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
+            AppConstants.ACTION_CONTENT_VIEW -> slidingPanel.expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, Class.forName(Classes.SERVICE_MUSIC))
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
@@ -163,8 +163,8 @@ class MainActivity : MusicGlueActivity(),
                     super.onBackPressed()
                     return
                 }
-                getSlidingPanel().isExpanded() -> {
-                    getSlidingPanel().collapse()
+                slidingPanel.isExpanded() -> {
+                    slidingPanel.collapse()
                     return
                 }
             }
@@ -193,7 +193,7 @@ class MainActivity : MusicGlueActivity(),
     }
 
     override fun getSlidingPanel(): BottomSheetBehavior<*> {
-        return BottomSheetBehavior.from(slidingPanel)
+        return BottomSheetBehavior.from(bottomSheet)
     }
 
     override fun navigate(page: BottomNavigationPage) {

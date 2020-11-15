@@ -5,10 +5,11 @@ import android.view.View
 import androidx.core.math.MathUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import dev.olog.media.model.PlayerState
 import dev.olog.media.mediaProvider
+import dev.olog.media.model.PlayerState
 import dev.olog.presentation.R
 import dev.olog.presentation.base.BaseFragment
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.utils.expand
 import dev.olog.presentation.utils.isCollapsed
 import dev.olog.presentation.utils.isExpanded
@@ -17,7 +18,6 @@ import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -90,9 +90,11 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addBottomSheetCallback(slidingPanelListener)
-        requireView().setOnClickListener { getSlidingPanel()?.expand() }
-        requireView().toggleVisibility(!getSlidingPanel().isExpanded(), true)
+        slidingPanel.addBottomSheetCallback(slidingPanelListener)
+        requireView().setOnClickListener {
+            slidingPanel.expand()
+        }
+        requireView().toggleVisibility(!slidingPanel.isExpanded(), true)
         next.setOnClickListener {
             requireActivity().mediaProvider.skipToNext()
         }
@@ -106,7 +108,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removeBottomSheetCallback(slidingPanelListener)
+        slidingPanel.removeBottomSheetCallback(slidingPanelListener)
         requireView().setOnClickListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)
@@ -115,19 +117,19 @@ class MiniPlayerFragment : BaseFragment(){
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(BUNDLE_IS_VISIBLE, getSlidingPanel().isCollapsed())
+        outState.putBoolean(BUNDLE_IS_VISIBLE, slidingPanel.isCollapsed())
     }
 
     private fun playAnimation() {
-        playPause.animationPlay(getSlidingPanel().isCollapsed())
+        playPause.animationPlay(slidingPanel.isCollapsed())
     }
 
     private fun pauseAnimation() {
-        playPause.animationPause(getSlidingPanel().isCollapsed())
+        playPause.animationPause(slidingPanel.isCollapsed())
     }
 
     private fun animateSkipTo(toNext: Boolean) {
-        if (getSlidingPanel().isExpanded()) return
+        if (slidingPanel.isExpanded()) return
 
         if (toNext) {
             next.playAnimation()

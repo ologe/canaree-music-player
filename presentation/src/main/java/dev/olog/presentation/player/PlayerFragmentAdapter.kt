@@ -17,7 +17,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.base.adapter.*
 import dev.olog.presentation.base.drag.IDragListener
 import dev.olog.presentation.base.drag.TouchableAdapter
-import dev.olog.presentation.interfaces.HasSlidingPanel
+import dev.olog.presentation.interfaces.slidingPanel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.DisplayableTrack
 import dev.olog.presentation.navigator.Navigator
@@ -334,8 +334,9 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
-        if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
+        if (view.slidingPanel.isCollapsed()) {
+            return
+        }
 
         if (toNext) {
             view.next.playAnimation()
@@ -345,14 +346,12 @@ internal class PlayerFragmentAdapter(
     }
 
     private fun playAnimation(view: View) {
-        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
-        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        val isPanelExpanded = view.slidingPanel.isExpanded()
         view.playPause.animationPlay(isPanelExpanded)
     }
 
     private fun pauseAnimation(view: View) {
-        val hasSlidingPanel = (view.findActivity()) as HasSlidingPanel
-        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        val isPanelExpanded = view.slidingPanel.isExpanded()
         view.playPause.animationPause(isPanelExpanded)
     }
 

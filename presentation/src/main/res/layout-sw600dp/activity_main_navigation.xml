@@ -31,7 +31,7 @@
         android:elevation="8dp"/>
 
     <FrameLayout
-        android:id="@+id/slidingPanel"
+        android:id="@+id/bottomSheet"
         android:layout_width="@dimen/player_size"
         android:layout_gravity="end"
         android:layout_height="match_parent"

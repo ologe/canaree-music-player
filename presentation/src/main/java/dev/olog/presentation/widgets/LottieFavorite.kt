@@ -2,26 +2,17 @@ package dev.olog.presentation.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import com.airbnb.lottie.LottieAnimationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.core.entity.favorite.FavoriteEnum
-import dev.olog.presentation.interfaces.HasSlidingPanel
-import dev.olog.shared.android.extensions.findActivity
 import dev.olog.shared.android.extensions.isDarkMode
 import dev.olog.shared.android.theme.playerAppearanceAmbient
-import dev.olog.shared.lazyFast
 
 class LottieFavorite(
     context: Context,
     attrs: AttributeSet
-
 ) : LottieAnimationView(context, attrs) {
 
-    private val slidingPanel by lazyFast { (findActivity() as HasSlidingPanel).getSlidingPanel() }
-    private var isSlidingPanelExpanded = false
-
-    private var state: FavoriteEnum? = null
+    private var state: FavoriteEnum = FavoriteEnum.NOT_FAVORITE
 
     init {
         if (!isInEditMode){
@@ -48,20 +39,6 @@ class LottieFavorite(
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (!isInEditMode){
-            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
-            slidingPanel.addBottomSheetCallback(listener)
-        }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        isSlidingPanelExpanded = false
-        slidingPanel.removeBottomSheetCallback(listener)
-    }
-
     private fun toggleFavorite(isFavorite: Boolean) {
         cancelAnimation()
         if (isFavorite) {
@@ -72,7 +49,7 @@ class LottieFavorite(
     }
 
     fun toggleFavorite(){
-        this.state = this.state?.reverse()
+        this.state = this.state.reverse()
         animateFavorite(this.state == FavoriteEnum.FAVORITE)
     }
 
@@ -95,15 +72,6 @@ class LottieFavorite(
         when (favoriteEnum) {
             FavoriteEnum.FAVORITE -> toggleFavorite(true)
             FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
-        }
-    }
-
-    private val listener = object : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-        }
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            isSlidingPanelExpanded = slidingPanel.state == BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

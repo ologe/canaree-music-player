@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.presentation.main.MainActivity
 
 abstract class BaseFragment : Fragment() {
@@ -22,10 +20,6 @@ abstract class BaseFragment : Fragment() {
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
-
-    fun getSlidingPanel(): BottomSheetBehavior<*>? {
-        return (requireActivity() as HasSlidingPanel).getSlidingPanel()
-    }
 
     fun restoreUpperWidgetsTranslation(){
         (requireActivity() as MainActivity).restoreUpperWidgetsTranslation()
