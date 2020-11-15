@@ -3,6 +3,7 @@ package dev.olog.presentation.library
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olog.analytics.TrackerFacade
 import dev.olog.core.MediaIdCategory
@@ -26,7 +27,7 @@ class LibraryFragment : BaseFragment() {
     companion object {
         val TAG_TRACK = LibraryFragment::class.java.name
         val TAG_PODCAST = LibraryFragment::class.java.name + ".podcast"
-        private const val IS_PODCAST = "IS_PODCAST"
+        const val IS_PODCAST = "IS_PODCAST"
 
         fun newInstance(isPodcast: Boolean): LibraryFragment {
             return LibraryFragment().withArguments(
@@ -35,8 +36,8 @@ class LibraryFragment : BaseFragment() {
         }
     }
 
-    @Inject
-    internal lateinit var presenter: LibraryFragmentPresenter
+    private val viewModel by viewModels<LibraryFragmentViewModel>()
+
     @Inject
     lateinit var navigator: Navigator
     @Inject
@@ -45,7 +46,11 @@ class LibraryFragment : BaseFragment() {
     private val isPodcast by argument<Boolean>(IS_PODCAST)
 
     private val pagerAdapter by lazyFast {
-        LibraryFragmentAdapter(requireContext(), childFragmentManager, presenter.getCategories(isPodcast))
+        LibraryFragmentAdapter(
+            context = requireContext(),
+            fragmentManager = childFragmentManager,
+            categories = viewModel.getCategories()
+        )
     }
 
     fun isCurrentFragmentFolderTree(): Boolean {
@@ -67,7 +72,7 @@ class LibraryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count, isPodcast)
+        viewPager.currentItem = viewModel.getViewPagerLastPage(pagerAdapter.count)
         viewPager.offscreenPageLimit = 5
 
         pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
@@ -77,11 +82,11 @@ class LibraryFragment : BaseFragment() {
         selectedView.setTextColor(requireContext().textColorPrimary())
         unselectedView.setTextColor(requireContext().textColorSecondary())
 
-        if (!presenter.canShowPodcasts()){
+        if (!viewModel.canShowPodcasts()){
             podcasts.setGone()
         }
 
-        if (presenter.showFloatingWindowTutorialIfNeverShown()) {
+        if (viewModel.showFloatingWindowTutorialIfNeverShown()) {
             launch {
                 delay(500)
                 TutorialTapTarget.floatingWindow(floatingWindow)
@@ -114,7 +119,7 @@ class LibraryFragment : BaseFragment() {
     }
 
     private fun changeLibraryPage(page: LibraryPage) {
-        presenter.setLibraryPage(page)
+        viewModel.setLibraryPage(page)
         (requireActivity() as HasBottomNavigation).navigate(BottomNavigationPage.LIBRARY)
     }
 
@@ -137,7 +142,7 @@ class LibraryFragment : BaseFragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                presenter.setViewPagerLastPage(position, isPodcast)
+                viewModel.setViewPagerLastPage(position)
                 pagerAdapter.getCategoryAtPosition(position)?.let {
                     trackerFacade.trackScreen(it.toString(), null)
                 }

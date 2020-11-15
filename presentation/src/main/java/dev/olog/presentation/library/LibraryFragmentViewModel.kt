@@ -1,17 +1,24 @@
 package dev.olog.presentation.library
 
-import dev.olog.presentation.model.LibraryCategoryBehavior
-import dev.olog.presentation.model.PresentationPreferencesGateway
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import dev.olog.core.prefs.TutorialPreferenceGateway
+import dev.olog.presentation.model.LibraryCategoryBehavior
 import dev.olog.presentation.model.LibraryPage
-import javax.inject.Inject
+import dev.olog.presentation.model.PresentationPreferencesGateway
+import dev.olog.shared.android.extensions.argument
 
-internal class LibraryFragmentPresenter @Inject constructor(
+internal class LibraryFragmentViewModel @ViewModelInject constructor(
+    @Assisted private val state: SavedStateHandle,
     private val appPrefsUseCase: PresentationPreferencesGateway,
     private val tutorialPreferenceUseCase: TutorialPreferenceGateway
-) {
+): ViewModel() {
 
-    fun getViewPagerLastPage(totalPages: Int, isPodcast: Boolean): Int {
+    private val isPodcast = state.argument<Boolean>(LibraryFragment.IS_PODCAST)
+
+    fun getViewPagerLastPage(totalPages: Int): Int {
         val lastPage = if (isPodcast) {
             appPrefsUseCase.getViewPagerPodcastLastPage()
         } else {
@@ -20,7 +27,7 @@ internal class LibraryFragmentPresenter @Inject constructor(
         return lastPage.coerceIn(0, totalPages)
     }
 
-    fun setViewPagerLastPage(page: Int, isPodcast: Boolean) {
+    fun setViewPagerLastPage(page: Int) {
         if (isPodcast) {
             appPrefsUseCase.setViewPagerPodcastLastPage(page)
         } else {
@@ -32,7 +39,7 @@ internal class LibraryFragmentPresenter @Inject constructor(
         return tutorialPreferenceUseCase.floatingWindowTutorial()
     }
 
-    fun getCategories(isPodcast: Boolean): List<LibraryCategoryBehavior> {
+    fun getCategories(): List<LibraryCategoryBehavior> {
         if (isPodcast) {
             return appPrefsUseCase.getPodcastLibraryCategories()
                 .filter { it.visible }
